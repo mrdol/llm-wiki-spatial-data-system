@@ -1,0 +1,1409 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Akaike information criterion in choosing the optimal k-nearest neighbours of the spatial weight matrix</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability  status="unknown">
+					<licence/>
+				</availability>
+				<date type="published" when="2023-02-28">28 Feb 2023.</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author role="corresp">
+							<persName><forename type="first">Maria</forename><surname>Kubara</surname></persName>
+							<email>maria.kubara@uw.edu.pl</email>
+							<affiliation key="aff0">
+								<orgName type="department">Faculty of Economic Sciences</orgName>
+								<orgName type="institution">University of Warsaw</orgName>
+								<address>
+									<settlement>Warsaw</settlement>
+									<country key="PL">Poland</country>
+								</address>
+							</affiliation>
+							<affiliation key="aff0">
+								<orgName type="department">Faculty of Economic Sciences</orgName>
+								<orgName type="institution">University of Warsaw</orgName>
+								<address>
+									<settlement>Warsaw</settlement>
+									<country key="PL">Poland</country>
+								</address>
+							</affiliation>
+							<affiliation key="aff0">
+								<orgName type="department">Faculty of Economic Sciences</orgName>
+								<orgName type="institution">University of Warsaw</orgName>
+								<address>
+									<settlement>Warsaw</settlement>
+									<country key="PL">Poland</country>
+								</address>
+							</affiliation>
+							<affiliation key="aff0">
+								<orgName type="department">Faculty of Economic Sciences</orgName>
+								<orgName type="institution">University of Warsaw</orgName>
+								<address>
+									<settlement>Warsaw</settlement>
+									<country key="PL">Poland</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Katarzyna</forename><surname>Kopczewska</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Faculty of Economic Sciences</orgName>
+								<orgName type="institution">University of Warsaw</orgName>
+								<address>
+									<settlement>Warsaw</settlement>
+									<country key="PL">Poland</country>
+								</address>
+							</affiliation>
+							<affiliation key="aff0">
+								<orgName type="department">Faculty of Economic Sciences</orgName>
+								<orgName type="institution">University of Warsaw</orgName>
+								<address>
+									<settlement>Warsaw</settlement>
+									<country key="PL">Poland</country>
+								</address>
+							</affiliation>
+							<affiliation key="aff0">
+								<orgName type="department">Faculty of Economic Sciences</orgName>
+								<orgName type="institution">University of Warsaw</orgName>
+								<address>
+									<settlement>Warsaw</settlement>
+									<country key="PL">Poland</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Akaike information criterion in choosing the optimal k-nearest neighbours of the spatial weight matrix</title>
+					</analytic>
+					<monogr>
+						<idno type="ISSN">1742-1772 (Print) 1742-1780</idno>
+						<imprint>
+							<date type="published" when="2023-02-28">28 Feb 2023.</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">6165C565467E60C8197DFFEE05468BD6</idno>
+					<idno type="DOI">10.1080/17421772.2023.2176539</idno>
+					<note type="submission">Received 10 February 2022; in revised form 12 January 2023</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-29T10:19+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>spatial econometrics</term>
+					<term>spatial weight matrix</term>
+					<term>spatial point pattern</term>
+					<term>k-nearest neighbours</term>
+					<term>Akaike information criterion (AIC) JEL C21</term>
+					<term>C52</term>
+					<term>R12 HISTORY</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>We use the Akaike information criterion (AIC) to assess the quality of non-nested spatial econometric models with a different number of nearest neighbours (knn) included in the spatial weight matrix W. This is of particular importance in two cases: when estimating the model on geolocated point data without explicit guidance on the optimal value of knn; and when dealing with different spatial patterns and a unique W generalizes diverse spatial structures. By minimizing AIC for a set of competing models, one can find the optimal knn that guarantees the best fit. We show through simulation and empirical analysis that AIC is a non-linear function of knn and reaches its minimum for a given knn. We provide practical evidence that misspecified W may result in a 20% bias of model parameters.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">INTRODUCTION</head><p>Spatial econometric modelling consists of at least four different designs: (1) spatial dependency models (e.g., spatial Durbin model (SDM), spatial Durbin error model (SDEM)) on spatially aggregated data; (2) spatial dependency models on point data; (3) geographically weighted regression (GWR) on point data; and (4) point pattern models (e.g., Gibbs models). A core of spatial dependency models, the spatial weight matrix W, meets challenges in setting the spatial range of neighbours. The problem arises primarily for spatial point data, mainly the question of how many k-nearest neighbours to include. This is contrary to spatial dependency models for spatially aggregated data, which mostly use the exogenous spatial contiguity matrix without deeper considerations. However, the literature on the selection of endogenous knn for W for point data is limited, while the existing papers (e.g., <ref type="bibr" target="#b20">Gerkman &amp; Ahlgren, 2014;</ref><ref type="bibr" target="#b35">Kostov, 2010;</ref><ref type="bibr" target="#b42">LeSage &amp; Pace, 2014)</ref> are not constructive, as will be explained in more detail in section 2.</p><p>A number of nearest neighbours knn used in W impacts the model estimates and quality. This impact may be negligible when finetuning W by few knn (as indicated by, e.g., <ref type="bibr" target="#b42">LeSage &amp; Pace, 2014)</ref> or serious when knn is wrongly chosen from a wide range of a possible number of neighbours (as shown in this paper). With the same formal specification that includes spatial lags of a dependent variable or explanatory variables or error term, various knn generate in fact different values of these variables. We claim that well-known quality metrics such as Akaike information criterion (AIC) react to knn changes and, consequently, help when determining proper knn and choosing the best model (with limitations discussed in section 2). This paper is built around the observation that AIC behaves as a non-linear function of knn with a clear minimum, what we observe in simulated and empirical data. This pattern was evidenced also in GWR models, where AIC is observed to depend on bandwidth <ref type="bibr" target="#b13">(Comber et al., 2020)</ref>. However, GWR fixes the radius of the kernel or enables the adaptive kernel, which is not the same as setting a fixed number of knn in W. Additionally, GWR produces individual local coefficients for each observation, unlike the spatial dependency outputting with a single global coefficient for each variable. We show that a number of nearest neighbours included in W of a spatial dependency model impacts all model estimates: regression β (beta) coefficients, direct and indirect impacts, spatial coefficients (ρ (rho), λ (lambda) and θ (theta) for spatial lags of dependent variable, explanatory variables and error term). The bias of coefficients between the best and the non-optimal model may account for 20%.</p><p>In this paper we propose an approach to select the proper number of nearest neighbours (knn) which are included in the spatial weight matrix W applied in the spatial econometric model. As the AIC is a non-linear function of knn and reaches its minimum, we recommend estimating spatial models with knn in W in a range from 2 to 50 (or 100) and selecting the model (and thus the knn W) with the lowest AIC. Besides the simplicity, common understanding of AIC and high efficiency of this procedure, there are methodological advantages of this solution. We claim this algorithm is insensitive to model specification, works well independently of the model form, is universal for nested and non-nested models and is robust in case of non-homogenous spatial patterns of multiple explanatory variables.</p><p>The remainder of the paper is as follows. Section 2 discusses the assessment of model quality. Section 3 presents the links between the range of neighbourhood in W and spatial autocorrelation. Section 4 presents the simulation which shows the application of this procedure. Section 5 illustrates this solution with an empirical example. Section 6 concludes.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.">SPATIAL WEIGHT MATRIX AND COMPARISON OF SPATIAL MODELS</head><p>The spatial weight matrix W constitutes the core of spatial analysis <ref type="bibr" target="#b3">(Arbia &amp; Fingleton, 2008)</ref>. Its primary role is to capture the spatial relations between neighbours and translate them into a form usable for statistical procedures <ref type="bibr" target="#b5">(Bavaud, 1998;</ref><ref type="bibr" target="#b26">Griffith &amp; Paelinck, 2018)</ref>. With the use of W, one computes a spatial lag, which is the average value of the observed phenomenon in the neighbourhood. Many specifications of W exist, depending on the assumed definition of the neighbourhood. The most common criteria are contiguity or an inversed distance for areal data and neighbourhood in a given radius or k-nearest neighbours for point data <ref type="bibr" target="#b2">(Anselin, 2003;</ref><ref type="bibr" target="#b6">Bhattacharjee &amp; Jensen-Butler, 2006;</ref><ref type="bibr" target="#b26">Griffith &amp; Paelinck, 2018;</ref><ref type="bibr" target="#b34">Kopczewska &amp; Kubara, 2020</ref>). Yet even after settling for one criterion, there still exists large room for subjectivity. Whether we are choosing the appropriate level of spatial lag for contiguity (e.g., first order, second order, etc.), specifying the radius of close relations (e.g., 2, 10 km) or deciding on the actual number of neighbours for the selected structure (e.g., knn = 5 or 20)all these are assumed to be arbitrary in the very first step of the spatial analysis, directly impacting the outcomes of statistical and econometrical procedures <ref type="bibr" target="#b1">(Anselin, 2002)</ref>.</p><p>Spatial weight matrix W appears in all possible forms of spatial dependency models. The most general specification (general nesting spatial (GNS), also called the Manski model) uses the W matrix to introduce spatial weighting of dependent and independent variables, as well as in the error term <ref type="bibr" target="#b43">(Manski, 1993)</ref>. As a result, it gives three different spatial parameters: r (determining the strength of spatial lag of the dependent variable), u (measuring the influence of the neighbouring values of independent variables) and l (responsible for filtering out the spatial dependence in the residual term). The general form of the spatial dependency model is represented as follows:</p><formula xml:id="formula_0">Y = rWY + a N + X b + WX u + u and u = lWu + 1<label>(1)</label></formula><p>The other model specifications are created after introducing restrictions on the spatial parameters. Consequently, one can have three models with one restriction -SAC (u = 0), SDM (l = 0), SDEM (r = 0), and three models with two restrictions -SAR (only r remains), SLX (only u remains), SEM (only l remains) <ref type="bibr" target="#b14">(Elhorst, 2010)</ref>. The question of choosing the most suitable specification for a given analytical case is resolved by assessing the quality of competing models and the corresponding (in)significance of particular spatial parameters.</p><p>There are a few ways to compare spatial models. The most popular, flexible and reliable method is the AIC <ref type="bibr" target="#b0">(Akaike, 1998)</ref>, which is based on a log-likelihood function, corrected by a number of parameters. For spatial models <ref type="bibr" target="#b31">(Hoeting et al., 2006;</ref><ref type="bibr" target="#b36">Lee &amp; Ghosh, 2009)</ref> it is expressed as:</p><formula xml:id="formula_1">AIC = -2 log [L( û|X )] + 2p,<label>(2)</label></formula><p>where log[L( û|X )] is the log-likelihood function and p is the number of estimated parameters. Such construction has two important implications. First, one can use AIC for comparing non-nested models, considering it as an augmentation of the logLik procedure and a realization of the maximum likelihood principle <ref type="bibr" target="#b0">(Akaike, 1998)</ref>. Recognizing such an advantage LeSage and Pace (2009, p. 173) mention model likelihood, along with the Bayesian posterior model probability, as two alternative methods for non-nested spatial model comparison. Second, the usage of AIC is convenient, as it can be directly derived from the outcome of the maximum likelihood method which is often applied in spatial estimation. AIC properties make it an appropriate statistic to compare spatial models, not only with different covariate sets but also with different W matrices <ref type="bibr" target="#b30">(Herrera et al., 2019)</ref>. Despite having a non-restricted range of values, AIC is a reliable indicator of a model specification that best fits the data <ref type="bibr" target="#b36">(Lee &amp; Ghosh, 2009)</ref>. By looking for the lowest value of AIC, one may easily compare numerous competing designs <ref type="bibr" target="#b50">(Symonds &amp; Moussalli, 2011)</ref>. The only restriction is that comparable models should have the same observation set and the dependent variable. Thus, application to non-nested models and operational simplicity are in favour of this metric when comparing models with a different W. What is important is that AIC can be treated as a generalized and corrected model quality metric over logLik. Of course, p is a penalty for extra variables in the modelin the case of non-nested models with the same number of estimated parameters, the comparison of AIC is equivalent to the comparison of logLik values. However, there are at least two reasons for using AIC instead of logLik. First, this generalized approach does not generate any misinterpretation, while it removes the obligation to track the number of variables in the comparable models, making it a universal solution. Second, AIC became a popular metric, available immediately in the majority of econometric software and well-recognized by end userseconometric practitioners, for whom AIC is an obvious choice for spatial model assessment in applied work. There are few alternative methods to compare spatial models. However, these are not always possible to apply in this setting. One of them is an LR test (likelihood ratio test). It is expressed as:</p><formula xml:id="formula_2">LR = -2 •(logLik limited -logLik unlimited ) x 2 limited parameters (3)</formula><p>This is used when comparing nested models only, where the number of degrees of freedom is the number of parameters which were limited. 1 In the case of non-nested models, this approach fails due to nonpositive degrees of freedom. The other one is the J-test, which assumes augmenting the baseline modeladding as the extra explanatory variables the predictions of dependent variable Y from the alternative model and testing the significance of those predictors <ref type="bibr" target="#b20">(Gerkman &amp; Ahlgren, 2014;</ref><ref type="bibr" target="#b32">Kelejian &amp; Piras, 2011;</ref><ref type="bibr" target="#b33">Kelejian &amp; Prucha, 2007)</ref>. This can be applied in the case of non-nested models. However, as the predictions of Y include spatial lags for different W, their correlation with other spatial lags is very high (as indicated by <ref type="bibr" target="#b42">LeSage &amp; Pace, 2014)</ref>. This may cause multicollinearity in the model and low efficiency of the J-test. The significance of added predictors may be affected by non-addressed spatial heterogeneity, which may lead to incorrect conclusionsthe insignificance of added predictors is not due to their bad fit but due to generally high variance. Therefore, AIC outperforms the logLik, LR and Jtest methods in testing non-nested spatial models.</p><p>The attractiveness of AIC was evidenced also for advanced problems. The behaviour of AIC and other likelihood-based metrics have also been studied for lattice SAR models by <ref type="bibr" target="#b51">Tjostheim (1981)</ref> and <ref type="bibr" target="#b27">Gupta (2018)</ref>. Even in this demanding space-and time-varying setting, they show that AIC performs well compared with different model specifications. Similarly, AIC was considered for higher order models which include more than a single spatial weight matrix. Some researchers see the potential of higher order models in capturing the multidimensional aspect of continuity <ref type="bibr" target="#b37">(Lee &amp; Liu, 2010)</ref> and addressing new empirical questions <ref type="bibr" target="#b15">(Elhorst et al., 2012)</ref>. It is important to note that likelihood-based metrics, such as AIC or final prediction error (FPE), might be successful in testing higher order spatial model specifications <ref type="bibr" target="#b28">(Gupta &amp; Robinson, 2015</ref><ref type="bibr" target="#b27">, 2018;</ref><ref type="bibr" target="#b37">Lee &amp; Liu, 2010)</ref>.</p><p>The spatial econometric literature has previously addressed the issue of W selection, usually in a non-conclusive way. LeSage and Pace (2014) state that finetuning of W does not make an important difference in estimation as the correlation between spatial lags calculated at different nearest neighbours equals (m i /m j ) 0.5 where m i &lt; m j are the number of nearest neighbours (Figure <ref type="figure">1</ref>). These correlations are close to 1 when knn differs up to approximately10 units, while they can drop to 0.2 if knn differs by about 35 units. Therefore, the claim of LeSage and Pace (2014) is true, though only when one considers expanding knn by a few units, and non-constructive if one is to decide between 5 or 30 units, for example, to include in knn. 2  Gerkman and Ahlgren (2014) offer a non-trivial procedure of selecting knn with the J-test. They test the model including the selected number of knn against the union of alternative models in search of rejection probability. This solution was not widely accepted in practice due to an unclear procedure, high sensitivity and restrictive assumptions. 3   Figure <ref type="figure">1</ref>. Expected correlations between spatial lags calculated for incremental knn. <ref type="bibr" target="#b35">Kostov (2010)</ref> proposed a boosting algorithm based on including different spatial lags as instruments in the model and running a two-stage estimation. Here, the best W is equivalent to the best instrumental variable. This procedure, advertised as keeping high computational efficiency, has been criticized for focusing on beta-coefficients instead of direct and indirect impacts and for limited feasibility in other than SAR models.</p><p>Finally, a proposal by <ref type="bibr" target="#b30">Herrera et al. (2019)</ref> uses entropy measure as an interesting alternative, but of similar efficiency as AIC.</p><p>Thus, the existing papers 4 do not give a constructive solution to practitioners on how many units should be included in W, which causes in the majority of studies knn to be taken arbitrarily. 5  An important missing element in all studies on selecting W is the diversity of spatial patterns of variables included in the regression. According to our knowledge, all simulations assume a single explanatory variable in the model and data-generating process (DGP) which is usually 'nice'based on well-specified parameters of spatial autocorrelation, mean and variance. On the other hand, practitioners usually face very different conditions: the necessity to include a few explanatory variables, often each with its own spatial pattern, different spatial range of spatial autocorrelation and spatial heterogeneity. Following LeSage's (2014) recommendations to keep W simple and avoid multiple W (due to lacking covariance between W and the impossibility to derive impacts), the role of a single W in a complex model becomes more advanced as it averages the impact of the neighbourhood over many different spatial patterns. For example, if the explanatory variable X1 should use spatial information from five neighbours, X2 from 10 neighbours and X3 from 15 neighbours, using a single W will express the averaged neighbourhood structure. This element of spatial econometrics is understudied in the literature. However, our procedure that optimizes knn (by minimizing AIC) solves this issue in the background, without explicit explanation. Thus, in the discussion on selecting W, we share the perspective of <ref type="bibr" target="#b5">Bavaud (1998)</ref>, expressed later by <ref type="bibr" target="#b30">Herrera et al. (2019)</ref>, that a single 'true' W may not exist, and we are to accept the 'reasonable' W, which is the best approximation of spatial structure or the best 'average' of many spatial patterns.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.">INTERCONNECTEDNESS OF SPATIAL AUTOCORRELATION AND SPATIAL RANGE OF NEIGHBOURHOOD</head><p>The main enhancement that spatial analysis introduces to the standard analytical tools is capturing spatial relations present in the data <ref type="bibr" target="#b12">(Cliff &amp; Ord, 1981;</ref><ref type="bibr" target="#b21">Getis, 2007)</ref> and the possibility to model spatial autocorrelation and spatial spillover. Such a capability is of the highest importance for the datasets enriched with non-random spatial effects. It allows us to include spatial factors in the analysis and filter out their impact on other variables, thus making the resulting model robust and unbiased <ref type="bibr" target="#b21">(Getis, 2007;</ref><ref type="bibr" target="#b25">Griffith, 2005)</ref>.</p><p>One efficient method to deal with spatial autocorrelation is to apply a spatial filter tailored to the actual structure present in the data <ref type="bibr" target="#b22">(Getis &amp; Aldstadt, 2004;</ref><ref type="bibr" target="#b48">Seya et al., 2013)</ref>. The existing literature proposes methods based on eigenvalues and linear decomposition of spatial effects. Yet in both approaches, some a priori assumptions are needed: either choosing an appropriate W matrix or specifying the d radius of spatial impact <ref type="bibr" target="#b24">(Griffith &amp; Getis, 2017)</ref>. In both cases making such a decision in an informative way requires advanced knowledge of spatial effects, their strength, their direction and targets of influence <ref type="bibr" target="#b48">(Seya et al., 2013)</ref>. Those assumptions are not always met, which limits its application.</p><p>Filling the knowledge gap regarding the spatial effects present in the sample is possible with the use of statistical methods. There are many well-developed spatial statistics such as Moran's I, Geary's c, Local Spatial Heteroscedasticity (LOSH), etc., which can provide insights regarding spatial dependence in the datasetat both the local and global levels <ref type="bibr" target="#b18">(Fortin et al., 2012;</ref><ref type="bibr" target="#b34">Kopczewska &amp; Kubara, 2020)</ref>. However, all depend on the W matrix to gather information regarding neighbourhood composition. Being at the heart of all spatial methods, a wrongly specified W can negatively influence the results of exploratory spatial analysis, that is, changing the magnitude and significance of the resulting statistics <ref type="bibr" target="#b16">(Feng et al., 2011;</ref><ref type="bibr" target="#b52">Wang et al., 2013;</ref><ref type="bibr" target="#b54">Zhang &amp; Yu, 2018)</ref>. Using biased and incorrectly reported measures renders any insights about the spatial structure invalid. 6  When researching the vulnerability of typical spatial statistics, one may want to find an alternative measure that could provide some information on the spatial relations in the database without depending on the W specification. One such method is the variogram. Its main goal is to measure the deviation of values among spatial points and their changes with increasing distance between locations. A variogram is of high importance for setting the bandwidth in GWR <ref type="bibr" target="#b10">(Cho et al., 2009;</ref><ref type="bibr" target="#b13">Comber et al., 2020;</ref><ref type="bibr" target="#b19">Genton, 1998)</ref>. Although it is mostly used in the context of Euclidean distance, one may broaden the semi-variance definition to depend on the increasing range of neighbours considered in the W matrix. Following such an approach one may track the interconnectedness of spatial variance and incremental knn range since these will be presented in an empirical part.</p><p>Careful analysis of the W impact on the spatial parameters r, u, l in the spatial modelling process signifies another issue. The main role of these parameters is to account for the neighbourhood values in the prediction scheme <ref type="bibr" target="#b1">(Anselin, 2002;</ref><ref type="bibr">LeSage &amp; Pace, 2009, p. 156;</ref><ref type="bibr" target="#b46">Pietrzak, 2013)</ref>. In an ideal scenario, W would incorporate all the necessary data points that may impact a particular spatial item. It would also possibly include some design of weighing if the effects were spatially decaying, and accurately account for the direction of spatial influence. Having said that, it could accurately average the values of a neighbourhood that are important for each datum point individually, ensuring an unbiased and interpretable specification of spatial parameters in the model <ref type="bibr" target="#b48">(Seya et al., 2013)</ref>. In reality, W is specified more schematically, and it does not account for all the spatial nuances in the sample. Typically, the range of spatial influence (such as neighbourhood radius or the number of important neighbours) is specified arbitrarily and with no relation to the actual spatial structure.</p><p>Such behaviour imposes a risk on the model quality. Subjective specification of W largely impacts the ability of spatial parameters to filter out the spatial relations of the model <ref type="bibr" target="#b17">(Florax et al., 2003)</ref>. A failure to capture those effects by the intended parameters increases the risk of bias and ineffectiveness of the remaining estimators, including non-spatial ones <ref type="bibr">(Żądło, 2012)</ref>. Incorrectly specified estimators can also reduce the accuracy of variance-covariance matrix specifications, causing wrongly reported significance scores for all model parameters <ref type="bibr">(LeSage &amp; Pace, 2010, p. 357)</ref>. As a result, an inappropriate choice of W can highly influence the model quality or even change the conclusions drawn from it by altering the strength, significance or even signs of the model's parameters.</p><p>AIC as an indicator of the model's quality also reacts to changes in W. The transmission mechanism is the log-likelihood value that reacts to the model's accuracy and its ability to explain the dataset <ref type="bibr">(LeSage &amp; Pace, 2009, p. 162)</ref>. Such a transition is connected to the changes in the information loss caused by approximating the true phenomenon with a particular model (Kullback-Leibler information measure), which is approximated by the log-likelihood function <ref type="bibr" target="#b7">(Burnham &amp; Anderson, 2004)</ref>. When the parameters are wrongly specified (e.g., due to inaccurate W construction) AIC values will be higher than for the best-case scenario <ref type="bibr" target="#b7">(Burnham &amp; Anderson, 2004)</ref>. Such interconnectedness between AIC and W specification can be used when determining the best possible neighbourhood structure for a particular structure. AIC values can be compared across numerous models with different W, giving feedback on how to find the best-fitted neighbourhood structure to the actual data condition <ref type="bibr" target="#b45">(Mur &amp; Angulo, 2009)</ref>. Discovering the most appropriate AIC-minimizing W specification translates into minimized standard errors of estimates and unbiased estimators.</p><p>The importance of an accurate W specification remains without a doubt. It may influence the conclusions from statistical procedures, put consistency and efficiency of all model estimators at risk, introduce errors in the significance reporting, and limit the quality of predictionsall those shortcomings should be taken into consideration while assuming a specific neighbourhood structure. The interconnectedness of all those processes is illustrated in Figure <ref type="figure" target="#fig_0">2</ref>, which shows how the choice of W specification impacts the spatial parameters, causing further alterations in the AIC value. Such a feedback loop can be used to improve W specification by minimizing the information criterion. Another bi-directional relation is visible between spatial statistics and the W shape. This connection is used to draw attention to the false conclusion problem, which may occur if the W matrix is not optimized to fit the spatial effects present in the data. As a consequence of the interconnectedness of all those spatial attributes, an obligatory step of spatial estimation is a careful selection of W. Comparing the quality of models with different W structures enables the final model to successfully capture the spatial relations present in the data sample.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.">DESIGN AND RESULTS OF SIMULATION</head><p>We propose a simulation to provide an illustrative example of the actual influence of different knn in the W specification on various spatial attributes. We generate a clustered marked point pattern in design imitate natural conditionseach geolocated point has a set of features assigned and points are not randomly located in space.</p><p>In the spatial dimension, we consider a polycentric spatial structure, constituted by a different number of spatial clusters with a fixed number of observations in each cluster, and points are sampled within an irregular bounding box. We have three sample sizes, where the number of c clusters changes, while the number of p points within each cluster is fixed (p = 20): a small sample with p = 200 observations in c = 10 clusters, a medium-sized sample with p = 500 observations in c = 25 clusters, and a big sample with p = 1000 observations in c = 50 clusters. For all patterns, we run the Clark-Evans test 7 which confirms spatial clustering (Clark-Evans in samples with 200, 500 and 1000 observations accordingly: R = 0.197, 0.332 and 0.417). We claim that a non-uniform (non-random) spatial distribution of points is an important element of this design as it reveals better possible spatial correlations and spatial heterogeneity. This makes this simulation better at addressing real-data characteristics.</p><p>A set of features includes variables to treat the points as business entities: the profitability of the firm (return on assets -ROA), the sector (four levels assumed: agriculture, production, construction and service) and the distance to the core city (distance-decaying pattern). We assume that the core city is located centrally (as the centroid). Profitability depends on sectoral belongingness and distance from the corethis decreases as the inverse squared distance to the core and additionally includes the location premium for the points which are in the direct neighbourhood of the core location. Profitability values of points are generated from a normal distribution, where the mean is individualized and is equal to the sum of partial ROA ingredients (sector, distance, location premium components), while the standard deviation is set to 0.045 for all observationsto simulate the real conditions by incorporating some level of variability. 8  Figure <ref type="figure" target="#fig_1">3</ref> presents the generated spatial structures. One can note the visible clusters of similar size and core-periphery distance-decaying pattern of profitability. An important feature of this design is that values within local clusters are similar, and different between the clusters (due to distance to the city) and that the threshold knn is equal to the size of the cluster (knn = 20)one can expect that setting more neighbours than knn = 20 significantly lowers the spatial autocorrelation.</p><p>Based on this simulated design, we estimate spatial dependency models which will explain the company's ROA, depending on their sector and distance from the core city. It is worth noting that in contrast with many designs, we estimate regression coefficients based on the generated variables of x and y, while we do not generate dependent variable based on the assumed coefficients and x variables. This approach gives results closer to reality and allows us to obtain variables with different spatial patterns. The estimated relation is in the following form:</p><formula xml:id="formula_3">ROA = f (distance, sector)<label>(4)</label></formula><p>As data reveal spatial autocorrelation, we use the spatial Durbin model (SDM) specification, which is considered by <ref type="bibr" target="#b14">Elhorst (2010)</ref> to be the most advantageous spatial formula that provides correct t-values and standard errors even if the true phenomenon comes from a different spatial process. Spatial weight matrix W uses k-nearest neighbours (knn). The estimated model is as follows:</p><formula xml:id="formula_4">ROA i = rWROA i + b 1 dist i + b 2 serv i + b 3 constr i + b 4 prod i + u 1 Wdist i + u 2 Wserv i + u 3 Wconstr i + u 4 Wprod i + 1 i<label>(5)</label></formula><p>where index I is for different locations, ρ and θ are spatial coefficients, ε i is the error term, and W is the knn spatial weight matrix. Interpretation of this specification is as follows: at rWROA i we expect that the profitability of a given firm (ROA i ) is similar to the profitability of firms in the neighbourhood (in a cluster); profitability should decrease with the distance from the core city Equation ( <ref type="formula" target="#formula_4">5</ref>) will be estimated with an increasing number of nearest neighbours k ranging in [2,50]. For each k we estimate a separate model. With an incremental increase of k, one observes changes in values of variables based on spatial lag -WROA, Wdist, Wagri, Wconstr and Wprod due to the changing composition of neighbours and the number of points taken into consideration in the k-nearest neighbours matrix. It is important to underline that the specification of the model and number of parameters to estimate always stays consistentthe only difference are the values of spatially lagged variables as the average 9 is calculated from various sets of observations. For each SDM model, we derive AIC and save the values of coefficients. For each sample size, we simulated 20 different datasets with controlled seed values. This study design generated 2940 models (20 samplings × 49 knn × 3 sample sizes).</p><p>The main focus is on the behaviour of AIC as a reaction to changes in knn. Figure <ref type="figure" target="#fig_3">4</ref> presents the nominal (raw) values of AIC. There are a few remarks: (1) AIC has a functional behaviour with an observable minimum; (2) values of AIC visibly rise for knn &gt; 20 (this means that W includes as neighbours the observations from other clusters), and the quality of models fall; and (3) within 20 iterations one can observe the bunch of functions and some outlying lines, which are different in range, but similar in shape. This can be explained with a selection of seeds, which indicates the set of pseudo-random values to start the simulation and impacts the range of AIC values.</p><p>The diverse values of AIC limit the transparency of a visual inspection of the results. To tackle that problem, the paper presents a transformed visualization that includes double normalization. It compares the standardized AIC scores (on the y-axis) against the relative knn values (on the x-axis). First, we transformed the knn (on the x-axis) by relabelling the absolute knn into relative knn. We set as zero for the knn with a minimal AIC score, and respective higher knn are given consecutive positive numbers and lower knn values are assigned consecutive negative integers. 10 Second, we standardized the AIC (on the y-axis) by transforming the AIC values for each simulation run to the range [0,1], following the formula:</p><formula xml:id="formula_5">AICst knn,j = AIC knn,j -min(AIC j ) max (AIC j ) -min(AIC j ) (<label>6</label></formula><formula xml:id="formula_6">)</formula><p>where j ∈ [1,20] is a run of a set of regressions with incremental knn and the same dataset, knn ∈ [2,50] is the number of nearest neighbours used in the given estimation, while min(AIC j ) and max(AIC j ) are extreme values of AIC in given run j.</p><p>The results of these transformations are presented in Figure <ref type="figure" target="#fig_4">5</ref>. This double standardization allows for efficient comparison of AIC behaviour between different simulation runs and with regards to its functional pattern. A functional relation between incremental knn and AIC is very clear. Values of AIC achieve a minimum for a relative knn = 0, which represents the best spatial structure. In this case, it is around absolute knn = 20, a result consistent with the simulation design and cluster size knn = 20. MinAIC indicates the best regression model among the set of candidatesin this approach, it is the best number of neighbours (knn*) to be included in W. The knn* also addresses the problem of diverse spatial patternsit is the best representative neighbourhood structure for all spatial patterns analysed in the regression models.</p><p>Minimizing AIC helps to find the best model with a well-fitted spatial range of relations included in W as knn. The fundamental question is how much the coefficients of the best and other models differ, and if this selection of knn to W matters for the estimation results. Using the same technique as above for relative knn values, we have investigated the behaviour of the relative values of spatial parameter r (rho) from SDM with respect to changes in the W matrix specification (incremental knn). Relative r was calculated as actual r divided by r at minimum AIC (and knn*) as r knn r knn * . One can see again the functional relation between changes in the spatial parameter r and the changes of a chosen number of neighbours. We observed the optimal level of r for the knn.rel = 0 (which is knn* at minAIC). For smaller knn we can see that the spatial parameter has lower values due to a lesser group of neighbouring points taken into consideration, the spatial relation is not recognized at its full power. Considering too few points leads to underrating the strength of spatial dependence. As for the larger number of knn, when considering a bigger group of neighbours one can see that the spatial parameter r suffers from an overbias and overestimates the strength of spatial relation in the sample. 11  It is visible that changes in r are not randomthere is a clear bias of spatial parameter due to a misspecified neighbourhood structure. We agree with the findings of LeSage and Pace (2014) that small changes in knn may result in negligible differences in estimation results. However, we strongly underline that the selection of knn for W matters a lot for the general outcome. This example shows that there may be no difference between results for similar knn (e.g., knn = 5 and 6), while there is an important difference in estimates when knn differ a lot (e.g., knn = 5 and 25).</p><p>The actual scale of the bias imposed by wrongly specified W can be observed in Figure <ref type="figure" target="#fig_5">6</ref>, where we compare relative knn with the relative values of the spatial parameter (the actual value of r divided by the r obtained for the lowest AIC score) and get the percentage difference between them. One can see that for knn that is too small one can risk a negative bias of more than 50%setting the estimated parameter at less than half of the value it should reach. In large samples specifying an overly broad neighbourhood definition risks overestimating the spatial parameter by almost 25%. Yet for the set of 200 observations overshooting the neighbourhood range may have even more drastic consequencesin some extreme cases, it can change the sign of the spatial relation (with 150% bias). The same problem of bias exists for total impact (Figure <ref type="figure" target="#fig_6">7</ref>). The  bigger the sample the more visible the relationship. This bias is around 20% for the majority of simulations when very diverse knn from knn* is applied.</p><p>The outcome of a simulation which yields knn* generalizing spatial relations existing in the dataset can be confirmed with two spatial measures: (1) Moran's I statistic and (2) variogram. Figure <ref type="figure" target="#fig_7">8</ref> presents the behaviour of Moran's I for the dependent variable (ROA) with respect to changes in the neighbourhood definition. Up until the 20th neighbour included in the W matrix (maximum capacity of each cluster), one can observe very high values of global spatial autocorrelation (around 95%), a result that is consistent with the simulation designthe closest neighbours in a cluster should have similar ROA scores. Yet as the distance between points increases, values of the dependent variable are changing, so with the increasing number of neighbours in W, the global autocorrelation decreases. For knn = 50 Moran's I value dropped below 0.3. The range of obtained values proves that W misspecification is a serious problem.  In Figure <ref type="figure" target="#fig_8">9</ref> we analysed the variogram-like statistics that shows the dependence between the semi-variance and increasing number of neighbours included in the knn W matrix specification. Those variograms differ from typical ones, as it did not use an increasing Euclidean distance, but an incremental knn to derive values of semi-variance. 12 Careful investigation of the variograms for the simulated samples supports previous observations (Figure <ref type="figure" target="#fig_8">9</ref>). One can see the lower variance up until the knn = 20, proving that observations within clusters are similar to each other (within-group homogeneity). By extending the neighbourhood range, the semi-variance increases, suggesting a dissimilarity of values from broader circles (between-group heterogeneity). Such observation strengthens the intuition regarding the fit of W to the dataintroducing knn associated with higher variance may lower the efficiency of the filtering effect of spatial parameters in the models built on unfit W specifications.</p><p>Comparing the semi-variance values for incremental knn is a good source of information on the spatial relationship between the dependent variable's values in a specified neighbourhood range and may help when choosing the appropriate W specification. However, this solution needs wider software implementation. 13 Although the results of all methods are consistent -AIC comparison, Moran's I and knn variograms indicate the best W specification which generalizes the neighbourhood structure for many variables included in the regression.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.">RESULTS OF EMPIRICAL ANALYSIS</head><p>The phenomenon of the functional behaviour of AIC can be observed for the real spatial data as well. We present an authentic spatial structure of business entities located within the NUTS-2 Lubelskie region in Poland. The analysed points represent the real office locations for companies from four general business branches (service, construction, agriculture and production). Using those locations and their assigned sectors we have simulated their ROA values following the same steps used in the simulation. We have assumed different starting ROA values depending on the sector assignment. From the full dataset of 37,378 observations, we have drawn a few random samples of 200, 500, 1000 and 10,000. We have estimated a set of spatial dependence models on each of them, each time changing the number of points considered in a k-nearest neighbour matrix (incremental knn). This empirical analysis uses the same bounding box, and the same structure of model and data. The major difference is the spatial distribution of points. In the case of empirical data, the locations are real and no forced clustering exists.</p><p>No predefined clusters and unknown spatial structure of nearest neighbours are the focus of this empirical analysis. In such a case, the a priori assessment of the appropriate W specification is an even more puzzling task. Having no initial knowledge of the actual spatial relations, one needs to settle for some W structure that will support the analysis. It is important to underline that the spatial statistic is dependent on the W form and can also present a faulty image of the spatial dependence present in the dataset. We claim that careful observation of AIC values obtained for competing W specification may result in finding the best possible fitted spatial structure. The comparison of AIC values resulting from regressions with incremental knn is shown in Figure <ref type="figure" target="#fig_9">10</ref>.</p><p>Again, one can observe a functional AIC form with a visible minimum. This finding shows that functional AIC may happen independently of spatial structure and clusters. Following the shape of the AIC function for a given dataset, one can easily find the knn range that results in a model of the highest quality. In that particular case, recalculating 20 competing models with different knn values was enough to pinpoint the best possible W specification. Bearing in mind all the negative consequences of the wrong W choice on the model's quality, the computational effort is worthwhile. For the following analysis we recommend comparing the quality of at least a few spatial dependence models with different W specifications in order to get the most suited filter for the spatial structure present in the dataset.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.">CONCLUSIONS</head><p>This paper makes an important contribution to the practice of spatial econometrics. It is particularly important in instances of spatial econometric models estimated on geolocated points and using the spatial weight matrix W based on k-nearest neighbours (knn). We show that the selection of knn to be included in W should not be random as it may generate model misspecification and a serious bias of estimated parameters. We propose an easy and efficient solution for knn W selection.</p><p>In order to find the optimal value for knn we recommend the following algorithm:</p><p>1. Estimating a series of models with incremental knn (e.g., in a range from 2 to 50). 2. Finding the minimum of AIC among those models to set the optimal knn*.</p><p>For the purpose of diagnostics, to understand how much knn* improves the model we recommend:</p><p>1. Deriving the relative knn, which assumes that knn* = 0 (knn for minAIC). 2. Calculating the relative model parameter (β, ρ, λ, θ or direct and indirect impacts, depending on model specification), which is expressed as the parameter at any knn divided by the parameter at knn*this shows bias resulting from misspecification.</p><p>For the purpose of diagnostics, to understand underlying spatial patterns of analysed variables we recommend:</p><p>1. Deriving Moran's I at incremental knn, which indicates at which neighbourhood structure the spatial autocorrelation decreases.</p><p>2. Deriving variogram at incremental knn, which indicates at which neighbourhood structure the spatial variance stabilizes.</p><p>We have demonstrated that a simple comparison of AIC values across a few competing W specifications may limit the bias imposed on the model. We show by simulations that the bias of model parameters may be as high as 50%. Our findings do not contradict the claim of LeSage and Pace (2014) that finetuning W by a few spatial units (e.g., knn = 5 versus 6) might be useless due to negligible gain. However, we show that the choice of knn that differ by several units (e.g., knn = 5 versus 25) significantly impacts the results.</p><p>This method comes at a minimum additional computational cost and allows one to obtain an easy comparison of the models' fit with different spatial structures. AIC, a commonly known and used quality metric, is widely available in software implementations and is easy to interpret. Its advantage is its availability in both nested and non-nested models (even in non-nested models AIC is equivalent to logLik). For that reason, one cannot use the LR test for the comparison of different W because it works only in nested models. Second, our analysis of computation time shows that in moderate-sized samples (in a dataset from 100 to 2000 observations), the estimation is quick (using the affordable laptop)it takes from 0.1 to 2.5 sec to obtain W and from 0.4 to 50 s to obtain a model. This means that for 2000 observations finding a proper W (when choosing from W with knn by every 5 units) takes around 10 min.</p><p>An important advantage of this approach is that it works in wider model specifications than the one explanatory variable, commonly explored in many papers. Practitioners of spatial econometrics usually face the problem of heterogeneous spatial patterns among various variables included in the model. However, the rule to keep the matrix as simple as possible and to use a single W specification (in order to get impacts) may generate questions in the case of diverse spatial structures. Therefore, a generalized neighbourhood structure is neededone which approximately fits all variables and guarantees the best fit. This issue was, until now, rarely considered in the literature. However, our approach solves this issue and the optimal k-nearest neighbours spatial weight matrix expresses the generalized neighbourhood.</p><p>Why is the selection of spatial weight matrix W so essential? There are numerous problems due to the misspecification of W with regard to the actual spatial pattern present in the data. These are inefficient estimators, wrongly reported significance scores, biased parameters and even changed conclusions of the spatial statistics. All these drawbacks could be omitted considerably if some additional effort is made to ensure the appropriate structure of the W matrix.</p><p>Recognizing the shortcomings of W poorly fitting with the data, we believe that the simplicity of AIC usage for spatial models' comparison would inspire a larger group of applied researchers to use the technique and promote higher research quality. We do hope that this paper will encourage discussion on the importance of a proper W choice and its impact on the results of further spatial analysis.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>DISCLOSURE STATEMENT</head><p>No potential conflict of interest was reported by the authors.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>NOTES</head><p>1 In case one compares SDM (with two spatial parameters) with OLS (with no spatial parameters), there are two degrees of freedom (x 2 2 ). 2 LeSage and Pace (2014) claim that the majority of research that evidences the relevance of W has some faults such as model misspecification or a focus on coefficients instead of impacts. 3 The approach of <ref type="bibr" target="#b20">Gerkman and Ahlgren (2014)</ref> did not attract a wider audience likely due to a few issues: (1) unclear operationalization of 'union of models' with an alternative W; (2) extensive analytics, even in the case of a narrow number of knn; (3) a not obvious interpretation of the results to get the best knn; (4) feasibility in a small sample only (up to 2500 observations); (5) high sensitivity to the strength of spatial autocorrelationno constructive outcomes for Moran's I around 0.; and (6) very restrictive assumptions on spatial patterns and autocorrelations in simulation, which are hard to replicate in real datasets. 4 There are few more methods proposed to support non-arbitrary W choice. Those ideas include Bayesian techniques <ref type="bibr" target="#b41">(LeSage &amp; Fischer, 2008)</ref>, Markov chain Monte Carlo (MCMC) <ref type="bibr" target="#b41">(LeSage &amp; Fischer, 2008;</ref><ref type="bibr">LeSage &amp; Pace, 2009, p. 168)</ref> and algorithms based on simulated annealing <ref type="bibr" target="#b48">(Seya et al., 2013)</ref>. Yet despite many theoretical advantages of those propositions, none gained much attention in the applied research. The problem of these techniques may be linked to calculation burden (MCMC), need of additional assumptions (e.g., prior distributions in Bayesian methods) and lack of implementation in popular statistical software <ref type="bibr">(LeSage &amp; Pace, 2009, p. 166;</ref><ref type="bibr" target="#b48">Seya et al., 2013)</ref>. 5 For some examples of arbitrary knn selection, see <ref type="bibr">Cartone and Panzera (2021)</ref>, <ref type="bibr" target="#b44">Michelangeli et al. (2021)</ref>, and Ghosh and Cartone (2020). 6 For evidence of estimates bias due to W selection, see <ref type="bibr">Cartone et al. (2021)</ref>, where the bias of spatial components of the Gini index is about 2.5-5% between knn = 10 and 20. 7 The Clark-Evans test <ref type="bibr" target="#b4">(Baddeley et al., 2015;</ref><ref type="bibr" target="#b11">Clark &amp; Evans, 1954;</ref><ref type="bibr" target="#b47">Ripley, 1979)</ref> for complete spatial randomness (CSR) of spatial distribution checks in which direction follows a non-CSR pattern (if clustered or ordered) uses the average nearest-neighbour distancethe statistic, aggregation R index, is the ratio of those distances in empirical and theoretical (random) point patterns. The average distances in clustered patterns are shorter than in random spatial distributions, thus a ratio R &lt; 1, while in ordered pattern are longer, therefore R &gt; 1. 8 Individual ROA values in each simulation are generated using the formula ROA = N(μ, 0.045), while μ = roa sector + roa geo-premium + roa dist-squared , where roa sector represents the profitability connected to the assigned business sector (agriculture = 2, production = 3.5, construction = 5, service = 8), roa geo-premium is a premium for location in a central region area (1.5 for centrally located points, 0 otherwise), and roa dist-squared is a distance-decaying component in range [0;1.5], which has its maximum in central location of the irregular bounding box and diminishes towards its borders, following a squared relation. 9 The spatial lag of a variable is in fact the weighted average of neighbouring values. Weights are defined in Win knn one uses row-standardized weights, where all neighbours of given point matter the same (e.g., for knn = 5 each neighbour gets the weight w ij = 0.2). 10 For example, if we obtained a minimum AIC value for knn = 5, we assign knn.rel = 0 for knn = 5, knn.rel = 1 for knn = 6, knn.rel = 2 for knn = 7, knn.rel = -1 for knn = 4, and knn.rel = -2 for knn = 3, respectively. 11 This bias results from other features than density of W (in other words, the percentage of non-zero connections in W). As <ref type="bibr" target="#b49">Smith (2009)</ref> shows, a dense W may cause downward bias of the r parameter. However, this mechanism is valid when density exceeds 50%. In our case, the density percentage is single digit (e.g., 0.9% for 1000 observations and knn = 15, 6.1% for 1000 observations and knn = 50, 3.1% for 2000 observations and knn = 50), what causes that Smith's results do not apply to this study design. 12 Extending the original semi-variance definition, we have averaged the squared differences of values not in respect to Euclidean distance, but with broadening the neighbourhood range knn. Usually the semi-variance is calculated with respect to the incremental Euclidian distance between points and may be represented in the following matter:</p><formula xml:id="formula_7">ĝ(h) = 1 2N (h) N (h) i=1 (z(x i ) -z(x i + h)) 2</formula><p>where N(h) encodes a number of point pairs with distance h <ref type="bibr" target="#b19">(Genton, 1998)</ref>. In this case, individual differences are averaged across the number of points included in each consecutive range of knn. 13 Incremental variance based on the increase of k-nearest neighbours (knn), not distance radius (d ), is not implemented in most software. We derived the R code for the knn-based variogram, which is available on Github (<ref type="url" target="https://github.com/mariakubara/AIC-paper">https://github.com/mariakubara/AIC-paper</ref>). In this repository one can also find more spatial designs, which were tested and confirm the analysed relationship.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure 2 .</head><label>2</label><figDesc>Figure 2. Interconnectedness of different spatial attributes:</figDesc><graphic coords="8,60.27,403.65,372.02,234.48" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Figure 3 .</head><label>3</label><figDesc>Figure 3. Simulation design: (a) small sample, (b) middle-sized sample and (c) big sample.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><figDesc>(b 1 dist i ), and distance from the core city of firms around is similar (u 1 Wdist i ); profitability depends on what sector the firm belongs (dummy variables: b 2 serv i , b 3 constr i , b 4 prod i ) and what is the sectoral composition of the neighbourhood (u 2 Wserv i , u 3 Wconstr i , u 4 Wprod i ).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Figure 4 .</head><label>4</label><figDesc>Figure 4. Nominal (raw) values of Akaike information criterion (AIC) due to incremental increase of knn in W: (a) small sample, (b) middle-sized sample and (c) big sample.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Figure 5 .</head><label>5</label><figDesc>Figure5. Relative values of Akaike information criterion (AIC) against relative values of knn.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>Figure 6 .</head><label>6</label><figDesc>Figure 6. Values of relative rho (rho/rho(minAIC)) against the relative knn (knn = 0 for minAIC).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>Figure 7 .</head><label>7</label><figDesc>Figure7. Relative total impact for variable distance against the relative knn (knn = 0 for minAIC).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><head>Figure 8 .</head><label>8</label><figDesc>Figure 8. Moran's I of the dependent variable with regard to incremental increasing knn.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8"><head>Figure 9 .</head><label>9</label><figDesc>Figure 9. Variogram-like statistic against knn. Note: The x-axis of the plot includes a number of nearest neighbours (knn), not typical Euclidean distance. The plot shows how the variogram-like statistic changes when knn is incremental. The plot shows three panels with recalculations for 200-, 500-and 1000-point samples. It shows how the variance increases when the knn is rising, especially at the level of knn = 20, which is the limit for number of points in each cluster in this spatial scheme. Source: Authors' own work.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_9"><head>Figure 10 .</head><label>10</label><figDesc>Figure10. Empirical data sample (different sizes).</figDesc></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" xml:id="foot_0"><p>SPATIAL ECONOMIC ANALYSIS</p></note>
+		</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Information theory and an extension of the maximum likelihood principle</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Akaike</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Selected papers of Hirotugu Akaike</title>
+		<editor>
+			<persName><forename type="first">E</forename><surname>Parzen</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">K</forename><surname>Tanabe</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">G</forename><surname>Kitagawa</surname></persName>
+		</editor>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="1998">1998</date>
+			<biblScope unit="page" from="199" to="213" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Under the hood issues in the specification and interpretation of spatial regression models</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/j.1574-0862.2002.tb00120.x</idno>
+		<ptr target="https://doi.org/10.1111/j.1574-0862.2002.tb00120.x" />
+	</analytic>
+	<monogr>
+		<title level="j">Agricultural Economics</title>
+		<imprint>
+			<biblScope unit="volume">27</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="247" to="267" />
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Spatial econometrics</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">A companion to theoretical econometrics</title>
+		<editor>
+			<persName><forename type="first">B</forename><forename type="middle">H</forename><surname>Baltagi</surname></persName>
+		</editor>
+		<imprint>
+			<publisher>Ltd</publisher>
+			<date type="published" when="2003">2003</date>
+			<biblScope unit="page" from="310" to="330" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">New spatial econometric techniques and applications in regional science</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Arbia</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Fingleton</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/j.1435-5957.2008.00208.x</idno>
+		<ptr target="https://doi.org/10.1111/j.1435-5957.2008.00208.x" />
+	</analytic>
+	<monogr>
+		<title level="j">Papers in Regional Science</title>
+		<imprint>
+			<biblScope unit="volume">87</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="311" to="317" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<monogr>
+		<author>
+			<persName><forename type="first">A</forename><surname>Baddeley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Rubak</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Turner</surname></persName>
+		</author>
+		<title level="m">Spatial point patterns: Methodology and applications with R</title>
+		<imprint>
+			<publisher>Chapman and Hall/CRC</publisher>
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+	<note>st ed.</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Models for spatial weights: A systematic look</title>
+		<author>
+			<persName><forename type="first">F</forename><surname>Bavaud</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/j.1538-4632.1998.tb00394.x</idno>
+		<ptr target="https://doi.org/10.1111/j.1538-4632.1998.tb00394.x" />
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="153" to="171" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<monogr>
+		<title level="m" type="main">Estimation of spatial weights matrix in a spatial error model, with an application to diffusion in housing demand estimation of spatial weights matrix, with an application to diffusion in housing demand</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Bhattacharjee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Jensen-Butler</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Multimodel inference: Understanding AIC and BIC in model selection</title>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">P</forename><surname>Burnham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">R</forename><surname>Anderson</surname></persName>
+		</author>
+		<idno type="DOI">10.1177/0049124104268644</idno>
+		<ptr target="https://doi.org/10.1177/0049124104268644" />
+	</analytic>
+	<monogr>
+		<title level="j">Sociological Methods and Research</title>
+		<imprint>
+			<biblScope unit="volume">33</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="261" to="304" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Deprivation at local level: Practical problems and policy implications for the province of Milan</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Cartone</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Panzera</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/rsp3.12339</idno>
+		<ptr target="https://doi.org/10.1111/rsp3.12339" />
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science Policy &amp; Practice</title>
+		<imprint>
+			<biblScope unit="volume">13</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="43" to="61" />
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Regional economic disparities, spatial dependence and proximity structures</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Cartone</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Panzera</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Postiglione</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/rsp3.12482</idno>
+		<ptr target="https://doi.org/10.1111/rsp3.12482" />
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science Policy &amp; Practice</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="1034" to="1050" />
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Geographically weighted regression bandwidth selection and spatial autocorrelation: An empirical example using Chinese agriculture data</title>
+		<author>
+			<persName><forename type="first">S.-H</forename><surname>Cho</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">M</forename><surname>Lambert</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Chen</surname></persName>
+		</author>
+		<idno type="DOI">10.1080/13504850802314452</idno>
+		<ptr target="https://doi.org/10.1080/13504850802314452" />
+	</analytic>
+	<monogr>
+		<title level="j">Taylor &amp; Francis</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="issue">8</biblScope>
+			<biblScope unit="page" from="767" to="772" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Distance to nearest neighbor as a measure of spatial relationships in populations</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">J</forename><surname>Clark</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><forename type="middle">C</forename><surname>Evans</surname></persName>
+		</author>
+		<idno type="DOI">10.2307/1931034</idno>
+		<ptr target="https://doi.org/10.2307/1931034" />
+	</analytic>
+	<monogr>
+		<title level="j">Ecology</title>
+		<imprint>
+			<biblScope unit="volume">35</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="445" to="453" />
+			<date type="published" when="1954">1954</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<monogr>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">D</forename><surname>Cliff</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">K</forename><surname>Ord</surname></persName>
+		</author>
+		<title level="m">Spatial processes: Models &amp; applications</title>
+		<imprint>
+			<publisher>Taylor &amp; Francis</publisher>
+			<date type="published" when="1981">1981</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<monogr>
+		<author>
+			<persName><forename type="first">A</forename><surname>Comber</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Dong</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Harris</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Lu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Lu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Murakami</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Nakaya</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Harris</surname></persName>
+		</author>
+		<title level="m">The GWR route map: A guide to the informed application of geographically weighted regression</title>
+		<meeting><address><addrLine>Org</addrLine></address></meeting>
+		<imprint>
+			<publisher>Arxiv</publisher>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Applied spatial econometrics: Raising the Bar</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Elhorst</surname></persName>
+		</author>
+		<idno type="DOI">10.1080/17421770903541772</idno>
+		<ptr target="https://doi.org/10.1080/17421770903541772" />
+	</analytic>
+	<monogr>
+		<title level="j">Spatial Economic Analysis</title>
+		<imprint>
+			<biblScope unit="volume">5</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="9" to="28" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">On model specification and parameter space definitions in higher order spatial econometric models</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Elhorst</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">J</forename><surname>Lacombe</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Piras</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.regsciurbeco.2011.09.003</idno>
+		<ptr target="https://doi.org/10.1016/j.regsciurbeco.2011.09.003" />
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">42</biblScope>
+			<biblScope unit="issue">1-2</biblScope>
+			<biblScope unit="page" from="211" to="220" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<monogr>
+		<title level="m" type="main">Influence of spatial weight matrices on spatial autocorrelation: A cased study of HFRS in China</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Feng</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Du</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Shu</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2011">2011</date>
+			<publisher>Wuhan Daxue Xuebao</publisher>
+			<biblScope unit="volume">36</biblScope>
+			<biblScope unit="page" from="1410" to="1413" />
+		</imprint>
+		<respStmt>
+			<orgName>Geomatics and Information Science of Wuhan University</orgName>
+		</respStmt>
+	</monogr>
+	<note>Xinxi Kexue Ban</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Specification searches in spatial econometrics: The relevance of Hendry&apos;s methodology</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J G M</forename><surname>Florax</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Folmer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">J</forename><surname>Rey</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/S0166-0462(03)00002-4</idno>
+		<ptr target="https://doi.org/10.1016/S0166-0462" />
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">33</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="2" to="4" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Spatial statistics, spatial regression, and graph theory in ecology</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">J</forename><surname>Fortin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">M A</forename><surname>James</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Mackenzie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">J</forename><surname>Melles</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Rayfield</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.spasta.2012.02.004</idno>
+		<idno>02.004</idno>
+		<ptr target="https://doi.org/10.1016/j.spasta" />
+	</analytic>
+	<monogr>
+		<title level="j">Spatial Statistics</title>
+		<imprint>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="page" from="100" to="109" />
+			<date type="published" when="2012">2012. 2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Highly robust variogram estimation some of the authors of this publication are also working on these related projects: Directional outlyingness for multivariate functional data view project hierarchical matrix technique for approximating large covariance m</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">G</forename><surname>Genton</surname></persName>
+		</author>
+		<idno type="DOI">10.1023/A:1021728614555</idno>
+		<ptr target="https://doi.org/10.1023/A:1021728614555" />
+	</analytic>
+	<monogr>
+		<title level="j">Article in Mathematical Geology</title>
+		<imprint>
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="213" to="221" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Practical proposals for specifying k-nearest neighbours weights matrices</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">M</forename><surname>Gerkman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Ahlgren</surname></persName>
+		</author>
+		<idno type="DOI">10.1080/17421772.2014.930167</idno>
+		<ptr target="https://doi.org/10.1080/17421772.2014.930167" />
+	</analytic>
+	<monogr>
+		<title level="j">Spatial Economic Analysis</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="260" to="283" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Reflections on spatial autocorrelation</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Getis</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.regsciurbeco.2007.04.005</idno>
+		<ptr target="https://doi.org/10.1016/j.regsciurbeco.2007.04.005" />
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">37</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="491" to="496" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Constructing the spatial weights matrix using a local statistic</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Getis</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Aldstadt</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/j.1538-4632.2004.tb01127.x</idno>
+		<ptr target="https://doi.org/10.1111/j.1538-4632.2004.tb01127.x" />
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">36</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="90" to="104" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">A Spatio-temporal analysis of COVID-19 outbreak in Italy</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Ghosh</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Cartone</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/rsp3.12376</idno>
+		<ptr target="https://doi.org/10.1111/rsp3.12376" />
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science Policy &amp; Practice</title>
+		<imprint>
+			<biblScope unit="volume">12</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1047" to="1062" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Spatial filtering</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Griffith</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Getis</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Encyclopedia of GIS</title>
+		<imprint>
+			<publisher>Springer International Publishing</publisher>
+			<date type="published" when="2017">2017</date>
+			<biblScope unit="page" from="2018" to="2031" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Effective geographic sample size in the presence of spatial autocorrelation</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Griffith</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/j.1467-8306.2005.00484.x</idno>
+		<ptr target="https://doi.org/10.1111/j.1467-8306.2005.00484.x" />
+	</analytic>
+	<monogr>
+		<title level="j">Annals of the Association of American Geographers</title>
+		<imprint>
+			<biblScope unit="volume">95</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="740" to="760" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">The spatial weights matrix and ESF</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Griffith</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">H</forename><surname>Paelinck</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Advanced studies in theoretical and applied econometrics</title>
+		<editor>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Griffith</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">J</forename><forename type="middle">H P</forename><surname>Paelinck</surname></persName>
+		</editor>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2018">2018</date>
+			<biblScope unit="volume">51</biblScope>
+			<biblScope unit="page" from="49" to="60" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">Autoregressive spatial spectral estimates</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Gupta</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.jeconom.2017.10.006</idno>
+		<ptr target="https://doi.org/10.1016/j.jeconom.2017.10.006" />
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">203</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="80" to="95" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Inference on higher-order spatial autoregressive models with increasingly many parameters</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Gupta</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">M</forename><surname>Robinson</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.jeconom.2014.12.008</idno>
+		<ptr target="https://doi.org/10.1016/j.jeconom.2014.12.008" />
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">186</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="19" to="31" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">Pseudo maximum likelihood estimation of spatial autoregressive models with increasing dimension</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Gupta</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">M</forename><surname>Robinson</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.jeconom.2017.05.019</idno>
+		<ptr target="https://doi.org/10.1016/j.jeconom.2017.05.019" />
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">202</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="92" to="107" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">A comparison study on criteria to select the most adequate weighting matrix</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Herrera</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Mur</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Ruiz</surname></persName>
+		</author>
+		<idno type="DOI">10.3390/e21020160</idno>
+		<ptr target="https://doi.org/10.3390/e21020160" />
+	</analytic>
+	<monogr>
+		<title level="j">Entropy</title>
+		<imprint>
+			<biblScope unit="volume">21</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page">160</biblScope>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">Model selection for geostatistical models</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">A</forename><surname>Hoeting</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">A</forename><surname>Davis</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">A</forename><surname>Merton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">E</forename><surname>Thompson</surname></persName>
+		</author>
+		<idno type="DOI">10.1890/04-0576</idno>
+		<ptr target="https://doi.org/10.1890/04-0576" />
+	</analytic>
+	<monogr>
+		<title level="j">Ecological Applications</title>
+		<imprint>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="87" to="98" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">An extension of Kelejian&apos;s J-test for non-nested spatial models</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Piras</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.regsciurbeco.2011.01.002</idno>
+		<ptr target="https://doi.org/10.1016/j.regsciurbeco.2011.01.002" />
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">41</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="281" to="292" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">The relative efficiencies of various predictors in spatial econometric models containing spatial lags</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.regsciurbeco.2006.11.005</idno>
+		<idno>11.005</idno>
+		<ptr target="https://doi.org/10.1016/j.regsciurbeco" />
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">37</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="363" to="374" />
+			<date type="published" when="2006">2007. 2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<analytic>
+		<title level="a" type="main">Spatial weights matrix, distance measurement, tessellation, spatial statistics</title>
+		<author>
+			<persName><forename type="first">K</forename><surname>Kopczewska</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Kubara</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Applied spatial statistics and econometrics</title>
+		<editor>
+			<persName><forename type="first">K</forename><surname>Kopczewska</surname></persName>
+		</editor>
+		<imprint>
+			<publisher>Routledge</publisher>
+			<date type="published" when="2020">2020</date>
+			<biblScope unit="page" from="151" to="211" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<analytic>
+		<title level="a" type="main">Model boosting for spatial weighting matrix selection in spatial lag models</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Kostov</surname></persName>
+		</author>
+		<idno type="DOI">10.1068/b35137</idno>
+		<ptr target="https://doi.org/10.1068/b35137" />
+	</analytic>
+	<monogr>
+		<title level="j">Environment and Planning B: Planning and Design</title>
+		<imprint>
+			<biblScope unit="volume">37</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="533" to="549" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<analytic>
+		<title level="a" type="main">Performance of information criteria for spatial models</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">K</forename><surname>Ghosh</surname></persName>
+		</author>
+		<idno type="DOI">10.1080/00949650701611143</idno>
+		<ptr target="https://doi.org/10.1080/00949650701611143" />
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Statistical Computation and Simulation</title>
+		<imprint>
+			<biblScope unit="volume">79</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="93" to="106" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<analytic>
+		<title level="a" type="main">Efficient GMM estimation of high order spatial autoregressive models with autoregressive disturbances</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Liu</surname></persName>
+		</author>
+		<idno type="DOI">10.1017/S0266466609090653</idno>
+		<ptr target="https://doi.org/10.1017/S0266466609090653" />
+	</analytic>
+	<monogr>
+		<title level="j">Econometric Theory</title>
+		<imprint>
+			<biblScope unit="volume">26</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="187" to="230" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<monogr>
+		<title level="m" type="main">Introduction to spatial econometrics</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Lesage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">K</forename><surname>Pace</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2009">2009</date>
+			<publisher>Chapman and Hall/CRC</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<analytic>
+		<title level="a" type="main">Spatial econometric models</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Lesage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">K</forename><surname>Pace</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Handbook of applied spatial analysis</title>
+		<editor>
+			<persName><forename type="first">J</forename><surname>Lesage</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">R</forename><forename type="middle">K</forename><surname>Pace</surname></persName>
+		</editor>
+		<meeting><address><addrLine>Berlin Heidelberg</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2010">2010</date>
+			<biblScope unit="page" from="355" to="376" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b40">
+	<monogr>
+		<title level="m" type="main">What regional scientists need to know about spatial econometrics</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Lesage</surname></persName>
+		</author>
+		<idno>SSRN 2420725</idno>
+		<imprint>
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b41">
+	<analytic>
+		<title level="a" type="main">Spatial growth regressions: Model specification, estimation and interpretation</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Lesage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">M</forename><surname>Fischer</surname></persName>
+		</author>
+		<idno type="DOI">10.1080/17421770802353758</idno>
+		<ptr target="https://doi.org/10.1080/17421770802353758" />
+	</analytic>
+	<monogr>
+		<title level="j">Spatial Economic Analysis</title>
+		<imprint>
+			<biblScope unit="volume">3</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="275" to="304" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b42">
+	<analytic>
+		<title level="a" type="main">The biggest myth in spatial econometrics</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Lesage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">K</forename><surname>Pace</surname></persName>
+		</author>
+		<idno type="DOI">10.3390/econometrics2040217</idno>
+		<ptr target="https://doi.org/10.3390/econometrics2040217" />
+	</analytic>
+	<monogr>
+		<title level="j">Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="217" to="249" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b43">
+	<analytic>
+		<title level="a" type="main">Identification of endogenous social effects the reflection problem</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">F</forename><surname>Manski</surname></persName>
+		</author>
+		<idno type="DOI">10.2307/2298123</idno>
+		<ptr target="https://doi.org/10.2307/2298123" />
+	</analytic>
+	<monogr>
+		<title level="j">Review of Economic Studies</title>
+		<imprint>
+			<biblScope unit="volume">60</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="531" to="542" />
+			<date type="published" when="1993">1993</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b44">
+	<analytic>
+		<title level="a" type="main">Intergenerational income mobility in Sweden: A look at the spatial disparities across municipalities</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Michelangeli</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Östh</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">U</forename><surname>Türk</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/rsp3.12452</idno>
+		<ptr target="https://doi.org/10.1111/rsp3.12452" />
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science Policy &amp; Practice</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="981" to="1004" />
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b45">
+	<analytic>
+		<title level="a" type="main">Model selection strategies in a spatial setting: Some additional results</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Mur</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Angulo</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.regsciurbeco.2008.05.018</idno>
+		<ptr target="https://doi.org/10.1016/j.regsciurbeco.2008.05.018" />
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">39</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="200" to="213" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b46">
+	<analytic>
+		<title level="a" type="main">Interpretation of structural parameters for models with spatial autoregression</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">B</forename><surname>Pietrzak</surname></persName>
+		</author>
+		<idno type="DOI">10.12775/EQUIL.2013.010</idno>
+		<ptr target="https://doi.org/10.12775/EQUIL.2013.010" />
+	</analytic>
+	<monogr>
+		<title level="j">Equilibrium. Quarterly Journal of Economics</title>
+		<imprint>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="129" to="155" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b47">
+	<analytic>
+		<title level="a" type="main">Tests of &quot;Randomness&quot; for spatial point patterns</title>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">D</forename><surname>Ripley</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/j.2517-6161.1979.tb01091.x</idno>
+		<ptr target="https://doi.org/10.1111/j.2517-6161.1979.tb01091.x" />
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society: Series B (Methodological)</title>
+		<imprint>
+			<biblScope unit="volume">41</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="368" to="374" />
+			<date type="published" when="1979">1979</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b48">
+	<analytic>
+		<title level="a" type="main">Automatic selection of a spatial weight matrix in spatial econometrics: Application to a spatial hedonic approach</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Seya</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Yamagata</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Tsutsumi</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.regsciurbeco.2013.02.002</idno>
+		<ptr target="https://doi.org/10.1016/j.regsciurbeco.2013.02.002" />
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">43</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="429" to="444" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b49">
+	<analytic>
+		<title level="a" type="main">Estimation bias in spatial models with strongly connected weight matrices</title>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">E</forename><surname>Smith</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/j.1538-4632.2009.00758.x</idno>
+		<ptr target="https://doi.org/10.1111/j.1538-4632.2009.00758.x" />
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">41</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="307" to="332" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b50">
+	<analytic>
+		<title level="a" type="main">A brief guide to model selection, multimodel inference and model averaging in behavioural ecology using Akaike&apos;s information criterion</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">R E</forename><surname>Symonds</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Moussalli</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/s00265-010-1037-6</idno>
+		<ptr target="https://doi.org/10.1007/s00265-010-1037-6" />
+	</analytic>
+	<monogr>
+		<title level="j">Behavioral ecology and sociobiology</title>
+		<imprint>
+			<biblScope unit="volume">65</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="13" to="21" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b51">
+	<analytic>
+		<title level="a" type="main">Autoregressive modeling and spectral analysis of array data in the plane</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Tjostheim</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/TGRS.1981.350323</idno>
+		<ptr target="https://doi.org/10.1109/TGRS.1981.350323" />
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Transactions on Geoscience and Remote Sensing</title>
+		<imprint>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="15" to="24" />
+			<date type="published" when="1981">1981</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b52">
+	<analytic>
+		<title level="a" type="main">Model for effect of spatial weighted matrix on spatial autocorrelation</title>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">Y</forename><surname>Liang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Zhou</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Applied Mathematics and Statistics</title>
+		<imprint>
+			<biblScope unit="volume">44</biblScope>
+			<biblScope unit="issue">14</biblScope>
+			<biblScope unit="page" from="431" to="445" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b53">
+	<analytic>
+		<title level="a" type="main">On misspecification of spatial weight matrix for small area estimation in longitudinal analysis</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Żądło</surname></persName>
+		</author>
+		<idno type="DOI">10.2478/v10103-012-0043-5</idno>
+		<ptr target="https://doi.org/10.2478/v10103-012-0043-5" />
+	</analytic>
+	<monogr>
+		<title level="j">Comparative Economic Research</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="305" to="318" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b54">
+	<analytic>
+		<title level="a" type="main">Spatial weights matrix selection and model averaging for spatial autoregressive models</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yu</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.jeconom.2017.05.021</idno>
+		<ptr target="https://doi.org/10.1016/j.jeconom.2017.05.021" />
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">203</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1" to="18" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

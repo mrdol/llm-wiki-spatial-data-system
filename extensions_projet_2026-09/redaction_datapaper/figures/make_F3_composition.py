@@ -5,9 +5,12 @@
 # nombres codes en dur), meme logique de deduplication corrigee que
 # tools/audit_datapaper_repo.py (session 2026-09-24).
 import json
+from pathlib import Path
 import matplotlib.pyplot as plt
 
-with open("packages/spatialtidymodels/inst/metadata/datasets.json", encoding="utf-8") as f:
+HERE = Path(__file__).resolve().parent
+ROOT = HERE.parents[2]
+with (ROOT / "packages/spatialtidymodels/inst/metadata/datasets.json").open(encoding="utf-8") as f:
     recs = json.load(f)["records"]
 
 def flat_typology(v):
@@ -22,6 +25,10 @@ TYP_LABEL = {"continuous": "Continuous", "count": "Count", "binary": "Binary",
 
 all_recs = recs
 yes_recs = [r for r in recs if r.get("package_include") == "yes"]
+
+def deduplicated_count(rs):
+    ids = {r["dataset_id"] for r in rs}
+    return sum(not r.get("parent_dataset") or r["parent_dataset"] not in ids for r in rs)
 
 def typ_counts(rs):
     c = {k: 0 for k in TYP_ORDER}
@@ -109,10 +116,12 @@ ax.spines[["top", "right"]].set_visible(False)
 
 fig.suptitle("Composition of the dataset catalogue, dated snapshot of 24 September 2026", fontsize=13.5)
 fig.text(0.5, -0.02,
-         "Reading note: panels A-B compare all 392 sheets against the 278 admitted (package_include: yes); "
-         "panel C covers all 392. Deduplicated by decomposition family: 241 (all) / 131 (yes) -- not shown here, see Table 1.",
+         f"Reading note: panels A-B compare all {len(all_recs)} sheets against the {len(yes_recs)} admitted "
+         f"(package_include: yes); panel C covers all {len(all_recs)}. "
+         f"Deduplicated families: {deduplicated_count(all_recs)} (all) / "
+         f"{deduplicated_count(yes_recs)} (yes) -- see Table 2.",
          ha="center", fontsize=8, style="italic", color="#444444")
 fig.tight_layout(rect=[0, 0.02, 1, 0.96])
-fig.savefig("extensions_projet_2026-09/redaction_datapaper/figures/F3_composition_catalogue.png",
+fig.savefig(HERE / "F3_composition_catalogue.png",
             dpi=200, bbox_inches="tight")
 print("wrote F3_composition_catalogue.png")

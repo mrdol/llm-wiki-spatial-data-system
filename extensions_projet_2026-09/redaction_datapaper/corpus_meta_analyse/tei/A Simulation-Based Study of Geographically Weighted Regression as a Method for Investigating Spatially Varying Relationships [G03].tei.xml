@@ -1,0 +1,605 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">A simulation-based study of geographically weighted regression as a method for investigating spatially varying relationships</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">Antonio</forename><surname>Pa¨ez</surname></persName>
+							<email>paezha@mcmaster.ca</email>
+							<affiliation key="aff0">
+								<orgName type="department">Centre for Spatial Analysis/School of Geography and Earth Sciences</orgName>
+								<orgName type="institution">McMaster University</orgName>
+								<address>
+									<postCode>L8S 4K1</postCode>
+									<settlement>Hamilton</settlement>
+									<region>Ontario</region>
+									<country>Canada;</country>
+								</address>
+							</affiliation>
+							<affiliation key="aff3">
+								<orgName type="department">Division of Cancer Epidemiology and Genetics</orgName>
+								<orgName type="institution">National Cancer Institute</orgName>
+								<address>
+									<settlement>Bethesda</settlement>
+									<region>MD</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Steven</forename><surname>Farber</surname></persName>
+							<email>steven.farber@geog.utah.edu</email>
+							<affiliation key="aff1">
+								<orgName type="department">The Department of Geography</orgName>
+								<orgName type="institution">University of Utah</orgName>
+								<address>
+									<postCode>84112</postCode>
+									<settlement>Salt Lake City</settlement>
+									<region>UT</region>
+									<country>USA;</country>
+								</address>
+							</affiliation>
+							<affiliation key="aff3">
+								<orgName type="department">Division of Cancer Epidemiology and Genetics</orgName>
+								<orgName type="institution">National Cancer Institute</orgName>
+								<address>
+									<settlement>Bethesda</settlement>
+									<region>MD</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">David</forename><surname>Wheelerô</surname></persName>
+							<affiliation key="aff2">
+								<orgName type="department" key="dep1">Department of Biostatistics</orgName>
+								<orgName type="department" key="dep2">School of Medicine</orgName>
+								<orgName type="institution">Virginia Commonwealth University</orgName>
+								<address>
+									<postCode>20892</postCode>
+									<settlement>Richmond</settlement>
+									<region>VA</region>
+									<country>USA;</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">D</forename><surname>Wheeler</surname></persName>
+							<email>dcwheels@gmail.com</email>
+							<affiliation key="aff3">
+								<orgName type="department">Division of Cancer Epidemiology and Genetics</orgName>
+								<orgName type="institution">National Cancer Institute</orgName>
+								<address>
+									<settlement>Bethesda</settlement>
+									<region>MD</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">A simulation-based study of geographically weighted regression as a method for investigating spatially varying relationships</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<idno type="MD5">C9E41472FC3A974C780CB1AD9DAB4855</idno>
+					<idno type="DOI">10.1068/a44111</idno>
+					<note type="submission">Received 27 February 2011; in revised form 29 June 2011 Environment and Planning A 2011, volume 43, pages 2992 ^3010</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-17T13:17+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>GWR</term>
+					<term>correlation</term>
+					<term>locally linear estimation</term>
+					<term>simulation</term>
+					<term>goodness of fit</term>
+					<term>inference</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Large variability and correlations among the coefficients obtained from the method of geographically weighted regression (GWR) have been identified in previous research. This is an issue that poses a serious challenge for the utility of the method as a tool to investigate multivariate relationships. The objectives of this paper are to assess: (1) the ability of GWR to discriminate between a spatially constant processes and one with spatially varying relationships; and (2) to accurately retrieve spatially varying relationships. Extensive numerical experiments are used to investigate situations where the underlying process is stationary and nonstationary, and to assess the degree to which spurious intercoefficient correlations are introduced. Two different implementations of GWR and cross-validation approaches are assessed. Results suggest that judicious application of GWR can be used to discern whether the underlying process is nonstationary. Furthermore, evidence of spurious correlations indicates that caution must be exercised when drawing conclusions regarding spatial relationships retrieved using this approach, particularly when working with small samples.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>1 Introduction and background Since its introduction to the geographical and spatial econometric literature in 1996 <ref type="bibr">(Brunsdon et al, 1996;</ref><ref type="bibr" target="#b17">McMillen, 1996)</ref>, the nonparametric approach termed geographically (or locally) weighted regression (GWR) has become a popular tool for the study of georeferenced data. Geographical weighting in GWR is implemented with the object of producing spatial subsamples of observations for statistical analysis. The notion of subsampling, while innovative in the spatial analysis literature, was not new at the time in statistical analysis. The key development in the case of the papers by <ref type="bibr">Brunsdon et al (1996)</ref> and <ref type="bibr" target="#b17">McMillen (1996)</ref> was to transpose a technique that was more generally applied to variable space and apply it for the specific case of analysis in geographical space. Original references in these papers trace a lineage that connects with the work of <ref type="bibr" target="#b4">Cleveland and Devlin (1988)</ref> and <ref type="bibr" target="#b3">Cleveland (1979)</ref> on smoothing techniques for histograms. The idea of using distance weighting is found earlier in the generation of automated interpolation algorithms <ref type="bibr">(Pelto et al, 1968)</ref>. The (re)discovery that weighted approaches could be used in the case of geographical information opened the door for local spatial analysis within a multivariate framework <ref type="bibr" target="#b8">(Fotheringham and Brunsdon, 1999)</ref>.</p><p>Weighted regression approaches were initially intended for interpolation and curve-fitting applications <ref type="bibr">(eg, Pelto et al, 1968;</ref><ref type="bibr" target="#b3">Cleveland, 1979)</ref>. Later work propounded the idea that locally weighted regression could be used in addition to study correlative effects in regression. <ref type="bibr" target="#b4">Cleveland and Devlin (1988)</ref>, for instance, identify and illustrate three major uses of the local-fitting methodology: as an exploratory graphical tool; as a diagnostic tool to check the adequacy, or goodness of fit, of parametric models; and as a replacement for parametric regression, by using instead the estimated locally weighted surface. Some geographical applications have remained in the realm of curve fitting and interpolation. <ref type="bibr" target="#b18">McMillen (2003)</ref>, for example, illustrates how the nonparametric approach can be used to provide a better fit to the data, and to diagnose parametric model misspecification. <ref type="bibr">Pa¨ez et al (2008)</ref> use a case study to compare a number of techniques, and find that GWR provides a more accurate interpolator (as measured by an ex-sample validation exercise) relative to the alternatives investigated. <ref type="bibr" target="#b13">Harris et al (2010;</ref><ref type="bibr" target="#b14">2011)</ref>, as well, report that methods that use spatial subsampling in general, and GWR in particular, perform well for interpolation. By and large, however, the emphasis in research and applications so far has been not in curve fitting or interpolation, but rather on the study of spatially varying relationships (eg, <ref type="bibr" target="#b9">Fotheringham et al, 2002)</ref>, and this is the way the approach is more widely understood in the literature <ref type="bibr">(Wheeler, 2007;</ref><ref type="bibr">Wheeler and Calder, 2007;</ref><ref type="bibr">Wheeler and Pa¨ez, 2010)</ref>.</p><p>The power of local relationships for assessing policy and generating knowledge is perhaps one of the reasons why the approach has become popular (see <ref type="bibr" target="#b1">Ali et al, 2007)</ref>. Accordingly, the maps of local regression coefficients that accompany GWR analyses tend to motivate extended discussions of the implications of the patterns discovered. An outstanding issue that has elicited some criticism, however, is the fact that very large variations in the values of the estimated coefficients are frequently observed, often accompanied by sign reversals that challenge interpretation.</p><p>The issue of sign reversals is noted by <ref type="bibr" target="#b15">Jetz et al (2005)</ref> in a commentary where they raise the possibility that the relationships may in fact be global and that local variability may be caused by missing variables or interaction terms, or be attributed to the excessive flexibility of the method. In other words, the argument is made that spatially varying relationships may not be legitimate but rather a consequence of model misspecification, or worse, an artefact of the method. <ref type="bibr" target="#b15">Jetz et al (2005)</ref> are among the first to note that GWR coefficients display a curious tendency to be correlated with each other. The question of correlation among GWR coefficients is discussed in much more depth in a contemporaneous paper by <ref type="bibr">Wheeler and Tiefelsdorf (2005)</ref>, who provide evidence of unintuitive sign changes and correlation among the estimated coefficients of a GWR model that investigates bladder cancer mortality. <ref type="bibr">Wheeler and Tiefelsdorf (2005)</ref> first suggest that strong correlation in estimated GWR coefficients is at least partly due to the presence of linear dependencies in the geographically weighted design matrix of the regression model in GWR models, or in other words, to collinearity. In the words of these authors, the strong correlations among regression coefficients ``invalidate any meaningful interpretation ... because the regression coefficients are no longer uniquely defined'' (page 162). <ref type="bibr" target="#b6">Farber and Yeates (2006)</ref> conclude that the prevalence of counterintuitive and extreme GWR coefficients pose a threat to the adoption of GWR. <ref type="bibr" target="#b5">Farber and Pa¨ez (2007)</ref> suggest that volatility in the coefficient estimates may be due to the procedure used to select the bandwidth size required for estimation. In support of the first thesis, Wheeler (2007) explicitly links correlation in GWR coefficients to collinearity in the GWR model through model diagnostic tools and a simulation study.</p><p>The results reported in the literature concerning questions surrounding the application of GWR are suggestive, but in our opinion in need of further research. First, previous results may have been influenced by the fact that relatively small systems were used for experimental designs (n between 100 and 400). The problem is that apparent collinearity can in fact be caused by small sample sizes. This effect, termed ``micronumerosity'' by <ref type="bibr" target="#b11">Goldberger (1991)</ref> is likely to be more pronounced due to the subsampling procedures that GWR relies on. And, secondly, there is other, somewhat conflicting, evidence reported in the literature concerning the fit to known data-generating processes. For instance, the level of correspondence appears to be quite high when comparing simulated processes and summary measures of the estimated coefficients after a large number of replications are conducted (see <ref type="bibr">Farber and Pa¨ez, 2007, figures 8 ^12;</ref><ref type="bibr">Pa¨ez, 2005, figures 1 ^5;</ref><ref type="bibr">Wang et al, 2008,</ref>  <ref type="table">figures 1 ^2</ref>, <ref type="table">7 ^10</ref>). <ref type="bibr" target="#b19">Pa¨ez (2005)</ref> reports correlations in excess of 0.95 between the true surfaces and the average of the estimated coefficients. However, while the average of a number of replications (as the results are reported in these papers) appears to closely resemble the true coefficient surface, it is unclear what the situation is at the level of individual replications. A key question is whether the GWR coefficients provide a reliable representation of the actual underlying geographical process under study.</p><p>This is a serious argument that may importantly determine whether GWR is more appropriate as an exploratory tool or a technique to drawn inferences regarding multivariate relationships. Since GWR has increasingly become established as a tool in the investigation of spatially varying relationships, our goal is to further delve into the question concerning the ability of GWR to identify and/or retrieve spatially varying multivariate processes. We approach this by means of an extensive set of controlled numerical experiments, whereby the true process is known and the results can be contrasted for reliability. Concretely, in this paper we first investigate the false positive rate: that is, the frequency with which cross-validation indicates nonstationarity when the underlying process is in fact stationary. This addresses the question of whether the approach can reliably discriminate between stationary and nonstationary processes. And, secondly, we investigate the ability of GWR to estimate coefficient surfaces that are dependable representations of a known process. The results of our experiments provide sobering evidence that caution should be exercised when attempting to interpret coefficients obtained using GWR in its current implementation based on commonly used validation and estimation techniques, especially in situations with small sample sizes.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">Methods</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1">Previous research</head><p>Previous investigations of the validity and reliability of GWR coefficients have been based on controlled numerical experiments. <ref type="bibr">Wheeler and Tiefelsdorf (2005)</ref> first sought to elucidate the link between collinearity in GWR and correlation of estimated regression coefficients using simulation studies. For their investigation <ref type="bibr">Wheeler and Tiefelsdorf (2005)</ref> designed the data-generating process by fixing the true regression coefficients to global constants (set to 1) and selecting a pair of explanatory variables and disturbances based on the eigenvectors of a transformation of the spatial connectivity matrix of the 159 counties of Georgia, USA. The explanatory variables in this experiment had a spatial pattern but were uncorrelated with each other. These authors then introduced systematic collinearity into the model by adding correlation to the covariate pair, only to find clear and consistent evidence of increasing correlation in GWR coefficients with increasing collinearity. The results of the simulation studies reported by <ref type="bibr">Wheeler and Tiefelsdorf (2005)</ref> are informative, but the experimental design had some limitations. First, there was no stochasticity in the data-generation process. There is only one instance of each true regression coefficient term, covariate value, and error. As a result, statistical inference on the amount of correlation in the estimated regression coefficients is not possible. Also, the data-generating process is based on a global formulation of the model, so results on the accuracy of truly local regression coefficients are not possible. In addition, the simulation studies use a relatively small sample size.</p><p>Other simulation studies following Wheeler and Tiefelsdorf (2005) addressed some of these limitations. <ref type="bibr">Wheeler and Calder (2007)</ref> used two simulation studies to evaluate and compare the coverage probabilities and accuracy of the regression coefficients from GWR and a Bayesian hierarchical spatial model with spatially varying coefficients where the level of collinearity in the model is controlled. In the first experiment the true regression coefficients were defined as a direct function of the spatial coordinates of a uniform grid with 100 observations. The two explanatory variables were drawn randomly from a multivariate normal distribution and the errors were sampled independently from a normal distribution for each realization of the data. In the second simulation study, the true local regression coefficients were simulated from a multivariate normal distribution for each realization of the data, and thus vary from realization to realization. In addition, Wheeler and Calder used several different levels of true spatial dependence in the known data-generating process. Both simulation studies used 200 realizations of the data process. Results of the simulation studies include low coverage probabilities for the GWR coefficients and consistently increasing error in the coefficients when collinearity is increased.</p><p>Two developments are relevant to this discussion, since their aim is to solve some of the noted issues with GWR. Wheeler (2007) conducted a simple experiment by systematically increasing collinearity in a dataset to demonstrate that a penalized form of GWR, geographically weighted ridge regression, reduces the extreme effects of collinearity that seem to afflict GWR. Wheeler (2009) expanded the simulation study of <ref type="bibr">Wheeler and Calder (2007)</ref> to have four explanatory variables and 196 observations in a comparative study of the performance of GWR and a penalized version of GWR, the geographically weighted lasso. This work compared both the predictive performance and the coefficient accuracy of the models in the presence of collinearity. In these experiments 100 realizations of a data-generating process were used that sampled the true local coefficients from a multivariate normal distribution. These simulation studies show that the performance of GWR, in both prediction and coefficient accuracy, can be improved by constraining the magnitude of its regression coefficients with techniques designed to remediate collinearity. The experiments reported in the paper also show that the correlation between local coefficients is reduced, but not eliminated (see Wheeler, 2009, figures 1, 3) and, while the geographically weighted lasso can shrink some coefficients, possibly to zero, to stabilize the model, the estimates still tend to be positively correlated with those from GWR (see Wheeler, 2009, figure <ref type="figure" target="#fig_3">4</ref>). To investigate the adequacy of the most commonly applied forms of GWR, in this paper we limit our assessment to unconstrained versions of GWR only.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2">Experimental design</head><p>We begin our experiments by defining a data-generating process, as follows:</p><formula xml:id="formula_0">y i b 0i b 1i x 1i b 2i x 2i e i .</formula><p>(</p><p>The dependent variable y i is the outcome of a linear combination of the values of variables x 1 and x 2 at location i, possibly spatially varying coefficients b ki (subindexed by i ), and a random term e i . For comparability and extensibility, in the experiments we use the same geographical system employed by <ref type="bibr">Wheeler and Tiefelsdorf (2005)</ref> (ie, 159 counties in Georgia), as well as a larger system of 1003 census tracts in the City of Toronto to assess the potential effect of small sampling, and thus the question of collinearity versus micronumerosity. Use of irregular tessellations is justified by results reported by <ref type="bibr" target="#b7">Farber et al (2009)</ref> indicating that regular tessellations frequently used in experimental spatial statistics are not, from a topological perspective, representative of real geographical systems. The independent variables are generated from random draws of the uniform distribution, while the vector of error terms is obtained from draws of the normal distribution with mean 0 and standard deviation 0.25. In order to introduce varying levels of correlation between variables x 1 and x 2 , we use a similar transformation to that used by Wheeler and Tiefelsdorf (2005):</p><formula xml:id="formula_2">x y 2 siny x 1 cosy x 2 ,<label>(2)</label></formula><p>where y controls the level of correlation between the explanatory variables. These correlations are approximate and depend to some extent on the initial level of correlation of the random draws, which is usually fairly low, but never exactly 0. Random variables are drawn a total of R 100 times (ie, replications) for each level of y between À0X75 and 0.75 in 0.25 increments. After setting the true coefficients b, variable y is generated using model (1), so that there are 100 unique realizations of the process for each level of correlation between the independent variables. We devise two variations for our experiments. In the first one we are interested in the false positive rate: that is, the frequency with which validation of the weighting function fails to collapse into the global model when the true process is indeed global. For this experiment the coefficients are spatial constants as follows:</p><formula xml:id="formula_3">b 0i b 0 b 1i b 1 b 2i b 2 1 ,<label>( 3 )</label></formula><p>where i, i 1, 2, .XX, n, is the index for locations in the sample and n is the sample size.</p><p>For the second experiment, we are interested in the ability of GWR to retrieve a spatially varying process. Following Wheeler and Tiefelsdorf (2005), we adopt the eigenvectors of a transformation of the binary spatial connectivity matrix W as follows:</p><formula xml:id="formula_4">I À 11 T n n i j w ij W I À 11 T n , (<label>4</label></formula><formula xml:id="formula_5">)</formula><p>where I is the identity matrix, 1 is a column vector of ones of size n, and w ij is the ij element of matrix W. Instead of using the eigenvectors to represent the independent variables in the data-generating process as in Wheeler and Tiefelsdorf (2005), we use them in place of the spatially varying coefficients. The advantage of using the eigenvectors for the spatially varying coefficients is that the coefficients are uncorrelated by design. Three eigenvectors with distinctive patterns are selected as follows: b 0 e 1 , b 1 e 3 , b 2 e 4 , as shown in figure <ref type="figure" target="#fig_0">1</ref> for the Georgia counties and in figure <ref type="figure" target="#fig_1">2</ref> for Toronto Census Tracts. Please note that the coordinates have been standardized to a unit square. Estimation of GWR models involves a number of steps. First, a kernel function is selected for the analysis. For this we adopt the bisquare nearest-neighbor formulation and the negative exponential distance formulation. Next, the kernel function must be calibrated. This can be done by means of cross-validation <ref type="bibr">(Brunsdon et al, 1996)</ref> or by means of a modified Akaike information criterion <ref type="bibr" target="#b0">(Akaike, 1973;</ref><ref type="bibr" target="#b9">Fotheringham et al, 2002)</ref>. As noted by <ref type="bibr" target="#b5">Farber and Pa¨ez (2007)</ref> the most commonly used procedure is cross-validation, which we select for our experiments. Two different forms of the cross-validation score are implemented. The first one is well known from the literature:  The cross-validation score is the sum of squared differences between the observed value of y at i, and the value predicted by a model estimated using kernel bandwidth s after removing observation i from the sample. A modified version of the crossvalidation score is discussed by <ref type="bibr" target="#b5">Farber and Pa¨ez (2007)</ref> that helps to reduce the dominance of some observations in determining the window size. The score in this case is based on a decomposition of the cross-validation calculations. A partial score for each observation i is calculated and converted to a value between 0 and 1 as follows:</p><formula xml:id="formula_6">CVSs i y i À y T i s 2 . (<label>5</label></formula><formula xml:id="formula_7">CVS i s y i À y T i s 2 s y i À y T i s ,<label>( 6 )</label></formula><p>and the total score is simply:</p><formula xml:id="formula_8">CVSs i CVS i s .<label>(7)</label></formula><p>Standardization of the score in this way ensures that all observations exert an identical level of influence across bandwidth sizes, and so the selection of the bandwidth is not influenced by a few observations with atypically large errors <ref type="bibr" target="#b5">(Farber and Pa¨ez, 2007)</ref>. Coefficients estimated using bandwidths selected using this form of the cross-validation score tend to display more compact distributions (ie, less extreme variability). Linked to the issue of validating a bandwidth size is the estimation of the coefficients. We investigate two coefficient estimation techniques. Again, the first one is well known from the literature, and involves employing a diagonal matrix of geographical weights to obtain locally weighted estimates as follows (see <ref type="bibr">Brunsdon et al, 1996)</ref>:</p><formula xml:id="formula_9">b i X T G i X À1 X T G i y . (<label>8</label></formula><formula xml:id="formula_10">)</formula><p>The vector of local estimates is a function, in addition to the data matrix X and vector of y, of G i , a matrix of geographic weights where diagonal element g i is the kernel function implemented with the cross-validated kernel bandwidth. The second implementation of the method is due to <ref type="bibr">Wang et al (2008)</ref>, and introduces a locally linear approximation based on the Taylor's expansion of the spatially varying coefficient b k at location i with coordinates (u i , v i ). Under the assumption that each of the coefficients has second continuous partial derivatives with respect to the coordinates, the coefficient can be locally approximated by the following expression:</p><formula xml:id="formula_11">b k u, v % b k u 0 , v 0 b u k u 0 , v 0 u À u 0 b v k u 0 , v 0 v À v 0 , (<label>9</label></formula><formula xml:id="formula_12">)</formula><p>where b u k (u 0 , v 0 ) and b v k (u 0 , v 0 ) are the partial derivatives of the coefficient with respect to the coordinates u and v at the location. We consider this method, locally linear (LL) GWR, since the experimental results reported by <ref type="bibr">Wang et al (2008)</ref> indicate that this approach improves the overall fit and reduces the coefficient bias relative to the typical formulation of GWR: ie, that shown in equation ( <ref type="formula" target="#formula_9">8</ref>).</p><p>3 Results 1: cross-validation when the underlying process is stationary The first experiment addresses the question of false positives. That is, given that the known data-generating process is global, we are interested in the frequency with which spatial variation would mistakenly be indicated by the model. The coefficients used in this case are the spatial constants indicated in equation ( <ref type="formula" target="#formula_3">3</ref>). The domain of the experiment consists of: 1. two spatial systems (Georgia counties and Toronto census tracts); 2. seven levels of correlation between x 1 and x 2 (À0X75 to 0.75 with increments of 0.25); 3. two spatial weighting functions (distance and nearest-neighbor based); 4. two cross-validation (CV) procedures (regular and modified); and 5. two coefficient estimation methods (GWR and LL).</p><p>For each combination of domain coefficients, we draw 100 random repetitions of independent variables and residuals to generate a spatial process using equation ( <ref type="formula" target="#formula_6">5</ref>). This process is then retrieved using GWR and LL estimation with regular and modified cross-validated bandwidths. We are interested in (1) the rate at which the CV procedure returns a nonglobal optimal bandwidth and (2) whether or not the resultant coefficient surfaces are spatially varying.</p><p>The results of the first experiment are found in table 1. Notably, the modified crossvalidations are not reported in the table as these procedures failed to return the global bandwidth nearly 100% of the time, suggesting their relative weakness when compared with the traditional CV procedures in terms of finding spurious spatially varying processes. Generally, for nearest-neighbor weighting, the LL estimation procedure produces a smaller false-positive rate than GWR, but this difference largely evaporates for distance-based weighting. Also, there is no noticeable relationship between exogenous variable collinearity and the false-positive rate, although in the Toronto data the smallest false-positive rate for GWR occurs when there is no correlation in the variables.</p><p>To further explore the bandwidth selection issue, figure 3 contains boxplots of the distributions of optimal nearest-neighbor bandwidths for each CV procedure and level of collinearity for the Toronto tracts. Beyond confirming the patterns in table 1, the plots identify several interesting findings. First, we see that, despite LL CV retrieving the global bandwidth far more often than GWR, both LL and GWR CV retrieve outliers of the same magnitude (around 800 neighbors). This is in contrast to the modified CV procedures that are more consistent (ie, have distributions with fewer outliers), albeit poorly centered at approximately 920 neighbors.</p><p>The exploration of cross-validated bandwidths generally favors nearest-neighbor weightings over distance-based ones, and LL estimation to GWR. However, the occurrence of subglobal optimal bandwidths does not necessarily imply the existence of a serious misspecification issue; more important is the degree to which the estimated coefficient surfaces differ from the globally constant true coefficients. Figures <ref type="figure" target="#fig_3">4</ref> and <ref type="figure" target="#fig_4">5</ref> Table <ref type="table">1</ref>. False-positive rates for Georgia and Toronto.</p><p>Correlation Georgia (n 159) Toronto (n 2003) nearest neighbour a distance b nearest neighbour c distance d GWR LL GWR LL GWR LL GWR LL À0.75 0.21 0.17 0.46 0.48 0.29 0.14 0.45 0.41 À0.50 0.26 0.17 0.42 0.40 0.36 0.14 0.38 0.39 À0.25 0.26 0.12 0.48 0.36 0.30 0.08 0.46 0.39 0.00 0.30 0.18 0.48 0.47 0.19 0.10 0.30 0.46 0.25 0.20 0.15 0.48 0.52 0.37 0.14 0.53 0.44 0.50 0.35 0.28 0.47 0.43 0.31 0.17 0.43 0.42 0.75 0.24 0.17 0.41 0.44 0.28 0.17 0.44 0.46 Note. GWRÐgeographically weighted regression; LLÐlocally linear. a Rate at which the optimum bandwidth is not equal to 158, the number of neighbors corresponding to the global bandwidth. b Rate at which the optimum bandwidth is not equal to 0, the value that renders a global bandwidth based on distance. c Rate at which the optimum bandwidth is not equal to 1002, the number of neighbors corresponding to the global bandwidth. d Rate at which the optimum bandwidth is not equal to 0, the value that renders a global bandwidth based on distance. Nearest-neighbour bandwidth Nearest neighbour bandwidth 1000 960 920 880 840 800 1000 960 920 880 840 800 (a) (c) (b) (d) À0.75 À0.50 À0.25 0.00 0.25 0.50 0.75 À0.75 À0.50 À0.25 0.00 0.25 0.50 0.75 Correlation between X 1 and X 2 Correlation between X 1 and X 2 A simulation-based study of geographically weighted regression</p><p>1.06 1.04 1.02 1.00 0.98 0.96 0.94 Mean estimate of coefficient À0.75 À0.25 0.25 0.75 À0.75 À0.25 0.25 0.75 À0.75 À0.25 0.25 0.75 À0.50 0.00 0.50 À0.50 0.00 0.50 À0.50 0.00 0.50 0.040 0.035 0.030 0.025 0.020 0.015 0.010 0.005 0.000 Standard deviation of estimates À0.75 À0.25 0.25 0.75 À0.75 À0.25 0.25 0.75 À0.75 À0.25 0.25 0.75 À0.50 0.00 0.50 À0.50 0.00 0.50 À0.50 0.00 0.50 A simulation-based study of geographically weighted regression contain boxplots of coefficient distributions for distance-based GWR estimation in Toronto. Each datum in figure <ref type="figure" target="#fig_3">4</ref> is the mean value of a surface of coefficient estimates for one single simulation iteration. Displayed is a plot of how these means vary from iteration to iteration. Evidently, the mean coefficient estimates hover very near to the true coefficient value of 1.0, with the distributions for b 1 and b 2 being more compact than for b 0 , but increasing in dispersion as correlation increases (absolutely) away from 0.</p><p>In general, figure <ref type="figure" target="#fig_3">4</ref> shows that the means of the estimated coefficients are nearly equal to the true coefficients. In terms of the spread of the means, a highly dispersed (and thus erroneous) coefficient surface would certainly lead to spurious interpretations of spatial patterns. In figure <ref type="figure" target="#fig_4">5</ref> each datum in a boxplot is the standard deviation of a distribution of coefficient estimates for a single simulation iteration or, in other words, the amount of spread in a retrieved coefficient surface. These boxplots make it clear that the amount of variation resulting from subglobal bandwidths in these test cases is negligible. This is probably because the optimal bandwidths, while not global, are still very large, and therefore do not allow for much local fitting within each moving window. Still, users should be cautioned that, when CV returns optimal bandwidths near the global threshold, any resultant spatial variation in coefficient surfaces may be spurious and should be compared quite stringently against the global regression model.</p><p>Interestingly, the dispersions from constant surfaces are at their smallest levels when there is no correlation between exogenous factors. This suggests that the amount of surface variation returned by a moving window regression is certainly related to the correlation between the raw data surfaces, so users should further be cautioned that correlation between exogenous factors in a GWR model may lead to spurious coefficient surfaces.</p><p>4 Results 2: retrieving a known spatial process The focus of the next experiment is on coefficient retrieval when the true process is composed of spatially varying coefficients. To achieve this, as explained above, eigenvectors of the transformed contiguity matrix are taken as local regression coefficients. The vectors of local coefficients are therefore known to be uncorrelated, and thus any intercoefficient correlation retrieved by the estimation process can be considered a spurious artefact. The true coefficient surfaces for Georgia and Toronto are found in figures 1 and 2, respectively.</p><p>The domain of the simulation experiment used in this section is slightly more limited than the one above due to computational burden. Specifically, all domain elements are repeated for the Georgia counties dataset, but only GWR estimation using unmodified nearest-neighbor CV is performed on the much larger Toronto dataset. For each setting of domain coefficients, random residuals are drawn, and the regression coefficients are calculated. We are interested in how well the estimated coefficients match the true surfaces, as well as whether or not the coefficient surfaces suffer from spurious correlation.</p><p>The results indicate that, while there are significant differences in correlation between the GWR and LL estimation methods, there was not much difference between the typical and modified cross-validations; for this reason the modified CV results are not displayed. Boxplots of the correlations between the estimated and true coefficient surfaces are displayed in figure <ref type="figure" target="#fig_5">6</ref> for Georgia using GWR (supplementary plots for LL estimation for Georgia and GWR for Toronto can be found on the website: http<ref type="url" target="http://dx.doi.org/10.1068/a44111ap">://</ref> dx<ref type="url" target="http://dx.doi.org/10.1068/a44111">.doi.org/10.1068/a44111)</ref>.As seen in figure <ref type="figure" target="#fig_5">6</ref> the box plots display a large range of correlation coefficients, especially for the constant. In some outlying cases (not shown in the figure) the estimated surfaces were negatively correlated to the true one, Correlation between coefficients (a) (b) (c)</p><p>0.8 0.6 0.4 0.2 0.0 À0.2 À0.4 À0.6 À0.8 À0.75 À0.25 0.25 0.75 À0.75 À0.25 0.25 0.75 À0.75 À0.25 0.25 0.75 À0.50 0.00 0.50 À0.50 0.00 0.50 À0.50 0.00 0.50 Correlation between X 1 and X 2 Correlation between X 1 and X 2 Correlation between X 1 and X 2 a bright red flag that users and practitioners must be aware of. Furthermore, as the correlation between the independent variables increases, the levels of fit between the estimated and true surfaces decline quite markedly. Interestingly, the figures display ambivalence toward high levels of negative correlation. In the case of LL estimation the fit was consistently lower and the dispersion larger (see supplementary material).</p><p>The findings concerning GWR are repeated for the case of Toronto, albeit the level of fit is consistently stronger there than for Georgia, presumably because of the larger sample size (see supplementary material).</p><p>Over and above the level of fit achieved by the estimation methods, we also explore whether regression estimates display correlations between surfaces. Figure <ref type="figure" target="#fig_6">7</ref> contains boxplots of correlations between pairs of estimated coefficient surfaces for the case of nearest-neighbor weighting in Toronto. The figure depicts that the estimated coefficient surfaces are very often negatively correlated with each other. Since these surfaces are uncorrelated by design, this is a clear indication that the procedure tends to overfit the processes and results in estimates with contrived spatial relationships. The level of spurious correlation is certainly related to the amount of correlation between the exogenous variables; however, the relationship tends to move in different directions for different pairs of surfaces. These results are paralleled by the case of Georgia (see supplementary material); however, the magnitudes of correlation are larger as is the dispersion, thus highlighting the risks of working with a smaller sample size.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5">Implications and concluding remarks</head><p>There has been some controversy whether or not GWR is appropriate for making inferences about multivariate spatial relationships. This is a key question considering the uptake and use of GWR across many disciplines, and the fact that many research papers use GWR as an inferential tool to make policy recommendations. This paper contributes to the literature by examining two issues: (1) the ability of the approach to discriminate between stationary and nonstationary processes; and (2) the ability of the approach to retrieve reliable parametric surfaces using larger sample sizes. These contributions are made while considering different estimation and cross-validation techniques that had not been previously been examined.</p><p>First, we find that the false-positive rates are typically much higher than convention would mandate: depending on the combination of estimation and cross-validation approaches, and the degree of true correlation, nonstationary models would be prescribed from less than 10% to more than 50% of the time when the true underlying process is stationary. On a more positive note, the bandwidths in these cases (with the exception of the modified cross-validation approach) are nearly global, and the resultant coefficient surfaces do not contain much variation. We suggest that, in such a situation, GWR and some common sense can be used as a tool to discriminate between a spatially nonvarying process and a spatially varying one.</p><p>Secondly, we confirm that a nonnegligible amount of spatial variation of ö and correlation betweenöGWR coefficient surfaces is inherently generated by the method, regardless of the cross-validation approach used. This result provides additional evidence to the existing body of results coming from simulation studies originating with <ref type="bibr">Wheeler and Tiefelsdorf (2005)</ref>. More importantly, the findings contribute to the overarching debate concerning the appropriate use of GWR: whether GWR should be used as an exploratory tool or as a tool for making spatial inferences. The findings of our experiments weigh against the latter. This is particularly the case when working with smaller samples, since the spatially varying coefficients are more heavily afflicted by spurious correlations between local coefficients. Accordingly, the practical implications of the work are in agreement with previous research <ref type="bibr">(Wheeler and Calder, 2007;</ref><ref type="bibr">Wheeler and Tiefelsdorf, 2005)</ref> that analysts should be cautious when using GWR as an inferential tool. We would sound a slightly more positive note in the case of larger sample sizes. As demonstrated by our experiments, spurious correlations are still present, but they are smaller for the larger sample size. It is possible that this effect carries over for even larger samples, and GWR can in fact be a valuable tool when working with larger problems.</p><p>Presently, the amount of spurious spatial variationöand covariationöin the estimated regression surfaces using GWR implies the existence of an inaccuracy inherent to the method. These results recommend caution, especially if policy prescriptions are to be based on the results of GWR analysis.</p><p>Based on our findings, we submit the following recommendations for practical application of GWR:</p><p>(1) Judicious interpretation of the bandwidth size and/or the degree of spatial variability in the estimated coefficient surfaces can be used to discriminate between spatially stationary and non-stationary processes. Modified cross-validation is not recommended for this sort of exploratory approach.</p><p>(2) We do not recommend the use of GWR in situations with small sample sizes (in our experiments n % 160). At the very least, interpretation of results should proceed with extreme caution.</p><p>(3) For larger samples (in our experiments n % 1000), we suggest that analyses based on GWR be accompanied by a correlation matrix for all estimated coefficients. A better alternative is to use the tools of variance decomposition proportions and condition indexes of the GWR design matrix detailed in <ref type="bibr">Wheeler (2007)</ref> to diagnose collinearity in the GWR model. These diagnostic values may be linked to maps and visualized to better assess potential problems with the model <ref type="bibr">(Wheeler, 2010;</ref><ref type="bibr">Wheeler and Pa¨ez, 2010)</ref>.</p><p>When diagnostics suggest problems with the stability of the GWR model, alternative methods for making inferences about spatially varying processes should be considered. This includes penalized versions of GWR <ref type="bibr">(Wheeler, 2007;</ref><ref type="bibr">2009)</ref>; however, keeping in mind that correlations between the coefficients obtained using these techniques and the simpler GWR approach suggest that the issue can be ameliorated but not completely resolved. A spatial-filtering formulation of the expansion method <ref type="bibr" target="#b12">(Griffith, 2008)</ref> has been shown to control model instability and reduce correlation in estimated GWR coefficients, but the applicability of this approach to larger samples is limited by the ability to compute the eigenvectors of a transformed contiguity matrix. Bayesian spatially varying coefficient models <ref type="bibr" target="#b10">(Gelfand et al, 2003)</ref> are another alternative to model spatial relationships in a well-established statistical framework. These models are naturally shrinkage models that constrain the variability of regression coefficients <ref type="bibr">(Wheeler and Waller, 2009)</ref>. Previous research indicates that they perform well compared with GWR in capturing true coefficient processes <ref type="bibr">(Wheeler and Calder, 2007)</ref>. However, they are technically demanding and their simulation-based estimation procedures also present daunting challenges for larger samples <ref type="bibr" target="#b20">(Pa¨ez and Wheeler, 2009)</ref>.</p><p>Although the findings of this research provide further evidence for questioning the suitability of GWR to investigate multivariate spatial relationships, especially in situations with small samples, there are some avenues to refine these insights. Currently, it remains unclear whether the issues detected are due to the size of the sample, caused by cross-validation, or by the method of estimation. Elucidating this requires further investigation. For example, the domain of the simulations could be expanded to allow for varying levels of correlation between the true coefficient surfaces. This may introduce an element of realism into the relationships between coefficients, as they are likely not truly uncorrelated in real-world processes. A key direction for further research would be to conduct controlled experiments that introduce a more systematic approach to changing the size of the sample. Simulations for GWR models are time consuming, and this is especially true for larger samples. However, an important step would be to determine whether an appropriate minimum sample size for the use of GWR exists, and what this value would be under various conditions. In order to reduce the computational burden of new simulations, the results of the experiments reported in this paper can be used to restrict their domain: for instance, by focusing on one crossvalidation approach and/or one estimation technique only. Finally, it would be of interest to assess whether spurious intercoefficient correlations have deleterious effects on other techniques, such as the use of F-tests for local regression coefficients <ref type="bibr" target="#b16">(Leung et al, 2000)</ref>.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure 1 .</head><label>1</label><figDesc>Figure 1. [In color online.] True coefficient surfaces for (a) b 0 , (b) b 1 , (c) b 2 for Georgia counties based on eigenvectors.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Figure 2 .</head><label>2</label><figDesc>Figure 2. [In color online.] True coefficient surfaces for (a) b 0 , (b) b 1 , (c) b 2 for Toronto counties based on eigenvectors.</figDesc><graphic coords="7,34.07,27.12,616.65,258.25" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Figure 3 .</head><label>3</label><figDesc>Figure 3. Distributions of cross-validation nearest-neighbor bandwidths for Toronto tracts: (a) geographically weighted regression (GWR), (b) GWRömodified, (c) locally linear (LL), (d) LL ömodified.</figDesc><graphic coords="10,74.89,27.86,536.20,321.00" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Figure 4 .</head><label>4</label><figDesc>Figure 4. Distributions of mean geographically weighted regression coefficient estimates for distance-based weighting in Toronto, for (a) b 0 , (b) b 1 , (c) b 2 .</figDesc><graphic coords="11,160.44,30.47,450.54,301.95" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Figure 5 .</head><label>5</label><figDesc>Figure 5. Distributions of standard deviations of globally weighted regression coefficient estimates for distance-based weighting in Toronto, for (a) b 0 , (b) b 1 , (c) b 2 .</figDesc><graphic coords="12,161.18,29.45,450.54,298.26" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>Figure 6 .</head><label>6</label><figDesc>Figure 6. Correlation between estimated and true coefficients in Georgia using nearest-neighbor weighting, for (a) b 0 , (b) b 1 , (c) b 2 .A simulation-based study of geographically weighted regression</figDesc><graphic coords="14,128.98,30.59,481.95,137.99" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>Figure 7 .</head><label>7</label><figDesc>Figure 7. Correlation between pairs of estimated geographically weighted regression coefficients for Toronto with nearestneighbor weighting: (a) b 0 and b 1 , (b) b 0 and b 2 , (c) b 1 and b 2 .</figDesc><graphic coords="15,173.42,27.58,439.09,160.72" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><graphic coords="6,43.43,31.15,626.00,236.86" type="bitmap" /></figure>
+		</body>
+		<back>
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"> <ref type="bibr">Pa¨ez A, Long F, Farber S, 2008</ref><p>, ``Moving window approaches for hedonic price estimation:</p><p>an empirical comparison of modeling techniques'' Urban Studies 45 1565 ^1581 Pelto C R, Elkins T A, Boyd H A, 1968, ``Automatic contouring of irregularly spaced data''</p><p>Geophysics 33 323 ^343 Wang N, Mei C L, Yan X D, 2008, ``Local linear estimation of spatially varying coefficient models: an improvement on the geographically weighted regression technique'' Environment and Planning A 40 986 ^1005 Wheeler D C, 2007, ``Diagnostic tools and a remedial method for collinearity in geographically weighted regression''</p><p>Environment and Planning A 39 2464 ^2481 Wheeler D C, 2009, ``Simultaneous coefficient penalization and model selection in geographically weighted regression: the geographically weighted lasso'' Environment and Planning A 41 722 ^742 Wheeler D C, 2010, ``Visualizing and diagnosing coefficients from geographically weighted regression'', in Geospatial Analysis and Modeling of Urban Structure and Dynamics Eds B Jiang, X Yao (Springer, New York) pp 415 ^436 Wheeler D C, Calder C A, 2007, ``An assessment of coefficient accuracy in linear regression models with spatially varying coefficients'' Journal of Geographical Systems 9(2) 145 ^166 Wheeler D C, Pa¨ez A, 2010, ``Geographically weighted regression'', in Handbook of Applied Spatial Analysis Eds M M Fischer, A Getis (Springer, Berlin) pp 461 ^486 Wheeler D, Tiefelsdorf M, 2005, ``Multicollinearity and correlation among local regression coefficients in geographically weighted regression'' Journal of Geographical Systems 7(2) 161 ^187 Wheeler D C, Waller L A, 2009, ``Comparing spatially varying coefficient models: a case study examining violent crime rates and their relationships to alcohol outlets and illegal drug arrests'' Journal of Geographical Systems 11(1) 1 ^22 ß 2011 Pion Ltd and its Licensors</p></div>			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Information theory and an extension of the maximum likelihood principle</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Akaike</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">International Symposium on Information</title>
+		<editor>
+			<persName><forename type="first">F</forename><surname>B N Petrov</surname></persName>
+		</editor>
+		<editor>
+			<persName><surname>Csaki</surname></persName>
+		</editor>
+		<meeting><address><addrLine>Budapest</addrLine></address></meeting>
+		<imprint>
+			<publisher>Akademiai Kiado</publisher>
+			<date type="published" when="1973">1973</date>
+			<biblScope unit="page">281</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Can geographically weighted regressions improve regional analysis and policy making?</title>
+		<author>
+			<persName><forename type="first">K</forename><surname>Ali</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M D</forename><surname>Partridge</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Olfert</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Regional Science Review</title>
+		<imprint>
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="page" from="300" to="329" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Geographically weighted regression: a method for exploring spatial nonstationarity</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brundsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">E</forename><surname>Charlton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">28</biblScope>
+			<biblScope unit="page" from="281" to="298" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Robust locally weighted regression and smoothing of scatterplots</title>
+		<author>
+			<persName><forename type="first">W</forename><surname>Cleveland</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">74</biblScope>
+			<biblScope unit="page" from="823" to="836" />
+			<date type="published" when="1979">1979</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Locally weighted regressionö an approach to regressionanalysis by local fitting</title>
+		<author>
+			<persName><forename type="first">Cleveland</forename><forename type="middle">W</forename></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Devlin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">83</biblScope>
+			<biblScope unit="issue">403</biblScope>
+			<biblScope unit="page">610</biblScope>
+			<date type="published" when="1988">1988</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">A systematic investigation investigation of cross-validation in GWR model estimation: empirical analysis and Monte Carlo simulations</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Farber</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Pa¨ez</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Geographical Systems</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="page" from="371" to="396" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">A comparison of localized regression models in a hedonic house price context&apos;</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Farber</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Yeates</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Canadian Journal of Regional Science</title>
+		<imprint>
+			<biblScope unit="volume">29</biblScope>
+			<biblScope unit="page">405</biblScope>
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Topology and dependency tests in spatial and network autoregressive models</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Farber</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Pa¨ez</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Volz</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">41</biblScope>
+			<biblScope unit="page">180</biblScope>
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Local forms of spatial analysis</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">31</biblScope>
+			<biblScope unit="page" from="340" to="358" />
+			<date type="published" when="1999">1999</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<monogr>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+		<title level="m">Geographically Weighted Regression: The Analysis of Spatially Varying Relationships</title>
+		<meeting><address><addrLine>Chichester, Sussex</addrLine></address></meeting>
+		<imprint>
+			<publisher>John Wiley</publisher>
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Spatial modeling with spatially varying coefficient processes</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H J</forename><surname>Kim</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">F</forename><surname>Sirmans</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Banerjee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">98</biblScope>
+			<biblScope unit="issue">462</biblScope>
+			<biblScope unit="page">396</biblScope>
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<monogr>
+		<author>
+			<persName><forename type="first">A</forename><surname>Goldberger</surname></persName>
+		</author>
+		<title level="m">A Course in Econometrics</title>
+		<meeting><address><addrLine>Cambridge, MA</addrLine></address></meeting>
+		<imprint>
+			<publisher>Harvard University Press</publisher>
+			<date type="published" when="1991">1991</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Spatial-filtering-based contributions to a critique of geographically weighted regression (GWR)&apos;&apos;</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Griffith</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environment and Planning A</title>
+		<imprint>
+			<biblScope unit="volume">40</biblScope>
+			<biblScope unit="page">2769</biblScope>
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">The use of geographically weighted regression for spatial prediction: an evaluation of models using simulated data sets</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Harris</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Crespo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Mathematical Geosciences</title>
+		<imprint>
+			<biblScope unit="volume">42</biblScope>
+			<biblScope unit="page">657</biblScope>
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Links, comparisons and extensions of the geographically weighted regression model when used as a spatial predictor</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Harris</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Fotheringham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Stochastic Environmental Research and Risk Assessment</title>
+		<imprint>
+			<biblScope unit="volume">25</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page">138</biblScope>
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Local and global approaches to spatial data analysis in ecology</title>
+		<author>
+			<persName><forename type="first">W</forename><surname>Jetz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Rahbek</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">W</forename><surname>Lichstein</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Global Ecology and Biogeography</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page">98</biblScope>
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Statistical tests for spatial nonstationarity based on the geographically weighted regression model</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Leung</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C L</forename><surname>Mei</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Zhang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environment and Planning A</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="page">32</biblScope>
+			<date type="published" when="2000">2000</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">One hundred fifty years of land values in Chicago: a nonparametric approach</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Mcmillen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">40</biblScope>
+			<biblScope unit="page" from="100" to="124" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Spatial autocorrelation or model misspecification?</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Mcmillen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Regional Science Review</title>
+		<imprint>
+			<biblScope unit="volume">26</biblScope>
+			<biblScope unit="page" from="208" to="217" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Local analysis of spatial relationships: a comparison of GWR and the expansion method</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Pa¨ez</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Lecture Notes in Computer Science</title>
+		<imprint>
+			<biblScope unit="volume">3482</biblScope>
+			<biblScope unit="page">172</biblScope>
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<monogr>
+		<title level="m" type="main">Geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Pa¨ez</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Wheeler</surname></persName>
+		</author>
+		<editor>International Encyclopedia of Human Geography Eds R Kitchin, N Thrift</editor>
+		<imprint>
+			<date type="published" when="2009">2009</date>
+			<publisher>Elsevier</publisher>
+			<pubPlace>Amsterdam</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">This article may be downloaded from the E&amp;P website for personal research by members of subscribing organisations. This PDF may not be placed on any website (or other online distribution system)</title>
+	</analytic>
+	<monogr>
+		<title level="m">Conditions of use</title>
+		<imprint/>
+	</monogr>
+	<note>without permission of the publisher</note>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

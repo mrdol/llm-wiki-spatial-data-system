@@ -1,0 +1,1226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Spatial confounding in Bayesian species distribution modeling</title>
+				<funder>
+					<orgName type="full">Jane and Aatos Erkko foundation</orgName>
+				</funder>
+				<funder>
+					<orgName type="full">Societas pro Fauna et Flora Fennica (Pekka Niittynen</orgName>
+				</funder>
+				<funder ref="#_pCvcFQH">
+					<orgName type="full">Academy of Finland</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability  status="unknown">
+					<licence/>
+				</availability>
+				<date type="published" when="2022-07-25">25 July 2022</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">Miguel</forename><surname>Araújo</surname></persName>
+						</author>
+						<author role="corresp">
+							<persName><forename type="first">Jussi</forename><surname>Mäkinen</surname></persName>
+							<email>jussi.makinen@yale.edu</email>
+						</author>
+						<author>
+							<persName><forename type="first">Elina</forename><surname>Numminen</surname></persName>
+						</author>
+						<author>
+							<persName><forename type="first">Pekka</forename><surname>Niittynen</surname></persName>
+						</author>
+						<author>
+							<persName><forename type="first">Miska</forename><surname>Luoto</surname></persName>
+						</author>
+						<author>
+							<persName><forename type="first">Jarno</forename><surname>Vanhatalo</surname></persName>
+						</author>
+						<author>
+							<affiliation key="aff0">
+								<orgName type="department">Faculty of Biological and Environmental Sciences</orgName>
+								<orgName type="laboratory">Research Centre for Ecological Change, Organismal and Evolutionary Biology Research Programme</orgName>
+								<orgName type="institution">Univ. of Helsinki</orgName>
+								<address>
+									<settlement>Helsinki</settlement>
+									<country key="FI">Finland</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<affiliation key="aff1">
+								<orgName type="department">Dept of Ecology and Evolutionary Biology</orgName>
+								<orgName type="institution">Yale Univ</orgName>
+								<address>
+									<settlement>New Haven</settlement>
+									<region>CT</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<affiliation key="aff2">
+								<orgName type="department" key="dep1">-E. Numminen and JV</orgName>
+								<orgName type="department" key="dep2">Dept of Mathematics and Statistics</orgName>
+								<orgName type="department" key="dep3">Faculty of Science</orgName>
+								<orgName type="institution">Univ. of Helsinki</orgName>
+								<address>
+									<settlement>Helsinki</settlement>
+									<country key="FI">Finland</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<affiliation key="aff3">
+								<orgName type="department">-P. Niittynen (https://orcid.org</orgName>
+								<address>
+									<postCode>0000-0002-7290-029X</postCode>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<affiliation key="aff4">
+								<orgName type="department" key="dep1">Dept of Geosciences and Geography</orgName>
+								<orgName type="department" key="dep2">Faculty of Science</orgName>
+								<orgName type="institution">Univ. of Helsinki</orgName>
+								<address>
+									<settlement>Helsinki</settlement>
+									<country key="FI">Finland</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Spatial confounding in Bayesian species distribution modeling</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2022-07-25">25 July 2022</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">7DF8F7FBBA89B38179F0B179EF736E62</idno>
+					<idno type="DOI">10.1111/ecog.06183</idno>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-29T10:21+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>estimation bias</term>
+					<term>Gaussian process</term>
+					<term>spatial confounding</term>
+					<term>spatial random effect</term>
+					<term>species distribution model</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>2022: e06183</head><p>1) Species distribution models (SDMs) are currently the main tools to derive species niche estimates and spatially explicit predictions for species geographical distribution. However, unobserved environmental conditions and ecological processes may confound the model estimates if they have direct impact on the species and, at the same time, they are correlated with the observed environmental covariates. This, so-called spatial confounding, is a general property of spatial models and it has not been studied in the context of SDMs before.</p><p>2) We examine how the estimation accuracy of SDMs depends on the type of spatial confounding. We construct two simulation studies where we alter spatial structures of the observed and unobserved covariates and the level of dependence between them. We fit generalized linear models with and without spatial random effects applying Bayesian inference and recording the bias induced to model estimates by spatial confounding. After this we examine spatial confounding also with real vegetation data from northern Norway.</p><p>3) Our results show that model estimates for coarse scale covariates, such as climate covariates, are likely to be biased if a species distribution depends also on an unobserved covariate operating on a finer spatial scale. Pushing higher probability for a relatively weak and smoothly varying spatial random effect compared to the observed covariates improved the model's estimation accuracy. The improvement was independent of the actual spatial structure of the unobserved covariate.</p><p>4) Our study addresses the major factors of spatial confounding in SDMs and provides a list of recommendations for pre-inference assessment of spatial confounding and for inference-based methods to decrease the chance of biased model estimates.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Introduction</head><p>Species distribution models (SDMs) are popular tools in ecology to study the spatial and temporal distributions of species populations, and the impact of environmental variables on species occurrence probability <ref type="bibr" target="#b8">(Elith and</ref><ref type="bibr">Leathwick 2009, Franklin 2010)</ref>. However, species distributions may depend also on unobserved covariates, such as unmeasured environmental conditions, or ecological processes such as interspecific interactions <ref type="bibr" target="#b58">(Wisz et al. 2013)</ref>, dispersal <ref type="bibr" target="#b45">(Shurin et al. 2009</ref>) or population dynamics <ref type="bibr" target="#b35">(Mielke et al. 2020)</ref>. Owing to their impacts on species distribution, traditional 'covariates-only' models may be subject to spatially autocorrelated residual errors which create overly optimistic uncertainty estimates for the covariate effects <ref type="bibr" target="#b27">(Legendre 1993)</ref>. Moreover, a physical or an ecological dependence, or a dependence through sampling design, between the observed and unobserved covariates may confound the estimation of covariate effects in an SDM <ref type="bibr">(Feng et al. 2019b)</ref>. We can speculate that, in such a case, the estimated covariate effects reflect the realized distribution and habitat of a species, and do not inform about the pure physical constraints of the environment on the species population <ref type="bibr" target="#b46">(Soberón and Nakamura 2009)</ref>.</p><p>A popular and well-documented solution to explain variation in species occurrence pattern originating from an unobserved covariate is to include a spatial random effect into an SDM, applied for example by Ver <ref type="bibr" target="#b56">Hoef et al. (2018)</ref> and <ref type="bibr" target="#b48">Soriano-Redondo et al. (2019)</ref>. Here, we refer to such models as spatially explicit SDMs (see Supporting information for a more thorough description of the inference with a spatial random effect). Previous studies have shown that a spatial random effect successfully explains the residual spatial autocorrelation in the model and returns higher and more realistic variance estimates for the covariate effects <ref type="bibr" target="#b27">(Legendre 1993</ref>) and predictions <ref type="bibr" target="#b14">(Guélat and Kéry 2018)</ref>. However, there are also results showing that including a spatial random effect in a model does not necessarily account for the effect of the unobserved covariate, and may even affect the estimates of the covariate effects in a counterintuitive manner <ref type="bibr" target="#b19">(Hodges and Reich 2010)</ref>. Generally, in a spatially explicit SDM, the covariate effect estimate depends on the associations between the covariate and the response variable, and between the observed and unobserved covariates <ref type="bibr" target="#b40">(Paciorek 2010)</ref>. Moreover, correlation between the supposedly independent model components (covariates and a spatial random effect) may increase bias in covariate effect estimates, which is generally referred to as spatial confounding and has been found in many study settings <ref type="bibr" target="#b6">(Diniz-Filho et al. 2003</ref><ref type="bibr" target="#b19">, Hodges and Reich 2010</ref><ref type="bibr" target="#b15">, Hanks et al. 2015)</ref>. Spatial smoothness (i.e. large spatial autocorrelation range) of a covariate tends to increase the correlation between a covariate and a spatial random effect increasing the risk of spatial confounding <ref type="bibr" target="#b40">(Paciorek 2010)</ref>. Thus, including a spatial random effect in a model can bias the estimate for the covariate effect <ref type="bibr" target="#b42">(Reich et al. 2006)</ref>. In SDM applications, there are contradictory results about how spatial autocorrelation ranges impact the estimation accuracy of a spatially explicit model: some results support the dependence of estimation accuracy on the spatial autocorrelation range of the covariate <ref type="bibr" target="#b30">(Lichstein et al. 2002</ref><ref type="bibr" target="#b16">, Hawkins et al. 2007</ref>) and others oppose that <ref type="bibr" target="#b25">(Kissling and Carl 2008</ref><ref type="bibr" target="#b2">, Betts et al. 2009</ref><ref type="bibr" target="#b3">, Bini et al. 2009)</ref>.</p><p>Here, we formulate SDMs as generalized linear models with and without spatial random effects, and study their estimation and prediction accuracy with respect to two key aspects of the studied phenomenon: 1) the amount of correlation between an observed and an unobserved covariate, and 2) the spatial autocorrelation ranges of the covariates. These issues have already been studied in the context of general spatial models <ref type="bibr" target="#b57">(Wakefield 2007</ref>) and maximum likelihood inference <ref type="bibr" target="#b19">(Hodges and</ref><ref type="bibr">Reich 2010, Paciorek 2010)</ref>. The novelty of this work is that we combine and extend the earlier results <ref type="bibr" target="#b3">(Bini et al. 2009</ref><ref type="bibr" target="#b19">, Hodges and Reich 2010</ref><ref type="bibr" target="#b40">, Paciorek 2010)</ref> with the general theory of species distribution modeling <ref type="bibr" target="#b1">(Austin 2007</ref><ref type="bibr" target="#b12">, Franklin 2010)</ref> and study the phenomenon from a Bayesian inference point of view <ref type="bibr" target="#b4">(Clark 2004)</ref>. Taking the Bayesian standpoint naturally raises the question: how prior distributions for the hyperparameters of the spatial random effect (magnitude of variation and spatial autocorrelation range) affect the results <ref type="bibr" target="#b47">(Soerbye et al. 2019)</ref>. A typical choice is to prioritize low magnitude of variation of the spatial random effect compared to the covariate effect <ref type="bibr" target="#b22">(Kallasvuo et al. 2017</ref><ref type="bibr" target="#b13">, Fuglstad et al. 2018</ref><ref type="bibr" target="#b33">, Mäkinen and Vanhatalo 2018)</ref> and use an informative <ref type="bibr" target="#b22">(Kallasvuo et al. 2017</ref><ref type="bibr" target="#b13">, Fuglstad et al. 2018</ref><ref type="bibr" target="#b33">, Mäkinen and Vanhatalo 2018</ref><ref type="bibr" target="#b47">, Soerbye et al. 2019</ref><ref type="bibr" target="#b48">, Soriano-Redondo et al. 2019)</ref> or a uniform <ref type="bibr" target="#b50">(Tikhonov et al. 2020)</ref> prior distribution for spatial autocorrelation range relative to the size of the study area. To our knowledge, there are no previous studies about comparing different priors in spatially explicit SDMs. Hence, we tested different informative priors on the variance and range parameter in experiments with both simulated and empirical data.</p><p>Our final aim is to provide suggestions on how to design a spatial study setting for an SDM and prioritize different components of the model to improve the accuracy of model estimation and spatial predictions. We do this with simulated species presence-absence data, where we vary the spatial autocorrelation ranges and cross-dependencies of the observed and unobserved covariates. We conduct the same analysis with an empirical presence-absence data set, and test how omitting a covariate from a model affects the estimates for other covariate effects. We focus on analyzing presenceabsence data and studying a species distribution through the species' presence probability.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Material and methods</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Data</head><p>This section reviews the method for simulating species data and presents the empirical species data.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Simulated data</head><p>We conducted two simulation studies for spatial confounding: first studying bias of the estimator of the covariate effect, and second studying absolute deviation of the estimators from the true values for two covariate effects. We conducted both simulation studies in a rectangular region of size (0,1) × (0,1) into which we generated species occurrence data with alternative spatial confounding scenarios. We divided the region into a grid of 50 × 50 cells and, for each set of simulated data, we first generated two spatially structured covariates in the grid cells: an observed one denoted with x(s) and an unobserved one denoted with z(s) (Fig. <ref type="figure" target="#fig_0">1</ref>). Conditional on x(s) and z(s), we constructed a latent field f(x(s),s) over the grid cells. In the first simulation study f(x(s),s) = β 1 x(s) + β 2 z(s), and in the second simulation study f(x(s),s) = β 1 x(s) + β 2 x(s) 2 + β 3 z(s) + β 4 z (s) 2 . Finally, we randomly chose n = 200 grid cells at which we simulated species' occurrences, denoted by y(s), by sampling from y(s) ~ Bernoulli (π(f(x(s),s))) and saving the values of s i , y i = y(s i ) and x i = x(s i ) for i = 1, …, n. A probit-link function was used for π and the effects β 1 , β 2 , β 3 , β 4 were set to one. The purpose of having two simulations is to empirically compare the estimation accuracy in models that have linear and non-linear responses to a covariate and link the simulation to the empirical study, where the non-linear responses are ecologically reasoned and an essential part of the inference.</p><p>We used Gaussian processes with Matérn 3/2 type covariance function to simulate smooth realizations of x(s) and z(s) (presented in the 'Species distribution modeling' section for the inference model). With different parameterizations of the covariance function, we controlled the expected spatial autocorrelation range for x(s) and z(s). We refer to this parameter as length-scale parameter, and higher values of it create higher spatial correlations and more smoothly varying fields, for example mimicking mesoclimatic covariates, while low values of this parameter yield locally varying and on average less correlated covariates (see Supporting information for more detailed definition of the method). Methods to simulate variables and later infer these variables rely on the same parameterization of a latent Gaussian process.</p><p>By smoothing and appropriately weighting the same white noise when generating both x(s) and z(s), we were able to create data with potential for spatial confounding and mimic a situation in which the observed and unobserved covariates have a common driver. Different weights for the common white noise generated different levels of dependency between the two fields. We narrowed down the possibilities of different scenarios and created only positive dependence between fields that realized as positively correlated samples of x(s) and z(s) on average. For each realization, we computed the sample correlation between x and z and the spatial autocorrelation ranges in x and z. The latter was defined as the length-scale of Gaussian process regression models fitted to the observed values of x and z (see Supporting information for details; Gaussian process is introduced in 'Species distribution modeling' section). We defined four categories for the realized correlation [0.0-0.2; 0.2-0.4; 0.4-0.6; 0.6-0.8] and five categories for the estimates of length-scale parameters [0.0-0.2; 0.2-0.4; 0.4-0.6; 0.6-0.8; 0.8-1.0]. Examples of covariates with different length-scale parameter estimates are shown in Fig. <ref type="figure" target="#fig_0">1</ref> (panel b). We sampled 50 realizations of simulated data from each of the 100 different combinations of the spatial autocorrelation ranges of the covariates and the correlation between the covariates.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Empirical data</head><p>We conducted the real data experiment on 85 vascular plant species distributions in northern Norway (70°0′N, 26°14′E) (species list in Supporting information). The study area is located around two mountain massifs, which create strong elevation and climate gradients (120-1064 m a.s.l.), where vegetation consists of Arctic, alpine and boreal species <ref type="bibr" target="#b37">(Niittynen and Luoto 2018)</ref>. The full data set consists of 1325 vegetation plots (1 × 1 m) with recorded occurrence of all vascular plant species. The study area covers 195 km 2 , where the minimum distance between plots is 19 m and the maximum distance is 18 900 m (Fig. <ref type="figure" target="#fig_1">2</ref>). We derived six covariates describing habitat characteristics from remotely sensed data (snow cover duration, surface deposit quality), and spatial statistical models (growing degree days, potential incoming radiation, slope and topographic wetness index). Surface deposit quality is a categorical covariate and other covariates are continuous. Spatial resolution of the original environmental covariate layers varies between 2 and 30 m. The data are presented more thoroughly by <ref type="bibr" target="#b37">Niittynen and Luoto (2018)</ref> and <ref type="bibr" target="#b38">Niittynen et al. (2020)</ref>.</p><p>For each species, we constructed six data sets that differed in their covariate composition. The first data set contained all the covariates and from the remaining five data sets we dropped in turn one of the continuous covariates. The first data set plays the role of reference data where all covariates are present whereas the six other data sets correspond to data sets from which a potentially important covariate is missing. We estimated the relationship between the omitted and retained covariates through their spatial autocorrelation ranges and mutual correlations, which were estimated separately prior the fitting of SDMs (see more thorough description of the method in Supporting information). Thus, we were able to compare how the covariate effect estimates behave with respect to the spatial autocorrelation ranges and cross-correlations of the observed and unobserved covariates. Spatial coordinates were scaled so that they are comparable to the spatial coordinates in the simulation data.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Species distribution modeling</head><p>In the analysis of simulated and empirical data sets, we formalized spatially explicit SDMs under a hierarchical Bayesian modeling framework, where the hierarchical model for species observations y(s) at location s is (Eq. 1):</p><formula xml:id="formula_0">y s y s f x s s f x s s x s g s ( )<label>( ) ( ) ( ) ( ) ( ) ( )</label></formula><formula xml:id="formula_1">( ) = + ( ) + ( ) ~p a b Bernoulli | , ,<label>(1)</label></formula><p>where y(s) is modeled conditionally on a latent function, f(x(s),s). The latent function was squeezed to vary between zero and one to represent the species presence probability with a probit-link function (π). The latent function in (Eq. 1)</p><p>depends on the environmental covariates x(s) and the spatial random effect, denoted by g(s) <ref type="bibr" target="#b5">(Cressie and Wikle 2015)</ref>. The parameter α is a model intercept that captures the average presence probability over the observations and β is a vector of linear weights for spatially varying covariates x(s). In the first simulation study, x(s) consisted of the simulated covariate. In the second simulation and empirical study, we used both (standardized) covariates and their squares, since previous studies have provided evidence for non-linear covariate effects on the species in the vegetation data <ref type="bibr" target="#b37">(Niittynen and Luoto 2018)</ref>. The model (Eq. 1) is a basic building block in most of the state-of-the-art single and joint species distribution models that are used for predictive analyses <ref type="bibr" target="#b39">(Ovaskainen et al. 2015</ref><ref type="bibr" target="#b49">, Thorson et al. 2015</ref><ref type="bibr" target="#b53">, Vanhatalo et al. 2020)</ref>. In these applications, the spatial random effect g(s) models explicitly spatial autocorrelation in residual error and explains the effects of those processes that were not captured with the covariate data <ref type="bibr" target="#b39">(Ovaskainen et al. 2015)</ref>. The model structure is applicable to different data types used for fitting SDMs, such as presence-only data with a point process observation model, or abundance data with a log-normal observation model. It also corresponds to many of the statistical models used in large SDM model comparisons <ref type="bibr" target="#b51">(Valavi et al. 2021)</ref>.</p><p>We modeled the spatial autocorrelation with a Matérn covariance function with 3/2 degrees of freedom, such that Cov[g(s), g(s′</p><formula xml:id="formula_2">)] = σ 2 k(s - s′/l) = s 2 1 1 3 3 ( ) ( ) ( / ) exp ( / ) + ¢ - ¢ - - s s l</formula><p>s s l where σ 2 is a variance parameter, k(•) gives the correlation as a function of Euclidean distance ||•|| and l is a length-scale parameter governing the spatial autocorrelation range (a third of the distance at which the autocovariance has dropped to 5% of its maximum) of the spatial random effect. The Matérn covariance function is presented in more detail by <ref type="bibr" target="#b36">Minasny and McBratney (2005)</ref>.</p><p>The inference of a spatially explicit SDM in a hierarchical Bayesian framework is steered with the prior distributions of the parameters. Without a strong prior belief, we assigned α and β (in Eq. 1) priors with a zero mean Gaussian distribution and high variance (σ 2 = 10). These are generally considered as valid priors which allow the response to vary from strongly negative to strongly positive <ref type="bibr" target="#b29">(Lemoine 2019)</ref>. For the length-scale parameter we tested priors that prefer either large or small autocorrelation ranges relative to the size of the study region. For the variance parameter, we tested priors that prefer either high or low variance relative to anticipated covariate effects. We were able to apply these priors for simulated and empirical data sets, since covariates and coordinates were standardized on the same scales in both data sets.</p><p>We tested different default prior settings for length-scale and variance used in common ecologically oriented statistical softwares, such as HMSC <ref type="bibr" target="#b50">(Tikhonov et al. 2020</ref>) and SPBayes <ref type="bibr" target="#b11">(Finley et al. 2007)</ref>. We compared them with manually configured priors, which represent a higher level of prior belief about the characteristics of a spatial random effect. The uniform prior for length-scale in HMSC and SPBayes was approximated with an uninformative log-Normal distribution. The priors, along with their ecological interpretation, are shown in Table <ref type="table" target="#tab_0">1</ref>.</p><p>For both the simulated and empirical data sets, we conducted the inference for covariance function parameters of the spatial random effect with Markov Chain Monte Carlo (MCMC) sampling. We took first the Maximum A Posteriori estimate with Laplace approximation <ref type="bibr" target="#b52">(Vanhatalo et al. 2010)</ref> and used the point estimate as the initial value for MCMC sampling. We took 600 samples of which we discarded first 100 samples and treated the last 500 as posterior distribution. We checked that samples converged by computing potential scale reduction factor (PSRF) and kept only models that had PSRF less than 1.1. All models in simulation and empirical tests passed the evaluation. Model estimation and evaluation, and sampling evaluation, were conducted with GPstuff toolbox <ref type="bibr" target="#b54">(Vanhatalo et al. 2013</ref>) (the development branch from &lt;https<ref type="url" target="://github.com/gpstuff-dev/gpstuff&gt;">://github.com/gpstuff-dev/gpstuff&gt;</ref>) in <ref type="bibr">Matlab (2018b)</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Estimation and prediction accuracy</head><p>In the first simulation study, we compared models with respect to the bias of the posterior mean for the covariate effect and the average posterior variance of the covariate effect over the simulated data sets. We defined bias as the expected difference of the posterior mean ( b ) and the true data generating value (β true ), Bias( ) true b b b = -E[ ] ˆ, where the expectation is taken as an average over the 50 realizations of each simulation scenario. The average posterior variance of the estimate was defined as E <ref type="bibr">[Var[β|Data]</ref>] where Data denotes a simulated data set and the expectation is again taken over simulations.</p><p>In the second simulation study, we compared models with respect to the expected absolute deviation of the estimated first and second order effects from the true covariate effect values so that Deviation( )</p><formula xml:id="formula_3">true true ˆ, [ [[ , ] ]] b b b b b b b b = å E 2 ,</formula><p>where b b is a vector containing the estimated first and second order effects and β true is a vector containing the true values. Expected deviation is calculated over the 50 realizations of each simulation scenario. The deviation informs only about absolute accuracy of model estimates and not about the sign (positive or negative) of the shift in estimates compared to the true values.</p><p>For empirical data sets, we did not have a data-generating value to which we would have been able to compare the estimated covariate effects. Hence, we fitted the covariate-only and the five spatially explicit models to all 6 × 85 empirical data sets described in the 'Empirical data' section. For each of the 85 species, we treated the covariate-only model conditional on all six covariates as the 'true' model, after which we compared it to the six missing covariate models. The omitted Spatial range is small and variation high.</p><p>Prior 3 log -N(-0.5,0.1) 95% CI = [0.45,0.8] log -N(-1.5,0.4) 95% CI = [0.1,0.5] Spatial range is large and variation low.</p><p>Prior 4 log -N(-0.5,0.1) 95% CI = [0.45,0.8] log -N (0.3,0.2) 95% CI = [1,2] Spatial range is large and variation high.</p><p>Prior 5 (HMSC/SPBayes) log -N(0.80,0.76) 95% CI =[0.5,10] Gamma(1,0.3) 95% CI = [0.01,1.12] Spatial range varies from small to large and variation alternates from low to high.</p><p>covariate in empirical data sets corresponds to the unobserved covariate in the simulated data set, creating analogy between the simulated and empirical tests.</p><p>For the full analysis, we chose only the species whose distributions we were able to explain with the environmental covariates and which did not have strong spatial autocorrelation. We computed the proportion of the variation explained by a spatial random effect when all covariates were included in the model and chose the species with less than 10% of the variation explained by a spatial random effect (in total, 42 out of 85 species). We used prior 1 from Table <ref type="table" target="#tab_0">1</ref> as the spatial model to measure spatial autocorrelation. To compare the true model to the missing covariate models, we used the deviation of the estimated covariate effects, as we did for the second simulation study.</p><p>In the simulation tests, we validated models with respect to their predictive accuracy in spatial interpolation and extrapolation. For spatial interpolation, we randomly chose 200 locations from the study grid. For spatial extrapolation, we simulated a test data set and placed it geographically far from the training data set so that the spatial random effect cannot impact the mean of the predictive distribution. We used the log posterior predictive density <ref type="bibr" target="#b55">(Vehtari and Ojanen 2012)</ref> and Tjur-R 2 as the measures of predictive accuracy. The log posterior predictive density measures the goodness of the predictive probability density as a whole whereas Tjur-R 2 measures the discriminatory ability of the prediction.</p><p>To summarize, we tested estimation accuracy (bias and deviation) and precision (variance) with respect to dependence between observed and unobserved covariates, and spatial autocorrelation ranges of the observed and unobserved covariates, as well as prior specifications for the spatial random effect parameters in the inference model.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Results</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Simulated data</head><p>Estimates of the covariate-only model were negatively biased when there was low correlation between x and z (less than 0.2), regardless of the spatial autocorrelation ranges of x and z (Fig. <ref type="figure" target="#fig_2">3</ref>: panel (a)); whereas they were unbiased in most cases when there was moderate correlation (0.2-0.4) between x and z, and positively correlated when there was significant correlation (over 0.4) between x and z. In the covariate-only model, bias varied only little with respect to the spatial autocorrelation ranges of x and z.</p><p>In spatially explicit models, unbiased covariate effect estimates were obtained only when the correlation between x and z was low (0-0.2) or moderate (0.2-0.4). However, also in those cases, the estimates were unbiased only for certain combinations of spatial autocorrelation ranges of z and priors for the covariance function parameters (Fig. <ref type="figure" target="#fig_2">3</ref>). When correlation between x and z was low (&lt; 0.2), the bias in spatially explicit models was consistently smaller than in the covariate-only model. When the correlation between x and z was greater than 0.4, the spatially explicit models returned covariate effect estimates that were positively biased, and bias was larger in the spatially explicit than in the covariateonly model in these cases. Moreover, the bias in spatially explicit models was systematically larger when x had a larger spatial autocorrelation range than z compared (cells below the diagonal in Fig. <ref type="figure" target="#fig_2">3</ref>) to the simulations where x had a smaller spatial autocorrelation range than z (cells above the diagonal in Fig. <ref type="figure" target="#fig_2">3</ref>).</p><p>Comparisons of different prior specifications for the spatially explicit model showed that the bias was the smaller the more the prior reduced the variance of the spatial covariance function towards zero (Fig. <ref type="figure" target="#fig_2">3</ref>: compare panels n, p and r to panels o and q). This difference was most evident in cases where x had a larger spatial autocorrelation range than z (Fig. <ref type="figure" target="#fig_2">3</ref>: in each panel cells below the diagonal). Comparisons with respect to the prior for the length-scale showed that priors favoring long length-scale had lower bias than priors favoring short length-scale (when comparing between priors 1 and 3 and between priors 2 and 4). Uniform prior for length-scale ranked between the priors 1 and 3. The differences were small and independent of the spatial autocorrelation ranges of x and z.</p><p>Variance of covariate effect estimates over simulations behaved qualitatively similarly to the bias of covariate effect estimates (Supporting information). In general, variance was higher when x had a larger spatial autocorrelation range than z and when the prior preferred high variance of the spatial random effect.</p><p>In the second simulation study, deviation followed a similar pattern with respect to the spatial autocorrelation ranges and cross-correlation of x and z as in the first simulation study. Results from the second simulation were similar to those from the first, with respect to having a spatial random effect in the model or not, and with respect to different prior choices (Fig. <ref type="figure" target="#fig_3">4</ref>). When there was strong correlation between the covariates, the deviation was less associated with the spatial autocorrelation range of the unobserved covariate and more associated with the spatial autocorrelation range of the observed covariate.</p><p>Spatially explicit models performed better in spatial interpolation with respect to log-predictive density and Tjur-R 2 in both simulation studies (Supporting information). Priors for long length-scale and small variance (prior 3) improved spatial interpolation compared to other prior settings. In spatial extrapolation, all models except the spatially explicit model with uninformative prior for length-scale and prior preference for small variance (prior 5) performed equally well (Supporting information). Prior 5 had slightly lower log-predictive density than other models across different scenarios of cross-dependence and spatial autocorrelation ranges of x and z.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Empirical data</head><p>We focused on the scenarios where Saga wetness index (SWI), snow cover duration (SCD) or growing degree days (GDD) was omitted from a model (Fig. <ref type="figure" target="#fig_4">5</ref>). Estimated deviation was strong for SCD and GDD when omitting either of them, which is due to their high cross-dependence. GDD and SCD were the most correlated pair of covariates followed by SWI and slope (see panel d in Fig. <ref type="figure" target="#fig_4">5</ref>). Omitting SWI created the strongest estimate deviation for slope (see panel a in Fig. <ref type="figure" target="#fig_4">5</ref>) which was likely due to a high correlation between them. Generally, the dependence between the omitted and observed covariates impacted the estimate deviation more strongly than the difference in their spatial autocorrelation ranges.</p><p>The estimated deviations were equally large in the covariate-only and spatially explicit models. This was slightly contrary to the simulations, where spatially explicit models returned higher bias and estimate deviations if observed and unobserved covariates were correlated. The impact of priors on model estimation was in line with simulation results. In particular, when SWI was omitted from a model, a uniform prior for length-scale and a prior preferring high variance returned higher estimate deviation for slope, SCD and GDD (see panel (a) in Fig. <ref type="figure" target="#fig_4">5</ref>).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Discussion</head><p>The ecological interpretation of SDMs relies on an accurate estimation of the covariate effects. Despite high predictive performance, spatially explicit SDMs have had issues with unintuitive model estimates <ref type="bibr" target="#b25">(Kissling and Carl 2008</ref><ref type="bibr" target="#b3">, Bini et al. 2009</ref><ref type="bibr" target="#b26">, Lany et al. 2019</ref><ref type="bibr" target="#b43">, Renner et al. 2019</ref><ref type="bibr" target="#b24">, Kim 2021)</ref>. Our results showed that, given independent observed and unobserved covariates, the covariate-only model had negatively biased estimates (Fig. <ref type="figure" target="#fig_2">3</ref>: panels (a)-(b)). The likely reason for this is that the unobserved covariate created overdispersion around the response along the observed covariate  <ref type="table" target="#tab_0">1</ref> for a description of the priors). Each plot corresponds to a specific category of correlation between an observed covariate (x) and an unobserved covariate (z). Each cell in a plot corresponds to a particular combination of spatial autocorrelation ranges of x and z, measured as the estimate of the length-scale parameter in a spatial Gaussian process regression model. The dashed line around cells in the diagonal of each plot shows the cases where x and z have equal spatial autocorrelation ranges. but the model was not able to account for this appropriately. Because the variance in the Bernoulli model (Eq. 1) attains its maximum at π = 1/2 and it decreases to zero when π = 0 and π = 1, the covariate-only model was able to explain the over-dispersed species observations best by pulling species presence probability towards π = 1/2 throughout the study region. This effectively means that the model must underestimate the strength of the response along the observed covariate. A spatial random effect alleviated the over-dispersion caused by the unobserved covariate and improved the estimation accuracy when correlation between x and z was low (Fig. <ref type="figure" target="#fig_2">3</ref> and <ref type="figure" target="#fig_3">4</ref>).</p><p>The dependence between the observed and unobserved covariates exposed both covariate-only and spatially explicit models to positive bias and higher deviation. Since the estimate for the covariate effect accounted for the effect of the unobserved covariate, which positively correlates with the observed covariate, this was reasonable. For SDMs, this setting is analogous to confounding the covariate effects by a species interacting with the focal species <ref type="bibr" target="#b17">(Heikkinen et al. 2007)</ref> or by having an unobserved environmental process, like snow cover <ref type="bibr" target="#b37">(Niittynen and Luoto 2018)</ref> or topography <ref type="bibr" target="#b31">(Luoto and Heikkinen 2008)</ref>. Given that there is a strong dependence between the covariates (correlation over 0.4), a covariate-only model had lower levels of bias and deviation than a spatially explicit model. A likely explanation for this is that the over-dispersion caused by independent variation in z compensated for the positive bias induced by the correlation between z and x. The over-dispersion issue is specific to Bernoulli distributed data and, to our knowledge, has not been well addressed for spatially explicit SDMs (but see <ref type="bibr" target="#b7">Dupont et al. 2021)</ref>.</p><p>Estimates of a spatially explicit model were more biased and had higher deviation when the observed covariate had a larger spatial autocorrelation range than the unobserved covariate (Fig. <ref type="figure" target="#fig_3">4</ref> and 5: lower triangular), as found also by <ref type="bibr" target="#b40">Paciorek (2010)</ref> in the context of linear models. This happens because, by default, a spatial random effect avoids overfitting the data and pushes the estimate of the length-scale parameter to higher values <ref type="bibr" target="#b19">(Hodges and Reich 2010)</ref>. If z had a relatively large spatial autocorrelation range, a spatial random effect more likely correctly captured its variation, and therefore more likely also explained the shared variation between x and z. This alleviated spatial confounding compared to the opposite case, where z had a relatively small spatial autocorrelation range and a spatial random effect was unable to capture its structure. These results guide modelers in assessing the sensitivity of covariate effect estimates based on the spatial autocorrelation range of the covariates, which can be estimated prior to model fitting. Covariates that have large spatial autocorrelation range, like climatic covariates, may expose spatially explicit SDMs to biased covariate effect estimates, since the effects of unobserved covariates operating at a fine spatial scale are difficult to capture with a spatial random effect. Here our simulation studies tested estimation accuracy only when correlation between observed and unobserved covariates was positive. However, we can expect that creating negative correlation between unobserved and observed covariates flips bias to be negative, and does not reduce the estimate bias towards zero. Our study shows that, in the presence of dependence between the observed and unobserved covariates, informative priors improve the covariate effect estimates. This supports their use against uniform priors, as suggested by <ref type="bibr" target="#b23">Keil et al. (2014)</ref> and <ref type="bibr" target="#b29">Lemoine (2019)</ref>, but especially for spatial random effects as suggested by <ref type="bibr" target="#b47">Soerbye et al. (2019)</ref>. We also found support for how to formulate informative priors. In the simulation case, increasing the variance of a spatial random effect improved the fit of the spatial random effect on the unobserved covariate. Thus, counterintuitively, higher variance of a spatial random effect decreased the impact of over-dispersion caused by the unobserved covariate and strengthened the biasing effect of the unobserved covariate. Preferring long length-scale improved estimation accuracy despite the unobserved covariate having a short spatial autocorrelation range (cells below diagonal in plots in Fig. <ref type="figure" target="#fig_2">3</ref> and <ref type="figure" target="#fig_3">4</ref>). In the case of preferring low variance, pushing more prior probability to a long length-scale increased overdispersion, which corrected for the bias that originated from correlation between x and z. Optimal prior choice for magnitude of variance and length-scale parameters may conflict with our prior belief about the unobserved covariate due to the inability of the model to account for the correlation between covariates and a spatial random effect, or due to biased prior beliefs. Based on the simulation and empirical tests, in cases where the unobserved covariate impacted the focal species equally much or less than the observed covariates, we recommend prioritizing low variance of a spatial random effect.</p><p>We base this recommendation also on the estimate's uncertainty, which increased to become overly high when prioritizing high variance. A preferable prior pushes probability density of variance parameter towards zero so that 95% of the probability mass is, for example, below 0.5. This can be generalized to different study settings and models, where continuous covariates are standardized to have mean zero and standard deviation one. For the length-scale parameter, we suggest formalizing prior candidates that support different length-scales compared to the spatial autocorrelation ranges of the observed covariates. Fitting a model with prior candidates gives an idea about the sensitivity of the model to the prior choice and about the possible conflicts between a spatial random effect and covariates. The main reason for spatial confounding is that the spatially explicit SDMs do not explicitly model the correlation between covariates and the spatial random effect. To partially get around this issue, previous studies have restricted a spatial random effect by orthogonalizing it to covariates <ref type="bibr" target="#b20">(Hughes and Haran 2013</ref><ref type="bibr" target="#b21">, Johnson et al. 2013</ref><ref type="bibr" target="#b15">, Hanks et al. 2015)</ref> and some have proposed models to explicitly model this correlation <ref type="bibr" target="#b41">(Page et al. 2017</ref><ref type="bibr" target="#b7">, Dupont et al. 2021)</ref>. The former approach increases posterior variance of the covariate effects appropriately but it does not remove the bias in the estimates <ref type="bibr" target="#b15">(Hanks et al. 2015)</ref>, since the covariate effect estimates from such a model correspond to covariate-only model estimates, which may be biased as well <ref type="bibr" target="#b21">(Johnson et al. 2013</ref><ref type="bibr" target="#b15">, Hanks et al. 2015)</ref>. Our approach conducts the restriction through the priors of the parameters of the spatial random effect and does not restrict the posterior of the spatial random effect. Along with informative priors, we consider the approach of explicitly modeling the correlation between the covariates and the spatial random effect as a more reasonable way forward in building spatially explicit SDMs.</p><p>When interpreting results, we need to keep in mind that the method for simulating data was relatively simple compared to how real species distributions are formed. In real species data, there are multiple unobserved spatially structured covariates, whose effects on focal species may be impossible to capture with a single spatial random effect, and there are different levels of cross-dependencies between the covariates. Thus, the impacts of spatial autocorrelation ranges of covariates and prior settings on model estimates were not fully identical between the tests on simulated and empirical data. Despite these uncertainties, both tests were consistent in their main conclusions about spatial confounding, which allowed us to give recommendations for future studies.</p><p>Based on this study, we suggest analyzing the spatial structures of the covariates before running SDMs (noted also by <ref type="bibr" target="#b24">Kim (2021)</ref>). A pre-model analysis of covariates and their spatial autocorrelation ranges allows us to formulate reasonable prior candidates for the length-scale parameter and gives prior insight into which covariates are the most susceptible to produce confounded estimates. Such spatial analysis would extend the recently published suggestions on which features and processes should be considered in building SDMs <ref type="bibr" target="#b0">(Araújo et al. 2019</ref><ref type="bibr">, Feng et al. 2019a)</ref>. Furthermore, our study shows yet undiscovered benefits from including microhabitat, like microclimate variables in the model. Replacing mesoclimate variables with downscaled microclimate variables incorporates more detailed information about the environment <ref type="bibr" target="#b28">(Lembrechts et al. 2019</ref>) but, based on our results, we expect that decreasing the spatial autocorrelation range of the climate variable through downscaling also improves the estimation accuracy as there is less conflict with a spatial random effect.</p><p>Our study showed that improperly formulated priors for a spatial random effect may decrease the predictive accuracy. Despite more biased estimates of spatially explicit models (priors 1-3) compared to covariate-only models, all models still had equally good predictive accuracy. This was likely due to more appropriate uncertainty estimation of spatially explicit models compared to covariate-only models. This shows that proper uncertainty estimation plays an important role in spatial transferability of SDMs, although it has not been generally considered in previous model transferability assessments <ref type="bibr" target="#b44">(Sequeira et al. 2016</ref><ref type="bibr" target="#b59">, Yates et al. 2018)</ref>. However, in ecological risk assessments, realistic uncertainty estimates have been shown to significantly alter optimal ecological risk mitigation strategies compared to approaches that ignore uncertainty <ref type="bibr" target="#b18">(Helle et al. 2020)</ref>.</p><p>Even though spatial confounding may result in a larger bias of covariate effects in spatially explicit than in covariateonly models, we still recommend using the former. The reason is that both models lead to biased inferences on covariate effects in the presence of spatial confounding, but spatially explicit models give larger uncertainty estimates compared to covariate-only models. Spatially explicit models had also better predictive performance in interpolation and equally good predictive performance in extrapolation as the covariate-only models (Supporting information). However, our study highlights the importance of technical improvements in formalizing SDM structures. In study settings where we a priori assumed collinearity between covariates and an unobserved covariate (such as distribution of a strongly competing species, whose distribution partly depends on the observed covariates), the model structure can account for the correlation between covariates and a spatial random effect with a separate function. Such approaches have been tested by <ref type="bibr" target="#b41">Page et al. (2017)</ref> and <ref type="bibr" target="#b7">Dupont et al. (2021)</ref> with promising results, but they have not been applied to SDMs. There is a demand for more informative prior settings, such as penalized complexity priors <ref type="bibr" target="#b13">(Fuglstad et al. 2018)</ref>, which would avoid overfitting but also avoid the spatial scales of the covariates.</p><p>Given the importance of SDMs for ecological research and environmental management, and that many SDMs are used for predicting species distributions far from the sampled area, our results are topical for ecological research. Our study brings a new perspective to the role of spatial structure of environmental covariates in fitting SDMs and shows the general limitation of current SDMs. Most importantly, the spatial structures of the covariates matter with respect to how accurately the covariate effects can be estimated. Moreover, estimation accuracy can be improved by prioritizing smooth and weak spatial random effects compared to the covariates. Our results help practitioners of the current SDMs to alleviate the problems related to spatial confounding.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Transparent peer review</head><p>The peer review history for this article is available at &lt;https<ref type="url" target="://publons.com/publon/10.1111/ecog.06183&gt;">://  publons.com/publon/10.1111/ecog.06183&gt;</ref>.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure 1 .</head><label>1</label><figDesc>Figure 1. Panel (a) shows the expected spatial correlation as a function of distance for different values of the length-scale parameter (dashed line denotes the 5% correlation, which is used as a threshold for practical independence between two points). Panel (b) shows realizations of spatial covariate surfaces generated with a Gaussian process (going from the smallest length-scale estimate to the largest one). Sub-plot titles in panel (b) summarize the length-scale estimates of spatial Gaussian process regression models fitted to 200 observation locations shown as black points in the rightmost sub-plot. Panel (c) shows how a species distribution was simulated in the first simulation study by sampling from the latent function which is a sum of an observed covariate (x) and an unobserved covariate (z).</figDesc><graphic coords="3,87.86,495.02,425.23,145.94" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Figure 2 .</head><label>2</label><figDesc>Figure 2. Panel (a) shows the spatial distributions of the vegetation sampling sites (black dots) and growing degree days (temperature sum of the growing season). Panel (b) shows the location of the study area in an Arctic context. Panel (c) shows the spatial distribution of snow cover duration (days).</figDesc><graphic coords="4,46.12,62.36,238.09,467.22" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Figure 3 .</head><label>3</label><figDesc>Figure3. Comparison of estimation bias of a covariate effect (β) in a covariate-only model (column 1) and spatially explicit models (columns 2-6) in simulation experiment 1 (see Table1for a description of the priors). Each plot corresponds to a specific category of correlation between an observed covariate (x) and an unobserved covariate (z). Each cell in a plot corresponds to a particular combination of spatial autocorrelation ranges of x and z, measured as the estimate of the length-scale parameter in a spatial Gaussian process regression model. The dashed line around cells in the diagonal of each plot shows the cases where x and z have equal spatial autocorrelation ranges.</figDesc><graphic coords="7,51.03,62.36,498.88,390.56" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Figure 4 .</head><label>4</label><figDesc>Figure 4. Comparison of deviation of covariate effects (β) in covariate-only (column 1) and spatially explicit models (columns 2-6) with different prior specifications (specified in titles) in simulation experiment 2. The subplots correspond to different simulation scenarios as in Fig. 3.</figDesc><graphic coords="8,45.36,62.36,498.88,382.24" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Figure 5 .</head><label>5</label><figDesc>Figure 5. In panels (a)-(c) boxplots correspond to the distribution of the deviation associated to the covariate effect estimates between omitted covariate models and the full model over the 42 species. The bars show the distribution of deviations over species. Panels (d)-(e) show the correlation matrix of continuous covariates and the length-scale (l.-s.) estimates of the Gaussian process regression models fitted to each covariate. SWI = saga wetness index, SCD = snow cover duration, SDQ = soil deposit quality, GDD = growing degree days.</figDesc><graphic coords="9,51.03,62.36,498.88,460.53" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1 .</head><label>1</label><figDesc>Priors for the length-scale (l) and variance (σ 2 ) of a spatial random effect.</figDesc><table><row><cell>Prior</cell><cell>p(l)</cell><cell>p(σ 2 )</cell><cell>Interpretation</cell></row><row><cell>Prior 1</cell><cell>log -N(-2.2,0.4) 95% credibility interval (CI) = [0.05,0.25]</cell><cell>95% CI = [0.1,0.5] log -N(-1.5,0.4)</cell><cell>Spatial range is small and variation low.</cell></row><row><cell>Prior 2</cell><cell>log -N(-2.2,0.4) 95% CI = [0.05,0.25]</cell><cell>log -N (0.3,0.2) 95% CI = [1,2]</cell><cell></cell></row></table></figure>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div><p>Acknowledgements -We thank all members of the <rs type="institution">BioGeoClimate Modelling Lab</rs> for assisting with the fieldwork.</p></div>
+			</div>
+			<div type="funding">
+<div><p>Funding -This work was funded by the <rs type="funder">Academy of Finland</rs> (grant no. <rs type="grantNumber">317255</rs>) and <rs type="funder">Jane and Aatos Erkko foundation</rs> (<rs type="person">Jussi Mäkinen</rs>, <rs type="person">Elina Numminen</rs> and <rs type="person">Jarno Vanhatalo</rs>); Kone foundation, <rs type="funder">Societas pro Fauna et Flora Fennica (Pekka Niittynen</rs>).</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_pCvcFQH">
+					<idno type="grant-number">317255</idno>
+				</org>
+			</listOrg>
+
+			<div type="availability">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Data availability statement</head><p>Data are available from the Dryad Digital Repository: &lt;https<ref type="url" target="://doi.org/10.5061/dryad.hdr7sqvm5&gt;">://  doi.org/10.5061/dryad.hdr7sqvm5&gt;</ref>  <ref type="bibr" target="#b34">(Mäkinen et al. 2022)</ref>.</p></div>
+			</div>
+
+
+			<div type="contribution">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Author contributions</head><p>Jussi Mäkinen: Conceptualization (equal); Formal analysis (equal); Methodology (equal); Validation (lead); Visualization (lead); Writing -original draft (lead). Elina Numminen: Conceptualization (equal); Formal analysis (equal); Methodology (equal); Supervision (equal); Validation (equal); Visualization (supporting); Writing -original draft (equal). Pekka Niittynen: Conceptualization (supporting); Data curation (lead); Formal analysis (supporting); Resources (lead); Validation (supporting); Visualization (supporting); Writing -original draft (supporting). Miska Luoto: Conceptualization (supporting); Data curation (supporting); Formal analysis (supporting); Resources (supporting); Supervision (equal); Validation (supporting); Visualization (supporting); Writing -original draft (supporting). Jarno Vanhatalo: Conceptualization (equal); Formal analysis (equal); Funding acquisition (lead); Methodology (equal); Software (lead); Supervision (equal); Validation (equal); Visualization (supporting); Writing -original draft (equal).</p></div>
+			</div>
+
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Supporting information</head><p>The Supporting information associated with this article is available with the online version.</p></div>			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title/>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">B</forename><surname>Araújo</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Standards for distribution models in biodiversity assessments. -Sci. Adv</title>
+		<imprint>
+			<biblScope unit="volume">5</biblScope>
+			<biblScope unit="page">4858</biblScope>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Species distribution models and ecological theory: a critical assessment and some possible new approaches</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Austin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ecol. Model</title>
+		<imprint>
+			<biblScope unit="volume">200</biblScope>
+			<biblScope unit="page" from="1" to="19" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Comment on &apos;Methods to account for spatial autocorrelation in the analysis of species distributional data: a review</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">G</forename><surname>Betts</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ecography</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="page" from="374" to="378" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Coefficient shifts in geographical ecology: an empirical evaluation of spatial and non-spatial regression</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">M</forename><surname>Bini</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ecography</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="page" from="193" to="204" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Why environmental scientists are becoming Bayesians</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">S</forename><surname>Clark</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ecol. Lett</title>
+		<imprint>
+			<biblScope unit="volume">8</biblScope>
+			<biblScope unit="page" from="2" to="14" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<monogr>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">A</forename><surname>Cressie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">K</forename><surname>Wikle</surname></persName>
+		</author>
+		<title level="m">Statistics for spatio-temporal data</title>
+		<imprint>
+			<publisher>Wiley</publisher>
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Spatial autocorrelation and red herrings in geographical ecology</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">A F</forename><surname>Diniz-Filho</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Global Ecol. Biogeogr</title>
+		<imprint>
+			<biblScope unit="volume">12</biblScope>
+			<biblScope unit="page" from="53" to="64" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Spatial+: a novel approach to spatial confounding</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>Dupont</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometrics</title>
+		<imprint>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Species distribution models: ecological explanation and prediction across space and time</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Elith</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">R</forename><surname>Leathwick</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annu. Rev. Ecol. Evol. Syst</title>
+		<imprint>
+			<biblScope unit="volume">40</biblScope>
+			<biblScope unit="page" from="677" to="697" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">2019a. A checklist for maximizing reproducibility of ecological niche models</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Feng</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Nat. Ecol. Evol</title>
+		<imprint>
+			<biblScope unit="volume">3</biblScope>
+			<biblScope unit="page" from="1382" to="1395" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Collinearity in ecological niche modeling: confusions and challenges</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Feng</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ecol. Evol</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="page" from="10365" to="10376" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">spBayes: an R package for univariate and multivariate hierarchical point-referenced spatial models</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">O</forename><surname>Finley</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Stat. Softw</title>
+		<imprint>
+			<biblScope unit="volume">19</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<monogr>
+		<title level="m" type="main">Mapping species distributions: spatial inference and prediction</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Franklin</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2010">2010</date>
+			<publisher>Cambridge Univ. Press</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Constructing priors that penalize the complexity of Gaussian random fields</title>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">A</forename><surname>Fuglstad</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Am. Stat. Assoc</title>
+		<imprint>
+			<biblScope unit="volume">114</biblScope>
+			<biblScope unit="page" from="445" to="452" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Effects of spatial autocorrelation and imperfect detection on species distribution models</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Guélat</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Kéry</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Methods Ecol. Evol</title>
+		<imprint>
+			<biblScope unit="page" from="1614" to="1625" />
+			<date type="published" when="2018">2018. 2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Restricted spatial regression in practice: geostatistical models, confounding and robustness under model misspecification</title>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">M</forename><surname>Hanks</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environmetrics</title>
+		<imprint>
+			<biblScope unit="volume">26</biblScope>
+			<biblScope unit="page" from="243" to="254" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Red herrings revisited: spatial autocorrelation and parameter estimation in geographical ecology</title>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">A</forename><surname>Hawkins</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ecography</title>
+		<imprint>
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="page" from="375" to="384" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Biotic interactions improve prediction of boreal bird distributions at macro-scales</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">K</forename><surname>Heikkinen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Global Ecol. Biogeogr</title>
+		<imprint>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="page" from="754" to="763" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Impacts of oil spills on Arctic marine ecosystems: a quantitative and probabilistic risk assessment perspective</title>
+		<author>
+			<persName><forename type="first">I</forename><surname>Helle</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environ. Sci</title>
+		<imprint>
+			<biblScope unit="volume">54</biblScope>
+			<biblScope unit="page" from="2112" to="2121" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Adding spatially-correlated errors can mess up the fixed effect you love</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">S</forename><surname>Hodges</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">J</forename><surname>Reich</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Am. Stat</title>
+		<imprint>
+			<biblScope unit="volume">64</biblScope>
+			<biblScope unit="page" from="325" to="334" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Dimension reduction and alleviation of confounding for spatial generalized linear mixed models</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Hughes</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Haran</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. R. Stat. Soc. B</title>
+		<imprint>
+			<biblScope unit="volume">75</biblScope>
+			<biblScope unit="page" from="139" to="159" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Spatial occupancy models for large data sets</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">S</forename><surname>Johnson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ecology</title>
+		<imprint>
+			<biblScope unit="volume">94</biblScope>
+			<biblScope unit="page" from="801" to="808" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Modeling the spatial distribution of larval fish abundance provides essential information for management</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Kallasvuo</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Can. J. Fish. Aquat. Sci</title>
+		<imprint>
+			<biblScope unit="volume">74</biblScope>
+			<biblScope unit="page" from="636" to="649" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<monogr>
+		<title level="m" type="main">Uncertainty, priors, autocorrelation and disparate data in downscaling of species distributions. -Divers. Distrib</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Keil</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2014">2014</date>
+			<biblScope unit="volume">20</biblScope>
+			<biblScope unit="page" from="797" to="812" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Predicting the magnitude of residual spatial autocorrelation in geographical ecology</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Kim</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ecography</title>
+		<imprint>
+			<biblScope unit="volume">44</biblScope>
+			<biblScope unit="page" from="1121" to="1130" />
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Spatial autocorrelation and the selection of simultaneous autoregressive models</title>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">D</forename><surname>Kissling</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Carl</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Global Ecol. Biogeogr</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="page" from="59" to="71" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Complementary strengths of spatiallyexplicit and multi-species distribution models</title>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">K</forename><surname>Lany</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ecography</title>
+		<imprint>
+			<biblScope unit="volume">43</biblScope>
+			<biblScope unit="page" from="456" to="466" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">Spatial autocorrelation trouble or new paradigm</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Legendre</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ecology</title>
+		<imprint>
+			<biblScope unit="volume">74</biblScope>
+			<biblScope unit="page" from="1659" to="1673" />
+			<date type="published" when="1993">1993</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Incorporating microclimate into species distribution models</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">J</forename><surname>Lembrechts</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ecography</title>
+		<imprint>
+			<biblScope unit="volume">42</biblScope>
+			<biblScope unit="page" from="1267" to="1279" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">Moving beyond noninformative priors: why and how to choose weakly informative priors in Bayesian analyses</title>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">P</forename><surname>Lemoine</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Oikos</title>
+		<imprint>
+			<biblScope unit="volume">128</biblScope>
+			<biblScope unit="page" from="912" to="928" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">W</forename><surname>Lichstein</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Spatial autocorrelation and autoregressive models in ecology</title>
+		<imprint>
+			<date type="published" when="2002">2002</date>
+			<biblScope unit="volume">72</biblScope>
+			<biblScope unit="page" from="445" to="463" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">Disregarding topographical heterogeneity biases species turnover assessments based on bioclimatic models</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Luoto</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">K</forename><surname>Heikkinen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Global Change Biol</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="page" from="483" to="494" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<monogr>
+		<author>
+			<persName><surname>Matlab</surname></persName>
+		</author>
+		<title level="m">Version 9.5 (R2018b)</title>
+		<meeting><address><addrLine>Natick, MA, USA</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+	<note type="report_type">-The MathWorks Inc.</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">Hierarchical Bayesian model reveals the distributional shifts of Arctic marine mammals</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Mäkinen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Vanhatalo</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Divers. Distrib</title>
+		<imprint>
+			<biblScope unit="volume">24</biblScope>
+			<biblScope unit="page" from="1381" to="1394" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<monogr>
+		<title level="m" type="main">Data from: Spatial confounding in Bayesian species distribution modeling. -Dryad Digital Repository</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Mäkinen</surname></persName>
+		</author>
+		<idno type="DOI">10.5061/dryad.hdr7sqvm5&gt;</idno>
+		<ptr target="&lt;https://doi.org/10.5061/dryad.hdr7sqvm5&gt;" />
+		<imprint>
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<analytic>
+		<title level="a" type="main">Disentangling drivers of spatial autocorrelation in species distribution models</title>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">P</forename><surname>Mielke</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ecography</title>
+		<imprint>
+			<biblScope unit="volume">43</biblScope>
+			<biblScope unit="page" from="1741" to="1751" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<analytic>
+		<title level="a" type="main">The Matérn function as a general model for soil variograms</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Minasny</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">B</forename><surname>Mcbratney</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geoderma</title>
+		<imprint>
+			<biblScope unit="volume">128</biblScope>
+			<biblScope unit="page" from="192" to="207" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<analytic>
+		<title level="a" type="main">The importance of snow in species distribution models of arctic vegetation</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Niittynen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Luoto</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ecography</title>
+		<imprint>
+			<biblScope unit="volume">41</biblScope>
+			<biblScope unit="page" from="1024" to="1037" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<analytic>
+		<title level="a" type="main">Decreasing snow cover alters functional composition and diversity of Arctic tundra</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Niittynen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proc. Natl Acad. Sci</title>
+		<meeting>Natl Acad. Sci<address><addrLine>USA</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+			<biblScope unit="volume">117</biblScope>
+			<biblScope unit="page" from="21480" to="21487" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<analytic>
+		<title level="a" type="main">Using latent variable models to identify large networks of species-to-species associations at different spatial scales</title>
+		<author>
+			<persName><forename type="first">O</forename><surname>Ovaskainen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Methods Ecol. Evol</title>
+		<imprint>
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="page" from="549" to="555" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b40">
+	<analytic>
+		<title level="a" type="main">The importance of scale for spatial-confounding bias and precision of spatial regression estimators</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">J</forename><surname>Paciorek</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Stat. Sci</title>
+		<imprint>
+			<biblScope unit="volume">25</biblScope>
+			<biblScope unit="page" from="107" to="125" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b41">
+	<analytic>
+		<title level="a" type="main">Estimation and prediction in the presence of spatial confounding for spatial linear models. -Scand</title>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">L</forename><surname>Page</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Stat</title>
+		<imprint>
+			<biblScope unit="volume">44</biblScope>
+			<biblScope unit="page" from="780" to="797" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b42">
+	<analytic>
+		<title level="a" type="main">Effects of residual smoothing on the posterior of the fixed effects in disease-mapping models</title>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">J</forename><surname>Reich</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometrics</title>
+		<imprint>
+			<biblScope unit="volume">62</biblScope>
+			<biblScope unit="page" from="1197" to="1206" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b43">
+	<analytic>
+		<title level="a" type="main">Combining multiple data sources in species distribution models while accounting for spatial dependence and overfitting with combined penalized likelihood maximization</title>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">W</forename><surname>Renner</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Methods Ecol. Evol</title>
+		<imprint>
+			<biblScope unit="volume">10</biblScope>
+			<biblScope unit="page" from="2118" to="2128" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b44">
+	<analytic>
+		<title level="a" type="main">Transferability of predictive models of coral reef fish species richness</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">M</forename><surname>Sequeira</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Appl. Ecol</title>
+		<imprint>
+			<biblScope unit="volume">53</biblScope>
+			<biblScope unit="page" from="64" to="72" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b45">
+	<analytic>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">B</forename><surname>Shurin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Spatial autocorrelation and dispersal limitation in freshwater organisms</title>
+		<imprint>
+			<date type="published" when="2009">2009</date>
+			<biblScope unit="volume">159</biblScope>
+			<biblScope unit="page" from="151" to="159" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b46">
+	<analytic>
+		<title level="a" type="main">Niches and distributional areas: concepts, methods and assumptions</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Soberón</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Nakamura</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Proc. Natl Acad. Sci. USA</title>
+		<imprint>
+			<biblScope unit="volume">106</biblScope>
+			<biblScope unit="page" from="19644" to="19650" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b47">
+	<analytic>
+		<title level="a" type="main">Careful prior specification avoids incautious inference for log-Gaussian Cox point processes</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">H</forename><surname>Soerbye</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. R. Stat. Soc. C Appl</title>
+		<imprint>
+			<biblScope unit="volume">68</biblScope>
+			<biblScope unit="page" from="543" to="564" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b48">
+	<analytic>
+		<title level="a" type="main">Understanding species distribution in dynamic populations: a new approach using spatiotemporal point process models</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Soriano-Redondo</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ecography</title>
+		<imprint>
+			<biblScope unit="volume">42</biblScope>
+			<biblScope unit="page" from="1092" to="1102" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b49">
+	<analytic>
+		<title level="a" type="main">Spatial factor analysis: a new tool for estimating joint species distributions and correlations in species range</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">T</forename><surname>Thorson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Methods Ecol. Evol</title>
+		<imprint>
+			<biblScope unit="volume">6</biblScope>
+			<biblScope unit="page" from="627" to="637" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b50">
+	<analytic>
+		<title level="a" type="main">Joint species distribution modelling with the r-package Hmsc</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Tikhonov</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Methods Ecol. Evol</title>
+		<imprint>
+			<biblScope unit="volume">11</biblScope>
+			<biblScope unit="page" from="442" to="447" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b51">
+	<analytic>
+		<title level="a" type="main">Predictive performance of presence-only species distribution models: a benchmark study with reproducible code</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Valavi</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ecol. Monogr</title>
+		<imprint>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page">1486</biblScope>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b52">
+	<analytic>
+		<title level="a" type="main">Approximate inference for disease mapping with sparse Gaussian processes</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Vanhatalo</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Stat. Med</title>
+		<imprint>
+			<biblScope unit="volume">29</biblScope>
+			<biblScope unit="page" from="1580" to="1607" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b53">
+	<analytic>
+		<title level="a" type="main">Additive multivariate Gaussian processes for joint species distribution modeling with heterogeneous data</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Vanhatalo</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Bayesian Anal</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="page" from="415" to="447" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b54">
+	<analytic>
+		<title level="a" type="main">GPstuff: Bayesian modeling with Gaussian processes</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Vanhatalo</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Mach. Learn. Res</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="page" from="1175" to="1179" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b55">
+	<analytic>
+		<title level="a" type="main">A survey of Bayesian predictive methods for model assessment, selection and comparison</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Vehtari</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Ojanen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Stat. Surv</title>
+		<imprint>
+			<biblScope unit="volume">6</biblScope>
+			<biblScope unit="page" from="142" to="228" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b56">
+	<analytic>
+		<title level="a" type="main">Spatial autoregressive models for statistical inference from ecological data</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename><surname>Ver Hoef</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ecol. Monogr</title>
+		<imprint>
+			<biblScope unit="volume">88</biblScope>
+			<biblScope unit="page" from="36" to="59" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b57">
+	<analytic>
+		<title level="a" type="main">Disease mapping and spatial regression with count data</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Wakefield</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biostatistics</title>
+		<imprint>
+			<biblScope unit="volume">8</biblScope>
+			<biblScope unit="page" from="158" to="183" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b58">
+	<analytic>
+		<title level="a" type="main">The role of biotic interactions in shaping distributions and realised assemblages of species: implications for species distribution modelling</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">S</forename><surname>Wisz</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biol. Rev</title>
+		<imprint>
+			<biblScope unit="volume">88</biblScope>
+			<biblScope unit="page" from="15" to="30" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b59">
+	<analytic>
+		<title level="a" type="main">Outstanding challenges in the transferability of ecological models</title>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">L</forename><surname>Yates</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Trends Ecol. Evol</title>
+		<imprint>
+			<biblScope unit="volume">33</biblScope>
+			<biblScope unit="page" from="790" to="802" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

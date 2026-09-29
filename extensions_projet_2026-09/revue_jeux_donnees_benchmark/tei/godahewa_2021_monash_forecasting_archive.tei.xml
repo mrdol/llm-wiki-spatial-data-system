@@ -1,0 +1,2653 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Monash Time Series Forecasting Archive</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability  status="unknown">
+					<licence/>
+				</availability>
+				<date type="published" when="2021-05-14">14 May 2021</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author role="corresp">
+							<persName><forename type="first">Rakshitha</forename><surname>Godahewa</surname></persName>
+							<email>rakshitha.godahewa@monash.edu</email>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Data Science and Artificial Intelligence</orgName>
+								<orgName type="institution">Monash University</orgName>
+								<address>
+									<settlement>Melbourne</settlement>
+									<country key="AU">Australia</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Christoph</forename><surname>Bergmeir</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Data Science and Artificial Intelligence</orgName>
+								<orgName type="institution">Monash University</orgName>
+								<address>
+									<settlement>Melbourne</settlement>
+									<country key="AU">Australia</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Geoffrey</forename><forename type="middle">I</forename><surname>Webb</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Data Science and Artificial Intelligence</orgName>
+								<orgName type="institution">Monash University</orgName>
+								<address>
+									<settlement>Melbourne</settlement>
+									<country key="AU">Australia</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Rob</forename><forename type="middle">J</forename><surname>Hyndman</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="department">Department of Econometrics &amp; Business Statistics</orgName>
+								<orgName type="institution">Monash University</orgName>
+								<address>
+									<settlement>Melbourne</settlement>
+									<country key="AU">Australia</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Pablo</forename><surname>Montero-Manso</surname></persName>
+							<affiliation key="aff2">
+								<orgName type="department">Faculty of Information Technology</orgName>
+								<orgName type="institution">University of Sydney</orgName>
+								<address>
+									<postBox>P.O. Box 63</postBox>
+									<country key="AU">Australia</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<affiliation key="aff3">
+								<orgName type="institution">Monash Uni- versity</orgName>
+								<address>
+									<postCode>3800</postCode>
+									<region>Victoria</region>
+									<country key="AU">Australia</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Monash Time Series Forecasting Archive</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2021-05-14">14 May 2021</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">085E846229154CEEE7951CB232FA2CF3</idno>
+					<idno type="arXiv">arXiv:2105.06643v1[cs.LG]</idno>
+					<note type="submission">Preprint submitted to Elsevier</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-25T16:07+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>global time series forecasting</term>
+					<term>benchmark datasets</term>
+					<term>feature analysis</term>
+					<term>baseline evaluation</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Many businesses and industries nowadays rely on large quantities of time series data making time series forecasting an important research area. Global forecasting models that are trained across sets of time series have shown a huge potential in providing accurate forecasts compared with the traditional univariate forecasting models that work on isolated series. However, there are currently no comprehensive time series archives for forecasting that contain datasets of time series from similar sources available for the research community to evaluate the performance of new global forecasting algorithms over a wide variety of datasets. In this paper, we present such a comprehensive time series forecasting archive containing 20 publicly available time series datasets from varied domains, with different characteristics in terms of frequency, series lengths, and inclusion of missing values. We also characterise the datasets, and identify similarities and differences among them, by conducting a feature analysis. Furthermore, we present the performance of a set of standard baseline forecasting methods over all datasets across eight error metrics, for the benefit of researchers using the archive to benchmark their forecasting algorithms.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">Introduction</head><p>Accurate time series forecasting is important for many businesses and industries to make decisions, and consequently, time series forecasting is a popular research area, lately in particular in machine learning. A good benchmarking archive is essential for the growth of machine learning research <ref type="bibr" target="#b100">(Tan et al., 2020)</ref>. Researchers gain the opportunity to perform a rigorous evaluation of their newly proposed machine learning algorithms over a large number of datasets when there is a proper benchmarking archive available. The University of California Irvine (UCI) repository <ref type="bibr" target="#b26">(Dua and Graff, 2017)</ref> is the most common and wellknown benchmarking archive used in general machine learning, and it has supported the from similar sources (a notable exception from the rule being here ES-RNN by <ref type="bibr" target="#b92">Smyl (2020)</ref>, the winning method of the M4 competition). There are currently no comprehensive time series forecasting benchmarking archives, to the best of our knowledge, that focus on such datasets of related time series to evaluate the performance of such global forecasting algorithms. Our aim is to address this limitation by introducing such an archive. In particular, our paper has the following main contributions.</p><p>• We introduce the first comprehensive time series forecasting archive containing datasets of related time series, available at <ref type="url" target="https://forecastingdata.org/">https://forecastingdata.org/</ref>. This archive contains 20 publicly available time series datasets, with both equal and variable lengths time series. Many datasets have different versions based on the frequency and the inclusion of missing values, making the total number of dataset variations to 50. Furthermore, it includes both real-world and competition time series datasets covering varied domains.</p><p>• We introduce a new format to store time series data, based on the Weka ARFF file format <ref type="bibr" target="#b82">(Paynter et al., 2008)</ref> and overcoming some of the shortcomings we observe in the .ts format used in the sktime time series repository <ref type="bibr" target="#b64">(Löning et al., 2019)</ref>. We use a .tsf extension for this new format. This format stores the meta-information about a particular time series dataset such as dataset name, frequency and inclusion of missing values as well as the series specific information such as starting timestamps, in a non-redundant way. The format is very flexible and capable of including any other attributes related to time series as preferred by the users.</p><p>• We analyse the characteristics of different series to identify the similarities and differences among them. For that, we conduct a feature analysis using tsfeatures <ref type="bibr" target="#b48">(Hyndman et al., 2020)</ref> and catch22 features <ref type="bibr" target="#b66">(Lubba et al., 2019)</ref> extracted from all series of all datasets. The extracted features are publicly available for further research use.</p><p>• We evaluate the performance of a set of baseline forecasting models including both traditional univariate forecasting models and global forecasting models over all datasets across eight error metrics. The forecasts and evaluation results of the baseline methods are publicly available for the benefits of researchers that use the repository to benchmark their forecasting algorithms.</p><p>• Finally, all implementations related to the forecasting archive including code for loading the datasets into the R and Python environments and code for feature calculations and evaluation of baseline forecasting models are publicly available at: <ref type="url" target="https://github.com/rakshitha123/TSForecasting">https:  //github.com/rakshitha123/TSForecasting</ref>.</p><p>We also encourage other researchers to contribute time series datasets to our repository either by directly uploading them into the archive and/or by contacting the authors via email. The remainder of this paper is organised as follows: Section 2 explains the datasets in the archive. Section 3 explains the details of the feature analysis. Section 4 presents results of the baseline forecasting models over the datasets across eight error metrics. Finally, Section 5 concludes the paper.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.">Datasets</head><p>This section details the datasets in our time series forecasting archive. The current archive contains 20 time series datasets. Furthermore, the archive contains in addition 6 single very long time series. As a large amount of data oftentimes renders machine learning methods feasible compared with traditional statistical modelling, and we are not aware of good and systematic benchmark data in this space either, these series are included in our repository as well. A summary of all primary datasets included in the repository is shown in Table <ref type="table">1</ref>.</p><p>A total of 50 datasets have been derived from these 26 primary datasets. Nine datasets contain time series belonging to different frequencies and the archive contains a separate dataset per each frequency. Seven of the datasets have series with missing values. The archive contains 2 versions of each of these, one with and one without missing values. In the latter case, the missing values have been replaced by using an appropriate imputation technique.</p><p>Dataset Domain No: of Min. Max. No: of Missing Competition Series Length Length Freq. 1 M1 Multiple 1001 15 150 3 No Yes 2 M3 Multiple 3003 20 144 4 No Yes 3 M4 Multiple 100000 19 9933 6 No Yes 4 Tourism Tourism 1311 11 333 3 No Yes 5 NN5 Banking 111 791 791 2 Yes Yes 6 CIF 2016 Banking 72 34 120 1 No Yes 7 Web Traffic Web 145063 803 803 2</p><p>6 are taken from R packages, 1 is from the Kaggle platform <ref type="bibr" target="#b59">(Kaggle, 2019)</ref>, and 1 is taken from a Johns Hopkins repository (CSSEGISandData, 2020). The other datasets have been extracted from corresponding domain specific platforms. The datasets mainly belong to 9 different domains: tourism, banking, web, energy, sales, economics, transportation, health, and nature. Three datasets, the M1 <ref type="bibr" target="#b68">(Makridakis et al., 1982)</ref>, M3 <ref type="bibr" target="#b69">(Makridakis and Hibon, 2000)</ref>, and M4 <ref type="bibr" target="#b70">(Makridakis et al., 2018</ref><ref type="bibr">(Makridakis et al., , 2020a) )</ref> datasets, contain series belonging to multiple domains. For all datasets, we introduce their key characteristics as well as the citations of the prior work where they have been used in the literature. Further details of these datasets are explained in the next sections, after describing the data format in which the series are stored.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1.">Data Format</head><p>We also introduce a new format to store time series data, based on the Weka ARFF file format <ref type="bibr" target="#b82">(Paynter et al., 2008)</ref>. We use the file extension .tsf and it is comparable with the .ts format used in the sktime time series repository <ref type="bibr" target="#b64">(Löning et al., 2019)</ref>, but we deem it more streamlined and more flexible. The basic idea of the file format is that each data file can contain 1) attributes that are constant throughout the whole dataset (e.g., the forecasting horizon, whether the dataset contains missing values or not), 2) attributes that are constant throughout a time series (e.g., its name, its position in a hierarchy, product information for product sales time series), and 3) attributes that are particular to each data point (the value of the series, or timestamps for non-equally spaced series). An example of series in this format is shown in Figure <ref type="figure" target="#fig_0">1</ref>.</p><p>The original Weka ARFF file format already deals well with the first two types of such attributes. Using this file format, in our format, each time series file contains tags describing the meta-information of the corresponding dataset such as @frequency (seasonality), @horizon (expected forecast horizon), @missing (whether the series contain missing values) and @equallength (whether the series have equal lengths). We note that these attributes can be freely defined by the user and the file format does not need any of these values to be defined in a certain way, though the file readers reading the files may rely on existence of attributes with certain names and assume certain meanings. Next, there are attributes in each dataset which describe series-wise properties, where the tag @attribute is followed by the name and type. Examples are series name (the unique identifier of a given series) and start timestamp (the start timestamp of a given series). Again, the format has the flexibility to include any additional series-wise attributes as preferred by users.</p><p>Following the ARFF file format, the data are then listed under the @data tag after defining attributes and meta-headers, and attribute values are separated by colons. The only extension that our format has compared with the original ARFF file format, is that the time series then are appended to their attribute vector as a comma-separated variablelength vector. As this vector can have a different length for each instance, this cannot be represented in the original ARFF file format. In particular, a time series with m number of attributes and n number of values can be shown as: &lt; attribute 1 &gt;:&lt; attribute 2 &gt;: ... :&lt; attribute m &gt;:&lt; s 1 , s 2 , ..., s n &gt; (1)</p><p>The missing values in the series are indicated using the "?" symbol. Code to load datasets in this format into R and Python is available in our github repository.<ref type="foot" target="#foot_0">foot_0</ref> </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2.">Time Series Datasets</head><p>This section describes the benchmark datasets that have a sufficient number of series from a particular frequency. The datasets may contain different categories in terms of domain and frequency.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2.1.">M1 Dataset</head><p>The M1 competition dataset <ref type="bibr" target="#b68">(Makridakis et al., 1982)</ref> contains 1001 time series with 3 different frequencies: yearly, quarterly, and monthly as shown in Table <ref type="table">2</ref>. The series belong to 7 different domains: macro 1, macro 2, micro 1, micro 2, micro 3, industry, and demographic.</p><p>Research work which uses this dataset includes:</p><p>Frequency No: of Series Min. Length Max. Length Forecast Horizon Yearly 181 15 58 6 Quarterly 203 18 114 8 Monthly 617 48 150 18 Total 1001</p><p>Table 2: Summary of M1 Dataset</p><p>• Forecasting with artificial neural networks: the state of the art <ref type="bibr" target="#b111">(Zhang et al., 1998)</ref> • Time series forecasting using a hybrid ARIMA and neural network model <ref type="bibr" target="#b110">(Zhang, 2003)</ref> • Automatic time series forecasting: the forecast package for R <ref type="bibr" target="#b49">(Hyndman and Khandakar, 2008)</ref> • Exponential Smoothing: the state of the art <ref type="bibr" target="#b35">(Gardner, 1985)</ref> • Neural network forecasting for seasonal and trend time series <ref type="bibr" target="#b112">(Zhang and Qi, 2005)</ref> </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2.2.">M3 Dataset</head><p>The M3 competition dataset <ref type="bibr" target="#b69">(Makridakis and Hibon, 2000)</ref> contains 3003 time series of various frequencies including yearly, quarterly, and monthly, as shown in Table <ref type="table" target="#tab_0">3</ref>. The series belong to 6 different domains: demographic, micro, macro, industry, finance, and other. Research work which uses this dataset includes:</p><p>• The theta model: a decomposition approach to forecasting <ref type="bibr" target="#b6">(Assimakopoulos and Nikolopoulos, 2000)</ref> • Recurrent neural networks for time series forecasting: current status and future directions <ref type="bibr" target="#b43">(Hewamalage et al., 2020)</ref> • Out-of-sample tests of forecasting accuracy: an analysis and review <ref type="bibr" target="#b101">(Tashman, 2000)</ref> • Metrics for evaluating performance of prognostic techniques <ref type="bibr" target="#b90">(Saxena et al., 2008)</ref> • Temporal link prediction using matrix and tensor factorizations <ref type="bibr" target="#b27">(Dunlavy et al., 2011)</ref> • Forecasting time series with complex seasonal patterns using exponential smoothing <ref type="bibr" target="#b63">(Livera et al., 2011)</ref> • Evaluating forecasting methods <ref type="bibr" target="#b5">(Armstrong, 2001)</ref> • Exponential smoothing with a damped multiplicative trend <ref type="bibr" target="#b102">(Taylor, 2003)</ref> </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2.3.">M4 Dataset</head><p>The M4 competition dataset <ref type="bibr" target="#b70">(Makridakis et al., 2018</ref><ref type="bibr">(Makridakis et al., , 2020a</ref>) contains 100,000 time series with 6 different frequencies: yearly, quarterly, monthly, weekly, daily, and hourly, as shown in Table <ref type="table" target="#tab_1">4</ref>. The series belong to 6 different domains: demographic, micro, macro, industry, finance, and other, similar to the M3 forecasting competition. This dataset contains a subset of series available at ForeDeCk <ref type="bibr" target="#b31">(Forecasting &amp; Srategy Unit, 2019)</ref>. Research work which uses this dataset includes:</p><p>• A hybrid method of exponential smoothing and recurrent neural networks for time series forecasting <ref type="bibr" target="#b92">(Smyl, 2020)</ref> • FFORMA: Feature-based Forecast Model Averaging (Montero-Manso et al., 2020)</p><p>• Recurrent neural networks for time series forecasting: current status and future directions <ref type="bibr" target="#b43">(Hewamalage et al., 2020)</ref> • LSTM-MSNet: leveraging forecasts on sets of related time series with multiple seasonal patterns <ref type="bibr" target="#b9">(Bandara et al., 2019)</ref> • Are forecasting competitions data representative of the reality? <ref type="bibr" target="#b96">(Spiliotis et al., 2020)</ref> • Averaging probability forecasts: back to the future <ref type="bibr" target="#b109">(Winkler et al., 2018)</ref> • A strong baseline for weekly time series forecasting <ref type="bibr">(Godahewa et al., 2020b)</ref> </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2.4.">Tourism Dataset</head><p>This dataset originates from a Kaggle competition <ref type="bibr" target="#b7">(Athanasopoulos et al., 2011;</ref><ref type="bibr" target="#b29">Ellis, 2018)</ref> and contains 1311 tourism related time series with 3 different frequencies: yearly, quarterly, and monthly as shown in Table <ref type="table" target="#tab_2">5</ref>. Research work which uses this dataset includes:</p><p>• Recurrent neural networks for time series forecasting: current status and future directions <ref type="bibr" target="#b43">(Hewamalage et al., 2020)</ref> • A meta-analysis of international tourism demand forecasting and implications for practice <ref type="bibr" target="#b84">(Peng et al., 2014)</ref> • Improving forecasting by estimating time series structural components across multiple frequencies <ref type="bibr" target="#b61">(Kourentzes et al., 2014)</ref> • Forecasting tourist arrivals using time-varying parameter structural time series models <ref type="bibr" target="#b94">(Song et al., 2011)</ref> • Forecasting monthly and quarterly time series using STL decomposition <ref type="bibr" target="#b103">(Theodosiou, 2011)</ref> • A novel approach to model selection in tourism demand modeling <ref type="bibr" target="#b2">(Akın, 2015)</ref> 2.2.5. NN5 Dataset This dataset contains 111 time series of daily cash withdrawals from Automated Teller Machines (ATM) in the UK, and was used in the NN5 forecasting competition <ref type="bibr" target="#b14">(Ben Taieb et al., 2012)</ref>. The forecast horizon considered in the competition was 56. The original dataset contains missing values. Our repository contains two versions of the dataset: the original version with missing values and a modified version where the missing values have been replaced using a median substitution where a missing value on a particular day is replaced by the median across all the same days of the week along the whole series as in <ref type="bibr" target="#b43">Hewamalage et al. (2020)</ref>. Furthermore, <ref type="bibr">Godahewa et al. (2020b)</ref> use the weekly aggregated version of this dataset for their experiments related to proposing a baseline model for weekly forecasting. The aggregated weekly version of this dataset is also available in our repository. Research work which uses this dataset includes:</p><p>• Recurrent neural networks for time series forecasting: current status and future directions <ref type="bibr" target="#b43">(Hewamalage et al., 2020)</ref> • A strong baseline for weekly time series forecasting <ref type="bibr">(Godahewa et al., 2020b)</ref> • Forecasting across time series databases using recurrent neural networks on groups of similar series: a clustering approach <ref type="bibr" target="#b10">(Bandara et al., 2020)</ref> • Forecast combinations of computational intelligence and linear models for the NN5 time series forecasting competition <ref type="bibr" target="#b4">(Andrawis et al., 2011)</ref> • Forecasting the NN5 time series with hybrid models <ref type="bibr" target="#b108">(Wichard, 2011)</ref> • Multiple-output modeling for multi-step-ahead time series forecasting <ref type="bibr" target="#b15">(Ben Taieb et al., 2010)</ref> • Recursive multi-step time Series forecasting by perturbing data (Ben Taieb and Bontempi, 2011)</p><p>• Benchmarking of classical and machine-learning algorithms (with special emphasis on bagging and boosting approaches) for time series forecasting (Pritzsche, 2015)</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2.6.">CIF 2016 Dataset</head><p>The dataset from the Computational Intelligence in Forecasting (CIF) 2016 forecasting competition contains 72 monthly time series. Out of those, 24 series originate from the banking sector, and the remaining 48 series are artificially generated. There are 2 forecast horizons considered in the competition where 57 series have a forecasting horizon of 12 and the remaining 15 series consider the forecast horizon as 6 <ref type="bibr" target="#b97">( Štěpnička and Burda, 2017)</ref>. Research work which uses this dataset includes:</p><p>• Recurrent neural networks for time series forecasting: current status and future directions <ref type="bibr" target="#b43">(Hewamalage et al., 2020)</ref> • Forecasting across time series databases using recurrent neural networks on groups of similar series: a clustering approach <ref type="bibr" target="#b10">(Bandara et al., 2020)</ref> • Improving time series forecasting: an approach combining bootstrap aggregation, clusters and exponential smoothing (Dantas and Oliveira], 2018)</p><p>• Time series clustering using numerical and fuzzy representations <ref type="bibr" target="#b1">(Afanasieva et al., 2017)</ref> • An automatic calibration framework applied on a metaheuristic fuzzy model for the CIF competition <ref type="bibr" target="#b21">(Coelho et al., 2016)</ref> 2.2.7. Kaggle Web Traffic Dataset This dataset contains 145063 daily time series representing the number of hits or web traffic for a set of Wikipedia pages from 01/07/2015 to 10/09/2017 used by the Kaggle web traffic forecasting competition <ref type="bibr" target="#b40">(Google, 2017)</ref>. The forecast horizon considered in the competition was 59. As the original dataset contains missing values, we include both the original dataset in our repository and an imputed version. This dataset is intermittent and hence, we impute missing values with zeros. Furthermore, <ref type="bibr">Godahewa et al. (2020b)</ref> use the weekly aggregated version of this dataset containing the first 1000 series. Our repository also contains this aggregated weekly version of the dataset for all series. The missing values of the original dataset were imputed before the aggregation. Research work which uses this dataset includes:</p><p>• Recurrent neural networks for time series forecasting: current status and future directions <ref type="bibr" target="#b43">(Hewamalage et al., 2020)</ref> • A strong baseline for weekly time series forecasting <ref type="bibr">(Godahewa et al., 2020b)</ref> • Web traffic prediction of Wikipedia pages <ref type="bibr" target="#b85">(Petluri and Al-Masri, 2018)</ref> • Improving time series forecasting using mathematical and deep learning models <ref type="bibr" target="#b42">(Gupta et al., 2018)</ref> • Foundations of sequence-to-sequence modeling for time series <ref type="bibr" target="#b74">(Mariet and Kuznetsov, 2019)</ref> 2.2.8. Solar Dataset This dataset contains 137 time series representing the solar power production recorded every 10 minutes in the state of Alabama in 2006. It was used by <ref type="bibr" target="#b62">Lai et al. (2017)</ref>, and originally extracted from <ref type="bibr" target="#b93">Solar (2020)</ref>. Furthermore, <ref type="bibr">Godahewa et al. (2020b)</ref> use an aggregated version of this dataset containing weekly solar power production records. The aggregated weekly version of this dataset is also available in our repository.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2.9.">Electricity Dataset</head><p>This dataset represents the hourly electricity consumption of 321 clients from 2012 to 2014 in kilowatt (kW). It was used by <ref type="bibr" target="#b62">Lai et al. (2017)</ref>, and originally extracted from UCI (2020). Our repository also contains an aggregated version of this dataset representing the weekly electricity consumption values.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2.10.">London Smart Meters Dataset</head><p>This dataset contains 5560 half-hourly time series that represent the energy consumption readings of London households in kWh from November 2011 to February 2014 <ref type="bibr" target="#b56">(Jean-Michel, 2019)</ref>. The series are categorized into 112 blocks in the original dataset. The series in our repository are in the same order (from block 0 to block 111) as they are in the original dataset. The original dataset contains missing values and we impute them using the last observation carried forward (LOCF) method. Our repository contains both versions: the original version with missing values and the modified version where the missing values have been replaced. Research work which uses this dataset includes:</p><p>• Predicting electricity consumption using deep Recurrent Neural Networks <ref type="bibr" target="#b79">(Nugaliyadde et al., 2019)</ref> • A single scalable LSTM model for short-term forecasting of disaggregated electricity loads <ref type="bibr" target="#b3">(Alonso et al., 2019)</ref> • Deep learning based short-term load forecasting for urban areas <ref type="bibr" target="#b73">(Maksut et al., 2019)</ref> • Smart grid energy management using RNN-LSTM: a deep learning-based approach <ref type="bibr" target="#b60">(Kaur et al., 2019)</ref> 2.2.11. Wind Farms Dataset This dataset contains very long minutely time series representing the wind power production of 339 wind farms in Australia. It was extracted from the Australian Energy Market Operator (AEMO) online platform (AEMO, 2020). The series in this dataset range from 01/08/2019 to 31/07/2020. The original dataset contains missing values where some series contain missing data for more than seven consecutive days. Our repository contains both the original version of the dataset and a version where the missing values have been replaced by zeros.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2.12.">Car Parts Dataset</head><p>This dataset contains 2674 intermittent monthly time series showing car parts sales from January 1998 to March 2002. It was extracted from the R package expsmooth <ref type="bibr" target="#b46">(Hyndman, 2015)</ref>. The package contains this dataset as "carparts". As the original dataset contains missing values, we include the original version of the dataset in the repository as well as a version where the missing values have been replaced with zeros, as the series are intermittent. Research work which uses this dataset includes:</p><p>• Principles and algorithms for forecasting groups of time series: locality and globality (Montero-Manso and Hyndman, 2020) 2.2.13. Dominick Dataset This dataset contains 115704 weekly time series representing the profit of individual stock keeping units (SKU) from a retailer.</p><p>It was extracted from the Kilts Center, University of Chicago Booth School of Business online platform (James M. Kilts Center, 2020). This platform also contains daily store-level sales data on more than 3500 products collected from Dominick's Finer Foods, a large American retail chain in the Chicago area, for approximately 9 years. The data are provided in different categories such as customer counts, store-specific demographics and sales products. Research work which uses this dataset includes:</p><p>• Principles and algorithms for forecasting groups of time series: locality and globality (Montero-Manso and Hyndman, 2020)</p><p>• The value of competitive information in forecasting FMCG retail product sales and the variable selection problem <ref type="bibr" target="#b44">(Huang et al., 2014)</ref> • Beer snobs do exist: estimation of beer demand by type <ref type="bibr" target="#b104">(Toro-González et al., 2014)</ref> • Downsizing and supersizing: how changes in product attributes influence consumer preferences <ref type="bibr" target="#b54">(Jami and Mishra, 2014)</ref> • Reference prices, costs, and nominal rigidities <ref type="bibr" target="#b28">(Eichenbaum et al., 2011)</ref> • Sales and monetary policy (</p><p>Guimaraes and Sheedy, 2011) 2.2.14. FRED-MD Dataset This dataset contains 107 monthly time series showing a set of macro-economic indicators from the Federal Reserve Bank (McCracken and Ng, 2016) starting from 01/01/1959. It was extracted from the FRED-MD database. The series are differenced and log-transformed as suggested in the literature. Research work which uses this dataset includes: • Principles and algorithms for forecasting groups of time series: locality and globality (Montero-Manso and Hyndman, 2020) 2.2.15. San Francisco Traffic Dataset This dataset contains 862 hourly time series showing the road occupancy rates on San Francisco Bay area freeways from 2015 to 2016. It was used by <ref type="bibr" target="#b62">Lai et al. (2017)</ref>, and originally extracted from <ref type="bibr" target="#b19">(Caltrans, 2020)</ref>. <ref type="bibr">Godahewa et al. (2020b)</ref> use a weekly aggregated version of this dataset, which is also available in our repository.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2.16.">Melbourne Pedestrian Counts Dataset</head><p>This dataset contains hourly pedestrian counts captured from 66 sensors in Melbourne city starting from May 2009 (City of <ref type="bibr" target="#b21">Melbourne, 2017)</ref>. The original data are updated on a monthly basis when the new observations become available. The dataset in our repository contains pedestrian counts up to 30/04/2020. Research work which uses this dataset includes:</p><p>• Enhancing pedestrian mobility in smart cities using big data <ref type="bibr" target="#b20">(Carter et al., 2020)</ref> • Visualising Melbourne pedestrian count <ref type="bibr" target="#b80">(Obie et al., 2017)</ref> • PedaViz: visualising hour-level pedestrian activity <ref type="bibr" target="#b81">(Obie et al., 2018)</ref> </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2.17.">Hospital Dataset</head><p>This dataset contains 767 monthly time series showing the patient counts related to medical products from January 2000 to December 2006. It was extracted from the R package expsmooth <ref type="bibr" target="#b46">(Hyndman, 2015)</ref>. The package contains this dataset as "hospital". Research work which uses this dataset includes:</p><p>• Principles and algorithms for forecasting groups of time series: locality and globality (Montero-Manso and Hyndman, 2020) 2.2.18. COVID Deaths Dataset This dataset contains 266 daily time series that represent the total COVID-19 deaths in a set of countries and states from 22/01/2020 to 20/08/2020. It was extracted from the Johns Hopkins repository <ref type="bibr" target="#b22">(CSSEGISandData, 2020;</ref><ref type="bibr" target="#b25">Dong et al., 2020)</ref>. The original data are updated on a daily basis when the new observations become available.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2.19.">KDD Cup 2018 Dataset</head><p>This competition dataset contains long hourly time series representing the air quality levels in 59 stations in 2 cities, Beijing (35 stations) and London (24 stations) from 01/01/2017 to 31/03/2018 (KDD2018, 2018). The dataset represents the air quality in multiple measurements such as P M 2.5, P M 10, N O 2 , CO, O 3 and SO 2 levels.</p><p>Our repository dataset contains 270 hourly time series which have been categorized using city, station name, and air quality measurement.</p><p>As the original dataset contains missing values, we include both the original dataset and an imputed version in our repository. We impute leading missing values with zeros and the remaining missing values using the LOCF method. Research work which uses this dataset includes:</p><p>• AccuAir: winning solution to air quality prediction for KDD cup 2018 <ref type="bibr" target="#b67">(Luo et al., 2019)</ref> 2.2.20. Weather Dataset This dataset contains 3010 daily time series representing the variations of four weather variables: rain, minimum temperature, maximum temperature and solar radiation, measured at weather stations in Australia. The series were extracted from the R package bomrang <ref type="bibr" target="#b95">(Sparks et al., 2020)</ref>. Research work which uses this dataset includes:</p><p>• Principles and algorithms for forecasting groups of time series: locality and globality (Montero-Manso and Hyndman, 2020)</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3.">Single Long Time Series Datasets</head><p>This section describes the benchmark datasets which have single time series with a large amount of data points.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3.1.">Sunspot Dataset</head><p>The original data source contains a single very long daily time series of sunspot numbers from 01/01/1818 until the present <ref type="bibr" target="#b99">(Sunspot, 2015)</ref>. Furthermore, it also contains monthly mean total sunspot numbers (starting from 1749), 13-month smoothed monthly total sunspot numbers (starting from 1749), yearly mean total sunspot numbers (starting from 1700), daily hemispheric sunspot numbers (starting from 1992), monthly mean hemispheric sunspot numbers (starting from 1992), 13-month smoothed monthly hemispheric sunspot numbers (starting from 1992), and yearly mean total sunspot numbers (starting from 1610). The original datasets are updated as new observations become available.</p><p>Our repository contains the single daily time series representing the sunspot numbers from 08/01/1818 to 31/05/2020. As the dataset contains missing values, we include an LOCF-imputed version besides it in the repository. Research work which uses this dataset includes:</p><p>• Re-evaluation of predictive models in light of new data: sunspot number version 2.0 <ref type="bibr" target="#b36">(Gkana and Zachilas, 2016)</ref> • Correlation between sunspot number and ca II K emission index <ref type="bibr" target="#b16">(Bertello et al., 2016)</ref> • Dynamics of sunspot series on time scales from days to years: correlation of sunspot births, variable lifetimes, and evolution of the high-frequency spectral component <ref type="bibr" target="#b91">(Shapoval et al., 2017)</ref> • Long term sunspot cycle phase coherence with periodic phase disruptions (Pease and Glenn, 2016)</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3.2.">Saugeen River Flow Dataset</head><p>This dataset contains a single very long time series representing the daily mean flow of the Saugeen River at Walkerton in cubic meters per second from 01/01/1915 to 31/12/1979. The length of this time series is 23,741. It was extracted from the R package, deseasonalize <ref type="bibr" target="#b76">(McLeod and Gweon, 2013)</ref>. The package contains this dataset as "SaugeenDay".</p><p>Research work which uses this dataset includes:</p><p>• Telescope: an automatic feature extraction and transformation approach for time series forecasting on a level-playing field <ref type="bibr" target="#b11">(Bauer et al., 2020)</ref> </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3.3.">US Births Dataset</head><p>This dataset contains a single very long daily time series representing the number of births in the US from 01/01/1969 to 31/12/1988. The length of this time series is 7,305. It was extracted from the R package, mosaicData <ref type="bibr" target="#b88">(Pruim et al., 2020)</ref>. The package contains this dataset as "Births". Research work which uses this dataset includes:</p><p>• Telescope: an automatic feature extraction and transformation approach for time series forecasting on a level-playing field <ref type="bibr" target="#b11">(Bauer et al., 2020)</ref> </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3.4.">Electricity Demand Dataset</head><p>This dataset contains a single very long time series representing the half hourly electricity demand for Victoria, Australia in 2014. The length of this time series is 17,520. It was extracted from the R package, fpp2 <ref type="bibr" target="#b47">(Hyndman, 2018)</ref>. The package contains this dataset as "elecdemand". The temperatures corresponding with each demand value are also available in the original dataset. Research work which uses this dataset includes:</p><p>• Telescope: an automatic feature extraction and transformation approach for time series forecasting on a level-playing field <ref type="bibr" target="#b11">(Bauer et al., 2020)</ref> </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3.5.">Solar Power Dataset</head><p>This dataset contains a single very long time series representing the solar power production of an Australian wind farm recorded per each 4 seconds starting from 01/08/2019. It was extracted from the AEMO online platform (AEMO, 2020). The length of this time series is 7,397,222.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3.6.">Wind Power Dataset</head><p>This dataset contains a single very long time series representing the wind power production of an Australian wind farm recorded per each 4 seconds starting from 01/08/2019. It was extracted from the AEMO online platform (AEMO, 2020). The length of this time series is 7,397,147.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.">Feature Analysis</head><p>We characterise the datasets in our archive to analyse the similarities and differences between them, to gain a better understanding on where gaps in the repository may be and what type of data are prevalent in real-world applications. This may also help to select suitable forecasting methods for different types of datasets. We analyse the characteristics of the datasets using the tsfeatures <ref type="bibr" target="#b48">(Hyndman et al., 2020)</ref> and catch22 <ref type="bibr" target="#b66">(Lubba et al., 2019)</ref> feature extraction methods. All extracted features are publicly available for further research use<ref type="foot" target="#foot_1">foot_1</ref> . Due to their large size, we have not been able to extract features from the London smart meters, wind farms, solar power, and wind power datasets, which is why we exclude them from this analysis.</p><p>We extract 42 features using the tsfeatures function in the R package tsfeatures (Hyndman et al., 2020) including mean, variance, autocorrelation features, seasonal features, entropy, crossing points, flat spots, lumpiness, non-linearity, stability, Holt-parameters, and features related to the Kwiatkowski-Phillips-Schmidt-Shin (KPSS) test <ref type="bibr" target="#b12">(Baum, 2018)</ref> and the Phillips-Perron (PP) test <ref type="bibr" target="#b86">(Phillips and Perron, 1986)</ref>. For all series that have a frequencies greater than daily, we consider multi-seasonal frequencies when computing features. Therefore, the amount of features extracted is higher for multi-seasonal datasets as the seasonal features are individually calculated for each season presented in the series. Furthermore, if a series is short and does not contain two full seasonal cycles, we calculate the features assuming a non-seasonal series (i.e., setting its frequency to "one" for the feature extraction). We use the catch22 all function in the R package catch22 <ref type="bibr" target="#b65">(Lubba, 2018)</ref> to extract the catch22 features from a given time series. The features are a subset of 22 features from the hctsa package <ref type="bibr" target="#b34">(Fulcher and Jones, 2017)</ref> which includes the implementations of over 7000 time series features. The computational cost of the catch22 features is low compared with all features implementated in the hctsa package.</p><p>In the following feature analysis, we consider 5 features, as suggested by Bojer and Meldgaard (2020): first order autocorrelation (ACF1), trend, entropy, seasonal strength, and the Box-Cox transformation parameter, lambda. The BoxCox.lambda function in the R package forecast <ref type="bibr" target="#b49">(Hyndman and Khandakar, 2008)</ref> is used to extract the Box-Cox transformation parameter from each series, with default parameters. The other 4 features are extracted using tsfeatures. Since this feature space contains 5 dimensions, to compare and visualise the features across multiple datasets, we reduce the feature dimensionality to 2 using Principal Component Analysis (PCA, <ref type="bibr" target="#b57">Jolliffe, 2011)</ref>. The numbers of series in each dataset are significantly different, e.g., the CIF 2016 monthly dataset and M4 monthly dataset contain 72 and 48,000 series, respectively. Hence, if all series were considered to calculate the PCA components, those components would be dominated by datasets that have large amounts of series. Therefore, for datasets that contain more than 300 series, we randomly take a sample of 300 series, before constructing the PCA components across all datasets. Once the components are calculated, we map all series of all datasets into the resulting PCA feature space. We note that we use PCA for dimensionality reduction over other advanced dimensionality reduction algorithms such as t-Distributed Stochastic Neighbor Embedding (t-SNE, van der Maaten and Hinton, 2008) due to this capability of constructing the basis of the feature space with a reduced sample of series with the possibility to then map all series into the space afterwards. The directions of the 5 corresponding feature components generated by PCA are shown in Figure <ref type="figure" target="#fig_1">2</ref>.</p><p>Figure <ref type="figure" target="#fig_2">3</ref> accordingly shows hexbin plots of the normalised density values for 20 datasets. The figure highlights the characteristics among different datasets. For the M competition datasets, the feature space is highly populated on the left-hand side and hence, denoting high trend and ACF1 levels in the series. The tourism yearly dataset also shows high trend and ACF1 levels. In contrast, the car parts, hospital, and Kaggle web traffic datasets show high density levels towards the right-hand side, indicating a higher degree of entropy. The presence of intermittent series can be considered the major reason for the higher degree of entropy in the Kaggle web traffic and car parts datasets. The plots confirm the claim by <ref type="bibr" target="#b17">Bojer and Meldgaard (2020)</ref> and Fry and Brundage (2020) that the M competition datasets are significantly different from the Kaggle web traffic dataset. The monthly datasets generally show high seasonal strengths compared with datasets of other frequencies. Quarterly datasets also demonstrate high seasonal strengths except for the M4 quarterly dataset. In contrast, the datasets with high frequencies such as weekly, daily, and hourly show low seasonal strengths except for the NN5 weekly and NN5 daily datasets.</p><p>Related to the shapes of the feature space, the 3 yearly datasets: M3, M4, and tourism show very similar shapes and density populations indicating they have similar characteristics. The M4 quarterly dataset also shows a similar shape as the yearly datasets, even though it has a different frequency. The other 2 quarterly datasets M3 and tourism are different, but similar to each other. The M3 and M4 monthly datasets are similar to each other in terms of both shape and density population. Furthermore, the electricity hourly and traffic hourly datasets have similar shapes and density populations, whereas the M4 hourly dataset has a slightly different shape compared with them. The daily datasets show different shapes and density populations, where the NN5 daily dataset is considerably different from the other 2 daily datasets: M4 and Kaggle web traffic, in terms of shape and all 3 daily datasets are considerably different from each other in terms of density population. The weekly datasets also show different shapes and density populations compared with each other.</p><p>PCA plots showing the normalized density values of all datasets corresponding with both tsfeatures and catch22 features are available in the Online Appendix<ref type="foot" target="#foot_2">foot_2</ref> .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.">Baseline Forecasting Models</head><p>In this section, we evaluate the performance of different baseline forecasting models including 6 traditional univariate forecasting models and a global forecasting model over the datasets in our repository using a fixed origin evaluation scheme, so that researchers that use the data in our repository can directly benchmark their forecasting algorithms against these baselines. The following 7 baseline forecasting methods are considered for the experiments: <ref type="bibr" target="#b45">Hyndman, 2008)</ref> • Auto-Regressive Integrated Moving Average (ARIMA, <ref type="bibr" target="#b18">Box and Jenkins, 1990)</ref> • Simple Exponential Smoothing (SES)</p><formula xml:id="formula_0">• Exponential Smoothing (ETS,</formula><p>• Theta <ref type="bibr" target="#b6">(Assimakopoulos and Nikolopoulos, 2000)</ref> • Trigonometric Box-Cox ARMA Trend Seasonal <ref type="bibr">(TBATS, Livera et al., 2011)</ref> • Dynamic Harmonic Regression ARIMA (DHR-ARIMA, Hyndman, 2018)</p><p>• A globally trained Pooled Regression model <ref type="bibr">(PR, Trapero et al., 2015)</ref> Again, we do not consider the London smart meters, wind farms, solar power and wind power datasets for both univariate and PR model evaluations, and the Kaggle web traffic daily dataset for the PR model evaluation, as the computational cost of running these models was not feasible in our experimental environment.</p><p>We use the R packages forecast <ref type="bibr" target="#b51">(Hyndman et al., 2015)</ref> and glmnet <ref type="bibr" target="#b32">(Friedman et al., 2010)</ref> to implement the 6 traditional univariate forecasting methods and the globally trained PR method, respectively.</p><p>The Theta, SES, and PR methods are evaluated for all datasets. ETS and ARIMA are evaluated for yearly, quarterly, monthly, and daily datasets. We consider the datasets with small frequencies, namely, 10 minutely, half hourly, and hourly as multi-seasonal and hence, TBATS and DHR-ARIMA are evaluated for those datasets instead of ETS and ARIMA due to their capability of dealing with multiple seasonalities <ref type="bibr" target="#b9">(Bandara et al., 2019)</ref>. TBATS and DHR-ARIMA are also evaluated for weekly datasets due to their capability of dealing with long non-integer seasonal cycles present in weekly data <ref type="bibr">(Godahewa et al., 2020b)</ref>.</p><p>Forecast horizons are chosen for each dataset to evaluate the model performance. For all competition datasets, we use the forecast horizons originally employed in the competitions. For the remaining datasets, 12 months ahead forecasts are obtained for monthly datasets, 8 weeks ahead forecasts are obtained for weekly datasets, except the solar weekly dataset, and 30 days ahead forecasts are obtained for daily datasets. For the solar weekly dataset, we use a horizon of 5 as the series in this dataset are relatively short compared with other weekly datasets. For half-hourly, hourly and other low frequency datasets, we set the forecasting horizon to one week, e.g., 168 is used as the horizon for hourly datasets.</p><p>The number of lagged values used in the PR models are determined similar to the heuristic suggested by <ref type="bibr" target="#b43">Hewamalage et al. (2020)</ref>. Generally, the number of lagged values is chosen as the seasonality multiplied with 1.25. If the datasets contain short series and it is impossible to use the above defined number of lags, for example in the Dominick and solar weekly datasets, then the number of lagged values is chosen as the forecast horizon multiplied with 1.25, assuming that the horizon is not arbitrarily chosen and reveals certain characteristics of the time series structure. When defining the number of lagged values for multi-seasonal datasets, we consider the corresponding weekly seasonality value, e.g., 168 for hourly datasets. If it is impossible to use the number of lagged values obtained with the weekly seasonality due to high memory and computational requirements, for example with the traffic hourly and electricity hourly datasets, then we use the corresponding daily seasonality value to define the number of lags, e.g., 24 for hourly datasets. In particular, due to high memory and computational requirements, the number of lagged values is chosen as 50 for the solar 10 minutely dataset which is less than the above mentioned heuristics based on seasonality and forecasting horizon suggest.</p><p>We use four error metrics common for evaluation in forecasting, namely the Mean Absolute Scaled Error (MASE, <ref type="bibr" target="#b52">Hyndman and Koehler, 2006)</ref>, symmetric Mean Absolute Percentage Error (sMAPE), Mean Absolute Error <ref type="bibr">(MAE, Sammut and Webb, 2010)</ref>, and Root Mean Squared Error (RMSE). For datasets containing zeros, calculating the sMAPE error measure may lead to divisions by zero. Hence, we also consider the variant of the sMAPE proposed by <ref type="bibr" target="#b98">Suilin (2017)</ref> which overcomes the problems with small values and divisions by zero of the original sMAPE. We report the original sMAPE only for datasets where divisions by zero do not occur. Equations 2, 3, 4, 5, and 6, respectively, show the formulas of MASE, sMAPE, modified sMAPE, MAE, and RMSE, where M is the number of data points in the training series, S is the seasonality of the dataset, h is the forecast horizon, F k are the generated forecasts and Y k are the actual values. We set the parameter in Equation <ref type="formula">4</ref>to its proposed default of 0.1.</p><formula xml:id="formula_1">M ASE = M +h k=M +1 |F k -Y k | h M -S M k=S+1 |Y k -Y k-S | (2) sM AP E = 100% h h k=1 |F k -Y k | (|Y k | + |F k |)/2<label>(3)</label></formula><formula xml:id="formula_2">msM AP E = 100% h h k=1 |F k -Y k | max(|Y k | + |F k | + , 0.5 + )/2 (4) M AE = h k=1 |F k -Y k | h<label>(5)</label></formula><formula xml:id="formula_3">RM SE = h k=1 |F k -Y k | 2 h (<label>6</label></formula><formula xml:id="formula_4">)</formula><p>The MASE measures the performance of a model compared with the in-sample average performance of a one-step-ahead naïve or snaïve benchmark. For multi-seasonal datasets, we use the lowest frequency to calculate the MASE. For the datasets where all series contain at least one full seasonal cycle of data points, we consider the series to be seasonal and calculate MASE values using the snaïve benchmark. Otherwise, we calculate the MASE using the naïve benchmark, effectively treating the series as non-seasonal.</p><p>The error metrics are defined for each series individually. We further calculate the mean and median values of the error metrics over the datasets to evaluate the model performance and hence, each model is evaluated using 10 error metrics for a particular dataset: mean MASE, median MASE, mean sMAPE, median sMAPE, mean msMAPE, median msMAPE, mean MAE, median MAE, mean RMSE and median RMSE. Tables <ref type="table" target="#tab_3">6</ref>, <ref type="table">7</ref> <ref type="bibr">, 8, 9, 10, 11, 12, 13, 14, and</ref>  </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>results</head><p>, respectively, of the SES, Theta, ETS, ARIMA, TBATS, DHR-ARIMA, and PR models on the same 20 datasets we considered for the feature analysis. The results of all baselines across all datasets are available in the Online Appendix.</p><p>Overall, SES shows the worst performance and Theta shows the second-worst performance across all error metrics. ETS and ARIMA show a mixed performance on the yearly, monthly, quarterly, and daily datasets but both outperform SES and Theta. TBATS generally shows a better performance than DHR-ARIMA on the high frequency datasets. For our experiments, we always set the maximum order of Fourier terms used with DHR-ARIMA to k = 1. Based on the characteristics of the datasets, k can be tuned as a hyperparameter and it may lead to better results compared with our results. Compared with SES and Theta, both TBATS and DHR-ARIMA show superior performance.</p><p>The globally trained PR models show a mixed performance compared with the traditional univariate forecasting models. The performance of the PR models is considerably affected by the number of past lags used during model training, performing better as the number of lags is increased. The number of lags we use during model training is quite high with the high-frequency datasets such as hourly, compared with the other datasets and hence, PR models generally show a better performance than the traditional univariate forecasting models on all error metrics across those datasets. But on the other hand, the memory and computational requirements are also increased when training PR models with large numbers of lags. Furthermore, the PR models show a better performance across intermittent datasets such as car parts, compared with the traditional univariate forecasting models.</p><p>We note that the MASE values of the baselines are generally high on multi-seasonal </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>datasets.</head><p>For multi-seasonal datasets, we consider longer forecasting horizons corresponding to one week unless they are competition datasets. As benchmark in the MASE calculations, we use a seasonal naïve forecast for the daily seasonality. As therewith the MASE compares the forecasts of longer horizons (up to one week) with the in-sample snaïve forecasts obtained with shorter horizons (one day), the MASE values of multi-seasonal datasets are considerably greater than one across all baselines. Furthermore, the error measures are not directly comparable across datasets as we consider different forecasting horizons with different datasets.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.">Conclusion</head><p>Many businesses and industries nowadays rely on large quantities of time series from similar sources. Recently, global forecasting models have shown huge potential in providing accurate forecasts for such collections of time series compared with the traditional univariate benchmarks. However, there are currently no comprehensive time series forecasting benchmark data archives available that contain datasets to facilitate the evaluation of the new global forecasting algorithms. In this paper, we have presented the details of an archive that contains 20 publicly available time series datasets with different frequencies from varied domains. In addition to the datasets that are sets of series, which is the main focus of the archive, we furthermore include 6 datasets that contain single but very long series.</p><p>We have also characterised the datasets and have identified the similarities and differences among them by conducting a feature analysis exercise using tsfeatures and catch22 features extracted from each series. Finally, we have evaluated the performance of seven baseline forecasting models including six traditional univariate forecasting models: SES, Theta, ETS, ARIMA, TBATS, DHR-ARIMA, and a global forecasting model, PR, over all datasets across eight error metrics to enable other researchers to benchmark their own forecasting algorithms directly against those.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure 1 :</head><label>1</label><figDesc>Figure 1: An example of the file format for the NN5 daily dataset</figDesc><graphic coords="6,81.65,111.11,431.97,282.81" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Figure 2 :</head><label>2</label><figDesc>Figure2: The directions of the 5 feature components: ACF1, trend, entropy, seasonal strength, and lambda, for the two-dimensional feature space generated by the first two principal components (PC1, PC2) extracted with PCA.</figDesc><graphic coords="17,134.44,196.17,326.40,277.20" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Figure 3 :</head><label>3</label><figDesc>Figure 3: Hexbin plots showing the normalised density values of the low-dimensional feature space generated by PCA across ACF1, trend, entropy, seasonal strength and lambda for 20 datasets. The dark and light hexbins denote the high and low density areas, respectively.</figDesc><graphic coords="18,64.51,111.64,468.92,558.35" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 3 :</head><label>3</label><figDesc>Summary of M3 Dataset</figDesc><table><row><cell cols="5">Frequency No: of Series Min. Length Max. Length Forecast Horizon</cell></row><row><cell>Yearly</cell><cell>645</cell><cell>20</cell><cell>47</cell><cell>6</cell></row><row><cell>Quarterly</cell><cell>756</cell><cell>24</cell><cell>72</cell><cell>8</cell></row><row><cell>Monthly</cell><cell>1428</cell><cell>66</cell><cell>144</cell><cell>18</cell></row><row><cell>Other</cell><cell>174</cell><cell>71</cell><cell>104</cell><cell>8</cell></row><row><cell>Total</cell><cell>3003</cell><cell></cell><cell></cell><cell></cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 4 :</head><label>4</label><figDesc>Summary of M4 Dataset</figDesc><table><row><cell cols="5">Frequency No: of Series Min. Length Max. Length Forecast Horizon</cell></row><row><cell>Yearly</cell><cell>23000</cell><cell>19</cell><cell>841</cell><cell>6</cell></row><row><cell>Quarterly</cell><cell>24000</cell><cell>24</cell><cell>874</cell><cell>8</cell></row><row><cell>Monthly</cell><cell>48000</cell><cell>60</cell><cell>2812</cell><cell>18</cell></row><row><cell>Weekly</cell><cell>359</cell><cell>93</cell><cell>2610</cell><cell>13</cell></row><row><cell>Daily</cell><cell>4227</cell><cell>107</cell><cell>9933</cell><cell>14</cell></row><row><cell>Hourly</cell><cell>414</cell><cell>748</cell><cell>1008</cell><cell>48</cell></row><row><cell>Total</cell><cell>100000</cell><cell></cell><cell></cell><cell></cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2"><head>Table 5 :</head><label>5</label><figDesc>Summary of Tourism Dataset</figDesc><table><row><cell cols="5">Frequency No: of Series Min. Length Max. Length Forecast Horizon</cell></row><row><cell>Yearly</cell><cell>518</cell><cell>11</cell><cell>47</cell><cell>4</cell></row><row><cell>Quarterly</cell><cell>427</cell><cell>30</cell><cell>130</cell><cell>8</cell></row><row><cell>Monthly</cell><cell>366</cell><cell>91</cell><cell>333</cell><cell>24</cell></row><row><cell>Total</cell><cell>1311</cell><cell></cell><cell></cell><cell></cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_3"><head>Table 6 :</head><label>6</label><figDesc>15 show the mean MASE, median MASE, mean sMAPE, median sMAPE, mean msMAPE, median msMAPE, mean MAE, median MAE, mean RMSE, and median RMSE Mean MASE Results</figDesc><table><row><cell>Dataset</cell><cell>SES</cell><cell cols="5">Theta ETS ARIMA TBATS DHR-ARIMA</cell><cell>PR</cell></row><row><cell>NN5 Daily</cell><cell>1.521</cell><cell>0.885</cell><cell>0.865</cell><cell>1.013</cell><cell>-</cell><cell>-</cell><cell>1.263</cell></row><row><cell>NN5 Weekly</cell><cell>0.903</cell><cell>0.885</cell><cell>-</cell><cell>-</cell><cell>0.872</cell><cell>0.887</cell><cell>0.854</cell></row><row><cell>CIF 2016</cell><cell>1.291</cell><cell>0.997</cell><cell>0.841</cell><cell>0.929</cell><cell>-</cell><cell>-</cell><cell>1.019</cell></row><row><cell>Kaggle Daily</cell><cell>0.924</cell><cell>0.928</cell><cell>1.231</cell><cell>0.890</cell><cell>-</cell><cell>-</cell><cell>-</cell></row><row><cell>Tourism Yearly</cell><cell>3.253</cell><cell>3.015</cell><cell>3.395</cell><cell>3.775</cell><cell>-</cell><cell>-</cell><cell>3.516</cell></row><row><cell cols="2">Tourism Quarterly 3.210</cell><cell>1.661</cell><cell>1.592</cell><cell>1.782</cell><cell>-</cell><cell>-</cell><cell>1.643</cell></row><row><cell>Tourism Monthly</cell><cell>3.306</cell><cell>1.649</cell><cell>1.526</cell><cell>1.589</cell><cell>-</cell><cell>-</cell><cell>1.678</cell></row><row><cell>Traffic Hourly</cell><cell>1.922</cell><cell>1.922</cell><cell>-</cell><cell>-</cell><cell>2.482</cell><cell>2.535</cell><cell>1.281</cell></row><row><cell>Electricity Hourly</cell><cell>4.544</cell><cell>4.545</cell><cell>-</cell><cell>-</cell><cell>3.690</cell><cell>4.602</cell><cell>2.912</cell></row><row><cell>M3 Yearly</cell><cell>3.167</cell><cell>2.774</cell><cell>2.860</cell><cell>3.417</cell><cell>-</cell><cell>-</cell><cell>3.223</cell></row><row><cell>M3 Quarterly</cell><cell>1.417</cell><cell>1.117</cell><cell>1.170</cell><cell>1.240</cell><cell>-</cell><cell>-</cell><cell>1.248</cell></row><row><cell>M3 Monthly</cell><cell>1.091</cell><cell>0.864</cell><cell>0.865</cell><cell>0.873</cell><cell>-</cell><cell>-</cell><cell>1.010</cell></row><row><cell>M4 Yearly</cell><cell>3.981</cell><cell>3.375</cell><cell>3.444</cell><cell>3.876</cell><cell>-</cell><cell>-</cell><cell>3.625</cell></row><row><cell>M4 Quarterly</cell><cell>1.417</cell><cell>1.231</cell><cell>1.161</cell><cell>1.228</cell><cell>-</cell><cell>-</cell><cell>1.316</cell></row><row><cell>M4 Monthly</cell><cell>1.150</cell><cell>0.970</cell><cell>0.948</cell><cell>0.962</cell><cell>-</cell><cell>-</cell><cell>1.080</cell></row><row><cell>M4 Weekly</cell><cell>0.587</cell><cell>0.546</cell><cell>-</cell><cell>-</cell><cell>0.504</cell><cell>0.550</cell><cell>0.481</cell></row><row><cell>M4 Daily</cell><cell>1.154</cell><cell>1.153</cell><cell>1.239</cell><cell>1.179</cell><cell>-</cell><cell>-</cell><cell>1.162</cell></row><row><cell>M4 Hourly</cell><cell cols="2">11.607 11.524</cell><cell>-</cell><cell>-</cell><cell>2.663</cell><cell>13.557</cell><cell>1.662</cell></row><row><cell>Carparts</cell><cell>0.897</cell><cell>0.914</cell><cell>0.925</cell><cell>0.926</cell><cell>-</cell><cell>-</cell><cell>0.755</cell></row><row><cell>Hospital</cell><cell>0.813</cell><cell>0.761</cell><cell>0.765</cell><cell>0.787</cell><cell>-</cell><cell>-</cell><cell>0.782</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_4"><head>Table 15 :</head><label>15</label><figDesc>Median RMSE Results</figDesc><table><row><cell>Dataset</cell><cell cols="6">SES Theta ETS ARIMA TBATS DHR-ARIMA</cell><cell>PR</cell></row><row><cell>NN5 Daily</cell><cell>1.482</cell><cell>0.838</cell><cell>0.809</cell><cell>0.926</cell><cell>-</cell><cell>-</cell><cell>1.224</cell></row><row><cell>NN5 Weekly</cell><cell>0.781</cell><cell>0.805</cell><cell>-</cell><cell>-</cell><cell>0.827</cell><cell>0.769</cell><cell>0.781</cell></row><row><cell>CIF 2016</cell><cell>0.862</cell><cell>0.662</cell><cell>0.532</cell><cell>0.559</cell><cell>-</cell><cell>-</cell><cell>0.746</cell></row><row><cell>Kaggle Daily</cell><cell>0.539</cell><cell>0.548</cell><cell>0.667</cell><cell>0.528</cell><cell>-</cell><cell>-</cell><cell>-</cell></row><row><cell>Tourism Yearly</cell><cell>2.442</cell><cell>2.360</cell><cell>2.373</cell><cell>2.719</cell><cell>-</cell><cell>-</cell><cell>2.356</cell></row><row><cell cols="2">Tourism Quarterly 2.309</cell><cell>1.348</cell><cell>1.275</cell><cell>1.388</cell><cell>-</cell><cell>-</cell><cell>1.361</cell></row><row><cell>Tourism Monthly</cell><cell>2.336</cell><cell>1.382</cell><cell>1.276</cell><cell>1.337</cell><cell>-</cell><cell>-</cell><cell>1.484</cell></row><row><cell>Traffic Hourly</cell><cell>1.817</cell><cell>1.817</cell><cell>-</cell><cell>-</cell><cell>1.380</cell><cell>2.365</cell><cell>1.228</cell></row><row><cell>Electricity Hourly</cell><cell>4.766</cell><cell>4.766</cell><cell>-</cell><cell>-</cell><cell>2.300</cell><cell>4.630</cell><cell>2.878</cell></row><row><cell>M3 Yearly</cell><cell>2.261</cell><cell>1.985</cell><cell>1.907</cell><cell>2.003</cell><cell>-</cell><cell>-</cell><cell>2.267</cell></row><row><cell>M3 Quarterly</cell><cell>1.073</cell><cell>0.831</cell><cell>0.855</cell><cell>0.917</cell><cell>-</cell><cell>-</cell><cell>0.902</cell></row><row><cell>M3 Monthly</cell><cell>0.861</cell><cell>0.721</cell><cell>0.712</cell><cell>0.704</cell><cell>-</cell><cell>-</cell><cell>0.825</cell></row><row><cell>M4 Yearly</cell><cell>2.940</cell><cell>2.312</cell><cell>2.329</cell><cell>2.753</cell><cell>-</cell><cell>-</cell><cell>2.568</cell></row><row><cell>M4 Quarterly</cell><cell>1.142</cell><cell>0.973</cell><cell>0.886</cell><cell>0.925</cell><cell>-</cell><cell>-</cell><cell>1.038</cell></row><row><cell>M4 Monthly</cell><cell>0.867</cell><cell>0.763</cell><cell>0.736</cell><cell>0.727</cell><cell>-</cell><cell>-</cell><cell>0.844</cell></row><row><cell>M4 Weekly</cell><cell>0.441</cell><cell>0.416</cell><cell>-</cell><cell>-</cell><cell>0.365</cell><cell>0.382</cell><cell>0.392</cell></row><row><cell>M4 Daily</cell><cell>0.862</cell><cell>0.861</cell><cell>0.859</cell><cell>0.867</cell><cell>-</cell><cell>-</cell><cell>0.868</cell></row><row><cell>M4 Hourly</cell><cell>3.685</cell><cell>3.688</cell><cell>-</cell><cell>-</cell><cell>1.873</cell><cell>3.507</cell><cell>1.010</cell></row><row><cell>Carparts</cell><cell>0.562</cell><cell>0.482</cell><cell>0.562</cell><cell>0.600</cell><cell>-</cell><cell>-</cell><cell>0.375</cell></row><row><cell>Hospital</cell><cell>0.745</cell><cell>0.723</cell><cell>0.731</cell><cell>0.733</cell><cell>-</cell><cell>-</cell><cell>0.740</cell></row><row><cell></cell><cell></cell><cell cols="4">Table 7: Median MASE Results</cell><cell></cell><cell></cell></row><row><cell>Dataset</cell><cell cols="6">SES Theta ETS ARIMA TBATS DHR-ARIMA</cell><cell>PR</cell></row><row><cell>NN5 Daily</cell><cell>35.50</cell><cell>22.01</cell><cell>21.57</cell><cell>26.01</cell><cell>-</cell><cell>-</cell><cell>30.30</cell></row><row><cell>NN5 Weekly</cell><cell>12.24</cell><cell>11.96</cell><cell>-</cell><cell>-</cell><cell>11.63</cell><cell>11.84</cell><cell>11.45</cell></row><row><cell>CIF 2016</cell><cell>14.95</cell><cell>13.05</cell><cell>12.18</cell><cell>11.70</cell><cell>-</cell><cell>-</cell><cell>12.33</cell></row><row><cell>Kaggle Daily</cell><cell>-</cell><cell>-</cell><cell>-</cell><cell>-</cell><cell>-</cell><cell>-</cell><cell>-</cell></row><row><cell>Tourism Yearly</cell><cell>34.14</cell><cell>31.96</cell><cell>36.56</cell><cell>33.44</cell><cell>-</cell><cell>-</cell><cell>46.94</cell></row><row><cell cols="2">Tourism Quarterly 27.41</cell><cell>15.37</cell><cell>15.07</cell><cell>16.58</cell><cell>-</cell><cell>-</cell><cell>15.86</cell></row><row><cell>Tourism Monthly</cell><cell>36.39</cell><cell>19.90</cell><cell>19.02</cell><cell>19.73</cell><cell>-</cell><cell>-</cell><cell>21.11</cell></row><row><cell>Traffic Hourly</cell><cell>-</cell><cell>82.44</cell><cell>-</cell><cell>-</cell><cell>70.59</cell><cell>92.58</cell><cell>-</cell></row><row><cell>Electricity Hourly</cell><cell>-</cell><cell>-</cell><cell>-</cell><cell>-</cell><cell>40.47</cell><cell>-</cell><cell>-</cell></row><row><cell>M3 Yearly</cell><cell>17.76</cell><cell>16.76</cell><cell>17.00</cell><cell>18.84</cell><cell>-</cell><cell>-</cell><cell>17.13</cell></row><row><cell>M3 Quarterly</cell><cell>10.90</cell><cell>9.20</cell><cell>9.68</cell><cell>10.24</cell><cell>-</cell><cell>-</cell><cell>9.77</cell></row><row><cell>M3 Monthly</cell><cell>16.22</cell><cell>13.86</cell><cell>14.14</cell><cell>14.24</cell><cell>-</cell><cell>-</cell><cell>15.17</cell></row><row><cell>M4 Yearly</cell><cell>16.40</cell><cell>14.56</cell><cell>15.36</cell><cell>16.03</cell><cell>-</cell><cell>-</cell><cell>14.53</cell></row><row><cell>M4 Quarterly</cell><cell>11.08</cell><cell>10.31</cell><cell>10.29</cell><cell>10.52</cell><cell>-</cell><cell>-</cell><cell>10.84</cell></row><row><cell>M4 Monthly</cell><cell>14.38</cell><cell>13.01</cell><cell>13.53</cell><cell>13.08</cell><cell>-</cell><cell>-</cell><cell>13.74</cell></row><row><cell>M4 Weekly</cell><cell>9.01</cell><cell>7.83</cell><cell>-</cell><cell>-</cell><cell>7.30</cell><cell>7.94</cell><cell>7.43</cell></row><row><cell>M4 Daily</cell><cell>3.05</cell><cell>3.07</cell><cell>3.13</cell><cell>3.01</cell><cell>-</cell><cell>-</cell><cell>3.06</cell></row><row><cell>M4 Hourly</cell><cell>42.95</cell><cell>42.98</cell><cell>-</cell><cell>-</cell><cell>28.12</cell><cell>35.99</cell><cell>11.68</cell></row><row><cell>Carparts</cell><cell>-</cell><cell>-</cell><cell>-</cell><cell>-</cell><cell>-</cell><cell>-</cell><cell>-</cell></row><row><cell>Hospital</cell><cell>17.98</cell><cell>17.31</cell><cell>17.50</cell><cell>17.83</cell><cell>-</cell><cell>-</cell><cell>17.60</cell></row><row><cell></cell><cell></cell><cell cols="4">Table 8: Mean sMAPE Results</cell><cell></cell><cell></cell></row></table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="1" xml:id="foot_0"><p>https://github.com/rakshitha123/TSForecasting</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="2" xml:id="foot_1"><p>https://drive.google.com/drive/folders/1S-0LL-GQknu0jibX5bQQBDXbiChjU0NZ?usp=sharing</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="3" xml:id="foot_2"><p>https://drive.google.com/file/d/1qS6r-RV-Dac3Rj3Fv248o5hjnpZyEAIk/view?usp=sharing</p></note>
+		</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<monogr>
+		<title level="m" type="main">Market data nemweb</title>
+		<author>
+			<persName><surname>Aemo</surname></persName>
+		</author>
+		<ptr target="http://www.nemweb.com.au/" />
+		<imprint>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Time series clustering using numerical and fuzzy representations</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Afanasieva</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Yarushkina</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><surname>Sibirev</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">2017 Joint 17th World Congress of International Fuzzy Systems Association and 9th International Conference on Soft Computing and Intelligent Systems (IFSA-SCIS)</title>
+		<imprint>
+			<date type="published" when="2017">2017</date>
+			<biblScope unit="page" from="1" to="7" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">A novel approach to model selection in tourism demand modeling</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Akın</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Tourism Management</title>
+		<imprint>
+			<biblScope unit="volume">48</biblScope>
+			<biblScope unit="page" from="64" to="72" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<monogr>
+		<title level="m" type="main">A single scalable lstm model for short-term forecasting of disaggregated electricity loads</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">M</forename><surname>Alonso</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><forename type="middle">J</forename><surname>Nogales</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Ruiz</surname></persName>
+		</author>
+		<idno>ArXiv abs/1910.06640</idno>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Forecast combinations of computational intelligence and linear models for the nn5 time series forecasting competition</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">R</forename><surname>Andrawis</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">F</forename><surname>Atiya</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>El-Shishiny</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">special Section 1: Forecasting with Artificial Neural Networks and Computational Intelligence Special Section 2: Tourism Forecasting</title>
+		<imprint>
+			<date type="published" when="2011">2011</date>
+			<biblScope unit="volume">27</biblScope>
+			<biblScope unit="page" from="672" to="688" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<monogr>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">S</forename><surname>Armstrong</surname></persName>
+		</author>
+		<title level="m">Evaluating Forecasting Methods</title>
+		<meeting><address><addrLine>Boston, MA</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer US</publisher>
+			<date type="published" when="2001">2001</date>
+			<biblScope unit="page" from="443" to="472" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">The theta model: a decomposition approach to forecasting</title>
+		<author>
+			<persName><forename type="first">V</forename><surname>Assimakopoulos</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Nikolopoulos</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Forecasting</title>
+		<imprint>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="521" to="530" />
+			<date type="published" when="2000">2000</date>
+		</imprint>
+	</monogr>
+	<note>the M3-Competition</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">The tourism forecasting competition</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Athanasopoulos</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J</forename><surname>Hyndman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Song</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">C</forename><surname>Wu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Forecasting</title>
+		<imprint>
+			<biblScope unit="volume">27</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="822" to="844" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<monogr>
+		<author>
+			<persName><forename type="first">A</forename><surname>Bagnall</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">A</forename><surname>Dau</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Lines</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Flynn</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Large</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Bostrom</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Southam</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Keogh</surname></persName>
+		</author>
+		<title level="m">The uea multivariate time series classification archive</title>
+		<imprint>
+			<date type="published" when="2018">2018. 2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<monogr>
+		<title level="m" type="main">Lstm-msnet: Leveraging forecasts on sets of related time series with multiple seasonal patterns</title>
+		<author>
+			<persName><forename type="first">K</forename><surname>Bandara</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Bergmeir</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Hewamalage</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Forecasting across time series databases using recurrent neural networks on groups of similar series: A clustering approach</title>
+		<author>
+			<persName><forename type="first">K</forename><surname>Bandara</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Bergmeir</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Smyl</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Expert Syst. Appl</title>
+		<imprint>
+			<biblScope unit="volume">140</biblScope>
+			<biblScope unit="page">112896</biblScope>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Telescope: An automatic feature extraction and transformation approach for time series forecasting on a level-playing field</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Bauer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Züfle</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Herbst</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Kounev</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Curtef</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">2020 IEEE 36th International Conference on Data Engineering (ICDE)</title>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+			<biblScope unit="page" from="1902" to="1905" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<monogr>
+		<title level="m" type="main">Kpss: Stata module to compute kwiatkowski-phillips-schmidt-shin test for stationarity</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Baum</surname></persName>
+		</author>
+		<ptr target="https://EconPapers.repec.org/RePEc:boc:bocode:s410401" />
+		<imprint>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Recursive multi-step time series forecasting by perturbing data</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Ben Taieb</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Bontempi</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">IEEE 11th International Conference on Data Mining</title>
+		<imprint>
+			<date type="published" when="2011">2011. 2011</date>
+			<biblScope unit="page" from="695" to="704" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">A review and comparison of strategies for multi-step ahead time series forecasting based on the nn5 forecasting competition</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Ben Taieb</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Bontempi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">F</forename><surname>Atiya</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Sorjamaa</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Expert Systems with Applications</title>
+		<imprint>
+			<biblScope unit="volume">39</biblScope>
+			<biblScope unit="issue">8</biblScope>
+			<biblScope unit="page" from="7067" to="7083" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Multiple-output modeling for multi-step-ahead time series forecasting</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Ben Taieb</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Sorjamaa</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Bontempi</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Neurocomputing</title>
+		<imprint>
+			<biblScope unit="volume">73</biblScope>
+			<biblScope unit="issue">10</biblScope>
+			<biblScope unit="page" from="1950" to="1957" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+	<note>subspace Learning / Selected papers from the European Symposium on Time Series Prediction</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Correlation between sunspot number and ca ii k emission index</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Bertello</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Pevtsov</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Tlatov</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Singh</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Solar Physics</title>
+		<imprint>
+			<biblScope unit="volume">291</biblScope>
+			<date type="published" when="2016-06">06 2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Kaggle forecasting competitions: An overlooked learning opportunity</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">S</forename><surname>Bojer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Meldgaard</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Forecasting</title>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<monogr>
+		<title level="m" type="main">Time Series Analysis, Forecasting and Control</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Box</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Jenkins</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1990">1990</date>
+			<publisher>HoldenDay Inc</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<monogr>
+		<title level="m" type="main">Caltrans performance measurement system, california department of transportation</title>
+		<author>
+			<persName><surname>Caltrans</surname></persName>
+		</author>
+		<ptr target="http://pems.dot.ca.gov" />
+		<imprint>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+	<note>Accessed: 2020-04-30</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Enhancing pedestrian mobility in smart cities using big data</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>Carter</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Adam</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Tsakis</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Shaw</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Watson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Ryan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Management Analytics</title>
+		<imprint>
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="173" to="188" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">An automatic calibration framework applied on a metaheuristic fuzzy model for the cif competition</title>
+		<author>
+			<persName><forename type="first">City</forename><surname>Of Melbourne</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><forename type="middle">N</forename><surname>Coelho</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">M</forename><surname>Meneghini</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Souza</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">J F</forename><surname>Guimarães</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><forename type="middle">G</forename></persName>
+		</author>
+		<ptr target="https://data.melbourne.vic.gov.au/Transport/Pedestrian-Counting-System-2009-to-Present-counts-/b2ak-trbpCoelho" />
+	</analytic>
+	<monogr>
+		<title level="m">2016 International Joint Conference on Neural Networks (IJCNN)</title>
+		<imprint>
+			<date type="published" when="2016">2017. 2016</date>
+			<biblScope unit="page" from="1507" to="1514" />
+		</imprint>
+	</monogr>
+	<note>Pedestrian counting system -2009 to present (counts per hour</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<monogr>
+		<title level="m" type="main">Covid-19 data repository by the center for systems science and engineering (csse) at johns hopkins university</title>
+		<author>
+			<persName><surname>Cssegisanddata</surname></persName>
+		</author>
+		<ptr target="https://github.com/CSSEGISandData/COVID-19" />
+		<imprint>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Improving time series forecasting: An approach combining bootstrap aggregation, clusters and exponential smoothing</title>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">M</forename><surname>Dantas</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">]</forename><surname>Oliveira</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><forename type="middle">L C</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Forecasting</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="748" to="761" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">The ucr time series archive</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">A</forename><surname>Dau</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Bagnall</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Kamgar</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C.-C</forename><forename type="middle">M</forename><surname>Yeh</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Zhu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Gharghabi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">A</forename><surname>Ratanamahatana</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Keogh</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE/CAA Journal of Automatica Sinica</title>
+		<imprint>
+			<biblScope unit="volume">6</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1293" to="1305" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">An interactive web-based dashboard to track covid-19 in real time</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>Dong</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Du</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Gardner</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Lancet Inf Dis</title>
+		<imprint>
+			<biblScope unit="volume">20</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="533" to="534" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<monogr>
+		<title level="m" type="main">Uci machine learning repository</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Dua</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Graff</surname></persName>
+		</author>
+		<ptr target="https://archive.ics.uci.edu/" />
+		<imprint>
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">Temporal link prediction using matrix and tensor factorizations</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">M</forename><surname>Dunlavy</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">G</forename><surname>Kolda</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Acar</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">ACM Trans. Knowl. Discov. Data</title>
+		<imprint>
+			<biblScope unit="volume">5</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<date type="published" when="2011-02">Feb. 2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Reference prices, costs, and nominal rigidities</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Eichenbaum</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Jaimovich</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Rebelo</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">American Economic Review</title>
+		<imprint>
+			<biblScope unit="volume">101</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="234" to="262" />
+			<date type="published" when="2011-02">February 2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<monogr>
+		<author>
+			<persName><forename type="first">P</forename><surname>Ellis</surname></persName>
+		</author>
+		<ptr target="https://cran.r-project.org/web/packages/Tcomp" />
+		<title level="m">Tcomp: Data from the 2010 tourism forecasting competition</title>
+		<imprint>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<monogr>
+		<title level="m" type="main">Deepar: Probabilistic forecasting with autoregressive recurrent networks</title>
+		<author>
+			<persName><forename type="first">V</forename><surname>Flunkert</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Salinas</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Gasthaus</surname></persName>
+		</author>
+		<ptr target="http://arxiv.org/abs/1704.04110" />
+		<imprint>
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<monogr>
+		<author>
+			<persName><forename type="first">Srategy</forename><surname>Forecasting</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Unit</surname></persName>
+		</author>
+		<ptr target="http://fsudataset.com/" />
+		<title level="m">Foredeck</title>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">Regularization paths for generalized linear models via coordinate descent</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Friedman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Hastie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Tibshirani</surname></persName>
+		</author>
+		<ptr target="http://www.jstatsoft.org/v33/i01/" />
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Statistical Software</title>
+		<imprint>
+			<biblScope unit="volume">33</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1" to="22" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">The m4 forecasting competition -a practitioner&apos;s view</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Fry</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Brundage</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Forecasting</title>
+		<imprint>
+			<biblScope unit="volume">36</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="156" to="160" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+	<note>m4 Competition</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<analytic>
+		<title level="a" type="main">hctsa: A computational framework for automated time-series phenotyping using massive feature extraction</title>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">D</forename><surname>Fulcher</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">S</forename><surname>Jones</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Cell Sys</title>
+		<imprint>
+			<biblScope unit="volume">5</biblScope>
+			<biblScope unit="page">527</biblScope>
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<analytic>
+		<title level="a" type="main">Exponential smoothing: The state of the art</title>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">S</forename><surname>Gardner</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of forecasting</title>
+		<imprint>
+			<biblScope unit="volume">4</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1" to="28" />
+			<date type="published" when="1985">1985</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<analytic>
+		<title level="a" type="main">Re-evaluation of predictive models in light of new data: Sunspot number version 2</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Gkana</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Zachilas</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Solar Physics</title>
+		<imprint>
+			<biblScope unit="volume">291</biblScope>
+			<date type="published" when="2016-08">08 2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<monogr>
+		<title level="m" type="main">Ensembles of localised models for time series forecasting</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Godahewa</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Bandara</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Webb</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Smyl</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Bergmeir</surname></persName>
+		</author>
+		<ptr target="https://arxiv.org/abs/2012.15059" />
+		<imprint>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<monogr>
+		<author>
+			<persName><forename type="first">R</forename><surname>Godahewa</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Bergmeir</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Webb</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Montero-Manso</surname></persName>
+		</author>
+		<ptr target="https://arxiv.org/abs/2010.08158" />
+		<title level="m">A strong baseline for weekly time series forecasting</title>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<monogr>
+		<title level="m" type="main">Simulation and optimisation of air conditioning systems using machine learning</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Godahewa</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Deng</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Bergmeir</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Prouzeau</surname></persName>
+		</author>
+		<ptr target="https://arxiv.org/abs/2006.15296" />
+		<imprint>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b40">
+	<monogr>
+		<title level="m" type="main">Web traffic time series forecasting</title>
+		<author>
+			<persName><surname>Google</surname></persName>
+		</author>
+		<ptr target="https://www.kaggle.com/c/web-traffic-time-series-forecasting" />
+		<imprint>
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b41">
+	<analytic>
+		<title level="a" type="main">Sales and monetary policy</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Guimaraes</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">D</forename><surname>Sheedy</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">American Economic Review</title>
+		<imprint>
+			<biblScope unit="volume">101</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="844" to="876" />
+			<date type="published" when="2011-04">April 2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b42">
+	<analytic>
+		<title level="a" type="main">Improving time series forecasting using mathematical and deep learning models</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Gupta</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Asthana</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Joshi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Mehndiratta</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Big Data Analytics</title>
+		<editor>
+			<persName><forename type="first">A</forename><surname>Mondal</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">H</forename><surname>Gupta</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">J</forename><surname>Srivastava</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">P</forename><forename type="middle">K</forename><surname>Reddy</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">D</forename><surname>Somayajulu</surname></persName>
+		</editor>
+		<meeting><address><addrLine>Cham</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer International Publishing</publisher>
+			<date type="published" when="2018">2018</date>
+			<biblScope unit="page" from="115" to="125" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b43">
+	<monogr>
+		<title level="m" type="main">Recurrent neural networks for time series forecasting: Current status and future directions</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Hewamalage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Bergmeir</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Bandara</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b44">
+	<analytic>
+		<title level="a" type="main">The value of competitive information in forecasting fmcg retail product sales and the variable selection problem</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Huang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Fildes</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Soopramanien</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">European Journal of Operational Research</title>
+		<imprint>
+			<biblScope unit="volume">237</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="738" to="748" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b45">
+	<monogr>
+		<title level="m" type="main">Forecasting with exponential smoothing: the state space approach</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Hyndman</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2008">2008</date>
+			<publisher>Springer</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b46">
+	<monogr>
+		<title level="m" type="main">expsmooth: Data sets from forecasting with exponential smoothing</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Hyndman</surname></persName>
+		</author>
+		<ptr target="https://cran.r-project.org/web/packages/expsmooth" />
+		<imprint>
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b47">
+	<analytic>
+		<title level="a" type="main">fpp2: Data for &quot;Forecasting: Principles and Practice</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Hyndman</surname></persName>
+		</author>
+		<ptr target="https://CRAN.R-project.org/package=fpp2" />
+	</analytic>
+	<monogr>
+		<title level="m">R package version 2.3</title>
+		<imprint>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+	<note>2nd Edition</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b48">
+	<monogr>
+		<author>
+			<persName><forename type="first">R</forename><surname>Hyndman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Kang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Montero-Manso</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Talagala</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Yang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>O'hara-Wild</surname></persName>
+		</author>
+		<ptr target="https://pkg.robjhyndman.com/tsfeatures/" />
+		<title level="m">Time Series Feature Extraction. R package version 1.0.2.9000</title>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b49">
+	<analytic>
+		<title level="a" type="main">Automatic time series forecasting: The forecast package for R</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Hyndman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Khandakar</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Statistical Software, Articles</title>
+		<imprint>
+			<biblScope unit="volume">27</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="1" to="22" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b50">
+	<monogr>
+		<title level="m" type="main">tsdl: Time series data library</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Hyndman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Yang</surname></persName>
+		</author>
+		<ptr target="https://pkg.yangzhuoranyang./tsdl/" />
+		<imprint>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b51">
+	<analytic>
+		<title level="a" type="main">forecast: Forecasting functions for time series and linear models</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J</forename><surname>Hyndman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Athanasopoulos</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Razbash</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">S</forename><surname>Zhou</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Khan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Bergmeir</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">R package version</title>
+		<imprint>
+			<biblScope unit="volume">6</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page">7</biblScope>
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b52">
+	<analytic>
+		<title level="a" type="main">Another look at measures of forecast accuracy</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J</forename><surname>Hyndman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">B</forename><surname>Koehler</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Forecasting</title>
+		<imprint>
+			<biblScope unit="volume">22</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="679" to="688" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b53">
+	<monogr>
+		<title level="m" type="main">Dominick&apos;s dataset</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">Kilts</forename><surname>James</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Center</surname></persName>
+		</author>
+		<ptr target="https://www.chicagobooth.edu/research/kilts/datasets/dominicks" />
+		<imprint>
+			<date type="published" when="2020">2020</date>
+			<biblScope unit="page" from="2020" to="2024" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b54">
+	<analytic>
+		<title level="a" type="main">Downsizing and supersizing: How changes in product attributes influence consumer preferences</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Jami</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Mishra</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Behavioral Decision Making</title>
+		<imprint>
+			<biblScope unit="volume">27</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="301" to="315" />
+			<date type="published" when="2014-01">jan 2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b55">
+	<analytic>
+		<title level="a" type="main">Criteria for classifying forecasting methods</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Januschowski</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Gasthaus</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Salinas</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Flunkert</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Bohlke-Schneider</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Callot</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Forecasting</title>
+		<imprint>
+			<biblScope unit="volume">36</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="167" to="177" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b56">
+	<monogr>
+		<title level="m" type="main">Smart meter data from london area</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Jean-Michel</surname></persName>
+		</author>
+		<ptr target="https://www.kaggle.com/jeanmidev/smart-meters-in-london" />
+		<imprint>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b57">
+	<monogr>
+		<title level="m" type="main">Principal Component Analysis</title>
+		<author>
+			<persName><forename type="first">I</forename><surname>Jolliffe</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/978-3-642-04898-2_455</idno>
+		<ptr target="https://doi.org/10.1007/978-3-642-04898-2_455" />
+		<imprint>
+			<date type="published" when="2011">2011</date>
+			<publisher>Springer</publisher>
+			<biblScope unit="page" from="1094" to="1096" />
+			<pubPlace>Berlin Heidelberg; Berlin, Heidelberg</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b58">
+	<monogr>
+		<title level="m" type="main">Rossmann store sales</title>
+		<author>
+			<persName><surname>Kaggle</surname></persName>
+		</author>
+		<ptr target="http://www.kaggle.com/c/rossmann-store-sales" />
+		<imprint>
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b59">
+	<monogr>
+		<title/>
+		<author>
+			<persName><surname>Kaggle</surname></persName>
+		</author>
+		<ptr target="https://www.kaggle.com/" />
+		<imprint>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b60">
+	<analytic>
+		<title level="a" type="main">Smart grid energy management using rnn-lstm: A deep learning-based approach</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Kaur</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Kumar</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Kumar</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Guizani</surname></persName>
+		</author>
+		<ptr target="https://www.kdd.org/kdd2018/kdd-cup" />
+	</analytic>
+	<monogr>
+		<title level="m">IEEE Global Communications Conference (GLOBECOM)</title>
+		<imprint>
+			<date type="published" when="2018">2019. 2019. 2018. 2018. 2018</date>
+			<biblScope unit="page" from="1" to="6" />
+		</imprint>
+	</monogr>
+	<note>Kdd</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b61">
+	<analytic>
+		<title level="a" type="main">Improving forecasting by estimating time series structural components across multiple frequencies</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Kourentzes</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Petropoulos</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">R</forename><surname>Trapero</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Forecasting</title>
+		<imprint>
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="291" to="302" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b62">
+	<monogr>
+		<title level="m" type="main">Modeling long-and short-term temporal patterns with deep neural networks</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Lai</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Chang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Yang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Liu</surname></persName>
+		</author>
+		<idno>CoRR abs/1703.07015</idno>
+		<ptr target="http://arxiv.org/abs/1703.07015" />
+		<imprint>
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b63">
+	<analytic>
+		<title level="a" type="main">Forecasting time series with complex seasonal patterns using exponential smoothing</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">M D</forename><surname>Livera</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J</forename><surname>Hyndman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">D</forename><surname>Snyder</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">106</biblScope>
+			<biblScope unit="issue">496</biblScope>
+			<biblScope unit="page" from="1513" to="1527" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b64">
+	<analytic>
+		<title level="a" type="main">sktime: A unified interface for machine learning with time series</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Löning</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Bagnall</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Ganesh</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Kazakov</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Lines</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><forename type="middle">J</forename><surname>Király</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Workshop on Systems for ML at NeurIPS</title>
+		<imprint>
+			<date type="published" when="2019">2019. 2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b65">
+	<monogr>
+		<title level="m" type="main">Subset of hctsa-features</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">H</forename><surname>Lubba</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2018">2018</date>
+			<biblScope unit="volume">22</biblScope>
+		</imprint>
+	</monogr>
+	<note>R package version 0.1</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b66">
+	<analytic>
+		<title level="a" type="main">Canonical time-series characteristics</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">H</forename><surname>Lubba</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">S</forename><surname>Sethi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Knaute</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">R</forename><surname>Schultz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">D</forename><surname>Fulcher</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">S</forename><surname>Jones</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Data Min Knowl Disc</title>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+			<biblScope unit="volume">22</biblScope>
+			<biblScope unit="page" from="1821" to="1852" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b67">
+	<analytic>
+		<title level="a" type="main">Accuair: Winning solution to air quality prediction for kdd cup 2018</title>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Luo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Huang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Hu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Zhang</surname></persName>
+		</author>
+		<idno type="DOI">10.1145/3292500.3330787</idno>
+		<ptr target="https://doi.org/10.1145/3292500.3330787" />
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 25th ACM SIGKDD International Conference on Knowledge Discovery and Data Mining. KDD &apos;19</title>
+		<meeting>the 25th ACM SIGKDD International Conference on Knowledge Discovery and Data Mining. KDD &apos;19<address><addrLine>New York, NY, USA</addrLine></address></meeting>
+		<imprint>
+			<publisher>Association for Computing Machinery</publisher>
+			<date type="published" when="2019">2019</date>
+			<biblScope unit="page" from="1842" to="1850" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b68">
+	<analytic>
+		<title level="a" type="main">The accuracy of extrapolation (time series) methods: Results of a forecasting competition</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Makridakis</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Andersen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">F</forename><surname>Carbone</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Fildes</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Hibon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Lewandowski</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Newton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Parzen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">L</forename><surname>Winkler</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Forecasting</title>
+		<imprint>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="111" to="153" />
+			<date type="published" when="1982">1982</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b69">
+	<analytic>
+		<title level="a" type="main">The m3-competition: results, conclusions and implications</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Makridakis</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Hibon</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Forecasting</title>
+		<imprint>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="451" to="476" />
+			<date type="published" when="2000">2000</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b70">
+	<analytic>
+		<title level="a" type="main">The M4 competition: Results, findings, conclusion and way forward</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Makridakis</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Spiliotis</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Assimakopoulos</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Forecasting</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="802" to="808" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b71">
+	<analytic>
+		<title level="a" type="main">The m4 competition: 100,000 time series and 61 forecasting methods</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Makridakis</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Spiliotis</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Assimakopoulos</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Forecasting</title>
+		<imprint>
+			<biblScope unit="volume">36</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="54" to="74" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b72">
+	<monogr>
+		<author>
+			<persName><forename type="first">S</forename><surname>Makridakis</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Spiliotis</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Assimakopoulos</surname></persName>
+		</author>
+		<title level="m">The m5 accuracy competition: results, findings and conclusions</title>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b73">
+	<analytic>
+		<title level="a" type="main">Deep learning based short-term load forecasting for urban areas</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Maksut</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Karbozov</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Myrzaliyeva</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">S V S K</forename><surname>Nunna</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">K</forename><surname>Jamwal</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Doolla</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">IEEE Industry Applications Society Annual Meeting</title>
+		<imprint>
+			<date type="published" when="2019">2019. 2019</date>
+			<biblScope unit="page" from="1" to="6" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b74">
+	<analytic>
+		<title level="a" type="main">Foundations of sequence-to-sequence modeling for time series</title>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Mariet</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Kuznetsov</surname></persName>
+		</author>
+		<idno>PMLR</idno>
+	</analytic>
+	<monogr>
+		<title level="m">of Proceedings of Machine Learning Research</title>
+		<editor>
+			<persName><forename type="first">K</forename><surname>Chaudhuri</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">M</forename><surname>Sugiyama</surname></persName>
+		</editor>
+		<imprint>
+			<date type="published" when="2019-04">Apr 2019</date>
+			<biblScope unit="volume">89</biblScope>
+			<biblScope unit="page" from="408" to="417" />
+		</imprint>
+	</monogr>
+	<note>Proceedings of Machine Learning Research</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b75">
+	<analytic>
+		<title level="a" type="main">FRED-MD: A monthly database for macroeconomic research</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">W</forename><surname>Mccracken</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Ng</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Business and Economic Statistics</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="574" to="589" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b76">
+	<analytic>
+		<title level="a" type="main">Optimal deseasonalization for monthly and daily geophysical time series</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">I</forename><surname>Mcleod</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Gweon</surname></persName>
+		</author>
+		<ptr target="http://www.jenvstat.org/v04/i11" />
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Environmental Statistics</title>
+		<imprint>
+			<biblScope unit="volume">4</biblScope>
+			<biblScope unit="issue">11</biblScope>
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b77">
+	<analytic>
+		<title level="a" type="main">Fforma: Feature-based forecast model averaging</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Montero-Manso</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Athanasopoulos</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Hyndman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Talagala</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Forecasting</title>
+		<imprint>
+			<biblScope unit="volume">36</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="86" to="92" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b78">
+	<monogr>
+		<title level="m" type="main">Principles and algorithms for forecasting groups of time series: Locality and globality</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Montero-Manso</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J</forename><surname>Hyndman</surname></persName>
+		</author>
+		<ptr target="https://arxiv.org/abs/2008.00444" />
+		<imprint>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b79">
+	<monogr>
+		<title level="m" type="main">Predicting electricity consumption using deep recurrent neural networks</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Nugaliyadde</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">U</forename><forename type="middle">V</forename><surname>Somaratne</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">W</forename><surname>Wong</surname></persName>
+		</author>
+		<idno>ArXiv abs/1909.08182</idno>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b80">
+	<analytic>
+		<title level="a" type="main">Visualising melbourne pedestrian count</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">O</forename><surname>Obie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Chua</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><surname>Avazpour</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Abdelrazek</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Grundy</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">2017 IEEE Symposium on Visual Languages and Human-Centric Computing (VL/HCC)</title>
+		<imprint>
+			<date type="published" when="2017">2017</date>
+			<biblScope unit="page" from="343" to="344" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b81">
+	<analytic>
+		<title level="a" type="main">Pedaviz: Visualising hour-level pedestrian activity</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">O</forename><surname>Obie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Chua</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><surname>Avazpour</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Abdelrazek</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Grundy</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Bednarz</surname></persName>
+		</author>
+		<idno type="DOI">10.1145/3231622.3231626</idno>
+		<ptr target="https://doi.org/10.1145/3231622.3231626" />
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 11th International Symposium on Visual Information Communication and Interaction. VINCI &apos;18</title>
+		<meeting>the 11th International Symposium on Visual Information Communication and Interaction. VINCI &apos;18<address><addrLine>New York, NY, USA</addrLine></address></meeting>
+		<imprint>
+			<publisher>Association for Computing Machinery</publisher>
+			<date type="published" when="2018">2018</date>
+			<biblScope unit="page" from="9" to="16" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b82">
+	<monogr>
+		<title level="m" type="main">Attribute-relation file format (arff)</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Paynter</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Trigg</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Frank</surname></persName>
+		</author>
+		<ptr target="https://www.cs.waikato.ac.nz/ml/weka/arff.html" />
+		<imprint>
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b83">
+	<monogr>
+		<title level="m" type="main">Long term sunspot cycle phase coherence with periodic phase disruptions</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Pease</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Glenn</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2016">10 2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b84">
+	<analytic>
+		<title level="a" type="main">A meta-analysis of international tourism demand forecasting and implications for practice</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Peng</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Song</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">I</forename><surname>Crouch</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Tourism Management</title>
+		<imprint>
+			<biblScope unit="volume">45</biblScope>
+			<biblScope unit="page" from="181" to="193" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b85">
+	<analytic>
+		<title level="a" type="main">Web traffic prediction of wikipedia pages</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Petluri</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Al-Masri</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">2018 IEEE International Conference on Big Data (Big Data)</title>
+		<imprint>
+			<date type="published" when="2018">2018</date>
+			<biblScope unit="page" from="5427" to="5429" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b86">
+	<analytic>
+		<title level="a" type="main">Testing for a unit root in time series regression</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Phillips</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Perron</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="s">Cowles Foundation Discussion Papers</title>
+		<imprint>
+			<biblScope unit="volume">75</biblScope>
+			<biblScope unit="page">1</biblScope>
+			<date type="published" when="1986">1986</date>
+		</imprint>
+		<respStmt>
+			<orgName>Cowles Foundation, Yale University</orgName>
+		</respStmt>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b87">
+	<monogr>
+		<title level="m" type="main">Benchmarking of classical and machine-learning algorithms (with special emphasis on bagging and boosting approaches) for time series forecasting</title>
+		<author>
+			<persName><forename type="first">U</forename><surname>Pritzsche</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+	<note>Ph.D. thesis</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b88">
+	<analytic>
+		<title level="a" type="main">mosaicData: Project MOSAIC Data Sets</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Pruim</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Kaplan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Horton</surname></persName>
+		</author>
+		<ptr target="https://CRAN.R-project.org/package=mosaicData" />
+	</analytic>
+	<monogr>
+		<title level="m">R package version 0.18.0</title>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b89">
+	<monogr>
+		<title level="m" type="main">Mean Absolute Error</title>
+		<idno type="DOI">10.1007/978-0-387-30164-8_525</idno>
+		<ptr target="https://doi.org/10.1007/978-0-387-30164-8_525" />
+		<editor>Sammut, C., Webb, G. I.</editor>
+		<imprint>
+			<date type="published" when="2010">2010</date>
+			<publisher>Springer US</publisher>
+			<biblScope unit="page" from="652" to="652" />
+			<pubPlace>Boston, MA</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b90">
+	<analytic>
+		<title level="a" type="main">Metrics for evaluating performance of prognostic techniques</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Saxena</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Celaya</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Balaban</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Goebel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Saha</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Saha</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Schwabacher</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">2008 International Conference on Prognostics and Health Management</title>
+		<imprint>
+			<date type="published" when="2008">2008</date>
+			<biblScope unit="page" from="1" to="17" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b91">
+	<analytic>
+		<title level="a" type="main">Dynamics of sunspot series on time scales from days to years: Correlation of sunspot births, variable lifetimes, and evolution of the highfrequency spectral component</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Shapoval</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J.-L</forename><surname>Le Mouel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Shnirman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Courtillot</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Geophysical Research: Space Physics</title>
+		<imprint>
+			<biblScope unit="volume">122</biblScope>
+			<date type="published" when="2017">12 2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b92">
+	<analytic>
+		<title level="a" type="main">A hybrid method of exponential smoothing and recurrent neural networks for time series forecasting</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Smyl</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Forecasting</title>
+		<imprint>
+			<biblScope unit="volume">36</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="75" to="85" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b93">
+	<monogr>
+		<title level="m" type="main">Solar power data for integration studies, national renewable energy laboratory</title>
+		<author>
+			<persName><surname>Solar</surname></persName>
+		</author>
+		<ptr target="https://www.nrel.gov/grid/solar-power-data.html" />
+		<imprint>
+			<date type="published" when="2020">2020</date>
+			<biblScope unit="page" from="2020" to="2024" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b94">
+	<analytic>
+		<title level="a" type="main">Forecasting tourist arrivals using time-varying parameter structural time series models</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Song</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">F</forename><surname>Witt</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Athanasopoulos</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">special Section 1: Forecasting with Artificial Neural Networks and Computational Intelligence Special Section 2: Tourism Forecasting</title>
+		<imprint>
+			<date type="published" when="2011">2011</date>
+			<biblScope unit="volume">27</biblScope>
+			<biblScope unit="page" from="855" to="869" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b95">
+	<monogr>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">H</forename><surname>Sparks</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Carroll</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Goldie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Marchiori</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Melloy</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Padgham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Parsonage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Pembleton</surname></persName>
+		</author>
+		<ptr target="https://CRAN.R-project.org/package=bomrang" />
+		<title level="m">bomrang: Australian Government Bureau of Meteorology (BOM) Data Client. R package version 0.7.0</title>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b96">
+	<analytic>
+		<title level="a" type="main">Are forecasting competitions data representative of the reality?</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>Spiliotis</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Kouloumos</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Assimakopoulos</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Makridakis</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Forecasting</title>
+		<imprint>
+			<biblScope unit="volume">36</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="37" to="53" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b97">
+	<analytic>
+		<title level="a" type="main">On the results and observations of the time series forecasting competition CIF 2016</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Štěpnička</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Burda</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">2017 IEEE International Conference on Fuzzy Systems</title>
+		<imprint>
+			<publisher>FUZZ-IEEE</publisher>
+			<date type="published" when="2017">2017</date>
+			<biblScope unit="page" from="1" to="6" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b98">
+	<monogr>
+		<title/>
+		<author>
+			<persName><forename type="first">A</forename><surname>Suilin</surname></persName>
+		</author>
+		<ptr target="https://github.com/Arturus/kaggle-web-traffic" />
+		<imprint>
+			<date type="published" when="2017">2017</date>
+			<biblScope unit="page" from="2020" to="2025" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b99">
+	<monogr>
+		<author>
+			<persName><surname>Sunspot</surname></persName>
+		</author>
+		<ptr target="http://www.sidc.be/silso/newdataset" />
+		<title level="m">Sunspot number version 2.0: new data and conventions</title>
+		<imprint>
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b100">
+	<monogr>
+		<title level="m" type="main">Monash university, uea, ucr time series regression archive</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">W</forename><surname>Tan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Bergmeir</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Petitjean</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">I</forename><surname>Webb</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b101">
+	<analytic>
+		<title level="a" type="main">Out-of-sample tests of forecasting accuracy: an analysis and review</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">J</forename><surname>Tashman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Forecasting</title>
+		<imprint>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="437" to="450" />
+			<date type="published" when="2000">2000</date>
+		</imprint>
+	</monogr>
+	<note>the M3-Competition</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b102">
+	<analytic>
+		<title level="a" type="main">Exponential smoothing with a damped multiplicative trend</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">W</forename><surname>Taylor</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Forecasting</title>
+		<imprint>
+			<biblScope unit="volume">19</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="715" to="725" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b103">
+	<analytic>
+		<title level="a" type="main">Forecasting monthly and quarterly time series using stl decomposition</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Theodosiou</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Forecasting</title>
+		<imprint>
+			<biblScope unit="volume">27</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="1178" to="1195" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b104">
+	<analytic>
+		<title level="a" type="main">Beer snobs do exist: Estimation of beer demand by type</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Toro-González</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">J</forename><surname>Mccluskey</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Mittelhammer</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Agricultural and Resource Economics</title>
+		<imprint>
+			<biblScope unit="volume">39</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="174" to="187" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b105">
+	<analytic>
+		<title level="a" type="main">On the identification of sales forecasting models in the presence of promotions</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">R</forename><surname>Trapero</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Kourentzes</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Fildes</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Operational Research Society</title>
+		<imprint>
+			<biblScope unit="volume">66</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="299" to="307" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b106">
+	<monogr>
+		<title level="m" type="main">Electricityloaddiagrams20112014 data set, uci machine learning repository</title>
+		<author>
+			<persName><surname>Uci</surname></persName>
+		</author>
+		<ptr target="https://archive.ics.uci.edu/ml/datasets/ElectricityLoadDiagrams" />
+		<imprint>
+			<date type="published" when="2020">2020. 20112014</date>
+			<biblScope unit="page" from="2020" to="2024" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b107">
+	<analytic>
+		<title level="a" type="main">Visualizing high-dimensional data using t-SNE</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">J P</forename><surname>Van Der Maaten</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">E</forename><surname>Hinton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Machine Learning Research</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="page" from="2579" to="2605" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b108">
+	<analytic>
+		<title level="a" type="main">Forecasting the nn5 time series with hybrid models</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">D</forename><surname>Wichard</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">special Section 1: Forecasting with Artificial Neural Networks and Computational Intelligence Special Section 2: Tourism Forecasting</title>
+		<imprint>
+			<date type="published" when="2011">2011</date>
+			<biblScope unit="volume">27</biblScope>
+			<biblScope unit="page" from="700" to="707" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b109">
+	<monogr>
+		<title level="m" type="main">Averaging probability forecasts: Back to the future</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">L</forename><surname>Winkler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Grushka-Cockayne</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">C</forename><surname>Lichtendahl</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><forename type="middle">R R</forename><surname>Jose</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b110">
+	<analytic>
+		<title level="a" type="main">Time series forecasting using a hybrid arima and neural network model</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Zhang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Neurocomputing</title>
+		<imprint>
+			<biblScope unit="volume">50</biblScope>
+			<biblScope unit="page" from="159" to="175" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b111">
+	<analytic>
+		<title level="a" type="main">Forecasting with artificial neural networks:: The state of the art</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">E</forename><surname>Patuwo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">Y</forename><surname>Hu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International journal of forecasting</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="35" to="62" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b112">
+	<analytic>
+		<title level="a" type="main">Neural network forecasting for seasonal and trend time series</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Qi</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">European Journal of Operational Research</title>
+		<imprint>
+			<biblScope unit="volume">160</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="501" to="514" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+	<note>decision Support Systems in the Internet Age</note>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

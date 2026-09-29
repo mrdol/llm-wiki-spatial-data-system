@@ -1,0 +1,1223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Automatically generated rough PDF by ProofCheck from River Valley Technologies Ltd</title>
+				<funder ref="#_yYu4hha #_sRyT4cK">
+					<orgName type="full">National Science Foundation</orgName>
+					<orgName type="abbreviated">NSF</orgName>
+				</funder>
+				<funder>
+					<orgName type="full">City University of New York High Performance Computing Center</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">D</forename><forename type="middle">E</forename><surname>Gruyter</surname></persName>
+						</author>
+						<author>
+							<persName><forename type="first">Anil</forename><forename type="middle">K</forename><surname>Bera</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Economics</orgName>
+								<orgName type="institution">University of Illinois at Urbana-Champaign</orgName>
+								<address>
+									<settlement>Champaign</settlement>
+									<region>IL</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author role="corresp">
+							<persName><forename type="first">/</forename><forename type="middle">Osman</forename><surname>Doğan</surname></persName>
+							<email>odogan@illinois.edu</email>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Economics</orgName>
+								<orgName type="institution">University of Illinois at Urbana-Champaign</orgName>
+								<address>
+									<settlement>Champaign</settlement>
+									<region>IL</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Süleyman</forename><surname>Taşpınar</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="department">Department of Economics</orgName>
+								<orgName type="institution">Queens College CUNY</orgName>
+								<address>
+									<settlement>New York</settlement>
+									<region>NY</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Osman</forename><surname>Doğan</surname></persName>
+						</author>
+						<author>
+							<affiliation key="aff2">
+								<orgName type="department">Brought to you by |</orgName>
+								<orgName type="institution">Stockholm University Library</orgName>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Automatically generated rough PDF by ProofCheck from River Valley Technologies Ltd</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<idno type="MD5">CE3F35B47397E235CB009CD5F50E283E</idno>
+					<idno type="DOI">10.1515/jem-2017-0015</idno>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-29T10:21+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>endogenous spatial weights matrix</term>
+					<term>inference</term>
+					<term>Lagrange multiplier test</term>
+					<term>LM test</term>
+					<term>parametric misspecification</term>
+					<term>Rao&apos;s score test</term>
+					<term>robust LM test</term>
+					<term>SARAR model</term>
+					<term>specification testing JEL classification: C13</term>
+					<term>C21</term>
+					<term>C31</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>In this study, we propose simple test statistics for identifying the source of spatial dependence in spatial autoregressive models with endogenous weights matrices. Elements of the weights matrices are modelled in such a way that endogenity arises when the unobserved factors that affect elements of the weights matrices are correlated with the unobserved factors in the outcome equation. The proposed test statistics are robust to the presence of endogeneity in the weights and can be used to detect spatial dependence in the dependent variable and/or the disturbance terms. The robust test statistics are easy to calculate as computationally simple estimations are needed for their calculations. Our Monte Carlo results indicate that these tests have good size and power properties in finite samples. We also provide an empirical illustration to demonstrate the usefulness of the robust tests in identifying the source of spatial dependence.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>In spatial and social interaction models, spatial weights matrices (also known as adjacency matrices or network matrices) are used to represent interactions among spatial units in the relevant space. Endogeneity in the weights matrices can arise when the unobserved factors that affect elements of the weights matrices are correlated with the unobserved factors in the outcome equation. For example, in a social interaction model of scholarly achievement, unobserved characteristics such as substance use, psychological disorders and special tutoring, that affect scholarly achievement, may also be associated with the decisions to establish friendships links <ref type="bibr" target="#b48">(Weinberg 2007;</ref><ref type="bibr" target="#b22">Goldsmith-Pinkham and Imbens 2013;</ref><ref type="bibr" target="#b24">Hsieh and Lee 2016)</ref>. Moreover, three common features observed from survey data on social networks, namely homophily, transitivity of relations and clustering, indicate that individuals with similar characteristics are more likely to form links <ref type="bibr" target="#b47">(Wasserman and Faust 1994;</ref><ref type="bibr" target="#b25">Jackson 2010)</ref>. Therefore, endogeneity in the spatial weights matrices may arise as these common characteristics could be correlated with the outcome of interest.</p><p>Elements of a spatial weights matrix are generally specified using some measure of economic/socioeconomic distance. For example, <ref type="bibr" target="#b14">Case, Rosen, and Hines (1993)</ref> study state and local government spendings in the US using a spatial weights matrix whose elements are based on racial composition measured by differences in the percentage of black population. They show evidence for the interdependence in neighbors' expenditures. <ref type="bibr" target="#b11">Brueckner (1998)</ref> and <ref type="bibr" target="#b12">Brueckner and Saavedra (2001)</ref> construct weights matrices based on relative size of the population to study strategic interactions among local governments. <ref type="bibr" target="#b6">Behrens, Ertur, and Koch (2012)</ref> derive a gravity equation from a quantity-based version of the constant elasticity of substitution model to study dependence in trade flows. Conveniently, their theoretical model yields a spatial weights matrix whose elements consist of labor shares of regions.</p><p>In the literature, several estimation and testing methods have been introduced for various spatial and social interaction models under the assumption of exogenous weights matrices <ref type="bibr" target="#b34">(Moran 1950;</ref><ref type="bibr" target="#b16">Cliff and Ord 1972;</ref><ref type="bibr" target="#b13">Burridge 1980;</ref><ref type="bibr" target="#b1">Anselin 1988;</ref><ref type="bibr" target="#b2">Anselin et al. 1996;</ref><ref type="bibr" target="#b49">Yang 2015;</ref><ref type="bibr" target="#b3">Baltagi and Li 2001;</ref><ref type="bibr" target="#b32">LeSage and Pace 2009;</ref><ref type="bibr" target="#b29">Lee 2004;</ref><ref type="bibr" target="#b39">Robinson 2008;</ref><ref type="bibr" target="#b28">Kelejian and Prucha 2010;</ref><ref type="bibr" target="#b19">Elhorst 2010;</ref><ref type="bibr" target="#b10">Born and Breitung 2011;</ref><ref type="bibr" target="#b20">Elhorst 2014;</ref><ref type="bibr" target="#b39">Robinson and</ref><ref type="bibr">Rossi 2015a, 2014;</ref><ref type="bibr">2015b;</ref><ref type="bibr" target="#b50">Yu, de Jong, and fei Lee 2008;</ref><ref type="bibr" target="#b30">Lee and Yu 2010;</ref><ref type="bibr">Baltagi and</ref><ref type="bibr">Yang 2013b, 2013a;</ref><ref type="bibr" target="#b44">Su and Yang 2015;</ref><ref type="bibr" target="#b45">Taşpınar, Doğan, and Vijverberg 2016;</ref><ref type="bibr" target="#b46">Taşpınar, Doğan, and Bera 2017)</ref>. In the presence of endogenous weights matrices, the conventional estimation and testing methods developed within the generalized method of moments (GMM) and the maximum likelihood (ML) frameworks produce inconsistent estimators and thus lead to incorrect inference.</p><p>Recently, <ref type="bibr" target="#b37">Qu and Lee (2015)</ref>, <ref type="bibr" target="#b38">Qu, Wang, and Lee (2016)</ref>, and Qu, fei Lee, and <ref type="bibr" target="#b35">Yu (2017)</ref> extend the conventional estimation methods to spatial models with endogenous weights matrices using a uniform law of large numbers (ULLN) and a central limit theorem (CLT) developed by <ref type="bibr" target="#b27">Jenish and Prucha (2012)</ref> for the near epoch dependent (NED) processes. In these studies, the data generating process (DGP) for the elements of the spatial weights matrix is assumed to be known. Therefore, the model specification consists of two equations where the first equation specifies the spatial autoregressive model, while the second equation specifies how the elements of the spatial weights matrix are generated. In this modeling approach, the endogeneity in weights arises when the error terms of the two equations are correlated. Conventional estimation methods such as ML, GMM and instrumental variable (IV) methods can be used in estimation, since the parametric specification defined for the elements of the weight matrix is used as a control function to account for the endogeneity.</p><p>In this paper, we consider a spatial autoregressive model that has spatial dependence in the dependent variable and the disturbance terms, which is an extended version of the model considered by <ref type="bibr" target="#b37">Qu and Lee (2015)</ref>. We consider the ML estimator (MLE) for the estimation and show its consistency and asymptotic normality in the context of our extended model. Moreover, we develop robust Lagrange multiplier (LM) test statistics for spatial dependence in the dependent variable and/or the disturbance terms. The adjustment in our test statistic is similar to the method developed in <ref type="bibr" target="#b7">Bera et al. (2017)</ref> and <ref type="bibr" target="#b9">Bera and Yoon (1993)</ref> for parametrically misspecified alternative models. The control function approach, that accounts for the endogeneity in the spatial weights in the estimation, also allows us to formulate test statistics that are robust to the presence of endogeneity in weights. That is, our suggested test statistics for spatial dependence are valid irrespective of whether the weights matrices are endogenous or not. We show the asymptotic properties of the suggested test statistics under the null and local alternative hypotheses. These test statistics are simple to calculate because their computations only require the least-squares type (OLS/GLS) estimates. We investigate the size and power properties of the robust tests through a Monte Carlo study. The results are in line with our theoretical findings and indicate that our robust tests have good size and power properties. Using a dual gravity model of international trade, we also illustrate the use of these tests in an empirical specification search.</p><p>The rest of this paper is organized as follows. Section 2 presents the model specification which extends the SAR model considered in <ref type="bibr" target="#b37">Qu and Lee (2015)</ref> to allow for spatial dependence in the disturbance term as well. Section 3 develops the ML estimation approach for our extended model. Section 4 presents the proposed test statistics along with some standard test statistics. Section 5 contains a Monte Carlo study to investigate the finite sample size and power properties of the test statistics. Section 6 discuses the empirical application. Finally, Section 7 concludes the paper. Some technical derivations and results are relegated to appendices.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">A Spatial Autoregressive Model with Endogenous Weights Matrices</head><p>Following <ref type="bibr">Jenish and</ref><ref type="bibr" target="#b26">Prucha (2009 and</ref><ref type="bibr">2012)</ref> and <ref type="bibr" target="#b37">Qu and Lee (2015)</ref>, we adopt the following assumption on the location of the observations.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Assumption 1</head><p>Observations are located on a (possibly) unevenly spaced lattice D ⊆ ℝ d 0 , d 0 ≥ 1, and it is infinitely countable. The location l : {1, 2, …, n} → D n ⊂ D is a mapping of individual i to its location l(i) ∈ D n ⊂ ℝ d 0 . Any two elements in D are separated by at least ϱ 0 &gt; 0 distant from each other, i.e. for any l(i), l(j) ∈ D : ϱ ij ≥ ϱ 0 , where ϱ ij is the distance between l(i) and l(j). Assume w.l.o.g. that ϱ 0 = 1.</p><p>Under Assumption 1, all spatial observation are separated at least by unit distance ϱ 0 in the space. Therefore, Assumption 1 specifies an increasing domain asymptotics scenario instead of an infill asymptotics case. Let {(ε 1l(i),n , ε 2l(i),n , v l(i),n ) : l(i) ∈ D n , n ∈ ℕ} be a triangular array of random variables, where D n ⊂ D is a finite set and D satisfies Assumption 1. To simplify the notation, let for i = 1, …, n, (ε 1l(i),n , ε 2l(i),n , v l(i),n ) be denoted by (ε 1i , ε 2i , v i ) with dimensions, respectively, as p 2 × 1, p 3 × 1 and 1 × 1. Thus, 𝜀 𝑖 = (𝜀 ′ 1𝑖 , 𝜀 ′ 2𝑖 ) ′ is a (p 2 + p 3 ) × 1 random vector. The next assumption specifies the distribution function and provides the moment conditions for these random variables.</p><p>Assumption 2 (i) For i = 1, …, n, (𝑣 𝑖 , 𝜀 ′ 𝑖 ) ′ ∼ i.i.d. 𝑁(0, Σ 𝑣𝜀 ), where Σ 𝑣𝜀 = (</p><formula xml:id="formula_0">𝜎 2 𝑣 𝜎 ′ 𝑣𝜀 𝜎 𝑣𝜀 Σ 𝜀</formula><p>) is a positive definite matrix.</p><p>Under Assumption 1 and Assumption 2, the cross-sectional SARAR(1,1) model with endogenous weights matrices for a sample of n observations is specified by </p><p>where Y is the n × 1 vector of dependent variables, X 1 is the n × k 1 matrix of deterministic explanatory variables with the associated parameter vector β and V = (v 1 , …, v n )′ is the n × 1 vector of disturbances. The spatial lags of the dependent and the disturbance terms are, respectively, denoted by WY and MU, where W = (w ij ) and M = (m ij ) are n × n non-negative spatial weights matrices with zero diagonal elements. The scalar parameters λ and ρ are called the spatial autoregressive parameters. In (1), Z 1 = (z 11 , …, z 1n )′ and Z 2 = (z 21 , …, z 2n )′ are, respectively, n × p 2 and n × p 3 matrices of observable variables. The deterministic exogenous variable matrices X 2 and X 3 are, respectively, n × k 2 and n × k 3 and the associated matrices of coefficients Γ 1 and Γ 2 are, respectively, k 2 × p 2 and k 3 × p 3 . The disturbance terms ε 1 = (ε 11 , …, ε 1n )′ and ε 2 = (ε 21 , …, ε 2n )′ are respectively n × p 2 and n × p 3 . In (1), the bounded functions h 1ij (⋅) and h 2ij (⋅) specify the relationships between the elements of the weights matrices and the observed variables Z 1 and Z 2 .</p><p>In the spacial case when M = W, the DGP for Z 2 is redundant and should be discarded from the model. Let D(⋅) be the matrix operator that generates a block-diagonal matrix from a given list of matrices and define Γ = D(Γ 1 , Γ 2 ) as the (k 2 + k 3 ) × (p 2 + p 3 ) matrix of parameters. Furthermore, let Z = (Z 1 , Z 2 ) be the n × (p 2 + p 3 ) matrix, X = (X 2 , X 3 ) be the n × (k 2 + k 3 ) matrix and ε = (ε 1 , ε 2 ) be the n × (p 2 + p 3 ) matrix. Then, the regression models for Z 1 and Z 2 can be compactly written as 𝑍 = 𝑋Γ + 𝜀.</p><p>(</p><p>The next assumption is similar to <ref type="bibr" target="#b37">Qu and Lee (2015)</ref> and states the required features for W, M, h 1ij and h 2ij .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Assumption 3</head><p>i. The spatial weights w ij = h 1ij (z 1i , z 1j , ϱ ij ) and m ij = h 2ij (z 2i , z 2j , ϱ ij ) for i, j = 1, …, n, are uniformly bounded functions of observed variables Z 1 and Z 2 . Codomains of h 1ij and h 2ij are non-negative.</p><p>ii. The weights matrices satisfy sup n ∥W∥ ∞ = c w &lt; ∞ and sup n ∥M∥ ∞ = c m &lt; ∞, where ∥⋅∥ ∞ is the maximum absolute row sum norm. The spatial weights matrix W can be specified in two alternative ways (M is specified similarly): (i) Let c 1 ≥ 0 and c 3 &gt; 3 be two real numbers.Then, we have0 ≤ 𝑤 𝑖𝑗 ≤ 𝑐 1 𝜚 -𝑐 3 𝑑 0 𝑖𝑗</p><p>, and there exists fixed number of columns in W, whose column sums exceed c w . (ii) There exists a threshold ϱ c &gt; 1 such that w ij = 0 if ϱ ij &gt; ϱ c . Thus, w ij = h 1ij (z 1i , z 1j )𝕀(ϱ ij ≤ ϱ i ), where 𝕀 is an indicator function. 1   It is clear from the specification in (1) and Assumption 2 and Assumption 3 that the spatial weights w ij and m ij are not predetermined but do depend on observable variables Z 1 and Z 2 and/or the geographic distance between observations. Endogeneity of W and M stems from the correlation between v i and ε i .</p><p>Under Assumption 2, we have 𝑣 𝑖 |𝜀 𝑖 ∼ 𝑁( 𝜎 ′ 𝑣𝜀 Σ -1 𝜀 𝜀 𝑖 , 𝜎 2 𝑣 -𝜎 ′ 𝑣𝜀 Σ -1 𝜀 𝜎 𝑣𝜀 ) , which implies that 𝑣 𝑖 = 𝜀 ′ 𝑖 𝛿 + 𝜉 𝑖 , where 𝛿 = Σ -1 𝜀 𝜎 𝑣𝜀 and ξ i 's are i.i.d normal random variables independent of ε i with mean zero and variance</p><formula xml:id="formula_3">𝜎 2 𝜉 = 𝜎 2 𝑣 -𝜎 ′ 𝑣𝜀 Σ -1 𝜀 𝜎 𝑣𝜀 . Denote ξ = (ξ 1 , …, ξ n )′.</formula><p>Then from (2), we have V = εδ + ξ = (Z -XΓ)δ + ξ for the whole sample.</p><p>Let 𝜃 = (𝜌, 𝜆, 𝛽 ′ , vec ′ (Γ), 𝜎 2 𝜉 , 𝛼 ′ , 𝛿 ′ ) ′ be the k θ × 1 vector of parameters, where α is the J × 1 vector of distinct elements of Σ ε and k θ = 3 + k 1 + k 2 p 2 + k 3 p 3 + J + p 2 + p 3 . The true parameter vector is denoted by</p><formula xml:id="formula_4">𝜃 0 = (𝜌 0 , 𝜆 0 , 𝛽 ′ 0 , vec ′ (Γ 0 ), 𝜎 2 𝜉 0 , 𝛼 ′ 0 , 𝛿 ′ 0 ) ′ . Let the n × k x matrix</formula><p>X contain all distinct columns of X 1 , X 2 and X 3 . The next assumption characterizes the parameter space and the regularity conditions on X.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Assumption 4</head><p>i. The parameter space Θ ⊆ ℝ k θ of θ is compact and the true parameter vector θ 0 is contained in Θ. Furthermore, sup λ∈Λ |λ| ⋅ ∥W∥ ∞ &lt; 1 and sup ρ∈Λ |ρ| ⋅ ∥M∥ ∞ &lt; 1 for all (λ, ρ)′ ∈ Λ, where Λ is a compact parameter space.</p><p>ii. All elements in X are deterministic and bounded in absolute value. Also, lim 𝑛→∞ 1 𝑛 X′ X exists and is non-singular.</p><p>Denote S(λ) = (I n -λW) and R(ρ) = (I n -ρM), where 𝐼 𝑛 is the 𝑛 × 𝑛 identity matrix. At the true parameter values, we denote S(λ 0 ) = S and R(ρ 0 ) = R. Under Assumption 4, using V = εδ + ξ = (Z -XΓ)δ + ξ, we can state (1) in a single equation as</p><formula xml:id="formula_5">𝑅(𝜌)𝑌 = 𝜆𝑅(𝜌)𝑊𝑌 + 𝑅(𝜌)𝑋 1 𝛽 + (𝑍 -𝑋Γ)𝛿 + 𝜉 ,<label>(3)</label></formula><p>where (Z -XΓ) are control variables to account for the endogeneity in W and M. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">The ML Estimation Approach</head><p>In this section, we introduce the ML estimation approach for our model. Let vec(⋅) denote the matix operator that stacks the columns of a given matrix. From ( <ref type="formula" target="#formula_1">1</ref>) and (3), we have</p><formula xml:id="formula_6">[ 𝑌 vec(𝑍) ] = [ 𝑆 -1 (𝜆)𝑋 1 𝛽 vec(𝑋Γ) ] + [ 𝑆 -1 (𝜆)𝑅 -1 (𝜌) 0 𝑛×𝑛(𝑝 2 +𝑝 3 ) 0 𝑛(𝑝 2 +𝑝 3 )×𝑛 𝐼 𝑛 ⊗ 𝐼 (𝑝 2 +𝑝 3 ) ] [ 𝑐𝑉 vec(𝜀) ] .<label>(4)</label></formula><p>Let K(λ, ρ) denote D(S -1 (λ)R -1 (ρ), I n(p 2 +p 3 ) ). Under Assumption 2, the likelihood function of the model for a sample of n observations is given by</p><formula xml:id="formula_7">𝐿(𝜃) = (2𝜋) -𝑛 * /2 | 𝐾(𝜆, 𝜌)(Σ 𝑣𝜀 ⊗ 𝐼 𝑛 )𝐾(𝜆, 𝜌) ′ | -1/2 × exp ( -1 2 [𝑉 ′ , vec ′ (𝜀)]𝐾 ′ (𝜆, 𝜌)( 𝐾(𝜆, 𝜌)(Σ 𝑣𝜀 ⊗ 𝐼 𝑛 )𝐾 ′ (𝜆, 𝜌)) -1 𝐾(𝜆, 𝜌)[𝑉 ′ , vec ′ (𝜀)] ′ ) ,<label>(5)</label></formula><p>where</p><formula xml:id="formula_8">n * = n(p 2 + p 3 + 1). Note that |K(λ, ρ)| = |S -1 (λ)R -1 (ρ)| = |S(λ)| -1 |R(ρ)| -1 and |Σ vε ⊗ I n | = |Σ vε | n .</formula><p>Hence, the log-likelihood function of the model can be expressed as</p><formula xml:id="formula_9">ln 𝐿(𝜃) = -𝑛 * 2 ln(2𝜋) + ln | 𝑆(𝜆)| + ln | 𝑅(𝜌)| -𝑛 2 ln | Σ 𝑣𝜀 | -1 2 [𝑉 ′ , vec ′ (𝜀)]( Σ 𝑣𝜀 ⊗ 𝐼 𝑛 ) -1 [𝑉 ′ , vec ′ (𝜀)] ′ ,<label>(6)</label></formula><p>where <ref type="bibr">[V′, vec′(ε)</ref> <ref type="bibr" target="#b37">Qu and Lee (2015)</ref>, by applying the inverse of a partitioned matrix formula to Σ vε , i.e.</p><formula xml:id="formula_10">]′ = [(R(ρ)(S(λ)Y -X 1 β))′, vec′(Z -XΓ)]′. As in</formula><formula xml:id="formula_11">Σ -1 𝑣𝜀 = [ (𝜎 2 𝑣 -𝜎 ′ 𝑣𝜀 Σ -1 𝜀 𝜎 𝑣𝜀 ) -1 -(𝜎 2 𝑣 -𝜎 ′ 𝑣𝜀 Σ -1 𝜀 𝜎 𝑣𝜀 ) -1 𝜎 ′ 𝑣𝜀 Σ -1 𝜀 -Σ -1 𝜀 𝜎 𝑣𝜀 (𝜎 2 𝑣 -𝜎 ′ 𝑣𝜀 Σ -1 𝜀 𝜎 𝑣𝜀 ) Σ -1 𝜀 + Σ -1 𝜀 𝜎 𝑣𝜀 (𝜎 2 𝑣 -𝜎 ′ 𝑣𝜀 Σ -1 𝜀 𝜎 𝑣𝜀 ) -1 𝜎 ′ 𝑣𝜀 Σ -1 𝜀 ] ,<label>(7)</label></formula><p>we can write</p><formula xml:id="formula_12">(𝑣 𝑖 , 𝜀 ′ 𝑖 )Σ -1 𝑣𝜀 (𝑣 𝑖 , 𝜀 ′ 𝑖 ) ′ = (𝑣 𝑖 -𝜎 ′ 𝑣𝜀 Σ -1 𝜀 𝜀 𝑖 ) ′ ( 𝜎 2 𝑣 -𝜎 ′ 𝑣𝜀 Σ -1 𝜀 𝜎 𝑣𝜀 ) -1 (𝑣 𝑖 -𝜎 ′ 𝑣𝜀 Σ -1 𝜀 𝜀 𝑖 ) + 𝜀 ′ 𝑖 Σ -1 𝜀 𝜀 𝑖 . (8) Also, note that | Σ -1 𝑣𝜀 | = | (𝜎 2 𝑣 -𝜎 ′ 𝑣𝜀 Σ -1 𝜀 𝜎 𝑣𝜀 ) -1 | | Σ -1 𝜀 | .</formula><p>Hence, the log-likelihood function ( <ref type="formula" target="#formula_7">5</ref>) can be written as</p><formula xml:id="formula_13">ln 𝐿(𝜃) = -𝑛 * 2 ln(2𝜋) + ln | 𝑆(𝜆)| + ln | 𝑅(𝜌)| -𝑛 2 ln 𝜎 2 𝜉 -𝑛 2 ln | Σ 𝜀 | -1 2 ∑ 𝑛 𝑖=1 (𝑍 ′ 𝑖 -𝑋 ′ 𝑖 Γ)Σ -1 𝜀 (𝑍 𝑖 -Γ ′ 𝑋 𝑖 ) -1 2𝜎 2 𝜉 [ 𝑅(𝜌)(𝑆(𝜆)𝑌 -𝑋 1 𝛽) -(𝑍 -𝑋Γ)𝛿] ′ [ 𝑅(𝜌)(𝑆(𝜆)𝑌 -𝑋 1 𝛽) -(𝑍 -𝑋Γ)𝛿] ,<label>(9)</label></formula><p>where Z i is the (p 2 + p 3 ) × 1 column vector formed from the ith row of Z, and X i is the (k 2 + k 3 ) × 1 column vector formed from the ith row of X. Then, the MLE is defined as θ = argmax 𝜃∈Θ ln 𝐿(𝜃).</p><p>Next, we investigate the identification conditions for θ 0 based on (9). Let Q(θ) denote 𝔼(ln L(θ)) and Q(θ 0 ) denote 𝔼(ln L(θ 0 )). The identifiable uniqueness condition will be explored from the difference 1 𝑛 [ 𝑄(𝜃) -𝑄(𝜃 0 )] and it requires that this difference has a negative value for all θ ≠ θ 0 (White 1994). Therefore, we determine conditions under which the expected value of the log-likelihood function is maximized at θ 0 . Note that</p><formula xml:id="formula_14">𝑄(𝜃) = -𝑛 * 2 ln(2𝜋) + 𝔼 ln | 𝑆(𝜆)| + 𝔼 ln | 𝑅(𝜌)| -𝑛 2 ln 𝜎 2 𝜉 -𝑛 2 ln | Σ 𝜀 | -1 2 ∑ 𝑛 𝑖=1 𝔼[ (𝑍 ′ 𝑖 -𝑋 ′ 𝑖 Γ)Σ -1 𝜀 (𝑍 𝑖 -Γ ′ 𝑋 𝑖 )] -1 2𝜎 2 𝜉 𝔼( 𝜉 ′ (𝜃)𝜉 (𝜃)) .<label>(10)</label></formula><p>Concentrating out 𝜎 2 𝜉 from (10) yields</p><formula xml:id="formula_15">𝑄(𝜃) = -𝑛 * 2 ln(2𝜋) + 𝔼 ln | 𝑆(𝜆)| + 𝔼 ln | 𝑅(𝜌)| -𝑛 2 ln 𝜎 * 𝜉 -𝑛 2 ln | Σ 𝜀 | -1 2 ∑ 𝑛 𝑖=1 𝔼[ ( 𝜀 ′ 𝑖 (Γ 0 ) + 𝑋 ′ 𝑖 (Γ 0 -Γ)) Σ -1 𝜀 ( 𝜀 𝑖 (Γ 0 ) + (Γ 0 -Γ) ′ 𝑋 𝑖 ) ] -𝑛 2 ,<label>(11)</label></formula><p>where</p><formula xml:id="formula_16">𝜎 * 2 𝜉 = 1 𝑛 𝔼( 𝜉 ′ (𝜃)𝜉 (𝜃)) . Note that S(λ) = I n -λW = S + (λ 0 -λ)W = [I n + (λ 0 -λ)WS -1 ]S = [I n + (λ 0 -λ)G]S, where G = WS -1 , and R(ρ) = [I n + (ρ 0 -ρ)H]</formula><p>R, where H = MR -1 . Using these results, we obtain 4 Brought to you by | Stockholm University Library Authenticated Download Date | 4/27/19 9:41 AM</p><formula xml:id="formula_17">𝜉 (𝜃) = 𝑅(𝜌)[𝐺(𝑋 1 𝛽 0 + 𝑅 -1 𝜀(Γ 0 )𝛿 0 ), 𝑋 1 ][(𝜆 0 -𝜆), (𝛽 0 -𝛽) ′ ] ′ + 𝑋(Γ -Γ 0 )𝛿 + 𝜀(Γ 0 )(𝛿 0 -𝛿) +(𝜌 0 -𝜌)𝜀(Γ 0 )𝛿 0 + 𝑅(𝜌)𝑆(𝜆)𝑆 -1 𝑅 -1 𝜉 (𝜃 0 ).<label>(12)</label></formula><p>Therefore,</p><formula xml:id="formula_18">𝜎 * 2 𝜉 = 1 𝑛 [ (𝜆 0 -𝜆), (𝛽 0 -𝛽) ′ , 𝛿 ′ (Γ -Γ 0 ) ′ , (𝛿 0 -𝛿) ′ ] 𝔼( ℋ ′ ℋ ) [ (𝜆 0 -𝜆), (𝛽 0 -𝛽) ′ , 𝛿 ′ (Γ -Γ 0 ) ′ , (𝛿 0 -𝛿) ′ ] ′ + 1 𝑛 (𝜌 0 -𝜌) ′ 𝛿 ′ 0 Σ 𝜀0 𝛿 0 (𝜌 0 -𝜌) + 1 𝑛 𝜎 2 𝜉 0 tr( 𝔼[𝑅 -1 ′ 𝑆 -1 ′ 𝑆 ′ (𝜆)𝑅 ′ (𝜌)𝑅(𝜌)𝑆(𝜆)𝑆 -1 𝑅 -1 ]) + 2 𝑛 [ (𝜆 0 -𝜆), (𝛽 0 -𝛽) ′ , 𝛿 ′ (Γ -Γ 0 ) ′ , (𝛿 0 -𝛿) ′ ] 𝔼( ℋ ′ 𝜀(Γ 0 )) 𝛿 0 (𝜌 0 -𝜌),</formula><p>where</p><formula xml:id="formula_19">ℋ = [𝑅(𝜌)𝐺[𝑋 1 𝛽 0 + 𝑅 -1 𝜀(Γ 0 )𝛿 0 ], 𝑅(𝜌)𝑋 1 , 𝑋, 𝜀(Γ 0 )]</formula><p>and tr(⋅) denotes the trace of a square matrix. Moreover, since 𝑄(𝜃</p><formula xml:id="formula_20">0 ) = -𝑛 * 2 ln(2𝜋) + 𝔼 ln | 𝑆| + 𝔼 ln | 𝑅| -𝑛 2 ln 𝜎 2 𝜉 0 -𝑛 2 ln | Σ 𝜀0 | -𝑛 2 tr( 𝐼 𝑝 2 +𝑝 3 ) -𝑛 2 , we have 1 𝑛 [ 𝑄(𝜃) -𝑄(𝜃 0 )] = 1 2 𝔼( ln | 𝑅(𝜌)𝑆(𝜆)𝑆 -1 𝑅 -1 𝑅 -1 ′ 𝑆 -1 ′ 𝑆 ′ (𝜆)𝑅 ′ (𝜌)| 1/𝑛 ) -1 2 ln ( 𝜎 * 2 𝜉 /𝜎 2 𝜉 0 ) -1 2 [∑ 𝑝 2 +𝑝 3 𝑖=1 (𝜔 𝑖 -ln 𝜔 𝑖 -1)] -1 2𝑛 ∑ 𝑛 𝑖=1 𝑋 ′ 𝑖 (Γ 0 -Γ)Σ -1 𝜀 (Γ 0 -Γ) ′ 𝑋 𝑖 ,<label>(13)</label></formula><p>where we used the fact that for any positive definite m × m matrix B, tr(𝐵) -ln |𝐵| -𝑚 = ∑ 𝑚 𝑖=1 (𝜔 𝑖 -ln 𝜔 𝑖 -1) and ω i 's are the eigenvalues of B. In our case, ω i 's are the eigenvalues of</p><formula xml:id="formula_21">Σ 1/2 𝜀0 Σ -1 𝜀 Σ 1/2 𝜀0 . Since Σ 1/2 𝜀0 Σ -1 𝜀 Σ 1/2</formula><p>𝜀0 is positive definite, ω i for i = 1, 2, …, (p 2 + p 3 ) are positive. Therefore, (ω i -ln ω i -1) is nonnegative, i.e. it is positive for ω i ≠ 1 and is zero for ω i = 1. The result in (13) is essential and can be used to investigate the global identification conditions. We summarize these conditions in the following assumption. 2</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Assumption 5</head><p>We assume that either Assumption 5(i) or Assumption 5(ii) holds.</p><formula xml:id="formula_22">i. lim 𝑛→∞ 1 𝑛 𝔼[ℋ ′ ℋ ]has full column rank. Moreover, lim 𝑛→∞ 1 𝑛 𝑅 ′ (𝜌)𝑅(𝜌)is linearly independent of lim 𝑛→∞ 1 𝑛 𝑅 ′ 𝑅with probability one for anyρ ≠ ρ 0 . ii. lim 𝑛→∞ 1 𝑛 𝔼[ℋ ′ ℋ ]has column rank k 1 + (k 2 + 1)p 2 + (k 3 + 1)p 3 . Moreover,lim 𝑛→∞ 1 𝑛 𝑆 ′ (𝜆)𝑅 ′ (𝜌)𝑆(𝜆)𝑅(𝜌)is lin- early independent of lim 𝑛→∞ 1 𝑛 𝑆 ′ 𝑅 ′ 𝑆𝑅with probability one for any (λ, ρ)′ ≠ (λ 0 , ρ 0 )′.</formula><p>The uniform convergence of the log-likelihood function can be shown using the ULLN of NED random fields introduced in <ref type="bibr" target="#b27">Jenish and Prucha (2012)</ref>. Let ϑ i be the vector valued function of the error term (𝜀 ′ 𝑖 , 𝜉 𝑖 ) ′ and X, i.e. 𝜗 𝑖 = 𝑓 𝑖 (𝜀 𝑖 , 𝜉 𝑖 , X, 𝜃). For our asymptotic analysis, ϑ i is the input process for the NED properties of relevant statistics. Qu and <ref type="bibr" target="#b37">Lee (2015)</ref> extend the ULLN and the CLT in <ref type="bibr" target="#b27">Jenish and Prucha (2012)</ref> to cross-sectional spatial autoregressive models. These essential tools of asymptotic analysis are also valid for our extended model. Thus, the identification uniqueness conditions in Assumption 5 together with the uniform convergence result</p><formula xml:id="formula_23">sup 𝜃∈Θ | 1 𝑛 ln 𝐿(𝜃) -1 𝑛 𝔼 [ln 𝐿(𝜃)]| 𝑝</formula><p>-→ 0 imply the consistency of the MLE.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Proposition 1</head><p>Under Assumption 1 through Assumption 5, the MLE θ is consistent and √𝑛( θ -𝜃 0 ) 𝑑 -→ 𝑁(0, 𝐼 -1 ), where</p><formula xml:id="formula_24">𝐼 = lim 𝑛→∞ 𝔼 [-1 𝑛 𝜕 2 ln 𝐿(𝜃 0 ) 𝜕𝜃𝜕𝜃 ′ ].</formula><p>Proof. See C.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>□</head><p>The components of 𝔼 [</p><formula xml:id="formula_25">𝜕 2 ln 𝐿(𝜃 0 )</formula><p>𝜕𝜃𝜕𝜃 ′ ] are provided in A. We need a consistent estimator of I for statistical inference. By using the ULLN in Qu and Lee (2015, Corollary 1), it follows that a consistent estimate of I is given by its empirical counterpart evaluated at a consistent estimator.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">Robust LM Test Statistics</head><p>In order to state a general result, we consider the following partition of the parameter vector θ = (ψ′, ϕ′, γ′)′, where 𝛾 = ( 𝛽 ′ , vec ′ (Γ), 𝜎 2 𝜉 , 𝛼 ′ ) ′ , and ψ and ϕ can be any combinations of the remaining parameters, namely (λ, ρ, δ). For notational simplicity, we denote the size of these vectors by k ψ × 1, k ϕ × 1 and k γ × 1. In terms of this new </p><formula xml:id="formula_26">LM 𝜓 ( θ ) = 𝑛𝐿 ′ 𝜓 ( θ ) [𝐼 𝜓⋅𝛾 ( θ )] -1 𝐿 𝜓 ( θ ),<label>(15)</label></formula><p>where</p><formula xml:id="formula_27">𝐼 𝜓⋅𝛾 ( θ ) = 𝐼 𝜓𝜓 ( θ ) -𝐼 𝜓𝛾 ( θ )𝐼 -1 𝛾𝛾 ( θ )𝐼 𝛾𝜓 ( θ ).</formula><p>We consider the asymptotic distribution of LM 𝜓 ( θ ) under the sequences of local alternatives, which take the following forms: H 𝜓 𝐴 ∶ 𝛿 0 = 𝜓 * +𝛿 𝜓 /√𝑛, and H 𝜆 𝐴 ∶ 𝜙 0 = 𝜙 * +𝛿 𝜙 /√𝑛, where δ ψ and δ ϕ are bounded vectors. These sequences of alternative hypotheses are essential tools for the formulation of our suggested robust test statistic. The distribution of (15) under H 𝛿 𝐴 and H 𝜆 𝐴 can be investigated from the first-order Taylor expansions of 𝐿 𝜓 ( θ ) and 𝐿 𝛾 ( θ ) around θ 0 <ref type="bibr" target="#b17">(Davidson and MacKinnon 1987;</ref><ref type="bibr" target="#b43">Saikkonen 1989)</ref>. The Taylor expansions can be derived as</p><formula xml:id="formula_28">√𝑛𝐿 𝜓 ( θ ) = √𝑛𝐿 𝜓 (𝜃 0 ) -𝐿 𝜓𝜓 (𝜃 0 ) 𝛿 𝜓 -𝐿 𝜓𝜙 (𝜃 0 ) 𝛿 𝜙 + √𝑛𝐿 𝜓𝛾 (𝜃 0 ) ( γ -𝛾 0 ) + 𝑜 𝑝 (1),<label>(16)</label></formula><p>√𝑛𝐿 𝛾 ( θ ) = √𝑛𝐿 𝛾 (𝜃 0 ) -𝐿 𝛾𝜓 (𝜃 0 ) 𝛿 𝛿 -𝐿 𝛾𝜙 (𝜃 0 ) 𝛿 𝜙 + √𝑛𝐿 𝛾𝛾 (𝜃 0 ) ( γ -𝛾 0 ) + 𝑜 𝑝 (1). (17) Under our regularity conditions, (16) and (17) imply the following result. √𝑛𝐿 𝜓 ( θ ) = [𝐼 𝑘 𝜓 , -𝐼 𝜓𝛾 𝐼 -1 𝛾𝛾 ] × [ √𝑛𝐿 𝜓 (𝜃 0 ) √𝑛𝐿 𝛾 (𝜃 0 ) ] + [𝐼 𝜓𝜓 -𝐼 𝜓𝛾 𝐼 -1 𝛾𝛾 𝐼 𝛾𝜓 ] 𝛿 𝛿 + [𝐼 𝜓𝜙 -𝐼 𝜓𝛾 𝐼 -1 𝛾𝛾 𝐼 𝛾𝜙 ] 𝛿 𝜙 + 𝑜 𝑝 (1). (18) Then, using the asymptotic normality of score functions in (18) (see proof of Proposition 1), we obtain √𝑛𝐿 𝜓 ( θ ) 𝑑 -→ 𝑁 (𝐼 𝜓⋅𝛾 𝛿 𝜓 + 𝐼 𝜓𝜙⋅𝛾 𝛿 𝜙 , 𝐼 𝜓⋅𝛾 ), where 𝐼 𝜓⋅𝛾 = [𝐼 𝜓𝜓 -𝐼 𝜓𝛾 𝐼 -1 𝛾𝛾 𝐼 𝛾𝜓 ] and 𝐼 𝜓𝜙⋅𝛾 = [𝐼 𝜓𝜙 -𝐼 𝜓𝛾 𝐼 -1 𝛾𝛾 𝐼 𝛾𝜙 ]. In the local presence of ϕ 0 , this result implies that the asymptotic distribution of LM 𝜓 ( θ ) under the null hypothesis is a non-central chi-square distribution, and therefore the test statistic leads to an over-rejection of the null hypothesis. Under H 𝜓 0 and H 𝜙 𝐴 , the asymptotic mean of √𝑛𝐿 𝜓 ( θ ) is I ψϕ•γ δ ϕ , which can be removed to get an adjusted score function that has a multivariate normal distribution centered at zero under H 𝜓 0 and H 𝜙 𝐴 . Let 𝐿 ⋆ 𝜓 ( θ ) be the resulting adjusted score function. The test statistic formulated with 𝐿 ⋆ 𝜓 ( θ ), which will be denoted by LM ⋆ 𝜓 ( θ ), is called the robust test statistic since it is valid irrespective of whether H 𝜙 0 or H 𝜙 𝐴 holds. In the next proposition, we summarize the results on the asymptotic distributions of LM 𝜓 ( θ ) and LM ⋆ 𝜓 ( θ ). Proposition 2 Under our stated assumptions, the following results hold. 1. Under H 𝜓 𝐴 and H 𝜙 𝐴 , we have LM 𝜓 ( θ ) 𝑑 -→ 𝜒 2 𝑘 𝜓 (𝜑 1 ) , (19) where 𝜑 1 = 𝛿 ′ 𝜓 𝐼 𝜓⋅𝛾 𝛿 𝜓 + 𝛿 ′ 𝜓 𝐼 𝜓𝜙⋅𝛾 𝛿 𝜙 + 𝛿 ′ 𝜙 𝐼 ′ 𝜓𝜙⋅𝛾 𝛿 𝜓 + 𝛿 ′ 𝜙 𝐼 ′ 𝜓𝜙⋅𝛾 𝐼 -1 𝜓⋅𝛾 𝐼 𝜓𝜙⋅𝛾 (𝜃 0 )𝛿 𝜙 . 6 Brought to you by | Stockholm University Library Authenticated Download Date | 4/27/19 9:41 AM 2. Under H 𝜓 0 and irrespective of whether H 𝜙 0 or H 𝜙 𝐴 holds, the distribution of the robust test LM ⋆ 𝜓 ( θ ) is given by LM ⋆ 𝜓 ( θ ) = 𝑛 𝐿 ⋆ ′ 𝜓 ( θ ) [𝐼 𝜓⋅𝛾 ( θ ) -𝐼 𝜓𝜙⋅𝛾 ( θ )𝐼 -1 𝜙⋅𝛾 ( θ )𝐼 ′ 𝜓𝜙⋅𝛾 ( θ )] -1 𝐿 ⋆ 𝜓 ( θ ) 𝑑 -→ 𝜒 2 𝑘 𝜓 , (20) where 𝐿 ⋆ 𝜓 ( θ ) = [𝐿 𝜓 ( θ ) -𝐼 𝜓𝜙⋅𝛾 ( θ )𝐼 -1 𝜙⋅𝛾 ( θ )𝐿 𝜙 ( θ )] is the adjusted score function, 𝐼 𝜓𝜙⋅𝛾 ( θ ) = 𝐼 𝜓𝜙 ( θ ) -𝐼 𝜓𝛾 ( θ )𝐼 -1 𝛾𝛾 ( θ )𝐼 𝛾𝜙 ( θ ) and 𝐼 𝜙⋅𝛾 ( θ ) = 𝐼 𝜙𝜙 ( θ ) -𝐼 𝜙𝛾 ( θ )𝐼 -1 𝛾𝛾 ( θ )𝐼 𝛾𝜙 ( θ ). 3. Under H 𝜓 𝐴 and irrespective of whether H 𝜙 0 or H 𝜙 𝐴 holds, we have LM ⋆ 𝜓 ( θ ) 𝑑 -→ 𝜒 2 𝑘 𝜓 (𝜑 2 ) , (21) where 𝜑 2 = 𝛿 ′ 𝜓 (𝐼 𝜓⋅𝛾 -𝐼 𝜓𝜙⋅𝛾 𝐼 -1 𝜙⋅𝛾 𝐼 ′ 𝜓𝜙⋅𝛾 )𝛿 𝜓 . Proof. See C. □ Proposition 2 indicates that LM ⋆ 𝜓 ( θ ) is a robust test in the sense that its asymptotic distribution is a centered chi-square distribution under the locally misspecified alternative model, thereby producing asymptotically correct size. The non-centrality parameters reported in Proposition 1 can be used for asymptotic local power comparisons. Note that the tail probability of a non-central chi-square distribution decreases with the degrees of freedom and increases with the non-centrality parameter. Under H 𝜓 𝐴 and H 𝜙 0 , Proposition 1 shows that LM ⋆ 𝜓 ( θ ) 𝑑 -→ 𝜒 2 𝑘 𝜓 (𝜑 2 ) and LM 𝜓 ( θ ) 𝑑 -→ 𝜒 2 𝑘 𝜓 (𝜑 1 ), where 𝜑 1 = 𝛿 ′ 𝜓 𝐼 𝜓⋅𝛾 𝛿 𝜓 . Hence, it follows that 𝜑 1 -𝜑 2 = 𝛿 ′ 𝜓 𝐼 𝜓𝜙⋅𝛾 𝐼 -1 𝜙⋅𝛾 𝐼 ′ 𝜓𝜙⋅𝛾 𝛿 𝜓 ≥ 0, which indicates that LM ⋆ 𝜓 ( θ ) has less asymptotic power than LM 𝜓 ( θ ) when there is no local parametric misspecification in the alternative model, i.e. when ϕ 0 = ϕ * . We can interpret the quantity 𝛿 ′ 𝜓 𝐼 𝜓𝜙⋅𝛾 𝐼 -1 𝜙⋅𝛾 𝐼 ′ 𝜓𝜙⋅𝛾 𝛿 𝜓 as the cost of having a valid robust test statistic in the presence of local parametric misspecification. The loss in power will be zero if 𝐼 𝜓𝜙⋅𝛾 = 0, under which the robust test statistic becomes identical to the non-robust test statistic. The quantity 𝐼 𝜓𝜙⋅𝛾 is the partial covariance between 𝐿 𝜓 ( θ ) and 𝐿 𝜙 ( θ ) after removing the linear effect of 𝐿 𝛾 ( θ</p><p>) on 𝐿 𝜓 ( θ ) and 𝐿 𝜙 ( θ ). Using Proposition 2, we can easily derive various test statistics based on suitable partitions of θ. The computation of all test statistics requires the restricted MLE θ obtained under the joint null H 0 : ρ 0 = λ 0 = 0 and δ 0 = 0. Under this joint null, the log-likelihood function in (9) simplifies to ln L(θ) = ln L 1 (θ) + ln L 2 (θ), where</p><formula xml:id="formula_29">ln 𝐿 1 (𝜃) = -𝑛(𝑝 2 +𝑝 3 ) 2 ln(2𝜋) -𝑛 2 ln |Σ 𝜀 | -1 2 ∑ 𝑛 𝑖=1 (𝑍 ′ 𝑖 -𝑋 ′ 𝑖 Γ)Σ -1 𝜀 (𝑍 𝑖 -Γ ′ 𝑋 𝑖 ), ln 𝐿 2 (𝜃) = -𝑛 2 ln(2𝜋) -𝑛 2 ln 𝜎 2 𝜉 -1 2𝜎 2 𝜉 [𝑌 -𝑋 1 𝛽] ′ [𝑌 -𝑋 1 𝛽)].<label>(22)</label></formula><formula xml:id="formula_30">Thus, β = (𝑋 ′ 1 𝑋 1 ) -1 𝑋 ′ 1 𝑌, ξ = 𝑌 -𝑋 1 β , σ2 𝜉 = ξ ′ ξ /𝑛, ε * = Z -X(X′X) -1 X′Z, Σ 𝜀 = 𝜀 * ′ 𝜀 * /𝑛, Γ = (𝑋 ′ Σ -1 𝜀 𝑋) -1 𝑋 ′ Σ -1 𝜀 𝑍 and ε = 𝑍 -𝑋 Γ</formula><p>. 3 Furthermore, 𝐼( θ ) stated in B is block diagonal with respect to vec(Γ), 𝜎 2 𝜉 and α. Thus, we can set γ = β in formulating the test statistics.</p><p>Using Proposition 2, the test statistic for H 𝜌 0 ∶ 𝜌 0 = 0 in the local presence of λ 0 and δ 0 can be determined by setting ψ = ρ, ϕ = (λ, δ′)′ and γ = β. Define B (s) = B + B′ for any square matrix B. Then, using our results on 𝐼( θ ) and score functions in B, we have</p><formula xml:id="formula_31">LM 𝜌 ( θ ) = 𝑛𝐿 ′ 𝜌 ( θ ) [𝐼 𝜌⋅𝛽 ( θ )] -1 𝐿 𝜌 ( θ ) = [ ξ ′ 𝑀 ξ ] 2 σ4 𝜉 tr(𝑀 (𝑠) 𝑀) . (<label>23</label></formula><formula xml:id="formula_32">)</formula><p>The adjusted score can be derived as</p><formula xml:id="formula_33">𝐿 ⋆ 𝜌 ( θ ) = 1 𝑛 σ2 𝜉 ( ξ ′ 𝑀 ′ ξ -σ2 𝜉 tr(𝑀 (𝑠) 𝑊)𝐴 -1 2 ( θ ) [(𝑊𝑌) ′ ξ -(𝑋 1 β ) ′ 𝑊 ′ ε (𝑛 Σ 𝜀 ) -1 ε ′ ξ ]) ,<label>(24)</label></formula><p>where</p><formula xml:id="formula_34">𝐴 2 ( θ ) = 𝐴 1 ( θ ) -(𝑋 1 β ) ′ 𝑊 ′ ε (𝑛 Σ 𝜀 ) -1 ε ′ 𝑊(𝑋 1 β ) and 𝐴 1 ( θ ) = (𝑋 1 β ) ′ 𝑊 ′ 𝑊𝑋 1 β + σ2 𝜉 tr(𝑊 (𝑠) 𝑊) - (𝑋 1 β ) ′ 𝑊 ′ 𝑋 1 (𝑋 ′ 1 𝑋 1 ) -1 𝑋 ′ 1 𝑊(𝑋 1 β ).</formula><p>Similarly, the variance term is [𝐼 𝜌⋅𝛽 ( θ ) -𝐼 𝜌𝜙⋅𝛽 ( θ )𝐼 -1 𝜙⋅𝛽 ( θ )𝐼 ′ 𝜌𝜙⋅𝛽 ( θ )] = 1 𝑛 σ2 𝜉 [ σ2 𝜉 tr(𝑀 (𝑠) 𝑀) -σ4 𝜉 tr 2 (𝑀 (𝑠) 𝑊)𝐴 -1 2 ( θ )] . (25) 7 Brought to you by | Stockholm University Library Authenticated Download Date | 4/27/19 9:41 AM Using (24) and (25), we can easily calculate the robust test statistic LM ⋆ 𝜌 ( θ ) = 𝑛 𝐿 ⋆ ′ 𝜌 ( θ ) [𝐼 𝜌⋅𝛽 ( θ ) -𝐼 𝜌𝜙⋅𝛽 ( θ )𝐼 -1 𝜙⋅𝛽 ( θ )𝐼 ′ 𝜌𝜙⋅𝛽 ( θ )] -1 𝐿 ⋆ 𝜌 ( θ ). (26) By Proposition 2, under H 𝜌 0 and H 𝜙 0 , both LM 𝜌 ( θ ) and LM ⋆ 𝜌 ( θ ) have an asymptotic chi-square distribution with one degrees of freedom.</p><p>Next, we consider the test statistics for H 𝜆 0 ∶ 𝜆 0 = 0 in the local presence of ρ 0 and δ 0 . In terms of our notation used in Proposition 2, we set ψ = λ, ϕ = (ρ, δ′)′ and γ = β. The non-robust test is given by</p><formula xml:id="formula_35">LM 𝜆 ( θ ) = 𝑛𝐿 ′ 𝜆 ( θ ) [𝐼 𝜆⋅𝛽 ( θ )] -1 𝐿 𝜆 ( θ ) = 1 σ2 𝜉 [(𝑊𝑌) ′ ξ ] 2 𝐴 -1 1 ( θ ).<label>(27)</label></formula><p>The robust version is given by</p><formula xml:id="formula_36">LM ⋆ 𝜆 ( θ ) = 𝑛 𝐿 ⋆ ′ 𝜆 ( θ ) [𝐼 𝜆⋅𝛽 ( θ ) -𝐼 𝜆𝜙⋅𝛽 ( θ )𝐼 -1 𝜙⋅𝛽 ( θ )𝐼 ′ 𝜆𝜙⋅𝛽 ( θ )] -1 𝐿 ⋆ 𝜆 ( θ ),<label>(28)</label></formula><p>where</p><formula xml:id="formula_37">𝐿 ⋆ 𝜆 ( θ ) = 1 𝑛 σ2 𝜉 ⎡ ⎢ ⎣ (𝑊𝑌) ′ ξ - tr(𝑀 (𝑠) 𝑊)( ξ ′ 𝑀 ′ ξ ) tr(𝑀 (𝑠) 𝑀) -(𝑋 1 β ) ′ 𝑊 ′ ε (𝑛 Σ 𝜀 ) -1 ε ′ ξ ⎤ ⎥ ⎦ ,<label>(29)</label></formula><p>and</p><formula xml:id="formula_38">[𝐼 𝜆⋅𝛽 ( θ ) -𝐼 𝜆𝜙⋅𝛽 ( θ )𝐼 -1 𝜙⋅𝛽 ( θ )𝐼 ′ 𝜆𝜙⋅𝛽 ( θ )] = 1 𝑛 σ2 𝜉 [𝐴 1 ( θ ) -σ2 𝜉 tr 2 (𝑀 (𝑠) 𝑊) tr(𝑀 (𝑠) 𝑀) -(𝑋 1 β ) ′ 𝑊 ′ ε (𝑛 Σ 𝜀 ) -1 ε ′ 𝑊𝑋 1 β ] .<label>(30)</label></formula><p>By Proposition 2, under H 𝜆 0 and H 𝜙 0 , both LM 𝜆 ( θ ) and LM ⋆ 𝜆 ( θ ) have an asymptotic chi-square distribution with one degrees of freedom.</p><p>We also consider the null hypothesis H 𝜇 0 ∶ 𝜌 0 = 𝜆 0 = 0 in the local presence of δ 0 . For notational simplicity, let μ = (ρ, λ)′. In terms of our notation used in Proposition 2, we set ψ = μ, ϕ = δ and γ = β. Then, the non-robust test statistic is</p><formula xml:id="formula_39">LM 𝜇 ( θ ) = 1 σ2 𝜉 [ ξ ′ 𝑀 ξ 𝑌 ′ 𝑊 ξ ] ′ ⎡ ⎢ ⎣ σ2 𝜉 tr(𝑀 (𝑠) 𝑀) σ2 𝜉 tr(𝑀 (𝑠) 𝑊) σ2 𝜉 tr(𝑀 (𝑠) 𝑊) 𝐴 1 ( θ ) ⎤ ⎥ ⎦ -1 [ ξ ′ 𝑀 ξ 𝑌 ′ 𝑊 ξ ] .<label>(31)</label></formula><p>By Proposition 2, the asymptotic distribution of LM 𝜇 ( θ ) under the null hypothesis is a non-central chi-square distribution with two degrees of freedom. Next, we determine the robust version of this test statistic that has a centered chi-square distribution asymptotically under the null hypothesis. The components of the robust test LM ⋆ 𝜇 ( θ ) are</p><formula xml:id="formula_40">𝐿 ⋆ 𝜇 ( θ ) = 1 𝑛 σ2 𝜉 [ ξ ′ 𝑀 ξ 𝑌 ′ 𝑊 ′ ξ -(𝑋 1 β 1 ) ′ 𝑊 ′ ε (𝑛 Σ 𝜀 ) -1 ε ′ ξ ] ,<label>(32)</label></formula><p>and [ 𝐼 𝜇⋅𝛽 ( θ ) -𝐼 𝜇𝛿⋅𝛽 ( θ )𝐼 -1 𝛿⋅𝛽 ( θ )𝐼 𝛿𝜇⋅𝛽 ( θ )] -1 = 𝑛 σ2 𝜉 𝐴 3 ( θ ) ⎡ ⎢ ⎣ 𝐴 2 ( θ ) -σ2 𝜉 tr(𝑀 (𝑠) 𝑊) -σ2 𝜉 tr(𝑀 (𝑠) 𝑊) σ2 𝜉 tr(𝑀 (𝑠) 𝑀) ⎤ ⎥ ⎦ , (33) where 𝐴 3 ( θ ) = 𝐴 2 ( θ ) σ2 𝜉 tr(𝑀 (𝑠) 𝑀) -[ σ2 𝜉 tr(𝑀 (𝑠) 𝑀)] 2 . Note that there is no adjustment in 𝐿 ⋆ 𝜇 ( θ ) for the score function with respect to ρ since 𝐼 𝜌𝛿 ( θ ) = 0, i.e, L ρ (θ 0 ) and L δ (θ 0 ) are asymptotically uncorrelated under the joint null H 0 : ρ 0 = λ 0 = 0 and δ 0 = 0. Then, using (32) and (33), we can show that 8 Brought to you by | Stockholm University Library Authenticated Download Date | 4/27/19 9:41 AM LM ⋆ 𝜇 ( θ ) = 1 𝐴 3 ( θ ) σ2 𝜉 [ 𝐴 2 ( θ )( ξ ′ 𝑀 ξ ) 2 -2 σ2 𝜉 [ 𝑌 ′ 𝑊 ′ ξ ξ ′ 𝑀 ξ ] tr(𝑀 (𝑠) 𝑊) +2 σ2 𝜉 [ ξ ′ 𝑀 ξ (𝑋 1 β 1 ) ′ 𝑊 ′ ε (𝑛 Σ 𝜀 ) -1 ε ′ ξ ] tr(𝑀 (𝑠) 𝑊) -2 σ2 𝜉 [ ξ ′ 𝑊𝑌(𝑋 1 β 1 ) ′ 𝑊 ′ ε (𝑛 Σ 𝜀 ) -1 ε ′ ξ ] tr(𝑀 (𝑠) 𝑀) + σ2 𝜉 [ ξ ′ 𝑊𝑌] 2 tr(𝑀 (𝑠) 𝑀) + σ2 𝜉 [ (𝑋 1 β 1 ) ′ 𝑊 ′ ε (𝑛 Σ 𝜀 ) -1 ε ′ ξ ] 2 tr(𝑀 (𝑠) 𝑀)] .</p><p>Finally, we will also consider testing the joint null H 0 : ρ 0 = λ 0 = 0 and δ 0 = 0. For the notational simplicity, let κ = (ρ, λ, δ′)′. The test statistic for this hypothesis can be stated as</p><formula xml:id="formula_42">𝐿𝑀 𝜅 ( θ ) = 𝑛𝐿 ′ 𝜅 ( θ ) [𝐼 𝜅⋅𝛽 ( θ )] -1 𝐿 𝜅 ( θ ),<label>(35)</label></formula><p>where</p><formula xml:id="formula_43">𝐿 𝜅 ( θ ) = 1 𝑛 σ2 𝜉 ⎡ ⎢ ⎢ ⎣ ξ ′ 𝑀 ξ 𝑌 ′ 𝑊 ′ ξ ε ′ ξ ⎤ ⎥ ⎥ ⎦ , and 𝐼 𝜅⋅𝛽 ( θ ) = 1 𝑛 σ2 𝜉 ⎡ ⎢ ⎢ ⎣ σ2 𝜉 tr(𝑀 (𝑠) 𝑀) σ2 𝜉 tr(𝑀 (𝑠) 𝑊) 0 σ2 𝜉 tr(𝑀 (𝑠) 𝑊) 𝐴 1 ( θ ) (𝑋 1 β ) ′ 𝑊 ′ ε 0 ε ′ 𝑊𝑋 1 β 𝑛 Σ 𝜀 ⎤ ⎥ ⎥ ⎦ .<label>(36)</label></formula><p>Under the joint null hypothesis, 𝐿𝑀 𝜅 ( θ ) has an asymptotic chi-square distribution with (p 2 + p 3 + 2) degrees of freedom.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Remark 1</head><p>A specification search can start with 𝐿𝑀 𝜅 ( θ ). When H 0 : κ 0 = 0 is rejected one may proceed with 𝐿𝑀 ⋆ 𝜇 ( θ ) to detect spatial dependence in the presence of δ 0 . If 𝐻 𝜇 0 is rejected then there exists spatial dependence in the dependent variable and/or the disturbance terms. Thus, we may proceed with 𝐿𝑀 ⋆ 𝜌 ( θ ) and 𝐿𝑀 ⋆ 𝜆 ( θ ) to determine the exact source of spatial dependence.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Remark 2</head><p>Under our Assumption 2, the null hypothesis 𝐻 𝛿 0 ∶ 𝛿 0 = 0 can be used for testing the endogeneity in the weights matrices. See the compact form in (3). For the cross-sectional SARAR(1,0) model, <ref type="bibr" target="#b15">Cheng and Lee (2017)</ref> and <ref type="bibr" target="#b37">Qu and Lee (2015)</ref> suggest a conditional LM test statistic for 𝐻 𝛿 0 that requires the restricted MLE of λ 0 and β 0 . For the same model, <ref type="bibr" target="#b8">Bera, Doğan, and Taşpınar (2018)</ref> formulate a robust LM test statistic for 𝐻 𝛿 0 and show that the robust test statistic has good size and power properties through an extensive Monte Carlo study. Our Proposition 2 can be used to formulate a robust test statistic for 𝐻 𝛿 0 in the local presence of λ 0 and ρ 0 . In our setting, the additivity property of tests can be used to easily calculate the robust and non-robust version of this test <ref type="bibr" target="#b18">(Doğan, Taşpınar, and Bera 2018)</ref>. Let 𝐿𝑀 ⋆ 𝛿 ( θ ) and 𝐿𝑀 𝛿 ( θ ) be the robust and non-robust LM tests for 𝐻 𝛿 0 , respectively. Then, it can be shown that 𝐿𝑀 𝜅 ( θ</p><formula xml:id="formula_44">) = 𝐿𝑀 𝜇 ( θ ) + 𝐿𝑀 ⋆ 𝛿 ( θ ) = 𝐿𝑀 ⋆ 𝜇 ( θ ) + 𝐿𝑀 𝛿 ( θ ). Proposition 2 indicates that 𝐿𝑀 ⋆ 𝛿 ( θ</formula><p>) has the central chi-square distribution with (p 2 + p 3 ) degrees of freedom asymptotically under 𝐻 𝛿 0 . Note that the test statistic suggested in <ref type="bibr" target="#b8">Bera, Doğan, and Taşpınar (2018)</ref> is only valid in the local presence of λ 0 , while our 𝐿𝑀 ⋆ 𝛿 ( θ ) is valid in the local presence of both λ 0 and ρ 0 .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5">Monte Carlo Study</head><p>In our Monte Carlo study, we consider a special case of (1) where W = M. We set X 1 = [l n , X 11 ], where l n is the n × 1 vector of ones and X 11 is the n × 1 vector of random draws from the standard normal distribution. For parameter values, β 0 is set to (1, 1)′ and λ 0 and ρ 0 take values from the set {0, 0.1, 0.3, 0.5}. The spatial weights incorporate endogenous components in the following way. First, a weights matrix based on the geographic distances between locations is constructed, and we will denote it by W d . To this end, we consider the four cases used in <ref type="bibr" target="#b37">Qu and Lee (2015)</ref>. The first case is a 49 × 49 contiguity weights matrix corresponding to 48 US states and the District of Columbia. The second case is a 98 × 98 weights matrix corresponding to five nearest neighbors of each of the 98 census tracts in Toledo, Ohio. The third case is a 361 × 361 matrix corresponding to whether the school districts are in the same county in Iowa in 2009. The last case is again a 361 × 361 matrix corresponding to the adjacency of 361 school districts in Iowa in 2009. We will denote these cases respectively by WS, WO, WC and WA. Note that since the geographic locations are already predetermined, W d does not incorporate any endogenous element.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>9</head><p>Brought to you by | Stockholm University Library Authenticated Download Date | 4/27/19 9:41 AM Next, a weights matrix based on the socio-economic distances is generated and we will denote it by W e . The (i, j)th element of W e is set to 1/|Z i -Z j | if i ≠ j and to zero otherwise. Here, Z i = 1 + 0.8X 2i + ε i and X 2 is taken as the second column of X 1 . Then, W is generated as the Hadamard product of W d and W e , and is row normalized afterwards. In our baseline setting, the joint distribution of (𝑣 𝑖 , 𝜀 ′ 𝑖 ) ′ is set to a bivariate normal distribution</p><formula xml:id="formula_45">( 𝑣 𝑖 𝜀 𝑖 ) ∼ i.i.d N [0 2×1 , ( 1 𝛿 0 𝛿 0 1 )] , 𝑖 = 1, … 𝑛,<label>(37)</label></formula><p>where δ 0 takes values from the set {0, 0.25, 0.5}. In the subsequent analysis, we will change the joint distribution of (𝑣 𝑖 , 𝜀 ′ 𝑖 ) ′ to investigate the effects of the distributional misspecification. We set the nominal size of tests to 0.05, and the number of Monte Carlo repetitions to 1000 in all specifications.</p><p>Table 1: Summary of Test Statistics.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Null hypothesis</head><p>Parameters Test statistic We summarize the test statistics and the source of local parametric misspecification in Table <ref type="table">1</ref>. In the case of LM ρ and LM ⋆ 𝜌 , the source of parametric misspecification is the presence of λ 0 and δ 0 in the alternative model. Similarly, in the case of LM λ and LM ⋆ 𝜆 , the source of parametric misspecification is the presence of ρ 0 and δ 0 in the alternative model. For the joint test statistics LM μ and LM ⋆ 𝜇 , the source of misspecification is the presence of δ 0 in the alternative model. We also consider the robust test statistics suggested in <ref type="bibr" target="#b2">Anselin et al. (1996)</ref>. In Table <ref type="table">1</ref>, these test statistics are denoted by LM 𝑎 𝜌 and LM 𝑎 𝜆 and they are valid only when the weights matrices are exogenous. When δ 0 = 0, LM 𝑎 𝜌 is robust to the local presence of λ 0 and is given by</p><formula xml:id="formula_46">λ 0 δ 0 H 0 : ρ 0 = 0 Set to zero Set to zero LM ρ in (23) H 0 : ρ 0 = 0 Unrestricted, not estimated Unrestricted, not estimated LM ⋆ 𝜌 in (26) H 0 : ρ 0 = 0 Unrestricted, not estimated Set to zero LM 𝑎 𝜌 in (38) ρ 0 δ 0 H 0 : λ 0 = 0 Set to zero Set to zero LM λ in (27) H 0 : λ 0 = 0 Unrestricted, not estimated Unrestricted, not estimated LM ⋆ 𝜆 in (29) H 0 : λ 0 = 0 Unrestricted, not estimated Set to zero LM 𝑎 𝜆 in (39) - δ 0 H 0 : μ 0 = 0 - Set to zero LM μ in (31) H 0 : μ 0 = 0 - Unrestricted, not estimated LM ⋆ 𝜇 in (34) H 0 : κ 0 = 0 - - LM κ in (<label>35</label></formula><formula xml:id="formula_47">) (i)</formula><formula xml:id="formula_48">LM 𝑎 𝜌 = [ ξ ′ 𝑀 ξ / σ2 𝜉 -tr(𝑀 (𝑠) 𝑊)𝐽 -1 ( θ ) ξ ′ 𝑊𝑌/ σ2 𝜉 ] 2 tr(𝑀 (𝑠) 𝑀) -tr 2 (𝑀 (𝑠) 𝑊)𝐽 -1 ( θ ) ,<label>(38)</label></formula><p>where</p><formula xml:id="formula_49">𝐽( θ ) = [(𝑊𝑋 1 β ) ′ (𝐼 𝑛 -𝑋 1 (𝑋 ′ 1 𝑋 1 ) -1 𝑋 ′ 1 )𝑊𝑋 1 β + σ2 𝜉 tr(𝑊 (𝑠) 𝑊)] / σ2 𝜉 .</formula><p>Similarly, when δ 0 = 0, LM 𝑎 𝜆 is robust to the local presence of ρ 0 and is given by 4</p><formula xml:id="formula_50">LM 𝑎 𝜆 = [ ξ ′ 𝑊𝑌/ σ2 𝜉 -tr(𝑊 (𝑠) 𝑀) ξ ′ 𝑀 ξ / σ2 𝜉 tr(𝑀 (𝑠) 𝑀)] 2 𝐽( θ ) -tr 2 (𝑀 (𝑠) 𝑊)/tr(𝑀 (𝑠) 𝑀) .<label>(39)</label></formula><p>All results from the Monte Carlo study are presented in D in Table <ref type="table" target="#tab_2">3</ref> through Table <ref type="table" target="#tab_11">14</ref>.</p><p>Table 3 corresponds to the case of no endogeneity in the weights matrices, while Table 4 and Table 5 allow for weak and moderate degree of endogeneity, respectively. Before we summarize our observations from these tables, note that our main interest is to see relative performances of LM ⋆ 𝜌 against LM 𝑎 𝜌 , and LM ⋆ 𝜆 against LM 𝑎 𝜆 . We expect to observe no significant differences between them in Table 3, and if anything, due to extra correction for the presence of endogeneity, 10 Brought to you by | Stockholm University Library Authenticated Download Date | 4/27/19 9:41 AM our proposed tests can be outperformed by LM 𝑎 𝜌 and LM 𝑎 𝜆 .</p><p>As the degree of endogeneity increases in Table <ref type="table" target="#tab_3">4</ref> and Table <ref type="table">5</ref>, we should observe divergence in the performances of these tests, LM ⋆ 𝜌 and LM ⋆ 𝜆 outperforming their non-robust counterparts respectively. In each table, the first panel reveals the size properties for LM ρ , LM ⋆ 𝜌 and LM 𝑎 𝜌 , while the first row in each panel shows the size properties of LM λ , LM ⋆ 𝜆 and LM 𝑎 𝜆 . The size properties of LM μ , LM ⋆ 𝜇 and LM κ are given in the first row of first panel in each table. The other rows reveal the power properties for all test statistics. We summarize our findings as follows.</p><p>1. In Table <ref type="table" target="#tab_2">3</ref>, we observe no significant differences between LM ⋆ 𝜌 and LM 𝑎 𝜌 , and between LM ⋆ 𝜆 and LM 𝑎 𝜆 in terms of empirical size. Similarly, there is no significant difference between LM ⋆ 𝜇 and LM μ . LM ⋆ 𝜌 and LM ⋆ 𝜆 perform well when the spatial autoregressive parameters deviate from zero locally, and overall they are still properly sized around the nominal value of 0.05. When there is no parametric misspecification, i.e. when λ 0 = ρ 0 = 0, LM ρ , LM λ , LM μ and LM κ have almost no size distortions. However, when either λ 0 or ρ 0 deviates locally from zero, these tests have significant size distortions. Thus, it is obvious that these tests can not be used to detect the exact source of spatial dependence in spatial autoregressive models.</p><p>2. Theoretically, the robust tests have less power than their non-robust counterparts when there is no parametric misspecification in the alternative model. Our results in Table <ref type="table" target="#tab_2">3</ref> confirm this finding, especially the power difference is more apparent for the test statistics of ρ. When we compare the robust tests, LM 𝑎 𝜌 with LM ⋆ 𝜌 and LM 𝑎 𝜆 with LM ⋆ 𝜆 , we would expect a similar finding since there is no endogeneity in the weights matrices in Table <ref type="table" target="#tab_2">3</ref>. However, the power differences between the robust tests of <ref type="bibr" target="#b2">Anselin et al. (1996)</ref> and our robust tests are negligible in almost all cases.</p><p>3. Table <ref type="table" target="#tab_3">4</ref> presents simulation results for the case of weak endogeneity in the weights matrices. Therefore, we expect that our robust tests outperform all other tests in terms of size properties. LM ⋆ 𝜌 outperforms LM 𝑎 𝜌 in terms of size, especially for the weights matrices WO, WC and WA. LM 𝑎 𝜌 is always over-sized and reports significant size distortions when λ 0 deviates locally from zero in the alternative model. Similarly, LM ⋆ 𝜆 outperforms LM 𝑎 𝜆 in terms of size properties in all cases. LM 𝑎 𝜆 is always over-sized and has significant size distortions when ρ 0 locally deviates from zero in the alternative model. Moreover, LM ⋆ 𝜇 is properly sized while LM μ reports significant size distortions. The size gap is more pronounced for the larger samples. Finally, the non-robust tests and the joint test report large size distortions, especially in the presence of local parametric misspecification, i.e. when either λ 0 ≠ 0 or ρ 0 ≠ 0. 4. In Table <ref type="table" target="#tab_3">4</ref>, all tests improve in terms of power when the true values of parameters deviate from zero under the alternative hypotheses, and when the sample size increases. Generally, the robust tests have less power than their non-robust counterparts and the joint test. When we compare robust tests in terms of power, we observe that LM ⋆ 𝜌 outperforms LM 𝑎 𝜌 , whereas LM 𝑎 𝜆 outperforms LM ⋆ 𝜆 .</p><p>5. Table <ref type="table">5</ref> presents the simulation results for the case of strong endogeneity in the weights matrices. Our findings on the size and power properties are similar to those we obtained from Table <ref type="table" target="#tab_3">4</ref>. However, it is clear that the divergence in the size performance between the robust tests (LM ⋆ versus LM a ) is amplified because the degree of endogeneity is moderate.</p><p>The control function approach, which facilitates the estimation of the model, also allows us to develop a test for endogeneity in spatial weights matrices. As stated in Remark 2, we can develop an LM statistic for H 𝛿 0 ∶ 𝛿 0 = 0 to test endogeneity in the weights matrices. Using the additivity property of the test statistics, both the robust and non-robust LM statistic for H 𝛿 0 in the local presence of λ 0 and ρ 0 can be determined from LM 𝜅 ( θ</p><formula xml:id="formula_51">) = LM 𝜇 ( θ ) + LM ⋆ 𝛿 ( θ ) = LM ⋆ 𝜇 ( θ ) + LM 𝛿 ( θ ).</formula><p>Here, LM ⋆ 𝛿 ( θ ) has the chi-square distribution with (p 2 + p 3 ) degrees of freedom.</p><p>Bera, Doğan, and Taşpınar (2018) developed a robust LM ⋆SAR 𝛿 ( θ ) for the following sub-model:</p><formula xml:id="formula_52">𝑌 = 𝜆𝑊𝑌 + 𝑋 1 𝛽 + 𝑈, 𝑍 1 = 𝑋 2 Γ 1 + 𝜀 1 , 𝑤 𝑖𝑗 = ℎ 1𝑖𝑗 (𝑧 1𝑖 , 𝑧 1𝑗 , 𝜚 𝑖𝑗 ), (<label>40</label></formula><formula xml:id="formula_53">)</formula><p>where there is no spatial correlation in U. In this case, the test statistic is given by</p><formula xml:id="formula_54">LM ⋆SAR 𝛿 ( θ ) = ( ε ′ 1 ξ -𝐴( θ )𝑌 ′ 𝑊 ′ ξ ) ′ (𝑛 σ2 𝜉 Σ 𝜀 -σ2 𝜉 𝐴( θ ) β ′ 𝑋 ′ 1 𝑊 ′ ε 1 ) -1 ( ε ′ 1 ξ -𝐴( θ )𝑌 ′ 𝑊 ′ ξ ) ,<label>(41)</label></formula><p>where  <ref type="table" target="#tab_5">8</ref>. We summarize the salient features as follows.</p><formula xml:id="formula_55">β = (𝑋 ′ 1 𝑋 1 ) -1 𝑋 ′ 1 𝑌, ξ = 𝑌 -𝑋 1 β , σ2 𝜉 = ξ ′ ξ /𝑛, 𝜀 * 1 = 𝑍 1 -𝑋 2 (𝑋 ′ 2 𝑋 2 ) -1 𝑋 ′ 2 𝑍 1 , Σ 𝜀 = 𝜀 * ′ 1 𝜀 * 1 /𝑛, Γ 1 = (𝑋 ′ 2 Σ -1 𝜀 𝑋 2 ) -1 𝑋 ′ 2 Σ -1 𝜀 𝑍 1 , ε 1 = 𝑍 1 -𝑋 2 Γ 1 , and 𝐴( θ ) = ( ε ′ 1 𝑊𝑋 1 β )/ ( σ2 𝜉 tr(𝑊 2 + 𝑊𝑊 ′ ) + β ′ 𝑋 ′ 1 𝑊 ′ 𝑊𝑋 1 β - β ′ 𝑋 ′ 1 𝑊 ′ 𝑋 1 (𝑋 ′ 1 𝑋 1 ) -1 𝑋 ′ 1 𝑊𝑋 1 β ) .</formula><p>1. The size properties are presented in Table <ref type="table" target="#tab_0">6</ref>. When there is no misspecification, i.e. when λ 0 = ρ 0 = 0, both tests perform satisfactorily. When ρ 0 = 0 and λ 0 takes values from 0 to 0.5, both tests perform similarly and have small size distortions. This result also holds in the case where ρ 0 deviates locally from zero. When the degree of misspecification in ρ 0 is large, i.e. when ρ = 0.3 or ρ 0 = 0.5, LM ⋆ 𝛿 ( θ ) generally outperforms LM ⋆SAR 𝛿 ( <ref type="formula">θ</ref>) for all values of λ 0 .</p><p>2. The power properties are provided in Table <ref type="table" target="#tab_4">7</ref> and Table <ref type="table" target="#tab_5">8</ref>. When ρ 0 significantly deviates from zero, LM ⋆ 𝛿 ( θ ) generally has more power than LM ⋆SAR 𝛿 ( <ref type="formula">θ</ref>) for all values of λ 0 . The results in both tables also show that both tests attain relatively higher power when sample size increases (WC and WA cases).</p><p>Finally, we extend our baseline Monte Carlo setting by introducing distributional misspecification in the DGP. To this end, we generate ε i from a univariate t distribution with 5 degrees of freedom, and set v i = ε i δ + ξ i , where ξ i 's are i.i.d random draws from the uniform distribution on the interval (0, 1). Here, it is important to note that the conditional moment assumptions 𝔼(v i |ε i ) = ε i δ and Var(𝑣 𝑖 |𝜀 𝑖 ) = 𝜎 2 𝜉 0 hold so that the (quasi) ML estimation approach is still feasible. 5 Furthermore, we also consider another extension where both the joint normality and the conditional moment assumptions are violated. We take the same mean and covariance structure in (37), and generate (v i , ε i )′ from the bivariate t distribution with ν = 5 (and ν = 30) degrees of freedom. The simulation results for these extensions are provided in Table <ref type="table" target="#tab_6">9</ref> through Table <ref type="table" target="#tab_11">14</ref>. 6 The results in Table <ref type="table" target="#tab_6">9</ref> through Table <ref type="table" target="#tab_8">11</ref> are based on the setting where the conditional moment assumptions 𝔼(v i |ε i ) = ε i δ and Var(𝑣 𝑖 |𝜀 𝑖 ) = 𝜎 2 𝜉 0 hold, while the joint normality assumption is violated. The remaining tables, Table <ref type="table" target="#tab_9">12</ref> through Table <ref type="table" target="#tab_11">14</ref>, contain the simulation results based on the DGP in which both the conditional moment assumptions and the joint normality assumption are violated. In evaluating the simulation results, we highlight the difference between the results based on our baseline DGP (bivariate normal distribution) and the results based on these two new cases. We summarize the main findings from these tables as follows.</p><p>1. Table <ref type="table" target="#tab_6">9</ref> presents the empirical rejection frequencies of the test statistics when there is no endogeneity in the weights, i.e. when δ 0 = 0. The size properties of the tests in this table are comparable with those obtained from Table <ref type="table" target="#tab_2">3</ref>. Table <ref type="table" target="#tab_7">10</ref> and Table <ref type="table" target="#tab_8">11</ref> include the simulation results when the DGP has low and moderate degree of endogeneity (i.e. when δ 0 = 0.25 and δ 0 = 0.5), respectively. These results imply similar size properties to those implied by the results in Table <ref type="table" target="#tab_3">4</ref> and Table <ref type="table">5</ref>. Thus, overall the size properties of our test statistics [including those suggested by <ref type="bibr" target="#b2">Anselin et al. (1996)</ref>] are not affected by this type of distributional misspecification. However, it is important to note that our robust tests outperform the robust tests of <ref type="bibr" target="#b2">Anselin et al. (1996)</ref> (LM a ) in terms of size properties when the DGP involves either a low or moderate degree of endogeneity.</p><p>2. When we compare the results in Table <ref type="table" target="#tab_6">9</ref>-Table <ref type="table" target="#tab_8">11</ref> with those in Table <ref type="table" target="#tab_2">3</ref>-Table <ref type="table">5</ref> (bivariate normal distribution), the findings are similar in terms of power properties. When we compare the results in Table <ref type="table">5</ref> and Table <ref type="table" target="#tab_8">11</ref>, where δ 0 = 0.5, we see that the power of both robust tests LM 𝑎 𝜌 and LM ⋆ 𝜌 increases as the true value ρ 0 deviates from zero. Considering λ 0 = 0, ρ 0 = 0.5 and WC, we see that the respective powers are 0.980 and 1.000 in Table <ref type="table">5</ref>, while they are 0.922 and 0.998 in Table <ref type="table" target="#tab_8">11</ref>. Although, the power of both LM 𝑎 𝜌 and LM ⋆ 𝜌 decreases when λ 0 deviates from zero, LM ⋆ 𝜌 generally has relatively more power when there is endogeneity in the DGP, i.e. when δ 0 ≠ 0. Similarly, the power properties of LM 𝑎 𝜆 and LM ⋆ 𝜆 in Table <ref type="table" target="#tab_2">3</ref>-Table <ref type="table">5</ref> are also similar to those in Table <ref type="table" target="#tab_6">9</ref>-Table <ref type="table" target="#tab_8">11</ref>. In the case of LM 𝑎 𝜆 and LM ⋆ 𝜆 , the parametric misspecification involving ρ 0 only slightly affects the power of tests. Overall, the power properties of tests are not affected by this type of distributional misspecification.</p><p>3. Coming to the results in Table <ref type="table" target="#tab_9">12</ref>-Table <ref type="table" target="#tab_11">14</ref> corresponding to the case where (v i , ε i )′ is generated from the bivariate t distribution (with ν = 5 degrees of freedom), the findings for the robust tests in terms of size properties are similar to those obtained from Table <ref type="table" target="#tab_2">3</ref>-Table <ref type="table">5</ref> (bivariate normal distribution). However, we find that the joint test statistics LM κ is over-sized as seen in Table <ref type="table" target="#tab_9">12</ref>. In terms of power properties, the robust tests have slightly lower powers in Table <ref type="table" target="#tab_9">12</ref>-Table <ref type="table" target="#tab_11">14</ref>. For example, considering λ 0 = 0, ρ 0 = 0.5 and WO, the respective powers of LM 𝑎 𝜌 and LM ⋆ 𝜌 are 0.254 and 0.613 in Table <ref type="table" target="#tab_11">14</ref>, while the corresponding values are 0.436 and 0.800 in Table <ref type="table">5</ref>. When λ 0 = 0.5, ρ 0 = 0 and WO, the respective powers of LM 𝑎 𝜆 and LM ⋆ 𝜆 in Table <ref type="table">5</ref> are 0.982 and 0.801, while the corresponding values in Table 14 are 0.938 and 0.642. Overall, the power properties of robust statistics can be affected by this type of distributional misspecification. 12 Brought to you by | Stockholm University Library Authenticated Download Date | 4/27/19 9:41 AM</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6">Empirical Illustration</head><p>In this section, we illustrate how our robust test statistics can be used in a specification search exercise. To this end, we will consider the dual gravity model of <ref type="bibr" target="#b6">Behrens, Ertur, and Koch (2012)</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.1">A Dual Gravity Model</head><p>Behrens, Ertur, and Koch (2012) derive a gravity equation from the quantity-based version of the constant elasticity of substitution (CES) model by assuming that the unobservable price indices are implicit functions of trade flows. Conveniently, the solution yields an econometric specification that properly accounts for interdependence between trade flows.</p><p>The dual gravity model considered in Behrens, Ertur, and Koch (2012) consists of n regions, each of which is populated with workers who have inelastic labor supply. Let L i be the unit of labor in region i and assume that the labor is the only production factor. Define 𝑇 𝑖𝑗 = 𝐹 𝑖𝑗 𝑌 𝑖 𝑌 𝑗 as the GDP-standardized trade flow from region i to region j, where F ij is the value of trade flows from i to j, and Y i and Y j are GDP levels in i and j, respectively. The CES monopolistic competition model with free entry in Behrens, Ertur, and Koch (2012) yields the following expression for the trade flows from region i to j</p><formula xml:id="formula_56">log(𝑇 𝑖𝑗 ) = -𝜎 log(𝐿) -(𝜎 -1)( log(𝜏 𝑖𝑗 ) - 𝑛 ∑ 𝑘=1 𝐿 𝑘 𝐿 log(𝜏 𝑘𝑗 )) -𝜎 log(𝑤 𝑖 ) -(𝜎 -1) 𝑛 ∑ 𝑘=1 𝐿 𝑘 𝐿 log(𝑇 𝑘𝑗 ),<label>(42)</label></formula><p>where 𝐿 ≡ ∑ 𝑛 𝑘=1 𝐿 𝑘 is the total world population, τ ij is the iceberg trade costs of shipping one unit of any variety between region i and j, w i is the wage level in region i and σ &gt; 1 denotes the constant elasticity of substitution between any two product varieties. The last term in equation ( <ref type="formula" target="#formula_56">42</ref>) shows that trade flow between region i and j depends on all the trade flows from other regions k to region j. Since varieties are substitutes, higher flows from other regions k to region j reduces flows from region i to region j. Lower relative trade barriers measured by the deviation of bilateral trade barriers from the population weighted average, which is given by ( log(𝜏 𝑖𝑗 ) -∑ 𝑛 𝑘=1 𝐿 𝑘 𝐿 log(𝜏 𝑘𝑗 )) , increase trade flows from i to j. Also, lower wages in the origin region i improve the competitiveness of region i's firms in market j and thus increase the trade flows from i to j.</p><p>In matrix form (42) can be written as</p><formula xml:id="formula_57">𝑇 = -𝜎 ln(𝐿)𝑙 𝑛 2 -(𝜎 -1)(𝐼 𝑛 2 -𝑊)𝜏 -𝜎𝑤 -(𝜎 -1)𝑊𝑇,<label>(43)</label></formula><p>where T denotes the n 2 × 1 vector of log of GDP-standardized trade flows, l n 2 is the n 2 × 1 vector of ones, τ is the n 2 × 1 vector of the log trade costs, w is the n 2 × 1 vector of log origin wages and I n 2 is the n 2 × n 2 identity matrix. W = (S × D(L)) ⊗ I n is the n 2 × n 2 spatial weights matrix, where S is the n × n matrix of ones and D(L) denotes the n × n diagonal matrix with kth diagonal term of 𝐿 𝑘 𝐿 . <ref type="bibr" target="#b6">Behrens, Ertur, and Koch (2012)</ref> assumes that the iceberg trade costs of shipping one unit of any variety between region i and j relates to distance and border effects by 𝜏 𝑖𝑗 = 𝑑 𝛾 𝑖𝑗 exp(𝜉 𝑏 𝑖𝑗 ), where γ and ξ are parameters, d ij is the distance between regions i and j, and b ij is a dummy variable taking the value 1 if the trade flows cross an international border and zero otherwise. Taking the logarithm and rewriting it in matrix form yields 𝜏 = 𝛾𝑑 + 𝜉 𝑏, where d is the n 2 × 1 vector with elements log(d ij ) and b is the n 2 × 1 vector of dummy variables indicating cross-border flows. Then, τ = (𝐼 𝑛 2 -𝑊)𝜏 = (𝐼 𝑛 2 -𝑊)(𝛾𝑑 + 𝜉 𝑏) = 𝛾 d + 𝜉 b</p><p>, where d = (𝐼 𝑛 2 -𝑊)𝑑 and b = (𝐼 𝑛 2 -𝑊)𝑏. Substituting back into (43) yields</p><formula xml:id="formula_58">𝑇 = 𝛽 0 𝑙 𝑛 2 + 𝛽 1 d + 𝛽 2 𝑤 + 𝛽 3 b + 𝜆𝑊𝑇,<label>(44)</label></formula><p>where β 0 = -σ ln(L) &lt; 0 is the constant term, β 1 = -(σ -1)γ &lt; 0 is the distance coefficient of deviations from population weighted average distances, β 2 = -σ &lt; 0 the coefficient of wage variable, β 3 = -(σ -1)ξ &lt; 0 denotes the coefficient of border effects, and the spatial autoregressive parameter λ = -(σ -1) &lt; 0 captures the strength of the interdependence across trade flows, i.e. a measure of spatial competition. Adding a disturbance term U to ( <ref type="formula" target="#formula_58">44</ref>), we obtain the the following regression specification ), and θ = (β 0 , β 1 , β 2 , β 3 )′. We assume an autoregressive process for the regression disturbance term U:</p><formula xml:id="formula_59">𝑇 = 𝜆𝑊𝑇 + 𝑋 1 𝜃 + 𝑈,<label>(45)</label></formula><formula xml:id="formula_60">𝑈 = 𝜌𝑊𝑈 + 𝑉,<label>(46)</label></formula><p>where V is a disturbance term.</p><p>In our setting, the elements of W are assumed to be functions of the Z variables. The calculation of our test statistics requires a specification for Z. In the context of dual gravity model, the weights matrix naturally arises and its elements denote the labor shares. Let Z be the n 2 × 1 vector of labor shares. Then, we assume that</p><formula xml:id="formula_61">𝑍 = 𝑋 2 Γ + 𝜀,<label>(47)</label></formula><p>where 𝑋 2 = (𝑙 𝑛 2 , 𝑤), Γ = (γ 0 , γ 1 )′ is the associated parameter vector and ε is a disturbance term. Thus, W would be endogenous if ε and V are correlated.</p><p>The data set contains information on bilateral trade flows between 30 U.S. states and 10 Canadian provinces. 7  The aggregate manufacturing exports F ij , internal absorption F ii , and regional GDPs Y i are measured in millions of U.S. dollars for the year 1993. The bilateral distances between the states and provinces are measured by using the great circle formula. 8 We use 𝑑 𝑖𝑖 = 1 3 ( surf 𝑖 𝜋 ) 1/2 to measure internal trade costs, where surf i refers to region i's surface. 9 The regional wages w i are average hourly manufacturing wages for the year 1988 at the state and province level. The regional and provincial population shares are computed from 1988 population figures. 10  The weights matrix W = (S × D(L)) ⊗ I n is not a conventional spatial weights matrix since its diagonal elements are not zero. More importantly, our asymptotic analysis under Assumption 3 requires that w ij 's are decaying with distance. Let W d be a distance based weights matrix whose elements are defined by 𝑤 𝑑 𝑖𝑗 = 1/ log(𝑑 𝑖𝑗 ) if i ≠ j, and 0 if i = j. Then, we define a new weights matrix as the Hadamard product W = 𝑊 ⊙ 𝑊 𝑑 , i.e, w𝑖𝑗 = 𝑤 𝑖𝑗 ⋅ 𝑤 𝑑 𝑖𝑗 . We use the row normalized W in our application. 11 </p><formula xml:id="formula_62">= λ 0 = 0. LM κ is the joint test statistic for H 0 : ρ 0 = λ 0 = δ 0 = 0.</formula><p>Behrens, Ertur, and Koch (2012) successfully replicate the results in <ref type="bibr" target="#b0">Anderson and van Wincoop (2003)</ref> and <ref type="bibr">Feenstra (2004)</ref> and show that there remains a significant cross-sectional correlation in the OLS residuals. Therefore, the OLS estimator is inefficient and may be biased. Their OLS estimates confirm that treating trade flows as independent yields puzzling large values for the border coefficient. 12 Here, our aim is to use our robust test statistic to test the presence of λ and ρ in the model. Table <ref type="table" target="#tab_1">2</ref> presents the LM test statistics and their p-values in parentheses. Starting at the far right on the table, we notice that LM κ (which tests the joint null hypothesis H 0 : ρ 0 = λ 0 = δ 0 = 0) and LM ⋆ 𝜇 (robust test for H 0 : ρ 0 = λ 0 = 0 in the possible presence of endogenous W, i.e. δ 0 ≠ 0) are both highly significant. After that we concentrate on the individual LM ⋆ 𝜌 and LM ⋆ 𝜆 . The results indicate statistical evidence for a SARAR(1, 1) specification, as both robust tests reject H 0 : ρ 0 = 0 and H 0 : λ 0 = 0. Using the additivity property of tests (see Remark 2), we can calculate LM ⋆ 𝛿 = LM 𝜅 -LM 𝜇 = 1.099, which is not at all significant. Because of this absence of endogeneity, the test statistics of <ref type="bibr" target="#b2">Anselin et al. (1996</ref>) LM 𝑎 𝜌 and LM 𝑎 𝜆 are very close to our LM ⋆ 𝜌 and LM ⋆ 𝜆 , respectively. Notice the big difference between unadjusted LM λ and either of LM 𝑎 𝜆 and LM ⋆ 𝜆 .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="7">Conclusion</head><p>In this paper, we derived robust LM test statistics for the autoregressive parameters of the SARAR(1,1) model that has endogenous spatial weights matrices. These test statistics are robust to potential endogeneity in weights as well as to the parametric misspecification in the alternative model. These tests can be easily calculated since their computations only require simple estimations. Hence, our test statistics have a computational advantage 14</p><p>Brought to you by | Stockholm University Library Authenticated Download Date | 4/27/19 9:41 AM over the conditional tests that require restricted ML estimations. We also suggested a robust test statistic for testing endogeneity of weights matrices in the local presence of spatial autoregressive parameters. Results from our Monte Carlo study are in line with our theoretical results and indicate that the robust tests have good size and power properties. Our results also show that the conventional test statistics that are robust to only parametric misspecification have large size distortions in the presence of endogeneity in spatial weight matrices. We also analyzed the effects of distributional misspecification on the finite sample performance of the tests statistic. The findings showed that our tests can perform well in the case of distributional misspecification in the error terms. Finally, using a recent empirical application, we illustrated how these tests can be helpful in identifying the correct specification.</p><p>Before we end this section, we need to emphasize several possible extensions for future research. First, our results on the asymptotic properties of robust test statistics are general enough and therefore can be extended to linear or non-linear spatial panel data models. Second, our testing approach can be used to develop similar tests for the matrix exponential spatial specification suggested by <ref type="bibr" target="#b31">LeSage and Pace (2007)</ref>. Last, our test statistic can also be extended to the GMM framework by following <ref type="bibr" target="#b46">Taşpınar, Doğan, and Bera (2017)</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A First and Second Order Derivatives</head><p>From ( <ref type="formula" target="#formula_13">9</ref>), the first order derivatives are</p><formula xml:id="formula_63">𝜕 ln 𝐿(𝜃) 𝜕𝜆 = 1 𝜎 2 𝜉 (𝑅(𝜌)𝑊𝑌) ′ 𝜉 (𝜃) -tr(𝑊𝑆 -1 (𝜆)), 𝜕 ln 𝐿(𝜃) 𝜕𝛿 = 1 𝜎 2 𝜉 𝜀(𝜃) ′ 𝜉 (𝜃), 𝜕 ln 𝐿(𝜃) 𝜕𝜌 = 1 𝜎 2 𝜉 (𝑀(𝑆(𝜆)𝑌 -𝑋 1 𝛽)) ′ 𝜉 (𝜃) -tr(𝑀𝑅 -1 (𝜌)), 𝜕 ln 𝐿(𝜃) 𝜕𝜎 2 𝜉 = -𝑛 2𝜎 2 𝜉 + 1 2𝜎 4 𝜉 𝜉 ′ (𝜃)𝜉 (𝜃), 𝜕 ln 𝐿(𝜃) 𝜕𝛽 = 1 𝜎 2 𝜉 (𝑅(𝜌)𝑋 1 ) ′ 𝜉 (𝜃), 𝜕 ln 𝐿(𝜃) 𝜕𝛼 = -𝑛 2 𝜕 ln |Σ 𝜀 | 𝜕𝛼 -1 2 𝜕tr(Σ -1 𝜀 𝜀 ′ (Γ)𝜀(Γ)) 𝜕𝛼 . Note that 𝜕 ln |Σ 𝜀 | 𝜕𝛼 has the jth element that is equal to tr(Σ -1 𝜀 𝜕Σ 𝜀 𝜕𝛼 𝑗 ). Similarly, the jth element of 𝜕tr(Σ -1 𝜀 𝜀 ′ (Γ)𝜀(Γ)) 𝜕𝛼 is equal to -tr(Σ -1 𝜀 𝜕Σ 𝜀 𝜕𝛼 𝑗 Σ -1 𝜀 𝜀 ′ (Γ)𝜀(Γ)</formula><p>). The derivation of the first order derivative with respect to Γ requires some well-known properties. Let A, B and C be matrices with appropriate dimensions, then</p><formula xml:id="formula_64">1. vec(AB) = (I ⊗ A)vec(B) = (B′ ⊗ I)vec(A), 2. vec′(B′)vec(A) = tr(BA) = tr(AB) = vec′(A′)vec(B),</formula><p>where I is an identity matrix that has appropriate dimension. Using these properties, it can be shown that</p><formula xml:id="formula_65">∑ 𝑛 𝑖=1 (𝑍 ′ 𝑖 -𝑋 ′ 𝑖 Γ)Σ -1 𝜀 (𝑍 𝑖 -Γ ′ 𝑋 𝑖 ) = vec ′ ((𝑍 -𝑋Γ) ′ )(𝐼 𝑛 ⊗ Σ -1 𝜀 )vec((𝑍 -𝑋Γ) ′ ) = vec ′ ((𝑍 -𝑋Γ) ′ )vec(Σ -1 𝜀 (𝑍 -𝑋Γ) ′ ) = vec ′ ((𝑍 -𝑋Γ)Σ -1 𝜀 )vec((𝑍 -𝑋Γ)) = vec ′ (𝑍 -𝑋Γ)(Σ -1 𝜀 ⊗ 𝐼 𝑛 )vec(𝑍 -𝑋Γ).</formula><p>Also, vec(XΓ) = (I p 2 + p 3 ⊗ X)vec(Γ) and vec′(XΓ) = vec′(Γ)(I p 2 + p 3 ⊗ X′). Thus, The second order derivatives are listed as follows:</p><formula xml:id="formula_66">𝜕 ln 𝐿(𝜃) 𝜕vec(Γ) = (𝐼 𝑝 2 +𝑝 3 ⊗ 𝑋 ′ )(Σ -1 𝜀 ⊗ 𝐼 𝑛 )vec(𝑍 -𝑋Γ) -1 𝜎 2 𝜉 𝛿 ⊗ (𝑋 ′ 𝜉 (𝜃)) = (Σ -1 𝜀 ⊗ 𝑋 ′ )vec(𝑍 -𝑋Γ) -1 𝜎 2 𝜉 𝛿 ⊗ (𝑋 ′ 𝜉 (𝜃)).</formula><formula xml:id="formula_67">𝜕 2 ln 𝐿(𝜃) 𝜕𝜆 2 = -1 𝜎 2 𝜉 (𝑅(𝜌)𝑊𝑌) ′ 𝑅(𝜌)𝑊𝑌 -tr([𝑊𝑆 -1 (𝜆)] 2 ), 𝜕 2 ln 𝐿(𝜃) 𝜕𝜆𝜕𝜌 = -1 𝜎 2 𝜉 (𝑀𝑊𝑌) ′ 𝜉 (𝜃) -1 𝜎 2 𝜉 (𝑅(𝜌)𝑊𝑌) ′ 𝑀(𝑆(𝜆)𝑌 -𝑋 1 𝛽), 𝜕 2 ln 𝐿(𝜃) 𝜕𝜆𝜕𝜎 2 𝜉 = -1 𝜎 4 𝜉 (𝑅(𝜌)𝑊𝑌) ′ 𝜉 (𝜃), 𝜕 2 ln 𝐿(𝜃) 𝜕𝜆𝜕𝛽 = -1 𝜎 2 𝜉 𝑋 ′ 1 𝑅(𝜌) ′ 𝑅(𝜌)𝑊𝑌, 𝜕 2 ln 𝐿(𝜃) 𝜕𝜆𝜕vec(Γ) = 1 𝜎 2 𝜉 𝛿 ⊗ 𝑋 ′ 𝑅(𝜌)𝑊𝑌, 𝜕 2 ln 𝐿(𝜃) 𝜕𝜆𝜕𝛿 = -1 𝜎 2 𝜉 𝜀 ′ (Γ)𝑅(𝜌)𝑊𝑌, 𝜕 2 ln 𝐿(𝜃) 𝜕𝜆𝜕𝛼 = 0 𝐽×1 , 𝜕 2 ln 𝐿(𝜃) 𝜕𝜌 2 = -1 𝜎 2 𝜉 (𝑆(𝜆)𝑌 -𝑋 1 𝛽) ′ 𝑀 ′ 𝑀(𝑆(𝜆)𝑌 -𝑋 1 𝛽) -tr([𝑀𝑅 -1 (𝜌)] 2 ), 𝜕 2 ln 𝐿(𝜃) 𝜕𝜌𝜕𝜎 2 𝜉 = -1 𝜎 4 𝜉 (𝑀(𝑆(𝜆)𝑌 -𝑋 1 𝛽)) ′ 𝜉 (𝜃), 𝜕 2 ln 𝐿(𝜃) 𝜕𝜌𝜕𝛽 = -1 𝜎 2 𝜉 𝑋 ′ 1 𝑀 ′ 𝜉 (𝜃) -1 𝜎 2 𝜉 𝑋 ′ 1 𝑅 ′ (𝜌)𝑀(𝑆(𝜆)𝑌 -𝑋 1 𝛽), 𝜕 2 ln 𝐿(𝜃) 𝜕𝜌𝜕vec(Γ) = 1 𝜎 2 𝜉 𝛿 ⊗ 𝑋 ′ 𝑀(𝑆(𝜆)𝑌 -𝑋 1 𝛽), 𝜕 2 ln 𝐿(𝜃) 𝜕𝜌𝜕𝛿 = -1 𝜎 2 𝜉 𝜀 ′ (Γ)𝑀(𝑆(𝜆)𝑌 -𝑋 1 𝛽), 𝜕 2 ln 𝐿(𝜃) 𝜕𝜌𝜕𝛼 = 0 𝐽×1 , 𝜕 2 ln 𝐿(𝜃) 𝜕𝜎 2 𝜉 𝜕𝜎 2 𝜉 = 𝑛 2𝜎 4 𝜉 -1 𝜎 6 𝜉 𝜉 ′ (𝜃)𝜉 (𝜃), 𝜕 2 ln 𝐿(𝜃) 𝜕𝜎 2 𝜉 𝜕𝛽 = -1 𝜎 4 𝜉 𝑋 ′ 1 𝑅 ′ (𝜌)𝜉 (𝜃), 𝜕 2 ln 𝐿(𝜃) 𝜕𝜎 2 𝜉 𝜕vec(Γ) = 1 𝜎 4 𝜉 𝛿 ⊗ 𝑋 ′ 𝜉 (𝜃), 𝜕 2 ln 𝐿(𝜃) 𝜕𝜎 2 𝜉 𝜕𝛿 = -1 𝜎 4 𝜉 𝜀 ′ (Γ)𝜉 (𝜃), 𝜕 2 ln 𝐿(𝜃) 𝜕𝜎 2 𝜉 𝜕𝛼 = 0 𝐽×1 , 𝜕 2 ln 𝐿(𝜃) 𝜕𝛽𝜕𝛽 ′ = -1 𝜎 2 𝜉 𝑋 ′ 1 𝑅 ′ (𝜌)𝑅(𝜌)𝑋 1 , 𝜕 2 ln 𝐿(𝜃) 𝜕𝛽𝜕vec ′ (Γ) = 1 𝜎 2 𝜉 𝛿 ′ ⊗ 𝑋 ′ 1 𝑅 ′ (𝜌)𝑋, 𝜕 2 ln 𝐿(𝜃) 𝜕𝛽𝜕𝛿 ′ = -1 𝜎 2 𝜉 𝑋 ′ 1 𝑅 ′ (𝜌)𝜀(Γ), 𝜕 2 ln 𝐿(𝜃) 𝜕𝛽𝜕𝛼 ′ = 0 𝑘 1 ×𝐽 , 𝜕 2 ln 𝐿(𝜃) 𝜕vec(Γ)𝜕vec ′ (Γ) = -(Σ -1 𝜀 ⊗ 𝑋 ′ 𝑋) -1 𝜎 2 𝜉 (𝛿𝛿 ′ ⊗ 𝑋 ′ 𝑋), 𝜕 2 ln 𝐿(𝜃) 𝜕vec(Γ)𝜕𝛿 ′ = -1 𝜎 2 𝜉 (𝐼 𝑝 2 +𝑝 3 ⊗ 𝑋 ′ 𝜉 (𝜃)) + 1 𝜎 2 𝜉 𝛿 ⊗ 𝑋 ′ 𝜀(Γ), 𝜕 2 ln 𝐿(𝜃) 𝜕vec(Γ)𝜕𝛼 ′ = (𝐼 𝑝 2 +𝑝 3 ⊗ 𝑋 ′ 𝜀(Γ)) 𝜕vec(Σ -1 𝜀 ) 𝜕𝛼 ′ .</formula><p>Note that above we used the fact that in the first order derivative with respect to vec(Γ), only the first term involves Σ -1 𝜀 and that term can be written as</p><formula xml:id="formula_68">(Σ -1 𝜀 ⊗ 𝑋 ′ )vec(𝜀(Γ)) = 𝑋 ′ 𝜀(Γ)Σ -1 𝜀 = (𝐼 𝑝 2 +𝑝 3 ⊗ 𝑋 ′ 𝜀(Γ))vec(Σ -1 𝜀 ). 𝜕 2 ln 𝐿(𝜃) 𝜕𝛿𝜕𝛿 ′ = - 1 𝜎 2 𝜉 𝜀 ′ (Γ)𝜀(Γ), 𝜕 2 ln 𝐿(𝜃) 𝜕𝛿𝜕𝛼 ′ = 0 (𝑝 2 +𝑝 3 )×𝐽 , 𝜕 2 ln 𝐿(𝜃) 𝜕𝛼𝜕𝛼 ′ = - 𝑛 2 𝜕 2 ln |Σ 𝜀 | 𝜕𝛼𝜕𝛼 ′ - 1 2 𝜕 2 tr(Σ -1 𝜀 𝜀 ′ (Γ)𝜀(Γ)) 𝜕𝛼𝜕𝛼 ′ . Note that 𝜕 2 ln |Σ 𝜀 | 𝜕𝛼 𝑗 𝜕𝛼 𝑘 is equal to -tr(Σ -1 𝜀 𝜕Σ 𝜀 𝜕𝛼 𝑗 Σ -1 𝜀 𝜕Σ 𝜀 𝜕𝛼 𝑘 ). Similarly, 𝜕 2 tr(Σ -1 𝜀 𝜀 ′ (Γ)𝜀(Γ)) 𝜕𝛼 𝑗 𝜕𝛼 𝑘 is equal to tr(Σ -1 𝜀 [ 𝜕Σ 𝜀 𝜕𝛼 𝑘 Σ -1 𝜀 𝜕Σ 𝜀 𝜕𝛼 𝑗 + 𝜕Σ 𝜀 𝜕𝛼 𝑗 Σ -1 𝜀 𝜕Σ 𝜀 𝜕𝛼 𝑘 ]Σ -1 𝜀 𝜀 ′ (Γ)𝜀(Γ)). For notational simplicity, denote H = MR -1 , G = WS -1</formula><p>, and Ḡ = 𝑅𝐺𝑅 -1 . Define B (s) = B + B′ for any square matrix B. Then, we have</p><formula xml:id="formula_69">𝔼 [ 𝜕 2 ln 𝐿(𝜃 0 ) 𝜕𝜃𝜕𝜃 ′ ] = 1 𝜎 2 𝜉 0 ⎛ ⎜ ⎜ ⎜ ⎜ ⎜ ⎜ ⎜ ⎜ ⎜ ⎜ ⎜ ⎜ ⎜ ⎜ ⎜ ⎜ ⎜ ⎜ ⎝ 𝐼 𝜌𝜌 𝐼 𝜌𝜆 -𝔼[(𝜀𝛿 0 ) ′ 𝐻 ′ 𝑅𝑋 1 ] 𝛿 ′ 0 ⊗ 𝔼[(𝜀𝛿 0 ) ′ 𝐻 ′ 𝑋] -tr(𝔼[𝐻 ′ ]) 0 1×𝐽 -𝔼[(𝜀𝛿 0 ) ′ 𝐻 ′ 𝜀] * 𝐼 𝜆𝜆 𝐼 𝜆𝛽 ′ 𝐼 𝜆vec ′ (Γ) -tr(𝔼[ Ḡ ′ ]) 0 1×𝐽 𝐼 𝜆𝛿 ′ * * -𝔼[𝑋 ′ 1 𝑅 ′ 𝑅𝑋 1 ] 𝛿 ′ 0 ⊗ 𝔼[𝑋 ′ 1 𝑅 ′ 𝑋] 0 𝑘 1 ×1 0 𝑘 1 ×𝐽 0 𝑘 1 ×(𝑝 2 +𝑝 3 ) * * * 𝐼 vec(Γ)vec ′ (Γ) 0 𝑘 𝑝 ×𝑘 𝑝 0 𝑘 𝑝 ×𝐽 0 𝑘 𝑝 ×(𝑝 2 +𝑝 3 ) * * * * -𝑛 2𝜎 2 𝜉 0 0 1×𝐽 0 1×(𝑝 2 +𝑝 3 ) * * * * * 𝐼 𝛼𝛼 ′ 0 𝐽×(𝑝 2 +𝑝 3 ) * * * * * * -𝑛Σ 𝜀 0 ⎞ ⎟ ⎟ ⎟ ⎟ ⎟ ⎟ ⎟ ⎟ ⎟ ⎟ ⎟ ⎟ ⎟ ⎟ ⎟ ⎟ ⎟ ⎟ ⎠ ,<label>16</label></formula><p>Brought to you by | Stockholm University Library Authenticated Download Date | 4/27/19 9:41 AM where k p = (k 2 + k 3 )(p 2 + p 3 ),</p><formula xml:id="formula_70">𝐼 𝜌𝜌 = -𝔼(𝛿 ′ 0 𝜀 ′ 𝐻 ′ 𝐻𝜀𝛿 0 ) -𝜎 2 𝜉 0 tr(𝔼[𝐻 2 + 𝐻𝐻 ′ ]), 𝐼 𝜌𝜆 = -𝔼[(𝜀𝛿 0 ) ′ 𝐻 ′ Ḡ (𝑋 1 𝛽 0 + 𝜀𝛿 0 )] -𝜎 2 𝜉 0 tr(𝔼[𝐻 (𝑠) Ḡ ]), 𝐼 𝜆𝜆 = -𝔼[(𝑋 1 𝛽 0 + 𝜀𝛿 0 ) ′ Ḡ ′ Ḡ (𝑋 1 𝛽 0 + 𝜀𝛿 0 )] -𝜎 2 𝜉 0 tr(𝔼[ Ḡ 2 + Ḡ Ḡ ′ ]), 𝐼 𝜆𝛽 ′ = -𝔼[(𝑋 1 𝛽 0 + 𝜀𝛿 0 ) ′ Ḡ ′ 𝑅𝑋 1 ], 𝐼 𝜆vec ′ (Γ) = 𝛿 ′ 0 ⊗ 𝔼[(𝑋 1 𝛽 0 + 𝜀𝛿 0 ) ′ Ḡ ′ 𝑋], 𝐼 𝜆𝛿 ′ = -𝔼[(𝑋 1 𝛽 0 + 𝜀𝛿 0 ) ′ Ḡ ′ 𝜀], 𝐼 vec(Γ)vec ′ (Γ) = -(𝜎 2 𝜉 0 Σ -1 𝜀 0 + 𝛿 0 𝛿 ′ 0 ) ⊗ 𝑋 ′ 𝑋, 𝐼 𝛼𝛼 ′ [𝑘, 𝑗] = - 𝑛𝜎 2 𝜉 0 2 tr(Σ -1 𝜀 0 𝜕Σ 𝜀 0 𝜕𝛼 𝑗 Σ -1 𝜀 0 𝜕Σ 𝜀 0 𝜕𝛼 𝑘 ).</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>B Detailed Expressions for Test Statistics</head><p>Let θ be the restricted MLE under the joint null H 0 : ρ 0 = λ 0 = 0 and δ 0 = 0. Then, evaluating the required first order conditions at θ yields</p><formula xml:id="formula_71">𝐿 𝜆 ( θ ) = 1 𝑛 σ2 𝜉 (𝑊𝑌) ′ ξ , 𝐿 𝜌 ( θ ) = 1 𝑛 σ2 𝜉 (𝑀(𝑌 -𝑋 1 β )) ′ ξ , 𝐿 𝛿 ( θ ) = 1 𝑛 σ2 𝜉 ε ′ ξ .<label>(48)</label></formula><p>Similarly, 𝐼( θ ) is given by</p><formula xml:id="formula_72">𝐼( θ ) = 1 𝑛 σ2 𝜉 ⎛ ⎜ ⎜ ⎜ ⎜ ⎜ ⎜ ⎜ ⎜ ⎜ ⎜ ⎜ ⎜ ⎜ ⎜ ⎜ ⎜ ⎜ ⎜ ⎝ 𝐼 𝜌𝜌 𝐼 𝜌𝜆 0 0 0 0 1×𝐽 0 * 𝐼 𝜆𝜆 𝐼 𝜆𝛽 ′ 0 0 0 1×𝐽 𝐼 𝜆𝛿 ′ * * 𝑋 ′ 1 𝑋 1 0 0 𝑘 1 ×1 0 𝑘 1 ×𝐽 0 𝑘 1 ×(𝑝 2 +𝑝 3 ) * * * 𝐼 vec(Γ)vec ′ (Γ) 0 𝑘 𝑝 ×𝑘 𝑝 0 𝑘 𝑝 ×𝐽 0 𝑘 𝑝 ×(𝑝 2 +𝑝 3 ) * * * * 𝑛 2 σ2 𝜉 0 1×𝐽 0 1×(𝑝 2 +𝑝 3 ) * * * * * 𝐼 𝛼𝛼 ′ 0 𝐽×(𝑝 2 +𝑝 3 ) * * * * * * 𝑛 Σ 𝜀 ⎞ ⎟ ⎟ ⎟ ⎟ ⎟ ⎟ ⎟ ⎟ ⎟ ⎟ ⎟ ⎟ ⎟ ⎟ ⎟ ⎟ ⎟ ⎟ ⎠ ,</formula><p>where k p = (k 2 + k 3 )(p 2 + p 3 ),</p><formula xml:id="formula_73">𝐼 𝜌𝜌 = σ2 𝜉 tr(𝑀 2 + 𝑀𝑀 ′ ), 𝐼 𝜌𝜆 = σ2 𝜉 tr(𝑀 (𝑠) 𝑊), 𝐼 𝜆𝜆 = (𝑋 1 β ) ′ 𝑊 ′ 𝑊𝑋 1 β + σ2 𝜉 tr(𝑊 2 + 𝑊𝑊 ′ ), 𝐼 𝜆𝛽 ′ = (𝑋 1 β ) ′ 𝑊 ′ 𝑋 1 , 𝐼 𝜆𝛿 ′ = (𝑋 1 β ) ′ 𝑊 ′ ε , 𝐼 vec(Γ)vec ′ (Γ) = ( σ2 𝜉 Σ -1 𝜀 ) ⊗ 𝑋 ′ 𝑋, 𝐼 𝛼𝛼 ′ [𝑘, 𝑗] = 𝑛 σ2 𝜉 2 tr( Σ -1 𝜀 0 𝜕Σ 𝜀 0 𝜕𝛼 𝑗 Σ -1 𝜀 𝜕Σ 𝜀 0 𝜕𝛼 𝑘 ).</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>C Proofs of Propositions</head><p>Proof of Proposition 1.</p><p>We first discuss the identification conditions stated in Assumption 5 and then give the asymptotic arguments for the consistency and asymptotic normality of the MLE.</p><p>Recall that</p><formula xml:id="formula_74">1 𝑛 [𝑄(𝜃) -𝑄(𝜃 0 )] = 1 2 𝔼(ln |𝑅(𝜌)𝑆(𝜆)𝑆 -1 𝑅 -1 𝑅 -1 ′ 𝑆 -1 ′ 𝑆 ′ (𝜆)𝑅 ′ (𝜌)| 1/𝑛 ) -1 2 ln(𝜎 * 2 𝜉 /𝜎 2 𝜉 0 ) -1 2 [∑ 𝑝 2 +𝑝 3 𝑖=1 (𝜔 𝑖 -ln 𝜔 𝑖 -1)] -1 2𝑛 ∑ 𝑛 𝑖=1 𝑋 ′ 𝑖 (Γ 0 -Γ)Σ -1 𝜀 (Γ 0 -Γ) ′ 𝑋 𝑖 ,<label>(49)</label></formula><p>where</p><formula xml:id="formula_75">ω i is the 𝑖th eigenvalue of Σ 1/2 𝜀0 Σ -1 𝜀 Σ 1/2 𝜀0 . Since Σ 1/2 𝜀0 Σ -1 𝜀 Σ 1/2</formula><p>𝜀0 is positive definite, ω i for i = 1, 2, …, (p 2 + p 3 ) are positive. Therefore, (ω i -ln ω i -1) is non-negative, i.e. it is positive for ω i ≠ 1 and is zero for ω i = 1.</p><p>There are two cases that lead to 1 𝑛 [ 𝑄(𝜃) -𝑄(𝜃 0 )] &lt; 0 for all θ ≠ θ 0 . Suppose 𝔼(ℋ ′ ℋ ) is a positive definite matrix. Then,</p><formula xml:id="formula_76">1 𝑛 [(𝜆 0 -𝜆), (𝛽 0 -𝛽) ′ , 𝛿 ′ (Γ -Γ 0 ) ′ , (𝛿 0 -𝛿) ′ ]𝔼(ℋ ′ ℋ )[(𝜆 0 -𝜆), (𝛽 0 -𝛽) ′ , 𝛿 ′ (Γ -Γ 0 ) ′ , (𝛿 0 -𝛿) ′ ] ′ /𝜎 2 𝜉 0</formula><p>&gt; 0 and λ 0 , β 0 , Γ 0 and δ 0 can be identified and ( <ref type="formula" target="#formula_74">49</ref>) reduces to 17 Brought to you by | Stockholm University Library Authenticated Download Date | 4/27/19 9:41 AM </p><formula xml:id="formula_77">𝑛 [𝑄(𝜃) -𝑄(𝜃 0 )] = 1 2 𝔼[ ln |𝑅(𝜌)𝑅 -1 𝑅 -1 ′ 𝑅 ′ (𝜌)| 1/𝑛 ] -1 2 ln [ 1 𝑛 tr(𝔼[𝑅(𝜌)𝑅 -1 𝑅 -1 ′ 𝑅 ′ (𝜌)]) + 1 𝑛 (𝜌 0 -𝜌) ′ 𝛿 ′ 0 Σ 𝜀0 𝜎 2 𝜉 0 𝛿 0 (𝜌 0 -𝜌)] .<label>(50)</label></formula><p>Since Σ ε0 is positive definite by assumption, 1 𝑛 (𝜌 0 -𝜌) ′ 𝛿 ′ 0 Σ 𝜀0 𝜎 2 𝜉 0 𝛿 0 (𝜌 0 -𝜌) &gt; 0. Note that by the strict inequality of arithmetic and geometric means, we have 1 𝑛 tr( 𝔼[𝑅(𝜌)𝑅 -1 𝑅 -1 ′ 𝑅 ′ (𝜌)]) &gt; 𝔼| 𝑅(𝜌)𝑅 -1 𝑅 -1 ′ 𝑅 ′ (𝜌)| 1/𝑛 . Then, by Jensen's inequality ln 𝔼(| 𝑅(𝜌)𝑅 -1 𝑅 -1 ′ 𝑅 ′ (𝜌)| 1/𝑛 ) ≥ 𝔼 ln(| 𝑅(𝜌)𝑅 -1 𝑅 -1 ′ 𝑅 ′ (𝜌)| 1/𝑛 ). The strict inequality of arithmetic and geometric means hold if R′(ρ)R(ρ) is linearly independent of R′R with probability one for any ρ ≠ ρ 0 .</p><p>In the second case, the rank condition for 𝔼(ℋ ′ ℋ ) may be deficient. Hence λ 0 , β 0 , Γ 0 and δ 0 cannot be separately identified. In that case,</p><formula xml:id="formula_78">1 𝑛 (𝜌 0 -𝜌) ′ 𝛿 ′ 0 Σ 𝜀0 𝜎 2 𝜉 0</formula><p>𝛿 0 (𝜌 0 -𝜌) &gt; 0 can be used to identify ρ 0 . Then, using the strict inequality of arithmetic and geometric means hold by assuming that S′(λ)R′(ρ)S(λ)R(ρ) is linearly independent of S′R′SR with probability one for any ρ ≠ ρ 0 , λ 0 can be identified. Then,</p><formula xml:id="formula_79">1 𝑛 [(𝛽 0 -𝛽) ′ , 𝛿 ′ (Γ -Γ 0 ) ′ , (𝛿 0 - 𝛿) ′ ]𝔼([𝑅𝑋 1 , 𝑋, 𝜀(Γ 0 )] ′ [𝑅𝑋 1 , 𝑋, 𝜀(Γ 0 )])[(𝛽 0 -𝛽) ′ , 𝛿 ′ (Γ -Γ 0 ) ′ , (𝛿 0 -𝛿) ′ ] ′ /𝜎 2 𝜉 0</formula><p>&gt; 0 to identify β 0 , Γ 0 and δ 0 . These results are summarized in Assumption 5.</p><p>The asymptotic analysis will involve evaluation of the terms in the log-likelihood such as</p><formula xml:id="formula_80">1 𝑛 𝑋 ′ 1 𝐺 ′ 𝑅 ′ 𝑅𝐺𝑋 1 , 1 𝑛 𝑋 ′ 1 𝐺 ′ 𝑀 ′ 𝑀𝐺𝑋 1 , 1 𝑛 𝑋 ′ 1 𝐺 ′ 𝑀 ′ 𝑅𝐺𝑋 1 , 1 𝑛 𝑋 ′ 1 𝐺 ′ 𝑅 ′ Ḡ 𝜀(Γ 0 ), 1 𝑛 𝑋 ′ 1 𝐺 ′ 𝑀 ′ 𝐻 Ḡ 𝑋 1 , 1 𝑛 𝑋 ′ 1 𝐺 ′ 𝑀 ′ Ḡ 𝜀(Γ 0 ), 1 𝑛 𝑋 ′ Ḡ 𝜀(Γ 0 ), 1 𝑛 𝑋 ′ 𝐻 Ḡ 𝜀(Γ 0 ), 1 𝑛 𝜀 ′ (Γ 0 ) Ḡ ′ Ḡ 𝜀(Γ 0 ), 1 𝑛 𝜀 ′ (Γ 0 ) Ḡ ′ 𝐻 Ḡ 𝜀(Γ 0 ), 1 𝑛 𝜀 ′ (Γ 0 ) Ḡ ′ 𝐻 ′ 𝐻 Ḡ 𝜀(Γ 0 ), 1 𝑛 𝜀 ′ (Γ 0 ) Ḡ ′ 𝜉 (𝜃 0 ), 1 𝑛 𝜀 ′ (Γ 0 ) Ḡ ′ Ḡ 𝜉 (𝜃 0 ), 1 𝑛 𝜀 ′ (Γ 0 ) Ḡ ′ 𝐻 Ḡ 𝜉 (𝜃 0 ), 1 𝑛 𝜀 ′ (Γ 0 ) Ḡ ′ Ḡ 𝜉 (𝜃 0 ), 1 𝑛 𝜀 ′ (Γ 0 ) Ḡ ′ 𝐻 ′ 𝐻 Ḡ 𝜉 (𝜃 0 ), 1 𝑛 𝜉 ′ (𝜃 0 ) Ḡ ′ Ḡ 𝜉 (𝜃 0 ), 1 𝑛 𝜉 ′ (𝜃 0 )𝐻 ′ 𝐻𝜉 (𝜃 0 ), 1 𝑛 𝜉 ′ (𝜃 0 ) Ḡ ′ 𝐻 ′ 𝐻 Ḡ 𝜉 (𝜃 0 ), 1 𝑛 ln |𝑆(𝜆)| = 1 𝑛 ∑ 𝑛 𝑖=1 (∑ ∞ 𝑙=1 𝜆 𝑙 𝑙 𝑊 𝑙 𝑖𝑖 ) and 1 𝑛 ln |𝑅(𝜌)| = 1 𝑛 ∑ 𝑛 𝑖=1 (∑ ∞ 𝑙=1 𝜌 𝑙 𝑙 𝑀 𝑙 𝑖𝑖 ).</formula><p>The last two equalities are derived in <ref type="bibr" target="#b36">Qu and Lee (2013)</ref>, and are useful to establish their convergence to their expectations under NED.</p><p>To prove consistency of the MLE θ , we have to show uniform convergence of the elements of the loglikelihood to their expectations. Along with the identifiable uniqueness of the population parameters, this uniform convergence is sufficient for the consistency of the MLE. To show sup 𝜃∈Θ | 1 𝑛 ln 𝐿(𝜃) -1 𝑛 𝑄(𝜃)| 𝑝 -→ 0, first pointwise convergence can be established using Proposition 1 in <ref type="bibr" target="#b37">Qu and Lee (2015)</ref>. In order to satisfy the conditions of their Proposition 1, counterparts of Claims C.1.5 C.1.6, C.2.5 and C.2.6 in <ref type="bibr" target="#b37">Qu and Lee (2015)</ref> are needed for the matrices M and H. However, these counterparts are trivial to obtain. Hence, Proposition 1 can be used in our setup to show pointwise convergence of the log-likelihood function to its expectation. To show uniform convergence, stochastic equicontinuity of 1 𝑛 ln 𝐿(𝜃) needs to be established. Note that except ln|S(λ) and ln|R(ρ)| all parameters enter the log-likelihood function as polynomials. Since the assumed parameter space is compact, uniform convergence of these terms follow. Equicontinuity of 1 𝑛 ln |𝑆(𝜆) and 1 𝑛 ln |𝑅(𝜌)| can be established as in <ref type="bibr" target="#b37">Qu and Lee (2015)</ref>.</p><p>For the asymptotic normality of the MLE θ , first Proposition 2 in <ref type="bibr" target="#b37">Qu and Lee (2015)</ref> can be used to establish</p><p>asymptotic normality of 1 √𝑛 𝜕 ln 𝐿(𝜃 0 ) 𝜕𝜃 , i.e. 1 √𝑛 𝜕 ln 𝐿(𝜃 0 ) 𝜕𝜃 𝑑 -→ 𝑁(0, 𝐼). A mean value expansion of 1 √𝑛 𝜕 ln 𝐿( θ ) 𝜕𝜃 around θ 0 along with uniform convergence of the Hessian matrix to its expectation (and applying Cramér's theorem) yield the desired result. To show uniform convergence of the Hessian matrix to its expectation, Corollary 1 in Qu and Lee (2015) can be used. Thus, sup 𝜃∈Θ ∥ 1 𝑛 𝜕 2 ln 𝐿(𝜃) 𝜕𝜃𝜕𝜃 ′ -𝔼 [ 1 𝑛 𝜕 2 ln 𝐿(𝜃) 𝜕𝜃𝜕𝜃 ′ ]∥ 𝑝 -→ 0. Furthermore, we assume that 𝔼 [-1 𝑛 𝜕 2 ln 𝐿(𝜃) 𝜕𝜃𝜕𝜃 ′ ] is a nonsingular matrix. Hence, by continuity of the inverse at a nonsingular matrix, the inverse Hessian converges uniformly to the inverse of the expectation of the Hessian. Then, the information matrix equality yields the desired result. □ Proof of Proposition 2. The Taylor expansions of √𝑛𝐿 𝜓 ( θ ), √𝑛𝐿 𝜙 ( θ ) and √𝑛𝐿 𝛾 ( θ ) around θ 0 under 𝐻 𝜓 𝐴 and 𝐻 𝜙 𝐴 can be written as</p><formula xml:id="formula_81">√𝑛𝐿 𝜓 ( θ ) = √𝑛𝐿 𝜓 (𝜃 0 ) -𝐿 𝜓𝜓 (𝜃 0 ) 𝛿 𝜓 -𝐿 𝜓𝜙 (𝜃 0 ) 𝛿 𝜙 + √𝑛𝐿 𝜓𝛾 (𝜃 0 ) ( γ -𝛾 0 ) + 𝑜 𝑝 (1), √𝑛𝐿 𝜙 ( θ ) = √𝑛𝐿 𝜙 (𝜃 0 ) -𝐿 𝜙𝜙 (𝜃 0 ) 𝛿 𝜙 -𝐿 𝜙𝜓 (𝜃 0 ) 𝛿 𝜓 + √𝑛𝐿 𝜙𝛾 (𝜃 0 ) ( γ -𝛾 0 ) + 𝑜 𝑝 (1), √𝑛𝐿 𝛾 ( θ ) = √𝑛𝐿 𝛾 (𝜃 0 ) -𝐿 𝛾𝜓 (𝜃 0 ) 𝛿 𝜓 -𝐿 𝛾𝜙 (𝜃 0 ) 𝛿 𝜙 + √𝑛𝐿 𝛾𝛾 (𝜃 0 ) ( γ -𝛾 0 ) + 𝑜 𝑝 (1).</formula><p>Using the fact that √𝑛𝐿 𝛾 ( θ ) = 0 in the Taylor expansions above, we can get the following results.</p><formula xml:id="formula_82">√𝑛𝐿 𝜓 ( θ ) = [𝐼 𝑘 𝜓 , -𝐼 𝜓𝛾 𝐼 -1 𝛾𝛾 ] × ⎡ ⎢ ⎣ 1 √𝑛 𝜕 ln 𝐿(𝜃 0 ) 𝜕𝜓 1 √𝑛 𝜕 ln 𝐿(𝜃 0 ) 𝜕𝛾 ⎤ ⎥ ⎦ + [𝐼 𝜓𝜓 -𝐼 𝜓𝛾 𝐼 -1 𝛾𝛾 𝐼 𝛾𝜓 ] 𝛿 𝜓 + [𝐼 𝜓𝜙 -𝐼 𝛿𝛾 𝐼 -1 𝛾𝛾 𝐼 𝛾𝜙 ] 𝛿 𝜙 + 𝑜 𝑝 (1),<label>(51)</label></formula><p>18 Brought to you by | Stockholm University Library Authenticated Download Date | 4/27/19 9:41 AM √𝑛𝐿 𝜙 ( θ ) = [𝐼 𝑘 𝜙 , -𝐼 𝜙𝛾 𝐼 -1 𝛾𝛾 ] × ⎡ ⎢ ⎣ 1 √𝑛 𝜕 ln 𝐿(𝜃 0 ) 𝜕𝜙 1 √𝑛 𝜕 ln 𝐿(𝜃 0 ) 𝜕𝛾 ⎤ ⎥ ⎦ + [𝐼 𝜙𝜙 -𝐼 𝜙𝛾 𝐼 -1 𝛾𝛾 𝐼 𝛾𝜙 ] 𝛿 𝜙 + [𝐼 𝜙𝜓 -𝐼 𝜓𝛾 𝐼 -1 𝛾𝛾 𝐼 𝛾𝜓 ] 𝛿 𝜓 + 𝑜 𝑝 (1). (52) Using the asymptotic normality of score functions from Proposition 1, we can show that √𝑛𝐿 𝜓 ( θ ) 𝑑 -→ 𝑁 (𝐼 𝜓⋅𝛾 𝛿 𝜓 + 𝐼 𝜓𝜙⋅𝛾 𝛿 𝜙 , 𝐼 𝜓⋅𝛾 ), where 𝐼 𝜓⋅𝛾 = [𝐼 𝜓𝜓 -𝐼 𝜓𝛾 𝐼 -1 𝛾𝛾 𝐼 𝛾𝜓 ] and 𝐼 𝜓𝜙⋅𝛾 = [𝐼 𝜓𝜙 -𝐼 𝜓𝛾 𝐼 -1 𝛾𝛾 𝐼 𝛾𝜙 ]. Then, under 𝐻 𝜓 𝐴 and 𝐻 𝜙 𝐴 , this result implies that LM 𝜓 ( θ ) 𝑑 -→ 𝜒 2 𝑘 𝜓 (𝜑 1 ) , (53) where 𝜑 1 = 𝛿 ′ 𝜓 𝐼 𝜓⋅𝛾 𝛿 𝜓 + 𝛿 ′ 𝜓 𝐼 𝜓𝜙⋅𝛾 𝛿 𝜙 + 𝛿 ′ 𝜙 𝐼 ′ 𝜓𝜙⋅𝛾 𝛿 𝜓 + 𝛿 ′ 𝜙 𝐼 ′ 𝜓𝜙⋅𝛾 𝐼 -1 𝜓⋅𝛾 𝐼 𝜓𝜙⋅𝛾 (𝜃 0 )𝛿 𝜙 . Thus, the first result in Proposition 2 follows from ( <ref type="formula">53</ref>).</p><p>Note that the adjusted score function in Proposition 2 can be written as</p><formula xml:id="formula_83">√𝑛𝐿 ⋆ 𝜓 ( θ ) = [√𝑛𝐿 𝜓 ( θ ) -𝐼 𝜓𝜙⋅𝛾 ( θ )𝐼 -1 𝜙⋅𝛾 ( θ )√𝑛𝐿 𝜙 ( θ )] = [𝐼 𝑘 𝜓 , 𝐼 𝜓𝜙⋅𝛾 𝐼 -1 𝜙⋅𝛾 ] × [ √𝑛𝐿 𝛿 ( θ ) √𝑛𝐿 𝜆 ( θ ) ] + 𝑜 𝑝 (1).<label>(54)</label></formula><p>Thus, we need to consider both (51) and ( <ref type="formula">52</ref>) for the the last two results of Proposition 2. The combined system can be written as</p><formula xml:id="formula_84">[ √𝑛𝐿 𝜓 ( θ ) √𝑛𝐿 𝜙 ( θ ) ] = ⎡ ⎢ ⎣ 𝐼 𝑘 𝜓 0 𝑘 𝜙 ×𝑘 𝜙 -𝐼 𝜓𝛾 𝐼 -1 𝛾𝛾 0 𝑘 𝜙 ×𝑘 𝜓 𝐼 𝑘 𝜙 -𝐼 𝜙𝛾 𝐼 -1 𝛾𝛾 ⎤ ⎥ ⎦ × ⎡ ⎢ ⎢ ⎣ √𝑛𝐿 𝜓 (𝜃 0 ) √𝑛𝐿 𝜙 (𝜃 0 ) √𝑛𝐿 𝛾 (𝜃 0 ) ⎤ ⎥ ⎥ ⎦ + [ 𝐼 𝜓⋅𝛾 𝛿 𝜓 + 𝐼 𝜓𝜙⋅𝛾 𝛿 𝜙 𝐼 𝜙⋅𝛾 𝛿 𝜙 + 𝐼 𝜙𝜓⋅𝛾 𝛿 𝜓 ] + 𝑜 𝑝 (1).<label>(55)</label></formula><p>Then, using the asymptotic normality of score functions from Proposition 1, we get</p><p>[ √𝑛𝐿 𝜓 ( θ ) √𝑛𝐿 𝜙 ( θ ) ] 𝑑 -→ 𝑁 ([ 𝐼 𝜓⋅𝛾 𝛿 𝜓 + 𝐼 𝜓𝜙⋅𝛾 𝛿 𝜙 𝐼 𝜙⋅𝛾 𝛿 𝜙 + 𝐼 𝜙𝜓⋅𝛾 𝛿 𝜓 ] , [ 𝐼 𝜓⋅𝛾 𝐼 𝜓𝜙⋅𝛾 𝐼 𝜙𝜓⋅𝛾 𝐼 𝜙⋅𝛾 ]) . (56) Using (56) in (54), we get the following result under 𝐻 𝜓 0 . √𝑛𝐿 ⋆ 𝜓 ( θ ) 𝑑 -→ 𝑁 (0 𝑘 𝜓 , 𝐼 𝜓⋅𝛾 -𝐼 𝜓𝜙⋅𝛾 𝐼 -1 𝜙⋅𝛾 𝐼 𝜙𝜓⋅𝛾 ) . (57) Thus, LM ⋆ 𝜓 ( θ ) 𝑑 -→ 𝜒 2 𝑘 𝜓 , which proves the second part of Proposition 2. Similarly, using (56) in (54), we get the following result under 𝐻 𝜓 𝐴 √𝑛𝐿 ⋆ 𝜓 ( θ ) 𝑑 -→ 𝑁 ([𝐼 𝜓⋅𝛾 -𝐼 𝜓𝜙⋅𝛾 𝐼 -1 𝜙⋅𝛾 𝐼 𝜙𝜓⋅𝛾 ] 𝛿 𝜓 , 𝐼 𝜓⋅𝛾 -𝐼 𝜓𝜙⋅𝛾 𝐼 -1 𝜙⋅𝛾 𝐼 𝜙𝜓⋅𝛾 ) . (58) Then, the last result in Proposition 2 directly follows from the above result, namely LM ⋆ 𝜓 ( θ ) 𝑑 -→ 𝜒 2 𝑘 𝜓 (𝜑 2 ) , (59) where 𝜑 2 = 𝛿 ′ 𝜓 (𝐼 𝜓⋅𝛾 -𝐼 𝜓𝜙⋅𝛾 𝐼 -1 𝜙⋅𝛾 𝐼 ′ 𝜓𝜙⋅𝛾 )𝛿 𝜓 . □ 19 Brought to you by | Stockholm University Library Authenticated Download Date | 4/27/19 9:41 AM</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>D Simulation Results</head><p>The simulation results are based on the following weight matrices: (i) WS is the 49 × 49 contiguity weights matrix of 48 US states, (ii) WO is the 98 × 98 contiguity weights matrix corresponding to five nearest neighbors of each census tract in Toledo, Ohio, (iii) WC is the 361 × 361 weights matrix corresponding to whether the school districts are in the same county in Iowa in 2009, and (iv) WA is the 361 × 361 matrix corresponding to adjacency of 361 school districts in Iowa in 2009. LM ⋆ 𝜇 and LM μ are robust and non-robust tests for H 0 = ρ 0 = λ 0 = 0, (ii) LM κ is the joint test for H 0 : ρ 0 = λ 0 = δ 0 = 0. For all specifications, the nominal size of tests is set to 0.05, and the number of Monte Carlo repetitions to 1000. In each table, the first panel reveals the size properties for LM ρ , LM ⋆ 𝜌 and LM 𝑎 𝜌 , while the first row in each panel corresponds to the size properties for LM λ , LM ⋆ 𝜆 and LM 𝑎 𝜆 . For LM μ , LM ⋆ 𝜇 and LM κ , their size properties will be seen from the first row of the first panel in each Table 5: LM Tests (Bivariate Normal Distribution): δ</p><formula xml:id="formula_85">0 = 0.5. WS WO λ 0 ρ 0 LM ρ LM 𝑎 𝑎 𝑎 𝜌 𝜌 𝜌 LM ⋆ ⋆ ⋆ 𝜌 𝜌 𝜌 LM λ LM a 𝜆 𝜆 𝜆 LM ⋆ ⋆ ⋆ 𝜆 𝜆 𝜆 LM μ LM ⋆ ⋆ ⋆ 𝜇 𝜇 𝜇 LM κ LM ρ LM 𝑎 𝑎 𝑎 𝜌 𝜌 𝜌 LM ⋆ ⋆ ⋆ 𝜌 𝜌 𝜌 LM λ LM a 𝜆 𝜆 𝜆 LM ⋆ ⋆ ⋆ 𝜆 𝜆 𝜆 LM μ LM ⋆ ⋆ ⋆ 𝜇 𝜇 𝜇 LM κ 0.0 0.0 0.</formula><p>037 0.097 0.034 0.101 0.161 0.018 0.113 0.029 0.883 0.070 0.138 0.052 0.234 0.334 0.028 0.259 0.047 0.997 0.1 0.0 0.093 0.138 0.043 0.331 0.371 0.053 0.286 0.085 0.935 0.200 0.165 0.056 0.586 0.537 0.056 0.563 0.160 0.998 0.3 0.0 0.391 0.117 0.042 0.839 0.726 0.297 0.785 0.518 0.989 0.738 0.154 0.049 0.982 0.905 0.370 0.977 0.815 1.000 0.5 0.0 0.835 0.113 0.027 0.993 0.917 0.657 0.992 0.948 0.998 0.981 0.126 0.038 1.000 0.982 0.801 1.000 0.999 1.000 0.0 0.1 0.090 0.055 0.061 0.190 0.199 0.026 0.176 0.052 0.914 0.201 0.080 0.110 0.426 0.318 0.029 0.373 0.162 0.999 0.1 0.1 0.215 0.069 0.072 0.449 0.319 0.055 0.412 0.169 0.944 0.460 0.069 0.129 0.774 0.489 0.051 0.732 0.368 1.000 0.3 0.1 0.626 0.061 0.047 0.911 0.695 0.290 0.858 0.649 0.990 0.897 0.071 0.119 0.993 0.862 0.324 0.989 0.923 1.000 0.5 0.1 0.913 0.060 0.035 0.997 0.896 0.658 0.993 0.972 1.000 0.997 0.065 0.084 1.000 0.968 0.741 1.000 0.999 1.000 0.0 0.3 0.471 0.094 0.250 0.509 0.166 0.050 0.445 0.363 0.957 0.777 0.109 0.445 0.853 0.279 0.046 0.788 0.684 1.000 0.1 0.3 0.630 0.103 0.220 0.758 0.315 0.060 0.702 0.559 0.975 0.906 0.109 0.413 0.974 0.491 0.060 0.952 0.885 1.000 0.3 0.3 0.899 0.064 0.164 0.980 0.611 0.233 0.941 0.896 0.997 0.995 0.091 0.399 1.000 0.794 0.243 0.998 0.992 1.000 0.5 0.3 0.979 0.044 0.082 1.000 0.811 0.512 0.995 0.989 1.000 1.000 0.065 0.277 1.000 0.935 0.623 1.000 1.000 1.000 0.0 0.5 0.859 0.253 0.493 0.848 0.201 0.082 0.850 0.816 0.983 0.992 0.436 0.800 0.989 0.292 0.082 0.984 0.976 1.000 0.1 0.5 0.935 0.223 0.457 0.945 0.274 0.086 0.923 0.889 0.994 0.999 0.370 0.786 0.999 0.437 0.084 1.000 0.999 1.000 0.3 0.5 0.986 0.142 0.334 0.996 0.502 0.202 0.999 0.991 1.000 1.000 0.281 0.690 1.000 0.693 0.240 1.000 1.000 1.000 0.5 0.5 1.000 0.062 0.181 0.999 0.680 0.389 0.998 0.998 1.000 1.000 0.182 0.528 1.000 0.823 0.451 1.000 1.000 1.000 WC WA 0.0 0.0 0.095 0.210 0.049 0.356 0.456 0.020 0.416 0.074 1.000 0.237 0.361 0.091 0.754 0.796 0.025 0.792 0.142 1.000 0.1 0.0 0.693 0.223 0.052 0.964 0.867 0.184 0.940 0.698 1.000 0.753 0.377 0.099 0.993 0.966 0.120 0.992 0.683 1.000 0.3 0.0 1.000 0.240 0.053 1.000 1.000 0.948 1.000 1.000 1.000 0.999 0.359 0.088 1.000 1.000 0.841 1.000 1.000 1.000 0.5 0.0 1.000 0.302 0.031 1.000 1.000 1.000 1.000 1.000 1.000 1.000 0.301 0.090 1.000 1.000 0.998 1.000 1.000 1.000 0.0 0.1 0.717 0.051 0.292 0.889 0.429 0.021 0.823 0.619 1.000 0.788 0.104 0.363 0.966 0.746 0.033 0.945 0.689 1.000 0.1 0.1 0.988 0.058 0.296 1.000 0.797 0.133 1.000 0.989 1.000 0.987 0.096 0.390 1.000 0.936 0.069 0.999 0.984 1.000 0.3 0.1 1.000 0.044 0.243 1.000 0.996 0.917 1.000 1.000 1.000 1.000 0.088 0.349 1.000 1.000 0.764 1.000 1.000 1.000 0.5 0.1 1.000 0.105 0.065 1.000 1.000 1.000 1.000 1.000 1.000 1.000 0.106 0.267 1.000 1.000 0.997 1.000 1.000 1.000 0.0 0.3 1.000 0.556 0.950 1.000 0.363 0.062 1.000 1.000 1.000 1.000 0.272 0.954 1.000 0.661 0.060 1.000 1.000 1.000 0.1 0.3 1.000 0.534 0.949 1.000 0.681 0.101 1.000 1.000 1.000 1.000 0.238 0.941 1.000 0.896 0.074 1.000 1.000 1.000 0.3 0.3 1.000 0.330 0.866 1.000 0.979 0.771 1.000 1.000 1.000 1.000 0.166 0.889 1.000 0.996 0.595 1.000 1.000 1.000 0.5 0.3 1.000 0.057 0.391 1.000 1.000 0.988 1.000 1.000 1.000 1.000 0.075 0.773 1.000 1.000 0.946 1.000 1.000 1.000 0.0 0.5 1.000 0.980 1.000 1.000 0.281 0.105 1.000 1.000 1.000 1.000 0.845 0.999 1.000 0.635 0.094 1.000 1.000 1.000 0.1 0.5 1.000 0.951 1.000 1.000 0.544 0.082 1.000 1.000 1.000 1.000 0.818 0.999 1.000 0.798 0.065 1.000 1.000 1.000 0.3 0.5 1.000 0.741 0.984 1.000 0.868 0.494 1.000 1.000 1.000 1.000 0.652 0.996 1.000 0.964 0.366 1.000 1.000 1.000 0.5 0.5 1.000 0.156 0.604 1.000 0.974 0.869 1.000 1.000 1.000 1.000 0.343 0.954 1.000 0.998 0.798 1.000 1.000 1.000 23 Brought to you by | Stockholm University Library Authenticated Download Date | 4/27/19 9:41 AM</p><p>Table 6: Robust LM Tests for Endogeneity in Weights: δ 0   </p><formula xml:id="formula_86">= 0. WS WO WC WA λ 0 ρ 0 LM ⋆ ⋆ ⋆SAR 𝛿 𝛿 𝛿 LM ⋆ ⋆ ⋆ 𝛿 𝛿 𝛿 LM ⋆ ⋆ ⋆SAR 𝛿 𝛿 𝛿 LM ⋆ ⋆ ⋆ 𝛿 𝛿 𝛿 LM ⋆ ⋆ ⋆SAR 𝛿 𝛿 𝛿 LM ⋆ ⋆ ⋆ 𝛿 𝛿 𝛿 LM ⋆ ⋆ ⋆SAR 𝛿 𝛿 𝛿 LM ⋆ ⋆ ⋆ 𝛿 𝛿 𝛿<label>0</label></formula><formula xml:id="formula_87">WS WO WC WA λ 0 ρ 0 LM ⋆ ⋆ ⋆SAR 𝛿 𝛿 𝛿 LM ⋆ ⋆ ⋆ 𝛿 𝛿 𝛿 LM ⋆ ⋆ ⋆SAR 𝛿 𝛿 𝛿 LM ⋆ ⋆ ⋆ 𝛿 𝛿 𝛿 LM ⋆ ⋆ ⋆SAR 𝛿 𝛿 𝛿 LM ⋆ ⋆ ⋆ 𝛿 𝛿 𝛿 LM ⋆ ⋆ ⋆SAR 𝛿 𝛿 𝛿 LM ⋆ ⋆ ⋆ 𝛿 𝛿 𝛿<label>0</label></formula><formula xml:id="formula_88">WS WO WC WA λ 0 ρ 0 LM ⋆ ⋆ ⋆SAR 𝛿 𝛿 𝛿 LM ⋆ ⋆ ⋆ 𝛿 𝛿 𝛿 LM ⋆ ⋆ ⋆SAR 𝛿 𝛿 𝛿 LM ⋆ ⋆ ⋆ 𝛿 𝛿 𝛿 LM ⋆ ⋆ ⋆SAR 𝛿 𝛿 𝛿 LM ⋆ ⋆ ⋆ 𝛿 𝛿 𝛿 LM ⋆ ⋆ ⋆SAR 𝛿 𝛿 𝛿 LM ⋆ ⋆ ⋆ 𝛿 𝛿 𝛿<label>0</label></formula></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>2</head><figDesc>Brought to you by | Stockholm University Library Authenticated Download Date | 4/27/19 9:41 AM 𝑌 = 𝜆𝑊𝑌 + 𝑋 1 𝛽 + 𝑈, 𝑈 = 𝜌𝑀𝑈 + 𝑉 𝑍 1 = 𝑋 2 Γ 1 + 𝜀 1 , 𝑍 2 = 𝑋 3 Γ 2 + 𝜀 2 , 𝑤 𝑖𝑗 = ℎ 1𝑖𝑗 (𝑧 1𝑖 , 𝑧 1𝑗 , 𝜚 𝑖𝑗 ), 𝑚 𝑖𝑗 = ℎ 2𝑖𝑗 (𝑧 2𝑖 , 𝑧 2𝑗 , 𝜚 𝑖𝑗 ), 𝑖, 𝑗 = 1, … 𝑛,</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>3</head><figDesc>Brought to you by | Stockholm University LibraryAuthenticated Download Date | 4/27/19 9:41 AM</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>5</head><figDesc>Brought to you by | Stockholm University Library Authenticated Download Date | 4/27/19 9:41 AM notation, ψ and ϕ can be considered as our testing parameters, while γ is purely a vector of nuisance parameters. Define 𝐿 𝜑 ( 𝜃) = 1 𝑛 𝜕 ln 𝐿(𝜃) 𝜕𝜑 and 𝐿 𝜑𝜑 (𝜃) = 1 𝑛 𝜕 2 ln 𝐿(𝜃) 𝜕𝜑𝜕𝜑 ′ , where φ = ψ, ϕ, γ. Let 𝐼( θ ) be a consistent estimator of I based on θ . In order to formulate our suggested test statistics, we consider the following partition of I(θ): 𝜃) 𝐼 𝜓𝜙 (𝜃) 𝐼 𝜓𝛾 (𝜃) 𝐼 𝜙𝜓 (𝜃) 𝐼 𝜙𝜙 (𝜃) 𝐼 𝜙𝛾 (𝜃) 𝐼 𝛾𝜓 (𝜃) 𝐼 𝛾𝜙 (𝜃) 𝐼 𝛾𝛾 (restricted MLE when H 0 : ψ 0 = ψ * and ϕ 0 = ϕ * holds, where ψ * and ϕ * are hypothesized values. We are interested in the LM test statistic for H 𝜓 0 ∶ 𝜓 0 = 𝜓 * in the local presence of ϕ 0 . For this purpose, we first consider the problem of testing H 𝜓 0 ∶ 𝜓 0 = 𝜓 * when H 𝜙 0 ∶ 𝜙 0 = 𝜙 * holds. Then, the one directional test statistic can be formulated as</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><figDesc>LM ⋆𝜇 and LM μ are robust and non-robust tests for H 0 = ρ 0 = λ 0 = 0, (ii) LM κ is the joint test for H 0 : ρ 0 = λ 0 = δ 0 = 0.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>13</head><figDesc>Brought to you by | Stockholm University Library Authenticated Download Date | 4/27/19 9:41 AM where 𝑋 1 = (𝑙 𝑛 2 , d, 𝑤, b</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>15</head><figDesc>Brought to you by | Stockholm University LibraryAuthenticated Download Date | 4/27/19 9:41 AM</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><figDesc>1</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 6 -</head><label>6</label><figDesc>has good finite sample properties. Here, we investigate the effect of omitted spatial lag in the regression disturbance term (MU) on the finite sample properties of LM ⋆SAR Table</figDesc><table><row><cell>that LM ⋆SAR 𝛿</cell><cell>( θ ) 𝛿</cell><cell>( θ ). The simulation results are</cell></row><row><cell cols="2">presented in</cell><cell></cell></row></table><note><p>We use our baseline Monte Carlo setting to investigate the finite sample properties of LM ⋆SAR 𝛿 ( θ ) and LM ⋆ 𝛿 ( θ ). The extensive simulation study in Bera, Doğan, and Taşpınar (2018) shows 11 Brought to you by | Stockholm University Library Authenticated Download Date | 4/27/19 9:41 AM</p></note></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 2 :</head><label>2</label><figDesc>LM Tests.</figDesc><table><row><cell>LM ρ</cell><cell>LM a 𝜌 𝜌 𝜌</cell><cell>LM ⋆ ⋆ ⋆ 𝜌 𝜌 𝜌</cell><cell>LM λ</cell><cell>LM a 𝜆 𝜆 𝜆</cell><cell>LM ⋆ ⋆ ⋆ 𝜆 𝜆 𝜆</cell><cell>LM μ</cell><cell>LM ⋆ ⋆ ⋆ 𝜇 𝜇 𝜇</cell><cell>LM κ</cell></row><row><cell>176.941</cell><cell>221.071</cell><cell>221.058</cell><cell>4.886</cell><cell>49.015</cell><cell>48.997</cell><cell>225.957</cell><cell>225.224</cell><cell>226.323</cell></row><row><cell>(0.000)</cell><cell>(0.000)</cell><cell>(0.000)</cell><cell>(0.027)</cell><cell>(0.000)</cell><cell>(0.000)</cell><cell>(0.000)</cell><cell>(0.000)</cell><cell>(0.000)</cell></row></table><note><p>LM ⋆</p><p>𝜇 and LM μ are robust and non-robust test for H 0 : ρ 0</p></note></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2"><head>Table 3 :</head><label>3</label><figDesc>table.The other rows show the power properties for all test statistics.LM Tests (Bivariate Normal Distribution): δ</figDesc><table><row><cell>20</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_3"><head>Table 4 :</head><label>4</label><figDesc>LM Tests (Bivariate Normal Distribution): δ</figDesc><table><row><cell>WS</cell></row><row><cell>0 = 0.25.</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_4"><head>Table 7 :</head><label>7</label><figDesc>Robust LM Tests for Endogeneity in Weights: δ 0 = 0.25.</figDesc><table><row><cell>.0</cell><cell>0.0</cell><cell>0.050</cell><cell>0.058</cell><cell>0.052</cell><cell>0.048</cell><cell>0.054</cell><cell>0.048</cell><cell>0.051</cell><cell>0.052</cell></row><row><cell>0.1</cell><cell>0.0</cell><cell>0.069</cell><cell>0.071</cell><cell>0.074</cell><cell>0.075</cell><cell>0.067</cell><cell>0.070</cell><cell>0.053</cell><cell>0.049</cell></row><row><cell>0.3</cell><cell>0.0</cell><cell>0.074</cell><cell>0.065</cell><cell>0.050</cell><cell>0.054</cell><cell>0.058</cell><cell>0.061</cell><cell>0.073</cell><cell>0.072</cell></row><row><cell>0.5</cell><cell>0.0</cell><cell>0.054</cell><cell>0.057</cell><cell>0.050</cell><cell>0.059</cell><cell>0.071</cell><cell>0.084</cell><cell>0.082</cell><cell>0.090</cell></row><row><cell>0.0</cell><cell>0.1</cell><cell>0.063</cell><cell>0.075</cell><cell>0.062</cell><cell>0.067</cell><cell>0.060</cell><cell>0.054</cell><cell>0.071</cell><cell>0.057</cell></row><row><cell>0.1</cell><cell>0.1</cell><cell>0.056</cell><cell>0.055</cell><cell>0.065</cell><cell>0.062</cell><cell>0.060</cell><cell>0.061</cell><cell>0.069</cell><cell>0.073</cell></row><row><cell>0.3</cell><cell>0.1</cell><cell>0.071</cell><cell>0.070</cell><cell>0.075</cell><cell>0.070</cell><cell>0.065</cell><cell>0.065</cell><cell>0.092</cell><cell>0.086</cell></row><row><cell>0.5</cell><cell>0.1</cell><cell>0.048</cell><cell>0.060</cell><cell>0.078</cell><cell>0.081</cell><cell>0.082</cell><cell>0.088</cell><cell>0.099</cell><cell>0.091</cell></row><row><cell>0.0</cell><cell>0.3</cell><cell>0.067</cell><cell>0.067</cell><cell>0.092</cell><cell>0.089</cell><cell>0.087</cell><cell>0.062</cell><cell>0.138</cell><cell>0.075</cell></row><row><cell>0.1</cell><cell>0.3</cell><cell>0.082</cell><cell>0.075</cell><cell>0.082</cell><cell>0.061</cell><cell>0.111</cell><cell>0.060</cell><cell>0.123</cell><cell>0.070</cell></row><row><cell>0.3</cell><cell>0.3</cell><cell>0.066</cell><cell>0.061</cell><cell>0.101</cell><cell>0.092</cell><cell>0.104</cell><cell>0.064</cell><cell>0.145</cell><cell>0.091</cell></row><row><cell>0.5</cell><cell>0.3</cell><cell>0.067</cell><cell>0.079</cell><cell>0.101</cell><cell>0.093</cell><cell>0.088</cell><cell>0.073</cell><cell>0.123</cell><cell>0.101</cell></row><row><cell>0.0</cell><cell>0.5</cell><cell>0.105</cell><cell>0.085</cell><cell>0.137</cell><cell>0.089</cell><cell>0.178</cell><cell>0.078</cell><cell>0.245</cell><cell>0.092</cell></row><row><cell>0.1</cell><cell>0.5</cell><cell>0.087</cell><cell>0.080</cell><cell>0.170</cell><cell>0.102</cell><cell>0.154</cell><cell>0.072</cell><cell>0.247</cell><cell>0.103</cell></row><row><cell>0.3</cell><cell>0.5</cell><cell>0.092</cell><cell>0.089</cell><cell>0.158</cell><cell>0.114</cell><cell>0.135</cell><cell>0.093</cell><cell>0.218</cell><cell>0.114</cell></row><row><cell>0.5</cell><cell>0.5</cell><cell>0.102</cell><cell>0.089</cell><cell>0.133</cell><cell>0.114</cell><cell>0.102</cell><cell>0.077</cell><cell>0.177</cell><cell>0.085</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_5"><head>Table 8 :</head><label>8</label><figDesc>Robust LM Tests for Endogeneity in Weights: δ 0 = 0.5.</figDesc><table><row><cell>.0</cell><cell>0.0</cell><cell>0.427</cell><cell>0.392</cell><cell>0.713</cell><cell>0.678</cell><cell>0.998</cell><cell>0.997</cell><cell>1.000</cell><cell>0.999</cell></row><row><cell>0.1</cell><cell>0.0</cell><cell>0.401</cell><cell>0.383</cell><cell>0.702</cell><cell>0.657</cell><cell>0.997</cell><cell>0.994</cell><cell>0.998</cell><cell>0.997</cell></row><row><cell>0.3</cell><cell>0.0</cell><cell>0.401</cell><cell>0.370</cell><cell>0.649</cell><cell>0.621</cell><cell>0.996</cell><cell>0.995</cell><cell>0.996</cell><cell>0.996</cell></row><row><cell>0.5</cell><cell>0.0</cell><cell>0.322</cell><cell>0.293</cell><cell>0.599</cell><cell>0.560</cell><cell>0.960</cell><cell>0.952</cell><cell>0.988</cell><cell>0.980</cell></row><row><cell>0.0</cell><cell>0.1</cell><cell>0.391</cell><cell>0.393</cell><cell>0.699</cell><cell>0.705</cell><cell>0.997</cell><cell>0.995</cell><cell>0.996</cell><cell>0.998</cell></row><row><cell>0.1</cell><cell>0.1</cell><cell>0.383</cell><cell>0.394</cell><cell>0.659</cell><cell>0.659</cell><cell>0.990</cell><cell>0.994</cell><cell>0.995</cell><cell>0.996</cell></row><row><cell>0.3</cell><cell>0.1</cell><cell>0.357</cell><cell>0.360</cell><cell>0.630</cell><cell>0.642</cell><cell>0.991</cell><cell>0.993</cell><cell>0.996</cell><cell>0.997</cell></row><row><cell>0.5</cell><cell>0.1</cell><cell>0.308</cell><cell>0.284</cell><cell>0.530</cell><cell>0.552</cell><cell>0.962</cell><cell>0.956</cell><cell>0.979</cell><cell>0.977</cell></row><row><cell>0.0</cell><cell>0.3</cell><cell>0.319</cell><cell>0.391</cell><cell>0.595</cell><cell>0.695</cell><cell>0.992</cell><cell>0.997</cell><cell>0.994</cell><cell>0.999</cell></row><row><cell>0.1</cell><cell>0.3</cell><cell>0.331</cell><cell>0.401</cell><cell>0.572</cell><cell>0.677</cell><cell>0.971</cell><cell>0.993</cell><cell>0.984</cell><cell>0.996</cell></row><row><cell>0.3</cell><cell>0.3</cell><cell>0.308</cell><cell>0.358</cell><cell>0.553</cell><cell>0.644</cell><cell>0.969</cell><cell>0.990</cell><cell>0.980</cell><cell>0.997</cell></row><row><cell>0.5</cell><cell>0.3</cell><cell>0.247</cell><cell>0.284</cell><cell>0.488</cell><cell>0.570</cell><cell>0.919</cell><cell>0.929</cell><cell>0.957</cell><cell>0.982</cell></row><row><cell>0.0</cell><cell>0.5</cell><cell>0.262</cell><cell>0.407</cell><cell>0.464</cell><cell>0.672</cell><cell>0.954</cell><cell>0.996</cell><cell>0.946</cell><cell>0.997</cell></row><row><cell>0.1</cell><cell>0.5</cell><cell>0.249</cell><cell>0.391</cell><cell>0.438</cell><cell>0.663</cell><cell>0.949</cell><cell>0.988</cell><cell>0.942</cell><cell>0.995</cell></row><row><cell>0.3</cell><cell>0.5</cell><cell>0.255</cell><cell>0.362</cell><cell>0.434</cell><cell>0.635</cell><cell>0.921</cell><cell>0.976</cell><cell>0.952</cell><cell>0.991</cell></row><row><cell>0.5</cell><cell>0.5</cell><cell>0.211</cell><cell>0.293</cell><cell>0.363</cell><cell>0.503</cell><cell>0.850</cell><cell>0.895</cell><cell>0.904</cell><cell>0.968</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_6"><head>Table 9 :</head><label>9</label><figDesc>LM Tests (Conditional Moment Assumptions Hold Without Normality): δ</figDesc><table><row><cell>.0</cell><cell>0.0</cell><cell>0.956</cell><cell>0.938</cell><cell>1.000</cell><cell>0.997</cell><cell>1.000</cell><cell>1.000</cell><cell>1.000</cell><cell>1.000</cell></row><row><cell>0.1</cell><cell>0.0</cell><cell>0.965</cell><cell>0.946</cell><cell>1.000</cell><cell>1.000</cell><cell>1.000</cell><cell>1.000</cell><cell>1.000</cell><cell>1.000</cell></row><row><cell>0.3</cell><cell>0.0</cell><cell>0.929</cell><cell>0.893</cell><cell>0.999</cell><cell>0.999</cell><cell>1.000</cell><cell>1.000</cell><cell>1.000</cell><cell>1.000</cell></row><row><cell>0.5</cell><cell>0.0</cell><cell>0.891</cell><cell>0.835</cell><cell>0.994</cell><cell>0.991</cell><cell>1.000</cell><cell>1.000</cell><cell>1.000</cell><cell>1.000</cell></row><row><cell>0.0</cell><cell>0.1</cell><cell>0.961</cell><cell>0.959</cell><cell>0.999</cell><cell>0.998</cell><cell>1.000</cell><cell>1.000</cell><cell>1.000</cell><cell>1.000</cell></row><row><cell>0.1</cell><cell>0.1</cell><cell>0.947</cell><cell>0.932</cell><cell>1.000</cell><cell>1.000</cell><cell>1.000</cell><cell>1.000</cell><cell>1.000</cell><cell>1.000</cell></row><row><cell>0.3</cell><cell>0.1</cell><cell>0.939</cell><cell>0.926</cell><cell>0.996</cell><cell>0.992</cell><cell>1.000</cell><cell>1.000</cell><cell>1.000</cell><cell>1.000</cell></row><row><cell>0.5</cell><cell>0.1</cell><cell>0.858</cell><cell>0.809</cell><cell>0.997</cell><cell>0.995</cell><cell>1.000</cell><cell>1.000</cell><cell>1.000</cell><cell>1.000</cell></row><row><cell>0.0</cell><cell>0.3</cell><cell>0.935</cell><cell>0.954</cell><cell>0.998</cell><cell>0.998</cell><cell>1.000</cell><cell>1.000</cell><cell>1.000</cell><cell>1.000</cell></row><row><cell>0.1</cell><cell>0.3</cell><cell>0.909</cell><cell>0.925</cell><cell>0.997</cell><cell>0.998</cell><cell>1.000</cell><cell>1.000</cell><cell>1.000</cell><cell>1.000</cell></row><row><cell>24</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell cols="4">Brought to you by | Stockholm University Library Authenticated</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell cols="3">Download Date | 4/27/19 9:41 AM</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_7"><head>Table 10 :</head><label>10</label><figDesc>LM Tests (Conditional Moment Assumptions Hold Without Normality): δ</figDesc><table><row><cell>WS</cell></row><row><cell>0 = 0.25.</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_8"><head>Table 11 :</head><label>11</label><figDesc>LM Tests (Conditional Moment Assumptions Hold Without Normality): δ</figDesc><table><row><cell>WS</cell></row><row><cell>0 = 0.5.</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_9"><head>Table 12 :</head><label>12</label><figDesc>LM Tests (Bivariate t</figDesc><table><row><cell>WS</cell></row><row><cell>0 = 0.</cell></row><row><cell>5 Distribution): δ</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_10"><head>Table 13 :</head><label>13</label><figDesc>LM Tests (Bivariate t</figDesc><table><row><cell>WS</cell></row><row><cell>0 = 0.25.</cell></row><row><cell>5 Distribution): δ</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_11"><head>Table 14 :</head><label>14</label><figDesc>LM Tests (Bivariate t</figDesc><table><row><cell>WS</cell></row><row><cell>0 = 0.5.</cell></row><row><cell>5 Distribution): δ</cell></row></table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" xml:id="foot_0"><p>Brought to you by | Stockholm University LibraryAuthenticated Download Date | 4/27/19 9:41 AM</p></note>
+		</body>
+		<back>
+
+			
+			<div type="acknowledgement">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Acknowledgment</head><p>We are grateful to a co-editor and two anonymous referees for their constructive comments.</p></div>
+			</div>
+
+
+			<div type="funding">
+<div><head>Funding</head><p>This research was supported, in part, by a grant of computer time from the <rs type="funder">City University of New York High Performance Computing Center</rs> under <rs type="funder">NSF</rs> Grants <rs type="grantNumber">CNS-0855217</rs> and <rs type="grantNumber">CNS-0958379</rs>.</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_yYu4hha">
+					<idno type="grant-number">CNS-0855217</idno>
+				</org>
+				<org type="funding" xml:id="_sRyT4cK">
+					<idno type="grant-number">CNS-0958379</idno>
+				</org>
+			</listOrg>
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Notes</head><p>1 Under this assumption, it can also be shown that sup n ∥W∥ 1 &lt; ∞, where ∥⋅∥ 1 is the maximum absolute column sum norm. For details, see <ref type="bibr">Qu and Lee (2015, Claim C.1.1</ref>). 2 For details, see C. 3 For the computational simplicity, instead of the restricted ML estimators of Γ 0 and Σ ε0 , we use the feasible generalized least square estimators (FGLS), Γ = (𝑋 ′ Σ -1 𝜀 𝑋) -1 𝑋 ′ Σ -1 𝜀 𝑍 and Σ 𝜀 = 𝜀 * ′ 𝜀 * /𝑛. 4 Note that when δ 0 ≠ 0, both LM 𝑎 𝜌 and LM 𝑎 𝜆 are invalid. Here, our aim is to investigate the effect of endogenous weights matrix on the size and power properties of LM 𝑎 𝜌 and LM 𝑎 𝜆 . 5 See Qu and Lee (2015, Assumption 2). 6 For the sake of brevity, we do not present results when (v i , ε i )′ is generated from the bivariate t distribution with ν = 30 degrees of freedom. All tests perform slightly better under this case relative to the case where (v i , ε i )′ is generated from the bivariate t distribution with ν = 5 degrees of freedom. We also do not consider the performance of endogeneity tests under the distributional misspecification. <ref type="formula">Bera,  Doğan, and Taşpınar (2018</ref> 12 <ref type="bibr" target="#b33">McCallum (1995)</ref> finds that the Canadian provinces seem to trade 21.5 to 27 times more with themselves than with US states of equal size and distance.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><figDesc>) provide extensive simulation results and show that LM ⋆SAR 𝛿 ( θ ) perform satisfactorily as long as the conditional moment assumptions 𝔼(v i |ε i ) = ε i δ and Var(𝑣 𝑖 |𝜀 𝑖 ) = 𝜎 2 𝜉 0 are not violated. Similar findings are also true for our LM ⋆ 𝛿 ( θ ). 7 Available at Robert C. Feenstra's data page: http://cid.econ.ucdavis.edu/. 8 𝑑 𝑖𝑗 = ℝ 0 × arccos (cos ( |𝜚 𝑖 -𝜚 𝑗 |) cos(𝜓 𝑖 ) cos(𝜓 𝑗 ) + sin(𝜓 𝑖 ) sin(𝜓 𝑗 )), where ℝ 0 is the Earth's radius, and ϱ i and ψ i denote region i's longitude and latitude, respectively. 9 Behrens, Ertur, and Koch (2012) also employ two other measures of internal trade costs: (i) 1 4 min 𝑗 (𝑑 𝑖𝑗 ), and (ii), Ertur, and Koch (2012, B) for further details. 11 Let W diag = D(L) ⊗ I n and define W 0 = (W -W diag ).<ref type="bibr" target="#b6">Behrens, Ertur, and Koch (2012)</ref> use W 0 to estimate a SARAR(1,1) specification. The estimation of SARAR(1,1) model based on our W yields similar point estimates.</figDesc></figure>
+			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Gravity with Gravitas: A Solution to the Border Puzzle</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">E</forename><surname>Anderson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Van Wincoop</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">American Economic Review</title>
+		<imprint>
+			<biblScope unit="volume">93</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="170" to="192" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<monogr>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+		<title level="m">Spatial Econometrics: Methods and Models</title>
+		<meeting><address><addrLine>New York</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="1988">1988</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Simple Diagnostic Tests for Spatial Dependence</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">K</forename><surname>Bera</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Florax</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">J</forename><surname>Yoon</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">26</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="77" to="104" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">LM Tests for Functional Form and Spatial Error Correlation</title>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">H</forename><surname>Baltagi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Li</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Regional Science Review</title>
+		<imprint>
+			<biblScope unit="volume">24</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="194" to="225" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Heteroskedasticity and Non-normality Robust LM Tests for Spatial Dependence</title>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">H</forename><surname>Baltagi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Yang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">43</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="725" to="739" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Standardized LM Tests for Spatial Error Dependence in Linear or Panel Regressions</title>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">H</forename><surname>Baltagi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Yang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Econometrics Journal</title>
+		<imprint>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="103" to="134" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Dual&apos; Gravity: Using Spatial Econometrics to Control for Multilateral Resistance</title>
+		<author>
+			<persName><forename type="first">K</forename><surname>Behrens</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Ertur</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Koch</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Applied Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">27</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="773" to="794" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<monogr>
+		<title level="m" type="main">Adjustments of Rao&apos;s Score Test for Distributional and Local Parametric Misspecifications</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">K</forename><surname>Bera</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Bilias</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Yoon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Taşpınar</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">O</forename><surname>Doğan</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+	<note type="report_type">Working Paper</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Simple Tests for Endogeneity of Spatial Weights Matrices</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">K</forename><surname>Bera</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">O</forename><surname>Doğan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Taşpınar</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">69</biblScope>
+			<biblScope unit="page" from="130" to="142" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Specification Testing with Locally Misspecified Alternatives</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">K</forename><surname>Bera</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">J</forename><surname>Yoon</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometric Theory</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="649" to="658" />
+			<date type="published" when="1993">1993</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Simple Regression-Based Tests for Spatial Dependence</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Born</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Breitung</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Econometrics Journal</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="330" to="342" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Testing for Strategic Interaction Among Local Governments: The Case of Growth Controls</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">K</forename><surname>Brueckner</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">44</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="438" to="467" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Do Local Governments Engage in Strategic Property-Tax Competition?</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">K</forename><surname>Brueckner</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">A</forename><surname>Saavedra</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">National Tax Journal</title>
+		<imprint>
+			<biblScope unit="volume">54</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="203" to="230" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">On the Cliff-Ord Test for Spatial Correlation</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Burridge</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society, Series B: Methodological</title>
+		<imprint>
+			<biblScope unit="volume">42</biblScope>
+			<biblScope unit="page" from="107" to="108" />
+			<date type="published" when="1980">1980</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Budget Spillovers and Fiscal Policy Interdependence</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">C</forename><surname>Case</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">S</forename><surname>Rosen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">R</forename><surname>Hines</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Public Economics</title>
+		<imprint>
+			<biblScope unit="volume">52</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="285" to="307" />
+			<date type="published" when="1993">1993</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Testing Endogeneity of Spatial and Social Networks</title>
+		<author>
+			<persName><forename type="first">W</forename><surname>Cheng</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L.-F</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">64</biblScope>
+			<biblScope unit="page" from="81" to="97" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Testing for Spatial Autocorrelation Among Regression Residuals</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Cliff</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Ord</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">4</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="267" to="284" />
+			<date type="published" when="1972">1972</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Implicit Alternatives and the Local Power of Test Statistics</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Davidson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">G</forename><surname>Mackinnon</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">55</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1305" to="1329" />
+			<date type="published" when="1987">1987</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Simple Tests for Social Interaction Models with Network Structures</title>
+		<author>
+			<persName><forename type="first">O</forename><surname>Doğan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Taşpınar</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">K</forename><surname>Bera</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Spatial Economic Analysis</title>
+		<imprint>
+			<biblScope unit="volume">13</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="212" to="246" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Applied Spatial Econometrics: Raising the Bar</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Elhorst</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Spatial Economic Analysis</title>
+		<imprint>
+			<biblScope unit="volume">5</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="9" to="28" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Spatial Econometrics: From Cross-Sectional Data to Spatial Panels</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Elhorst</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Springer Briefs in Regional Science</title>
+		<meeting><address><addrLine>New York; Berlin Heidelberg; Princeton, NJ</addrLine></address></meeting>
+		<imprint>
+			<publisher>Princeton University Press</publisher>
+			<date type="published" when="2004">2014. 2004</date>
+		</imprint>
+	</monogr>
+	<note>Advanced International Trade</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Introduction to Statistical Time Series</title>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">A</forename><surname>Fuller</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="s">Wiley Series in Probability and Statistics</title>
+		<imprint>
+			<date type="published" when="1996">1996</date>
+			<publisher>Wiley</publisher>
+			<pubPlace>New York</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Social Networks and the Identification of Peer Effects</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Goldsmith-Pinkham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">W</forename><surname>Imbens</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Business &amp; Economic Statistics</title>
+		<imprint>
+			<biblScope unit="volume">31</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="253" to="264" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<monogr>
+		<title level="m" type="main">32 Brought to you by | Stockholm University Library Authenticated Download Date</title>
+		<idno>| 4/27/19 9:41 AM</idno>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">A Social Interactions Model with Endogenous Friendship Formation and Selectivity</title>
+		<author>
+			<persName><forename type="first">C.-S</forename><surname>Hsieh</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Applied Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">31</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="301" to="319" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<monogr>
+		<title level="m" type="main">Social and Economic Networks</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Jackson</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2010">2010</date>
+			<publisher>Princeton University Press</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Central Limit Theorems and Uniform Laws of Large Numbers for Arrays of Random Fields</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Jenish</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">150</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="86" to="98" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">On Spatial Processes and Asymptotic Inference Under Near-Epoch Dependence</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Jenish</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">170</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="178" to="190" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Specification and Estimation of Spatial Autoregressive Models with Autoregressive and Heteroskedastic Disturbances</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">157</biblScope>
+			<biblScope unit="page" from="53" to="67" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">Asymptotic Distributions of Quasi-Maximum Likelihood Estimators for Spatial Autoregressive Models</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">72</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1899" to="1925" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">A Spatial Dynamic Panel Data Model with both Time and Individual Fixed Effects</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>-F</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Yu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometric Theory</title>
+		<imprint>
+			<biblScope unit="volume">26</biblScope>
+			<biblScope unit="page" from="564" to="597" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">A Matrix Exponential Spatial Specification</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Lesage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">K</forename><surname>Pace</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">140</biblScope>
+			<biblScope unit="page" from="190" to="214" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<monogr>
+		<author>
+			<persName><forename type="first">J</forename><surname>Lesage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">K</forename><surname>Pace</surname></persName>
+		</author>
+		<title level="m">Introduction to Spatial Econometrics (Statistics: A Series of Textbooks and Monographs</title>
+		<meeting><address><addrLine>London</addrLine></address></meeting>
+		<imprint>
+			<publisher>Chapman and Hall/CRC</publisher>
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">National Borders Matter: Canada-U.S. Regional Trade Patterns</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Mccallum</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The American Economic Review</title>
+		<imprint>
+			<biblScope unit="volume">85</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="615" to="623" />
+			<date type="published" when="1995">1995</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<analytic>
+		<title level="a" type="main">A Test for the Serial Independence of Residuals</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">A P</forename><surname>Moran</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometrika</title>
+		<imprint>
+			<biblScope unit="volume">37</biblScope>
+			<biblScope unit="issue">1/2</biblScope>
+			<biblScope unit="page" from="178" to="181" />
+			<date type="published" when="1950">1950</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<analytic>
+		<title level="a" type="main">QML Estimation of Spatial Dynamic Panel Data Models with Endogenous Time Varying Spatial Weights Matrices</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Qu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">197</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="173" to="201" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<analytic>
+		<title level="a" type="main">Locally Most Powerful Tests for Spatial Interactions in the Simultaneous SAR Tobit Model</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Qu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L.-F</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">43</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="307" to="321" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<analytic>
+		<title level="a" type="main">Estimating a Spatial Autoregressive Model with an Endogenous Spatial Weight Matrix</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Qu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L.-F</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">184</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="209" to="232" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<analytic>
+		<title level="a" type="main">Instrumental Variable Estimation of a Spatial Dynamic Panel Model with Endogenous Spatial Weights When T is Small</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Qu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L.-F</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Econometrics Journal</title>
+		<imprint>
+			<biblScope unit="volume">19</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="261" to="290" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<analytic>
+		<title level="a" type="main">Correlation Testing in Time Series, Spatial and Cross-sectional Data</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Robinson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">147</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="5" to="16" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b40">
+	<analytic>
+		<title level="a" type="main">Improved Lagrange Multiplier Tests in Spatial Autoregressions</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">M</forename><surname>Robinson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Rossi</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Econometrics Journal</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="139" to="164" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b41">
+	<analytic>
+		<title level="a" type="main">Refined Tests for Spatial Correlation</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">M</forename><surname>Robinson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Rossi</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometric Theory</title>
+		<imprint>
+			<biblScope unit="volume">31</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1249" to="1280" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b42">
+	<analytic>
+		<title level="a" type="main">Refinements in Maximum Likelihood Inference on Spatial Autocorrelation in Panel Data</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">M</forename><surname>Robinson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Rossi</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Frontiers in Time Series and Financial Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">189</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="447" to="456" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+	<note>Journal of Econometrics</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b43">
+	<analytic>
+		<title level="a" type="main">Asymptotic Relative Efficiency of the Classical Test Statistics Under Misspecification</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Saikkonen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">42</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="351" to="369" />
+			<date type="published" when="1989">1989</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b44">
+	<analytic>
+		<title level="a" type="main">QML estimation of dynamic panel data models with spatial errors</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Su</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Yang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">185</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="230" to="258" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b45">
+	<analytic>
+		<author>
+			<persName><forename type="first">S</forename><surname>Taşpınar</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">O</forename><surname>Doğan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">P M</forename><surname>Vijverberg</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">GMM Inference in Spatial Autoregressive Models</title>
+		<imprint>
+			<date type="published" when="2016">2016. 2016</date>
+			<biblScope unit="volume">37</biblScope>
+			<biblScope unit="page" from="931" to="954" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b46">
+	<analytic>
+		<title level="a" type="main">GMM Gradient Tests for Spatial Dynamic Panel Data Models</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Taşpınar</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">O</forename><surname>Doğan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">K</forename><surname>Bera</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">65</biblScope>
+			<biblScope unit="page" from="65" to="88" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b47">
+	<analytic>
+		<title level="a" type="main">Social Network Analysis: Methods and Applications</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Wasserman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Faust</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Structural Analysis in the Social Sciences</title>
+		<meeting><address><addrLine>Cambridge UK</addrLine></address></meeting>
+		<imprint>
+			<publisher>Cambridge University Press</publisher>
+			<date type="published" when="1994">1994</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b48">
+	<analytic>
+		<title level="a" type="main">Social Interactions with Endogenous Associations</title>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">A</forename><surname>Weinberg</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Estimation, Inference and Specification Analysis</title>
+		<meeting><address><addrLine>White, H; Cambridge</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="1994">2007. 1994</date>
+		</imprint>
+	</monogr>
+	<note type="report_type">Working Paper 13038</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b49">
+	<analytic>
+		<title level="a" type="main">LM Tests of Spatial Dependence Based on Bootstrap Critical Values</title>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Yang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">185</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="33" to="59" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b50">
+	<analytic>
+		<title level="a" type="main">Quasi-maximum Likelihood Estimators for Spatial Dynamic Panel Data with Fixed Effects when both n and T are Large</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Jong</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">146</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="118" to="134" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

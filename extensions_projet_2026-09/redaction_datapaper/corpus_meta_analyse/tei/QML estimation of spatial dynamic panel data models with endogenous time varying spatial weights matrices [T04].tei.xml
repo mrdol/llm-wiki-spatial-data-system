@@ -1,0 +1,888 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">QML Estimation of spatial dynamic panel data models with endogenous time varying spatial weights matrices</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability  status="unknown">
+					<licence/>
+				</availability>
+				<date type="published" when="2016-11-16">November 16, 2016</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">Xi</forename><surname>Qu</surname></persName>
+							<email>xiqu@sjtu.edu.cn</email>
+							<affiliation key="aff0">
+								<orgName type="department">Center for Statistical Science</orgName>
+								<orgName type="institution" key="instit1">Shanghai Jiao Tong University</orgName>
+								<orgName type="institution" key="instit2">Ohio State University</orgName>
+								<orgName type="institution" key="instit3">Peking University</orgName>
+								<orgName type="institution" key="instit4">Peking University</orgName>
+							</affiliation>
+							<affiliation key="aff0">
+								<orgName type="department">Center for Statistical Science</orgName>
+								<orgName type="institution" key="instit1">Shanghai Jiao Tong University</orgName>
+								<orgName type="institution" key="instit2">Ohio State University</orgName>
+								<orgName type="institution" key="instit3">Peking University</orgName>
+								<orgName type="institution" key="instit4">Peking University</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Lung-Fei</forename><surname>Lee</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Center for Statistical Science</orgName>
+								<orgName type="institution" key="instit1">Shanghai Jiao Tong University</orgName>
+								<orgName type="institution" key="instit2">Ohio State University</orgName>
+								<orgName type="institution" key="instit3">Peking University</orgName>
+								<orgName type="institution" key="instit4">Peking University</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Jihai</forename><surname>Yu</surname></persName>
+							<email>jihai.yu@gmail.com</email>
+							<affiliation key="aff0">
+								<orgName type="department">Center for Statistical Science</orgName>
+								<orgName type="institution" key="instit1">Shanghai Jiao Tong University</orgName>
+								<orgName type="institution" key="instit2">Ohio State University</orgName>
+								<orgName type="institution" key="instit3">Peking University</orgName>
+								<orgName type="institution" key="instit4">Peking University</orgName>
+							</affiliation>
+							<affiliation key="aff0">
+								<orgName type="department">Center for Statistical Science</orgName>
+								<orgName type="institution" key="instit1">Shanghai Jiao Tong University</orgName>
+								<orgName type="institution" key="instit2">Ohio State University</orgName>
+								<orgName type="institution" key="instit3">Peking University</orgName>
+								<orgName type="institution" key="instit4">Peking University</orgName>
+							</affiliation>
+						</author>
+						<title level="a" type="main">QML Estimation of spatial dynamic panel data models with endogenous time varying spatial weights matrices</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2016-11-16">November 16, 2016</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">38B6B04703211E2F8C0CE27305EB580D</idno>
+					<idno type="DOI">10.1016/j.jeconom.2016.11.004</idno>
+					<note type="submission">Received date: 26 August 2015 Revised date: 20 April 2016 Accepted date: 14 November 2016</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-17T13:17+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>JEL classi…cation: C13</term>
+					<term>C23</term>
+					<term>R15 Spatial autoregression, Dynamic panels, Fixed e¤ects, Endogenous spatial weights matrix, QMLE</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>In spatial panel data models, when a spatial weights matrix is constructed from economic or social distance, spatial weights could be endogenous and also time varying. This paper presents model spec-i…cation and proposes QMLE estimation of spatial dynamic panel data models with endogenous time varying spatial weights matrices. Asymptotic properties of the proposed QMLE are rigorously established. We extend the notion of spatial near-epoch dependence to allow time dependence. By using spatial-time LLN for near-epoch dependence process and CLT for martingale di¤erence sequence, we establish the consistency and asymptotic normality of QMLE. Monte Carlo experiments show that the proposed estimators have satisfactory …nite sample performance.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>Spatial econometrics deals with interactions of economic units in space, where the space can be physical or economic in nature. It can be applied to various …elds in economics such as tax/expenditure competition in public economics, comovement of commodity price in regional economics, spillover e¤ects in growth theory, and peer e¤ects in labor economics, etc. Recently there has been much interest in spatial econometrics in panel data settings, because panel data models take into account the dynamic and spatial dependence and also control for unobservable heterogeneity. <ref type="foot" target="#foot_0">1</ref> Some related recent surveys are <ref type="bibr" target="#b1">Anselin et al. (2008)</ref>, <ref type="bibr" target="#b13">Elhorst (2010)</ref>, <ref type="bibr" target="#b4">Baltagi (2011)</ref>, and <ref type="bibr">Lee and</ref><ref type="bibr">Yu (2010a, 2015a)</ref>.</p><p>In constructing the spatial weights matrix, when it is based only on geographical information, it is usually exogenous and time invariant. However, when it is also constructed with economic or social characteristics of regions, it could be time varying, and more importantly, endogenous. For example, <ref type="bibr" target="#b11">Case et al. (1993)</ref> on state spending have weights based on the di¤erence in the percentage of the population that is black. <ref type="bibr" target="#b9">Brueckner (1998)</ref> and <ref type="bibr">Brueckner and Saavedrat (2001)</ref> in ‡ate weights according to population …gures in studies of local governments competitions on economic policies. <ref type="bibr" target="#b2">Baicker (2005)</ref> constructs a weights matrix with the degree of population mobility between regions. So does <ref type="bibr" target="#b30">Rincke (2010)</ref>, who exploits information on commuting ‡ows between locations. These spatial weights matrices are time varying, and could also be endogenous.</p><p>The time varying feature of exogenous spatial weights matrices is investigated in <ref type="bibr">Lee and Yu (2012b)</ref>, which shows that ignoring time varying feature would cause estimation bias and lead to incorrect inferences.</p><p>The endogenous feature of spatial weights matrix is only considered under the cross-sectional spatial autoregressive (SAR) models in <ref type="bibr" target="#b28">Qu and Lee (2015)</ref>, where disturbances in the regression equation may be correlated with elements that generate the weights. In a panel data setting, with dynamic features and a time varying spatial weights matrix, it is of practical relevance to investigate an endogenous spatial weights matrix. Therefore, with increasing availability of panel data, it is of interest to investigate spatial dynamic panel data (SDPD) models with endogenous time varying spatial weights matrices. <ref type="bibr" target="#b18">Kelejian and Piras (2014)</ref> propose a 2SLS estimation for a short spatial panel data with endogenous regressors and endogenous weights, utilizing some high-level assumptions on the existence of relevant statistics.</p><p>In this paper, we will explicitly model sources of endogeneity of a speci…ed spatial weights matrix similar to <ref type="bibr" target="#b28">Qu and Lee (2015)</ref>, so that we have two estimation equations: one is the spatial panel outcome equation, and the other is entries of a spatial weights matrix. When disturbances in the spatial panel outcome and in the entries of spatial weights matrix are correlated, we have the case of an endogenous spatial weights matrix. By specifying conditional mean independence and homoscedasticity, <ref type="bibr" target="#b28">Qu and Lee (2015)</ref> overcome the endogeneity problem in the spatial outcome equation by using a control function from the spatial weights matrix entries'equation. They make use of the law of large numbers (LLN) for spatial near-epoch dependence (NED) process developed in <ref type="bibr" target="#b16">Jenish and Prucha (2012)</ref>. The concept of NED originates in the time series literature. The spatial NED process in <ref type="bibr" target="#b16">Jenish and Prucha (2012)</ref> generalizes that notion to spatial setting. In the current paper, the time series and spatial NED notions are merged to capture both time and space features, and applied to our spatial dynamic panel setting. However, contrary to the cross-sectional case in <ref type="bibr" target="#b28">Qu and Lee (2015)</ref>, neither the central limit theorem (CLT) for spatial NED nor that for time series can be applied to panel data models with both large n and T due to the presence of individual and/or time e¤ects. 2 For asymptotic distribution of quasi-maximum likelihood (QML) estimators, we develop a modi…ed martingale di¤erence CLT, which can be applied to our endogenous spatial dynamic situation. 3   In addition to providing asymptotic properties of QML estimation for SDPD models with endogenous time varying spatial weights matrices, the current paper o¤ers the following contributions to the literature.</p><p>First, we extend the NED analysis to the spatial dynamic panel setting, which is a theoretical contribution.</p><p>To show consistency and asymptotic normality of QML estimators, the classical asymptotic theory for the linear and quadratic forms cannot be directly applied. Although <ref type="bibr" target="#b28">Qu and Lee (2015)</ref> applied NED analysis in a cross-sectional data setting, the extension to general double arrays is important to build our spatial-time LLN. Second, the spatial panel model with endogenous weights matrix in the current paper is important for various empirical applications with time varying weights matrix. When the time varying weights matrices are constructed from economic or social variables, these variables could be endogenous, which invalidates the usual estimation procedure that leads to estimation bias. The method proposed in the current paper provides a robust approach regardless whether the weights matrices are endogenous or not. Third, due to individual and time e¤ects in the dynamic panel data setting, bias correction is needed not only for the estimation of the regression parameters but also for the standard errors of these estimates. These procedures cannot be implied by the cross sectional case in <ref type="bibr" target="#b28">Qu and Lee (2015)</ref>, so that a separate treatment of the endogenous issue in the panel setting is needed.</p><p>The rest of the paper is organized as follows. Section 2 presents the model and a space speci…cation.</p><p>Section 3 derives the log likelihood function for the model and presents a spatial-time LLN needed for asymptotic analysis, which extends the NED property in <ref type="bibr" target="#b16">Jenish and Prucha (2012)</ref> to the SDPD process.</p><p>A modi…ed martingale di¤erence CLT is also presented. Section 4 investigates consistency and asymptotic distribution of the QMLE. As asymptotic biases may be present, we also propose a bias corrected estimator.</p><p>Monte Carlo experiments are conducted in Section 5 to study the …nite sample performances of various estimators, and an empirical application on cigarette demand is provided. Relevant algebraic expressions and proofs are collected in Appendices.</p><p>2 The Model</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1">The Model and Endogenous W nt</head><p>The SDPD model considered is</p><formula xml:id="formula_0">Y nt = 0 W nt Y nt + 0 W n;t 1 Y n;t 1 + 0 Y n;t 1 + X 1nt 0 + c n10 + t10 l n + V nt ; t = 1; 2; :::; T ,<label>(1)</label></formula><p>where Y nt = (y 1t ; y 2t ; :::; y nt ) 0 and V nt = (v 1t ; v 2t ; :::; v nt ) 0 are n 1 column vectors, and v it 's are i:i:d: across i and t with zero mean and variance 2 0 . The X 1nt is an n k 1 matrix of individual and time varying nonstochastic regressors,<ref type="foot" target="#foot_2">foot_2</ref> c n10 is an n 1 column vector of individual …xed e¤ects, and t10 is the tth element of the T 1 time …xed e¤ect vector T 10 , and l n is the n 1 vector of ones. The initial values in Y n0 are observable.</p><p>Denote S nt ( ) = I n W nt for an arbitrary at time period t and let S nt = S nt ( 0 ) be its true value.</p><p>The reduced form of (1) is</p><formula xml:id="formula_1">Y nt = A nt Y n;t 1 + S 1 nt (X 1nt 0 + c n10 + t10 l n + V nt );</formula><p>where A nt = S 1 nt ( 0 I n + 0 W n;t 1 ). A su¢ cient condition for the eigenvalues of A nt being smaller than 1 is j c w j &lt; 1 and j j+j cwj 1 j cwj &lt; 1 where c w sup n;t kW nt k 1 is a bounded constant. This is so, because</p><formula xml:id="formula_2">S 1 nt 1 1 + j 0 c w j + j 0 c w j 2 + = 1 1 j 0cw j</formula><p>, and hence, kA nt k 1 S 1 nt 1 (j 0 j + j 0 j kW nt k 1 ) j 0 j+j 0 cwj 1 j 0cw j . It follows by the spectral radius theorem (see Theorem 5.6.9 in <ref type="bibr" target="#b15">Horn and Johnson, 1985)</ref> that all the eigenvalues of A nt are less than one in absolute value.</p><p>The spatial weights matrix W nt generates the dependence of y it 's across spatial units, and it could be time varying. When it is constructed from economic or social distance, it could be endogenous. We allow W nt to be time varying and endogenous, by assuming that W nt can be constructed from Z nt where Z nt = (z 1t ; z 2t ; :::; z nt ) 0 is an n p matrix generated by<ref type="foot" target="#foot_4">foot_4</ref> </p><formula xml:id="formula_3">Z nt = Z n;t 1 0 + X 2nt 0 + c n20 + l n 0 t20 + nt ,<label>(2)</label></formula><p>where c n20 is of dimension n p, t20 is a p 1 vector, and nt is of dimension n p. Speci…cally, we assume that (W nt ) ij = w ij;nt = h(z i;nt ; z j;nt ) where h( ) is a bounded function. Here, Z nt is a VAR process with individual e¤ects c n20 and time e¤ects t20 , where 0 is a p p VAR dynamic coe¢ cient matrix<ref type="foot" target="#foot_5">foot_5</ref> and 0 is a k 2 p coe¢ cient matrix of individual and time varying regressors of X 2nt .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Assumption 1</head><p>The error terms v it and it have the distribution (v it ; 0 it ) 0 i:i:d:</p><formula xml:id="formula_4">(0; v 0 ) where v 0 = 2 v0 0 v 0 v 0 0</formula><p>, 2 v0 is a scalar variance of v it , 0 is a p p variance matrix of it = ( it;1 ; :::; it;p ) 0 , and v 0 is p 1 covariance matrix between v it and ( it;1 ; :::; it;p ) 0 . The sup i;t Ejv it j 4+ e and sup i;t Ej it j 4+ e are …nite for some e &gt; 0. Furthermore, E(v it j it ) = 0 it 0 and Var(v it j it ) = 2 0 .</p><p>Assumption 1 speci…es that, as W nt is a function of nt , W nt is endogenous in the estimation equation (1) if nt and V nt are correlated. Therefore, unless v = 0, the endogeneity of W nt will cause estimation bias if we disregard this feature.</p><p>For estimation, we need the conditional mean of v it (conditional on it ). From the joint distribution</p><formula xml:id="formula_5">of (v it ; 0 it ) 0 , we have E(v it j it ) = 0 it 0 where 0 = 1 0 v 0 and Var(v it j it ) = 2 0 where 2 0 = 2 v0 0 v 0 1 0 v 0 . Denote nt = V nt nt 0 .</formula><p>Then, the expectation of nt conditional on nt is zero and its conditional variance matrix is 2 0 I n . Thus, nt is uncorrelated with the terms of nt . Therefore, (1) can be rewritten as</p><formula xml:id="formula_6">Y nt = 0 W nt Y nt + 0 W n;t 1 Y n;t 1 + 0 Y n;t 1 + X 1nt 0 + c n10 + t10 l n<label>(3)</label></formula><formula xml:id="formula_7">+(Z nt Z n;t 1 0 X 2nt 0 c n20 l n 0 t20 ) 0 + nt ;</formula><p>where E( nt j nt ) = 0 and Var( nt j nt ) = 2 0 I n , and elements of nt are i.i.d. across i and t. Here, (Z nt Z n;t 1 0 X 2nt 0 c n20 l n 0 t20 ) are control variables in Y nt to control the endogeneity of W nt .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2">Topological Speci…cation</head><p>Following <ref type="bibr" target="#b16">Jenish and Prucha (2012)</ref>, we consider spatial processes located on a possibly unevenly spaced lattice. Denote kZk p = [EjZj p ] 1=p when the absolute pth moment exists.</p><p>De…nition 1 Let Z = fZ l;L ; l 2 D L ; L 1g be a random …eld with kZ l;L k p &lt; 1, p 1 and = f l;L ; l 2 D L ; L 1g be another random …eld, where jD L j ! 1 as L ! 1, and let d = fd l;L ; l 2 D L ; L 1g be an array of …nite positive constants. Then the random …eld Z is said to be L p (d)-near-epoch dependent on the random …eld if</p><formula xml:id="formula_8">kZ l;L E(Z l;L jF l;L (s))k p d l;L (s)</formula><p>for some sequence (s) 0 with lim s!1 (s) = 0, where F l;L (s) = ( j;L : j 2 D L ; (l; j) s) is the -…eld generated by j;L within distance s from l. Here l is an index as well as a location for simpli…cation.</p><p>For the SDPD model (1), while we understand that we are working in general double arrays, it might be convenient to adopt the subscript n to simplify notation. For such a model, due to nonlinearity in W nt 's, we consider the sequences fy it g and f(v it ; 0 it )g as random …elds over space and time for analysis. We are going to relate our random variables fy it g to the notion of a random …eld in <ref type="bibr" target="#b16">Jenish and Prucha (2012)</ref> so that we can use their setting and the spatial NED to build our spatial-time LLN. At time t = 0, the n units are located in the Euclidean space R d of dimension d 1, which is a subspace (plane) of R d+1 . At time t = 1, the n units shift vertically upward to an a¢ ne plane parallel to R d plane. As time passes, it keeps shifting upward each time by one time unit. We may also accommodate variables in past periods (history) by shifting the plane R d at t = 0 downward to an a¢ ne plane at t = 1, etc. So for a sample with n units over T periods, we have located individuals in the R d+1 space. Using the maximum metric <ref type="bibr" target="#b16">(Jenish and Prucha, 2012)</ref> jjl(i; t) l(j; )jj 1 = maxfjt j; jjl(i; 0) l(j; 0)jj 1 g; each observation indexed by (i; t) will be located at l(i; t) 2 R d+1 where l(i; 0) is the physical location of an individual at time 0. We shall assume at t = 0, any two individuals are located in the R d plane at least one unit apart. For each spatial unit i, the location l(i; t) is always one unit apart from l(i; t 1) with respect to the time dimension. Denote L = nT the total number of observations in a spatial panel with n cross sectional units and T time periods. We have L locations in R d+1 . Denote the collection of those locations by D L . With an observed W nt and W n;t 1 , for our spatial and time dynamic speci…cation, individual spatial unit i at time t directly links to j at time t if w ij;nt 6 = 0; and it links to itself at time t 1 and other spatial units j whenever w ij;n;t 1 6 = 0. Due to the time interaction speci…cation, any individual at time t does not directly link to others including itself at the future t + for 1, and not the past t with 2.</p><p>However, an individual i at time t may link to other units at t for 2 indirectly. In particular, i links indirectly to itself in past periods.</p><p>So in this setting, we have implicitly de…ned a mapping of (i; t) to a location l in D L , i.e., l = l(i; t) 2 D L with L = nT . And we have y l corresponds to a y it . Therefore, we can study the NED with a base -…eld generated by fv it ; 0 it g. For our model, at location l = l(i; t), may de…ne the base -…eld for spatial NED process by</p><formula xml:id="formula_9">F l;L (s) = ((v j; ; 0 j; ) : l(j; ) 2 D L ; jjl(j; ) l(i; t))jj 1 s).</formula><p>The Y = fy t;i g is an NED if ky l;L E(y l;L jF l;L (s))k p d l;L (s) for some (s), which goes to zero as s ! 1.</p><p>From the SDPD model, as Y nt depends on W nt Y nt , Y n;t 1 and W n;t 1 Y n;t 1 , we can imagine the following possible "direct" links. At time t, 1) via W n Y nt , unit (i; t) interacts with units (j; t) where w ij;nt 6 = 0;</p><p>2) via Y n;t 1 , unit (i; t) interacts with unit (i; t 1) due to time lag (state dependence);</p><p>3) via W n;t 1 Y n;t 1 , unit (i; t) interacts with units (j; t 1) where w ij;n(t 1) 6 = 0 (di¤usion).</p><p>In the cross-sectional case, we have assumed that individual units can directly interact with each other within a limited distance, say c &gt; 1. For the extension to a panel setting, we might assume also that at each time t, the cross-sectional interactions of spatial units are still within the distance c , which does not change over time. It is possible to allow c to change over time, but we still need that sequence to be bounded; without loss of generality, we may take c to be invariant over time. Note that in our geographic setting, we do not allow locations of any individual in physical space to be changed over time. This might be a limitation if the geographic space is de…ned in terms of some economic characteristics (so characteristic space). Still in the setting, even physical locations do not change, the strength of links in w ij;nt can change with z's over time. Within the distance c , even if w ij;n(t 1) = 0, it is possible to have w ij;nt 6 = 0.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3">The Model in the Matrix Form</head><p>To make use of the space setting in Section 2.2, we may put the model (1) into a big matrix form. Denote</p><formula xml:id="formula_10">Y L = 0 B B B @ Y n1 Y n2 . . . Y nT 1 C C C A ; I 0 ( 0 ; 0 ) = 0 B B @ 0 Y n0 + 0 W n0 Y n0 0 0 0 1 C C A ; 1L = 0 B B B @ 11 21 . . . T 1 1 C C C A l n ; 2L = 0 B B B @ 0 12 0 22 . . . 0 T 2 1 C C C A l n , X 1L , L , L , Z L and X 2L are de…ned similarly. Also, denote W L ( ) = W 1L + W 2L + W 3L<label>with</label></formula><formula xml:id="formula_11">W 1L = 0 B B B @ W n1 W n2 . . . W nT 1 C C C A ; W 2L = 0 B B B @ 0 I n 0 . . . . . . I n 0 1 C C C A ; W 3L = 0 B B B @ 0 W n1 0 . . . . . . W n;T 1 0 1 C C C A so that W L ( 0 ) = 0 B B B @ 0 W n1 0 0 0 0 I n + 0 W n1 0 W n2 0 0 . . . . . . . . . . . . 0 0 0 I n + 0 W n;T 1 0 W nT 1 C C C A ;</formula><p>where = ( ; ; ) and 0 is its true value. Therefore, the model ( <ref type="formula" target="#formula_0">1</ref>) with ( <ref type="formula" target="#formula_3">2</ref>) can be written in the matrix form as:</p><formula xml:id="formula_12">Y L = W L ( 0 )Y L + X 1L 0 + I 0 ( 0 ; 0 ) + c 1L0 + 1L0 + L 0 + L ; Z L = Z L; 1 0 + X 2L 0 + c 2L0 + 2L0 + L ;</formula><p>where</p><formula xml:id="formula_13">c 1L = l T c 1n , c 2L = l T c 2n .</formula><p>We are interested in the nT nT matrix W L ( ) because we can investigate locations of individual units over time in R d+1 which allows us to investigate spatial-time NED processes. This speci…cation has the following convenience for analysis:</p><p>(i) The time index t and the row block number of W L are in a compatible increasing order. At location l(i; t), it corresponds to a unit numbered l among the total L = nT units in panel as l = n(t 1) + i for i = 1; ; n and t = 1; ; T .</p><p>(ii) One can imagine that at t = 1, individual units link with each other and form W n1 . At time t, individual units keep their links of the previous period t 1, i.e., W n;t 1 is kept, and attempt to create links with others at time t, i.e., to form W nt as new links.</p><p>(iii) For future, at time t, there are no attempt to form W n;t+s for s 1.</p><p>In the cross-sectional case, there are no cross constraints on the links of W n (except for a maximum number of possible links). However, for W L in the dynamic panel, there are restrictions across rows of W L . For example, at the location l(i; t), the links with l(i; t 1) and l(j; t 1) for j 6 = i are already given (determined by the past time under the dynamic speci…cation), and new links are possible only with l(j; t) at time t.</p><p>From Assumption 1, we have V L = L 0 + L where L (0; 2 0 I L ). Hence,</p><formula xml:id="formula_14">Y L = W L ( 0 )Y L + X 1L 0 + I 0 ( 0 ; 0 ) + c 1L0 + 1L0 + (Z L Z L; 1 0 X 2L 0 c 2L0 2L0 ) 0 + L = W L ( 0 )Y L + X 1L 0 + I 0 ( 0 ; 0 ) + c 1L0 + 1L0 + (Z L Z L; 1 0 X 2L 0 ) 0 + L ;<label>(4)</label></formula><p>where c 1L0 = c 1L0 c 2L0 0 and 1L0 = 1L0 2L0 0 . For the W jL , j = 1; 2; 3, matrices in W L ( 0 ), as , and are unknown parameters, when we take derivatives of W L ( ) with respect to , those W jL matrices will show up. As W L ( ) = W 1L + W 2L + W 3L , by assuming sup n;t jjW nt jj 1 c w , we have 1) jjW L ( )jj 1 j jjjW 1L jj 1 + j jjjW 2L jj 1 + j jjjW 3L jj 1 c , where c j jc w + j j + j jc w .</p><p>2) When c is assumed to be less than one, sup jj(</p><formula xml:id="formula_15">I L W L ( )) 1 jj 1 sup (1 + jjW L ( )jj 1 + + jjW l ( ) jj 1 + ) 1 + c + + c l + = 1 1 c &lt; 1. Denote S L ( ) = I L W L ( ), S L = I W L ( 0 ) and correspondingly G jL ( ) = W jL S 1 L ( ) and G jL = W jL S 1 L for j = 1; 2; 3.</formula><p>The following properties can be easily checked with the Neumann series expansion of</p><formula xml:id="formula_16">S 1 L ( ). 3) tr(G 1L ( )) = P T t=1 tr(G nt ( )) where G nt ( ) = W nt S 1 nt ( ). 4) tr(G 2L ( )) = 0: 5) tr(G 3L ( )) = 0. The item 3) follows because the diagonal blocks of G 1L ( ) consist of G n1 ( );</formula><p>; G nT ( ). The items 4) and 5) follow because the diagonal blocks of G 2L ( ) and G 3L ( ) are all zeros.</p><p>3 Quasi-Maximum Likelihood Estimation</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1">The Concentrated Log Likelihood Function and Some Key Statistics</head><p>For asymptotic analysis, it is useful to have the likelihood function presented in matrix form involving From (4), the log likelihood function in the matrix form is</p><formula xml:id="formula_17">ln L L ( ; c 1L ; 1L ; c 2L ; 2L ) = nT 2 ln 2 + ln jI L W L ( )j nT 2 ln 2 nT 2 ln j " j 1 2 vec 0 (Z L K L 2 c 2L 2L )( 1 " I L )vec(Z L K L 2 c 2L 2L ) 1 2 2 [Y L W L ( )Y L X 1L (Z L K L 2 ) I 0 ( ; ) c 1L 1L ] 0 [Y L W L ( )Y L X 1L (Z L K L 2 ) I 0 ( ; ) c 1L 1L ]:</formula><p>In terms of J n = I n 1 n l n l 0 n and J T = I T 1 T l T l 0 T , which are the two orthogonal projectors for taking time deviation and cross sectional deviation from their means, the concentrated log likelihood is 7</p><formula xml:id="formula_18">ln L c L ( ) = nT 2 ln 2 + ln jI L W L ( )j nT 2 ln 2 nT 2 ln j " j (<label>5</label></formula><formula xml:id="formula_19">)</formula><formula xml:id="formula_20">1 2 vec 0 (Z L K L 2 )( 1 " J T J n )vec(Z L K L 2 ) 1 2 2 [Y L W L ( )Y L X 1L 0 (Z L K L 2 ) I 0 ( ; )] 0 (J T J n )[Y L W L ( )Y L X 1L 0 (Z L K L 2 ) I 0 ( ; )]:</formula><p>For the consistency of the QMLE, we need to show that 1</p><formula xml:id="formula_21">L [ln L c L ( ) E (ln L c L ( ))] p ! 0 uniformly in .</formula><p>From the reduced form, we have</p><formula xml:id="formula_22">vec 0 (Z L K L 2 )( 1 " J T J n )vec(Z L K L 2 ) = vec 0 [K L ( 20 2 )+ L ]( 1 " J T J n )vec[K L ( 20 2 )+ L ];<label>and</label></formula><formula xml:id="formula_23">[Y L W L ( )Y L X 1L (Z L K L 2 ) I 0 ( ; )] 0 (J T J n )[Y L W L ( )Y L X 1L (Z L K L 2 ) I 0 ( ; )] = f[W L ( 0 ) W L ( )][I L W L ( 0 )] 1 (X 1L 0 + I 0 ( 0 ; 0 ) + c 1L0 + 1L0 + L 0 + L ) + X 1L ( 0 ) +I 0 ( 0 ; 0 ) I 0 ( ; ) + L ( 0 ) + L K L ( 20 2 ) g 0 (J T J n ) f[W L ( 0 ) W L ( )][I L W L ( 0 )] 1 (X 1L 0 + I 0 ( 0 ; 0 ) + c 1L0 + 1L0 + L 0 + L ) + X 1L ( 0 ) +I 0 ( 0 ; 0 ) I 0 ( ; ) + L ( 0 ) + L K L ( 20 2 ) g. Furthermore, ln jI L W L ( )j = ln jI L W 1L j = L X l=1 " 1 X k=1 k k W k 1L ll # ; 7</formula><p>As T is large, we can ignore the in ‡uence of the initial condition. When T is …xed, we need to specify the initial condition if MLE is used; and we may consider the GMM estimation where lagged dependent variables can be used as IVs. Relevant discussions are provided in the supplement …le available upon request.</p><p>where the …rst equality holds because the determinant of the block triangular matrix is the product of determinants of diagonal blocks<ref type="foot" target="#foot_6">foot_6</ref> and the second equality is from <ref type="bibr" target="#b28">Qu and Lee (2015)</ref>. Also, from the …rst order conditions of (5) the score vector is</p><formula xml:id="formula_24">@ ln L c L ( 0 ) @ = 0 B B B B B B B B B B B @ @ ln L c L ( 0) @ @ ln L c L ( 0) @ 1 @ ln L c L ( 0) @ @ ln L c L ( 0) @ 2 @ ln L c L ( 0) @ 2 @ ln L c L ( 0) @ 1 C C C C C C C C C C C A = 0 B B B B B B B B B B B B @ 1 2 0 (W 1L Y L ) 0 (J T J n ) L tr(G 1L ) 1 2 0 R 0 L (J T J n ) L 1 2 0 0 L (J T J n ) L ( 1 0 [K 0 L (J T J n )])vec( L ) 1 2 0 0 K 0 L (J T J n ) L nT 2 2 0 + 1 2 4 0 0 L (J T J n ) L nT 2 @ lnj 0j @ 1 2 @ @ (tr[ 1 0 0 L (J T J n ) L ]) 1 C C C C C C C C C C C C A : (6)</formula><p>Hence, in general, we need to show<ref type="foot" target="#foot_7">foot_7</ref> </p><formula xml:id="formula_25">1 L &amp; 0 1L (J T J n )W j1L W m L &amp; 2L ; 1 L (G j1L &amp; 1L ) 0 (J T J n )&amp; 2L ; (<label>7</label></formula><formula xml:id="formula_26">) 1 L (G j1L &amp; 1L ) 0 (J T J n )G j2L &amp; 2L ; 1 L L X l=1 " 1 X k=1 k k W k 1L ll</formula><p># converge to their expectations, where m is a …nite integer, j 1 and j 2 can be either 1; 2; 3, corresponding to W 1L ; W 2L ; W 3L ; &amp; 1L and &amp; 2L can be either some nonstochastic regressor vectors, L ; L , or Z L; 1 . Also, we need to show the asymptotic distribution of</p><formula xml:id="formula_27">A 0 L L + B 0 L L + [ 0 L C L L E( 0 L C L L j L )] + [ 0 L D L L E( 0 L D L L )] + 0 L E L L</formula><p>, where the components satisfy Assumption CLT in a subsequent section.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2">Assumptions and Topological Structure</head><p>To derive the asymptotic properties of the QMLE, we need some LLN and CLT to incorporate the endogenous W nt under the spatial panel data setting. In <ref type="bibr" target="#b28">Qu and Lee (2015)</ref> for the cross sectional case, the distance between individuals i and j in R d is ij = jjl(i; 0) l(j; 0)jj 1 . With the space-time process, the distance is jjl(i; t) l(j; )jj 1 in R d+1 (but still keep the notation of ij in R d ). We make the following assumptions similar to <ref type="bibr" target="#b28">Qu and Lee (2015)</ref>.</p><p>Assumption 2 The lattice D R d+1 , d 1, is in…nitely countable. The location l : f1; :::; Lg ! D L D is a mapping of individual i at time t to its location l(i; t) 2 D R d+1 . All elements in D are located at distances of at least s 0 &gt; 0; w.l.o.g. we assume that s 0 = 1. Assumption 3 (i) The spatial weight w ij;t 0, and w ii;t = 0 for all i; j, and t; (ii) For those nonzero weights between i 6 = j, w ij;t = h(z it ; z jt ) I( ij c ) or the row-normalized version w ij;t = h(z it ; z jt ) I( ij c )= P ik c h ik (z it ; z kt ), where h ij ( ) 0 s are non-negative, uniformly bounded functions. (iii) For two di¤ erent periods t and t 0 ; the Lipschitz condition holds such that jh(z it 0</p><formula xml:id="formula_28">; z jt 0 ) h(z it ; z jt )j c 0 (jz it 0 z it j + jz jt 0 z jt j):</formula><p>Assumption 4 sup n;t jjW nt jj 1 c w ; jj 0 jj 1 &lt; 1, and j 0 jc w + j 0 j + j 0 jc w &lt; 1.</p><p>Assumption 5 Let X nt denote the collection of distinct columns in X 1nt and X 2nt . Elements of X nt are nonstochastic and bounded, and lim n;T !1 1 nT P T t=1 X0 nt J n Xnt exists and is nonsingular, where Xnt = X nt 1 T P T t=1 X nt and J n = I n 1 n l n l 0 n . Furthermore, lim n;T !1 1 nT P T t=1 E Z( 1)0 n;t 1 J n Z( 1) n;t 1 exists and is nonsingular, where Z( 1) n;t 1 = Z n;t 1 1 T P T t=1 Z n;t 1 .</p><p>Assumption 6 n is an increasing function of T , and T goes to in…nity.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Assumption 7</head><p>The vector of parameters = ( ; ; ; 0 ; ; vec 0 ( ; ); ; 2 ) 0 is in a compact set and the true parameter vector 0 is in the interior of .</p><p>Assumption 2 speci…es that the asymptotic inference under the space-time NED is based on increasing domain instead of in…ll domain. Therefore, given each period t, all spatial units may have their physical distances at least s 0 = 1 apart even if there were a countable number of units. Assumption 3 provides essential features for the time varying spatial weights matrix. From Assumption 3 (i), for each unit, their physical positions in each period remain …xed, although their linkages w ij;t can become weak or strong with time; from Assumption 3 (ii), spatial weights (possibly row-normalized) may depend on economic factors, but once the geographic distance exceeds a threshold, two units would be not be spatially connected; 10   Assumption 3 (iii) is a smoothing condition on h so that the time NED property for w ij;t can be derived from z it and z jt . The value of link w ij;t changes little to w ij;t 0 if z it and z jt change little, respectively, to z it 0 and z jt 0 .</p><p>Note that while w ij;n can be a function of endogenous variables z in and z jn (one popular example is the economic distance speci…cation as 1=jz i z j j), it may also include all those exogenous variables such</p><formula xml:id="formula_29">as d ij .</formula><p>Take the gravity type of speci…cation w ij = 0 P 1 i P 2 j =d 3 ij as an example. If all P i , P j , and d ij are exogenous, our model can handle this in the current setting, but with the estimation of coe¢ cient of the control variables as if were unknown. So it is a model for estimation without imposing the "true" constraint of = 0. If the constraint = 0 is imposed, the estimation method would correspond to conventional estimation methods of the SDPD model. If P i and P j are indeed endogenous and d ij is the pre-determined physical distance, then this is exactly the second case in <ref type="bibr" target="#b28">Qu and Lee (2015)</ref> cross sectional paper with P being our endogenous variable Z. In the current panel data setting where the P it , P jt and d ij;t would in general vary with t, our w ij;t will allow it to be a function of d ij;t 's in addition to P it and P jt .</p><p>However, from Assumption 3 (ii), we have imposed sparsity in our spatial weights matrices and the spatial weights do not involve unknown parameters. The sparsity assumption is convenient for asymptotic analysis but it would not have destructive limitation in model speci…cations for empirical studies. Corresponding to the speci…cation w ij;t = P 1 it P 2 jt =d 3 ijt , our sparsity assumption will be satis…ed by setting w ij;t = 0 if d ij;t is large enough over a critical value. As long as the critical value is really large enough, this is an adequate approximation because when d ij;t is really large, the speci…ed w ij;t without truncation would have rather small values and hence tiny weights.</p><p>Assumption 4 imposes restrictions on the stability of the dynamic process. Equivalently, it controls the degree of the magnitude of spatial interaction for the W L ( 0 ) matrix where both contemporary and lagged space-time e¤ects are considered. To obtain the NED property for y it , we need j 0 jc w + j 0 j + j 0 jc w &lt; 1.</p><p>Assumption 5 assumes that the exogenous variables in deviation form from cross section and time means are linearly independent so that there is no issue of multicollinearity. Of course, implicitly all the exogenous variables cannot be either time or cross-sectional invariant variables. If any of them is invariant in any dimension, the corresponding individual and/or time e¤ects would absorb them. Except for the invariant cases, we note that we allow variables in X 1nt and X 2nt to overlap so that there could be common variables.</p><p>Theoretically and empirically, X 1nt and X 2nt could even be the same as identi…cation is not an issue here. This is so, because the parameters in the equations Z nt can be identi…ed and consistently estimated solely from (2), and X 1nt and the control variable is not linearly dependent, even though X 1nt and X 2nt might be so. Assumption 6 speci…es that the asymptotic analysis is based on large n and large T case. We note that if T were …xed and …nite, due to the incidental parameter problem, QMLE would be inconsistent and the generalized method of moments (GMM) estimation with individual e¤ects eliminated would be preferred.</p><p>However, under this situation, the time-space speci…cation for asymptotic analysis would be similar to the cross-sectional case (see <ref type="bibr" target="#b28">Qu and Lee, 2015)</ref> once the initial values of y's are properly dealt with, and the GMM estimation in <ref type="bibr" target="#b24">Lee and Yu (2014)</ref> can be applied without much theoretical di¢ culty. 11 Assumption 7 is a standard assumption in spatial econometrics, so that the parameter space is compact and the true parameter vector is in the interior of the parameter space.</p><p>1 1 For the GMM estimation under …nite T case, please see the supplement …le available upon request from the authors.</p><p>To show the uniform convergence of the log likelihood function ( <ref type="formula" target="#formula_18">5</ref>), the LLN of NED process in Jenish and Prucha (2012) can be used for subsequent analyses. To extend the LLN in <ref type="bibr" target="#b16">Jenish and Prucha (2012)</ref> to the SDPD setting, we denote &amp; l as a function of l , l , z l , X L , c n10 and T 10 = ( 1;10 ; : : : ; T;10 ) 0 so that</p><formula xml:id="formula_30">&amp; l = f ( l ; l ; z l n ; X L ; c n10 ; T 10 ):</formula><p>For the location l = l(i; t), it corresponds to a unit (i; t) among the total L = nT units in panel as l = n(t 1) + i. The above relation means that &amp; it is a function of it , it , z i;t 1 , X nT , c n10 and T 10 . This is because z it is an AR(1) process for each i, so z it is a function of z i;t 1 and it . For the spatial units, their physical distances remain …xed over time so that they are least s 0 = 1 apart. Also, across time but at the same spatial location, we set their distance as one if they are one period apart. Thus, for i 6 = j, as ij = jjl(i; t) l(j; t 1)jj 1 = jjl(i; t) l(j; t)jj 1 , we see that the distance between (i; t) and (j; t 1) is the same as (i; t) and (j; t). For (i; t) and (i; t 1), their distance is one, but (i; t) and (i; t) have zero distance.</p><formula xml:id="formula_31">Therefore, F l(i;t);L (s) = (&amp; l(j; ) ; l(j; ) 2 D L : jjl(i; t) l(j; )jj 1 s).</formula><p>Using this space speci…cation, we now can investigate the terms in ( <ref type="formula" target="#formula_25">7</ref>). The derivation of the following propositions can be found in Appendix B.</p><p>Proposition 1 (LLN) Under Assumptions 1-6, for any …nite integer m;</p><formula xml:id="formula_32">1 L &amp; 0 1L (J T J n )W j1L W m L &amp; 2L E 1 L &amp; 0 1L (J T J n )W j1L W m L &amp; 2L = o p (1); 1 L (G j1L &amp; 1L ) 0 (J T J n )&amp; 2L E 1 L (G j1L &amp; 1L ) 0 (J T J n )&amp; 2L = o p (1); 1 L (G j1L &amp; 1L ) 0 (J T J n )G j2L &amp; 2L E 1 L (G j1L &amp; 1L ) 0 (J T J n )G j2L &amp; 2L = o p (1);</formula><p>where j 1 and j 2 can be either 1; 2; 3, corresponding to</p><formula xml:id="formula_33">W 1L ; W 2L ; W 3L ; &amp; 1L and &amp; 2L can be either some nonstochastic regressor vectors, L ; L , or Z L; 1 . Corollary 1 (ULLN) Under Assumptions 1-7, sup 2 1 L &amp; 0 1L ( )(J T J n )W j1L W m L &amp; 2L ( ) E 1 L &amp; 0 1L ( )(J T J n )W j1L W m L &amp; 2L ( ) = o p (1); sup 2 1 L (G j1L &amp; 1L ( )) 0 (J T J n )&amp; 2L ( ) E 1 L (G j1L &amp; 1L ( )) 0 (J T J n )&amp; 2L ( ) = o p (1); sup 2 1 L (G j1L &amp; 1L ( )) 0 (J T J n )G j2L &amp; 2L ( ) E 1 L (G j1L &amp; 1L ( )) 0 (J T J n )G j2L &amp; 2L ( ) = o p (1):</formula><p>Also, we need to consider the CLT for the form of Assumption CLT. 1) For some constant</p><formula xml:id="formula_34">U L = 1 p L A 0 L &amp; L + B 0 L L + 0 L C L L + &amp; 0 L D L &amp; L + 0 L E L &amp; L E( 0 L C L L j&amp; L ) E(&amp; 0 L D L &amp; L ) ;</formula><formula xml:id="formula_35">U &gt; 0; E( 4+ U l ) and E(&amp; 4+ U l ) exist. Also, E( l j&amp; L ) = 0</formula><p>and E(j l j r j&amp; L ) are constant across l for r = 2; 3:4.</p><p>2) For the nonstochastic vector A L , elements are uniformly bounded; the nonstochastic matrix D L is bounded in both row and column sums.</p><p>3) For stochastic vector B L , matrices C L and E L , each can be either</p><formula xml:id="formula_36">W L , (I W L ) 1 , or W jL (I W L ) 1 .</formula><p>Proposition 2 Denote 2 UL as the variance of U L . Under Assumption CLT and assume that 2 UL is bounded away from zero, 13 then U L = UL d ! N (0; 1): 4 Asymptotic Properties of QMLEs</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1">Model Identi…cation and Consistency</head><p>To prove consistency, we will show (i) the 1 L ln L c L ( )</p><formula xml:id="formula_37">1 L E ln L c L ( ) converges to zero in probability uniformly in 2 ; (2) the uniform equicontinuity of 1 L E ln L c L<label>(</label></formula><p>), and (3) global identi…cation. Using Proposition 1 and Corollary 1, the uniform convergence and uniform equicontinuity can be obtained. For identi…cation under the likelihood theory, the most well-known one is the identi…cation framework of <ref type="bibr" target="#b31">Rothenberg (1971)</ref>. For the log likelihood function ln</p><formula xml:id="formula_38">L c L ( ), the information inequality is E(ln L c L ( )) E(ln L c L (<label>0</label></formula><p>)) for any in its parameter space. The identi…cation of the true parameter vector 0 can then be based on the strict information inequality that E(ln</p><formula xml:id="formula_39">L c L ( )) &lt; E(ln L c L ( 0 )) for all 6 = 0 , so that 0 is the unique maximizer of E(ln L c L ( )).</formula><p>The information inequality is valid also for concentrated expected log likelihood, and can be generalized to accommodate some quasi-likelihood functions.</p><p>For a spatial panel model with homoscedastic disturbances, the parameter vector of explanatory variables, which are usually in a linear index form, can be easily concentrated out for estimation, and the identi…cation of a model can then be focused on the identi…cation of (see <ref type="bibr">Lee and Yu (2015b)</ref>). Q 1L = 1 2 Due the projectors which eliminate individual and time e¤ects, CLT of an NED process cannot be easily used due to time averaging and/or cross sectional averaging over spatial units.</p><p>1 3 For example, if lim L!1</p><formula xml:id="formula_40">1 L P L i=1 P L j6 =i (d 2 ij + d 2 ji ) &gt; 0 or lim L!1 1 L P L i=1 P L j6 =i E(c 2 ij + c 2 ji ) &gt; 0, then 2 U L will be bounded away from zero. G 1L (X 1L 0 + I 0 ( 0 ; 0 ) + L 0 + c 1L0 + 1L0 ).</formula><p>We have the following assumption for parameter identi…cation.</p><formula xml:id="formula_41">Assumption 8 Either a) lim L!1 1 L E[(Q 1L ; R L ; L ) 0 (J T J n )(Q 1L ; R L ; L )] exists and is nonsingular; or b) S 0 L ( )S L ( ) is not proportional to S 0 L S L with probability one whenever 6 = 0 .</formula><p>Assumption 8 (a) is a rank condition, essentially requiring that the regressors in the estimation equations are linearly independent. If Assumption 8 (a) fails, we can still obtain the identi…cation via the stochastic part of the process, which is Assumption 8 (b). A su¢ cient condition is that</p><formula xml:id="formula_42">I L , (W L ( 0 ) + W 0 L ( 0 )),<label>and</label></formula><formula xml:id="formula_43">W 0 L ( 0 )W L ( 0 ) are linearly independent. With this identi…cation, the uniform convergence of 1 L [ln L c L ( ) E (ln L c L<label>(</label></formula><p>))] and the equicontinuity of 1 L E (ln L c L ( 0 )) imply the consistency of QML estimates. Theorem 1 Under Assumptions 1-8, 0 is globally identi…ed and the QMLE ^ nT that maximizes (5) is consistent such that ^ nT p ! 0 .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2">Asymptotic Normality</head><p>For items in (6), we have</p><formula xml:id="formula_44">@ ln L c L ( 0) @ = @ ln L c 1;L ( 0) @ + L where @ ln L c 1;L ( 0 ) @ = 0 B B B B B B B B B B B B B @ 1 2 0 (W 1L Y L ) 0 (J T J n ) L tr(G 1L (J T J n )) 1 2 0 R 0 L (J T J n ) L [tr(G 2L (J T J n )); tr(G 3L (J T J n )); 0] 0 1 2 0 0 L (J T J n ) L 2 4 (( 1 0 K 0 L (J T J n ))vec( L ) + vec (n 1) T P T 1 t=1 P T t h=1 0(h 1) 1 0 ) 1 2 0 0 K 0 L (J T J n ) L 3 5 (n 1)(T 1) 2 2 0 + 1 2 4 0 0 L (J T J n ) L (n 1)(T 1) 2 @ lnj 0j @ 1 2 @ @ (tr[ 1 0 0 L (J T J n ) L ]) 1 C C C C C C C C C C C C C A ;<label>(8)</label></formula><p>and</p><formula xml:id="formula_45">L = 0 B B B B B B B B @ tr(W 1L (I L W L ) 1 (J T J n )) tr(G 1L ) [tr(G 2L (J T J n )); tr(G 3L (J T J n )); 0] 0 0 p 1 vec (n 1) T P T 1 t=1 P T t h=1 0(h 1) 1 0 n+T 1 2 2 0 n+T 1 2 @ lnj 0j @ . 1 C C C C C C C C A (<label>9</label></formula><formula xml:id="formula_46">)</formula><p>The …rst component</p><formula xml:id="formula_47">@ ln L c 1;L ( 0) @ = @ ln L c L ( 0) @ E( @ ln L c L ( 0) @</formula><p>) has zero mean and is asymptotically normally distributed, and</p><formula xml:id="formula_48">L = E( @ ln L c L ( 0) @</formula><p>) is the mean part which may cause asymptotic bias of the QMLE.</p><p>We notice that</p><formula xml:id="formula_49">@ ln L c 1;L ( 0) @</formula><p>has two components, one is the linear part and the other is the quadratic part. From the reduced form</p><formula xml:id="formula_50">Y L = (I L W L ( 0 )) 1 (X 1L 0 + I 0 ( 0 ; 0 ) + c 1L0 + 1L0 + L 0 + L ), the (W jL Y L ) 0 (J T J n ) L can be decomposed into (W jL Y L ) 0 (J T J n ) L = (G 2L (X 1L 0 + I 0 ( 0 ; 0 ) + c 1L0 + 1L0 + L 0 )) 0 (J T J n ) L + (G jL L ) 0 (J T J n ) L . For @ ln L c 1;L ( 0) @</formula><p>, we can use the linear and quadratic form of CLT. Although we have endogenous spatial weights matrix, after we use the control function, the CLT in Proposition 2 can be applied with the following assumption.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Assumption 9</head><p>The E(j it j 3 j it ) and E(j it j 4 j it ) are constant across i and t.</p><p>Thus, under Assumption 9,</p><formula xml:id="formula_51">1 p nT @ ln L c 1;L ( 0 ) @ d ! N (0; lim n;T !1 (I nT; 0 + nT; 0 ))</formula><p>where I nT; 0 is in (24) and nT; 0 is in (25). 14   For the bias part L , we have</p><formula xml:id="formula_52">L = (n 1)a 1; 0 + T a 2; 0 ;</formula><p>where</p><formula xml:id="formula_53">a 1; 0 = 0 B B B B B B B B @ 1 n 1 tr(G 1L ( 1 T l T l 0 T J n )) 1 n 1 [tr(G 2L ( 1 T l T l 0 T J n )); tr(G 3L ( 1 T l T l 0 T J n ); 0] 0 0 p 1 vec 1 T P T 1 t=1 P T t h=1 0(h 1) 0 1 2 2 0 1 2 @ lnj 0j @ . 1 C C C C C C C C A (<label>10</label></formula><formula xml:id="formula_54">)</formula><p>and</p><formula xml:id="formula_55">a 2; 0 = 0 B B B B B B B @ 1 T tr(G 1L (I T 1 n l n l 0 n )) 0 (k1+2) 1 0 p 1 0 (p 2 +pk2) 1 1 2 2 0 1 2 @ lnj 0j @ . 1 C C C C C C C A<label>(11)</label></formula><p>Here, the bias a 1; 0 is due to individual e¤ects and the bias a 2; 0 is due to time e¤ects.</p><p>1 4 We can rely on Jn nt to estimate the variance and fourth moments such that</p><formula xml:id="formula_56">^ 2 = 1 2(n 1)(T 1) P T t=2 0 nt Jn nt and b 4 = b 4 = 1 2(n 2+ 1 n ) h 1 T 1 P T t=2 ( b 0 nt Jn b nt ) 2 2(2n 2 3n + 4 3 n )b 4 i . For the third moment, we can use ^ 3 = P n i=1 P T t=1 n [Jn b ~ nt ] i o 3 (n 3+ 2 n )(T 3+ 2 T )</formula><p>where ~ nt = nt 1 T P T t=1 nt . Details for the derivation are provided in the supplement …le to this paper and available upon request.</p><p>Theorem 2 Under Assumptions 1-9, the QMLE ^ nT that maximizes (5) has</p><formula xml:id="formula_57">p nT ( ^ nT 0 ) r n T b 1; 0;nT r T n b 2; 0;nT + O p max r n T 3 ; r T n 3 !! d ! N (0; lim T !1 I 1 nT; 0 (I nT; 0 + nT; 0 )I 1 nT; 0 ),</formula><p>where b 1; 0;nT = I<ref type="foot" target="#foot_9">foot_9</ref> nT; 0 a 1; 0 and b 2; 0;nT = I 1 nT; 0 a 2; 0 are O(1).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.3">Bias Correction</head><p>We see that ^ nT is consistent, with additive bias terms of O( 1 n ) and O( 1 T ). From Theorem 2, we have three cases for the QMLE ^ nT . When</p><formula xml:id="formula_58">n T ! k &lt; 1, p nT ( ^ nT 0 ) + p kb 1; 0;nT + p 1=kb 2; 0;nT d ! N (0; I 1 0 (I 0 + 0 )I 1 0 )</formula><p>; the QML estimator ^ nT has the bias 1 T b 1; 0;nT and 1 n b 2; 0;nT , and a conventional con…dence interval will not be properly centered.</p><formula xml:id="formula_59">When n T ! 0, n( ^ nT 0 ) + b 2; 0;nT p ! 0. When n T ! 1, T ( ^ nT 0 ) + b 1; 0;nT p ! 0.</formula><p>In all these cases, we see that a bias term is of order O(max( 1 n ; 1 T )). With bias correction, the asymptotic distribution of the bias-corrected estimate</p><formula xml:id="formula_60">^ 1 nT = ^ nT B1;nT</formula><p>T B2;nT n can be properly centered, where ^ nT is the QMLE that maximizes (5) and B1;nT = h I 1 nT; a 1; i = ^ nT with I 1 nT; 0 from (24) and B2;nT = h I 1 nT; <ref type="bibr" target="#b33">Yu et al. (2008)</ref>, the bias correction can be valid 15 with the following assumption.</p><formula xml:id="formula_61">a 2; i = ^ nT . Similar to</formula><p>Assumption 10 @a1( ) @ &lt; 1 and @a2( ) @ &lt; 1 in the neighborhood of 0 .</p><p>Theorem 3 Under Assumptions 1-10, if n T 3 ! 0 and</p><formula xml:id="formula_62">T n 3 ! 0, p nT ( ^ 1 nT 0 ) d ! N (0; lim T !1 I 1 nT; 0 (I nT; 0 + nT; 0 )I 1 nT; 0 ):</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.4">A Transformation Approach</head><p>Instead of a direct estimation of time e¤ects, we can eliminate them before estimation, for both (1) and ( <ref type="formula" target="#formula_3">2</ref>). Let (F n;n 1 , l n = p n) be the orthonormal matrix of eigenvectors of J n = I n 1 n l n l 0 n where F n;n 1 corresponds to the eigenvalues of ones and l n = p n corresponds to the eigenvalue zero. Denote Y nt = F 0 n;n 1 Y nt and other variables similarly. With W nt being row normalized, (1) and ( <ref type="formula" target="#formula_3">2</ref>) can be transformed into</p><formula xml:id="formula_63">Y nt = W nt Y nt + W n;t 1 Y n;t 1 + Y n;t 1 + X 1nt 0 + c n1 + V nt ,<label>(12)</label></formula><p>and</p><formula xml:id="formula_64">Z nt = Z n;t 1 0 + X 2nt 0 + c n20 + nt ,</formula><p>where</p><formula xml:id="formula_65">W nt = F 0 n;n 1 W nt F n;n 1 , X 1nt = F 0 n;n 1 X 1nt , c n1 = F 0 n;n 1 c n1 , V nt = F 0 n;n 1 V nt</formula><p>and V nt is an (n 1) dimensional disturbance vector with zero mean and variance matrix 2 0 I n 1 . This equation is in the format of a typical SAR model in panel data, where the time e¤ects are eliminated and the number of observations is T (n 1). Also, jI n 1</p><formula xml:id="formula_66">W nt j = 1 1 jI n W nt j, (I n 1 W nt ) 1 = F 0 n;n 1 (I n W nt ) 1 F n;n 1 and V 0 nt ( )V nt ( ) = V 0 nt ( )J n V nt ( ). Using F n;n 1 F 0 n;n 1 = J n , the log (partial) likelihood function is now ln L c L ( ) = (n 1)T 2 ln 2 + ln jI L W L ( )j (n 1)T 2 ln 2 (n 1)T 2 ln j " j (<label>13</label></formula><formula xml:id="formula_67">)</formula><formula xml:id="formula_68">1 2 vec 0 (Z L K L 2 )( 1 " J T J n )vec(Z L K L 2 ) 1 2 2 [Y L W L ( )Y L X 1L 0 (Z L K L 2 ) I 0 ( ; )] 0 (J T J n )[Y L W L ( )Y L X 1L 0 (Z L K L 2 ) I 0 ( ; )]:</formula><p>The di¤erence between the direct approach (5) and the transformation approach ( <ref type="formula" target="#formula_66">13</ref>) is that n is replaced by n 1 and ln jI L W L ( )j is replaced by ln jI L W L ( )j. For the …rst order condition of (13), we see that the last two entries of the corresponding a 2; 0 in (11) will be zero due to the degrees of freedom adjustment. Also, we see that the …rst entry of the corresponding a 2; 0 in (11) will be zero because tr(W</p><formula xml:id="formula_69">1L (I L W L ( )) 1 (I T 1 n l n l 0 n )) = T 1 under row-normalization of W nt , which will be canceled by @ @ T ln( 1 1 ) = T 1 from the relation jI n 1 W nt j = 1 1 jI n W nt j</formula><p>and the block diagonality of W L ( ). Therefore, the bias term a 2; 0 from the direct estimation of time e¤ects will disappear if we use the transformation approach.</p><p>However, the transformation approach requires the row-normalization of W nt , which makes our model less general. The simulation in Section 5 compares the data transformation approach with the direct approach in the current paper. It turns out that both estimators have satisfactory performances.</p><p>5 Monte Carlo and Empirical Application</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.1">Monte Carlo</head><p>We conduct Monte Carlo experiments to investigate the …nite sample performance of QML estimates.</p><p>The value of 0 = 1 0 v 0 in the DGP can be 0, 0.5 and 0.8, which correspond, respectively, to exogenous, mild endogenous, and strong endogenous W nt . We estimate the parameters using the QML estimation taking into account endogenous W nt , and compare them with the estimates using the exogenous W nt speci…cation in <ref type="bibr">Lee and Yu (2012)</ref>. We expect to see that (i) for the DGP with endogenous W nt , the QMLE taking into account endogenous W nt yields consistent estimates, while the QMLE using exogenous W nt yields inconsistent estimates; (ii) for the DGP with exogenous W nt , both QMLEs are consistent but the QMLE using exogenous W nt will be more e¢ cient.</p><p>Data is generated according to ( <ref type="formula" target="#formula_0">1</ref>) and ( <ref type="formula" target="#formula_3">2</ref> The spatial weights matrix W nt is generated by W nt = W d n W e nt , i.e., w ij;nt = w d ij w e ij;nt , where W d n is a time invariant queen matrix based on geographic contiguity and W e nt is generated by w e ij;nt = 1=jz it z jt j if i 6 = j and w e ij;nt = 0 otherwise. We use T = 10, 50, and n = 100. For each set of generated sample observations, we calculate the QMLE estimator ^ nT and evaluate the bias ^ nT 0 . We do this 500 times to obtain the empirical bias<ref type="foot" target="#foot_10">foot_10</ref> 500 P 500 i=1 ( ^ nT 0 ) i . Finite sample properties of these estimators are summarized in Tables <ref type="table" target="#tab_0">1</ref><ref type="table">2</ref>, where Table <ref type="table" target="#tab_0">1</ref> is the QMLE using the correct endogenous speci…cation, and Table <ref type="table">2</ref> is the QMLE using the possibly misspeci…ed exogenous speci…cation which ignores correlation of disturbances. For each case, we report the bias, empirical standard deviation (SD), empirical root mean square error (RMSE), and coverage probability (CP).</p><p>From Table <ref type="table" target="#tab_0">1</ref>, the estimates under a correctly speci…ed endogenous W nt model has small biases for all the estimates after bias correction. Before bias correction, the estimates of , , 2 , and have large bias, which causes the CP to be inaccurate; these bias become smaller when T becomes larger, but still remains.</p><p>After bias correction, these biases are much reduced and the CPs are improved. Also, the performance of QMLEs are satisfactory under di¤erent degrees of endogeneity of W nt . For estimates before or after bias corrections, when T becomes larger, the bias becomes smaller.</p><p>From Table <ref type="table">2</ref>, we see that QMLEs under the W nt ignoring its correlation with disturbances of the SAR equation have signi…cant biases, mainly for the spatial lag coe¢ cient. These biases remain even with the bias correction procedure. Also, the magnitude of the bias will increase with the degree of endogeneity of W nt . When T becomes larger, the bias still remains similar.</p><p>By comparing the estimates in tables where we have exogenous spatial weights matrix speci…cation ( = 0), the correctly restricted model has smaller SD and RMSE of estimates for than those of the estimation as if W nt is endogenous while other estimates still have similar SD and RMSE. This indicates that the correct restricted model will yield more e¢ cient estimates. 17   We also investigate the performances of estimates under the transformation approach. Under the rownormalization of W nt , theoretically, the transformation approach is free of the bias a 2; 0 due to time e¤ects.</p><p>From Table <ref type="table">3</ref>-4, we see that estimates of have a slightly smaller bias than the direct approach, while other estimates have similar magnitude of bias as the direct approach. This may be due to the fact that n = 100, so that the magnitude of the O(<ref type="foot" target="#foot_12">foot_12</ref> n ) bias due to time e¤ects is small and even smaller than the O( 1 T ) bias due to individual e¤ects.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.2">Empirical Application</head><p>We consider the dynamic demand for cigarette consumption as our empirical illustration. <ref type="bibr" target="#b4">Baltagi and</ref><ref type="bibr">Levin (1986, 1992)</ref> …nd that there is signi…cant price elasticity but the income elasticity is small. The "bootlegging" e¤ect is found to be signi…cant so that the minimum price of neighboring states in ‡uences the cigarette sale in a state. However, this bootlegging speci…cation ignores the possibility that cross border shopping can take place in di¤erent neighboring states, but not just the minimum price of neighboring states.</p><p>For these di¤erent neighboring states, only those with a lower price might a¤ect the demand of the home state. Similar to <ref type="bibr" target="#b18">Kelejian and Piras (2014)</ref>, we propose the following equation for estimation</p><formula xml:id="formula_70">ln C nt = W nt ln C nt + ln C n;t 1 + W n;t 1 ln C n;t 1 + 1 ln I nt + 2 ln P nt + c n + t l n + V nt .</formula><p>Here, C nt is the cigarette sales in packs per capita, I nt is per capita disposable income, and P nt is price per pack of cigarettes. The sample includes 46 states 18 and 30 years (1983-1992).</p><p>We allow the endogeneity of spatial weights matrices by the following equation</p><formula xml:id="formula_71">ln P nt = P ln P n;t 1 + 1 ln I nt + 2 P op16 nt + c n2 + t2 l n + nt ,</formula><p>where P op16 nt is the ratio of population with age over 16, which is the legal age to smoke. For identi…cation purposes, as long as the ln P nt includes di¤erent exogenous variables such as ln P n;t 1 or P op16 nt , 2 will be identi…ed. 19   We have two speci…cations of the spatial weights matrix. The …rst one speci…ed as</p><formula xml:id="formula_72">w ij;t = p jt p it d ijt ;<label>(14)</label></formula><p>where d ijt is a dummy variable speci…es the desirability of cross border shopping such that d ijt = 1 if i and j are neighbors and p it &lt; p jt , d ijt = 0 if i and j are not neighbors or p it p jt . Here, a higher price in a neighboring state j would cause its residents to cross-border shopping so that the sale in state i would be higher. A higher value of pjt pit indicates a stronger motivation for cross border shopping. The second one is</p><formula xml:id="formula_73">w ij;t = p jt p it 1 d ijt ;<label>(15)</label></formula><p>which avoids the abrupt change of w ij;t at the point of pjt pit = 1. We …rst estimate the model by using the endogenous speci…cation in Table <ref type="table" target="#tab_1">5</ref>. We use di¤erent speci…cations allowing = 0 and 6 = 0 under direct or transformation approaches, using pjt pit d ijt or pjt pit 1 d ijt as weights. From Table <ref type="table" target="#tab_1">5</ref>, we can see that the income elasticity is signi…cant, while price elasticity is in-signi…cant. For all the model speci…cations, the spatial e¤ect is signi…cant, which implies the existence of a cross border e¤ect. Also, from the estimate of , we see that it is negative and signi…cant, which implies the endogeneity of the spatial weights matrix. From the model speci…cation, the endogeneity of the spatial weights matrix comes from the fact that the unobservable nt that a¤ect the ln P nt equation are correlated with the unobservable V nt in the ln C nt equation. This is understandable if we consider some common factors that will a¤ect the supply of cigarettes. Comparing pjt pit d ijt or pjt pit 1 d ijt , they yield similar estimates, while the speci…cation of pjt pit 1 d ijt has a slightly higher value of log likelihood. Table <ref type="table">6</ref> is the result for exogenous speci…cation of spatial weights matrices. Compared with the endogenous speci…cation (which is more general), we see that there are small magnitude changes in estimates, i.e., spatial e¤ect estimate is larger, dynamic e¤ect is smaller, income elasticity is smaller, and price elasticity is larger.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6">Conclusion</head><p>This paper analyzes QMLE estimation of spatial dynamic panel data models, where spatial weights matrices are endogenous and time varying. We generalize the notion of spatial NED in <ref type="bibr" target="#b16">Jenish and Prucha (2012)</ref> to incorporate near-epoch for time series to a panel setting. By using spatial-time LLN for nearepoch dependence process and CLT for the martingale di¤erence sequence, we establish the consistency and Table 6: Cigarette sales equation: exogenous weights matrices w ij;t = (p jt =p it )d ij;t w ij;t = (p jt =p it 1)d ij;t direct transformation direct transformation = 0 6 = 0 = 0 6 = 0 = 0 6 = 0 = 0 6 = 0 W nt ln c nt 0.036 0.034 0.037 0.035 0.040 0.044 0.041 0.047 (0.013) (0.015) (0.013) (0.016) (0.013) (0.015) (0.013) (0.016) ln c n;t 1 0.850 0.850 0.850 0.850 0.850 0.851 0.849 0.850 (0.013) (0.013) (0.013) (0.013) (0.013) (0.013) (0.013) (0.013) W n;t 1 ln c n;t 1 0.003 0.003 -0.009 -0.010 (0.015) (0.015) (0.015) (0.016) ln income 0.079 0.079 0.079 0.078 0.078 0.079 0.078 0.078 (0.024) (0.024) (0.024) (0.024) (0.024) (0.024) (0.024) (0.024) ln price -0.267 -0.267 -0.267 -0.268 -0.269 -0.269 -0.269 -0.269 (0.023) (0.023) (0.023) (0.023) (0.023) (0.023) (0.023) (0.023) log likelihood (10 3 ) 2.6215 2.6218 2.5514 2.5515 2.6226 2.6227 2.5527 2.5527 asymptotic normality of QMLE. Bias corrected estimates are also derived. Monte Carlo experiments show that the proposed QMLE have satisfactory …nite sample performance.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Appendices A Notations</head><p>The following list summarizes some frequently used notations in the paper:</p><formula xml:id="formula_74">v 0 = 2 v0 0 v 0 v 0 0</formula><p>is the variance matrix of v it and it .</p><formula xml:id="formula_75">nt = V nt nt 0 where 0 = 1 0 v 0 and 2 0 = 2 v0 0 v 0 1 0 v 0 . = ( ; 0 1 ; ; 0 2 ; ; 2 ) 0 where 1 = ( ; ; 0 ) 0 , 2 = vec( 2 ) with 2 = ( 0 ; 0 ) 0 and is the J 1 column vector of distinct elements in . R nt = [Y n;t 1 ; W n;t 1 Y n;t 1 ; X 1nt ], K nt = [Z n;t 1 ; X 2nt ] which correspond to 1 and 2 ,. Y L , " L , X 1L , Z L , X 2L , R L</formula><p>and K L are vectorized form of corresponding variables with row dimension</p><formula xml:id="formula_76">L = nT . W L ( 0 ) = 0 B B B @ 0 W n1 0 0 0 0 I n + 0 W n1 0 W n2 0 0 . . . . . . . . . . . . 0 0 0 I n + 0 W n;T 1 0 W nT 1 C C C A</formula><p>where = ( ; ; ) and 0 is its true value.</p><formula xml:id="formula_77">I 0 ( 0 ; 0 ) = 0 B B @ Y n0 + W n0 Y n0 0 0 0 1 C C</formula><p>A is related to the initial conditions for the DGP.</p><formula xml:id="formula_78">W 1L = 0 B B B @ W n1 W n2 . . . W nT 1 C C C A ; W 2L = 0 B B B @ 0 I n 0 . . . . . . I n 0 1 C C C A ; W 3L = 0 B B B @ 0 W n1 0 . . . . . . W n;T 1 0 1 C C C A so that W L ( 0 ) = 0 W 1L + 0 W 2L + 0 W 3L . S nt ( ) = I n W nt for any possible and G nt ( ) = W nt S 1 nt ( ). S L ( ) = I L W L ( ) and S L = I W L ( 0 ). G jL ( ) = W jL S 1 L ( ) and G jL = W jL S 1 L for j = 1; 2; 3. Q 1L = G 1L (X 1L 0 + I 0 ( 0 ; 0 ) + L 0 + c 1L0 + 1L0 ). J n = I n 1 n l n l 0 n and J T = I T 1 T l T l 0 T , which are the two orthogonal projectors. &amp; l = f ( l ; l ; z l n ; X L ; c n10 ; T 10 ) and &amp; L = (&amp; 1;L ; :::; &amp; L;L ) 0 is an nT -dimension column vector. @ ln L c L ( 0) @ = @ ln L c 1;L ( 0) @ + L where @ ln L c 1;L ( 0) @ = @ ln L c L ( 0) @ E( @ ln L c L ( 0) @ ) and L = E( @ ln L c L ( 0) @</formula><p>).</p><formula xml:id="formula_79">I nT; 0 = E 1 L @ 2 ln L c 1;L ( 0) @ @ 0 and E 1 L @ ln L c 1;L ( 0) @ @ ln L c 1;L ( 0) @ 0 = I nT; 0 + nT; 0 + o p (1)</formula><p>where nT; 0 is related to the third and fourth moment of L . </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>B Lemmas and Proofs</head><formula xml:id="formula_80">B L = 0 B B B B B B @ 0 B n1 0 B n2 . . . . . . . . . B n;T 1 0 1 C C C C C C A .</formula><p>Therefore,</p><formula xml:id="formula_81">[I L W L ( 0 )] 1 = 1 X m=0 W m L ( 0 ) = 1 X m=0 ( 0 W 1L + B L ) m = 1 X m=0 X i1;:::;im=(0;1) m Q k=1 ( 0 W 1L ) i k B 1 i k L :</formula><p>For the powers of W L , using the block diagonal W 1L and lower diagonal B L , we have (for simplicity, we ignore the subscript n in relevant matrices), for example,</p><formula xml:id="formula_82">W r 1L B s L W p 1L B q L = 0 B B B @ 0 (s+q)n n W r s+q+1 B s+q B q+1 W p q+1 B q B 1 0 . . . . . . . . . 0 W r T B T 1 B T s W p T s B T s 1 B T s q 0 n (s+q)n 1 C C C A .</formula><p>In general, these terms that need to be analyzed in W m L can be written in a general pattern as</p><formula xml:id="formula_83">W p 1 1L B q1 L W p2 1L B q2 L W p m 1L B qm L , with m X k=1 (p k + q k ) = m and 0 p k ; q k m. Denote C (l1;l2) s = W l1 s+1 Y l2 k=1 B s+1 k and further denote D t;m = Y m l=1 C (p l ;q l ) s ml +t 1 with s ml = X m d=l q d such that D 1;m = C (p1;q1) q1+ +qm C (pm 1;qm 1) qm 1+qm C (pm;qm) qm and D T sm1;m = C (p1;q1) T 1 C (pm 1;qm 1) T 1 (q1+ +qm 2) C (pm;qm) T 1 (q1+ +qm 1)</formula><p>2 0 We note that &amp; l;L depends on time lag Z l n instead of just independent disturbances. Therefore, even though the statements of Lemmas 1-3 are similar to those in the cross sectional model in <ref type="bibr" target="#b28">Qu and Lee (2015)</ref>, the proofs in <ref type="bibr" target="#b28">Qu and Lee (2015)</ref> do not directly go through.</p><p>Then, by recursive mathematical induction, we have</p><formula xml:id="formula_84">W p 1 1L B q1 L W p2 1L B q2 L W p m 1L B qm L = 0 B B B B B B @ 0 nsm1 n D 1;m 0 0 . . . . . . . . . 0 0 D T sm1;m 0 n nsm1 1 C C C C C C A :</formula><p>For example, if all p k 's are zeros, then q 1 + :::</p><formula xml:id="formula_85">+ q m = m, s m1 = m; D t;m = Y m l=1 C (0;q l ) s ml +t 1 = C (0;m) m+t 1 = Y m k=1 B m+t k ; and B m L = 0 B B B B B B @ 0 mn n B m B m 1 B 1 0 0 B m+1 B m B 2 . . . . . . . . . 0 0 B T 1 B T 2 B T m 0 n mn 1 C C C C C C A ; indeed, for this case, W p1 1L B q1 L W pm 1L B qm L = B m L .</formula><p>If all the q k 's are zero, then p 1 + :::</p><formula xml:id="formula_86">+ p m = m, D t;m = Y m l=1 C (p l ;) t 1 = C (m;0) t 1 = W m t<label>and</label></formula><formula xml:id="formula_87">W m 1L = 0 B B B B B B @ W m 1 0 W m 2 0 . . . . . . 0 . . . 0 0 W m T 1 C C C C C C A : Indeed, for this case, W p1 1L B q1 L W pm 1L B qm L = W m 1L .</formula><p>Claim 1 The (i; j)th element of</p><formula xml:id="formula_88">D t;m = Y m l=1 C (p l ;q l ) s ml +t 1 is nonzero only if j 2 B i (m c ), where C (l1;l2) s = W l1 s+1 Y l2 k=1 B s+1 k , s ml = X m d=l q d , and B s = 0 I n + 0 W ns . For any time period s, the (i; j)th element of W s D t;m is nonzero only if j 2 B i ( c [1 + m]).</formula><p>Lemma 1 Under Assumptions 1-6, for any …nite integers a and b,</p><formula xml:id="formula_89">1 L &amp; 0 1L W 0a L W b L &amp; 2L E( 1 L &amp; 0 1L W 0a L W b L &amp; 2L ) = o p (1)</formula><p>; and also for any j = 1; 2; 3; <ref type="bibr">1)</ref>. Furthermore, for any j = 1; 2; 3;</p><formula xml:id="formula_90">1 L &amp; 0 1L W 0a L W jL W b L &amp; 2L E( 1 L &amp; 0 1L W 0a L W jL W b L &amp; 2L ) = o p (1): Lemma 2 Under Assumptions 1-6, 1 L &amp; 0 1L [I L W L ( 0 )] 1 &amp; 2L E( 1 L &amp; 0 1L [I L W L ( 0 )] 1 &amp; 2L ) = o p<label>(</label></formula><formula xml:id="formula_91">1 L &amp; 0 1L G jL &amp; 2L E( 1 L &amp; 0 1L G jL &amp; 2L ) = o p (1):</formula><p>Lemma 3 Under Assumptions 1-6, for any j = 1; 2; 3;</p><formula xml:id="formula_92">1 L &amp; 0 1L [I L W L ( 0 ) 0 ] 1 G jL &amp; 2L E( 1 L &amp; 0 1L [I L W L ( 0 ) 0 ] 1 G jL &amp; 2L ) = o p (1): Now we consider 1 L &amp; 0 1L (J T J n )W m L &amp; 2L and 1 L &amp; 0 1L (I L W 0 L ) 1 (J T J n ) (I L W L ) 1 &amp; 2L ,<label>where</label></formula><formula xml:id="formula_93">J T J n = I L 1 T l T l 0 T I n I T 1 n l n l 0 n + 1 L l L l 0 L : The terms 1 L &amp; 0 1L W 0 a L W b L &amp; 2L and 1 L &amp; 0 1L (I L W 0 L ) 1 (I L W L ) 1 &amp; 2L</formula><p>hold from Lemmas 1 and 3. We will separately show the convergence of other terms.</p><p>For terms corresponding to 1 T l T l 0 T I n , I T 1 n l n l 0 n , and to 1 L l L l 0 L , we have the following lemmas 4 to 6, respectively.</p><p>Lemma 4 For any …nite integers a and b,</p><formula xml:id="formula_94">1 L &amp; 0 1L W 0 a L 1 T (l T l 0 T ) I n W b L &amp; 2L E 1 L &amp; 0 1L W 0a L 1 T (l T l 0 T ) I n W b L &amp; 2L = o p (1); 1 L &amp; 0 1L (I L W 0 L ) 1 1 T (l T l 0 T ) I n (I L W L ) 1 &amp; 2L E 1 L &amp; 0 1L (I L W 0 L ) 1 1 T (l T l 0 T ) I n (I L W L ) 1 &amp; 2L = o p (1):</formula><p>The most di¢ cult terms to analyze are terms corresponding to I T</p><formula xml:id="formula_95">1 n l n l 0 n , i.e., 1 L &amp; 0 1L W 0 a L I T 1 n l n l 0 n W b L &amp; 2L and 1 L &amp; 0 1L (I L W 0 L ) 1 I T 1 n l n l 0 n (I L W L ) 1 &amp; 2L . For those terms, the structure in Assumption 3 (iii) on the Lipschitz condition jh(z it 0 ; z jt 0 ) h(z it ; z jt )j c 0 (jz it 0 z it j + jz jt 0 z jt j)</formula><p>plays an important role.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Many functions of h would satisfy this assumption.</head><p>Example 1 If h(z i ; z j ) = 1 jzi zj j when jz i z j j c and h(z i ; z j ) = 1 c when jz i z j j &lt; c, where c is a positive constant, then we can verify the above Lipschitz condition. There are four di¤ erent cases based on whether jz i z j j exceeds the threshold c. Case 1), both jz it z jt j c and jz it 0 z jt 0 j c. Hence,</p><formula xml:id="formula_96">jh(z it ; z jt ) h(z it 0 ; z jt 0 )j = jz it 0 z jt 0 j jz it z jt j jz it z jt j jz it 0 z jt 0 j 1 c 2 (jz it 0 z it j + jz jt 0 z jt j):</formula><p>This inequality holds because the numerator follows from the triangular inequality. Case 2), both jz it z jt j &lt; c and jz it 0 z jt 0 j &lt; c, then jw ij;t w ij;t 0 j = 0. Case 3), jz it z jt j c and jz</p><formula xml:id="formula_97">it 0 z jt 0 j &lt; c. jh(z it 0 ; z jt 0 ) h(z it ; z jt )j = 1 c 1 jz it z jt j jz it z jt j c cjz it z jt j &lt; 1 c 2 (jz it z jt j jz it 0 z jt 0 j) &lt; 1 c 2 (jz it 0 z it j+jz jt 0 z jt j):</formula><p>By symmetry, Case 4) also holds.</p><p>Example 2 For the above h(z i ; z j ), we consider the row-normalized W nt . Because jw ij;t w ij;t 0 j = 0 if j = 2 B i ( c ), we only need to consider the case j 2 B i ( c ).</p><p>As w ij;t = wij;t n P k=1 w ik;t = wij;t P k2B i ( c ) w ik;t ; jw ij;t w ij;t 0 j = 1 j P k2Bi( c ) w ik;t P k2Bi( c )</p><formula xml:id="formula_98">w ik;t 0 j w ij;t X k2Bi( c ) w ik;t 0 w ij;t 0 X k2Bi( c ) w ik;t 1 c 2 L 0 @ jw ij;t j X k2Bi( c ) jw ik;t 0 w ik;t j + jw ij;t w ij;t 0 j X k2Bi( c ) jw ik;t j 1 A 1 c 2 L c w c 2 X k2Bi( c ) ((jz kt 0 z kt j + jz it 0 z it j) + (jz jt 0 z jt j + jz it 0 z it j)) 2 c 2 L c w c 2 X k2Bi( c ) (jz kt 0 z kt j + jz it 0 z it j);</formula><p>where c L is the lower bound of </p><formula xml:id="formula_99">Example 3 If h(z i ; z j ) = z 1 i z 2 j g(d ij )</formula><p>, where d ij is the time invariant physical distance, z i and z j are positive bounded values that may change over time, and 1 ; 2 &gt; 0, then by the mean value theorem,</p><formula xml:id="formula_100">jh(z it ; z jt ) h(z it 0 ; z jt 0 )j = jg(d ij )j jz 1 it (z 2 jt z 2 jt 0 ) + z 2 jt 0 (z 1 it z 1 it 0 )j jg(d ij )j jz jt z jt 0 j 2 e z 2 1 jt + jz it z it 0 j 1 e z 1 1 it sup i;t jz 1 it j ( 1 + 2 )jg(d ij )j (jz jt z jt 0 j +jz it z it 0 ) sup i;t jz 1 it j sup i;t jz 2 1 it j + sup i;t jz 1 1 it j c 0 (jz jt z jt 0 j +jz it z it 0 ) :</formula><p>Claim 2 For any …nite integer m, D t;m;ij satis…es the NED property that sup i;j;n;t jjD t;m;ij E(D t;m;ij jT t;T (s))jj 2 C m jr 0 j s , where jr 0 j = jj 0 jj 1 &lt; 1 and T t;T (s) is the -…eld generated by ( 1t 0 ; v 1t 0 ; :::; nt 0 ; v nt 0 ; X L ; 0 )'s with the time period from t 0 2 [t s; t + s]:</p><p>Using this NED property, we can show the convergence of terms involving the deviation from cross sectional mean operator I T 1 n l n l 0 n .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Lemma 5</head><p>Under Assumptions 1-6, for any …nite integers a and b,</p><formula xml:id="formula_101">1 L &amp; 0 1L W 0a L (I T 1 n (l n l 0 n ))W b L &amp; 2L E 1 L &amp; 0 1L W 0 a L (I T 1 n (l n l 0 n ))W b L &amp; 2L = o p (1); 1 L &amp; 0 1L (I L W 0 L ) 1 (I T 1 n (l n l 0 n )) (I L W L ) 1 &amp; 2L E 1 L &amp; 0 1L (I L W 0 L ) 1 (I T 1 n (l n l 0 n )) (I L W L ) 1 &amp; 2L = o p (1):</formula><p>Lemma 6 Under Assumptions 1-6, for any …nite integers a and b,</p><formula xml:id="formula_102">1 L l 0 L W 0 a L &amp; 1L 1 L l 0 L W b L &amp; 2L E 1 L l 0 L W 0a L &amp; 1L 1 L l 0 L W b L &amp; 2L = o p (1); 1 L 2 l 0 L (I L W L ) 1 &amp; 1L l 0 L (I L W L ) 1 &amp; 2L E[ 1 L 2 l 0 L (I L W L ) 1 &amp; 1L l 0 L (I L W L ) 1 &amp; 2L ] = o p (1):</formula><p>Proof for Claim 1:</p><formula xml:id="formula_103">The (i; j)th element of D t;m = Y m l=1 C (p l ;q l ) s ml +t 1 is nonzero only if j 2 B i ( c P m k=1 (p k + q k )) = B i (m c ). Furthermore, the (i; j)th element of D s;a D t;b is nonzero only if j 2 B i ( c (a + b)). Proof for Lemma 1: If s a1 s b1 , i.e., q 0 1 + q 0 a q 1 + q b , then W 0p 0 1 1L B 0q 0 1 L W 0p 0 a 1L B 0q 0 a L W p 1 1L B q1 L W p b 1L B q b L = 0 B B B B B B @ 0 n nsa1 D 0 1;a 0 0 0 . . . 0 . . . . . . D 0 T sa1;a 0 nsa1 n 1 C C C C C C A 0 B B B B B B @ 0 ns b1 n D 1;b 0 0 . . . . . . . . . 0 0 D T s b1 ;b 0 n ns b1 1 C C C C C C A = 0 B B B B B B B @ 0 n(s b1 sa1) n D 0 s b1 sa1+1;a D 1;b 0 0 D 0 s b1 sa1+2;a D 2;b 0 . . . . . . . . . 0 D 0 T sa1;a D T s b1 ;b 0 n ns b1 0 nsa1 ns b1 1 C C C C C C C A . Hence, we have 1 L &amp; 0 1L W 0p 0 1 1L B 0q 0 1 L W 0p 0 a 1L B 0q 0 a L W p 1 1L B q1 L W p b 1L B q b L &amp; 2L = 1 T T s b1 X t=1 &amp; 0 1;s b1 sa1+t D 0 s b1 sa1+t;a D t;b &amp; 2;t = 1 n n X i=1 T i;n ; where T i;n = 1 T T s b1 X t=1 X j2Bi((a+b) c ) &amp; 1i;s b1 sa1+t (D 0 s b1 sa1+t;a D t;b ) ij &amp; 2j;t : Therefore, Var 1 L &amp; 0 1L W 0p 0 1 1L B 0q 0 1 L W 0p 0 a 1L B 0q 0 a L W p 1 1L B q1 L W p b 1L B q b L &amp; 2L = 1 n 2 n X i=1 n X j=1 Cov(T i;n ; T j;n ) = 1 n 2 n X i=1 X j2Bi(2(a+b) c ) Cov(T i;n ; T j;n ) 1 n 2 n X i=1 X j2Bi(2(a+b) c ) sup i E 1 T T s b1 X t=1 X j2Bi((a+b) c ) &amp; 1i;s b1 sa1+t (D 0 s b1 sa1+t;a D t;b ) ij &amp; 2j;t 2 1 n c((a + b) c ) 3d :</formula><p>The second "="holds because all individuals involved in T i;n are within B i ((a+b) c ); so when locations i and j are more than 2(a+b) c apart, T i;n and T j;n has no common elements and also &amp; 1i;t and &amp; 2j;s are independent whenever i 6 = j, for all t and s. The last " " holds because</p><formula xml:id="formula_104">sup i;j;t1;t2 E &amp; 1i;t1 (D 0 t1;a D t2;b ) ij &amp; 2j;t2 2 &lt; 1.</formula><p>If s a1 s b1 , the analysis would be similar to the case of s a1 s b1 by taking a transpose.</p><p>For any …nite integers a and b,</p><formula xml:id="formula_105">1 L &amp; 0 1L W 0a L W b L &amp; 2L can be written as a summation of 2 (a+b) terms of 1 L &amp; 0 1L W 0p 0 1 1L B 0q 0 1 L W 0p 0 a 1L B 0q 0 a L W p 1 1L B q1 L W p b 1L B q b L &amp; 2L .</formula><p>The same arguments can be applied to 1</p><formula xml:id="formula_106">L &amp; 0 1L W 0a L W jL W b L &amp; 2L for j = 1, 2, and 3. Therefore, Var 1 L &amp; 0 1L W 0a L W jL W b L &amp; 2L = O( 1 n ) and 1 L &amp; 0 1L W 0a L W jL W b L &amp; 2L E(&amp; 0 1L W 0a L W jL W b L &amp; 2L ) = O p 1 p n : (<label>16</label></formula><formula xml:id="formula_107">) Proof for Lemma 2: We decompose 1 L &amp; 0 1L [I L W L ( 0 )] 1 &amp; 2L</formula><p>into two parts and show each part separately:</p><formula xml:id="formula_108">1 L &amp; 0 1L [I L W L ( 0 )] 1 &amp; 2L = 1 L 1 X m=0 &amp; 0 1L W m L &amp; 2L = 1 L M X m=0 &amp; 0 1L W m L &amp; 2L + 1 L 1 X m=M +1 &amp; 0 1L W m L &amp; 2L :</formula><p>Here,</p><formula xml:id="formula_109">W m L = m X r=0 m r 0 X p1+p2+ +p m =m r q1+q2+ +q m =r W p 1 1L B q1 L W p2 1L B q2 L W p m 1L B qm L ;</formula><p>and</p><formula xml:id="formula_110">1 L &amp; 0 1L W p 1 1L B q1 L W p2 1L B q2 L W p m 1L B qm L &amp; 0 2L = 1 nT T sm1 X t=1 &amp; 0 1;sm1+t D t;m &amp; 2;t . As D t;m = Y m l=1 C (p l ;q l ) s ml +t 1 with C (l1;l2) s = W l1 s+1 Y l2 k=1 B s+1 k and s ml = X m d=l q d , E &amp; 0 1;sm1+t D t;m &amp; 2;t n X i=1 X j2Bi(m c ) EjD t;m;ij &amp; 1i;sm1+t &amp; 2j;t j n X i=1 X j2Bi(m c ) sup t jD t;m;ij j r sup i;t E(&amp; 2 1i;t ) sup i;t E(&amp; 2 2i;t ) n(m c ) d sup n;t jjW nt jj m r 1 sup t jjB t jj r 1 C 2v = nm d c m r w</formula><p>(j 0 j + j 0 jc w ) r C, for some constants C 2v and C.</p><p>Therefore,</p><formula xml:id="formula_111">1 L E &amp; 0 1L W p 1 1L B q1 L W p2 1L B q2 L W p m 1L B qm L &amp; 2L 1 nT T sm1 X t=1 nm d c m r w (j 0 j+j 0 jc w ) r C m d Cc m r w (j 0 j+j 0 jc w ) r ; 1 L E j&amp; 0 1L W m L &amp; 2L j m d C m X r=0 m r j 0 c w j m r (j 0 j + j 0 jc w ) r = m d C (j 0 jc w + j 0 j + j 0 jc w ) m ;<label>(17)</label></formula><p>and</p><formula xml:id="formula_112">1 L 1 X m=M +1 E j&amp; 0 1L W m L &amp; 2L j C 2 M d (j 0 jc w + j 0 j + j 0 jc w ) M :</formula><p>For any 1 &gt; &gt; 0, there exists an M such that</p><formula xml:id="formula_113">M d (j 0 jc w + j 0 j + j 0 jc w ) M &lt; 2 =(4C 2 ).</formula><p>We can choose M big enough (M M ), but independent of n and T; such that</p><formula xml:id="formula_114">1 L 1 X m=M +1 Ej&amp; 0 1L W m L &amp; 2L j &lt; 2 4</formula><p>, and hence,</p><formula xml:id="formula_115">P (j 1 L 1 X m=M +1 &amp; 0 1L W m L &amp; 2L j &gt; 4 ) 1 L P 1 m=M +1 Ej&amp; 0 1L W m L &amp; 2L j =4 &lt; : Denote R L = 1 L &amp; 0 1L (I L W L ) 1 &amp; 2L E 1 L &amp; 0 1L (I L W L ) 1 &amp; 2L = R 1L + R 2L , where R 1L = 1 L M X m=0 &amp; 0 1L W m L &amp; 2L E 1 L M X m=0 &amp; 0 1L W m L &amp; 2L ! and R 2L = 1 L 1 X m=M +1 &amp; 0 1L W m L &amp; 2L E 1 L 1 X m=M +1 &amp; 0 1L W m L &amp; 2L ! :</formula><p>We want to show that for any 1 &gt; &gt; 0, there exists an L such that when L L , P L = P (jR L j &gt; ) &lt; 2 :</p><formula xml:id="formula_116">As P L = P (jR 1L + R 2L j &gt; ) P (jR 1L j &gt; =2) + P (jR 2L j &gt; =2) P (jR 1L j &gt; =2) + P (j 1 L 1 X m=M +1 &amp; 0 1L W m L &amp; 2L j &gt; =4) + P (Ej 1 L 1 X m=M +1 &amp; 0 1L W m L &amp; 2L j &gt; =4); when we choose M = M ; P L Var 1 L &amp; 0 1L W m L &amp; 2L =( =2) 2 + = O(<label>1=n</label></formula><p>) + by Lemma 1 and preceding analysis. The same arguments can be applied to 1</p><formula xml:id="formula_117">L &amp; 0 1L W jL (I L W L )</formula><p>1 &amp; 2L for j = 1, 2, and 3. Therefore,</p><formula xml:id="formula_118">1 L &amp; 0 1L G jL &amp; 2L 1 L &amp; 0 1L G jL &amp; 2L = o p (1):</formula><p>Proof for Lemma 3: We decompose it into two parts.</p><formula xml:id="formula_119">[I L W 0 L ( 0 )] 1 [I L W L ( 0 )] 1 = 1 X a=0 1 X b=0 W 0 a L W b L = 1 X m=0 m X a=0 W 0 a L W m a L = M X m=0 m X a=0 W 0 a L W m a L + 1 X m=M +1 m X a=0 W 0 a L W m a L :</formula><p>For any …nite M , the convergence of</p><formula xml:id="formula_120">1 L &amp; 0 1L P M m=0 P m a=0 W 0 a L W m a L &amp; 2L can be shown from Lemma 1. Now we need to consider 1 L &amp; 0 1L P 1 m=M +1 P m a=0 W 0 a L W m a L &amp; 2L . As 1 L &amp; 0 1L W 0p 0 1 1L B 0q 0 1 L W 0p 0 a 1L B 0q 0 a L W p 1 1L B q1 L W p b 1L B q b L &amp; 2L = 1 T T s b1 X t=1 &amp; 0 1;s b1 sa1+t D 0 s b1 sa1+t;a D t;b &amp; 2;t ;</formula><p>similar to the proof of Lemma 2, we can show</p><formula xml:id="formula_121">Ej&amp; 0 1;s b1 sa1+t D 0 s b1 sa1+t;a D t;b &amp; 2;t j n(a + b) d c a+b r1 r2 w (j 0 j + j 0 jc w ) r1+r2 C;</formula><p>where C is a constant independent of T or n, expression in W a L has products of B t 's with power of r 1 terms and W nt 's with (a r 1 ) terms, i.e., q 0</p><formula xml:id="formula_122">1 + + q 0 a = r 1 , p 0 1 + + p 0 a = a r 1 , q 1 + + q b = r 2 ,</formula><p>and</p><formula xml:id="formula_123">p 1 + + p b = b r 2 : Hence, 1 L E &amp; 0 1L W 0 a L W b L &amp; 2L (a + b) d C a X r1=0 a r 1 b X r2=0 b r 2 j 0 c w j a+b r1 r2 (j 0 j + j 0 jc w ) r1+r2 = (a + b) d C (j 0 jc w + j 0 j + j 0 jc w ) a+b ; (<label>18</label></formula><formula xml:id="formula_124">) 1 L E &amp; 0 1L m X a=0 W 0 a L W m a L &amp; 2L m d+1 C (j 0 jc w + j 0 j + j 0 jc w ) m ; 1 L 1 X m=M +1 E &amp; 0 1L m X a=0 W 0 a L W m a L &amp; 2L C 2 M d+1 (j 0 jc w + j 0 j + j 0 jc w ) M :</formula><p>Using the similar argument in the proof of Lemma 2, for any j = 1; 2; 3, we have</p><formula xml:id="formula_125">1 L &amp; 0 1L [I L W L ( 0 ) 0 ] 1 W jL [I L W L ( 0 )] 1 &amp; 2L E( 1 L &amp; 0 1L [I L W L ( 0 ) 0 ] 1 W jL [I L W L ( 0 )] 1 &amp; 2L ) = o p (1):</formula><p>Proof for Lemma 4:</p><formula xml:id="formula_126">1 L &amp; 0 1L W 0 a L 1 T (l T l 0 T ) I n W b L &amp; 2L = 1 n n X i=1 1 T l 0 T e 0 i;n W a L &amp; 1L 1 T l 0 T e 0 i;n W b L &amp; 2L = 1 n n X i=1 a i b i : Similar to the proof of Lemma 1, a i can be expressed as 2 a terms of 1 T l 0 T e 0 i;n W p 1 1L B q1 L W p a 1L B qa L &amp; 1L = 1 T T sa1 X t=1 n X j=1 D t;a;ij &amp; 1j;t = 1 T T sa1 X t=1 X j2Bi(a c ) D t;a;ij &amp; 1j;t</formula><p>and a i b i can be expressed as 2 a+b terms of</p><formula xml:id="formula_127">H i = 1 T 2 T sa1 X t1=1 X j12Bi(a c ) D t1;a;ij1 &amp; 1j1;t1 T s b1 X t2=1 X j22Bi(b c ) D t2;b;ij2 &amp; 2j2;t2 :</formula><p>From this, we can see H i only involves ( j1 ; j1 ; :::; jT ; jT )'s within the ball B i (max(a; b) c ). When k = 2 B i (2 max(a; b) c ), H i and H k have no common variables and hence are independent.</p><formula xml:id="formula_128">1 L &amp; 0 1L W 0 a L 1 T (l T l 0 T ) I n W b L &amp; 2L = 1 n n X i=1 a i b i = 2 a+b X m=1 1 n n X i=1 H (m) i : For each H (m) i ; m = 1; :::; 2 a+b ; using similar arguments in the proof of Lemma 1, Var( 1 n n X i=1 H (m) i ) = 1 n 2 n X i=1 n X k=1 Cov(H (m) i ; H (m) k ) = 1 n 2 n X i=1 X k2Bi(2 max(a;b) c ) Cov(H (m) i ; H (m) k ) 1 n C[(a + b) c ] 5d r sup i;t E(&amp; 4 1i;t ) sup i;t E(&amp; 4 2i;t ) = O( 1 n ): From this, 1 n P n i=1 H (m) i E( 1 n P n i=1 H (m) i ) = O p (1= p n) holds for any m = 1; :::; 2 a+b . Hence, 1 L &amp; 0 1L W 0 a L 1 T (l T l 0 T ) I n W b L &amp; 2L E 1 L &amp; 0 1L W 0 a L 1 T (l T l 0 T ) I n W b L &amp; 2L = O p ( 1 p n ): We decompose H L = 1 L &amp; 0 1L (I L W 0 L ) 1 1 T (l T l 0 T ) I n (I L W L ) 1 &amp; 2L into three terms: H L = 1 L &amp; 0 1L 1 X a=0 W 0 a L 1 T (l T l 0 T ) I n 1 X b=0 W b L &amp; 2L = 1 L &amp; 0 1L A X a=0 W 0 a L 1 T (l T l 0 T ) I n B X b=0 W b L &amp; 2L + 1 L 1 X a=A+1 &amp; 0 1L W 0 a L 1 T (l T l 0 T ) I n B X b=0 W b L &amp; 2L + 1 L &amp; 0 1L 1 X a=0 W 0 a L 1 T (l T l 0 T ) I n 1 X b=B+1 W b L &amp; 2L = H 2L + H 3L + H 4L :</formula><p>For any …nite A and B; and any &gt; 0, we have shown</p><formula xml:id="formula_129">P (jH 2L E(H 2L )j &gt; =3) O(n 1=2 ). Now we consider EjH 3L j and EjH 4L j. As E 1 n n X i=1 1 T 2 T sa1 X t1=1 X j12Bi(a c ) D t1;a;ij1 &amp; 1j1;t1 T s b1 X t2=1 X j22Bi(b c ) D t2;b;ij2 &amp; 2j2;t2 a d b d 2d c sup n;t jjW nt jj a+b r1 r2 1 sup t jjB t jj r1+r2 1 sup i;t q E(&amp; 2 1i;t )E(&amp; 2 2i;t ) (ab) d c a+b r1 r2 w (j 0 j + j 0 jc w ) r1+r2 C 1 ;</formula><p>where C 1 is a constant independent of T or n, r 1 and r 2 are the same as the proof of Lemma 3. Hence,</p><formula xml:id="formula_130">1 L E &amp; 0 1L W 0 a L 1 T (l T l 0 T ) I n W b L &amp; 2L (ab) d C 1 a X r1=0 a r 1 b X r2=0 b r 2 j 0 c w j a+b r1 r2 (j 0 j + j 0 jc w ) r1+r2 = C 1 (ab) d (j 0 jc w + j 0 j + j 0 jc w ) a+b ;</formula><p>and</p><formula xml:id="formula_131">EjH 3L j 1 X a=A+1 B X b=0 1 L E &amp; 0 1L W 0 a L 1 T (l T l 0 T ) I n W b L &amp; 2L A d C (j 0 jc w + j 0 j + j 0 jc w ) A ; EjH 4L j 1 X a=0 1 X b=B+1 1 L E &amp; 0 1L W 0 a L 1 T (l T l 0 T ) I n W b L &amp; 2L B d C (j 0 jc w + j 0 j + j 0 jc w ) B</formula><p>for some constant C and C 1 . For any &gt; 0, there exists an M big enough such that</p><formula xml:id="formula_132">M d (j 0 jc w + j 0 j + j 0 jc w ) M &lt; 2 =(6C).</formula><p>We can choose A and B big enough (A; B M ), but independent of n and T; such that</p><formula xml:id="formula_133">EjH 3L j &lt; 2 6 , EjH 4L j &lt; 2 6 , P (jH 3L j &gt; 6 ) EjH 3L j =6 &lt; , and P (jH 4L j &gt; 6 ) &lt; :</formula><p>We want to show that for any 1 &gt; &gt; 0, there exists an L such that when L L ,</p><formula xml:id="formula_134">P L = P (jH L E(H L )j &gt; ) ! 0: As P L = P (jH 2L E(H 2L ) + H 3L E(H 3L ) + H 4L E(H 4L )j &gt; ) P (jH 2L E(H 2L )j &gt; =3) + P (jH 3L j &gt; =6) + P (EjH 3L j &gt; =6) + P (jH 4L j &gt; =6) + P (EjH 4L j &gt; =6);</formula><p>when we choose A = M and B = M ;</p><formula xml:id="formula_135">P L P (jH 2L E(H 2L )j &gt; =3) + P (jH 3L j &gt; =6) + P (jH 4L j &gt; =6) O(n 1=2 ) + 2 :</formula><p>Therefore,</p><formula xml:id="formula_136">1 L &amp; 0 1L (I L W 0 L ) 1 1 T (l T l 0 T ) I n (I L W L ) 1 &amp; 2L E 1 L &amp; 0 1L (I L W 0 L ) 1 1 T (l T l 0 T ) I n (I L W L ) 1 &amp; 2L = o p (1):</formula><p>Proof for Claim 2: First we show the time NED property of z it . As</p><formula xml:id="formula_137">z it = 0 0 z i;t 1 + 0 0 x 2i;t + c i;20 + t20 + i;t = lim L!1 t+L X q=0 0q 0 ( 0 0 x 2i;t q + c i;20 + t q;20 + i;t q ) , we have jjz it E(z it jT t;T (s))jj p = lim L!1 t+L X q=s+1 0q 0 i;t q p lim L!1 t+L X q=s+1 jj 0q 0 jj 1 k i;t q k p c "p jr 0 j s 1 jr 0 j ;</formula><p>where jr 0 j = jj 0 jj 1 &lt; 1. Then we show the time L 2 -NED of w ij;t . If j = 2 B i ( c ), then w ij;t = 0, so we only need to consider the case with j 2 B i ( c ). By the Lipschitz condition in Assumption 3 (iii),</p><formula xml:id="formula_138">jjw ij;t E(w ij;t jT t;T (s))jj 2 = jjh(z it ; z jt ) E(h(z it ; z jt )jT t;T (s))jj 2 jjh(z it ; z jt ) h(E(z it jT t;T (s)); E(z jt jT t;T (s)))jj 2 c 0 [jjz it E(z it jT t;T (s))jj 2 + jjz jt E(z jt jT t;T (s))jj 2 ] jr 0 j s C: Thus, W 2 nt;ij E(W 2 nt;ij jT t;T (s)) 2 X k2Bi( c ) jjw ik;t w kj;t E(w kj;t jT t;T (s))E(w ik;t jT t;T (s))jj 2 X k2Bi( c ) (c w jjw ik;t E(w ik;t jT t;T (s))jj 2 + c w jjw kj;t E(w kj;t jT t;T (s))jj 2 ) = 2c w ( c ) d jr 0 j s C 1 :</formula><p>Similarly, we have</p><formula xml:id="formula_139">A m sup i;j;n;t W m nt;ij E(W m nt;ij jT t;T (s)) 2 sup i;j;n;t X k2Bi(m c ) jjW m 1 nt;ik w nt;kj E(W m 1 nt;ik jT t;T (s))E(w nt;ik jT t;T (s))jj 2 sup i;j;n;t X k2Bi(m c ) c m 1 w jjw nt;kj E(w nt;kj jT t;T (s))jj 2 + jjW m 1 nt;ik E(W m 1 nt;ik jT t;T (s))jj 2 c w (m c ) d c m 1 w jr 0 j s C 2 + (m c ) d c w sup i;k;n;t jjW m 1 nt;ik E(W m 1 nt;ik jT t;T (s))jj 2 m d c m 1 w jr 0 j s C + m d CA m 1 :</formula><p>By deduction, for any …nite m, we have</p><formula xml:id="formula_140">A m sup i;j;n;t W m nt;ij E(W m nt;ij jT t;T (s)) 2 C m jr 0 j s : Now we show the L 2 -NED of D t;m;ij . As D t;m = Y m l=1 C (p l ;q l ) s ml +t 1 with P m k=1 (p k + q k ) = m, D t;m</formula><p>is a product of m terms of W nt 's and B nt 's. Since B nt 's have the same sparse structure as W nt 's, D t;m has the same NED property as W m nt , i.e., sup i;j;n;t jjD t;m;ij E(D t;m;ij jT t;T (s))jj 2 C m jr 0 j s . Proof for Lemma 5: Denote</p><formula xml:id="formula_141">1 L &amp; 0 1L W 0 a L (I T 1 n (l n l 0 n ))W b L &amp; 2L = 1 T T X t=1 R t ; where R t = [ 1 n (e 0 t;T l 0 n )W a L &amp; 1L ] 0 [ 1 n (e 0 t;T l 0 n )W b L &amp; 2L ]:</formula><p>The R t can be expressed as 2 a+b terms of</p><formula xml:id="formula_142">1 n 2 n X i1=1 X j12Bi 1 (a c ) D t sa1;a;i1j1 &amp; 1j1;t sa1 n X i2=1 X j22Bi 2 (b c ) D t s b1 ;b;i2j2 &amp; 2j2;t s b1 : For &amp; 1j</formula><p>;t ; it has the property sup j;t jj&amp; 1j;t jj 4 &lt; 1 and the time NED as sup j;t jj&amp; 1j;t E(&amp; 1j;t jT t;T (s))jj 4 Cjr 0 j s : The same for &amp; 2j;t . As the -…eld T t;T (s + s a1 + s b1 ) covers both T t sa1;T (s) and T t s b1 ;T (s), we have jj&amp; 1j1;t sa1 &amp; 2j2;t s b1 E(&amp; 1j1;t sa1 &amp; 2j2;t s b1 jT t;T (s + s a1 + s b1 ))jj 2 jj&amp; 1j1;t sa1 &amp; 2j2;t s b1 E(&amp; 1j1;t sa1 jT t sa1;T (s))E(&amp; 2j2;t s b1 jT t s b1 ;T (s))jj 2 sup j;t jj&amp; 1j;t jj 4 sup j;t jj&amp; 2j;t E(&amp; 2j;t jT t;T (s))jj 4 + sup j;t jjE(&amp; 2j;t jT t;T (s))jj 4 sup j;t jj&amp; 1j;t E(&amp; 1j;t jT t;T (s))jj 4 C 1 jr 0 j s : Since 0 s a1 a, 0 s b1 b, where a and b are …nite integers, we have jj&amp; 1j1;t sa1 &amp; 2j2;t s b1 E(&amp; 1j1;t sa1 &amp; 2j2;t s b1 jT t;T (s))jj 2 C 1 jr 0 j s sa1 s b1 C 2 jr 0 j s : From Lemma 4 in Xu and Lee (2014), if sup i;n jjY i;n jj 2r &lt; 1 and sup i;n jjZ i;n jj 2r &lt; 1 for some r &gt; 2, jjY i;n E(Y i;n jF i;n (s))jj 2 d i;Yn s and jjZ i;n E(Z i;n jF i;n (s))jj 2 d i;Zn s , then the product Y i;n Z i;n has the NED property jjY i;n Z i;n E(Y i;n Z i;n jF i;n (s))jj 2 d i;n e s ; where d i;n = 2 (3r 2)=(r 1) (d i;Yn + d i;Zn ) (r 2)=(2r 2) (3r 2)=(2r 2) and e = (r 2)=(2r 2) . As sup t;n;i;j jD t;a;ij j &lt; 1, we have jjD t sa1;a;i1j1 D t s b1 ;b;i2j2 E(D t sa1;a;i1j1 D t s b1 ;b;i2j2 jT t;T (s + s a1 + s b1 ))jj 2 C 1ab jr 1=2 0 j s and hence, jjD t sa1;a;i1j1 D t s b1 ;b;i2j2 E(D t sa1;a;i1j1 D t s b1 ;b;i2j2 jT t;T (s))jj 2 C 2ab jr 1=2 0 j s : Together with max(jj&amp; 1i;t jj 4+ ; jj&amp; 2i;t jj 4+ ) &lt; 1, we have sup i1;i2;j1;j2;t jjD t sa1;a;i1j1 D t s b1 ;b;i2j2 &amp; 1j1;t sa1 &amp; 2j2;t s b1 E(D t sa1;a;i1j1 D t s b1 ;b;i2j2 &amp; 1j1;t sa1 &amp; 2j2;t s b1 jT t;T (s))jj 2 C 3ab je r 0 j s ;</p><formula xml:id="formula_143">where e r 0 = r =(4+2 ) 0 . Hence, jj 1 n 2 n X i1=1 X j12Bi 1 (a c ) D t sa1;a;i1j1 &amp; 1j1;t sa1 n X i2=1 X j22Bi 2 (b c ) D t s b1 ;b;i2j2 &amp; 2j2;t s b1 E( 1 n 2 n X i1=1 X j12Bi 1 (a c ) D t sa1;a;i1j1 &amp; 1j1;t sa1 n X i2=1 X j22Bi 2 (b c ) D t s b1 ;b;i2j2 &amp; 2j2;t s b1 jT t;T (s))jj 2 Cjr =(4+2 ) 0 j s : To show 1 T P T t=1 R t 1 T P T t=1 E(R t ) = o p (<label>1</label></formula><p>), we will show (i) 1 T P T t=1 R t 1 T P T t=1 E(R t jT t;T (s)) = o p (1) and (ii) 1 T P T t=1 E(R t jT t;T (s)) 1 T P T t=1 E(R t ) = o p (1): As we have already shown, the NED property holds for R (m) t</p><p>, for m = 1; :::; 2 a+b ,</p><formula xml:id="formula_144">1 T T X t=1 R t 1 T T X t=1 E(R t jT t;T (s)) 2 C ab jr =(4+2 ) 0 j s : Denote e R t = E(R t jT t;T (s))</formula><p>. Then e R t1 and e R t2 are independent when jt 1 t 2 j &gt; 2s. Hence,</p><formula xml:id="formula_145">E 1 T T X t=1 [E(R t jT t;T (s)) 1 T T X t=1 E(R t )] 2 = 1 T 2 T X t1=1 T X t2=1 Cov( e R t1 ; e R t2 ) 1 T 2 T X t1=1 X jt1 t2j 2s Cov( e R t1 ; e R t2 ) 1 T 2 T X t1=1 X jt1 t2j 2s sup t E e R t 2 4s T sup t E(R 2 t ) s T C:</formula><p>The last inequality holds because R t can be expressed as 2 a+b terms of</p><formula xml:id="formula_146">1 n 2 n X i1=1 X j12Bi 1 (a c ) D t sa1;a;i1j1 &amp; 1j1;t sa1 n X i2=1 X j22Bi 2 (b c ) D t s b1 ;b;i2j2 &amp; 2j2;t s b1<label>and</label></formula><formula xml:id="formula_147">sup t1;t2;n E 1 n 2 n X i1=1 X j12Bi 1 (a c ) D t1;a;i1j1 &amp; 1j1;t1 n X i2=1 X j22Bi 2 (b c ) D t2;b;i2j2 &amp; 2j2;t2 2 (a c ) 2d (b c ) 2d sup i;j;t jD t;a;ij D t;b;ij j 2 r sup i;t Ej&amp; 4 1i;t j sup i;t</formula><p>Ej&amp; 4 2i;t j C 0 , where C 0 does not depend on T or n:</p><formula xml:id="formula_148">By Chebyshev's inequality, 1 T T X t=1 [E(R t jT t;T (s)) 1 T T X t=1 E(R t )] = O p r s T : Together, we have 1 T T X t=1 (R t E(R t )) 1 T T X t=1 (R t E(R t jT t;T (s))) + 1 T T X t=1 [E(R t jT t;T (s)) E(R t )] = O p jr =(4+2 ) 0 j s + p s=T :</formula><p>If we choose s = T with 0 &lt; &lt; 1, say = 1=2, then 1 T P T t=1 [R t E(R t )] = O p (T 1=4 ): Therefore, for any …nite a and b,</p><formula xml:id="formula_149">1 L &amp; 0 1L W 0a L (I T 1 n (l n l 0 n ))W b L &amp; 2L E 1 L &amp; 0 1L W 0 a L (I T 1 n (l n l 0 n ))W b L &amp; 2L = o p (1): Next we consider 1 L &amp; 0 1L (I L W 0 L ) 1 (I T 1 n (l n l 0 n ))(I L W L ) 1 &amp; 2L = 1 L &amp; 0 1L A X a=0 W 0a L + 1 X a=A+1 W 0a L ! 1 n I T (l n l 0 n ) B X b=0 W b L + 1 X b=B+1 W b L ! &amp; 2L = 1 L &amp; 0 1L A X a=0 W 0 a L 1 n I T (l n l 0 n ) B X b=0 W b L &amp; 2L + 1 L 1 X a=A+1 &amp; 0 1L W 0 a L 1 n I T (l n l 0 n ) B X b=0 W b L &amp; 2L + 1 L &amp; 0 1L 1 X a=0 W 0 a L 1 n I T (l n l 0 n ) 1 X b=B+1 W b L &amp; 2L = H 1L + H 2L + H 3L :</formula><p>We have shown that, for any …nite A and B; and any &gt; 0,</p><formula xml:id="formula_150">P (jH 1L E(H 1L )j &gt; 3 ) = O(T 1=4 ): As E 1 T T X t=1 1 n 2 n X i1=1 X j12Bi 1 (a c ) D t sa1;a;i1j1 &amp; 1j1;t sa1 n X i2=1 X j22Bi 2 (b c ) D t s b1 ;b;i2j2 &amp; 2j2;t s b1 a d b d 2d c sup n;t jjW nt jj a+b r1 r2 1 sup t jjB t jj r1+r2 1 r sup i;t Ej&amp; 2 1i;t j sup i;t Ej&amp; 2 2i;t j (ab) d c a+b r1 r2 w (j 0 j + j 0 jc w ) r1+r2 C 1 ;</formula><p>where C 1 is a constant independent of T or n, r 1 and r 2 are the same as the proof of Lemma 3. Hence,</p><formula xml:id="formula_151">E 1 L &amp; 0 1L W 0 a L 1 n I T (l n l 0 n ) W b L &amp; 2L (ab) d C 1 a X r1=0 a r 1 b X r2=0 b r 2 j 0 c w j a+b r1 r2 (j 0 j + j 0 jc w ) r1+r2 = C 1 (ab) d (j 0 jc w + j 0 j + j 0 jc w ) a+b :</formula><p>Using similar arguments in the Proof of Lemma 4, we can show that, for any 1 &gt; &gt; 0,</p><formula xml:id="formula_152">P (jH 1L E(H 1L ) + H 2L E(H 2L ) + H 3L E(H 3L )j &gt; ) P (jH 1L E(H 1L )j &gt; 3 ) + P (jH 2L j &gt; 6 ) + P (EjH 2L j &gt; 6 ) + P (jH 3L j &gt; 6 ) + P (EjH 3L j &gt; 6 ) O(T 1 4 ) + 2 : Hence, 1 L &amp; 0 1L (I L W 0 L ) 1 1 T (l T l 0 T ) I n (I L W L ) 1 &amp; 2L E 1 L &amp; 0 1L 1 T (l T l 0 T ) I n (I L W L ) 1 &amp; 2L = o p (1):</formula><p>Proof for Lemma 6: From earlier results in equation ( <ref type="formula" target="#formula_106">16</ref>),</p><formula xml:id="formula_153">1 L l 0 L W m L &amp; 1L E 1 L l 0 L W m L &amp; 1L = O p 1= p n ; E 1 L l 0 L W a L &amp; 1L 1 L l 0 L W b L &amp; 2L E 1 L l 0 L W a L &amp; 1L E 1 L l 0 L W b L &amp; 2L = Cov 1 L l 0 L W a L &amp; 1L ; 1 L l 0 L W b L &amp; 2L = O( 1 n );</formula><p>and result in equation ( <ref type="formula" target="#formula_111">17</ref>),</p><formula xml:id="formula_154">E 1 L l 0 L W a L &amp; 1L = O(1) and 1 L l 0 L W b L &amp; 2L = O p (<label>1</label></formula><p>). Therefore, for any …nite a and b, not depending on n and T , we have</p><formula xml:id="formula_155">1 L l 0 L W a L &amp; 1L 1 L l 0 L W b L &amp; 2L E 1 L l 0 L W a L &amp; 1L 1 L l 0 L W b L &amp; 2L = 1 L l 0 L W a L &amp; 1L 1 L l 0 L W b L &amp; 2L E 1 L l 0 L W a L &amp; 1L E 1 L l 0 L W b L &amp; 2L + O( 1 n ) = 1 L l 0 L W a L &amp; 1L E( 1 L l 0 L W a L &amp; 1L ) 1 L l 0 L W b L &amp; 2L + 1 L l 0 L W b L &amp; 2L E( 1 L l 0 L W a L &amp; 1L ) E( 1 L l 0 L W a L &amp; 1L ) + O( 1 n ) = O p ( 1 p n ):</formula><p>For any integers a and b, similar to equation ( <ref type="formula" target="#formula_123">18</ref>),</p><formula xml:id="formula_156">E 1 L l 0 L W a L &amp; 1L 1 L l 0 L W b L &amp; 2L 1 n 2 T 2 T sa1 X t=1 T s b1 X t 0 =1 n X i 0 =1 X j 0 2B i 0 (a c ) n X i=1 X j2Bi(b c ) EjD t;a;ij &amp; 1i;t &amp; 2i 0 ;t 0 D t 0 ;b;i 0 j 0 j X j 0 2B i 0 (a c ) X j2Bi(b c ) sup t;i;j jD t;a;ij j sup t;i;j jD t;b;ij j r sup i;t E(&amp; 2 1i;t ) sup i;t E(&amp; 2 2i;t ) C(ab) d (j 0 jc w + j 0 j + j 0 jc w ) a+b : Hence, Ej 1 X a=M1+1 1 X b=M2+1 1 L l 0 L W a L &amp; 1L 1 L l 0 L W b L &amp; 2L j C 2 M d 1 M d 2 (j 0 jc w + j 0 j + j 0 jc w ) M1+M2<label>and</label></formula><formula xml:id="formula_157">Ej 1 X a=M1+1 1 L l 0 L W a L &amp; 1L M2 X b=0 1 L l 0 L W b L &amp; 2L j C 2 M d 1 M d 2 (j 0 jc w + j 0 j + j 0 jc w ) M1 :</formula><p>Thus, using similar arguments in the proof of Lemma 4, we can decompose 1</p><formula xml:id="formula_158">L 2 l 0 L (I L W L ) 1 &amp; 1L l 0 L (I L W L ) 1 &amp; 2L</formula><p>into three terms and show that</p><formula xml:id="formula_159">1 L 2 l 0 L (I L W L ) 1 &amp; 1L l 0 L (I L W L ) 1 &amp; 2L E[ 1 L 2 l 0 L (I L W L ) 1 &amp; 1L l 0 L (I L W L ) 1 &amp; 2L ] = o p (1):</formula><p>This …nishes the proof.</p><p>Proof for Proposition 1: See Lemmas 3-6.</p><p>Proof for Corollary 1: From Proposition 1 and compactness of , similar to <ref type="bibr" target="#b28">Qu and Lee (2015)</ref>, we obtain the results.</p><p>Proof for Proposition 2: We can rewrite U L in the following way: 21</p><formula xml:id="formula_160">U L = 1 p L L X l=1 0 @ a l &amp; l + b l l + l L X j=1 c lj j E( l L X j=1 c lj j j&amp; L ) + &amp; l L X j=1 d lj &amp; j E(&amp; l L X j=1 d lj &amp; j ) + l L X j=1 e lj &amp; j 1 A = 1 p L L X l=1 0 @ a l &amp; l + b l l + 2 l l 1 X j=1 c lj j + c ll ( 2 l 2 ) + 2&amp; l l 1 X j=1 d lj &amp; j + d ll (&amp; 2 l 2 &amp; ) + l L X j=1 e lj &amp; j 1 A ; Let U L = 1 p L P 2L</formula><p>l=1 U L;l , then we can de…ne U L;l and the corresponding -…eld F L;l with following expressions:</p><formula xml:id="formula_161">U L;1 = 1 p L [a 1 &amp; 1 + d 11 (&amp; 2 1 2 &amp; )]; F L;1 =&lt; &amp; 1 &gt;; U L;2 = 1 p L [a 2 &amp; 2 + 2&amp; 2 d 21 &amp; 1 + d 22 (&amp; 2 2 2 &amp; )]; F L;2 =&lt; &amp; 1 ; &amp; 2 &gt;; . . . . . . U L;L = 1 p L [a L &amp; L + 2&amp; L L 1 X j=1 d Lj &amp; j + d LL (&amp; 2 L 2 &amp; )]; F L;L =&lt; &amp; 1 ; &amp; L &gt;; U L;L+1 = 1 p L [b 1 1 + 1 L X j=1 e 1j &amp; j + c 11 ( 2 1 2 )], F L;L+1 =&lt; &amp; L ; 1 &gt;; U L;L+2 = 1 p L [b 2 2 + 2 L X j=1 e 2j &amp; j + 2 2 c 21 1 + c 22 ( 2 2 2 )], F L;L+2 =&lt; &amp; L ; 1 ; 2 &gt;;</formula><p>. . ., . . .; UL and the normalized variables U L;l = U L;l = UL . In order for the martingale central limit theorem to be applicable, we shall show that there exists a U &gt; 0 such that</p><formula xml:id="formula_162">U L;2L = 1 p L [b L L + L L X j=1 e Lj &amp; j + 2 L L 1 X j=1 c Lj j + c LL ( 2 L 2 )], F L;2L =&lt; &amp; L ; 1 ; L &gt; : Because (&amp; l , l )'</formula><formula xml:id="formula_163">2L X l=1 EjU L;l j 2+ U ! 0 as L ! 1 and 2L X l=1 E(U 2 L;l jF L;l 1 ) 1 p ! 0:</formula><p>2 1 Here we treat C L and D L as symmetric. If asymmetric, we can always replace C L with (C L + C 0 L )=2. The proof of this CLT originated in an earlier working version of <ref type="bibr" target="#b28">Qu and Lee (2015)</ref>. The subsequent CLT used in the published version of <ref type="bibr" target="#b28">Qu and Lee (2015)</ref> uses a CLT of an NED process. However, the latter CLT cannot be applied to the SDPD model with endogenous Wnt due to the presence of the projectors Jn and J T in certain statistics.</p><p>Denote 2 U1;L and 2 U2;L as the variance of U d1;L and U d2;L , where</p><formula xml:id="formula_164">U d1;L = 1 p L A 0 L &amp; L + &amp; 0 L D L &amp; L E(&amp; 0 L D L &amp; L ) and U d2;L = 1 p L B 0 L L + 0 L C L L + 0 L E L &amp; L E( 0 L C L L j&amp; L );</formula><p>then U L = U d1;L + U d2;L and 2 UL = 2 U1;L + 2 U2;L . The expressions are</p><formula xml:id="formula_165">2 U1;L = 2 &amp; L A 0 L A L + 4 &amp; L tr(D 2 L + D L D 0 L ) + [E(&amp; 4 l ) 3 4 &amp; ] 1 L L X l=1 d 2 ll + 2 L E(&amp; 3 l ) L X l=1 a l d ll and 2 U2;L = 2 L E(B 0 L B L ) + 4 L tr[E(C 2 L + C L C 0 L )] + 2 L E(&amp; 0 L E 0 L E L &amp; L ) + 2 2 L E(B 0 L E L &amp; L ) + 1 L L X l=1 E[(c 2 ll 4 l ) 3c 2 ll 4 ] + 2 L L X l=1 E( 3 l b l c ll ) + 2 L L X l=1 L X j=1 E( 3 l c ll e lj &amp; j ): As 2 &amp; P L l=1 a 2 l + V ar(&amp; 2 l ) P L l=1 d 2 ll 2 q 2 &amp; V ar(&amp; 2 l ) P L l=1 ja l d ll j 2jE(&amp; 3 l )j P L l=1 ja l d ll j, we have 2 U1;L = 2 &amp; L L X l=1 a 2 l + 4 &amp; L X l X j6 =i (d 2 lj + d 2 jl ) + Var(&amp; 2 l ) L L X l=1 d 2 ll + 2 L E(&amp; 3 l ) L X l=1 a l d ll 4 &amp; L L X l=1 X j6 =l (d 2 lj + d 2 jl ):</formula><p>So a su¢ cient condition for 2 U1;L to be bounded away from zero is that lim L!1</p><formula xml:id="formula_166">1 L P L l=1 P L j6 =l (d 2 lj + d 2 jl ) &gt; 0.</formula><p>Similarly, a su¢ cient condition for 2 U2;L to be bounded away from zero is that lim L!1 </p><formula xml:id="formula_167">1 L P L l=1 P L j6 =l E(c 2 lj + c 2 jl ) &gt; 0. Therefore, a su¢ cient condition for 2 UL &gt; 0 is that lim L!1 1 L P L l=1 P L j6 =l (d 2 lj + d 2 jl ) &gt; 0 or lim L!1 1 L P L l=1 P L j6 =l E(c 2 lj + c 2 jl ) &gt; 0. We know that E(B 0 L B L ), E(C 2 L + C L C 0 L ), E(&amp; 0 L E 0 L E L &amp; L ),</formula><formula xml:id="formula_168">L;l = 1 p L (a l &amp; l + 2&amp; l P l 1 j=1 d lj &amp; j + d ll (&amp; 2 l 2 &amp; )</formula><p>). Since U L;l = U1;L has the conventional linear quadratic form, the two conditions for the summation of …rst L terms are easy to check. We have P L l=1 EjU L;l j 2+ U ! 0 as L ! 1 and</p><formula xml:id="formula_169">P L l=1 E(U 2 L;l jF L;l 1 )= 2 U1 1 p ! 0:</formula><p>where</p><formula xml:id="formula_170">H 1L = 2 L L X l 0 =1 [b 2 l 0 E(b 2 l 0 )]; H 2L = V ar( 2 l 0 ) L L X l 0 =1 [c 2 l 0 l 0 E(c 2 l 0 l 0 )]; H 3L = 2E( 3 l 0 ) L L X l 0 =1 [b l 0 c l 0 l 0 E(b l 0 c l 0 l 0 )]; H 4L = 4 2 L L X l 0 =1 l 0 1 X j=1 0 @ c l 0 j j l 0 1 X k=1 c l 0 k k 2 E(c 2 l 0 j ) 1 A ; H 5L = 4 2 L L X l 0 =1 l 0 1 X j=1 b l 0 c l 0 j j ; H 6L = 4E( 3 l 0 ) L L X l 0 =1 l 0 1 X j=1 c l 0 l 0 c l 0 j j ; H 7L = 4 2 L L X l 0 =1 l 0 1 X j=1 c l 0 j j L X k=1 e l 0 k &amp; k ; H 8L = 2 2 L L X l 0 =1 L X j=1 (b l 0 e l 0 j &amp; j E(b l 0 e l 0 j &amp; j )); H 9L = 2E( 3 l 0 ) L L X l 0 =1 L X j=1 (c l 0 l 0 e l 0 j &amp; j E(c l 0 l 0 e l 0 j &amp; j )); H 10L = 2 L L X l 0 =1 L X j=1 L X k=1 (e l 0 j &amp; j e l 0 k &amp; k E(e l 0 j &amp; j e l 0 k &amp; k )): E(U 2 L;l ) = 1 L [E(b 2 l 0 ) 2 + 4 4 l 0 1 X j=1 E(c 2 l 0 j ) + E(c 2 l 0 l 0 )V ar( 2 l 0 ) + 2 L X j=1 L X k=1 E(e l 0 j e l 0 k &amp; j &amp; k ) + 2E(b l 0 c l 0 l 0 )E( 3 l 0 ) +2 2 L X j E(b l 0 e l 0 j &amp; j ) + 2E( 3 l 0 ) L X j E(c l 0 l 0 e l 0 j &amp; j )]:</formula><p>We need to show H jL = o p (1) for all j = 1; :::; 10.</p><formula xml:id="formula_171">As H 1L = 2 L P L l 0 =1 [b 2 l 0 E(b 2 l 0 )] = 2 L (B 0 L B L E(B 0 L B L )) and H 10L = 2 L P L l 0 =1 P L j=1 P L k=1 (e l 0 j &amp; j e l 0 k &amp; k E(e l 0 j &amp; j e l 0 k &amp; k )) = 2 L [&amp; 0 L E 0 L E L &amp; L E(&amp; 0 L E 0 L E L &amp; L )]</formula><p>; if B L , C L , and E L satisfy conditions in Assumption CLT, we have H 10L = o p (1). Similar arguments can be applied to H jL for j = 2; :::; 9: These imply that</p><formula xml:id="formula_172">P 2L l=L+1 E(U 2 L;l jF L;l 1 )= 2 U2;L 1 p ! 0: Together with P L l=1 E(U 2 L;l jF L;l 1 )= 2 U1;L 1 p ! 0, we have 2L X l=1 E(U 2 L;l jF L;l 1 ) ( 2 U1;L + 2 U2;L ) p ! 0; i.e., 2L X l=1 E(U 2 L;l jF L;l 1 ) 1 p ! 0:</formula><p>The next step is to show</p><formula xml:id="formula_173">P 2L l=L+1 EjU L;l j 2+ U ! 0 as L ! 1.</formula><p>For any positive constants p and q such that 1=p + 1=q = 1, we have</p><formula xml:id="formula_174">jU L;l j = 1 p L jb l 0 l 0 + 2 l 0 l 0 1 X j=1 c l 0 j j + c l 0 l 0 ( 2 l 0 2 ) + l 0 L X j e l 0 j &amp; j j 1 p L (jb l 0 jj l 0 j + 2j l 0 j l 0 1 X j=1 jc l 0 j jj j j + jc l 0 l 0 jj 2 l 0 2 j + j l 0 j L X j je l 0 j jj&amp; j j) = 1 p L (jb l 0 j 1 p jb l 0 j 1 q j l 0 j + 2j l 0 j l 0 1 X j=1 jc l 0 j j 1 p jc l 0 j j 1 q j j j + jc l 0 l 0 j 1 p jc l 0 l 0 j 1 q j 2 l 0 2 j + j l 0 j L X j je l 0 j j 1 p je l 0 j j 1 q j&amp; j j): By denoting G L = 0 @ G 1L G 2L G 3L 1 A = 0 @ W 1L S 1 L W 2L S 1 L W 3L S 1 L 1 A = W L S 1 L where W L = 0 @ W 1L W 2L W 3L 1 A , S L ( )S 1 L = I L (<label>(</label></formula><formula xml:id="formula_175">0 ) 0 I L )G L . Since L ( ; c 1L ; 1L ; c 2L ; 2L ) = (I L W L ( ))Y L X 1L I 0 ( ; ) c 1L 1L L ( 2 ; c 2L ; 1L ) where L ( 2 ; c 2L ; 2L ) = Z L K L 2 c 2L 2L , we have L ( ; c 1L ; 1L ; c 2L ; 2L ) = S L ( )S 1 L (X 1L 0 + I 0 ( 0 ; 0 ) + c 1L0 + 1L0 + L 0 + L ) X 1L I 0 ( ; ) c 1L 1L L ( 2 ; c 2L ; 2L ) = X 1L ( 0 ) + (I 0 ( 0 ; 0 ) I 0 ( ; )) + L 0 L ( 2 ; c 2L ; 2L ) (( 0 ) 0 I L )G L (X 1L 0 + I 0 ( 0 ; 0 ) + L 0 ) +(c 1L0 c 1L ) + ( 1L0 1L ) (( 0 ) 0 I L )G L (c 1L0 + 1L0 ) + S L ( )S 1 L L . As L 0 L ( 2 ; c n2 ; t2 ) = L ( 0 ) + [ L L ( 2 ; c n2 ; t2 )] where L L ( 2 ; c 2L ; 2L ) = K L ( 2 20 ) + (c 2L c 2L0 ) + ( 2L 2L0 ),<label>(19)</label></formula><p>we have</p><formula xml:id="formula_176">L 0 L ( 2 ; c n2 ; t2 ) = L ( 0 ) + K L ( 2 20 ) + (c 2L c 2L0 ) + ( 2L 2L0 ) . (<label>20</label></formula><formula xml:id="formula_177">) Therefore, L ( ; c 1L ; 1L ; c 2L ; 2L ) = X 1L ( 0 ) + (I 0 ( 0 ; 0 ) I 0 ( ; )) + L ( 0 ) + K L ( 2 20 ) (( 0 ) 0 I L )G L (X 1L 0 + I 0 ( 0 ; 0 ) + L 0 ) +( 2L 2L0 ) + (c 1L0 c 1L ) + ( 1L0 1L ) (( 0 ) 0 I L )G L (c 1L0 + 1L0 )S L ( )S 1 L L .</formula><p>With the J T J n transformation, time and individual e¤ects are eliminated. Therefore, by denoting L ( ) =</p><formula xml:id="formula_178">Y L W L ( )Y L X 1L 0 (Z L K L 2 ) I 0 ( ; ) and L ( 2 ) = Z L K L 2 , we have (J T J n ) L ( ) = (J T J n )[X 1L ( 0 ) + (I 0 ( 0 ; 0 ) I 0 ( ; )) + L ( 0 ) + K L ( 2 20 ) ]<label>(22)</label></formula><formula xml:id="formula_179">+(J T J n )[(( 0 ) 0 I L )G L (X 1L 0 + I 0 ( 0 ; 0 ) + L 0 + c 1L0 + 1L0 )] + (J T J n )[S L ( )S 1 L L ],<label>and</label></formula><formula xml:id="formula_180">(J T J n ) L ( 2 ) = (J T J n )(Z L K L 2 ).</formula><p>For the expected value of ln L c L ( ), it is</p><formula xml:id="formula_181">E ln L c L ( ) = nT 2 ln 2 + E ln jI L W L ( )j nT 2 ln 2 nT 2 ln j " j 1 2 E vec 0 ( L ( 2 ))( 1 " J T J n )vec( L ( 2 )) 1 2 2 E[ 0 L ( )(J T J n ) L ( )]: We need to solve E vec 0 ( L ( 2 ))( 1 " J T J n )vec( L ( 2 )) and E 0 L ( )(J T J n ) L ( ) . From (19), E[vec 0 ( L ( 2 ))( 1 " J T J n )vec( L ( 2 ))] = E[vec 0 ( L )( 1 " J T J n )vec( L )] +E[vec 0 (K L ( 20 2 ))( 1 " J T J n )vec(K L ( 20 2 ))] + 2E[vec 0 (K L ( 20 2 ))( 1 " J T J n )vec( L )].</formula><p>We</p><formula xml:id="formula_182">have E[vec 0 ( L )( 1 " J T J n )vec( L )] = tr[( 1 J T J n )E(vec( L )vec 0 ( L ))] = tr[( 1 J T J n )( 0 I T I n )] = (n 1)(T 1)tr( 1 0 ).</formula><p>Also, using uncorrelatedness of X 2L and L , and <ref type="bibr" target="#b33">Yu et al. (2008)</ref>, we have</p><formula xml:id="formula_183">1 T E(Z 0 L; 1 (J T J n ) L ) = O( n T ) from Lemma 16 in</formula><formula xml:id="formula_184">1 nT E[vec 0 ( L ( 2 ))( 1 " J T J n )vec( L ( 2 ))] = (n 1)(T 1) nT tr( 1 0 ) + 1 nT ( 20 2 ) 0 EK 0 L ( 1 " J T J n )K L ( 20 2 ) + O( 1 T ). From (22), by denoting Q jL = G jL (X 1L 0 + I 0 ( 0 ; 0 ) + L 0 + c 1L0 + 1L0 ) for j = 1; 2; 3; we see that [Q 2L ; Q 3L ; X 1L ] + [I 0 ( 0 ; 0 );0 L k1 ] = R L .</formula><p>Therefore, ( <ref type="formula" target="#formula_178">22</ref>) can be written as</p><formula xml:id="formula_185">(J T J n ) L ( ) = (J T J n )[Q 1L ( 0 ) + R L ( 10 ) + K L ( 2 20 ) + L ( 0 )+S L ( )S 1 L L ]</formula><p>so that</p><formula xml:id="formula_186">E[ 0 L ( )(J T J n ) L ( )] = E (( 0 ) 0 ; ( 10 ) 0 ; (( 2 20 ) ) 0 ; ( 0 ) 0 )(Q 1L ; R L ; K L ; L ) 0 (J T J n ) (Q 1L ; R L ; K L ; L )(( 0 ) 0 ; ( 10 ) 0 ; (( 2 20 ) ) 0 ; ( 0 ) 0 ) 0 +Etr[(S L ( )S 1 L L ) 0 (J T J n ) (S L ( )S 1 L L )] +E[(( 0 ) 0 ; ( 10 ) 0 ; (( 2 20 ) ) 0 ; ( 0 ) 0 )(Q 1L ; R L ; K L ; L ) 0 (J T J n ) S L ( )S 1 L L ]</formula><p>For the second term, we have</p><formula xml:id="formula_187">1 nT E[tr((S L ( )S 1 L L ) 0 (J T J n ) (S L ( )S 1 L L ))] = 2 0 nT E[tr((S L ( )S 1 L ) 0 (J T J n ) (S L ( )S 1 L ))]. For the third term, we have 1 nT E(Q 1L ; R L ; K L ; L ) 0 (J T J n ) S L ( )S 1 L L = 0. Therefore, by denoting H 1;nT = 1 nT (Q 1L ; R L ; K L ; L ) 0 (J T J n )(Q 1L ; R L ; K L ; L ); we have 1 nT E[ 0 L ( )(J T J n ) L ( )] = E (( 0 ) 0 ; ( 10 ) 0 ; (( 2 20 ) ) 0 ; ( 0 ) 0 ) H 1;nT (( 0 ) 0 ; ( 10 ) 0 ; (( 2 20 ) ) 0 ; ( 0 ) 0 ) 0 + 2 nT E tr(S L ( )S 1 L ) 0 (J T J n ) (S L ( )S 1 L ) . By denoting H 2;nT ( ) = 1 nT E[K 0 L ( 1 " J T J n )K L ]</formula><p>we have</p><formula xml:id="formula_188">E 1 nT ln L c L ( ) = 1 2 ln 2 + 1 nT E ln jS L ( )j 1 2 ln 2 1 2 ln j j 1 2 (n 1)(T 1) nT tr( 1 0 ) 1 2 ( 20 2 ) 0 H 2;nT ( )( 20 2 ) 1 2 2 1 nT (( 0 ) 0 ; ( 10 ) 0 ; (( 2 20 ) ) 0 ; ( 0 ) 0 ) H 1;nT (( 0 ) 0 ; ( 10 ) 0 ; (( 2 20 ) ) 0 ; ( 0 ) 0 ) 0 1 2nT 2 0 2 Etr(S L ( )S 1 L ) 0 (J T J n ) (S L ( )S 1 L ) + O( 1 T ). By denoting 1 = ( ; 1 ; ( 2 ) 0 ; 0 ) 0 , 10 ( ) = ( 0 ; 10 ; ( 20 ) 0 ; 0 0 ) 0 , we have E 1 nT ln L c L ( ) = 1 2 ln 2 + 1 nT E ln jS L ( )j 1 2 ln 2 1 2 ln j j 1 2 tr( 1 0 ) 1 2 ( 20 2 ) 0 EH 2;nT ( )( 20 2 ) 1 2nT 2 0 2 Etr(S L ( )S 1 L ) 0 (J T J n ) (S L ( )S 1 L ) 1 2 2 ( 10 ( ) 1 ) 0 EH 1;nT ( 10 ( ) 1 ) + O( 1 n ) + O( 1 T ).<label>(23)</label></formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>C.2 First and Second Order Derivatives</head><p>By denoting L ( ) = (I L W L ( ))Y L X 1L (Z L K L 2 ) I 0 ( ; ) and L ( ) = Z L K L 2 , the …rst and second order conditions of (5) can be derived. 22   For the expectation part of the score in (9), to derive the E @ ln L c L ( ) @ 2 component, we can rely on the iterative substitution of</p><formula xml:id="formula_189">Z nt = Z n;t 1 0 +X 2nt 0 +c n20 +l n 0 t20 + nt . We can show that E( Z 0 n;T 1 J n nT ) = n 1 T 2 P T 1 t=1 P T t h=1 0h 0 0 . Therefore, E[( 1 0 Z 0 n;T 1 J n )vec( nT )] = n 1 T 2 vec T 1 X t=1 T t X h=1 0h 0 ! :</formula><p>Alternatively, in terms of the big matrix form, as vec(Z L;</p><formula xml:id="formula_190">1 0 ) = ( 0 0 W 2L )vec(Z L ), by denoting X L as the vectorized stack of X 2nt 0 + c n20 + l n 0 t20 , we have vec(Z L ) = (I L 0 0 W 2L ) 1 (X L + L )<label>and</label></formula><formula xml:id="formula_191">vec(Z L; 1 0 ) = ( 0 0 W 2L )(I L 0 0 W 2L ) 1 (X L + L )</formula><p>. Denote e j = (0; :::; 1; ; :::; 0) 0 as a p 1 vector with 1 in its jth element and zero otherwise. Then, by denoting G 2L; = ( 0</p><formula xml:id="formula_192">0 W 2L )(I L 0 0 W 2L ) 1 , we have E[Z 0 L; 1;j (J T J n ) L;l ] = E[((e 0 j I L )G 2L; vec( L )) 0 (J T J n ) (e 0 l I L )vec( L )].</formula><p>Thus, similar results can be obtained by using the explicit form of G 2L; .</p><p>2 2 Details for the …rst and second order derivatives can be found in the supplement …le and available upon request.</p><p>From the second order derivatives, by denoting k 2 = p 2 + p(k 2 + 1) and J L = J T J n , we can show that the information matrix is</p><formula xml:id="formula_193">E( @ 2 ln L c L ( 0 ) @ @ 0 ) = 1 2 0 (<label>24</label></formula><formula xml:id="formula_194">) 0 B B B B B B B B B @ I 0 1 J ER 0(u) L J L Q 1L ER 0 L J L R L 0 (k1+2) p 0 (k1+2) 1 0 (k1+2) J E[ 0 L J L Q 1L ]+ E[ 0 L J L (G 1L L 0 )] 0 p (k1+2) T E 0 L J L L 0 p k 2 0 p 1 0 p J 0 EK 0 L J L Q 1L 0 EK 0 L J L R L 0 k 2 p I 2 2 0 k 2 1 0 k 2 J Etr(G L J L ) 0 1 (k1+2) 0 1 p 0 1 k 2 1 2 0 ( nT 2 T ) 0 1 J 0 J 1 0 J (k1+2) 0 J p 0 J k 2 0 J 1 I 1 C R = nT 3 2 2 0 , R 2 = 3 2 2 0 0 P L l=1 E[((J T J n )K L ) 0 l ], R 2 = 4 0 2 E( 1 0 K 0 L (J T J n ))vec( L ) @ @ (tr[ 1 0 0 L (J T J n ) L ]), R = nT 4 4 0 ( 4 3 4 0 ), R = 2 0 4 E @ @ (tr[ 0 L (J T J n ) L 1 0 ]) @ @ 0 (tr[ 0 L (J T J n ) L 1 0 ]).</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>D Proofs for Theorems</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>D.1 Proof for Theorem 1</head><p>We will show (i) the uniform convergence of</p><p>1 L ln L c L ( ) 1 L E ln L c L ( ) to zero in probability uniformly in in ; (2) the uniform equicontinuity of 1 L E ln L c L ( ), and (3) global identi…cation. (1) To prove 1 L ln L c L ( ) 1 L E ln L c L ( ) p ! 0 uniformly in in any compact parameter space : From (5), the log likelihood function is are eliminated. From ( <ref type="formula" target="#formula_188">23</ref>),</p><formula xml:id="formula_195">ln L c L ( ) = nT 2 ln 2 + ln jS L ( )j nT 2 ln 2 nT 2 ln j " j 1 2 2 0 L ( )(J T J n ) L ( ), 1 2 vec 0 ( L ( 2 ))( 1 " J T J n )vec( L (<label>2</label></formula><formula xml:id="formula_196">E 1 nT ln L c L ( ) = 1 2 ln 2 + 1 nT E ln jS L ( )j 1 2 ln 2 1 2 ln j j 1 2 tr( 1 0 ) 1 2 2 ( 10 1 ) 0 EH 1;nT ( 10 1 ) 1 2 ( 20 2 ) 0 EH 2;nT ( )( 20 2 ) 1 2nT 2 0 2 Etr (S L ( )S 1 L ) 0 (J T J n ) (S L ( )S 1 L ) + O( 1 n ) + O(<label>1 T ), where 1 =</label></formula><formula xml:id="formula_197">( ; 0 1 ; ( 2 ) 0 ; 0 ) 0 , 10 ( ) = ( 0 ; 0 10 ; ( 20 ) 0 ; 0 0 ) 0 . Therefore, 1 nT ln L c L ( ) 1 nT E ln L c L ( ) = 1 2 1 nT vec 0 ( L ( 2 ))( 1 " J T J n )vec( L ( 2 )) + 1 2 tr( 1 0 ) + 1 2 ( 20 2 ) 0 EH 2;nT ( )( 20 2 ) 1 2 2 1 nT 0 L ( )(J T J n ) L ( ) + 1 2 2 ( 10 1 ) 0 EH 1;nT ( 10 1 ) + 1 2nT 2 0 2 E tr(S L ( )S 1 L ) 0 (J T J n ) (S L ( )S 1 L ) + 1 nT ln jS L ( )j 1 nT E ln jS L ( )j + O( 1 n ) + O( 1 T ).</formula><p>For 1 nT ln jS L ( )j</p><p>1 nT E ln jS L ( )j, we have</p><formula xml:id="formula_198">sup 2 1 L [ln jI L W L ( )j E (ln jI L W L ( )j)] = sup 2 1 L L X l=1 " 1 X k=1 k k W k 1L ll 1 X k=1 k k E W k 1L ll # p ! 0;</formula><p>whose proof can be found in the proof of Theorem 3 in <ref type="bibr" target="#b28">Qu and Lee (2015)</ref>. By Proposition 1 and Corollary 1, other terms converge uniformly. Thus, we have the uniform convergence of the log likelihood function</p><formula xml:id="formula_199">such that 1 L [ln L c L ( ) E (ln L c L ( ))] p ! 0 uniformly in .</formula><p>(2) To prove 1 (n 1)T E ln L n;T ( ) is uniformly equicontinuous in in any compact parameter space : From ( <ref type="formula" target="#formula_188">23</ref>), these terms can be expressed by the general terms in Proposition 1, so that the pointwise convergence can be established. Also, as all the parameters are bounded and enter the log likelihood function polynomially except for the term 1 nT E ln jS L ( )j, we need only show the stochastic equicontinuity of</p><formula xml:id="formula_200">1 nT E ln jS L ( )j. We see that as G jL = W jL S 1 L with sup ;t kG jL ( )k 1 &lt; 1, 1 nT ln jS L ( 1 )j 1 nT ln jS L ( 2 )j = 1 nT trG 1L ( ); 1 nT trG 2L ( ); 1 nT trG 3L ( ) ( 2 1 ) C k 2 1 k 1</formula><p>where C is a constant. Thus, we have the stochastic equicontinuity of 1 nT ln jS L ( )j. Also, as all the variance parameters are bounded away from zero in compact parameter spaces, and relevant terms are bounded, we have the result that E 1 nT ln L c L ( ) is uniformly equicontinuous.</p><p>(3) To prove global identi…cation:</p><p>From the expected log likelihood function in (23), we have</p><formula xml:id="formula_201">E 1 nT ln L c L ( 0 ) = 1 2 ln 2 + 1 nT E ln jS L ( 0 )j 1 2 ln 2 0 1 2 ln j 0 j 1 2 tr(I p ) 1 2 + O( 1 n ) + O( 1 T ), which implies that E 1 nT ln L c L ( ) E 1 nT ln L c L ( 0 )<label>(26)</label></formula><formula xml:id="formula_202">= 1 nT E ln jS L ( )j 1 nT E ln jS L j 1 2 ln 2 + 1 2 ln 2 0 1 2 ln j j + 1 2 ln j 0 j 1 2 tr( 1 0 ) + 1 2 tr(I p ) 1 2 ( 20 2 ) 0 EH 2;nT ( )( 20 2 ) 1 2nT 2 0 2 Etr(S L ( )S 1 L ) 0 (J T J n ) (S L ( )S 1 L ) + 1 2 1 2 2 ( 10 1 ) 0 EH 1;nT ( 10 1 ) + O( 1 n ) + O( 1 T ) = 1 2 h tr( 1=2 0 1 1=2 0 ) ln j 1=2 0 1 1=2 0 j p i 1 2 ( 20 2 ) 0 EH 2;nT ( )( 20 2 ) 1 2nT E " tr 2 0 2 (S L ( )S 1 L ) 0 (S L ( )S 1 L ) ! ln 2 0 2 (S L ( )S 1 L ) 0 (S L ( )S 1 L ) nT # 1 2 2 ( 10 1 ) 0 EH 1;nT ( 10 1 ) + O( 1 n ) + O( 1 T ), using 1 nT tr 2 0 2 (S L ( )S 1 L ) 0 (S L ( )S 1 L ) 1 nT tr 2 0 2 (S L ( )S 1 L ) 0 (J T J n )(S L ( )S 1 L ) = O( 1 n ) + O( 1 T ).</formula><p>For the scalar case, the function f (x) = x ln x 1 0 for any x &gt; 0 and it is minimized at x = 1.</p><p>For a positive de…nite real matrix M , f (M ) = tr(M ) ln jM j m = P m i=1 (' i ln ' i 1) 0 and is minimized at M = I m , where m is the dimension of M and ' i is an eigenvalue of M . Therefore,</p><formula xml:id="formula_203">lim n;T !1 E 1 nT ln L c L ( ) E 1 nT ln L c L ( 0 ) 0. Next, we need to show that lim n;T !1 (E 1 nT ln L c L ( ) E 1 nT ln L c L ( 0 )) = 0 implies = 0 .</formula><p>As all the four terms in (26) are nonnegative,</p><formula xml:id="formula_204">lim n;T !1 (E 1 nT ln L c L ( ) E 1 nT ln L c L ( 0 )) = 0</formula><p>implies that all the four terms have limits being zero. First, f ( 1=2 0 1 1=2 0 ) = 0 implies that = 0 . Second, as EH 2;nT ( ) is positive de…nite, 2 = 20 . Third, as EH 1;nT is positive de…nite, 1 = 10 . With = 0 implied by 1 = 10 , tr</p><formula xml:id="formula_205">2 0 2 (S L ( )S 1 L ) 0 (S L ( )S 1 L ) ln 2 0 2 (S L ( )S 1 L ) 0 (S L ( )S 1 L ) nT = 0 implies that 2 0 2 ln 2 0 2</formula><p>1 = 0, which implies that 2 = 2 0 . With above arguments, the consistency follows.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>D.2 Proof for Theorem 2</head><p>To prove asymptotic normality, we have the Taylor expansion:</p><formula xml:id="formula_206">p nT ( ^ nT 0 ) = ( 1 nT @ 2 ln L c L ( nT ) @ @ 0 ) 1 ( 1 p nT @ ln L c 1;L ( 0) @ + 1 p nT L ) where 1 p nT @ ln L c 1;L ( 0) @ d ! N (0; lim n;T !1 (I nT; 0 + nT; 0 )</formula><p>) and nT lies between 0 and ^ nT .</p><p>First, we have </p><formula xml:id="formula_207">1 nT @ 2 ln L c L ( nT ) @ @ 0 = ( 1 nT @ 2 ln L c L ( nT ) @ @ 0 ( 1 nT @ 2 ln L c L ( 0) @ @ 0 )) + ( 1 nT @ 2 ln L c L<label>(</label></formula><formula xml:id="formula_208">1 nT @ 2 ln L c L ( nT ) @ @ 0</formula><p>is invertible for large n and T and (</p><formula xml:id="formula_209">1 nT @ 2 ln L c L ( nT ) @ @ 0 ) 1 is O p (1). Then, p nT ( ^ nT 0 ) = O p (1) O p (1) + O p n T + O q T n</formula><p>, which implies that</p><formula xml:id="formula_210">^ nT 0 = O p max 1 p nT ; 1 T ; 1 n = O p max 1 n ; 1 T .<label>(27)</label></formula><p>Hence,</p><formula xml:id="formula_211">p nT ( ^ nT 0 ) = I nT; 0 + O p max 1 n ; 1 T 1 1 p nT @ ln L c 1;L ( 0 ) @ + 1 p nT L :<label>(28)</label></formula><p>By using the CLT for linear and quadratic forms, we see that the score is asymptotically distributed as</p><formula xml:id="formula_212">1 p nT @ ln L c 1;L ( 0) @ d ! N (0; lim n;T !1 (I nT; 0 + nT; 0 )). Also, as 1 p nT L = p n T a 1; 0 + q T n a 2; 0 , we have p nT ( ^ nT 0 ) + p n T b 1; 0;nT + q T n b 2; 0;nT + O p max p n T 3 ; q T n 3 ; 1 n ; 1 T d ! N (0; lim T !1 I 1 nT; 0 (I nT; 0 +</formula><p>nT; 0 )I 1 nT; 0 ), where b 1; 0;nT = I 1 nT; 0 a 1; 0 and b 2; 0;nT = I 1 nT; 0 a 2; 0 are O(1). Because a term of the order O p (max( p n T 3 ; q T n 3 ; 1 n ; 1 T )) is also of the order O p (max( p n T 3 ; q T n 3 )), we have the results.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>D.3 Proof for Theorem 3</head><p>Theorem 2 states that p nT ( ^ nT 0 )+ p n T I 1 nT; 0 a 1; 0 + q T n I 1 nT; 0 a 2; 0 +O p max p n T 3 ; q T n 3 are asymptotically centered normal. As</p><formula xml:id="formula_213">^ 1 nT = ^ nT + 1 T ( 1 nT E @ 2 ln L c L ( nT ) @ @ 0 ) 1 a 1 ( ^ nT )+ 1 n ( 1 nT E @ 2 ln L c L ( nT ) @ @ 0 ) 1 a 2 ( ^ nT ), under n</formula><p>T 3 ! 0 and T n 3 ! 0, we will have p nT ( ^</p><formula xml:id="formula_214">1 nT 0 ) d ! N (0; lim T !1 I 1 nT; 0 (I nT; 0 + nT; 0 )I 1 nT; 0 ) if r n T 0 @ 1 nT E @ 2 ln L c L ( ^ nT ) @ @ 0 ! 1 a 1 ( ^ nT ) I 1 nT; 0 a 1 ( 0 ) 1 A p ! 0,<label>(29)</label></formula><p>and r T n</p><formula xml:id="formula_215">0 @ 1 nT E @ 2 ln L c L ( ^ nT ) @ @ 0 ! 1 a 2 ( ^ nT ) I 1 nT; 0 a 2 ( 0 ) 1 A p ! 0.<label>(30)</label></formula><p>Assuming that n T 3 ! 0 and T n 3 ! 0, we will prove ( <ref type="formula" target="#formula_214">29</ref>) and ( <ref type="formula" target="#formula_215">30</ref>). From ( <ref type="formula" target="#formula_210">27</ref>),</p><formula xml:id="formula_216">1 nT E @ 2 ln L c L ( ^ nT ) @ @ 0 = I 1 nT; 0 + O p max 1 n ; 1 T . Hence, r n T 0 @ 1 nT E @ 2 ln L c L ( ^ nT ) @ @ 0 ! 1 a 1 ( ^ nT ) I 1 nT; 0 a 1 ( 0 ) 1 A = r n T I 1 nT; 0 a 1 ( ^ nT ) a 1 ( 0 ) + r n T a 1 ( ^ nT ) O p max 1 n ; 1 T .</formula><p>As ^ nT 0 = O p max 1 T ; 1 n and a 1 ( 0 ) is O(1), according to the Taylor expansion of a 1 ( ^ nT ) in (10) around a 1 ( 0 ), to prove (29) is reduced to proving that elements of @a1( nT ) @ 0 &lt; 1 where nT lies between ^ nT and 0 . Similarly, (30) is also satis…ed under @a2( nT ) @ 0 &lt; 1. With explicit forms of a 1 ( ) and a 2 ( ), Assumption 10 would be reasonable.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>W</head><figDesc>L ( ). Denote = ( ; 0 1 ; ; 0 2 ; ; 2 ) 0 where 1 = ( ; ; 0 ) 0 , 2 = vec( 2 ) with 2 = ( 0 ; 0 ) 0 and is the J 1 column vector of distinct elements in . Corresponding to 1 and 2 , we de…ne R nt = [Y n;t 1 ; W n;t 1 Y n;t 1 ; X 1nt ], K nt = [Z n;t 1 ; X 2nt ] and their matrix form R L and K L . The current model is recursive as Y L depends on Z L through W L , and Z L depends on " L which is correlated with the disturbance term in Y L . But Z L does not directly depend on Y L , so the unconditional pdf of Z L is straightforward. Due to the correlation of disturbances in Y L and Z L , the formation of Z L provides useful information to infer parameters in the Y L equation. Therefore, to write down the log likelihood function, it is natural to construct the joint Gaussian pdf of Y L and Z L , obtained through the conditional Gaussian pdf of Y L given Z L and the marginal Gaussian pdf of Z L . Under this Gaussian pdf assumption, the likelihood would be the exact one. Meanwhile, we can also regard this likelihood function as a quasi-likelihood, by assuming that conditional on Z L ; Y L has a linear expectation, and the …rst and second conditional moments satisfy Assumption 1, but does not impose additional assumptions on third or four moments.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><figDesc>where &amp; L and L are random vectors with each entry &amp; l and l having zero means and, respective nonzero variances &amp; and , (&amp; l ; l )'s are independently distributed across L, A L and D L are L dimensional nonstochastic vector and matrix, but elements in B L , C L , and E L may contain &amp; L . We have the conditional mean independence E( l j&amp; L ) = 0 and conditional homoscedasticity of E(j l j r j&amp; L ) for r = 2; 3:4. 12</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><figDesc>) with each of X 1nt , X 2nt and Z nt consists of a univariate variable, where0 = ( 0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 2 0 ; 0 ) 0 = (0:2; 0:2; 0:2; 1; 0 ; 0:2; 1; 1 2 0 ; 1),and 0 takes the values from 0 to 0:8 while other parameters are held constant. The X 1nt , X 2nt , c n0 , and t0 are generated from independent standard normal distributions. V nt and nt are generated from a simulation, the initial observations are generated with a similar pattern.16   </figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Denote</head><figDesc>&amp; l;L as a function of l , l , Z l n , X L , c n10 and T 10 = ( 1;10 ; : : : ; T;10 ) 0 . As an nT -dimension column vector, &amp; L = (&amp; 1;L ; :::; &amp; L;L ) 0 . In the subsequent lemmas and corollaries, &amp; 1L and &amp; 2L are such nTdimensional vectors. 20 By denoting B n;t 1 = 0 I n + 0 W n;t 1 , we can write W L ( 0 ) = 0 W 1L + B L where</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>w</head><figDesc>ik;t , i.e., inf i;n n P k=1 w ik;nt c L , which means that all individuals have at least one neighbor with positive weights bounded away from zero. It has a similar Lipschitz structure as that in Assumption 3.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><figDesc>s are independent and homoscedasticity across L, and l 's are mean independent and homoscedasticity conditional on &amp; l 's, we have E(U L;l jF L;l 1 ) = 0, for l = 2; :::; 2L. Then f(U n;l ; F n;l )j1 l 2Lg forms a martingale di¤erence double array. We have Var( P 2L l=1 U L;l ) = P 2L l=1 EU 2 L;l as U L;l 's are martingale di¤erences. De…ne this variance as 2</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><figDesc>and E(B 0 L E L &amp; L ) are O(L). Therefore, 2 U1;L ; 2 U2;L , and 2 UL are O(1). For l = 1; ; L, U</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><figDesc>)),where L ( ) = Y L W L ( )Y L X 1L 0 (Z L K L 2 ) I 0 ( ; ) and L ( 2 ) = Z L K L 2 .Here, with the J T J n transformation, the time and individual e¤ects in (J T J n ) L ( ; c 1L ; 1L ) and (J T J n ) L ( 2 ; c 2L ; 2L )</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8"><head>I</head><figDesc>nT; 0 ) + I nT; 0 . The …rst term is nT 0 O p (1) and the second term is o p (1). Therefore,1 nT @ 2 ln Ln;T ( nT ) @ @ 0 = nT 0 O p (1) + o p (1) + I nT; 0 . Because nT 0 = o p (1) and 0;nT is nonsingular in the limit,</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1 :</head><label>1</label><figDesc>Estimators Under Endogenous W nt Speci…cation: Direct Approach T n</figDesc><table><row><cell>2</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 5 :</head><label>5</label><figDesc>Cigarette sales equation: endogenous weights matrices w ij;t = (p jt =p it )d ij;t w ij;t = (p jt =p it 1)d ij;t</figDesc><table><row><cell></cell><cell cols="2">direct</cell><cell cols="2">transformation</cell><cell cols="2">direct</cell><cell cols="2">transformation</cell></row><row><cell>W nt ln c nt</cell><cell>= 0 0.028</cell><cell>6 = 0 0.033</cell><cell>= 0 0.029</cell><cell>6 = 0 0.034</cell><cell>= 0 0.029</cell><cell>6 = 0 0.042</cell><cell>= 0 0.031</cell><cell>6 = 0 0.044</cell></row><row><cell></cell><cell cols="2">(0.013) (0.015)</cell><cell cols="2">(0.013) (0.015)</cell><cell cols="2">(0.012) (0.015)</cell><cell cols="2">(0.013) (0.015)</cell></row><row><cell>ln c n;t 1</cell><cell>0.906</cell><cell>0.907</cell><cell>0.906</cell><cell>0.907</cell><cell>0.906</cell><cell>0.909</cell><cell>0.905</cell><cell>0.909</cell></row><row><cell></cell><cell cols="2">(0.013) (0.013)</cell><cell cols="2">(0.013) (0.013)</cell><cell cols="2">(0.013) (0.013)</cell><cell cols="2">(0.013) (0.013)</cell></row><row><cell>W n;t 1 ln c n;t 1</cell><cell></cell><cell>-0.009</cell><cell></cell><cell>-0.010</cell><cell></cell><cell>-0.022</cell><cell></cell><cell>-0.023</cell></row><row><cell></cell><cell></cell><cell>(0.015)</cell><cell></cell><cell>(0.015)</cell><cell></cell><cell>(0.015)</cell><cell></cell><cell>(0.015)</cell></row><row><cell>ln income</cell><cell>0.086</cell><cell>0.087</cell><cell>0.086</cell><cell>0.087</cell><cell>0.086</cell><cell>0.088</cell><cell>0.086</cell><cell>0.088</cell></row><row><cell></cell><cell cols="2">(0.025) (0.025)</cell><cell cols="2">(0.025) (0.025)</cell><cell cols="2">(0.024) (0.025)</cell><cell cols="2">(0.024) (0.025)</cell></row><row><cell>ln price</cell><cell>-0.021</cell><cell>-0.020</cell><cell>-0.022</cell><cell>-0.021</cell><cell>-0.024</cell><cell>-0.021</cell><cell>-0.025</cell><cell>-0.022</cell></row><row><cell></cell><cell cols="2">(0.023) (0.023)</cell><cell cols="2">(0.023) (0.023)</cell><cell cols="2">(0.023) (0.023)</cell><cell cols="2">(0.023) (0.023)</cell></row><row><cell></cell><cell>-0.390</cell><cell>-0.390</cell><cell>-0.390</cell><cell>-0.390</cell><cell>-0.387</cell><cell>-0.390</cell><cell>-0.386</cell><cell>-0.390</cell></row><row><cell></cell><cell cols="2">(0.027) (0.027)</cell><cell cols="2">(0.027) (0.027)</cell><cell cols="2">(0.027) (0.027)</cell><cell cols="2">(0.027) (0.027)</cell></row><row><cell>ln price t 1 in Z</cell><cell>0.712</cell><cell>0.712</cell><cell>0.712</cell><cell>0.712</cell><cell>0.712</cell><cell>0.712</cell><cell>0.712</cell><cell>0.712</cell></row><row><cell></cell><cell cols="2">(0.020) (0.020)</cell><cell cols="2">(0.020) (0.020)</cell><cell cols="2">(0.020) (0.020)</cell><cell cols="2">(0.020) (0.020)</cell></row><row><cell>ln income in Z</cell><cell>-0.033</cell><cell>-0.033</cell><cell>-0.033</cell><cell>-0.033</cell><cell>-0.034</cell><cell>-0.033</cell><cell>-0.033</cell><cell>-0.033</cell></row><row><cell></cell><cell cols="2">(0.023) (0.023)</cell><cell cols="2">(0.024) (0.024)</cell><cell cols="2">(0.023) (0.023)</cell><cell cols="2">(0.024) (0.024)</cell></row><row><cell>ln pop16 in Z</cell><cell>-0.046</cell><cell>-0.046</cell><cell>-0.046</cell><cell>-0.047</cell><cell>-0.044</cell><cell>-0.045</cell><cell>-0.045</cell><cell>-0.046</cell></row><row><cell></cell><cell cols="2">(0.091) (0.091)</cell><cell cols="2">(0.091) (0.091)</cell><cell cols="2">(0.091) (0.091)</cell><cell cols="2">(0.091) (0.091)</cell></row><row><cell cols="2">log likelihood (10 3 ) 6.4786</cell><cell>6.4786</cell><cell>6.3100</cell><cell>6.3101</cell><cell>6.4789</cell><cell>6.4792</cell><cell>6.3104</cell><cell>6.3110</cell></row></table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="1" xml:id="foot_0"><p>For static spatial panel data models, we have various models depending on …xed/random e¤ects speci…cations and spatial features, see<ref type="bibr" target="#b0">Anselin (1988)</ref>,<ref type="bibr" target="#b3">Baltagi et al. (2003,</ref> </p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" xml:id="foot_1"><p>2013),<ref type="bibr" target="#b17">Kapoor et al. (2007)</ref>,<ref type="bibr" target="#b14">Fingleton (2008)</ref>, andLee and Yu (2010b, 2012a), etc. For dynamic models with spatial interaction, see<ref type="bibr" target="#b12">Elhorst (2005)</ref>,<ref type="bibr" target="#b27">Mutl (2006)</ref>,<ref type="bibr" target="#b33">Yu et al. (2008</ref><ref type="bibr" target="#b34">Yu et al. ( , 2012))</ref>,<ref type="bibr" target="#b19">Korniotis (2010)</ref>,<ref type="bibr" target="#b35">Yu and Lee (2010)</ref>,Lee and Yu (2012b),<ref type="bibr" target="#b32">Su and Yang (2015)</ref> for detailed discussions.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="4" xml:id="foot_2"><p>When there are additional endogenous regressors in the estimating equation, which are not contained in Znt, the QML estimation in the current paper cannot be applied directly. When the endogenous explanatory regressors are di¤erent from Znt variables, which explains Wnt, generalized method of moments (GMM) estimation can deal with such a situation. Brief discussions of the two stage instrumental variable (2SIV) and GMM estimation of such a model are provided in a supplement …le available upon request. When the endogenous variables are just from Znt variables, the ML method in the current paper is still applicable as long as the regressors in the Znt equation have relevant distinct variables from X 1nt (such as Z n;t 1 ). See the empirical application in Section</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" xml:id="foot_3"><p>5.2. We would have an under-identi…cation situation if Znt is also a (endogenous) regressor in the Ynt equation along with all relevant explanatory variables, Z n;t 1 and X 2nt . In the later situation, the control variables would be linearly dependent on all explanatory variables of Ynt.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="5" xml:id="foot_4"><p>We notice that the Z equation is an augmented equation to specify the endogeneity of spatial weights matrix, but not part of a linear simultaneous equation system as in<ref type="bibr" target="#b8">Beenstock and Felsenstein (2007)</ref>. More generally, the spatial lag term MntZnt could be speci…ed in the Y or Z equations as long as Mnt is exogenous. If Mnt is the endogenous Wnt, (1) and (2) becomes a highly nonlinear system and we may have possible multiple solutions. Due to these complicated issues, we do not cover endogenous weights matrix in Z equation.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="6" xml:id="foot_5"><p>We note that the VAR representation includes the multivariate linear model as a special case.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="8" xml:id="foot_6"><p>As a result, the computation burden is still restricted to n n dimensional matrices but not to nT nT dimensional matrices. This numerical feature is important especially when T is large. This comment is also applicable to the computation of matrix inverses related to spatial matrices. This becomes apparent in the reduced form of (1) where the needed inverses are simply the n n matrices S 1 nt for all t = 1; :::; T .</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="9" xml:id="foot_7"><p>As the Y L and Y L; 1 terms can be solved in terms of some nonstochastic regressor vectors, L ; L , and Z L; 1 , the convergence of (7) can imply the convergence of (6).</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="1" xml:id="foot_8"><p>0 This condition is a technical one. Asymptotic analysis becomes much more complex without it. In empirical studies, such a spatial setting is quite popular.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="1" xml:id="foot_9"><p>5  We note that although the bias correction estimates use biased estimate, the main component of the bias will be eliminated as both n and T are large, and the bias corrected terms do not introduce additional asymptotic variance for the estimates.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="1" xml:id="foot_10"><p>6  We generated the spatial panel data with</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="20" xml:id="foot_11"><p>+ T periods where the starting value is from N (0; In), and then take the last T periods as our sample. By doing so, the initial value in the estimation is close to the steady state.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="1" xml:id="foot_12"><p>7 For the Monte Carlo experiments, we also try di¤erent settings such as n = 49, two exogenous variables and two Z variables. The results are similar, and they are available in the supplement …le.1 8 The omitted states are Alaska, Colorado, Hawaii, North Carolina and Oregon.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="1" xml:id="foot_13"><p>9 In general, if the Pnt variable is not included in the estimation equation of Ynt, the exogenous variables X 1nt and X</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" xml:id="foot_14"><p>2ntin both equations are allowed to be the same. Here Pnt is the Znt in our format. Furthermore Pnt itself is an endogenous regressor which may have a direct impact on sale.</p></note>
+		</body>
+		<back>
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>For l = L + 1;</p><formula xml:id="formula_217">; 2L, U L;l = 1 p L [b l 0 l 0 + 2 l 0 l 0 P j=1 c l 0 j j + c l 0 l 0 ( 2 l 0 2 ) + l 0 L P j=1 e l 0 j &amp; j ] with l 0 = l L, so E(U 2 L;l jF L;l 1 ) = 1 L E[b 2 l 0 2 l 0 + 4 2 l 0 l 0 1 X j=1 c l 0 j j l 0 1 X k=1 c l 0 k k + c 2 l 0 l 0 ( 2 l 0 2 ) 2 + 2 l 0 L X j=1 e l 0 j &amp; j L X k=1 e l 0 k &amp; k + 2b l 0 c l 0 l 0 ( 3 l 0 l 0 2 ) +4b l 0 2 l 0 l 0 1 X j=1 c l 0 j j + 2b l 0 2 l 0 L X j=1 e l 0 j &amp; j + 4c l 0 l 0 ( 3 l 0 l 0 2 ) l 0 1 X j=1 c l 0 j j + 4 2 l 0 l 0 1 X j=1 c l 0 j j L X k=1 e l 0 k &amp; k + 2c l 0 l 0 ( 3 l 0 l 0 2 ) L X j=1 e l 0 j &amp; j ] = 1 L [b 2 l 0 2 + 4 2 l 0 1 X j=1 c l 0 j j l 0 1 X k=1 c l 0 k k + c 2 l 0 l 0 V ar( 2 l 0 ) + 2 L X j=1 e l 0 j &amp; j L X k=1 e l 0 k &amp; k + 4b l 0 2 l 0 1 X j=1 c l 0 j j +2b l 0 c l 0 l 0 E( 3 l 0 ) + 2b l 0 2 L X j e l 0 j &amp; j + 4c l 0 l 0 E( 3 l 0 ) l 0 1 X j=1 c l 0 j j + 4 2 l 0 1 X j=1 c l 0 j j L X k=1 e l 0 k &amp; k + 2c l 0 l 0 E( 3 l 0 ) L X j e l 0 j &amp; j ]; E(U 2 L;l ) = 1 L [E(b 2 l 0 ) 2 + 4 4 l 0 1 X j=1 E(c 2 l 0 j ) + E(c 2 l 0 l 0 )V ar( 2 l 0 ) + 2 L X j=1 L X k=1 E(e l 0 j e l 0 k &amp; j &amp; k ) +2E(b l 0 c l 0 l 0 )E( 3 l 0 ) + 2 2 L X j E(b l 0 e l 0 j &amp; j ) + 2E( 3 l 0 ) L X j E(c l 0 l 0 e l 0 j &amp; j )]:</formula><p>Therefore, for l = L + 1; ; 2L and</p><formula xml:id="formula_218">l 0 = l L, E(U 2 L;l jF L;l 1 ) E(U 2 L;l ) = 1 L [ 2 (b 2 l 0 E(b 2 l 0 ) + 4 2 l 0 1 X j=1 0 @ c l 0 j j l 0 1 X k=1 c l 0 k k 2 E(c 2 l 0 j ) 1 A + (c 2 l 0 l 0 E(c 2 l 0 l 0 ))V ar( 2 l 0 ) + 2 L X j=1 L X k=1 (e l 0 j &amp; j e l 0 k &amp; k E(e l 0 j &amp; j e l 0 k &amp; k )) + 2E( 3 l 0 )(b l 0 c l 0 l 0 E(b l 0 c l 0 l 0 )) + 2 2 L X j=1 (b l 0 e l 0 j &amp; j E(b l 0 e l 0 j &amp; j )) +4b l 0 2 l 0 1 X j=1 c l 0 j j + 4c l 0 l 0 E( 3 l 0 ) l 0 1 X j=1 c l 0 j j + 4 2 l 0 1 X j=1 c l 0 j j L X k=1 e l 0 k &amp; k + 2E( 3 l 0 ) L X j=1 (c l 0 l 0 e l 0 j &amp; j E(c l 0 l 0 e l 0 j &amp; j ))] = 1 L f 2 [b 2 l 0 E(b 2 l 0 )] + V ar( 2 l 0 )[c 2 l 0 l 0 E(c 2 l 0 l 0 )] + 2E( 3 l 0 )[b l 0 c l 0 l 0 E(b l 0 c l 0 l 0 )]g + 4 L l 0 1 X j=1 2 4 2 0 @ c l 0 j j l 0 1 X k=1 c l 0 k k 2 E(c 2 l 0 j ) 1 A + b l 0 2 c l 0 j j + c l 0 l 0 E( 3 l 0 )c l 0 j j + 2 c l 0 j j L X k=1 e l 0 k &amp; k 3 5 + 1 L L X j=1 " 2 L X k=1 (e l 0 j &amp; j e l 0 k &amp; k E(e l 0 j &amp; j e l 0 k &amp; k )) + 2 2 (b l 0 e l 0 j &amp; j E(b l 0 e l 0 j &amp; j )) + 2E( 3 l 0 )(c l 0 l 0 e l 0 j &amp; j E(c l 0 l 0 e l 0 j &amp; j )) # ;</formula><p>and hence,</p><formula xml:id="formula_219">2L X l=L+1 [E(U 2 L;l jF L;l 1 ) E(U 2 L;l )] = H 1L + H 2L + H 3L + H 4L + H 5L + H 6L + H 7L + H 8L + H 9L + H 10L ; By Holder's inequality, we get jU L;l j q L q=2 2 4 0 @ (jb l 0 j 1 p ) p + l 0 X j=1 (jc l 0 j j 1 p ) p + 1 + L X j (je l 0 j j 1 p ) p 1 A 1 p 0 @ (jb l 0 j 1 q j l 0 j) q + l 0 1 X j=1 (2j l 0 jjc l 0 j j 1 q j j j) q + (jc l 0 l 0 j 1 q j 2 l 0 2 j) q + L X j (j l 0 jje l 0 j j 1 q j&amp; j j) q 1 A 1 q 3 7 5 q = L q 2 0 @ jb l 0 j + l 0 X j=1 jc l 0 j j + 1 + L X j je l 0 j j 1 A q p 0 @ jb l 0 jj q l 0 j + 2 q l 0 1 X j=1 jc l 0 j jj q l 0 jj q j j + jc l 0 l 0 jj 2 l 0 2 j) q + j q l 0 j L X j je l 0 j jj&amp; q j j 1 A :</formula><p>As C L and E L are uniformly bounded in both row and column sums and elements of B L are uniformly bounded, there exists a constant c U such that jb l 0 j c U =3, P l 0 j=1 jc l 0 j j c U =3, and</p><formula xml:id="formula_220">P L j je l 0 j j c U =3 for all l 0 and L. Hence, jU L;l j q L q 2 c q=p U 0 @ jb l 0 jj q l 0 j + 2 q l 0 1 X j=1 jc l 0 j jj q l 0 jj q j j + jc l 0 l 0 j(j 2 l 0 2 j) q + L X j je l 0 j jj q l 0 jj&amp; q j j 1 A :</formula><p>There exists a …nite constant c q &gt; 1 such that Ej&amp; q l 0 j c q and E(j 2 l 0 2 j) q c q for all l 0 and L. Taking</p><formula xml:id="formula_221">q = 2 + U =2, as Ej 2(2+ U =2) l 0 j exists and P L j (je l 0 j jj q i j) c G j q i j where c G = jjE L jj 1 &lt; 1, it follows that 2L X l=L+1 EjU L;l j 2+ U =2 2 2+ U =2 L 2+ U =2 2 c (2+ U =2)=p U c 2 q 0 @ jb l 0 j + l 0 X j=1 Ejc l 0 j j + jc l 0 l 0 j + L X j E(je l 0 j jj&amp; 2+ U =2 l 0 j) 1 A = O(L U 4 ):</formula><p>As 2 UL = O(1) and is bounded away from zero,</p><formula xml:id="formula_222">2L X l=1 EjU L;l j 2+ U =2 = 1 2+ U UL 2L X l=1 EjU L;l j 2+ U =2 = O(L U 4 );</formula><p>which goes to zero as L tends to in…nity. Conditions for the martingale CLT satisfy, so</p><formula xml:id="formula_223">U L = UL d ! N (0; 1): C Relevant Statistics C.1 Expected Value of ln L c L ( )</formula><p>To investigate the uniform convergence property of the concentrated log likelihood function ln L c L ( ) in (5), we need to derive the E ln L c L ( ). From (4), as</p><formula xml:id="formula_224">Y L = (I L W L ( 0 )) 1 (X 1L 0 + I 0 ( 0 ; 0 ) + c 1L0 + 1L0 + L 0 + L ), we have W jL Y L = W jL S 1 L ( )(X 1L 0 + I 0 ( 0 ; 0 ) + c 1L0 + 1L0 + L 0 + L ): A +O(n),</formula><p>where</p><formula xml:id="formula_225">I = EQ 0 1L (J T J n )Q 1L + 2 0 tr(G 2 1L +G 0 1L (J T J n )G 1L ), I 2 2 = ( 2 0 1 0 + 0 0 0 ) EK 0 L (J T J n )K L</formula><p>, and I is a J J matrix with it (k; j) element being nT</p><formula xml:id="formula_226">2 2 0 tr( 1 0 @ 0 @ k 1 0 @ 0 @ j ). The structure of E( @ 2 ln L c L ( 0) @ @ 0</formula><p>) is similar to <ref type="bibr" target="#b28">Qu and Lee (2015)</ref> with similar conditions for the nonsingularity of the information matrix.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>C.3 Variance of the Score</head><p>We</p><formula xml:id="formula_227">can show that E 1 L @ ln L c 1;L ( 0) @ @ ln L c 1;L ( 0) @ 0 = I nT; 0 + nT; 0 + o p (<label>1</label></formula><p>), where I nT; 0 is in (24), and nT; 0 is related to the third and fourth moment of L which are zeros under normal distribution. In general, by using E(D 0</p><formula xml:id="formula_228">L L 0 L B L L ) = 3 P L l=1 E(D 0 L ) l (B L ) ll and E( 0 L A L L 0 L B L L ) = ( 4 3 4 0 ) P L l=1 E(A L ) ll (B L ) ll + 4 0 E[tr(A L B L ) + tr(A L B 0 L ) + tr(A L )tr(B L )], we have nT; 0 = 1 L 1 4 0 0 B B B B B B @ R 0 R 1 0 0 0 0 R 0 0 0 0 R 2 0 0 0 R R 1 R R 2 R 0 0 0 0 R 2 0 R 1 C C C C C C A ,<label>(25)</label></formula><p>where R = ( 4 3 4 0 )</p><formula xml:id="formula_229">P L l=1 E[(G 1L (J T J n )) ll ] 2 + 2 3 P L l=1 E[(Q 0 1L ) l (G 1L (J T J n )) ll ], R 1 = 3 P L l=1 E[(R (u)0 L ) l (G 1L (J T J n )) ll ], R = 3 P L l=1 E[( 0 L (J T J n )) l (G 1L (J T J n )) ll ], R 2 = R = 3 0 P L l=1 E[(K L ) l (G 1L (J T J n )) l ]; R = 1 2 2 0 ( 4 3 4 0 ) P L l=1 E[(G 1L (J T J n )) ll ] + 3 2 2 0 P L l=1 E[(Q 0 1L ) l ], R 1 = 1 2 2 0 3 P L l=1 E[(R (u)0 ) l ],</formula></div>			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<monogr>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+		<title level="m">Spatial Econometrics: Methods and Models</title>
+		<meeting><address><addrLine>The Netherlands</addrLine></address></meeting>
+		<imprint>
+			<publisher>Kluwer Academic</publisher>
+			<date type="published" when="1988">1988</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Spatial panel econometrics</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">Le</forename><surname>Gallo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Jayet</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">The Econometrics of Panel Data: Fundamentals and Recent Developments in Theory and Practice</title>
+		<editor>
+			<persName><forename type="first">L</forename><surname>Matyas</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">P</forename><surname>Sevestre</surname></persName>
+		</editor>
+		<meeting><address><addrLine>Berlin</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2008">2008. 19</date>
+			<biblScope unit="page" from="625" to="660" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">The spillover e¤ects of state spending</title>
+		<author>
+			<persName><forename type="first">K</forename><surname>Baicker</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Public Economics</title>
+		<imprint>
+			<biblScope unit="volume">89</biblScope>
+			<biblScope unit="page" from="529" to="544" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Testing panel data regression models with spatial error correlation</title>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">H</forename><surname>Baltagi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">H</forename><surname>Song</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Koh</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">117</biblScope>
+			<biblScope unit="page" from="123" to="150" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Spatial panels</title>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">H</forename><surname>Baltagi</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Handbook on Empirical Economics and Finance</title>
+		<editor>
+			<persName><forename type="first">A</forename><surname>Ullah</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">D</forename><forename type="middle">E A</forename><surname>Giles</surname></persName>
+		</editor>
+		<meeting><address><addrLine>New York</addrLine></address></meeting>
+		<imprint>
+			<publisher>Taylor &amp; Francis Group</publisher>
+			<date type="published" when="2011">2011</date>
+			<biblScope unit="page" from="397" to="434" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">A generalized spatial panel data model with random e¤ects</title>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">H</forename><surname>Baltagi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Egger</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Pfa¤ermayr</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometric Reviews</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="page" from="650" to="685" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Estimating dynamic demand for cigarettes using panel data: the e¤ects of bootlegging, taxation and advertising reconsidered</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Baltagi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Levin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Review of Economics and Statistics</title>
+		<imprint>
+			<biblScope unit="volume">48</biblScope>
+			<biblScope unit="page" from="148" to="155" />
+			<date type="published" when="1986">1986</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Cigarette taxation: raising revenues and reducing consumptions</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Baltagi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Levin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Structural Change and Economic Dynamics</title>
+		<imprint>
+			<biblScope unit="volume">3</biblScope>
+			<biblScope unit="page" from="321" to="335" />
+			<date type="published" when="1992">1992</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<author>
+			<persName><forename type="first">M</forename><surname>Beenstock</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Felsenstein</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Spatial vector autoregressions</title>
+		<imprint>
+			<date type="published" when="2007">2007</date>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="page" from="167" to="196" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Testing for strategic interaction among local governments: the case of growth controls</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">K</forename><surname>Brueckner</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">44</biblScope>
+			<biblScope unit="page" from="438" to="467" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Do local governments engage in strategic property tax competition?</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">K</forename><surname>Brueckner</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">A</forename><surname>Saavedra</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">National Tax Journal</title>
+		<imprint>
+			<biblScope unit="volume">54</biblScope>
+			<biblScope unit="page" from="203" to="229" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Budget spillovers and …scal policy interdependence: evidence from the States</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Case</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">R</forename><surname>Hines</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">S</forename><surname>Rosen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Public Economics</title>
+		<imprint>
+			<biblScope unit="volume">52</biblScope>
+			<biblScope unit="page" from="285" to="307" />
+			<date type="published" when="1993">1993</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Unconditional maximum likelihood estimation of linear and log-linear dynamic models for spatial panels</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Elhorst</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">37</biblScope>
+			<biblScope unit="page" from="85" to="106" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Spatial panel data models</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Elhorst</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Handbook of Applied Spatial Analysis: Software Tools, Methods and Applications</title>
+		<editor>
+			<persName><forename type="first">M</forename><forename type="middle">M</forename><surname>Fischer</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">A</forename><surname>Getis</surname></persName>
+		</editor>
+		<meeting><address><addrLine>Heidelberg Dordrecht London New York</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2010">2010</date>
+			<biblScope unit="page" from="377" to="407" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">A generalized method of moments estimators for a spatial panel model with an endogenous spatial lag and spatial moving average errors</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Fingleton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Spatial Economic Analysis</title>
+		<imprint>
+			<biblScope unit="volume">3</biblScope>
+			<biblScope unit="page" from="27" to="44" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<monogr>
+		<title level="m" type="main">Matrix Algebra</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Horn</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Johnson</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1985">1985</date>
+			<publisher>Cambridge University Press</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">On spatial processes and asymptotic inference under near-epoch dependence</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Jenish</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">170</biblScope>
+			<biblScope unit="page" from="178" to="190" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Panel data models with spatially correlated error components</title>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">M</forename><surname>Kapoor</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">140</biblScope>
+			<biblScope unit="page" from="97" to="130" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Estimation of spatial models with endogenous weighting matrices, and an application to a demand model for cigarettes</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Piras</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="page" from="140" to="149" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Estimating panel models with internal and external habit formation</title>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">M</forename><surname>Korniotis</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Business and Economic Statistics</title>
+		<imprint>
+			<biblScope unit="volume">28</biblScope>
+			<biblScope unit="page" from="145" to="158" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Some recent developments in spatial panel data models</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">40</biblScope>
+			<biblScope unit="page" from="255" to="271" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Estimation of spatial autoregressive panel data models with …xed e¤ects</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">154</biblScope>
+			<biblScope unit="page" from="165" to="185" />
+			<date type="published" when="2010">2010. 2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Spatial panels: random components vs. …xed e¤ects</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Economic Review</title>
+		<imprint>
+			<biblScope unit="volume">53</biblScope>
+			<biblScope unit="page" from="1369" to="1412" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">QML estimation of spatial dynamic panel data models with time varying spatial weights matrices</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Spatial Economic Analysis</title>
+		<imprint>
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="page" from="31" to="74" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">E¢ cient GMM estimation of spatial dynamic panel data models</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">180</biblScope>
+			<biblScope unit="page" from="174" to="197" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Spatial panel data models</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Oxford Handbook of Panel Data</title>
+		<editor>
+			<persName><forename type="first">B</forename><surname>Baltagi</surname></persName>
+		</editor>
+		<imprint>
+			<publisher>Oxford University Press</publisher>
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Identi…cation of spatial durbin panel models</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yu</surname></persName>
+		</author>
+		<idno type="DOI">10.1002/jae.2450</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Applied Econometrics</title>
+		<imprint>
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<monogr>
+		<title level="m" type="main">Dynamic panel data models with spatially correlated disturbances</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Mutl</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2006">2006</date>
+			<pubPlace>College Park</pubPlace>
+		</imprint>
+		<respStmt>
+			<orgName>University of Maryland</orgName>
+		</respStmt>
+	</monogr>
+	<note type="report_type">PhD thesis</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Estimating a spatial autoregressive model with an endogenous spatial weight matrix</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Qu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">184</biblScope>
+			<biblScope unit="page" from="209" to="232" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<monogr>
+		<title level="m" type="main">IV estimation of a spatial dynamic panel model with endogenous spatial weights when T is small</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Qu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Lee</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+	<note>Working paper</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">A commuting-based re…nement of the contiguity matrix for spatial models, and an application to local police expenditures</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Rincke</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">40</biblScope>
+			<biblScope unit="page" from="324" to="330" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">Identi…cation in parametric models</title>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">J</forename><surname>Rothenberg</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">39</biblScope>
+			<biblScope unit="page" from="577" to="591" />
+			<date type="published" when="1971">1971</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">QML estimation of dynamic panel data models with spatial errors</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Su</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Yang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">185</biblScope>
+			<biblScope unit="page" from="230" to="258" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">Quasi-maximum likelihood estimators for spatial dynamic panel data with …xed e¤ects when both n and T are large</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Jong</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">146</biblScope>
+			<biblScope unit="page" from="118" to="134" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<analytic>
+		<title level="a" type="main">Estimation for spatial dynamic panel data with …xed e¤ects: The case of spatial cointegration</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Jong</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">167</biblScope>
+			<biblScope unit="page" from="16" to="37" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<analytic>
+		<title level="a" type="main">Estimation of unit root spatial dynamic data models</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometric Theory</title>
+		<imprint>
+			<biblScope unit="volume">26</biblScope>
+			<biblScope unit="page" from="1332" to="1362" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

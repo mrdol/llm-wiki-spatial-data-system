@@ -2177,3 +2177,17 @@ Conversion GROBID terminée : `tools/kg/02_run_grobid.py` accepte désormais l'o
 - N04 : nouveau loader (`load_n04_glasgow_respiratory()`), jointure officielle CARBayesdata (`respiratorydata.rda` x 134 IZ + `GGHB.IZ.rda` x 271 polygones, CRS EPSG:27700 declare). TEI relu integralement (pas seulement grep) : le papier ajuste reellement TROIS modeles sur ce jeu -- HGP (propose, correlation par distance de Hausdorff entre polygones), DAGAR et BYM (comparateurs reels, pas juste cites, Table 2). Aucun des trois n'est implemente dans spatialtidymodels. Une matrice d'adjacence (`spdep::poly2nb`, contiguite reine) a ete construite comme infrastructure (`data/final_datasets/weights/paper_n04_glasgow_respiratory_W.rds`, decision utilisateur explicite, exception a la regle habituelle) mais n'est consommee par aucun estimateur actuel.
 - N03 : nouveau loader (`load_n03_macoma_balthica()`), depot officiel des auteurs (github.com/benee55/PICAR_Z_Code, `samples/datsc.csv`, 4026 lignes). TEI relu integralement : le papier propose PICAR-Z, un modele hurdle a deux processus spatiaux latents independants (occurrence + prevalence), non implemente. Ecart initialement signale entre "n=4029" et les 4026 lignes deposees resolu : le 4029 cite un autre papier (Lyashevska et al. 2016) en introduction, pas ce jeu. CRS (EPSG:28992, RD New/Amersfoort) infere avec confiance elevee mais non declare par les auteurs.
 - Les deux jeux restent en `manual_review` : aucune methode spatiale publiee n'a d'equivalent dans le harnais actuel (HGP/DAGAR/BYM pour N04 ; hurdle PICAR-Z pour N03).
+
+## [2026-09-29] méta-analyse | Corpus quantitatif porté à 101 articles
+
+M13 réintégré après vérification de 20 régénérations indépendantes pour chacune de trois tailles d'échantillon. Le champ `validation_application_reelle` remplace la validation globale et ne décrit que les applications empiriques. Résultats recalculés : 101 articles, 79 depuis 2017, 199 expériences, 2 977 cellules documentées au minimum et 93 usages empiriques. Le brouillon, le plan, le README, le manuscrit, les scripts de contrôle et les figures F1/F4 ont été synchronisés. Compilation LaTeX réussie ; les anciens fichiers à 50 et 66 articles restent des archives.
+
+## [2026-09-29] rédaction | Abstract du Data Descriptor
+
+Abstract anglais remplacé dans le manuscrit Scientific Data : 167 mots, 101 articles méthodologiques, 276 enregistrements analytiques techniquement prêts issus de 129 sources, domaines représentatifs, couverture CRS et géométries, provenance des poids, sous-échantillonnage et constructions semi-synthétiques. Le texte distingue explicitement le candidat de publication du futur sous-ensemble redistribuable après audit des licences. Compilation locale réussie et première page contrôlée visuellement.
+
+
+## [2026-09-29] correction | Supports spatiaux dans l'Abstract
+
+Retrait du décompte 275 POINT / 1 POLYGON : il décrivait les géométries actives standardisées et non les supports d'origine. L'Abstract décrit désormais des sources ponctuelles, polygonales et maillées, et signale que certains artefacts utilisent des points représentatifs ou des centroïdes. Terminologie recentrée sur les jeux de données et la banque de données. Compilation locale réussie, Abstract à 169 mots.
+

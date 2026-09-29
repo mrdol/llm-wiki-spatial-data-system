@@ -1,0 +1,1195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">A Moran coefficient-based mixed effects approach to investigate spatially varying relationships</title>
+				<funder ref="#_5FAXSW7">
+					<orgName type="full">JSPS</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">Daisuke</forename><surname>Murakami</surname></persName>
+							<email>murakami.daisuke@nies.go.jp</email>
+							<affiliation key="aff0">
+								<orgName type="department">Center for Global Environmental Research</orgName>
+								<orgName type="institution">National Institute for Environmental Studies</orgName>
+								<address>
+									<addrLine>16-2 Onogawa</addrLine>
+									<postCode>305-8506</postCode>
+									<settlement>Tsukuba</settlement>
+									<region>Ibaraki</region>
+									<country key="JP">Japan</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Takahiro</forename><surname>Yoshida</surname></persName>
+							<email>yoshida.takahiro@sk.tsukuba.ac.jp</email>
+							<affiliation key="aff0">
+								<orgName type="department">Center for Global Environmental Research</orgName>
+								<orgName type="institution">National Institute for Environmental Studies</orgName>
+								<address>
+									<addrLine>16-2 Onogawa</addrLine>
+									<postCode>305-8506</postCode>
+									<settlement>Tsukuba</settlement>
+									<region>Ibaraki</region>
+									<country key="JP">Japan</country>
+								</address>
+							</affiliation>
+							<affiliation key="aff1">
+								<orgName type="department">Graduate School of Systems and Information Engineering</orgName>
+								<orgName type="institution">University of Tsukuba</orgName>
+								<address>
+									<addrLine>1-1-1 Tennodai</addrLine>
+									<postCode>305-8573</postCode>
+									<settlement>Tsukuba</settlement>
+									<region>Ibaraki</region>
+									<country key="JP">Japan</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Hajime</forename><surname>Seya</surname></persName>
+							<email>hseya@people.kobe-u.ac.jp</email>
+							<affiliation key="aff2">
+								<orgName type="department" key="dep1">Department of Civil Engineering</orgName>
+								<orgName type="department" key="dep2">Graduate School of Engineering</orgName>
+								<orgName type="institution">Kobe University</orgName>
+								<address>
+									<addrLine>1-1 Rokkodai</addrLine>
+									<postCode>657-8501</postCode>
+									<settlement>Nada Kobe</settlement>
+									<country key="JP">Japan</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Daniel</forename><forename type="middle">A</forename><surname>Griffith</surname></persName>
+							<email>dagriffith@utdallas.edu</email>
+							<affiliation key="aff3">
+								<orgName type="department">Schoold of Economic, Political and Policy Science</orgName>
+								<orgName type="institution">The University of Texas</orgName>
+								<address>
+									<addrLine>800 W Campbell Rd</addrLine>
+									<postCode>75080</postCode>
+									<settlement>Dallas Richardson</settlement>
+									<region>TX</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Yoshiki</forename><surname>Yamagata</surname></persName>
+							<email>yamagata@nies.go.jp</email>
+							<affiliation key="aff0">
+								<orgName type="department">Center for Global Environmental Research</orgName>
+								<orgName type="institution">National Institute for Environmental Studies</orgName>
+								<address>
+									<addrLine>16-2 Onogawa</addrLine>
+									<postCode>305-8506</postCode>
+									<settlement>Tsukuba</settlement>
+									<region>Ibaraki</region>
+									<country key="JP">Japan</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">A Moran coefficient-based mixed effects approach to investigate spatially varying relationships</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<idno type="MD5">4006B9C7E151749FC1048CBEE6AB6C2F</idno>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-28T15:57+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>Random effects</term>
+					<term>eigenvector spatial filtering</term>
+					<term>spatially varying coefficient</term>
+					<term>geographically weighted regression</term>
+					<term>Moran coefficient</term>
+					<term>hedonic price analysis</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>This study develops a spatially varying coefficient model by extending the random effects eigenvector spatial filtering model. The developed model has the following properties: its coefficients are interpretable in terms of the Moran coefficient; each of its coefficients can have a different degree of spatial smoothness; and it yields a variant of a Bayesian spatially varying coefficient model. Also, parameter estimation of the model can be executed with a relatively small computationally burden. Results of a Monte Carlo simulation reveal that our model outperforms a conventional eigenvector spatial filtering (ESF) model and geographically weighted regression (GWR) models in terms of the accuracy of the coefficient estimates and computational time. We empirically apply our model to the hedonic land price analysis of flood risk in Japan.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">Introduction</head><p>Spatial heterogeneity is one of the important characteristics of spatial data <ref type="bibr" target="#b0">(Anselin, 1988)</ref>. Geographically weighted regression (GWR) <ref type="bibr" target="#b16">(Fotheringham et al., 2002;</ref><ref type="bibr">Wheeler and Páez, 2009;</ref><ref type="bibr">Fotheringham, 2016)</ref> models are one useful approach for explicitly accounting for spatial heterogeneity of the model structure through spatially varying coefficients (SVCs). Thus far, GWR models have attained remarkable success with various applications, including social economic studies (e.g., <ref type="bibr" target="#b5">Bitter et al., 2007;</ref><ref type="bibr" target="#b33">Huang et al., 2010)</ref>, ecological studies (e.g., <ref type="bibr">Wang et al., 2005;</ref><ref type="bibr" target="#b3">Austin, 2007)</ref>, and health studies (e.g., <ref type="bibr" target="#b43">Nakaya et al., 2005;</ref><ref type="bibr" target="#b32">Hu et al., 2012)</ref>.</p><p>Despite the wide-ranging set of applications, existing studies have shown that the basic (original) GWR specification has several drawbacks. First, the coefficients of the basic GWR model typically suffer from multicollinearity <ref type="bibr" target="#b44">(Páez et al., 2011;</ref><ref type="bibr">Wheeler and Tiefelsdorf, 2005)</ref>. Second, the basic GWR model assumes the same degree of spatial smoothness for each coefficient, which is a rather strong assumption that fails to hold in most empirical applications. Fortunately, several extended GWR models have been proposed to address these problems. With regard to the first problem, Wheeler (2007; 2009) proposes regularized GWR models, by combining ridge and/or lasso regression with GWR, and its robustness in terms of the multicollinearity problem has been demonstrated. The limitations of regularized GWR models are its bias in coefficient estimates, just like conventional ridge and/or lasso regression. With regard to the second problem concerning uniform smoothers, Yang et al. <ref type="bibr">(2014)</ref> and <ref type="bibr" target="#b38">Lu et al. (2015)</ref> attempted to overcome this limitation.</p><p>The Bayesian spatially varying coefficients (B-SVC) model, based on a geostatistical <ref type="bibr" target="#b19">(Gelfand et al., 2003)</ref> or lattice autoregressive approach <ref type="bibr" target="#b2">(Assunçao, 2003)</ref>, is another forms of the spatially varying coefficients models that requires Markov chain Monte Carlo (MCMC). <ref type="bibr">Wheeler and Calder (2007)</ref> and <ref type="bibr">Wheeler and Waller (2009)</ref> suggest that the coefficient estimates for the B-SVC model of <ref type="bibr" target="#b19">Gelfand et al. (2003)</ref> are robust in terms of multicollinearity. In contrast to the GWR model, the B-SVC model allows differential spatial smoothness across coefficients. However, this differential makes computational costs prohibitive if a sample size is moderate to large <ref type="bibr" target="#b14">(Finley, 2011)</ref>. Integrated nested Laplace approximation (INLA) <ref type="foot" target="#foot_0">1</ref> based alternatives are becoming available now <ref type="bibr" target="#b6">(Blangiardo and Cameletti, 2015;</ref><ref type="bibr" target="#b11">Congdon, 2014)</ref>, but with unknown properties.</p><p>Hence, a SVC model with the following properties still needs to be developed:</p><p>(a) robust to multicollinearity; (b) the possibility for each coefficient to have a different degree of spatial smoothness; and, (c) computational efficiency. This study develops a model satisfying these requirements by combining an eigenvector spatial filtering (ESF; <ref type="bibr" target="#b22">Griffith 2003;</ref><ref type="bibr" target="#b9">Chun and Griffith, 2014)</ref> based SVC model <ref type="bibr" target="#b23">(Griffith, 2008)</ref> and a random effects ESF (RE-ESF: Murakami and Griffith, 2015) model.</p><p>The following sections are organized as follows. Sections 2 and 3 introduce the GWR model and ESF-based SVC model of <ref type="bibr" target="#b23">Griffith (2008)</ref>, respectively. Section 4 introduces the RE-ESF model, and extends it to a SVC model. Section 5 compares the properties of our model with those of other SVC models. Section 6 summarizes results from a comparative Monte Carlo simulation experiment, and section 7 uses our model in a flood risk analysis. Section 8 concludes our discussion.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.">GWR models</head><p>The basic GWR model for a site 2    D s i is formulated as follows:</p><formula xml:id="formula_0">) ( ) ( ) ( ) ( 1 i K k i k i k i s u s s x s y      , (<label>1</label></formula><formula xml:id="formula_1">)</formula><p>where y(si) is the explained variable at location si, xk(si) is the k-th explanatory variable, βk(si) is the corresponding geographically varying coefficient, and u(si) is a disturbance term. Estimates for the βk(si) coefficients are obtained with weighted least squares (WLS), which assigns greater weights to nearby observations than distant ones. The WLS estimator of β(si) = [β1(si),... βK(si)]' is given by:</p><formula xml:id="formula_2">y G X X G X β ) ( )] ) ( [ ) ( ˆ1 i i i s s s     , (<label>2</label></formula><formula xml:id="formula_3">)</formula><p>where ' ' ' denotes the matrix transpose, X is an N × K matrix of explanatory variables whose (i, k)-th element is given by xk(si), and y is an N × 1 vector of the response variable whose i-th element is given by y(si). G(si) is an N × N diagonal matrix whose j-th element is given by a geographically weighting function, g(si, sj). The specification of g(si, sj) is arbitrary, as long as the resulting covariance matrix is at least positive semi-definite. Wheeler and Calder (2007) and Wheeler and Waller (2009) applied the following exponential function form:</p><formula xml:id="formula_4">          b s s d s s g j i j i ) , ( exp ) , ( ,<label>(3)</label></formula><p>where d(si, sj) is the Euclidean distance between locations si and sj, and b is the bandwidth parameter, which is large if coefficients have global scale spatial variation, and small if they have local scale spatial variation. A standard estimation procedure for the basic GWR specification is as follows: (1) the bandwidth is calculated based on cross-validation or a corrected AIC (see <ref type="bibr" target="#b16">Fotheringham et al., 2002)</ref>, and (2) β(si) is estimated by substituting the estimated bandwidth into Eqs. (2) and (3).</p><p>After Wheeler and Tiefelsdorf (2005) demonstrate that GWR coefficients essentially are collinear, active discussion shifted to regularized GWR models. For example, Wheeler (2007) proposes a ridge regularization-based GWR that replaces Eq.</p><p>(2) with the following equation:</p><formula xml:id="formula_5">y G X I X G X β ) ( ) ) ( ( ) ( ˆ1 i K i i s s s       , (<label>4</label></formula><formula xml:id="formula_6">)</formula><p>where η is the ridge regularization parameter, and IK is a K × K identity matrix. Wheeler Specifically, they propose the locally compensated ridge GWR (LCR-GWR) model, whose estimator is as follows:</p><formula xml:id="formula_7">y G X I X G X β ) ( ) ) ( ) ( ( ) ( ˆ1 i K i i i s s s s       , (<label>5</label></formula><formula xml:id="formula_8">)</formula><p>where η(si) is the ridge parameter for location si, </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.">ESF-based SVC models</head><p>Section 3.1 introduces the ESF approach 1, and section 3.2 presents an ESF-based SVC model, which we extend to a RE-ESF-based model in section 4.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1.">The ESF approach</head><p>Moran ESF is based on the Moran coefficient (MC; see, <ref type="bibr" target="#b1">Anselin and Rey, 1991)</ref>, which is a spatial dependence diagnostic statistic formulated as follows <ref type="foot" target="#foot_1">2</ref> :</p><formula xml:id="formula_9">My y MCMy y C1 1     N MC . (<label>6</label></formula><formula xml:id="formula_10">)</formula><p>where 1 is an N × 1 vector of ones, y is an N × 1 vector of variable values, C is an N ×N connectivity matrix whose diagonal elements are zero, and M = IN -11'/N is an N × N matrix for double centering, where IN is an N × N identity matrix. Note that M is replaced with</p><formula xml:id="formula_11">MX = IN-X(X' X) -1 X' if y is a residual vector of a linear regression model.</formula><p>MC is positive if the sample values in y display positive spatial dependence, and negative if they display negative spatial dependence. The l-th eigenvector of MCM, el, describes the l-th map pattern explained by MC, while the set of eigenvectors of MCM, Efull ={e1, ..., eN}, provides all the possible distinct map pattern descriptions of latent spatial dependence, with each magnitude being indexed by its corresponding eigenvalue <ref type="bibr" target="#b22">(Griffith, 2003)</ref>.</p><p>ESF describes the latent map pattern in a georeferenced response variable y, using a linear combination of eigenvectors, Eγ, where E is a matrix composed of L eigenvectors in Efull (L &lt; N), and γ = [γ1, ..., γL]' is an L × 1 coefficient vector. The linear ESF model is given by</p><formula xml:id="formula_12">ε Eγ Xβ y    , ) , ( ~2 N N N I 0 ε  , (<label>7</label></formula><formula xml:id="formula_13">)</formula><p>where ε is an N × 1 vector of disturbances, β = [β1, ..., βK]' is a K × 1 parameter vector, 0N is an N × 1 vector of zeros, and σ 2 is a variance parameter. Because Eq. ( <ref type="formula" target="#formula_12">7</ref>) is in the form of the standard linear regression model, ordinary least squares (OLS) estimation is applicable for its parameter estimation <ref type="foot" target="#foot_2">3</ref> . The L eigenvectors in E may be selected as follows (see, Chun et al., 2016): (a) eigenvectors corresponding to small eigenvalues, which explain the inconsequential level of spatial dependence, are removed, and (b) significant eigenvectors are chosen by applying a stepwise variable selection process to a predefined candidate set. Many studies demonstrate the effectiveness of ESF in estimation and inference for β in the presence of spatial dependence (e.g., Chun, 2014; Griffith and Chun, 2014; Margaretic et al., 2015). For more details about ESF, see Griffith (2003), Griffith and Paelinck (2011), Griffith and Chun (2014), and Griffith and Chun (2016).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2.">ESF-based SVC models</head><p>Griffith (2008) extended ESF to the following SVC model:</p><formula xml:id="formula_14">ε γ E x Xβ y      K k k k k 1  , ) , ( ~2 N N N I 0 ε  , (<label>8</label></formula><formula xml:id="formula_15">)</formula><p>which also is expressed as</p><formula xml:id="formula_16">ε β x y     K k ESF k k 1  , ) , ( ~2 N N N I 0 ε  , (<label>9</label></formula><formula xml:id="formula_17">) k k k ESF k γ E 1 β    ,</formula><p>where xk is an N × 1 vector of the k-th explanatory variable (i.e., k-th column of X), Ek is an N × Lk matrix composed of Lk eigenvectors (Lk &lt; N), γk is an Lk × 1 coefficient vector, and '  ' denotes the element-wise (Hadamard) product operator.</p><p>ESF k β = βk1 + Ekγk yields a vector of spatially varying coefficients, in which βk1 and Ekγk represent the constant component and spatially varying component, respectively. The parameters can be estimated, as for the standard ESF specification, as follows: (a) eigenvectors corresponding to small eigenvalues are removed from each Ek; (b) significant variables in X, x1  E1, ..., xK  EK are selected by applying an OLS-based forward variable selection technique, and β= [β1, ..., βK]' and γk are then estimated; and, (c) ESF k β ˆ= k k γ E 1   is calculated. Helbich and Griffith (2016) empirically demonstrated that spatial variation of the ESF-based coefficients can be significantly different from those for GWR.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.">RE-ESF-based SVC models</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1.">The RE-ESF approach</head><p>While the conventional ESF model is a fixed effects model, <ref type="bibr" target="#b40">Murakami and Griffith (2015)</ref> show the effectiveness of random effects-versions of ESF in terms of parameter inference. This section extends RE-ESF to a SVC model as follows:</p><formula xml:id="formula_18">ε Eγ Xβ y    , )) ( , ( ~2    Λ 0 γ L N , ) , ( ~2 N N N I 0 ε  , (<label>10</label></formula><formula xml:id="formula_19">)</formula><p>where 0L is an L × 1 vector of zeros, E is given by the subset of L eigenvectors corresponding to positive eigenvalues (without applying the stepwise variable selection process), and Λ(α) is an L × L diagonal matrix whose l-th element is λl(α) = (Σlλl/Σlλl</p><p>α )λl α , where α and σγ 2 are parameters. A large α shrinks the coefficients of the non-principal eigenvectors strongly toward 0, and the resulting Eγ describes a global map pattern. By contrast, when α is small, Eγ describes a local map pattern. Thus, α controls the spatial smoothness of the underlying map pattern. RE-ESF has two interpretations (Murakami and Griffith, 2015): it describes a map pattern explained by MC, and it describes a Gaussian process after a rank reduction. Eq. (10) can be rewritten as follows: ε u θ EV Xβ y    ) ( , ) , ( ~2 L L N I 0 u  , ) , ( ~2 N N N I 0 ε  , (11) where θ = {σγ 2 /σ 2 , α}, IL is an L × L identity matrix, and V(θ) is a diagonal matrix whose l-th element is (σγ/σ)λl(α) 1/2 . Note that V(θ)u in Eq. (11) equals γ. The parameters in Eq. (11) (or Eq. (10)) are estimated by using the residual maximum likelihood (REML) method of Bates (2010). Following his specification, the likelihood function is defined by loglik(β, θ) =  u θ β u y d p ) , | , ( , and the restricted log-likelihood by loglikR(θ) =  β θ β d lik log ) , ( .</p><p>The estimation procedure is summarized as follows: (a) θ is estimated by maximizing the restricted log-likelihood Eq. ( <ref type="formula" target="#formula_20">12</ref>) with the plugins of Eqs. ( <ref type="formula" target="#formula_21">13</ref>) and ( <ref type="formula">14</ref>);</p><p>(b) β and γ = V(θ)u are estimated by substituting the estimated θ into Eq. ( <ref type="formula">14</ref>); and, (c) σ 2 is estimated by substituting the estimated parameters into Eq. ( <ref type="formula" target="#formula_23">15</ref>). In other words,</p><formula xml:id="formula_20">                              K N d K N lik log L R ) ( 2 log 1 2 ) ( ) ( ) ( log 2 1 ) ( 2 θ I θ V X E θ V θ EV X X X θ  , (<label>12</label></formula><formula xml:id="formula_21">) 2 2 , || || || ) ( || min ) ( u u θ EV Xβ y θ u β     d , (<label>13</label></formula><formula xml:id="formula_22">)                           y E θ V y X I θ V X E θ V θ EV X X X u β ) ( ) ( ) ( ) ( ˆ1 2 L</formula><p>, and ( <ref type="formula">14</ref>)</p><formula xml:id="formula_23">K N     2 2 || ) ( || ˆu θ EV Xβ y  , (<label>15</label></formula><formula xml:id="formula_24">)</formula><p>where 2 || ||  denotes the L2-norm of a vector  , and V(θ) 2 </p><formula xml:id="formula_25">= V(θ)V(θ) = V(θ)E' EV(θ).</formula><p>The computational complexity of Eq. ( <ref type="formula" target="#formula_20">12</ref>) is O((K+L) 3 ), which is smaller than the complexity of the likelihood maximization in standard spatial statistical models (O(N 3 )). <ref type="formula">Murakami and Griffith (2015)</ref> However, the latter leads to a serious underestimation of the standard errors of β <ref type="bibr" target="#b40">(Murakami and Griffith, 2015)</ref>, and introduces a Type I error if factors omitted from the model are correlated with X, as is known in spatial econometrics (LeSage and Pace, 2009; Griffith and Chun, 2016). Hence, we utilize the former specification.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2.">RE-ESF-based SVC models</head><p>We combine the RE-ESF model and the ESF-based SVC model (Eq. ( <ref type="formula" target="#formula_16">9</ref>)):</p><formula xml:id="formula_26">ε β x y      K k ESF R k k 1  , ) , ( ~2 N N N I 0 ε  , (<label>16</label></formula><formula xml:id="formula_27">) k k ESF R k Eγ 1 β     , )) ( , ( ~2 ) ( k k L k N    Λ 0 γ ,</formula><p>where αk is a parameter that controls the spatial smoothness of the k-th coefficients, and σ 2 k(γ) controls the variance. The k-th coefficients consist of the fixed constant, βk1, and random spatially varying components, Eγk.</p><p>Eq. ( <ref type="formula" target="#formula_26">16</ref>) can be expressed as (see Eqs. <ref type="bibr" target="#b7">(8)</ref> and ( <ref type="formula" target="#formula_16">9</ref>)</p><formula xml:id="formula_28">) ε γ E Xβ y    ~, ) , ( ~2 N N N I 0 ε  , (<label>17</label></formula><formula xml:id="formula_29">)</formula><p>where</p><formula xml:id="formula_30">  E x E x E    K 1 ~ ,                                          ) ( ) ( , ~2 ) ( 1 2 ) ( 1 1 K K L L K N       Λ Λ 0 0 γ γ γ    .</formula><p>Eq. ( <ref type="formula" target="#formula_28">17</ref>) essentially is identical to Eq. ( <ref type="formula" target="#formula_18">10</ref>). Hence, it is further expanded similar to the expansion of Eq. ( <ref type="formula" target="#formula_18">10</ref>) to Eq. ( <ref type="formula">11</ref>):</p><formula xml:id="formula_31">ε u Θ V E Xβ y    ) ( ~, ) , ( ~2 LK LK N I 0 u  , ) , ( ~2 N N N I 0 ε  , (<label>18</label></formula><formula xml:id="formula_32">)            ) ( ) ( ) ( ~1 K θ V θ V Θ V  ,            K u u u  1 ~,</formula><p>where Θ = {θ1, ..., θK}, θk = {σk(γ) 2 /σ 2 , αk}, 0LN is an LK × 1 vector of zeros, ILN is an LK × LK identity matrix, and V(θk) is a diagonal matrix whose l-th element is (σγ(γ)/σ)λl(αk) 1/2 .</p><p>Because Eq. ( <ref type="formula" target="#formula_28">17</ref>) is identical to the RE-ESF model, Eq. ( <ref type="formula" target="#formula_18">10</ref>), the REML estimation for RE-ESF is readily applicable to the proposed model. The estimation procedure is summarized as follows: (a) Θ is estimated by maximizing the profile restricted log-likelihood, Eq. ( <ref type="formula" target="#formula_33">19</ref>), with the plugins of Eqs. ( <ref type="formula" target="#formula_34">20</ref>) and ( <ref type="formula" target="#formula_35">21</ref>  <ref type="formula" target="#formula_36">22</ref>). In other words,</p><formula xml:id="formula_33">                                 K N d K N lik log LK R ) ( 2 log 1 2 ) ( ) ( ) ( ~) ( log 2 1 ) ( Θ I Θ V E E Θ V X E Θ V Θ V E X X X Θ  ,(<label>19</label></formula><formula xml:id="formula_34">) 2 2 , || || || ) ( || min ) ( ~u u Θ V E Xβ y Θ u β     d , (<label>20</label></formula><formula xml:id="formula_35">)                            y E Θ V y X I Θ V E E Θ V X E Θ V Θ V E X X X u β ) ( ) ( ) ( ) ( ~) ( ~1 LK , and<label>(21)</label></formula><formula xml:id="formula_36">K N     2 2 || ) ( || ˆu Θ V E Xβ y  . (<label>22</label></formula><formula xml:id="formula_37">)</formula><p>Although the REML estimation requires a determinant calculation, computational complexity is only O((K+KL) 3 ), which can be decreased by reducing the number of eigenvectors in E. The computational burden also can be reduced by replacing some ESF R k  β = βk1 + Eγk with βk1, which means restricting some coefficients to be constants across a given geographic landscape.</p><p>The variance-covariance matrices of the coefficients are</p><formula xml:id="formula_38">1 2 2 ) ( ~) ( ~                           Θ V E E X E E X X X u Θ V β γ β  k Cov Cov , (<label>23</label></formula><formula xml:id="formula_39">)</formula><p>where</p><formula xml:id="formula_40">2 ) ( ~ Θ V is the inverse of 2 ) ( ~Θ V . Because 2 ) ( ~Θ V</formula><p>is a diagonal matrix, its inverse is easily calculated. As for ESF R k  β = βk1 + Eγk, the variance of the constant component, βk1, is estimated in Eq. ( <ref type="formula" target="#formula_38">23</ref>). The covariance matrix of the spatially varying components, Eγk, is estimated as follows:</p><formula xml:id="formula_41">  E γ E E γ Eγ Eγ      ] [ k k k k Cov Cov , (<label>24</label></formula><formula xml:id="formula_42">)</formula><p>where Cov[ k γ ], which is the covariance matrix of γk, is a sub-matrix of Cov[ γ ~] in Eq.( <ref type="formula" target="#formula_38">23</ref>). The diagonals of Eq. ( <ref type="formula" target="#formula_41">24</ref>) are useful to test if</p><formula xml:id="formula_43">ESF R k  β = βk1 + Eγk has statistically significant spatial variation.</formula><p>A problem is how to estimate Θ efficiently. For example, when five explanatory variables are considered, we need to optimize 10 parameters in {σ1 2 (γ), ..., σ5 2 (γ), α1, ..., α5} simultaneously, which can be computationally expensive. Hence, in addition to simultaneous estimation, we apply an approximation that estimates the coefficient's variance parameters, σk 2 (γ)s, first, and the spatial smoothness parameters, αks, thereafter. In the first step, we impose αk = 1, which implicitly has been assumed in RE-ESF-type models (e.g., Hughes and Haran, 2013). Assuming a unique value for each αk, which implies the same degree of spatial smoothness for each coefficient, is another way to increase computational efficiency. Section 6 compares the effectiveness of these simplifications.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.">Properties of RE-ESF-based SVC model</head><p>This section clarifies advantages and disadvantages of our SVC model by comparing it with the ESF-based SVC model (section 5.1), GWR models (section 5.2), and the B-SVC model of Gelfand (2003) (section 5.3).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.1.">A comparison with the ESF-based model</head><p>Both the ESF-based model and our model describe their k-th coefficients using βk 1 + Eγk. The ESF approach regards Eγk as fixed effects, whereas ours considers it as random effects, where γk ~ N(0L, σk(γ) 2 Λ(αk)). Our specification has additional variance parameters, σk(γ) 2 and αk. They shrink Eγk strongly toward zero when σk(γ) 2 is small and αk is large. Owing to these parameters, our estimator might be more robust to multicollinearity than the estimator of ESF, which is a fundamental problem in SVC models (Wheeler and Tiefelsdorf, 2005).</p><p>The parameter αk also controls the spatial smoothness of each varying coefficient. A large αk shrinks the coefficients γk,l corresponding to the non-principal eigenvectors strongly toward zero, where γk,l is the l-th element of γk. As a result, Eγk has a global (smoother) map pattern. Interestingly, αk is interpretable in terms of MC.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>MC[Eγk]</head><p>can be calculated by substituting Eγk into Eq. ( <ref type="formula" target="#formula_9">6</ref>) as follows (see <ref type="bibr" target="#b22">Griffith, 2003)</ref>:</p><formula xml:id="formula_44">        L l l l k L l l k k N MC 1 2 , 1 2 , 1    C1 1 Eγ . (<label>25</label></formula><formula xml:id="formula_45">)</formula><p>MC[Eγk] grows as γk,l corresponding to large (in absolute value) eigenvalues increases compared with those corresponding to medium-small (in absolute value) eigenvalues.</p><p>This means that MC[Eγk] increases if αk, which shrinks γk,l corresponding to medium-small (absolute) eigenvalues, is large. In particular, MC[Eγk] takes its maximum value if αk = ∞ because γk,2 = γk,3... = γk,L = 0. By contrast, if αk = 0, σk(γ) 2  shrinks all coefficients equally. In this case, the estimator of γk,l yields the standard ridge regression estimator. In short, αk is an MC-based shrinkage parameter that intensifies the underlying spatial dependence of</p><formula xml:id="formula_46">ESF R k  β = βk1 + Eγk.</formula><p>Computational efficiency is another advantage of our approach. While we apply REML estimation, the ESF-based SVC model applies stepwise variable selection, which is computationally costly especially for massively large datasets. An advantage of ESF is its simplicity <ref type="bibr" target="#b22">(Griffith, 2003)</ref>. If the efficiency of ESF is compatible with RE-ESF, ESF remains a useful alternative.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.2.">A comparison with GWR models</head><p>A major advantage of our model relative to GWR is its capability of allowing different spatial smoothness of SVCs. GWR studies usually assume the same degree of spatial smoothness for each coefficient, which is unlikely in many real-world situations.</p><p>Moreover, our approach estimates coefficients based on a global estimation, whereas GWR iterates with local estimations. The global estimation that considers all observations might be more robust than local estimations that consider nearby observations only. Indeed, the efficiency of local estimations depends on the rank sufficiency and collinearity of the (geographically weighted) explanatory variables around each site. Our global estimation is not compromised by such problems.</p><p>By contrast, GWR is simpler and easier to extend for non-Gaussian data modeling, spatial interpolation, and other purposes <ref type="bibr" target="#b16">(Fotheringham et al., 2002;</ref><ref type="bibr" target="#b43">Nakaya et al., 2005)</ref>. Besides, GWR is applicable to a large data set, and can be made faster with parallel computing <ref type="bibr" target="#b30">(Harris et al., 2010)</ref>, whereas our model is not parallelizable because it requires an eigen-decomposition. Furthermore, GWR models are easily implemented (e.g., using the Spatial Statistics Toolbox in ArcGIS (<ref type="url" target="http://www.esri.com/">http://www.esri.com/</ref>), or spgwr, gwrr, and GWmodel in the R packages (see <ref type="bibr" target="#b20">Gollini et al., 2015)</ref>). Our model needs to be extended to overcome these disadvantages.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.3.">A comparison with the B-SVC models</head><p>The B-SVC model is formulated as follows:</p><formula xml:id="formula_47">1 2 1 e β x 1 y       K k SVC B k k   , ) ) ( , ( ~2 1 1 2 1 1 N N N I θ C 0 e    , (<label>26</label></formula><formula xml:id="formula_48">) k k SVC B k Me 1 β     , ) ) ( , ( ~2 2 N k k k N k N I θ C 0 e    , (<label>27</label></formula><formula xml:id="formula_49">)</formula><p>where δ 2 k and τ 2 k are variance parameters, and θk is a collection of parameters characterizing the covariance matrix C(θk).</p><p>B-SVC describes both SVCs with [a constant term: βk1] + [a centered Gaussian process, Mek], and residuals with another Gaussian process. Murakami and Griffith (2015) show that Mek ~ N(0N, δk 2 MC(θk)M+τ 2 kM) can</p><p>be expanded as follows, after a rank reduction <ref type="foot" target="#foot_3">4</ref> :</p><formula xml:id="formula_50">k k k ε Eγ Me   , ) , ( ~2Λ 0 γ k L k N  , ) , ( ~2 N k N k N I 0 ε  , (<label>28</label></formula><formula xml:id="formula_51">)</formula><p>where θk is omitted for simplicity. Eqs. <ref type="bibr" target="#b26">(27)</ref> and <ref type="bibr" target="#b27">(28)</ref> indicate that Suppose that x1 is a constant; then, our model, Eq. ( <ref type="formula" target="#formula_26">16</ref>), can be expanded using Eqs. <ref type="bibr" target="#b26">(27)</ref> and <ref type="bibr" target="#b27">(28)</ref>:</p><formula xml:id="formula_52">ε β x β y        K k ESF R k k ESF R 2 1  , ) , ( ~2 N N N I 0 ε  . ε Eγ β x 1 y        1 2 1 K k ESF R k k   , ) , ( ~2 N N N I 0 ε  . 1 2 1 Me β x 1       K k ESF R k k   , ) , ( ~2 2 1 1 N N N I C 0 e    ,<label>(29)</label></formula><p>Thus, our model is a variant of the B-SVC model whose</p><formula xml:id="formula_53">SVC B k  β is replaced with ESF R k  β</formula><p>, and the Gaussian process, e1, with a centered Gaussian process, Me1.</p><p>A difference between these models is that while our model is estimated by the REML method, the B-SVC model must be estimated with MCMC. Because MCMC is robust, even if a sample size is small, the B-SVC model is preferable for small-to-medium size samples. However, MCMC is computationally expensive, particularly when different degrees of spatial smoothness are allowed for each coefficient <ref type="bibr" target="#b14">(Finley, 2011)</ref>. Therefore, our model is more suitable for medium-to-large size samples. Because our method does not require iterative sampling, unlike MCMC, it is preferable to B-SVC in terms of simplicity, too.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.">Results from a Monte Carlo simulation experiment</head><p>This section summarizes a Monte Carlo simulation experiment comparing our model with GWR models and the ESF-based model in terms of SVCs estimation accuracy and computational efficiency.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.1.">Outline</head><p>This section compares the conventional GWR, LCR-GWR and ESF-based SVC models with our RE-ESF-based model. We also compare the following approximations of RE-ESF: the RE-ESF that estimates σ 2 k(γ)s first and αks thereafter (RE-ESF (A1)), and the RE-ESF whose αks are assumed to be uniform (RE-ESF (A2)).</p><p>The exponential model, Eq. ( <ref type="formula" target="#formula_4">3</ref>), is used to evaluate the geographical weights in the GWR and LCR-GWR models. Regarding RE-ESF, a similar exponential model, Eq.( <ref type="formula" target="#formula_54">30</ref>), is used to evaluate the (i, j)-th element of the proximity matrix C, ci: Initially, we used ESF and RE-ESF to generate synthetic response variables.</p><formula xml:id="formula_54">      otherwise j i if r d c j i j i 0 ) / exp( , , .<label>(30)</label></formula><p>However, because results were too optimistic for our model, a situation not likely to occur in real world cases (in many cases, more than half of the estimation error is reduced compared with GWR), we do not report these result. Instead, we generate data using Eq.( <ref type="formula" target="#formula_55">31</ref>):</p><formula xml:id="formula_55">ε β x β x β y     2 2 1 1 0   , ) 2 , ( ~2 N N N I 0 ε (<label>31</label></formula><formula xml:id="formula_56">) 0 0 ) 1 ( ~ε C M 1 β   1 1 1 ) ( ) 2 ( ε C M 1 β r    2 2 2 ) ( ) 5 . 0 ( ε C M 1 β r  </formula><p>where εk ~ N(0N, IN), and ) ( ~k r C is a matrix that row-standardizes IN + C(rk), where C(rk) is C whose range parameter is rk. Eq. ( <ref type="formula" target="#formula_55">31</ref>) models β0, β1 and β2 using centered moving average processes whose spatial smoothness is controlled by the ranges r0 = 1, r1 and r2, respectively. x1, whose coefficients take -2 on average, accounts for more of the variation in y, whereas x2, whose coefficients take 0.5 on average, accounts for less variation. Because GWR and (RE-)ESF coefficients are based on spatial smoothing with ci,j = exp(-di,j/r), both types of coefficients describe βk in Eq.( <ref type="formula" target="#formula_55">31</ref>) reasonably well.</p><p>The covariates in Eq. ( <ref type="formula" target="#formula_55">31</ref>) are generated from Eq. ( <ref type="formula">32</ref>):</p><p>) ( ) ( ) 1 ( ) 1 ( s k s ns k s k w w e C M Me x    , ) , ( ) ( N N ns k N I 0 e  , ) , ( ) ( N N s k N I 0 e  . (32) Eq. (32) assumes that xk equals [the centered disturbance, Mek(ns)] + [the centered spatially dependent component, ) ( ) 1 ( ~s k e C M ], whose contribution ratios are 1  ws and ws, respectively. xk has strong spatial dependence when ws is near 1. Some studies (e.g., Hughes and Haran, 2013) reveal that coefficient estimates tend to be unstable when explanatory variables are spatially dependent. This is because spatially dependent explanatory variables can confound with spatially dependent errors. However, no study has examined the extent to which such spatial confounding influences the coefficient estimates. We examine it by varying the intensity of spatial dependence in xk with ws. Because we do not know how to control the degrees of spatial confounding and multicollinearity simultaneously, this simulation focuses on only the former, whose discussion is limited. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.2.">Results</head><p>The estimation accuracy is evaluated by the root mean squared error (RMSE),    </p><formula xml:id="formula_57">N i i k i k i k N RMSE 1 2 , , , ) ( 1 ] [    , (<label>33</label></formula><formula xml:id="formula_58">)</formula><p>where βk,i is the i-th element of the true βk, and</p><formula xml:id="formula_59">i k , </formula><p>is the estimate. Tables <ref type="table" target="#tab_0">1</ref><ref type="table" target="#tab_1">2</ref><ref type="table" target="#tab_2">3</ref>summarize the RMSEs in cases of N = 50, 150 and 400, respectively.</p><p>[Table <ref type="table" target="#tab_0">1</ref> around here]</p><p>[Table <ref type="table" target="#tab_1">2</ref> around here]</p><p>[Table <ref type="table" target="#tab_2">3</ref> around here]</p><p>The estimates of RE-ESF are more accurate than those of GWR and LCR-GWR for a medium-to-large sample size (N = 150 or 400). This tendency is significant if the explanatory variables are spatially dependent (i.e., ws is large). By contrast, when N = 50, although the RE-ESF is still better than GWR models, their gaps are relatively small because RE-ESF relies on an REML estimation, which is less efficient for small samples.</p><p>Among RE-ESF models, the RE-ESF without an approximation is the best in many cases. By contrast, the RMSEs of RE-ESF (A1) are very close to those of RE-ESF, and the tendency is prominent when N = 400. Thus, RE-ESF (A1) would be a good alternative as long as the sample size is not small. β2 conveys relatively minor effects. ] [ 2 β RMSE tends to be small in RE-ESF (A2), which assumes constant αks, rather than RE-ESF and RE-ESF (A1), which assume non-constant αks. In other words, the estimation of the coefficient smoothness parameters (αks) can fail to capture the spatial variation of the SVCs, accounting for a small portion of variations in y. Nevertheless, the gaps in their RMSEs are marginal, and their RMSEs are smaller than those of the GWR and LCR-GWR models. β1 describes relatively strong impacts. The ] [ 1 β RMSE of RE-ESF and RE-ESF (A1) are smaller than those of RE-ESF (A2). This tendency is substantial when the covariates have strong spatial dependence (i.e., ws is large). This result suggests that the coefficient smoothness parameters in RE-ESF and RE-ESF (A1) play an important role in appropriately capturing SVCs, accounting for a large portion of variations in y.</p><p>These tables also show the large RMSEs of the ESF coefficients. The result is possibly because ESF does not consider eigenvalues, which act as deflators for coefficients for eigenvectors corresponding to small (in absolute value) eigenvalues in our model.</p><p>In each model, RMSE increases in the presence of strong spatial dependence in the covariates, which can confound with spatially dependence in residuals. This result reveals the importance of considering the confounding factor typically ignored in SVC-related studies. Increases in the RMSEs are relatively small in RE-ESF and RE-ESF (A1), including the coefficient smoothness parameter, αk, which thus might be helpful in mitigating this problem.</p><p>Table <ref type="table" target="#tab_3">4</ref> summarizes mean bias, which is defined as follows:</p><formula xml:id="formula_60">    N i i k i k N bias mean 1 , , ) ( 1   .<label>(34)</label></formula><p>Eq. ( <ref type="formula" target="#formula_60">34</ref>) is positive if k β ˆ is positively biased, and negative if it is negatively biased.</p><p>Table <ref type="table" target="#tab_3">4</ref> shows that biases are small across models.</p><p>[Table <ref type="table" target="#tab_3">4</ref> around here]</p><p>Finally, Table <ref type="table" target="#tab_4">5</ref> summarizes average computational times. RE-ESF (A2), RE-ESF (A1), and RE-ESF are the first, second and third fastest, respectively. The computational efficiency of RE-ESF does not hold when either the sample size, N, or the number of SVCs, K, is large because RE-ESF requires optimizing the 2K parameters simultaneously. Base on Table 5, RE-ESF is slower than GWR if N 5000. Still, RE-ESF (A1), whose coefficient estimates are as accurate as those for RE-ESF, is faster than GWR. Use of RE-ESF (A1), which allows spatial variation only for several focused coefficients, is a sensible option to reduce computational cost. Note that although ESF involves the computing slowest because of the eigenvector selection step, this step can be replaced with computationally more efficient approaches, such as lasso estimation (Seya et al., 2015).</p><p>[Table <ref type="table" target="#tab_4">5</ref> around here]</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="7.">An application to a land price analysis</head><p>This section empirically compares SVC models. Results show that ESF-based and RE-ESF-based SVC models are robust to multicollinearity, and they furnish reasonable SVC estimates for actual data. Ibaraki prefecture, Japan. The western part of Ibaraki was seriously damaged by a river flood in September 2015 (see Figure <ref type="figure" target="#fig_7">1</ref>). By December 21, 2015, 54 residences were totally destroyed, 3,752 suffered large-scale partial destruction, and 208 were partially destroyed, while about 10,390 people were in shelters at the peak of the disaster.</p><p>[Figure <ref type="figure" target="#fig_7">1</ref> around here]</p><p>Our goal here is to assess whether high risk areas were appropriately recognized as less attractive areas before the flood. To examine this concern, we analyze the relationship between flood hazards and land prices. Specifically, logged officially assessed land prices in 2015 (sample size: 647; see Figure <ref type="figure" target="#fig_7">1</ref> and Table <ref type="table">6</ref>) are described using the aforementioned SVC models. The response variables are flood depth (Flood), distance to the nearest railway station in km (Station_D), and railway distance between the nearest station and Tokyo station (Tokyo_D), which is located about 30 km from the southwestern border of Ibaraki. All of these variables measures are available from the National Land Numerical Information download service provided by the Ministry of Land, Infrastructure, Transport and Tourism (<ref type="url" target="http://nlftp.mlit.go.jp/ksj-e/index.html">http://nlftp.mlit.go.jp/ksj-e/index.html</ref>).</p><p>VIFs of these variables are 1.09, 1.02 and 1.07, respectively. Thus, serious multicollinearity is not present among them. Since the main objective of this analysis is to compare the SVC models, including the GWR model, which loses degrees of freedom drastically as the number of explanatory variables increases <ref type="bibr" target="#b23">(Griffith, 2008)</ref>, we restricted the number of explanatory variables to three.</p><p>[Table <ref type="table">6</ref> around here]</p><p>This empirical analysis is performed by employing R version 3.1.1 for computation purposes, and ArcGIS version 10.3 (<ref type="url" target="http://www.esri.com/">http://www.esri.com/</ref>) for visualization.</p><p>R and ArcGIS were executed on a 64 bit PC whose memory is 48 GB. The 'GWmodel' package in R was used to estimate GWR and LCR-GWR parameters.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="7.2.">Results</head><p>Hereafter, the vector of the spatially varying intercepts is denoted by β0 and those of the spatially varying coefficients for Tokyo_D, Station_D, and Flood are denoted by βTk, βSt, and βFl, respectively.</p><p>Table <ref type="table" target="#tab_5">7</ref> summarizes the variance parameters (σ 2 k (γ) and αk) estimated by RE-ESF. σ 2 k (γ) = 0 regarding βTk shows that the impact of Tokyo_D is constant across the target area. <ref type="foot" target="#foot_5">6</ref> The positive σ 2 k(γ) values for β0, βSt, and βFl suggest that each has spatial variation.</p><p>[Table <ref type="table" target="#tab_5">7</ref> around here]</p><p>The spatial smoothness (or scale) of βFl is strongly intensified by a large αk value. In contrast, the spatial smoothness of βSt, whose αk equals zero, is not intensified.</p><p>Although the bandwidths estimated by GWR and LCR-GWR (1.53 km and 2.77 km, respectively) suggest the existence of local spatial variations in each coefficient; based on the αk values, bandwidths might actually differ across coefficients. More specifically, the bandwidths of βSt, βFl, and βTk are likely to be small, moderate and very large, 7   respectively.</p><p>Figure <ref type="figure">2</ref> displays the boxplots of the estimated coefficients. While the boxplots of βSt are similar across the models, the variance of βFl is inflated in GWR, and those of β0 and βTk are highly inflated in GWR and LCR-GWR. For example, while logged land prices take values between 8.57 and 12.58, β0 estimated by GWR ranges between -5.76 and 26.15.</p><p>[Figure <ref type="figure">2</ref> around here]</p><p>The variance inflation might be because GWR and LCR-GWR rely on local estimations. Because Tokyo_D has a global map pattern, its variations tend to be small in each local subsample. As a result, GWR models might fail to differentiate influences from Tokyo_D, with small variations, and intercepts with no variation. Wheeler (2010) also reports a similar problem. Because ESF and RE-ESF consider all samples in their 7 The coefficients of GWR are constant when the bandwidth is extremely large. estimation, their coefficients are more stable, even if some of the covariates have global map patterns. Interestingly, the boxplots of the ESF coefficients are similar to those of the RE-ESF coefficients.</p><p>Although the variance of βFl in GWR also is inflated, it is moderated for LCR-GWR. Effectiveness of the regularized GWR approach is verified. ESF and RE-ESF also provide stable coefficient estimates.</p><p>Table <ref type="table" target="#tab_6">8</ref> summarizes correlation coefficients among SVCs. β0 and βTk have strong negative correlations for the GWR and LCR-GWR models. The greater variations of β0 and βTk, portrayed in Figure <ref type="figure">2</ref>, are attributable to their multicollinearity.</p><p>By contrast, correlation coefficients for the ESF and RE-ESF models are reasonably small, and no serious multicollinearity was found. The result is consistent with a suggestion by <ref type="bibr" target="#b23">Griffith (2008)</ref> that the ESF-based specification is robust to multicollinearity.</p><p>[Table <ref type="table" target="#tab_6">8</ref> around here] demonstrates greater land prices in the nearby Tokyo area and around Mito city, which is the prefectural capital. The spatial distributions of βSt suggest that land prices decline rapidly as distance to the nearest station increases in nearby station areas, whereas this reduction is moderated in suburban areas. The estimated β0 and βSt are similar across models.</p><p>[Figure <ref type="figure" target="#fig_8">3</ref> around here]</p><p>Consistent with the expected negative sign of βTk, 643/648 of its elements for ESF, and all of its elements for RE-ESF are negative. In contrast, 465/648 and 10/648 elements are positive in the GWR and LCR-GWR models, respectively, probably because of the variance inflation previously discussed. Another notable difference is that RE-ESF βTk estimates have no spatial variation (i.e., σ 2 k (γ) = 0), whereas the other βTk is more than three times faster than for GWR in this case. Of note is that GWR calculations are faster than RE-ESF(A1) if sample size is large. This timing difference is because of the requirement of an eigen-decomposition.</p><p>[Table <ref type="table" target="#tab_7">9</ref> around here]</p><p>In summary, we empirically verified that each SVC model can provide different results, and that the estimates of RE-ESF seem reliable (i.e., interpretable and displaying smaller variance).     <ref type="formula" target="#formula_0">1.20  1.21 1.33  1.13  1.13  1.24  1.0 1.0  1.23  1.24 1.35  1.17  1.16  1.30  1.0 2.0  1.20  1.21 1.30  1.13  1.12  1.24  2.0 1.0  1.23  1.24 1.41  1.20  1</ref>      Inundation depth (m) 4.0 -2.0 -4.0 1.0 -2.0 0.5 -1.0 0.0 -0.5 </p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>( 2009 )</head><label>2009</label><figDesc>and<ref type="bibr" target="#b20">Gollini et al. (2015)</ref> extended the ridge GWR model to vary η locally.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><figDesc>and LCR-GWR calibrates η(si) based on the degree of multicollinearity in the corresponding local model. Because η(si) increases bias of the coefficient estimator, just like the standard ridge estimator, Gollini et al. (2015) suggest introducing η(si) only for local models whose multicollinearity is excessive. The LCR-GWR model can be estimated as follows (Gollini et al., 2015): (1) the bandwidth and ridge parameters are estimated by cross-validation, and (2) β(si) is estimated by substituting them into Eq. (5).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><figDesc>reveal that RE-ESF outperforms ESF in terms of not only the effectiveness of estimating and inferring β, but also computation time. Although similar models have been used in the statistics literature (e.g., Hughes and Haran, 2013; Johnson et al., 2013; Lee and Barran, 2015), they use E generated not from MCM, but from MXCMX. This is because the latter specification eliminates confounders between X and E, and stabilizes the parameter estimates.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><figDesc>substituting the estimated Θ into Eq. (21); and, (c) σ 2 is estimated by substituting the estimated parameters into Eq. (</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>=</head><figDesc>βk1 + Eγk + εk (after a rank reduction), whereas our model yields ESF R k  β =βk1 + Eγk (see Eq. (16)). ESF R k  β , which does not include εk, captures a smoother map pattern than model is based on the MC, which does not consider variances within each sample, whereas the B-SVC model describes Gaussian processes, which capture within sample variance with δk 2 and σk 2 .</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>Following</head><figDesc>Dray et al. (2006), the range parameter r is given by the maximum distance in the minimum spanning tree connecting all sample sites. E in RE-ESF consists of the eigenvectors corresponding to positive eigenvalues. The same eigenvectors are regarded as candidates to be entered into the ESF model, and they are selected by the adjusted-R 2 based forward variable selection technique. This distance-based ESF often is called Moran's eigenvector maps, a popular approach in ecology (see, Dray et al., 2006; Griffith and Peres-Neto, 2006; Legendre and Legendre, 2012). Regarding ESF, to cope with multicollinearity, variables with variance inflation factors (VIFs) above 10 are excluded from the candidates in each variable selection step. As for LCR-GWR, following Gollini et al. (2015), the ridge term is introduced only for local models whose condition number exceeds 30.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><figDesc>The response variable and covariates are generated on N sample sites whose two geocoded coordinates are given by two random samples from N(0N, IN)5 . Then, SVC models are fitted to these variables, and β0, β1 and β2 are estimated iteratively while varying the sample size N  {50, 150, 400}, the ratio of the spatial dependence component in xk, ws{0.0, 0.4, 0.8}, and the spatial smoothness of the coefficients: β2 and β3; (r2, r3) ={(0.5, 1.0), (1.0, 0.5), (1.0, 1.0), (1.0, 2.0), (2.0, 1.0)}. In each case, estimations are iterated 200 times. These simulations are performed using R version 3.1.1 (https://cran.r-project.org/) on a 64 bit PC whose memory is 48 GB.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><head>7. 1 .</head><label>1</label><figDesc>Outline This section presents an application of GWR, LCR-GWR, the ESF-based SVC model, and the RE-ESF-based SVC model to analyze land price and flood risk in</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8"><head>Figure 3</head><label>3</label><figDesc>Figure3plots the estimated coefficients. In each model, the estimated β0</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_9"><head>8 .</head><label>8</label><figDesc>Concluding remarksThis study proposes an RE-ESF-based SVC model whose coefficients are interpretable based on the MC. A simulation analysis and an empirical analysis involving land prices suggest advantages of our model in terms of estimation accuracy, computational time, and interpretability of coefficient estimates. Unlike GWR models and the typical B-SVC model, RE-ESF estimates the smoothness of each SVC in a computationally efficient manner. Although coefficient smoothness parameters also can be introduced into the B-SVC model, their estimation is computationally prohibitive. Thus, our approach is useful as a flexible and relatively simple procedure. Meanwhile, computationally efficient and flexible alternatives, including the integrated nested Laplace approximation (INLA: Rue et al., 2009)-based SVC model (Congdon, 2014), have been proposed recently. Therefore, the comparison of our model with these is therefore an important future research topic.Another remaining issue is to compare our model with other SVC models from the viewpoint of statistical inference for the βks. We also need to examine the validity of our model in cases with many covariates for which multicollinearity among SVCs can be serious. Furthermore, extension of our model to a wide range of applications would be an interesting next step. These extensions might include change of support problems (e.g.,<ref type="bibr" target="#b41">Murakami and Tsutsumi, 2012;</ref> 2015), interaction data modeling<ref type="bibr" target="#b8">(Chun and Griffith, 2011)</ref>, non-Gaussian data modeling<ref type="bibr" target="#b16">(Fotheringham et al., 2002;</ref><ref type="bibr" target="#b43">Nakaya et al., 2005;</ref><ref type="bibr" target="#b24">Griffith, 2011)</ref>, spatiotemporal data modeling<ref type="bibr" target="#b17">(Fotheringham et al., 2015;</ref><ref type="bibr" target="#b33">Huang et al., 2010;</ref><ref type="bibr" target="#b25">Griffith, 2012)</ref>.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_10"><head>Figure 1 .Figure 3 .</head><label>13</label><figDesc>Figure 1. Anticipated flood depth (left) and officially assessed land prices in 2015 (right) in the Ibaraki prefecture.</figDesc><graphic coords="64,115.20,144.78,175.62,191.82" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1 .</head><label>1</label><figDesc>RMSEs of the estimated coefficients (N = 50) Note: w s intensifies the spatial dependence in each coefficient; r 1 and r 2 are the bandwidths in Eq. (30) for β 1 and β 2 , respectively. Dark gray denotes the minimum RMSE in each case, and light gray denotes the second minimum RMSE.</figDesc><table><row><cell cols="2">Coef. w s</cell><cell>r 1</cell><cell>r 2</cell><cell cols="5">GWR LCR-GWR ESF RE-ESF RE-ESF(A1) RE-ESF(A2)</cell></row><row><cell></cell><cell></cell><cell cols="2">0.5 1.0</cell><cell>2.32</cell><cell>2.32 2.58</cell><cell>2.23</cell><cell>2.25</cell><cell>2.58</cell></row><row><cell></cell><cell></cell><cell cols="2">1.0 0.5</cell><cell>2.27</cell><cell>2.28 2.57</cell><cell>2.22</cell><cell>2.25</cell><cell>2.58</cell></row><row><cell></cell><cell>0.0</cell><cell cols="2">1.0 1.0</cell><cell>2.29</cell><cell>2.29 2.56</cell><cell>2.23</cell><cell>2.25</cell><cell>2.55</cell></row><row><cell></cell><cell></cell><cell cols="2">1.0 2.0</cell><cell>2.33</cell><cell>2.33 2.58</cell><cell>2.25</cell><cell>2.27</cell><cell>2.59</cell></row><row><cell></cell><cell></cell><cell cols="2">2.0 1.0</cell><cell>2.43</cell><cell>2.44 2.86</cell><cell>2.44</cell><cell>2.46</cell><cell>2.66</cell></row><row><cell></cell><cell></cell><cell cols="2">0.5 1.0</cell><cell>2.45</cell><cell>2.45 3.03</cell><cell>2.40</cell><cell>2.40</cell><cell>2.70</cell></row><row><cell></cell><cell></cell><cell cols="2">1.0 0.5</cell><cell>2.40</cell><cell>2.40 2.94</cell><cell>2.36</cell><cell>2.38</cell><cell>2.73</cell></row><row><cell>β 1</cell><cell>0.4</cell><cell cols="2">1.0 1.0</cell><cell>2.39</cell><cell>2.39 3.06</cell><cell>2.39</cell><cell>2.39</cell><cell>2.67</cell></row><row><cell></cell><cell></cell><cell cols="2">1.0 2.0</cell><cell>2.47</cell><cell>2.44 3.01</cell><cell>2.38</cell><cell>2.40</cell><cell>2.74</cell></row><row><cell></cell><cell></cell><cell cols="2">2.0 1.0</cell><cell>2.56</cell><cell>2.56 3.24</cell><cell>2.59</cell><cell>2.60</cell><cell>2.80</cell></row><row><cell></cell><cell></cell><cell cols="2">0.5 1.0</cell><cell>2.83</cell><cell>2.78 3.78</cell><cell>2.63</cell><cell>2.64</cell><cell>3.05</cell></row><row><cell></cell><cell></cell><cell cols="2">1.0 0.5</cell><cell>2.74</cell><cell>2.69 3.54</cell><cell>2.55</cell><cell>2.59</cell><cell>3.01</cell></row><row><cell></cell><cell>0.8</cell><cell cols="2">1.0 1.0</cell><cell>2.68</cell><cell>2.68 3.75</cell><cell>2.55</cell><cell>2.58</cell><cell>2.98</cell></row><row><cell></cell><cell></cell><cell cols="2">1.0 2.0</cell><cell>2.62</cell><cell>2.62 3.67</cell><cell>2.50</cell><cell>2.53</cell><cell>2.98</cell></row><row><cell></cell><cell></cell><cell cols="2">2.0 1.0</cell><cell>2.71</cell><cell>2.68 3.83</cell><cell>2.68</cell><cell>2.71</cell><cell>2.96</cell></row><row><cell></cell><cell></cell><cell cols="2">0.5 1.0</cell><cell>1.13</cell><cell>1.12 1.79</cell><cell>1.11</cell><cell>1.14</cell><cell>1.12</cell></row><row><cell></cell><cell></cell><cell cols="2">1.0 0.5</cell><cell>1.15</cell><cell>1.14 1.82</cell><cell>1.11</cell><cell>1.14</cell><cell>1.11</cell></row><row><cell></cell><cell>0.0</cell><cell cols="2">1.0 1.0</cell><cell>1.10</cell><cell>1.08 1.80</cell><cell>1.08</cell><cell>1.09</cell><cell>1.10</cell></row><row><cell></cell><cell></cell><cell cols="2">1.0 2.0</cell><cell>1.16</cell><cell>1.15 1.84</cell><cell>1.10</cell><cell>1.12</cell><cell>1.11</cell></row><row><cell></cell><cell></cell><cell cols="2">2.0 1.0</cell><cell>1.09</cell><cell>1.09 1.86</cell><cell>1.12</cell><cell>1.14</cell><cell>1.12</cell></row><row><cell></cell><cell></cell><cell cols="2">0.5 1.0</cell><cell>1.25</cell><cell>1.24 2.36</cell><cell>1.23</cell><cell>1.26</cell><cell>1.18</cell></row><row><cell></cell><cell></cell><cell cols="2">1.0 0.5</cell><cell>1.26</cell><cell>1.26 2.22</cell><cell>1.25</cell><cell>1.27</cell><cell>1.19</cell></row><row><cell>β 2</cell><cell>0.4</cell><cell cols="2">1.0 1.0</cell><cell>1.27</cell><cell>1.26 2.25</cell><cell>1.25</cell><cell>1.27</cell><cell>1.19</cell></row><row><cell></cell><cell></cell><cell cols="2">1.0 2.0</cell><cell>1.30</cell><cell>1.27 2.29</cell><cell>1.31</cell><cell>1.36</cell><cell>1.20</cell></row><row><cell></cell><cell></cell><cell cols="2">2.0 1.0</cell><cell>1.22</cell><cell>1.22 2.60</cell><cell>1.26</cell><cell>1.29</cell><cell>1.18</cell></row><row><cell></cell><cell></cell><cell cols="2">0.5 1.0</cell><cell>1.57</cell><cell>1.53 2.97</cell><cell>1.48</cell><cell>1.52</cell><cell>1.42</cell></row><row><cell></cell><cell></cell><cell cols="2">1.0 0.5</cell><cell>1.51</cell><cell>1.46 2.81</cell><cell>1.33</cell><cell>1.37</cell><cell>1.41</cell></row><row><cell></cell><cell>0.8</cell><cell cols="2">1.0 1.0</cell><cell>1.52</cell><cell>1.49 2.99</cell><cell>1.41</cell><cell>1.45</cell><cell>1.40</cell></row><row><cell></cell><cell></cell><cell cols="2">1.0 2.0</cell><cell>1.40</cell><cell>1.40 2.71</cell><cell>1.35</cell><cell>1.38</cell><cell>1.40</cell></row><row><cell></cell><cell></cell><cell cols="2">2.0 1.0</cell><cell>1.40</cell><cell>1.36 3.07</cell><cell>1.37</cell><cell>1.39</cell><cell>1.30</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 2 .</head><label>2</label><figDesc>RMSEs of the estimated coefficients (N = 150)</figDesc><table><row><cell cols="2">Coef. w s</cell><cell>r 1</cell><cell cols="6">r 2 GWR LCR-GWR ESF RE-ESF RE-ESF (A1) RE-ESF (A2)</cell></row><row><cell></cell><cell></cell><cell cols="2">0.5 1.0</cell><cell>1.87</cell><cell>1.87 1.99</cell><cell>1.77</cell><cell>1.78</cell><cell>1.99</cell></row><row><cell></cell><cell></cell><cell cols="2">1.0 0.5</cell><cell>1.61</cell><cell>1.62 1.86</cell><cell>1.57</cell><cell>1.57</cell><cell>1.78</cell></row><row><cell></cell><cell>0.0</cell><cell cols="2">1.0 1.0</cell><cell>1.66</cell><cell>1.67 1.89</cell><cell>1.60</cell><cell>1.60</cell><cell>1.76</cell></row><row><cell></cell><cell></cell><cell cols="2">1.0 2.0</cell><cell>1.60</cell><cell>1.61 1.86</cell><cell>1.54</cell><cell>1.54</cell><cell>1.76</cell></row><row><cell></cell><cell></cell><cell cols="2">2.0 1.0</cell><cell>1.75</cell><cell>1.76 1.98</cell><cell>1.75</cell><cell>1.76</cell><cell>1.91</cell></row><row><cell></cell><cell></cell><cell cols="2">0.5 1.0</cell><cell>2.04</cell><cell>2.04 2.33</cell><cell>1.92</cell><cell>1.93</cell><cell>2.23</cell></row><row><cell></cell><cell></cell><cell cols="2">1.0 0.5</cell><cell>1.79</cell><cell>1.79 2.22</cell><cell>1.73</cell><cell>1.73</cell><cell>2.05</cell></row><row><cell>β 1</cell><cell>0.4</cell><cell cols="2">1.0 1.0</cell><cell>1.76</cell><cell>1.76 2.18</cell><cell>1.68</cell><cell>1.69</cell><cell>2.00</cell></row><row><cell></cell><cell></cell><cell cols="2">1.0 2.0</cell><cell>1.83</cell><cell>1.83 2.15</cell><cell>1.76</cell><cell>1.77</cell><cell>2.04</cell></row><row><cell></cell><cell></cell><cell cols="2">2.0 1.0</cell><cell>1.85</cell><cell>1.85 2.27</cell><cell>1.81</cell><cell>1.81</cell><cell>2.03</cell></row><row><cell></cell><cell></cell><cell cols="2">0.5 1.0</cell><cell>2.44</cell><cell>2.41 3.16</cell><cell>2.11</cell><cell>2.13</cell><cell>2.75</cell></row><row><cell></cell><cell></cell><cell cols="2">1.0 0.5</cell><cell>2.15</cell><cell>2.14 2.92</cell><cell>1.85</cell><cell>1.89</cell><cell>2.50</cell></row><row><cell></cell><cell>0.8</cell><cell cols="2">1.0 1.0</cell><cell>2.11</cell><cell>2.10 3.00</cell><cell>1.85</cell><cell>1.87</cell><cell>2.53</cell></row><row><cell></cell><cell></cell><cell cols="2">1.0 2.0</cell><cell>2.16</cell><cell>2.15 2.87</cell><cell>1.93</cell><cell>1.93</cell><cell>2.45</cell></row><row><cell></cell><cell></cell><cell cols="2">2.0 1.0</cell><cell>2.15</cell><cell>2.15 3.00</cell><cell>1.98</cell><cell>2.00</cell><cell>2.51</cell></row><row><cell></cell><cell></cell><cell cols="2">0.5 1.0</cell><cell>0.88</cell><cell>0.87 1.32</cell><cell>0.80</cell><cell>0.81</cell><cell>0.78</cell></row><row><cell></cell><cell></cell><cell cols="2">1.0 0.5</cell><cell>0.90</cell><cell>0.90 1.29</cell><cell>0.87</cell><cell>0.87</cell><cell>0.84</cell></row><row><cell></cell><cell>0.0</cell><cell cols="2">1.0 1.0</cell><cell>0.84</cell><cell>0.84 1.29</cell><cell>0.78</cell><cell>0.79</cell><cell>0.76</cell></row><row><cell></cell><cell></cell><cell cols="2">1.0 2.0</cell><cell>0.88</cell><cell>0.88 1.28</cell><cell>0.80</cell><cell>0.80</cell><cell>0.79</cell></row><row><cell></cell><cell></cell><cell cols="2">2.0 1.0</cell><cell>0.81</cell><cell>0.81 1.28</cell><cell>0.80</cell><cell>0.80</cell><cell>0.79</cell></row><row><cell></cell><cell></cell><cell cols="2">0.5 1.0</cell><cell>1.05</cell><cell>1.04 1.70</cell><cell>0.95</cell><cell>0.96</cell><cell>0.91</cell></row><row><cell></cell><cell></cell><cell cols="2">1.0 0.5</cell><cell>1.06</cell><cell>1.05 1.68</cell><cell>0.98</cell><cell>0.98</cell><cell>0.94</cell></row><row><cell>β 2</cell><cell>0.4</cell><cell cols="2">1.0 1.0</cell><cell>0.98</cell><cell>0.98 1.65</cell><cell>0.94</cell><cell>0.93</cell><cell>0.86</cell></row><row><cell></cell><cell></cell><cell cols="2">1.0 2.0</cell><cell>0.98</cell><cell>0.98 1.62</cell><cell>0.91</cell><cell>0.92</cell><cell>0.87</cell></row><row><cell></cell><cell></cell><cell cols="2">2.0 1.0</cell><cell>0.94</cell><cell>0.93 1.61</cell><cell>0.93</cell><cell>0.93</cell><cell>0.88</cell></row><row><cell></cell><cell></cell><cell cols="2">0.5 1.0</cell><cell>1.49</cell><cell>1.44 2.58</cell><cell>1.20</cell><cell>1.23</cell><cell>1.24</cell></row><row><cell></cell><cell></cell><cell cols="2">1.0 0.5</cell><cell>1.45</cell><cell>1.43 2.35</cell><cell>1.18</cell><cell>1.18</cell><cell>1.23</cell></row><row><cell></cell><cell>0.8</cell><cell cols="2">1.0 1.0</cell><cell>1.37</cell><cell>1.36 2.40</cell><cell>1.12</cell><cell>1.15</cell><cell>1.21</cell></row><row><cell></cell><cell></cell><cell cols="2">1.0 2.0</cell><cell>1.34</cell><cell>1.32 2.24</cell><cell>1.09</cell><cell>1.12</cell><cell>1.11</cell></row><row><cell></cell><cell></cell><cell cols="2">2.0 1.0</cell><cell>1.27</cell><cell>1.27 2.48</cell><cell>1.10</cell><cell>1.12</cell><cell>1.16</cell></row><row><cell cols="3">Note: See Table 1.</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2"><head>Table 3 .</head><label>3</label><figDesc>RMSEs of the estimated coefficients (N = 400)</figDesc><table><row><cell>Coef. w s</cell><cell>r 1</cell><cell cols="5">r 2 GWR LCR-GWR ESF RE-ESF RE-ESF (A1) RE-ESF (A2)</cell></row><row><cell></cell><cell cols="2">0.5 1.0</cell><cell>1.44</cell><cell>1.45 1.56</cell><cell>1.36</cell><cell>1.36</cell><cell>1.55</cell></row><row><cell></cell><cell cols="2">1.0 0.5</cell><cell></cell><cell></cell><cell></cell></row><row><cell>0.0</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>β 1</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_3"><head>Table 4 .</head><label>4</label><figDesc>Bias of the estimated coefficients (r1 = 2; r2 = 1): ws intensifies the spatial dependence in each coefficient.</figDesc><table><row><cell>19</cell><cell>1.25</cell></row></table><note><p>Note: Dark gray denotes the minimum bias in each case and light gray denotes the second minimum bias.</p></note></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_4"><head>Table 5 .</head><label>5</label><figDesc>Mean computational time in seconds (r1 = 2; r2 = 1).Because computational times were very similar across iterations, regarding cases with N = {1,000, 2,000, 3000}, we performed five replicates, and averaged the resulting five computational times.</figDesc><table><row><cell>N</cell><cell cols="2">GWR LCR-GWR</cell><cell>ESF</cell><cell cols="3">RE-ESF RE-ESF (A1) RE-ESF (A2)</cell></row><row><cell>50</cell><cell>0.30</cell><cell>0.80</cell><cell>0.82</cell><cell>0.20</cell><cell>0.10</cell><cell>0.10</cell></row><row><cell>150</cell><cell>2.05</cell><cell>3.88</cell><cell>5.15</cell><cell>0.79</cell><cell>0.39</cell><cell>0.35</cell></row><row><cell>400</cell><cell>13.18</cell><cell>20.40</cell><cell>32.39</cell><cell>5.04</cell><cell>2.49</cell><cell>2.12</cell></row><row><cell>1,000</cell><cell>79.00</cell><cell>115.21</cell><cell>275.48</cell><cell>24.40</cell><cell>15.81</cell><cell>12.78</cell></row><row><cell>2,000</cell><cell>326.42</cell><cell>495.61</cell><cell>2056.01</cell><cell>75.33</cell><cell>122.06</cell><cell>65.96</cell></row><row><cell>5,000</cell><cell>1984.99</cell><cell cols="2">3465.37 56324.66</cell><cell>2241.90</cell><cell>1110.97</cell><cell>883.26</cell></row><row><cell>Note:</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_5"><head>Table 7 .</head><label>7</label><figDesc>Estimates of the variance parameters in RE-ESF: σ 2 k (γ) controls the variance of each coefficient, and αk controls the spatial scale of their variations.St lacks spatial variation (i.e., σ 2 k (γ) = 0.00), α k for β St is undefined.</figDesc><table><row><cell></cell><cell>β0</cell><cell>βTk</cell><cell>βSt</cell><cell>βFl</cell></row><row><cell>σ 2 k (γ)</cell><cell>1.71</cell><cell>0.00</cell><cell>0.35</cell><cell>0.61</cell></row><row><cell>αk</cell><cell>0.27</cell><cell>N.A. 1)</cell><cell>0.00</cell><cell>3.02</cell></row><row><cell>1) Because β</cell><cell></cell><cell></cell><cell></cell><cell></cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_6"><head>Table 8 .</head><label>8</label><figDesc>Correlation coefficients among SVCs.</figDesc><table><row><cell></cell><cell>GWR</cell><cell></cell><cell></cell><cell></cell><cell>LCR-GWR</cell><cell></cell><cell></cell></row><row><cell>β 0</cell><cell>β Tk</cell><cell>β St</cell><cell>β Fl</cell><cell>β 0</cell><cell>β Tk</cell><cell>β St</cell><cell>β Fl</cell></row><row><cell>β 0</cell><cell>-0.87</cell><cell>-0.27</cell><cell>0.03</cell><cell>β 0</cell><cell>-0.74</cell><cell>-0.45</cell><cell>-0.18</cell></row><row><cell>β Tk</cell><cell></cell><cell>0.23</cell><cell>-0.03</cell><cell>β Tk</cell><cell></cell><cell>0.24</cell><cell>0.26</cell></row><row><cell>β St</cell><cell></cell><cell></cell><cell>-0.08</cell><cell>β St</cell><cell></cell><cell></cell><cell>0.34</cell></row><row><cell></cell><cell>ESF</cell><cell></cell><cell></cell><cell></cell><cell>RE-ESF</cell><cell></cell><cell></cell></row><row><cell>β 0</cell><cell>β Tk</cell><cell>β St</cell><cell>β Fl</cell><cell>β 0</cell><cell>β Tk</cell><cell>β St</cell><cell>β Fl</cell></row><row><cell>β 0</cell><cell>0.01</cell><cell>-0.44</cell><cell>0.08</cell><cell>β 0</cell><cell>NA 1)</cell><cell>-0.41</cell><cell>-0.29</cell></row><row><cell>β Tk</cell><cell></cell><cell>-0.24</cell><cell>-0.23</cell><cell>β Tk</cell><cell></cell><cell>NA</cell><cell>NA</cell></row><row><cell>β St</cell><cell></cell><cell></cell><cell>-0.01</cell><cell>β St</cell><cell></cell><cell></cell><cell>-0.10</cell></row></table><note><p>1) Regarding RE-ESF, correlation coefficients between β</p><p>Tk and other coefficients cannot be calculated because it lacks spatial variations (i.e., σ 2 k (γ) = 0).</p></note></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_7"><head>Table 9 .</head><label>9</label><figDesc>Computational time in seconds.</figDesc><table><row><cell cols="3">GWR LCR-GWR ESF</cell><cell cols="2">RE-ESF RE-ESF (A1)</cell></row><row><cell>36.2</cell><cell>62.3</cell><cell>107</cell><cell>51.7</cell><cell>11.8</cell></row></table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="1" xml:id="foot_0"><p>See<ref type="bibr" target="#b45">Rue et al.(2009)</ref> for the details about the INLA approach.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="2" xml:id="foot_1"><p>ESF also could be based on other indices, such as the Geary ratio<ref type="bibr" target="#b18">(Geary, 1954)</ref>.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="3" xml:id="foot_2"><p>Another approach includes the model selection procedure based on LASSO(Seya et  al., 2015).</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="4" xml:id="foot_3"><p>Here, MM'= M is used. It holds because M is a symmetric and idempotent matrix.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="5" xml:id="foot_4"><p>An assumption of N(0N, IN) implies fewer samples near periphery areas. It is likely for many socioeconomic data including land price data, which typically have fewer samples in suburban areas.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="6" xml:id="foot_5"><p>The variance becomes zero even when we apply RE-ESF (A1).</p></note>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div><head>Acknowledgements</head><p>This work was supported by <rs type="grantName">Grants-in-Aid for Scientific Research</rs> from <rs type="funder">JSPS</rs> (Research Project Number: <rs type="grantNumber">15H04054</rs>). We thank <rs type="person">Professor Morito Tsutsumi</rs> (<rs type="affiliation">University of Tsukuba</rs>) and <rs type="person">Professor Takahisa Yokoi</rs> (<rs type="affiliation">Tohoku University</rs>) for their suggestive advices.</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_5FAXSW7">
+					<idno type="grant-number">15H04054</idno>
+					<orgName type="grant-name">Grants-in-Aid for Scientific Research</orgName>
+				</org>
+			</listOrg>
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>estimates that have significant spatial variation.</p><p>The elements of βFl are negative if flood-prone areas have lower land prices. βFl obtained from RE-ESF displays a smoother map pattern than for the other models because of the large αk value (3.02). The βFl for RE-ESF is negative around Mito, where high risk areas are appropriately recognized as less attractive. In contrast, βFl is positive in the western area, including the area flooded in September 2015. In other words, high risk areas are recognized as attractive areas. This result implies that benefits of rivers (e.g., natural environment, landscape) are emphasized more than flood risk. This situation may have increased the resulting damage from the 2015 flood. In contrast, the βFl estimated by the other models takes both positive and negative values in the flooded area.</p><p>Finally, Table <ref type="table">9</ref> summarizes the computational times. For reference, the computational time of RE-ESF (A1) also is calculated and included. This table shows that RE-ESF is computationally more efficient than LCR-GWR and ESF in the case of N = 647 and three covariates. Furthermore, computation of estimates for RE-ESF (A1) Gaussian models by using integrated nested Laplace approximations. Journal of the royal statistical society: Series b (statistical methodology), 71(2): 319-392. 47) Seya H, Murakami D, Tsutsumi M and Yamagata Y (2015) Application of LASSO to the eigenvector selection problem in eigenvector based spatial filtering. <ref type="formula">47(3</ref> β 2 0.0 0.5 1.0 0.75 0.74 0.96 0.58 0.59 0.59 1.0 0.5 0.72 0.72 0.97 0.66 0.66 0.65 1.0 1.0 0.67 0.67 0.90 0.56 0.57 0.56 1.0 2.0 0.65 0.66 0.92 0.55 0.55 0.55 2.0 1.0 0.61 0.61 0.91 0.55 0.56 0.55 0.4 0.5 1.0 0.92 0.90 1.30 0.71 0.71 0.68 1.0 0.5 0.87 0.86 1.31 0.77 0.77 0.74 1.0 1.0 0.82 0.82 1.22 0.68 0.69 0.66 1.0 2.0 0.81 0.81 1.24 0.65 0.66 0.64 2.0 1.0 0.79 0.79 1.25 0.69 0.70 0.67 0.8 0.5 1.0 1.51 1.43 2.10 0.99 0.99 1.03 1.0 0.5 1.39 1.37 1.95 0.96 0.96 1.01 1.0 1.0 1.31 1.29 1.88 0.92 0.92 0.93 1.0 2.0 1.34 1.32 1.88 0.91 0.93 0.93 2.0 1.0 1.28 1.26 1.87 0.92 0.93 0.95 Note: See Table 1.   </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Geographical Analysis</head></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_11"><figDesc>): 284-299.48) Tiefelsdorf M and GriffithDA (2007)  Semiparametric filtering of spatial autocorrelation: the eigenvector approach. Environment and Planning A 39(5): 1193. 49) Wang Q, Ni J and Tenhunen J (2005) Application of a geographically-weighted regression analysis to estimate net primary production of Chinese forest ecosystems.Global Ecology and Biogeography14(4): 379-393. 50) Wheeler DC (2007) Diagnostic tools and a remedial method for collinearity in geographically weighted regression. Environment and Planning A 39(10): 2464-2481. 51) Wheeler DC (2009) Simultaneous coefficient penalization and model selection in geographically weighted regression: the geographically weighted lasso. Environment and Planning A 41(3): 722-742. 52) Wheeler DC (2010) Visualizing and diagnosing coefficients from geographically weighted regression. In: Jiang B and Yao X (eds) Geospatial Analysis and Modeling of Urban Structure and Dynamics, Springer. 53) Wheeler DC and Calder CA (2007) An assessment of coefficient accuracy in linear regression models with spatially varying coefficients. Journal of Geographical Systems 9(2): 145-166. 54) Wheeler DC and Páez A (2009). Geographically Weighted Regression. In: Fischer MM and Getis A (eds) Handbook of Applied Spatial Analysis: Software Tools, Methods and Applications. Berlin: Springer, pp.461-484. 55) Wheeler DC and Tiefelsdorf M (2005) Multicollinearity and correlation among local regression coefficients in geographically weighted regression. Journal of Geographical Systems 7(2): 161-187. 56) Wheeler DC and Waller L (2009) Comparing spatially varying coefficient models: a case study examining violent crime rates and their relationships to alcohol outlets and illegal drug arrests. Journal of Geographical Systems 11(1): 1-22. 57) Yang W, Fotheringham AS and Harris P (2014) An extension of geographically weighted regression with flexible bandwidths. Proceedings of GISRUK 20th Annual Conference.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_12"><head>Figure 2 .</head><label>2</label><figDesc>Boxplots of the estimated spatially varying coefficients.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_13"><head>Figure 3 .</head><label>3</label><figDesc>Spatial plots of the estimated coefficients. In each legend, positive values are denoted by bold text.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_9"><head>Table 6 .</head><label>6</label><figDesc>Summary statistics for land prices (JPY/m 2 ).</figDesc><table><row><cell>Statistics</cell><cell>Value</cell></row><row><cell>Mean</cell><cell>35.68</cell></row><row><cell>Median</cell><cell>29.50</cell></row><row><cell>Standard error</cell><cell>27.14</cell></row><row><cell>Maximum</cell><cell>290.00</cell></row><row><cell>Minimum</cell><cell>5.28</cell></row><row><cell>Sample size</cell><cell>647</cell></row></table></figure>
+			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<monogr>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+		<title level="m">Spatial Econometrics, Methods and Models</title>
+		<meeting><address><addrLine>Dordrecht</addrLine></address></meeting>
+		<imprint>
+			<publisher>Kluwer Academic</publisher>
+			<date type="published" when="1988">1988</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Properties of tests for spatial dependence in linear regression models</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Rey</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">23</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="112" to="131" />
+			<date type="published" when="1991">1991</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Space varying coefficient models for small area data</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">M</forename><surname>Assunçao</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environmetrics</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="453" to="473" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Species distribution models and ecological theory: a critical assessment and some possible new approaches</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Austin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ecological Modeling</title>
+		<imprint>
+			<biblScope unit="volume">200</biblScope>
+			<biblScope unit="issue">1-2</biblScope>
+			<biblScope unit="page" from="1" to="19" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<monogr>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">M</forename><surname>Bates</surname></persName>
+		</author>
+		<ptr target="http://lme4.r-forge.r-project.org/book" />
+		<title level="m">Mixed-effects modeling with R</title>
+		<imprint>
+			<date type="published" when="2010">2010</date>
+			<biblScope unit="volume">4</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Incorporating spatial variation in housing attribute prices: a comparison of geographically weighted regression and the spatial expansion method</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Bitter</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">F</forename><surname>Mulligan</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Dall'erba S</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Geographical Systems</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="7" to="27" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<monogr>
+		<title level="m" type="main">Spatial and spatio-temporal bayesian models with R-INLA</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Blangiardo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Cameletti</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2015">2015</date>
+			<publisher>John Wiley &amp; Sons</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Analyzing space-time crime incidents using eigenvector spatial filtering: an application to vehicle burglary</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Chun</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">46</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="165" to="184" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Modeling network autocorrelation in space-time migration flow data: an eigenvector spatial filtering approach</title>
+		<author>
+			<persName><forename type="first">Chun</forename><forename type="middle">Y</forename></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Griffith</forename><surname>Da</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of the Association of American Geographers</title>
+		<imprint>
+			<biblScope unit="volume">101</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="523" to="536" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">A quality assessment of eigenvector spatial filtering based parameter estimates for the normal probability model</title>
+		<author>
+			<persName><forename type="first">Chun</forename><forename type="middle">Y</forename></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Griffith</forename><surname>Da</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Spatial Statistics</title>
+		<imprint>
+			<biblScope unit="volume">10</biblScope>
+			<biblScope unit="page" from="1" to="11" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Eigenvector selection with stepwise regression techniques to construct eigenvector spatial filters</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Chun</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Griffith</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Lee</forename><forename type="middle">M</forename><surname>Sinha</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Geographical Systems</title>
+		<imprint>
+			<biblScope unit="volume">18</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="67" to="85" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<monogr>
+		<title level="m" type="main">Applied Bayesian modelling</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Congdon</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2014">2014</date>
+			<publisher>John Wiley &amp; Sons</publisher>
+			<pubPlace>Chichester, UK</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<monogr>
+		<title level="m" type="main">Statistics for spatio-temporal data</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Cressie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">K</forename><surname>Wikle</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2011">2011</date>
+			<publisher>John Wiley &amp; Sons</publisher>
+			<pubPlace>New York</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Spatial modelling: a comprehensive framework for principal coordinate analysis of neighbour matrices (PCNM)</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Dray</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Legendre</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Peres-Neto</forename><surname>Pr</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ecological Modeling</title>
+		<imprint>
+			<biblScope unit="volume">196</biblScope>
+			<biblScope unit="issue">3-4</biblScope>
+			<biblScope unit="page" from="483" to="493" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Comparing spatially-varying coefficients models for analysis of ecological data with non-stationary and anisotropic residual dependence</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">O</forename><surname>Finley</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Methods in Ecology and Evolution</title>
+		<imprint>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="143" to="154" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Dispelling some myths about geographically weighted regression</title>
+	</analytic>
+	<monogr>
+		<title level="m">The Association of American Geographers Annual Meeting</title>
+		<meeting><address><addrLine>San Francisco</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<monogr>
+		<title level="m" type="main">Geographically weighted regression: the analysis of spatially varying relationships</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Charlton</forename><forename type="middle">M</forename></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2002">2002</date>
+			<publisher>John Wiley &amp; Sons</publisher>
+			<pubPlace>Chichester, UK</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Geographical and Temporal Weighted Regression (GTWR)</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Crespo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yao</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">47</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="431" to="452" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">The contiguity ratio and statistical mapping</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">C</forename><surname>Geary</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The incorporated statistician</title>
+		<imprint>
+			<biblScope unit="volume">5</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="115" to="146" />
+			<date type="published" when="1954">1954</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Spatial modeling with spatially varying coefficient processes</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">J</forename><surname>Kim</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">F</forename><surname>Sirmans</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Banerjee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">98</biblScope>
+			<biblScope unit="issue">462</biblScope>
+			<biblScope unit="page" from="378" to="396" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">GWmodel: an R package for exploring spatial heterogeneity using geographically weighted models</title>
+		<author>
+			<persName><forename type="first">I</forename><surname>Gollini</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Lu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Harris</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Statistical Software</title>
+		<imprint>
+			<biblScope unit="volume">63</biblScope>
+			<biblScope unit="page">17</biblScope>
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Spatial models using Laplace approximation methods</title>
+		<author>
+			<persName><forename type="first">V</forename><surname>Gomez-Rubio</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">S</forename><surname>Bivand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Rue</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Handbook of Regional Science</title>
+		<editor>
+			<persName><forename type="first">M</forename><forename type="middle">M</forename><surname>Fischer</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">P</forename><surname>Nijkamp</surname></persName>
+		</editor>
+		<meeting><address><addrLine>Berlin, Springer</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<monogr>
+		<title level="m" type="main">Spatial autocorrelation and spatial filtering: gaining understanding through theory and scientific visualization</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Griffith</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2003">2003</date>
+			<publisher>Springer</publisher>
+			<pubPlace>Berlin</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Spatial-filtering-based contributions to a critique of geographically weighted regression (GWR)</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Griffith</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environment and Planning A</title>
+		<imprint>
+			<biblScope unit="volume">40</biblScope>
+			<biblScope unit="issue">11</biblScope>
+			<biblScope unit="page" from="2751" to="2769" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Positive spatial autocorrelation impacts on attribute variable frequency distributions</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Griffith</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Chilean Journal of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="3" to="28" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Space, time, and space-time eigenvector filter specifications that account for autocorrelation</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Griffith</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Estadística española</title>
+		<imprint>
+			<biblScope unit="volume">54</biblScope>
+			<biblScope unit="issue">177</biblScope>
+			<biblScope unit="page" from="7" to="34" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Spatial autocorrelation and spatial filtering</title>
+		<author>
+			<persName><forename type="first">Griffith</forename><surname>Da</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Chun</forename><forename type="middle">Y</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Handbook of Regional Science</title>
+		<editor>
+			<persName><forename type="first">M</forename><forename type="middle">M</forename><surname>Fischer</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">P</forename><surname>Nijkamp</surname></persName>
+		</editor>
+		<meeting><address><addrLine>Berlin</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2014">2014</date>
+			<biblScope unit="page" from="1435" to="1459" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">Evaluating eigenvector spatial filter corrections for omitted georeferenced variables</title>
+		<author>
+			<persName><forename type="first">Griffith</forename><surname>Da</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Chun</forename><forename type="middle">Y</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">4</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page">29</biblScope>
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<monogr>
+		<title level="m" type="main">Non-standard spatial statistics and spatial econometrics</title>
+		<author>
+			<persName><forename type="first">Griffith</forename><surname>Da</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Jhp</forename><surname>Paelinck</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2011">2011</date>
+			<publisher>Springer</publisher>
+			<pubPlace>Berlin</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">Spatial modeling in ecology: the flexibility of eigenfunction spatial analyses in exploiting relative location information</title>
+		<author>
+			<persName><forename type="first">Griffith</forename><surname>Da</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Peres-Neto</forename><surname>Pr</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ecology</title>
+		<imprint>
+			<biblScope unit="volume">87</biblScope>
+			<biblScope unit="issue">10</biblScope>
+			<biblScope unit="page" from="2603" to="2613" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Grid-enabling geographically weighted regression: A case study of participation in higher education in England</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Harris</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Singleton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Grose</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Longley</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Transactions in GIS</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="43" to="61" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">Spatially varying coefficient models in real estate: Eigenvector spatial filtering and alternative approaches</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Helbich</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Griffith</forename><surname>Da</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Computers, Environment and Urban Systems</title>
+		<imprint>
+			<biblScope unit="volume">57</biblScope>
+			<biblScope unit="page" from="1" to="11" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">Determinants of the incidence of hand, foot and mouth disease in China using geographically weighted regression models</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Hu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Jia</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Lian</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Plos One</title>
+		<imprint>
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page">38978</biblScope>
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">Geographically and temporally weighted regression for modeling spatio-temporal variation in house prices</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Huang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Wu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Barry</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Geographical Information Science</title>
+		<imprint>
+			<biblScope unit="volume">24</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="383" to="401" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<analytic>
+		<title level="a" type="main">Dimension reduction and alleviation of confounding for spatial generalized linear mixed models</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Hughes</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Haran</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society: Series B (Statistical Methodology)</title>
+		<imprint>
+			<biblScope unit="volume">75</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="139" to="159" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<analytic>
+		<title level="a" type="main">Spatial occupancy models for large data sets</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">S</forename><surname>Johnson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">B</forename><surname>Conn</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">B</forename><surname>Hooten</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">C</forename><surname>Ray</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">A</forename><surname>Pond</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ecology</title>
+		<imprint>
+			<biblScope unit="volume">94</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="801" to="808" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<analytic>
+		<title level="a" type="main">Controlling for unmeasured confounding and spatial misalignment in long-term air pollution and health studies</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Sarran</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environmetrics</title>
+		<imprint>
+			<biblScope unit="volume">26</biblScope>
+			<biblScope unit="issue">7</biblScope>
+			<biblScope unit="page" from="477" to="487" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<analytic>
+		<title/>
+		<author>
+			<persName><forename type="first">P</forename><surname>Legendre</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Legendre</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Numerical Ecology</title>
+		<imprint>
+			<date type="published" when="2012">2012</date>
+			<publisher>Elsevier</publisher>
+			<pubPlace>Amsterdam</pubPlace>
+		</imprint>
+	</monogr>
+	<note>Third Edition</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<analytic>
+		<title level="a" type="main">Calibrating a geographically weighted regression model with parameter-specific distance metrics</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Lu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Harris</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Charlton</forename><forename type="middle">M</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Procedia Environmental Sciences</title>
+		<imprint>
+			<biblScope unit="volume">26</biblScope>
+			<biblScope unit="page" from="109" to="114" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<analytic>
+		<title level="a" type="main">Spatial dependence in (origin-destination) air passenger flows</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Margaretic</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Thomas-Agnan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Doucet</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Villotta</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/pirs.12189</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Papers in Regional Science</title>
+		<imprint>
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b40">
+	<analytic>
+		<title level="a" type="main">Random effects specifications in eigenvector spatial filtering: a simulation study</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Murakami</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Griffith</forename><surname>Da</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Geographical Systems</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="311" to="331" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b41">
+	<analytic>
+		<title level="a" type="main">Practical spatial statistics for areal interpolation</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Murakami</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Tsutsumi</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environment and Planning B: Planning and Design</title>
+		<imprint>
+			<biblScope unit="volume">39</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1016" to="1033" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b42">
+	<analytic>
+		<title level="a" type="main">Area-to-point parameter estimation with geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Murakami</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Tsutsumi</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Geographical Systems</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="207" to="225" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b43">
+	<analytic>
+		<title level="a" type="main">Geographically weighted Poisson regression for disease associative mapping</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Nakaya</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Charlton</forename><forename type="middle">M</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistics in Medicine</title>
+		<imprint>
+			<biblScope unit="volume">24</biblScope>
+			<biblScope unit="issue">17</biblScope>
+			<biblScope unit="page" from="2695" to="2717" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b44">
+	<analytic>
+		<title level="a" type="main">A simulation-based study of geographically weighted regression as a method for investigating spatially varying relationships</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Páez</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Farber</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">C</forename><surname>Wheeler</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environment and Planning A</title>
+		<imprint>
+			<biblScope unit="volume">43</biblScope>
+			<biblScope unit="issue">12</biblScope>
+			<biblScope unit="page" from="2992" to="3010" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b45">
+	<analytic>
+		<title/>
+		<author>
+			<persName><forename type="first">H</forename><surname>Rue</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Martino</forename><forename type="middle">S</forename><surname>Chopin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="s">Approximate Bayesian inference for latent</title>
+		<imprint>
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

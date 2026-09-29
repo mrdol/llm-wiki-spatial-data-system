@@ -1,0 +1,1234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Backfitting Estimation for Geographically Weighted Regression Models with Spatial Autocorrelation in the Response</title>
+				<funder ref="#_JxH6EN3">
+					<orgName type="full">unknown</orgName>
+				</funder>
+				<funder ref="#_MSYtbpW">
+					<orgName type="full">National Natural Science Foundation of China</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">Feng</forename><surname>Chen</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department" key="dep1">Department of Statistics</orgName>
+								<orgName type="department" key="dep2">School of Mathematics and Statistics</orgName>
+								<orgName type="institution">Xi&apos;an Jiaotong University</orgName>
+								<address>
+									<settlement>Xi&apos;an</settlement>
+									<country key="CN">China</country>
+								</address>
+							</affiliation>
+							<affiliation key="aff1">
+								<orgName type="department" key="dep1">Institute of Future Cities</orgName>
+								<orgName type="department" key="dep2">Department of Geography and Resource Management</orgName>
+								<orgName type="institution">The Chinese University of Hong Kong</orgName>
+								<address>
+									<settlement>Shatin</settlement>
+									<region>Hong Kong</region>
+									<country key="CN">China</country>
+								</address>
+							</affiliation>
+						</author>
+						<author role="corresp">
+							<persName><forename type="first">Yee</forename><surname>Leung</surname></persName>
+							<email>yeeleung@cuhk.edu.hk</email>
+							<affiliation key="aff1">
+								<orgName type="department" key="dep1">Institute of Future Cities</orgName>
+								<orgName type="department" key="dep2">Department of Geography and Resource Management</orgName>
+								<orgName type="institution">The Chinese University of Hong Kong</orgName>
+								<address>
+									<settlement>Shatin</settlement>
+									<region>Hong Kong</region>
+									<country key="CN">China</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Chang-Lin</forename><surname>Mei</surname></persName>
+							<affiliation key="aff2">
+								<orgName type="department">School of Science</orgName>
+								<orgName type="institution">Xi&apos;an Polytechnic University</orgName>
+								<address>
+									<region>Xi&apos;an</region>
+									<country key="CN">China</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Tung</forename><surname>Fung</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="department" key="dep1">Institute of Future Cities</orgName>
+								<orgName type="department" key="dep2">Department of Geography and Resource Management</orgName>
+								<orgName type="institution">The Chinese University of Hong Kong</orgName>
+								<address>
+									<settlement>Shatin</settlement>
+									<region>Hong Kong</region>
+									<country key="CN">China</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<affiliation key="aff3">
+								<orgName type="department" key="dep1">Institute of Future Cities</orgName>
+								<orgName type="department" key="dep2">Department of Geography and Resource Management</orgName>
+								<orgName type="institution">The Chinese University of Hong Kong</orgName>
+								<address>
+									<settlement>Shatin</settlement>
+									<region>Hong Kong</region>
+									<country key="CN">China</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Backfitting Estimation for Geographically Weighted Regression Models with Spatial Autocorrelation in the Response</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<idno type="MD5">01C03F528779FC0C34F9413D0A3CD8BA</idno>
+					<idno type="DOI">10.1111/gean.12289</idno>
+					<note type="submission">Submitted: 18 November 2019; Revised version accepted: 23 March 2021</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-17T13:17+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Geographically weighted regression model with a spatially autoregressive term of the response variable (GWR-Lag model for short) is a useful tool to simultaneously model spatial autocorrelation in the response variable and spatial heterogeneity in the regression relationship. The profile maximum likelihood estimation has been developed to calibrate the model, where a single bandwidth is used for all of the spatially varying coefficients. However, due to different spatial scales at which the explanatory variables might operate, the coefficients may have different levels of spatial heterogeneity and cannot be effectively estimated by a single bandwidth. To deal with such multiscale problem, a backfitting method is proposed to calibrate the GWR-Lag model, where the optimal bandwidth size is separately selected for each coefficient and the autoregressive parameter is estimated by maximizing the log-likelihood function. A simulation study with a comparison of the GWR-based profile maximum likelihood (GWR-ML) estimation is conducted to assess the performance of the backfitting approach. The empirical results show that the backfitting method not only provides useful scale information for each explanatory variable, but also yields more accurate estimators of the coefficients. Furthermore, a real-life data set is analyzed to demonstrate the effectiveness of the backfitting approach.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Introduction</head><p>Spatial autocorrelation and spatial heterogeneity are two fundamental properties of spatial data that may appear simultaneously in the real world <ref type="bibr" target="#b6">(Can 1992;</ref><ref type="bibr" target="#b38">Patton and McErlean 2003)</ref>. <ref type="bibr" target="#b12">Fotheringham (2009)</ref> and <ref type="bibr">Pace and LeSage (2004a)</ref> pointed out that spatial autocorrelation may evoke spatial heterogeneity and vice versa. <ref type="bibr" target="#b16">Geniaux and Martinetti (2018)</ref> argued that spatial heterogeneity in regression models is inseparable from spatial autocorrelation. Therefore, it is necessary to simultaneously consider these two properties in spatial regression models.</p><p>In spatial econometrics, two kinds of spatial autocorrelation are commonly considered in a linear regression model. One is spatial autocorrelation in the response variable and the other is spatial autocorrelation in the error term, corresponding to spatial autoregressive (SAR) models and spatial error models (SEM), respectively. As explained in a number of research in the literature (e.g., <ref type="bibr" target="#b7">Case 1991;</ref><ref type="bibr" target="#b1">Anselin and Bera 1998;</ref><ref type="bibr" target="#b23">Kim, Phipps, and Anselin 2003;</ref><ref type="bibr" target="#b22">Kelejian, Tavlas, and Hondroyiannis 2006;</ref><ref type="bibr" target="#b26">LeSage and Pace 2009)</ref>, by incorporating spatial autocorrelation in the response variable into the model, SAR models not only capture the direct impacts from changes in the explanatory variables, but can also derive the indirect impacts (or spillover effects) that are eliminated in SEM. Therefore, much attention has been paid to the study and application of SAR models (see, e.g., <ref type="bibr" target="#b7">Case 1991;</ref><ref type="bibr" target="#b8">Case, Rosen, and Hines 1993;</ref><ref type="bibr" target="#b34">Murdoch, Sandler, and Sargent 1997;</ref><ref type="bibr" target="#b2">Brueckner 1998;</ref><ref type="bibr" target="#b11">Fingleton 2000;</ref><ref type="bibr" target="#b26">LeSage and Pace 2009;</ref><ref type="bibr" target="#b39">Sparks and Sparks 2010;</ref><ref type="bibr" target="#b15">Gebremariam, Gebremedhin, and Schaeffer 2012;</ref><ref type="bibr" target="#b31">Liu et al. 2018;</ref><ref type="bibr" target="#b44">Zou, Zhan, and Zhang 2018)</ref>. Nevertheless, as pointed out by <ref type="bibr" target="#b16">Geniaux and Martinetti (2018)</ref>, only taking into account spatial autocorrelation could not handle the issue related to spatial heterogeneity which may be caused by the misspecification of spatial autocorrelation. In addition, unobserved explanatory variables that are correlated to the observed ones can also lead to spatial heterogeneity in the regression relationship <ref type="bibr" target="#b13">(Fotheringham, Brunsdon, and Charlton 2002)</ref>. Therefore, it is crucial to further consider spatial heterogeneity in the regression models with spatial autocorrelation.</p><p>Spatial heterogeneity has received much attention in geo-referenced data analysis. The wellknown models in exploring spatial heterogeneity of a regression relationship are the geographically weighted regression (GWR) models <ref type="bibr" target="#b3">(Brunsdon, Fotheringham, and Charlton 1996)</ref>, in which the regression coefficients are assumed to be the functions of spatial coordinates. Since the inception of the GWR models, there has been a substantial study on their statistical inferences and applications (see, e.g., <ref type="bibr" target="#b5">Brunsdon, Fotheringham, and Charlton 1999;</ref><ref type="bibr" target="#b27">Leung, Mei, and Zhang 2000;</ref><ref type="bibr" target="#b13">Fotheringham, Brunsdon, and Charlton 2002;</ref><ref type="bibr" target="#b20">Huang and Leung 2002;</ref><ref type="bibr" target="#b37">Páez, Uchida, and Miyamoto 2002;</ref><ref type="bibr" target="#b42">Wheeler 2009;</ref><ref type="bibr" target="#b32">Lu et al. 2014;</ref><ref type="bibr" target="#b33">Mei, Xu, and Wang 2016;</ref><ref type="bibr" target="#b24">Kim, Tanaka, and Ge 2018;</ref><ref type="bibr" target="#b41">Wang et al. 2018)</ref>. However, a flaw of the GWR model is that it ignores spatial autocorrelation <ref type="bibr">(Pace and LeSage 2004a)</ref> because of the assumption of independent model errors. Recently, <ref type="bibr" target="#b28">Li, Mei, and Wang (2019)</ref> have empirically demonstrated that, in certain cases, ignoring spatial autocorrelation in the response variable may lead to biased or even invalid estimators of the regression coefficients in a GWR model when spatial autocorrelation does exist in the response variable.</p><p>Therefore, it is promising to introduce the spatial autocorrelation into the traditional GWR model to simultaneously account for both spatial heterogeneity and spatial autocorrelation. In a class of such models summarized in <ref type="bibr" target="#b16">Geniaux and Martinetti (2018)</ref>, the GWR model with a spatial lag term of the response variable, called GWR-Lag model in short henceforth, is perhaps one of the most important models in view of the advantages of both SAR and GWR models. In regard to the calibration of the GWR-Lag models, <ref type="bibr" target="#b4">Brunsdon, Fotheringham, and Charlton (1998)</ref> proposed an approach by combining the GWR and the profile maximum likelihood-based methods; and <ref type="bibr" target="#b40">Sun et al. (2014)</ref> formulated a local-linear profile maximum likelihood estimation procedure and derived the asymptotic properties of the related estimators. In addition, <ref type="bibr" target="#b16">Geniaux and Martinetti (2018)</ref> suggested the use of a spatial two-stage least square to calibrate the models. For statistical inferences of the GWR-Lag models, <ref type="bibr" target="#b28">Li, Mei, and Wang (2019)</ref> proposed bootstrap procedures to test whether the spatial lag term exists and whether some coefficients are constant; <ref type="bibr" target="#b40">Sun et al. (2014)</ref> used the AIC or BIC criterion for identifying possible constant coefficients. In particular, the bootstrap test for the existence of spatial autocorrelation in the response variable derived by <ref type="bibr" target="#b28">Li, Mei, and Wang (2019)</ref> can be used to select an appropriate model between a GWR-Lag model and a GWR model for a given data set. However, in these existing estimation and inference methods, all of the spatially varying coefficients in the GWR-Lag models are calibrated by a single bandwidth, which does not take into account the influence of spatial scale at which each explanatory variable operates.</p><p>Scale is a fundamental geographic concept and it has been recognized that different spatial processes generally operate at different spatial scales <ref type="bibr" target="#b14">(Fotheringham, Yang, and Kang 2017)</ref>. In the GWR-related models, each regression coefficient is inherently subjected to the effect of a scale at which the corresponding explanatory variable operates and will possibly show a different level of spatial heterogeneity. As well documented in the statistical varying coefficient models with nonparametric kernel smoothing estimation, a coefficient with a higher level of heterogeneity requires a smaller bandwidth size and a lower level of heterogeneity calls for a larger bandwidth size <ref type="bibr" target="#b10">(Fan and Zhang 1999)</ref>, which means that different bandwidths should be used for different explanatory variables. The backfitting technique <ref type="bibr" target="#b19">(Hastie and Tibshirani 1986)</ref> can well achieve the task of separately selecting bandwidth size for each regression coefficient. In addition, the scale in the geographical space may also cause the variation of the bandwidths especially when the sampling points (or regions) are not equally distributed over space, which has aroused an interest in using adaptive bandwidths <ref type="bibr" target="#b18">(Gollini et al. 2013)</ref>. Recently, the backfitting technique has been successfully applied to the GWR models for dealing with the multiscale issue <ref type="bibr" target="#b14">(Fotheringham, Yang, and Kang 2017;</ref><ref type="bibr" target="#b25">Leong and Yue 2017)</ref>. This multiscale calibration method not only provides the scale information on each explanatory variable via the separately selected optimal bandwidth sizes, but also yields more efficient estimators of the spatially varying coefficients. In this article, we combine the backfitting procedure with the profile maximum likelihood estimation method to calibrate the GWR-Lag models. Specifically, the backfitting procedure is used to calibrate the spatially varying coefficients for handling the multiscale issue among the explanatory variables, and the profile maximum likelihood method is employed to estimate the autoregressive parameter in the spatial lag term. In this way, we expect that not only the scales at which the explanatory variables operate can be uncovered via the separately selected optimal bandwidth sizes for the coefficients, but the efficient estimators for both the autoregressive parameter and the spatially varying coefficients can also be obtained.</p><p>The remainder of this article is organized as follows. In Section 2, the backfitting estimation of the GWR models and the profile maximum likelihood estimation of the GWR-Lag models are briefly introduced. In Section 3, the backfitting procedure for calibrating the GWR-Lag models is formulated in detail. In Section 4, a simulation experiment with some measurement indices is designed to evaluate the performance of the proposed backfitting estimation approach, followed by the analysis of the simulation results in Section 5. A real-world example based on the Boston housing price data are given in Section 6 to demonstrate the effectiveness of the proposed backfitting method of the GWR-Lag models. The article is then concluded with final remarks including a summary and discussions on the computability of the backfitting method and possible directions for further research.</p><p>Introduction to the backfitting method of the GWR models and the profile maximum likelihood estimation approach of the GWR-Lag models Backfitting estimation of the GWR models First, we give a brief description of the backfitting method of the GWR models developed by <ref type="bibr" target="#b14">Fotheringham, Yang, and Kang (2017)</ref> and <ref type="bibr" target="#b25">Leong and Yue (2017)</ref>.</p><p>Let {y i , x i1 , x i2 , …, x ip } n i = 1 be observations of the response variable Y and the explanatory variables X 1 , X 2 , …, X p at n spatial locations {(u </p><formula xml:id="formula_0">i , v i )} n i = 1</formula><p>. The GWR model is of the form where { j (u, v)} p j = 1 are p unknown functions of the spatial coordinate (u, v), among which β 1 (u, v) becomes an intercept term when letting x i1 = 1 at all of the n locations, and { i } n i = 1 are independent and identically distributed errors with E( i ) = 0 and Var( i ) = 2 .</p><p>In order to fix the model within the framework of the backfitting procedure, we rewrite the GWR model into the following vector form:</p><formula xml:id="formula_1">where Y = (y 1 , y 2 , …, y n ) T ; X j = (x 1j , x 2j , …, x nj ) T ; j (u, v) = j u 1 , v 1 , j u 2 , v 2 , …, j u n , v n T (j = 1, 2, …, p); = ( 1 , 2 , …, n ) T ;</formula><p>and " * " stands for the element-wise multiplication of two vectors such that, for each j = 1, 2, …, p,</p><formula xml:id="formula_2">j (u, v) * X j = j u 1 , v 1 x 1j , j u 2 , v 2 x 2j , …, j u n , v n x nj T .</formula><p>According to the backfitting procedure of the GWR model in equation (1), given k ∈ {1, 2, …, p}, denote</p><p>Treat Y * k as the observation vector of a new response variable and calibrate the GWR model with only one explanatory variable X k in equation (2) based on the data {y * ik ; x ik ;(u i , v i )} n i = 1</p><p>. The GWR estimator of the coefficient</p><formula xml:id="formula_3">β k (u, v) at (u i , v i ) is where W h k u i , v i = Diag w (hk) i1 , w (hk) i2 , …, w (hk) in with w (<label>hk</label></formula><formula xml:id="formula_4">) ij (j = 1, 2, …, n)</formula><p>being the weights at (u i , v i ) determined by a given kernel function and h k being the bandwidth for the coefficient β k (u, v). Consequently, the estimators of β k (u, v) at all of the n sampling locations { u i , v i } n i = 1 can be obtained by where</p><formula xml:id="formula_5">y i = p ∑ j = 1 j (u i , v i )x ij + i , i = 1, 2, …, n,<label>(1)</label></formula><formula xml:id="formula_6">Y = p ∑ j = 1 j (u, v) * X j + ,<label>(2)</label></formula><formula xml:id="formula_7">Y * k = y * 1k , y * 2k , …, y * nk T = Y - p ∑ j = 1,j ≠ k j (u, v) * X j = k (u, v) * X k + .<label>(3)</label></formula><formula xml:id="formula_8">̂ k u i , v i = X T k W h k u i , v i X k -1 X T k W h k u i , v i Y * k , i = 1, 2, …, n, (<label>4</label></formula><formula xml:id="formula_9">) ̂ k (u, v) = ̂ k u 1 , v 1 , ̂ k u 2 , v 2 , …, ̂ k u n , v n T = P h k Y * k = P h k Y - p ∑ j = 1,j ≠ k j (u, v) * X j ,<label>(5)</label></formula><formula xml:id="formula_10">P(h k ) = ⎛ ⎜ ⎜ ⎜ ⎜ ⎜ ⎝ � X T k W h k (u 1 , v 1 )X k � -1 X T k W h k (u 1 , v 1 ) � X T k W h k (u 2 , v 2 )X k � -1 X T k W h k (u 2 , v 2 ) ⋮ � X T k W h k (u n , v n )X k � -1 X T k W h k (u n , v n ) ⎞ ⎟ ⎟ ⎟ ⎟ ⎟ ⎠ .</formula><p>The optimal size of the bandwidth h k is generally determined by the AICc criterion. In this case, the AICc score is computed by where and with I n being the identity matrix of order n. The optimal size of h k , which we denote by h * k , is selected by</p><p>In practice, the above backfitting procedure is implemented in an iterative way. Specifically, set initial values of the coefficient vectors j (u, v) (j = 1, 2, …, p) and update their estimators one after another according to equation ( <ref type="formula" target="#formula_8">4</ref>), in which the optimal bandwidth size for each coefficient is selected by equation ( <ref type="formula" target="#formula_12">7</ref>). The implementation details of the backfitting estimation of the GWR models can be found in <ref type="bibr" target="#b14">Fotheringham, Yang, and Kang (2017)</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Profile maximum likelihood estimation of the GWR-Lag models</head><p>With the notation of the element-wise multiplication used in equation ( <ref type="formula" target="#formula_5">1</ref>), the GWR-Lag model can be expressed as where ρ (|ρ| &lt; 1) is called autoregressive parameter reflecting the intensity of spatial autocorrelation in the response variable; W = (w ij ) n×n is a pre-specified spatial adjacency matrix, which characterizes the spatial adjacency relationship of the n locations (or geographical units). Generally, n) are assumed by convention and W is row-standardized to make the summation of the elements in each row equal to 1.</p><formula xml:id="formula_11">w ii = 0 (1 ≤ i ≤</formula><p>Let</p><p>Then the GWR-Lag model can be further written as ( <ref type="formula">6</ref>)</p><formula xml:id="formula_12">AICc h k = log ̂ 2 h k + n + tr L h k n -2 -tr L h k , L h k = Diag x 1k , x 2k , …, x nk P h k , ̂ 2 h k = 1 n Y * k T I n -L h k T I n -L h k Y * k (<label>7</label></formula><formula xml:id="formula_13">) h * k = arg min h k &gt; 0 AICc h k .<label>(8)</label></formula><formula xml:id="formula_14">Y = WY + p ∑ j = 1 j (u, v) * X j + , M = p ∑ j = 1 j (u, v) * X j and A ( ) = I n -W . (<label>9</label></formula><formula xml:id="formula_15">) A ( ) Y = M + .</formula><p>Assuming that follows N 0, 2 I n , we obtain the log-likelihood function of Y as where |A(ρ)| stands for the determinant of the matrix A(ρ). Suppose that we have obtained an estimator of M, say M, by some way and substitute M in equation ( <ref type="formula" target="#formula_19">10</ref>) by M. Then we take the derivative of log L , 2 , M with respect to σ 2 and set the derivative to be zero, yielding an estimator of σ 2 as Substituting ̂ 2 into equation ( <ref type="formula" target="#formula_19">10</ref>) and ignoring the term that is irrelevant to the parameter ρ, the log-likelihood function becomes</p><formula xml:id="formula_16">Maximizing log L , ̂ 2 , M</formula><p>with respect to ρ by some optimization procedures such as the golden section and the grid point methods, we obtain an estimator of ρ which we denote by ̂ . Substituting ̂ into equation ( <ref type="formula" target="#formula_20">11</ref>) leads to the final estimator ̂ 2 of σ 2 .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Remark 1</head><p>As mentioned in the introduction section, <ref type="bibr" target="#b4">Brunsdon, Fotheringham, and Charlton (1998)</ref> have proposed a GWR-based calibration method for the GWR-Lag model, in which the vector</p><formula xml:id="formula_17">M = ∑ p j = 1 j (u, v) * X j is estimated by the GWR technique.</formula><p>Here, we give a more detailed de- scription of this procedure which will be used for the performance comparison with the backfitting estimation proposed in the next section. Take the model in equation ( <ref type="formula" target="#formula_14">9</ref>) as the GWR model with the observation vector of the response variable being A(ρ)Y. Then, the GWR estimator of the coefficient vector at each designed location (</p><formula xml:id="formula_18">u i , v i ) is where X = X 1 , X 2 , …, X p .</formula><p>Substituting</p><formula xml:id="formula_19">̂ j u i , v i (1 ≤ j ≤ p, 1 ≤ i ≤ n) into j (u, v)(1 ≤ j ≤ p) defined in equation (1) leads to the estimator of M as where (<label>10</label></formula><formula xml:id="formula_20">) log L , 2 , M = - n 2 log 2 2 + log (|A ( )|) - 1 2 2 (A ( ) Y -M ) T (A ( ) Y -M ) ,<label>(11)</label></formula><formula xml:id="formula_21">̂ 2 = 1 n A ( ) Y -M T A ( ) Y -M . (<label>12</label></formula><formula xml:id="formula_22">) log L , ̂ 2 , M = - n 2 log ̂ 2 + log (|A ( )|) = - n 2 log 1 n I n -W Y -M T I n -W Y -M + log | | I n -W | | . ̂ 1 (u i , v i ), ̂ 2 (u i , v i ), …, ̂ p (u i , v i ) T = X T W h (u i , v i )X -1 X T W h (u i , v i )A( )Y , M = S(h)A( )Y , S(h) = ⎛ ⎜ ⎜ ⎜ ⎜ ⎜ ⎝ %x T 1 � X T W h (u 1 , v 1 )X � -1 X T W h (u 1 , v 1 ) xT 2 � X T W h (u 2 , v 2 )X � -1 X T W h (u 2 , v 2 ) ⋮ xT n � X T W h (u n , v n )X � -1 X T W h (u n , v n ) ⎞ ⎟ ⎟ ⎟ ⎟ ⎟ ⎠</formula><p>with xT i = x i1 , …, x ip being the ith row of X. The foregoing GWR-based profile maximum likeli- hood estimation of the GWR-Lag model in equation ( <ref type="formula" target="#formula_13">8</ref>) or ( <ref type="formula" target="#formula_14">9</ref>) can be implemented via the following steps:</p><p>(i) Set ρ = 0 and fit the corresponding GWR model based on the original data</p><formula xml:id="formula_23">{y i ; x i1 , x i2 , …, x ip ; (u i , v i )} n i = 1</formula><p>using the traditional GWR technique, in which the optimal bandwidth size, denoted by h 0 , is selected by the AICc criterion. Consequently, an initial estimator of M is obtained by (ii) Substitute M 0 into equation ( <ref type="formula" target="#formula_21">12</ref>) and maximize the log-likelihood function with respect to ρ, we obtain the estimator ̂ of ρ.</p><p>(iii) Let Ỹ = I n -̂ W and fit the updated GWR model via the traditional GWR method, in which the optimal bandwidth size, say h * , is once again selected by the AICc criterion. Here, we call the estimators of the coefficient functions and the autoregressive parameter estimator ̂ in Step (ii) the GWR-ML estimators, and call the corresponding estimation procedure the GWR-ML method henceforth.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Backfitting estimation of the GWR-Lag models</head><p>The GWR-ML estimation of the GWR-Lag model calibrates the spatially varying coefficient part by the traditional GWR technique in which a single bandwidth size is selected for all of the coefficients and it does not take into account different levels of spatial heterogeneity of the coefficients. In what follows, we will incorporate the backfitting procedure for estimating the GWR model <ref type="bibr" target="#b14">(Fotheringham, Yang, and Kang 2017)</ref> into the profile maximum likelihood estimation of the GWR-Lag model.</p><p>To simplify the notation of the GWR-Lag model, let where β k (u, v) and X k (k = 1, 2, …, p) are the same vectors as those in equation ( <ref type="formula" target="#formula_5">1</ref>). Then, the GWR-Lag model in equation ( <ref type="formula" target="#formula_13">8</ref>) can be written as the following GWR model with the observation vector of the dependent variable being A(ρ)Y:</p><p>The backfitting procedure for the GWR model described in Section 2 is then used to calibrate this GWR model. That is, given a value of ρ and starting from f 1 , we can obtain the es-</p><formula xml:id="formula_24">timator ̂ k (u, v) of β k (u, v) shown in equation (4) in which the vector Y is replaced by A(ρ)Y. Consequently, we have the estimators f k of f k as M 0 = S h 0 A ( ) Y . Ỹ = p ∑ j = 1 j (u, v) * X j + f k = k (u, v) * X k , k = 1, 2, …, p, (13) A( )Y = p ∑ k = 1 f k + .</formula><p>and furthermore the estimator of M as The parameter σ 2 is estimated by substituting M into equation ( <ref type="formula" target="#formula_20">11</ref>) and finally the estimator ̂ of ρ is obtained by solving the optimal problem in equation ( <ref type="formula" target="#formula_21">12</ref>).</p><p>It should be noted that the explanatory variables are generally standardized in using the backfitting technique, on which the foregoing backfitting estimation for the GWR-Lag model can be practically implemented by an iterative algorithm. Here, the Gauss-Seidel iteration used to speed up the convergence of the backfitting estimation of the GWR model <ref type="bibr" target="#b14">(Fotheringham, Yang, and Kang 2017)</ref> is applied, although the Jacobi iteration is also an alternative choice in reducing possible bias of the estimators <ref type="bibr" target="#b25">(Leong and Yue 2017)</ref>. Specifically, the steps with the Gauss-Seidel iteration are as follows.</p><p>(i) Set initial values of ρ and f k (k = 1, 2, …, p), say ̂ (0) = 0 and f (0) k = 0 (k = 1, 2, . . . , p). Let t be the number of iteration and set t = 1.</p><p>(ii) Let</p><formula xml:id="formula_25">Â(t-1) ( ) = I -̂ (t -1) W. For k = 1, 2, …, p, update each f (t) k by calibrating the fol- lowing GWR model: Let Ỹ (t) k = Â(t-1) ( )Y - ∑ k -1 j = 1 f (t) j - ∑ p j = k + 1 f (t -1) j</formula><p>. The GWR estimators of the elements</p><formula xml:id="formula_26">k u i , v i (i = 1, 2, …, n) in β k (u, v) are obtained by</formula><p>where the optimal bandwidth size is selected by the AICc criterion. The updated f (t) k is then (iii) Consequently, the updated M (t) and σ 2(t) are, respectively, and (iv) Update ρ (t) by maximizing the following objective function:</p><formula xml:id="formula_27">f k = ̂ k (u, v) * X k , k = 1, 2, …, p, M = p ∑ k = 1 ̂ k (u, v) * X k . Â(t-1) ( )Y - k -1 ∑ j = 1 f (t) j - p ∑ j = k + 1 f (t -1) j = (t) k (u, v) * X k + (t) .<label>(14)</label></formula><formula xml:id="formula_28">̂ (t) k u i , v i = (X T k W h k u i , v i X k ) -1 X T k W h k u i , v i Ỹ (t) k , i = 1, 2, …, n, f (t) k = ̂ (t) k (u, v) * X k . M (t) = p ∑ k = 1 f (t) k (<label>(15)</label></formula><formula xml:id="formula_29">) ̂ 2(t) = 1 n A (t) ( ) - M (t) T A (t) ( ) - M (t) .<label>16</label></formula><p>The maximization of equation ( <ref type="formula">17</ref>) is solved by employing the grid point method in <ref type="bibr" target="#b40">Sun et al. (2014)</ref>. In addition, the decomposition of �</p><formula xml:id="formula_30">� I n -(t) W � � = ∏ n i = 1 � � 1 -(</formula><p>t) i � � is used to calculate the determinant of I n -(t) W in order to reduce the computation cost, where i (1 ≤ i ≤ n) are the eigenvalues of W and | | 1 -(t) i | | is the modulus of 1 -(t) i . (v) Given a convergence threshold 0 , define the following termination measure: If 𝜂 &lt; 𝜂 0 , then the iteration process is terminated; otherwise, let t = t + 1 and repeat Steps (ii) to (iv) until the convergence criterion is met.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Simulation study</head><p>In order to assess the performance of the backfitting method on tackling the multiscale problem and estimating the coefficients, a simulation experiment with a comparison of the GWR-ML estimation is designed. Moreover, an additional model is built to examine the impact of ignoring an explanatory variable that is correlated with some explanatory variables in the model on the estimators of the coefficients.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>The spatial layout</head><p>In the simulation, we used a unit square to represent the spatial region with its bottom-left corner being the origin of the Cartesian coordinate system. In view of the fact that the sampling locations in most of the practical problems are irregularly distributed, the sampling locations were determined by independently drawing a pair of random numbers from the uniform distribution U(0, 1).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>The models for generating the experimental data</head><p>In the simulation study, the following four regression coefficient functions were chosen:</p><p>The spatial variation patterns of the regression coefficients are shown in Fig. <ref type="figure">1</ref>, from which it is observed that the levels of spatial heterogeneity of β 0 (u, v) and β 1 (u, v) are comparable but higher than those of β 2 (u, v) and β 3 (u, v).</p><p>Model 1. We considered the following GWR-Lag model:</p><p>(17)</p><formula xml:id="formula_31">- n 2 log 1 n I n -(t) W Y - M (t) T I n -(t) W Y - M (t) + log | | | I n -(t) W | | | . (18) = max 1 ≤ k ≤ p max 1 ≤ i ≤ n | | | (t) k u i , v i -(t -1) k u i , v i | | | + | | | (t) -(t -1) | | | . ⎧ ⎪ ⎪ ⎨ ⎪ ⎪ ⎩ 0 (u, v) = 5 (4u -2) exp � -(2 -4u) 2 -(2 -4v) 2 � ;</formula><p>A row-standardized K-nearest neighbor weight matrix with K = 7 was used to generate w ij (1 ≤ i, j ≤ n); for each of k = 1, 2, 3, {x ik } n i = 1 were independently drawn from the standard normal distribution N(0, 1); and { i } n i = 1 were independently drawn from N(0, 0.25) in each replication. Given a value of ρ, the observation vector of the response variable Y was generated by</p><p>The values of ρ were set to be 0, 0.3, 0.6, and 0.9, respectively. In this simulation, two sample sizes n = 400 and 600 were considered and each experimental setting was repeated N times.</p><p>Model 2. We designed the following GWR-Lag model:</p><formula xml:id="formula_32">y i = n ∑ j = 1,j ≠ i w ij y j + 1 u i , v i x i1 + 2 u i , v i x i2 + 3 u i , v i x i3 + i , i = 1, 2, …, n. (<label>(19)</label></formula><formula xml:id="formula_33">)<label>20</label></formula><formula xml:id="formula_34">Y = I n -W -1 1 (u, v) * X 1 + 2 (u, v) * X 2 + 3 (u, v) * X 3 + .</formula><p>Figure 1. Spatial variation patterns of the four regression coefficients.</p><p>for evaluating the influence of an unobserved explanatory variable on the modeling performance. Here, {x i1 , x i2 } n i = 1 were drawn from a two-dimensional normal distribution N (0, ) with = 1 0.5 0.5 1 ; {x i3 } n i = 1 were independently drawn from N(0, 1); and { i } n i = 1 were still independently drawn from N(0, 0.25) in each replication. The values of the autoregressive parameter ρ were kept to be 0, 0.3, 0.6, and 0.9, respectively, and only the sample size n = 400 was considered. In this simulation, the data were generated by the model in equation ( <ref type="formula">21</ref>), but the model was used in the calibration process, mimicking the situation where the explanatory variable X 2 is unobservable.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>The kernel weights</head><p>The kernel weights with an adaptive bandwidth have been reckoned to be a favorable way for dealing with data collected at irregular locations <ref type="bibr" target="#b18">(Gollini et al. 2013)</ref>. In the simulation study, the Epanechnikov kernel function with an adaptive bandwidth was used to generate the weights. That is, the weights at the location (u i , v i ) are obtained by where d ij (1 ≤ j ≤ n) are the Euclidean distances between locations (u i , v i ) and (u j , v j ), b i(h) is the distance from the focal location (u i , v i ) to its hth nearest location representing the real variable bandwidth, and h is the proxy bandwidth whose optimal size will be determined by the AICc criterion. For the convenience of presentation, we will call h the bandwidth henceforth.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Indices for measuring the estimation accuracy of the autoregressive parameter and regression coefficients</head><p>To evaluate the performance of the backfitting method, some indices are defined to measure the accuracy of the estimators of the autoregressive parameter and regression coefficients.</p><p>For the parameter ρ, let ̂ (r) denote its estimator in the rth replication. The mean of the estimators in N replications is the absolute bias between the mean and the true value of ρ is (21)</p><formula xml:id="formula_35">y i = n ∑ j = 1 w ij y j + 0 u i , v i + 1 u i , v i x i1 + 2 u i , v i x i2 + 3 u i , v i x i3 + i , i = 1, 2, …, n (<label>22</label></formula><formula xml:id="formula_36">)</formula><formula xml:id="formula_37">y i = n ∑ j = 1 w ij y j + 0 u i , v i + 1 u i , v i x i1 + 3 u i , v i x i3 + i , i = 1, 2, …, n (23) w (h) ij = ⎧ ⎪ ⎨ ⎪ ⎩ 3 4 � 1 - � d ij b i(h) �2 � , if d ij ≤ b i(h) ; 0, otherwise, ⎫ ⎪ ⎬ ⎪ ⎭ j = 1, 2, . . . , n, Mean ̂ = 1 N N ∑ r = 1 ̂ (r) ,</formula><p>the standard deviation is and the root mean square error is</p><p>The above indices will be used to measure the estimation accuracy of ρ.</p><p>For each of the regression coefficients, the averaged value of the estimators of</p><formula xml:id="formula_38">β k (u i , v i ) at location (u i , v i ) in N replications is calculated by where ̂ k(r) u i , v i denotes the estimator of β k (u, v) at the location (u i , v i ) in the rth replication. The absolute bias between β k (u i , v i ) and Mean ̂ k u i , v i is</formula><p>The root mean square error of the estimators of β k (u i , v i ) is computed by And, the averages of Abias ̂ k u i , v i and RMSE ̂ k u i , v i at all of the n locations for the regression coefficient β k (u, v) are, respectively, calculated by and</p><formula xml:id="formula_39">Abias ̂ = | | | Mean ̂ - | | | , SD ̂ = 1 N N ∑ r = 1 ̂ (r) -Mean ̂ 2 1 2 , RMSE(̂ ) = 1 N N ∑ r = 1 ̂ (r) - 2 1 2 . Mean ̂ k u i , v i = 1 N N ∑ r = 1 ̂ k(r) u i , v i , i = 1, 2, …, n, Abias ̂ k u i , v i = | | | | k u i , v i -Mean ̂ k u i , v i | | | | , i = 1, 2, …, n. RMSE ̂ k u i , v i = 1 N N ∑ r = 1 ̂ k(r) u i , v i -k u i , v i 2 1 2 , i = 1, 2, …, n. MAbias k = 1 n n ∑ i = 1 Abias ̂ k u i , v i , k = 1, 2, …, p, MRMSE k = 1 n n ∑ i = 1 RMSE ̂ k u i , v i , k = 1, 2, …, p.</formula><p>In each of the experiment settings, the convergence threshold of the backfitting method was set to be η 0 = 0.001 and N = 500 replications were performed.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Simulation results and interpretations</head><p>The result with analysis for Model 1 The average value, absolute bias, standard deviation, and root mean square error for estimating the autoregressive parameter ρ in N = 500 replications are reported in Table <ref type="table" target="#tab_0">1</ref>, from which we can observe that the performance of the backfitting method is nearly the same as that of the GWR-ML method and both methods yield very accurate estimators of ρ in all of the experiment settings. Furthermore, the estimation accuracy from both methods is improved with the increase of the sample size in terms of the root mean square error.</p><p>To evaluate the ability of the backfitting method in uncovering the different scales at which the explanatory variables operate, the boxplots of the selected optimal bandwidth sizes of h in the 500 replications for n = 400 are depicted in Fig. <ref type="figure" target="#fig_0">2</ref>, in which h * denotes the optimal sizes of h selected in the GWR-ML method, and h * 1 , h * 2 , and h * 3 represent the optimal bandwidth sizes of β 1 (u, v), β 2 (u, v), and β 3 (u, v) determined in the backfitting approach. The boxplots for n = 600 are essentially the same as those for n = 400, which we therefore omitted here. For each value of ρ, Fig. <ref type="figure" target="#fig_0">2</ref> shows that β 1 (u, v) has the smallest optimal bandwidth size followed by β 2 (u, v), and β 3 (u, v) has the largest optimal bandwidth size, which is in line with the levels of spatial heterogeneity of the three regression coefficients shown in Fig. <ref type="figure">1</ref>. This result is also consistent with the common finding that a coefficient with a higher level of spatial heterogeneity needs a smaller bandwidth size while a lower level of spatial heterogeneity requires a larger bandwidth size. Furthermore, the optimal bandwidth sizes for each coefficient in the 500 replications are very stable. The boxplots indicate that the backfitting method has the promising ability in determining an appropriate bandwidth size for each of the regression coefficients in the GWR-Lag model. The optimal bandwidth sizes h * s selected in the GWR-ML estimation are generally between the optimal bandwidth sizes of 1 (u, v) and The averaged values of Abias and RMSE for the three coefficient estimators are reported in Table <ref type="table">2</ref>. It is shown that the MAbias and MRMSE values of the backfitting estimators for the three coefficients are consistently smaller than those of the GWR-ML estimators, indicating that the backfitting method yields more accurate coefficient estimators. The most notable improvement in the estimation accuracy is observed in β 3 (u, v). The reason may be that β 3 (u, v) is spatially stationary and needs a large bandwidth size to be calibrated. However, the bandwidth size selected in the GWR-ML method is much smaller, leading to a poor estimator of β 3 (u, v). In contrast, the backfitting method can result in an appropriate bandwidth size for each coefficient and produce more accurate coefficient estimators accordingly. Furthermore, it is observed from Table <ref type="table">2</ref> that the performance of both methods in estimating the spatially varying coefficients is improved with the increase of the sample size. In addition, to visually understand the absolute biases of the coefficient estimators at each location, the heatmaps of with n = 400 and ρ = 0 are depicted in Fig. <ref type="figure" target="#fig_1">3</ref>. The maps clearly show that larger absolute biases usually appear at the border region and the neighborhoods of the locations where the coefficients reach their respective maximal or minimal values, and the absolute biases of the backfitting estimators are generally smaller than those of the GWR-ML estimators especially for the estimator of β 3 (u, v). As shown in Table <ref type="table">2</ref>, the MAbias and MRMSE of the coefficient estimators for the two methods Table 2. Values of MAbias and MRMSE of the Three Coefficient Estimators in Model 1</p><formula xml:id="formula_40">n ρ Method β 1 (u, v) β 2 (u, v) β 3 (u, v) MAbias MRMSE</formula><p>MAbias MRMSE MAbias MRMSE 400 0 Backfitting 0.1679 0.2564 0.0530 0.1090 0.0071 0.0499 GWR-ML 0.2176 0.2665 0.0820 0.1464 0.0878 0.1567 0.3 Backfitting 0.1679 0.2567 0.0529 0.1091 0.0077 0.0526 GWR-ML 0.2177 0.2666 0.0820 0.1464 0.0877 0.1566 0.6 Backfitting 0.1678 0.2565 0.0529 0.1095 0.0070 0.0491 GWR-ML 0.2178 0.2665 0.0819 0.1464 0.0875 0.1564 0.9 Backfitting 0.1672 0.2568 0.0528 0.1099 0.0066 0.0476 GWR-ML 0.2178 0.2664 0.0819 0.1463 0.0875 0.1563 600 0 Backfitting 0.1407 0.2172 0.0446 0.1057 0.0052 0.0397 GWR-ML 0.1789 0.2262 0.0752 0.1440 0.0697 0.1413 0.3 Backfitting 0.1406 0.2172 0.0445 0.1057 0.0047 0.0382 GWR-ML 0.1790 0.2262 0.0753 0.1440 0.0697 0.1413 0.6 Backfitting 0.1406 0.2172 0.0445 0.1058 0.0046 0.0382 GWR-ML 0.1789 0.2261 0.0753 0.1441 0.0697 0.1413 0.9 Backfitting 0.1402 0.2173 0.0443 0.1061 0.0042 0.0377 GWR-ML 0.1792 0.2263 0.0751 0.1439 0.0698 0.1413</p><p>have no significant changes for the other values of ρ. Accordingly, the heatmaps of for other values of ρ will show the similar spatial patterns to those for ρ = 0 and they are omitted here.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>The result with analysis for Model 2</head><p>The indices for measuring the estimation accuracy of the autoregressive parameter ρ and the regression coefficients β 0 (u, v), β 1 (u, v), and β 3 (u, v) in the model in equation ( <ref type="formula" target="#formula_35">22</ref>) are listed in Table <ref type="table">3</ref>. Compared with the related results in Tables <ref type="table" target="#tab_0">1</ref> and <ref type="table">2</ref>, it is shown that, for both methods, the estimation accuracy of ρ and the regression coefficients are all affected to a certain extent Table 3. Values of Indices for Measuring the Estimation Accuracy of ρ and the Coefficients in Model 2 ρ Method ρ β 0 (u, v) β 1 (u, v) β 3 (u, v) Mean Abias SD RMSE MAbias MRMSE MAbias MRMSE MAbias MRMSE 0 Backfitting 0.0295 0.0295 0.0203 0.0357 0.2225 0.2500 0.6843 0.7127 0.0992 0.1088 GWR-ML 0.0176 0.0176 0.0216 0.0278 0.2564 0.2840 0.7515 0.7602 0.1784 0.2136 0.3 Backfitting 0.3255 0.0255 0.0401 0.0475 0.2215 0.2707 0.6807 0.7093 0.0966 0.1069 GWR-ML 0.2749 0.0251 0.0194 0.0317 0.2655 0.2964 0.7527 0.7615 0.1791 0.2145 0.6 Backfitting 0.6031 0.0031 0.0670 0.0670 0.2263 0.3456 0.6749 0.7041 0.0911 0.1026 GWR-ML 0.5030 0.0970 0.0168 0.0985 0.3305 0.3757 0.7602 0.7741 0.1874 0.2296 0.9 Backfitting 0.8176 0.0824 0.0559 0.0996 0.6841 0.8838 0.6725 0.7000 0.0840 0.0963 GWR-ML 0.7855 0.1145 0.0107 0.1150 0.8079 0.8686 0.7789 0.7964 0.2259 0.2721</p><p>when the model is misspecified by ignoring an explanatory variable (an unobservable variable in practice) that is correlated with some explanatory variables in the model. In particular, the estimation accuracy of the coefficient of X 1 that is correlated to the ignored variable X 2 is evidently reduced, which implies that the unobserved variable can change the underlying spatial heterogeneity of the coefficient of X 1 . Furthermore, the estimation accuracy of the autoregressive parameter ρ and the intercept β 0 (u, v) becomes even worse in the cases of strong spatial autocorrelation. The reason is perhaps that the effect of the unobserved variable with a different scale will end up in the other terms, especially the intercept and the coefficient of the explanatory variable that is correlated with the unobserved one, leading to inaccurate estimators of ρ and the spatially varying coefficients in the model. On the whole, however, the backfitting method still yields more accurate estimators for both ρ and the coefficients in terms of the defined indices. The boxplots of the optimal bandwidth sizes in the 500 replications for each value of ρ are depicted in Fig. <ref type="figure" target="#fig_2">4</ref>, which illustrates that the backfitting estimation still yields appropriate bandwidth sizes for the coefficients with different levels of spatial heterogeneity, and the uncertainty of the optimal bandwidth sizes of β 3 (u, v) in Model 2 is obviously reduced compared to the optimal bandwidth sizes of β 3 (u, v) in Fig. <ref type="figure" target="#fig_0">2</ref>. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A real-life application</head><p>In this section, the proposed backfitting estimation is applied to the well-known Boston housing price data set given in <ref type="bibr" target="#b21">Hurrison and Rubinfeld (1978)</ref> and corrected for a few minor errors by <ref type="bibr" target="#b17">Gilley and Pace (1996)</ref>. The data set consists of the median value (MEDV in $1,000) of owner-occupied homes and 13 explanatory variables in 506 U.S. census tracts in 1970, and is available in the R package spdep (<ref type="url" target="http://cran.r-project.org/">http://cran.r-proje ct.org/</ref>). Since the focus of this example is to demonstrate the applicability of the proposed backfitting calibration method, only the following explanatory variables are considered here:</p><p>• CRIM: per capita crime rate by town; • RM: average number of rooms in owner-occupied homes per dwelling; • DIS: weighted distances to five Boston employment centers; • PTRATIO: pupil-teacher ration by town school district; • LSTAT: proportion of the lower status population.</p><p>Through fitting a GWR-Lag model by the GWR-LM method, the statistical test developed by <ref type="bibr" target="#b28">Li, Mei, and Wang (2019)</ref> has demonstrated that there exists significant autocorrelation among the observations of MEDV, although more explanatory variables were used in that article. Based on this finding, we then consider the following GWR-Lag model:</p><p>where the spatial weight matrix W = (w ij ) n×n was formulated in the binary way according to the given neighbor list of each census tract. The backfitting and GWR-ML methods were employed to calibrate this model, in which the explanatory variables were centralized, the Epanechnikov kernel function with an adaptive bandwidth was used to generate the kernel weights, the optimal bandwidth size was selected by the AICc criterion, and the convergence threshold in the backfitting procedure was set to be η 0 = 0.01. In addition, for the purpose of comparison, the corresponding GWR and SAR models were also fitted by the traditional GWR method and the maximum likelihood estimation, respectively.</p><p>The estimators of ρ from the backfitting method, the GWR-ML method and the SAR model are 0.645, 0.345, and 0.500, respectively, indicating that there exists spatial autocorrelation among the housing prices, but the intensity varies among the models considered and the estimation methods used. It should be noted that only a part of the explanatory variables in the data set enter into various models. According to the foregoing simulation result, the estimator of ρ from each model or calibration method may be affected by the unused explanatory variables, but that estimated by the backfitting method of the GWR-Lag model may be more accurate. The optimal bandwidth sizes selected in the GWR-ML method and the GWR model are both 85, while those selected for β 0 (u, v), β 1 (u, v), β 2 (u, v), β 3 (u, v), β 4 (u, v), and β 5 (u, v) in the backfitting estimation are 21, 506, 21, 66, 506, and 506, respectively. The optimal bandwidth sizes from the backfitting estimation provide the information about the different scales at which the explanatory variables operate, on which we may infer that the coefficients β 0 (u, v), β 2 (u, v), and β 3 (u, v) are spatially varying while the coefficients β 1 (u, v), β 4 (u, v), and β 5 (u, v) may be thought to be constant since their optimal bandwidth sizes are equal to the sample size. This finding is essentially (24)</p><formula xml:id="formula_41">MEDV i = n ∑ j = 1,i ≠ j w ij MEDV j + 0 u i , v i + 1 u i , v i CRIM i + 2 u i , v i RM i + 3 u i , v i DIS i + 4 u i , v i PTRATIO i + 5 u i , v i LSTAT i + i ,</formula><p>consistent with the bootstrap test result in <ref type="bibr" target="#b28">Li, Mei, and Wang (2019)</ref>. In addition, the residual sums of squares for the GWR-Lag model with the backfitting and GWR-ML methods, the GWR model and the SAR model are 4747.6, 5098.6, 6260.7, and 8347.1, respectively, showing that the GWR-Lag model with the backfitting estimation yields the best fit.</p><p>The heatmaps of the estimators of the coefficients β 0 (u, v), β 2 (u, v), and β 3 (u, v) from the GWR-Lag model with the backfitting and GWR-ML estimation methods and the corresponding GWR model are shown in Fig. <ref type="figure" target="#fig_3">5</ref>, and those of β 1 (u, v), β 4 (u, v), and β 5 (u, v) are depicted in Fig. <ref type="figure" target="#fig_4">6</ref>. It can be observed from the figures that the spatial patterns of the coefficient estimators by the GWR-ML and the GWR methods are similar although some difference does exist especially for the coefficient β 5 <ref type="bibr">(u, v)</ref>. The coefficient estimators by the backfitting method exhibit distinct patterns that the coefficients β 1 (u, v), β 4 (u, v), and β 5 <ref type="bibr">(u, v)</ref> seem to be constant and the others are spatially varying. Combining the findings in the simulation and the above results of the optimal bandwidth sizes and the values of residual sum of squares, we may conclude that the coefficient estimators obtained by the backfitting method are more convincible. Based on the heatmaps of (a) (b) (c) (d) (e) (f) (g) (h) (i)</p><p>the coefficient estimators by the backfitting method, we can explain that, adjusted by the explanatory variables, the housing price shows an increasing trend from the central part to the peripheral parts. In view of the impact of the explanatory variable, the average number of rooms in owneroccupied homes per dwelling (RM) positively influences the housing price in most areas with the intensity increasing from the central part to the peripheral parts; the weighted distances to five Boston employment centers (DIS) negatively affects the housing price with the intensity decreasing from the central part to the peripheral parts; the per capita crime rate by town (CRIM), the pupil-teacher ration by town school district (PTRATIO), and the proportion of the lower status population (LSTAT) have approximately global negative influence on the housing price.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Conclusions</head><p>In this article, a backfitting estimation method is proposed to deal with the multiscale issue in the GWR-Lag models in which spatial autocorrelation in the response variable and spatial (a) (b)</p><formula xml:id="formula_42">(c) (d) (e) (f) (g) (h) (i)</formula><p>heterogeneity in the regression relationship are simultaneously considered. The simulation study demonstrates that the backfitting approach not only provides the information on the spatial scale at which each explanatory variable operates for a better understanding of the underlying spatial process, but also improves the estimation accuracy of the regression coefficients when they have different levels of spatial heterogeneity. Moreover, the simulation study also shows that the backfitting method can alleviate the influence of unobservable explanatory variables that are correlated to those in the model and yield more accurate estimators of both the autoregressive parameter and the spatially varying coefficients compared to the GWR-ML estimation method.</p><p>In regard to the computability issue of the proposed backfitting estimation for the GWR-Lag models, the main computation cost comes from two parts. The first part is the iterative calibration of as many GWR models as there are spatially varying coefficients, in which the selection of the optimal bandwidth size for each GWR model is time consuming. The second part is the use of the maximum likelihood (ML) approach to estimate the autoregressive parameter ρ, in which the computation of the determinant of I n -ρW or the eigenvalues of W is extremely expensive compared to the spatial two-stage least square (2SLS) method in <ref type="bibr" target="#b16">Geniaux and Martinetti (2018)</ref>, although the ML approach has the advantage of a better behavior of the estimator for high values of ρ. The simulation study conducted in Section 4 demonstrates that the computational efficiency of the proposed backfitting method is acceptable for a small or moderate sample size. However, the computation time will exponentially increase with the increase of the sample size and the number of the explanatory variables. Therefore, there is a need for an improvement of the computability of the proposed method in order to make it applicable and efficient to the analysis of big data. The recently developed algorithms such as the parallelization or the use of a sparse matrix for calibrating the GWR-typed models <ref type="bibr">(Li et al. 2019;</ref><ref type="bibr" target="#b29">Li and Fotheringham 2020)</ref> have great potential in improving the computational efficiency in the first part. The algorithms for efficiently calculating the determinants or the eigenvalues of large sparse matrices <ref type="bibr" target="#b36">(Pace and LeSage 2004b;</ref><ref type="bibr" target="#b0">Aktulga et al. 2014</ref>) could be used in the second part in view of the fact that the spatial adjacency matrix W is in general sparse in most of the real-world problems. Nevertheless, details of the plausible use of these algorithms in the proposed backfitting estimation of the GWR-Lag models remain to be investigated.</p><p>The main focus of the proposed backfitting method is on the different levels of spatial heterogeneity in the regression coefficients. Like the work of the hyper GWR in <ref type="bibr" target="#b9">Comber et al. (2018)</ref>, if we further allow the bandwidth of each explanatory variable to vary with location, more accurate estimators of the coefficients could be obtained, which undoubtedly amounts to a huge computation cost. However, based on the development of the big data-oriented algorithms for the multiscale GWR-Lag models, it is possible to successfully achieve the task.</p><p>It is also an interesting topic to further identify possible constant coefficients in a GWR-Lag model based on the proposed backfitting method. Although the separately selected bandwidth size for each regression coefficient can provide the information for us to judge the level of spatial heterogeneity of each coefficient, formal tests need to be developed to give the inference a solid statistical basis. In addition, the local standard errors of the estimators of each coefficient are an important measure to reflect the local variation of the estimators and to further formulate a formal local statistical significance test for the influence of each explanatory variable on the response variable at each location. For further research, it is worthwhile to investigate the plausible extension of the way for deriving the hat matrix in the multiscale GWR in <ref type="bibr" target="#b43">Yu et al. (2020)</ref> in order to achieve the task of solving the local standard errors for the backfitting estimators of the coefficients in the GWR-Lag models.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure 2 .</head><label>2</label><figDesc>Figure 2. Boxplots of the optimal bandwidth sizes in the 500 replications for the regression coefficients in Model 1 with n = 400.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Figure 3 .</head><label>3</label><figDesc>Figure 3. Heatmaps of Abias ̂ k u i , v i of the coefficient estimators in Model 1 with ρ = 0 at the n locations. The left-hand column is for the backfitting method and the right-hand column is for the GWR-ML method.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Figure 4 .</head><label>4</label><figDesc>Figure 4. Boxplots of the optimal bandwidth sizes in the 500 replications for the regression coefficients in Model 2 with n = 400.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Figure 5 .</head><label>5</label><figDesc>Figure 5. Heatmaps of the coefficient estimators of Intercept, RM, and DIS. From the left-hand column to the right-hand column: estimators by the backfitting method, the GWR-ML method, and the GWR model. (a), (b), and (c): β 0 (u, v); (d), (e), and (f): β 2 (u, v); (g), (h), and (i): β 3 (u, v).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Figure 6 .</head><label>6</label><figDesc>Figure 6. Heatmaps of the coefficient estimators of CRIM, PTRATIO, and LSTAT. From the left-hand column to the right-hand column: estimators by the backfitting method, the GWR-ML method, and the GWR model. (a), (b), and (c): β 1 (u, v); (d), (e), and (f): β 4 (u, v); (g), (h), and (i): β 5 (u, v).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1 .</head><label>1</label><figDesc>Average Values, Absolute Biases, Standard Deviations, and Root Mean Square Errors of the Autoregressive Parameter Estimators ̂ for Model 1 in the 500 Replications</figDesc><table><row><cell></cell><cell></cell><cell></cell><cell>n = 400</cell><cell></cell><cell>n = 600</cell><cell></cell></row><row><cell>ρ</cell><cell>Method</cell><cell>Mean</cell><cell>Abias SD</cell><cell>RMSE Mean</cell><cell>Abias SD</cell><cell>RMSE</cell></row><row><cell>0</cell><cell cols="6">Backfitting 0.0000 0.0000 0.0206 0.0206 0.0044 0.0044 0.0170 0.0176</cell></row><row><cell></cell><cell cols="6">GWR-ML 0.0000 0.0000 0.0224 0.0224 0.0019 0.0019 0.0177 0.0178</cell></row><row><cell cols="7">0.3 Backfitting 0.3001 0.0001 0.0166 0.0166 0.3040 0.0040 0.0143 0.0148</cell></row><row><cell></cell><cell cols="6">GWR-ML 0.3002 0.0002 0.0174 0.0174 0.2991 0.0009 0.0143 0.0143</cell></row><row><cell cols="7">0.6 Backfitting 0.6004 0.0004 0.0112 0.0112 0.6027 0.0027 0.0101 0.0104</cell></row><row><cell></cell><cell cols="6">GWR-ML 0.6026 0.0026 0.0115 0.0118 0.5967 0.0033 0.0102 0.0107</cell></row><row><cell cols="7">0.9 Backfitting 0.8999 0.0001 0.0040 0.0040 0.9001 0.0001 0.0041 0.0041</cell></row><row><cell></cell><cell cols="6">GWR-ML 0.9008 0.0008 0.0038 0.0039 0.9012 0.0012 0.0041 0.0043</cell></row></table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="1" xml:id="foot_0"><p>(u, v) = 64uv (u -1) (v -1) ;</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="2" xml:id="foot_1"><p>(u, v) = 1 2 exp (u + v) ;</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="3" xml:id="foot_2"><p>(u, v) = 2.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="2" xml:id="foot_3"><p>(u, v)  selected in the backfitting estimation, implying that the optimal bandwidth size selected in the GWR-ML method is a trade-off of those for the regression coefficients with different levels of spatial heterogeneity. Moreover, it seems that the optimal bandwidth size selected in the GWR-ML method is closer to the bandwidth size of the coefficient with low spatial heterogeneity.</p></note>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div><head>Acknowledgements</head><p>This work was supported by the earmarked grant of the <rs type="grantName">Hong Kong Research Grants Council</rs> [grant number <rs type="grantNumber">CUHK14653316</rs>]; and the <rs type="funder">National Natural Science Foundation of China</rs> [grant number <rs type="grantNumber">11871056</rs>]. We thank the reviewers for their valuable comments and suggestions which led to significant improvement on the manuscript.</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_MSYtbpW">
+					<idno type="grant-number">CUHK14653316</idno>
+					<orgName type="grant-name">Hong Kong Research Grants Council</orgName>
+				</org>
+				<org type="funding" xml:id="_JxH6EN3">
+					<idno type="grant-number">11871056</idno>
+				</org>
+			</listOrg>
+
+			<div type="availability">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Data availability statement</head><p>The codes for the simulation study and real data analysis are provided as supplementary materials, which can be run on Octave (<ref type="url" target="https://www.gnu.org/software/octave/index">https://www.gnu.org/softw are/octav e/index</ref>).</p></div>
+			</div>
+
+
+			<div type="conflict">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Conflict of interest</head><p>The authors declare that there are no conflict of interest.</p></div>
+			</div>
+
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>SUPPORTING INFORMATION</head><p>Additional supporting information may be found in the online version of this article at the publisher's web site.</p></div>			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Parallel Eigenvalue Calculation Based on Multiple Shift-invert Lanczos and Contour Integral Based Spectral Projection Method</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Aktulga</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Lin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Haine</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">G</forename><surname>Ng</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Yang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Parallel Computing</title>
+		<imprint>
+			<biblScope unit="volume">40</biblScope>
+			<biblScope unit="issue">7</biblScope>
+			<biblScope unit="page" from="195" to="212" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Spatial Dependence in Linear Regression Models with an Introduction to Spatial Econometrics</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">K</forename><surname>Bera</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Handbook of Applied Economic Statistics</title>
+		<editor>
+			<persName><forename type="first">A</forename><surname>Ullah</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">D</forename><forename type="middle">E A</forename><surname>Giles</surname></persName>
+		</editor>
+		<meeting><address><addrLine>New York</addrLine></address></meeting>
+		<imprint>
+			<publisher>Marcel Dekker</publisher>
+			<date type="published" when="1998">1998</date>
+			<biblScope unit="page" from="237" to="289" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Testing for Strategic Interaction Among Local Governments: The Case of Growth Controls</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">K</forename><surname>Brueckner</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">44</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="438" to="467" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Geographically Weighted Regression: A Method for Exploring Spatial Nonstationarity</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">E</forename><surname>Charlton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">28</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="281" to="298" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">E</forename><surname>Charlton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Spatial Nonstationarity and Autoregressive Models</title>
+		<imprint>
+			<date type="published" when="1998">1998</date>
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="page" from="957" to="973" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Some Notes on Parametric Significance Tests for Geographically Weighted Regression</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">E</forename><surname>Charlton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Regional Science</title>
+		<imprint>
+			<biblScope unit="volume">39</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="497" to="524" />
+			<date type="published" when="1999">1999</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Specification and Estimation of Hedonic Housing Price Models</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Can</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">22</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="453" to="474" />
+			<date type="published" when="1992">1992</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Spatial Patterns in Household Demand</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">C</forename><surname>Case</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">59</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="953" to="965" />
+			<date type="published" when="1991">1991</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Budget Spillovers and Fiscal Policy Interdependence: Evidence from the States</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">C</forename><surname>Case</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">S</forename><surname>Rosen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">R</forename><surname>Hines</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Public Economics</title>
+		<imprint>
+			<biblScope unit="volume">52</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="285" to="307" />
+			<date type="published" when="1993">1993</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Hyper-local Geographically Weighted Regression: Extending GWR Through Local Model Selection and Local Bandwidth Optimization</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Comber</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Lü</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Harris</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Spatial Information Science</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="page" from="63" to="84" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Statistical Estimation in Varying Coefficient Models</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Fan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Zhang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Annals of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">27</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="1491" to="1518" />
+			<date type="published" when="1999">1999</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Spatial Econometrics, Economic Geography, Dynamics and Equilibrium: A &apos;Third Way&apos;?</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Fingleton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environment and Planning A</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="issue">8</biblScope>
+			<biblScope unit="page" from="1481" to="1498" />
+			<date type="published" when="2000">2000</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">The Problem of Spatial Autocorrelation and Local Spatial Statistics</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">41</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="398" to="403" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<monogr>
+		<title level="m" type="main">Geographically Weighted Regression: The Analysis of Spatially Varying Relationships</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2002">2002</date>
+			<publisher>John Wiley and Sons</publisher>
+			<pubPlace>Chichester</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Multiscale Geographically Weighted Regression (MGWR)</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Yang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Kang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of the American Association of Geographers</title>
+		<imprint>
+			<biblScope unit="volume">107</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1247" to="1265" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">County-level Determinants of Local Public Services in Appalachia: A Multivariate Spatial Autoregressive Model Approach</title>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">H</forename><surname>Gebremariam</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">G</forename><surname>Gebremedhin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">V</forename><surname>Schaeffer</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Annals of Regional Science</title>
+		<imprint>
+			<biblScope unit="volume">49</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="175" to="190" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">A New Method for Dealing Simultaneously with Spatial Autocorrelation and Spatial Heterogeneity in Regression Models</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Geniaux</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Martinetti</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">72</biblScope>
+			<biblScope unit="page" from="74" to="85" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">On the Harrison and Rubinfeld Data</title>
+		<author>
+			<persName><forename type="first">O</forename><forename type="middle">W</forename><surname>Gilley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">K</forename><surname>Pace</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Environmental Economics and Management</title>
+		<imprint>
+			<biblScope unit="volume">31</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="403" to="405" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">GWmodel: An R Package for Exploring Spatial Heterogeneity Using Geographically Weighted Models</title>
+		<author>
+			<persName><forename type="first">I</forename><surname>Gollini</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Lu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Harris</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Statistical Software</title>
+		<imprint>
+			<biblScope unit="volume">63</biblScope>
+			<biblScope unit="issue">17</biblScope>
+			<biblScope unit="page" from="1" to="52" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Generalized Additive Models</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Hastie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Tibshirani</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistical Science</title>
+		<imprint>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="297" to="310" />
+			<date type="published" when="1986">1986</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Analysing Regional Industrialisation in Jiangsu Province Using Geographically Weighted Regression</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Huang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Leung</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Geographical Systems</title>
+		<imprint>
+			<biblScope unit="volume">4</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="233" to="249" />
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Hedonic Housing Prices and the Demand for Clean Air</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Hurrison</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">L</forename><surname>Rubinfeld</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Environmental Economics and Management</title>
+		<imprint>
+			<biblScope unit="volume">5</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="81" to="102" />
+			<date type="published" when="1978">1978</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">A Spatial Modelling Approach to Contagion Among Emerging Economies</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">S</forename><surname>Tavlas</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Hondroyiannis</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Open Economies Review</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="issue">4-5</biblScope>
+			<biblScope unit="page" from="423" to="441" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Measuring the Benefits of Air Quality Improvement: A Spatial Hedonic Approach</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">W</forename><surname>Kim</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">T</forename><surname>Phipps</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Environmental Economics and Management</title>
+		<imprint>
+			<biblScope unit="volume">45</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="24" to="39" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Estimating the Provincial Environmental Kuznets Curve in China: A Geographically Weighted Regression Approach</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Kim</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Tanaka</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">Z</forename><surname>Ge</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Stochastic Environmental Research and Risk Assessment</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="issue">7</biblScope>
+			<biblScope unit="page" from="2147" to="2163" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">A Modification to Geographically Weighted Regression</title>
+		<author>
+			<persName><forename type="first">Y</forename><forename type="middle">Y</forename><surname>Leong</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">C</forename><surname>Yue</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Health Geographics</title>
+		<imprint>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="issue">11</biblScope>
+			<biblScope unit="page" from="1" to="18" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<monogr>
+		<author>
+			<persName><forename type="first">J</forename><surname>Lesage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">K</forename><surname>Pace</surname></persName>
+		</author>
+		<title level="m">Introduction to Spatial Econometrics</title>
+		<meeting><address><addrLine>Boca Raton</addrLine></address></meeting>
+		<imprint>
+			<publisher>CRC Press</publisher>
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">Statistical Tests for Spatial Nonstationarity Based on the Geographically Weighted Regression Model</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Leung</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">L</forename><surname>Mei</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">X</forename><surname>Zhang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environment and Planning A</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="9" to="32" />
+			<date type="published" when="2000">2000</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Tests for Spatial Dependence and Heterogeneity in Spatially Autoregressive Varying Coefficient Models with Application to Boston House Price Analysis</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">K</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">L</forename><surname>Mei</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Wang</surname></persName>
+		</author>
+		<idno>UNSP 103470</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">79</biblScope>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">Computational Improvements to Multi-scale Geographically Weighted Regression</title>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Geographical Information Science</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="issue">7</biblScope>
+			<biblScope unit="page" from="1378" to="1397" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Fast Geographically Weighted Regression (FastGWR): A Scalable Algorithm to Investigate Spatial Process Heterogeneity in Millions of Observations</title>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Oshan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Geographical Information Science</title>
+		<imprint>
+			<biblScope unit="volume">33</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="155" to="175" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">Does Foreign Direct Investment Affect Environmental Pollution in China&apos;s Cities? A Spatial Econometric Perspective</title>
+		<author>
+			<persName><forename type="first">Q</forename><forename type="middle">Q</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">J</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">Z</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">S</forename><surname>Zhan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename><surname>Li</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Science of the Total Environment</title>
+		<imprint>
+			<biblScope unit="volume">613</biblScope>
+			<biblScope unit="issue">614</biblScope>
+			<biblScope unit="page" from="521" to="529" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">Geographically Weighted Regression with a Non-Euclidean Distance Metric: A Case Study Using Hedonic House Price Data</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Lu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Harris</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Geographical Information Science</title>
+		<imprint>
+			<biblScope unit="volume">28</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="660" to="681" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">A Bootstrap Test for Constant Coefficients in Geographically Weighted Regression Models</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">L</forename><surname>Mei</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Xu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Wang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Geographical Informationence</title>
+		<imprint>
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="issue">8</biblScope>
+			<biblScope unit="page" from="1622" to="1643" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<analytic>
+		<title level="a" type="main">A Tale of Two Collectives: Sulphur Versus Nitrogen Oxides Emission Reduction in Europe</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">C</forename><surname>Murdoch</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Sandler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Sargent</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Economica</title>
+		<imprint>
+			<biblScope unit="volume">64</biblScope>
+			<biblScope unit="issue">254</biblScope>
+			<biblScope unit="page" from="281" to="301" />
+			<date type="published" when="1997">1997</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<analytic>
+		<title level="a" type="main">Spatial Autoregressive Local Estimation</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Pace</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Lesage</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Spatial Econometrics and Spatial Statistics</title>
+		<editor>
+			<persName><forename type="first">A</forename><surname>Getis</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">J</forename><surname>Mur</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">H</forename><surname>Zoller</surname></persName>
+		</editor>
+		<meeting><address><addrLine>New York</addrLine></address></meeting>
+		<imprint>
+			<publisher>Palgrave MacMillan</publisher>
+			<date type="published" when="2004">2004</date>
+			<biblScope unit="page" from="31" to="51" />
+		</imprint>
+	</monogr>
+	<note>a)</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<analytic>
+		<title level="a" type="main">Chebyshev Approximation of Log-determinants of Spatial Weight Matrices</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Pace</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Lesage</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Computational Statistics and Data Analysis</title>
+		<imprint>
+			<biblScope unit="volume">45</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="179" to="196" />
+			<date type="published" when="2004">2004b</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<analytic>
+		<title level="a" type="main">A General Framework for Estimation and Inference of Geographically Weighted Regression Models: 1. Location-specific Kernel Bandwidths and a Test for Locational Heterogeneity</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Páez</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Uchida</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Miyamoto</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environment and Planning A</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="733" to="754" />
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<analytic>
+		<title level="a" type="main">Spatial Effects Within the Agricultural Land Market in Northern Ireland</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Patton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Mcerlean</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Agricultural Economics</title>
+		<imprint>
+			<biblScope unit="volume">54</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="35" to="54" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<analytic>
+		<title level="a" type="main">An Application of Spatially Autoregressive Models to the Study of US County Mortality Rates</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">J</forename><surname>Sparks</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">S</forename><surname>Sparks</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Population Space and Place</title>
+		<imprint>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="465" to="481" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b40">
+	<analytic>
+		<title level="a" type="main">A Semiparametric Spatial Dynamic Model</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Sun</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Yan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Lu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">42</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="700" to="727" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b41">
+	<analytic>
+		<title level="a" type="main">Spatial Correlation of Factors Affecting CO 2 Emission at Provincial Level in China: A Geographically Weighted Regression Approach</title>
+		<author>
+			<persName><forename type="first">Y</forename><forename type="middle">N</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><forename type="middle">Q</forename><surname>Kang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Guo</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Cleaner Production</title>
+		<imprint>
+			<biblScope unit="volume">184</biblScope>
+			<biblScope unit="page" from="929" to="937" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b42">
+	<analytic>
+		<title level="a" type="main">Simultaneous Coefficient Penalization and Model Selection in Geographically Weighted Regression: The Geographically Weighted Lasso</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">C</forename><surname>Wheeler</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environment and Planning A</title>
+		<imprint>
+			<biblScope unit="volume">41</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="722" to="742" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b43">
+	<analytic>
+		<title level="a" type="main">Inference in Multiscale Geographically Weighted Regression</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Yu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Oshan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Kang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">J</forename><surname>Wolf</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">52</biblScope>
+			<biblScope unit="page" from="87" to="106" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b44">
+	<analytic>
+		<title level="a" type="main">Quantifying the Impact of Human Activities on Geological Hazards in Mountainous Areas: Evidence from Shennongjia, China</title>
+		<author>
+			<persName><forename type="first">F</forename><surname>Zou</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Zhan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Zhang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Natural Hazards</title>
+		<imprint>
+			<biblScope unit="volume">90</biblScope>
+			<biblScope unit="page" from="137" to="155" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

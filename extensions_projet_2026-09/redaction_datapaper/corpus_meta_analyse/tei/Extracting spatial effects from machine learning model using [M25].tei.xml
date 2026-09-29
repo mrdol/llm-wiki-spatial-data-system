@@ -1,0 +1,1705 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Extracting spatial effects from machine learning model using local interpretation method: An example of SHAP and XGBoost</title>
+				<funder ref="#_8V99FBW">
+					<orgName type="full">Alan Turing Institute</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability  status="unknown">
+					<licence/>
+				</availability>
+				<date type="published" when="2022-06-18">18 June 2022</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author role="corresp">
+							<persName><forename type="first">Ziqi</forename><surname>Li</surname></persName>
+							<email>ziqi.li@glasgow.ac.uk</email>
+							<affiliation key="aff0">
+								<orgName type="department">School of Geographical and Earth Sciences</orgName>
+								<orgName type="institution">University of Glasgow</orgName>
+								<address>
+									<postBox>Molema 512</postBox>
+									<country key="GB">United Kingdom</country>
+								</address>
+							</affiliation>
+							<affiliation key="aff1">
+								<orgName type="institution">University of Glasgow</orgName>
+								<address>
+									<postCode>G12 8QQ</postCode>
+									<settlement>Glasgow</settlement>
+									<country key="GB">United Kingdom</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Extracting spatial effects from machine learning model using local interpretation method: An example of SHAP and XGBoost</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2022-06-18">18 June 2022</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">04A766F07C1DE74831DFB0294F85F39A</idno>
+					<idno type="DOI">10.1016/j.compenvurbsys.2022.101845</idno>
+					<note type="submission">Received 21 November 2021; Received in revised form 7 June 2022; Accepted 8 June 2022</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-28T15:58+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>SHAP Machine learning Spatial statistical model MGWR XAI GeoAI</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Machine learning and artificial intelligence (ML/AI), previously considered black box approaches, are becoming more interpretable, as a result of the recent advances in eXplainable AI (XAI). In particular, local interpretation methods such as SHAP (SHapley Additive exPlanations) offer the opportunity to flexibly model, interpret and visualise complex geographical phenomena and processes. In this paper, we use SHAP to interpret XGBoost (eXtreme Gradient Boosting) as an example to demonstrate how to extract spatial effects from machine learning models. We conduct simulation experiments that compare SHAP-explained XGBoost to Spatial Lag Model (SLM) and Multi-scale Geographically Weighted Regression (MGWR) at the parameter level. Results show that XGBoost estimates similar spatial effects as those in SLM and MGWR models. An empirical example of Chicago ridehailing modelling is presented to demonstrate the utility of SHAP with real datasets. Examples and evidence in this paper suggest that locally interpreted machine learning models are good alternatives to spatial statistical models and perform better when complex spatial and non-spatial effects (e.g. non-linearities, interactions) coexist and are unknown.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">Introduction</head><p>Machine learning, and more broadly, Artificial Intelligence (AI), has received enormous attention in recent decades as a result of the abundance of big data, the development of novel algorithms (e.g. deep learning and ensemble methods), and the advances in new computing hardware (e.g. graphics processing units and distributed computing). The strength of machine learning lies in its ability to extract complex structures and patterns from huge volumes of structured and unstructured data, and it has a wide range of applications in many fields, although it is best recognised for its use in natural language processing, image classification, voice recognition, and predictive modelling. The growth of machine learning and AI development opens up new avenues for geographical studies, with the field of GeoAI (geospatial artificial intelligence) emerging from the convergence of machine learning and AI, spatial big data, geographic information science, and geospatial computing platforms (e.g. CyberGIS in <ref type="bibr" target="#b56">Wang, 2010)</ref>  <ref type="bibr" target="#b29">(Li, 2020)</ref>. Examples of successful GeoAI applications include land cover classification <ref type="bibr" target="#b45">(Scott, England, Starms, Marcum, &amp; Davis, 2017;</ref><ref type="bibr" target="#b54">Tong et al., 2020)</ref>, geological feature detection <ref type="bibr" target="#b25">(Hsu, Li, &amp; Wang, 2021;</ref><ref type="bibr" target="#b26">Huang, Dong, &amp; Clee, 2017)</ref>, disease mapping <ref type="bibr" target="#b6">(Brownstein, Freifeld, Reis, &amp; Mandl, 2008;</ref><ref type="bibr" target="#b7">Bullock, Luccioni, Pham, Lam, &amp; Luengo-Oroz, 2020)</ref>, traffic prediction <ref type="bibr" target="#b5">(Boukerche &amp; Wang, 2020;</ref><ref type="bibr" target="#b66">Zhang &amp; Haghani, 2015)</ref>, crime analysis <ref type="bibr" target="#b57">(Wang, Rudin, Wagner, &amp; Sevieri, 2013)</ref>, social sensing <ref type="bibr" target="#b65">(Zhang, Wu, Zhu, &amp; Liu, 2019)</ref>, among others.</p><p>Despite its widespread use in geography and other fields, machine learning is commonly considered a black-box model, meaning that the processes leading to model outputs are not fully understood by humans. One of the reasons is that machine learning often requires the estimation of a massive number of parameters to attain high accuracy. For instance, Google recently claimed to have trained a language model with more than a trillion parameters <ref type="bibr" target="#b16">(Fedus, Zoph, &amp; Shazeer, 2021)</ref>. With this level of complexity, it is difficult to explain machine learning models in the same way that we do with traditional statistical models that only estimate a few parameters. However, geographical research often requires interpretability, as geographers seek to understand the processes underlying the observed data, rather than performing purely predictive tasks. As a result, due to the limitation of interpretability, many researchers still prefer well-established spatial statistical models such as spatial econometrics models (e.g. spatial lag and error models), spatially varying coefficients models (e.g. geographically weighted regression), and geostatistical models (e.g. Kriging). These models estimate spatial effects such as spatial autocorrelation and heterogeneity in more explicit ways, and they have more rigorous inferential frameworks.</p><p>To address the challenge of interpretability in machine learning, laws and regulations have been established and legislated in the last five years requiring machine learning algorithms to be fair, transparent, and explainable. In 2016, the European Union's General Data Protection Regulation (GDPR) included a "right to explanation", stating that users have the right to request explanations for decisions made by machine learning algorithms (see additional discussion in <ref type="bibr" target="#b20">Goodman &amp; Flaxman, 2017)</ref>. Additionally, the United States Defense Advanced Research Projects Agency (DARPA) published an eXplainable Artificial Intelligence (XAI) programme in 2017 with the goal of advancing machine learning techniques to produce explainable models without sacrificing performance and to enable human users to comprehend, appropriately trust, and manage the emerging generation of AI systems (see more discussion in <ref type="bibr" target="#b21">Gunning &amp; Aha, 2019)</ref>. Very recently, in August 2021, the Cyberspace Administration of China (CAC) announced drafted rules for AI regulations to boost algorithm openness and explainability. These endeavours have generated great interests and a need for developing interpretable methods for machine learning and AI. Consequently, approaches such as LIME (Local Interpretable Model-agnostic Explanation) and SHAP (SHapley Additive exPlanations) have emerged to provide detailed and individualised explanations and attributions than global interpretation techniques <ref type="bibr" target="#b43">(Ribeiro, Singh, &amp; Guestrin, 2016;</ref><ref type="bibr" target="#b33">Lundberg and Lee, 2017)</ref>. Research shows that LIME and SHAP are useful tools that can be added to machine learning workflows to provide additional explanations in modelling accident detection <ref type="bibr" target="#b41">(Parsa, Movahedi, Taghipour, Derrible, &amp; Mohammadian, 2020)</ref>, air pollution <ref type="bibr" target="#b27">(Just et al., 2020)</ref>, transportation energy consumption, hydro-climatological processes <ref type="bibr" target="#b9">(Chakraborty, Bas ¸agaoglu, &amp; Winterle, 2021)</ref>, and agricultural land usage <ref type="bibr" target="#b55">(Viana, Santos, Freire, Abrantes, &amp; Rocha, 2021)</ref>. Although these examples showcase the use of local interpretation methods in spatial applications, there is limited discussion on how to interpret spatial effects from machine learning models.</p><p>Local interpretation is particularly relevant in a spatial context because data are geo-referenced, individual feature attributions can be visualised spatially, and any spatial patterns can be observed. Additionally, spatial effects that are intrinsic to locations can be estimated by mapping the interaction effects between location features (e.g. coordinates) and other features. This is an area that has not been explored in the existing literature. To fill this gap, this paper focuses on investigating how to extract spatial effects from machine learning models and whether the extracted spatial effects are consistent with those estimated from classical spatial statistical models. To the best of our knowledge, this is also the first study to compare machine learning models with spatial statistical models at the parameter level, which is enabled by local interpretation approaches. Accordingly, this paper is organised as follows. Section 2 presents an overview of existing interpretable machine learning methods with a focus on local interpretation and SHAP. Section 3 compares SHAP-explained machine learning model (XGBoost) with classical regression approaches (SLM and MGWR) using simulation data. Section 4 demonstrates an empirical application of ride-hailing demand in Chicago using SHAP and machine learning. Section 5 discusses issues and advantages of SHAP, and the future development of interpretable machine learning in spatial data modelling. The paper concludes in Section 6.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.">Interpretable machine learning and SHAP</head><p>The goal of interpretable machine learning is to understand how models make predictions and to answer questions such as what the relationships between input and output are and what features are most important in driving the prediction. Model-specific and model-agnostic approaches are the two broad categories of interpretable machine learning algorithms <ref type="bibr" target="#b35">(Molnar, 2020)</ref>. Model-specific interpretation approaches are tailored to specific types of models, with the purpose of understanding the internal structure and parameters to achieve reasonable interpretations. The interpretation of coefficients in a linear regression model, smooths in a generalised additive model, and splits in a decision tree are the most basic examples of this type. For more complicated models such as neural networks, model-specific visualisations have been developed to understand, for example, which part of the image contributes to the final classification result through the investigation of neuron and layer activation <ref type="bibr" target="#b48">(Shrikumar, Greenside, &amp; Kundaje, 2017;</ref><ref type="bibr" target="#b50">Simonyan, Vedaldi, &amp; Zisserman, 2013;</ref><ref type="bibr" target="#b61">Yosinski, Clune, Nguyen, Fuchs, &amp; Lipson, 2015)</ref>. Model-agnostic techniques, on the other hand, are not restricted to a single model, and they often do not access a model's internals. Therefore, for complicated models, modelagnostic methods may generate better human-understandable interpretations for non-experts because they do not require in-depth technical knowledge of a certain model.</p><p>Model-agnostic techniques are typically post-hoc in the sense that they probe trained machine learning models with different data to generate predictions and then use input-output pairs to extract insights. The Partial Dependence Plots (PDP) method is of this kind, which visualises the marginal effect of a feature on the model prediction <ref type="bibr" target="#b19">(Friedman, 2001)</ref>. For example, in a linear model, the PDP for a feature will show a straight line, the slope of which is the estimated coefficient. For more complicated models, the PDP can explore relationships that are non-linear and non-monotonic or even more complex. Another modelagnostic approach is the permutation feature importance method, which evaluates the change in model accuracy when a given feature is randomly shuffled <ref type="bibr" target="#b35">(Molnar, 2020)</ref>. By breaking the input-output pair, an important feature will greatly decrease the model performance, while an unimportant feature will have little or no influence on the model. These approaches are so-called global interpretation methods in which relationships or feature importance scores are averaged across all observations.</p><p>Recently, new methods have emerged to provide local interpretations that give detailed feature importance and attribution at the level of individual observations. For example, LIME is developed by <ref type="bibr" target="#b43">Ribeiro et al. (2016)</ref>, and the logic behind it is that LIME considers a model to be complex at the global level, but linear at the local level. Here "local" refers to proximity in the feature space, not in the geographic space (geographic coordinates may be among the features, but they are rarely the only features in a model). LIME creates slightly perturbed samples around the local neighbourhood of the data point, which is subsequently fed into the black-box machine learning model to generate predictions. Afterwards, LIME uses simple interpretable models such as linear regression, LASSO, or decision tree, to compute interpretable parameters for explanation. LIME has the advantages of being modelagnostic and local, and it can also be applied to tabular, text, and image data. Applications have demonstrated their success in real-world situations (e.g. Amiri, Mottahedi, Lee, &amp; Hoque, 2021; <ref type="bibr" target="#b37">Nanayakkara et al., 2018;</ref><ref type="bibr" target="#b40">Parmar, Das, &amp; Dave, 2021)</ref>. However, there are some drawbacks to LIME, such as the fact that different ways to perturb the data, how to define the local neighbourhood, and which interpretation model to apply, all have an impact on the interpretation <ref type="bibr" target="#b33">(Lundberg &amp; Lee, 2017;</ref><ref type="bibr" target="#b35">Molnar, 2020)</ref>. Furthermore, the LIME is only reliable if the simple interpretable model closely approximates the black box predictions, which is not always the case.</p><p>Another local interpretation method is extended from the concept of Shapley value in game theory <ref type="bibr" target="#b47">(Shapley, 1953)</ref>, which aims to fairly distribute contributions of players when they collectively achieve a certain outcome. Shapley values can be used in machine learning to quantify the contribution of each feature in the model that collectively delivers the prediction <ref type="bibr" target="#b52">( Štrumbelj &amp; Kononenko, 2014)</ref>. The Shapley value for feature X j in a model is given by:</p><formula xml:id="formula_0">Shapley ( X j ) = ∑ S⊆N\{j} k!(p -k -1)! p! (f (S ∪ {j} ) -f (S) )<label>(1)</label></formula><p>where p is the total number of features, N\{jj} is a set of all possible combinations of features excluding X j , S is a feature set in N\{j}, f(S) is the model prediction with features in S, and f(S ∪ {j}) is the model prediction with features in S plus feature X j . The interpretation of Eq. ( <ref type="formula" target="#formula_0">1</ref>) is that the Shapley value of a feature is its marginal contribution to model prediction averaged over all possible models with different combinations of features. Shapley value has a number of useful properties such as efficiency, symmetry, dummy and additivity <ref type="bibr" target="#b12">(Datta, Sen, &amp; Zick, 2016;</ref><ref type="bibr" target="#b31">Lipovetsky &amp; Conklin, 2001;</ref><ref type="bibr" target="#b47">Shapley, 1953)</ref>. The efficiency property refers to the requirement that all feature contributions total up to the difference between the prediction and the average. Symmetry means that two features have the same Shapley values if they contribute equally to the model. Dummy means that a feature has a Shapley value of zero if its marginal contribution to all possible models is zero. The property of additivity requires that the aggregate of predictions from individual models equal the prediction from the combination of all models. <ref type="bibr" target="#b47">Shapley (1953)</ref> proved that the solution is fair and unique if all four properties are satisfied.</p><p>In spite of these desirable properties and the solid theoretical roots in game theory, the main barrier to widespread adoption of the Shapley value is computation. <ref type="bibr" target="#b52">Štrumbelj and Kononenko (2014)</ref> developed a Monte Carlo-based approximation approach for estimating the Shapley value to avoid calculation for all possible combinations. However, when a small number of iterations is used, the calculated Shapley values are inaccurate. SHAP, created by <ref type="bibr" target="#b33">Lundberg and Lee (2017)</ref>, is another approach for estimating Shapley values. SHAP's main contribution is to generate locally additive feature attribution, as described in Eq. ( <ref type="formula" target="#formula_1">2</ref>)</p><formula xml:id="formula_1">ŷi = shap 0 + shap(X 1i ) + shap(X 2i ) + … + shap ( X pi ) (<label>2</label></formula><formula xml:id="formula_2">)</formula><p>where ŷi is the model prediction value for the observation i, shap 0 = E(ŷ) is the mean prediction across all observations, and shap(X ji ) refers to the SHAP value of the j th feature for observation i which represents the marginal contribution of the feature to the prediction. In this way, the sum of all SHAP values is equal to the difference between the actual prediction and the average prediction. SHAP estimates also satisfy the properties that Shapley values have. Furthermore, the absolute SHAP value reflects the strength of the feature's impact on model prediction, therefore it can be used as feature importance scores <ref type="bibr" target="#b35">(Molnar, 2020)</ref>. SHAP values can be approximated by different approaches. For example, Kernel SHAP adopts the idea from LIME, but with a Shapleycompliant weighting kernel that satisfies Shapley properties, addressing the arbitrary local neighbourhood selection issue in LIME <ref type="bibr" target="#b33">(Lundberg &amp; Lee, 2017)</ref>. The authors also develop a Tree SHAP estimation approach that is suited to tree-based methods such as random forest and gradient boosting <ref type="bibr" target="#b32">(Lundberg et al., 2018)</ref>. Tree SHAP has the advantage of being significantly faster than Kernel SHAP, and it also allows for the estimation of interaction effects, which Kernel SHAP does not provide due to its sampling approach. SHAP also integrates DeepLift for deep learning interpretation. Implementations of SHAP are available in opensource python (shap) and R libraries (shapper and fastshap), and are included in popular machine learning packages such as scikit-learn, xgboost, LightGBM, and others.</p><p>The development of local interpretation methods, such as SHAP, brings great potential to understand machine learning models of spatial data because each observation is geo-referenced, allowing any estimated feature attribution to be visualised spatially. In the next section, we will demonstrate how SHAP can be used to extract spatial effects from machine learning models and compare SHAP values to the spatial effects estimated in spatial statistical models.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.">Comparisons of SHAP-explained machine learning to spatial statistical models</head><p>Spatial autocorrelation and spatial heterogeneity are the two wellknown spatial effects in spatial analysis and modelling <ref type="bibr" target="#b1">(Anselin, 1988)</ref>. Spatial autocorrelation refers to the process that creates clusters of values, and this effect is usually accounted for by the Spatial Lag Model (SLM) or other spatial econometric and geostatistical methods <ref type="bibr" target="#b1">(Anselin, 1988)</ref>. Spatial heterogeneity refers to the fact that the process that generates the data may differ from location to location; therefore, using a global specification (e.g. ordinary least squares) may fail to capture such spatial variation in the underlying relationship. Spatial heterogeneity is frequently modelled by spatially varying coefficients models, the most common of which is the Geographically Weighted Regression (GWR) <ref type="bibr" target="#b17">(Fotheringham, Brunsdon, &amp; Charlton, 2003)</ref>.</p><p>The primary purpose of this section is to determine if machine learning models can adequately capture spatial effects from geographic coordinates, and whether SHAP can be used to extract these spatial effects for interpretation and visualisation. We use XGBoost (eXtreme Gradient Boosting) as an example of machine learning models in this paper, which is one of the most widely adopted options for supervised classification and regression tasks. XGBoost is a gradient boosting method that sequentially ensembles decision trees to minimise the model error using a gradient descent optimization algorithm <ref type="bibr" target="#b10">(Chen &amp; Guestrin, 2016)</ref>. It is shown in the literature that a properly tuned XGBoost typically outperforms alternative methods such as random forest or deep neural network for supervised problems <ref type="bibr" target="#b39">(Pan, 2018;</ref><ref type="bibr" target="#b63">Zamani Joharestani, Cao, Ni, Bashir and Talebiesfandarani, 2019;</ref><ref type="bibr" target="#b49">Shwartz-Ziv &amp; Armon, 2022)</ref>. Additionally, XGBoost is integrated well with SHAP, and SHAP values can be efficiently estimated by the Tree SHAP algorithm <ref type="bibr" target="#b32">(Lundberg et al., 2018)</ref>. Being model-agnostic, SHAP values can also be computed for other machine learning models such as random forest and neural networks, but this work focuses on XGBoost as an example.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1.">A comparison to SLM for modelling spatial autocorrelation</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1.1.">Simulation design</head><p>The matrix form of a Spatial Lag Model (SLM) is given in Eq. ( <ref type="formula" target="#formula_3">3</ref>)</p><formula xml:id="formula_3">y = ρWy + Xβ + ε (<label>3</label></formula><formula xml:id="formula_4">)</formula><p>where y is the dependent variable, X is a matrix of independent variables (i.e. features), β are the coefficients, and ε is the error term. The inclusion of a spatial lag term ρWy distinguishes SLM from the Ordinary Least Square (OLS) where W in the shape of N by N (N is the number of observations) is a spatial weight matrix which reflects the spatial interaction among data points. The specification of the W matrix can be based on geometry contiguity for polygon data or nearest neighbour for point data, and it is usually row standardised. ρ is a coefficient which measures the strength of the spatial autocorrelation.</p><formula xml:id="formula_5">y = (I -ρW) -1 (β 1 X 1 + β 2 X 2 + ε) (4)</formula><p>Simulation data were synthesised under the assumption of a SLM in Eq. ( <ref type="formula" target="#formula_3">3</ref>). Two features, X 1 and X 2 were randomly drawn from a uniform distribution of U (-1.5, 1.5) and mapped on a 50 by 50 grid with a total of 2500 observations. β 1 and β 2 were set to be 2 and 1, respectively. The lag coefficient ρ was defined as 0.8 which manifests a strong level of spatial autocorrelation. The weight matrix W was specified using 50 nearest neighbours to reflect a mid-range spatial autocorrelation in the dependent variable. Scenarios with a long-range spatial lag or no spatial lag can be found in Appendix A. The error ε was drawn from a standard Z. Li normal distribution N (0, 1). Then the dependent variable y was constructed following Eq. ( <ref type="formula">4</ref>). With this synthesised dataset, an XGBoost model and a SLM model were both fitted. The XGBoost model was fitted using the python package xgboost (developed by <ref type="bibr" target="#b10">Chen &amp; Guestrin, 2016)</ref>, and the hyperparameters were tuned using a Bayesian optimisation package, hyperopt (developed by Bergstra, Yamins, &amp; Cox, 2013) nested within a 5-fold cross-validation. With the optimal hyperparameters, the final XGBoost model was trained based on 80% of the whole dataset and tested against 20% of independent test data to avoid overfitting. The details of the hyperparameter tuning and model training can be found in the attached computational Jupyter notebook. The SHAP values were calculated for the XGBoost model using the python package shap. The SHAP value for the spatial lag term was calculated as the sum of the estimated SHAP values of both X and Y coordinates and the mean of the dependent variable. As comparison, the SLM model was fitted by the PySAL's spreg python library <ref type="bibr" target="#b42">(Rey et al., 2021)</ref>. Our goal is to see whether the XGBoost model can produce accurate estimations when a spatial lag is presented.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1.2.">Results</head><p>Table <ref type="table" target="#tab_0">1</ref> summarises the overall model accuracy for both SLM and XGBoost. Because of the model estimation process is different in statistical and machine learning models, the R 2 value (1 -∑ (y -ŷ) 2 / ∑ (y -y) 2 ) and residual Root Mean Square Error (RMSE) were reported for the whole dataset for SLM and for the independent test data for XGBoost. According to Table <ref type="table" target="#tab_0">1</ref>, both the SLM and the XGBoost model perform satisfactorily, but SLM outperforms XGBoost with a better R 2 value (0.811 vs. 0.783) and a smaller residual RMSE (1.005 vs. 1.088). The Moran's I value of the residuals were also calculated, and both SLM and XGBoost have low Moran's I values, suggesting that most of the spatial autocorrelation is not left in the residuals and is captured by the model. The RMSE of the spatial lag measures the accuracy of the replicated spatial lag term, which was calculated based on the difference between estimated spatial lag and the true spatial lag. We can see that SLM performs better than XGBoost. Regarding the parametric terms (Xβ), SLM has very low RMSE while XGBoost is not as accurate as SLM. Because the data generation process is based on a SLM specification, the outcome that SLM performs better than XGBoost is expected. However, considering that XGBoost is fully automatic without assumptions to the model specification and parameter distribution, this level of accuracy is satisfactory.</p><p>Following overall model performance, we will take a closer look at the estimated SHAP values from XGBoost. Fig. <ref type="figure" target="#fig_0">1</ref> depicts a summary plot of estimated SHAP values coloured by feature values, for all main feature effects and their interaction effects, ranked from top to bottom by their importance. The largest effect is attributed to feature X 1 , and the second to feature X 2 with about half of the estimated SHAP values. This is expected because the effect of feature X 1 , which is specified as the  Note that in the SHAP summary plot produced by the SHAP python package, any interaction will appear twice and coloured by feature value noted with "*", respectively. For example, "X1* -X2" shows the interaction effect between feature X1 and X2 and coloured by the feature value of X1.</p><p>coefficient β 1 = 2, is exactly twice as large as the effect of feature X 2 (β 2 = 1). The X and Y coordinates (features x-coord and y-coord) of each data point, as well as their interaction effects (x-coord * y-coord), also have important contributions to the model prediction. However, no noticeable effects are found from SHAP values for interactions between coordinates and features X 1 and X 2 . Based on the data generating process defined in Eq. ( <ref type="formula" target="#formula_3">3</ref>), the SHAP summary plot accurately identifies important features and quantifies the amount of feature contributions to the model. The partial dependence effects can be plotted for the parametric components and the spatial component, as shown in Fig. <ref type="figure" target="#fig_1">2</ref>. The top two figures depict the partial dependence between X 1 and X 2 and their estimated SHAP values. We can see positive linear trends that are quite close to the true slopes designed in the data generating process. The bottom two figures compare the extracted spatial effect to the true spatial lag. It is worth noting that a spatial autoregressive process which reflects spatial interaction and spill over effects cannot be modelled by a raw XGBoost model without specific considerations. However, we can compare the spatial pattern of the lag term and the estimated SHAP values from location features. As can be seen in Fig. <ref type="figure" target="#fig_1">2</ref>, the general spatial pattern of the spatial lag term is approximated well by XGBoost, but the predicted effect is not as smooth as the true spatial lag. This is because XGBoost, as a tree-based model, does not have smooth decision boundaries, making the estimation more jagged. Since many spatial phenomena are continuous over space, this may be a potential drawback of adopting standard tree-based machine learning models for spatial data.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2.">A comparison to MGWR for modelling spatial heterogeneity 3.2.1. Simulation design</head><p>This section demonstrates how to use SHAP to extract spatially varying effects from machine learning models with comparison to Geographically Weighted Regression (GWR). GWR has been widely used to model spatially varying relationships. It fits locally weighted regression at each data point by borrowing data from its geographic proximity and weighting the data according to the distance to the current focal point. The data borrowing range is termed bandwidth which can be optimised by a model selection criterion such as Akaike Information Criterion (AIC). In this paper, we used an advancement of GWR named Multiscale GWR (MGWR) that allows the bandwidth to vary across predictors reflecting the scale at which different processes operate <ref type="bibr" target="#b18">(Fotheringham, Yang, &amp; Kang, 2017;</ref><ref type="bibr">Li &amp; Fotheringham, 2020;</ref><ref type="bibr" target="#b62">Yu et al., 2020)</ref>. The formulation of MGWR is shown in Eq. ( <ref type="formula" target="#formula_6">5</ref>):</p><formula xml:id="formula_6">y i = β 0 (u i , v i ) + ∑ p j=1 β j (u i , v i )x ij + ε i (<label>5</label></formula><formula xml:id="formula_7">)</formula><p>where β j (u i , v i ) is the local coefficient at location i with coordinates (u i , v i ), x ij is the j th .</p><p>feature at location i, and ε i is the random error at location i. Data Z. Li</p><p>were synthesised following the specification of an MGWR model with the same set of features and error as in the previous simulation. Spatially varying processes were generated, as shown in Fig. <ref type="figure" target="#fig_2">3</ref>. Similar simulation setups were used in consistence with GWR literature <ref type="bibr" target="#b18">(Fotheringham et al., 2017;</ref><ref type="bibr" target="#b23">Harris, Fotheringham, Crespo, &amp; Charlton, 2010)</ref>. It is worth noting that the spatial pattern of β 1 is only associated with the X coordinates of data and is invariant to the Y coordinates. Whereas the value of β 2 is only linked with the Y coordinate. And we designed both continuous and discrete heterogeneities to see whether models can handle both cases. Then the dependent variable y was constructed based on the features, their coefficients, and the error term, shown in Eq. ( <ref type="formula" target="#formula_8">6</ref>). The XGBoost model was fitted with the same configuration as in the previous experiment, and SHAP values were calculated accordingly. The MGWR model was fitted using the python package mgwr <ref type="bibr" target="#b38">(Oshan, Li, Kang, Wolf, &amp; Fotheringham, 2019)</ref> with the default parameters. This simulation design reflects our intention to see whether SHAP can pick up the interaction effects between features and the correct axes. For example, if the process associated with a feature is only a function of the x-coordinate (reflecting a west-east trend), then SHAP should not identify any interaction between that feature and the y-coordinate.</p><p>Another simulation which replicates the design in <ref type="bibr" target="#b18">Fotheringham et al. (2017)</ref> can be found in Appendix B.</p><formula xml:id="formula_8">y i = β 0 (u i , v i ) + β 1 (u i , v i )x i1 + β 2 (u i , v i )x i2 + ε i (<label>6</label></formula><formula xml:id="formula_9">)</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2.2.">Results</head><p>In Table <ref type="table" target="#tab_1">2</ref>, an overall assessment of model performance demonstrates that both models fit the data well. According to the RMSE of the various partial components, MGWR is better at modelling continuous spatial heterogeneity in β 0 and β 1 , whereas XGBoost is better at modelling discrete spatial heterogeneity in β 2 . It is an anticipated behaviour since the data borrowing approach in MGWR smooths the estimated effects, whereas the tree-based algorithm favours discrete boundaries.</p><p>For SHAP results, similar to the interpretation of Fig. <ref type="figure" target="#fig_0">1</ref>, Fig. <ref type="figure" target="#fig_3">4</ref> shows the importance of different effects ranked from high to low. The top two effects attributed to feature X 1 and X 2 with the same magnitude. This is because, when averaged across all locations, features X 1 and X 2 have the same global influence (E(β 1 ) = E(β 2 ) = 1.5). After these, the remaining contributors to the model are from the coordinates and the interaction between coordinates and features. It is worth noting that the interactions between X 2 and Y-coordinates (X2 -y_coord), as well as X 1 and X-coordinates (X1 -x-coord), are substantial. However, the interactions between X 2 and the X-coordinate (X2 -x_coord), as well as X 1 and the Ycoordinate (X1 -y_coord), are weak. This is because the designed spatially varying effect for X 1 (X 2 ) is only a function of the X coordinate (Y coordinate) and invariant to the other coordinate. This demonstrates that SHAP can identify the correct interaction between location and nonlocation features. Other notable effects are generated by the coordinates and their interactions, indicating the presence of a local intercept.</p><p>The estimated spatially varying coefficients are visualised in Fig. <ref type="figure" target="#fig_4">5</ref>. The first row shows the local parameter estimates obtained from MGWR. SHAP does not directly estimate regression coefficients, to derive the MGWR-like coefficients, here we calculated the ratio between the estimated SHAP partial effect and the corresponding feature value shap  (X j )/X j . We can see that even though the general spatial patterns are replicated well, there are estimates with a large amount of noise. These are the locations that have feature values closer to zero, and there is a numerical issue when calculating the ratio directly. An ad-hoc approach to remedy this is to perform a moving window smoothing by calculating the slope between SHAP values and feature values within such window as the coefficient, which are shown in the third row in Fig. <ref type="figure" target="#fig_4">5</ref>. We can see that the smoothed XGBoost based coefficients have a better fit to the true data generating processes in Fig. <ref type="figure" target="#fig_2">3</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.3.">Model comparison when complex effects co-exist 3.3.1. Simulation design</head><p>From Section 3.1 and Section 3.2, it is suggesting that XGBoost model produces similar overall performance when comparing to SLM and MGWR model. And SHAP can be used to explain the XGBoost model and generate parameters that are consistent with these in SLM and MGWR by visualising the interaction effects of geographic coordinates of the data. One might wonder, if we already have spatial statistical models, when and why do we still need machine learning? The reason for this is that while spatial statistical models operate well under their own assumptions, they may not work well in real-world situations when the data generation process is complex and unknown. In this instance, fully automatic machine learning that depends on fewer assumptions may be more favourable. Additionally, in spatial modelling, non-linear and interaction effects are often neglected; therefore, when these effects are presented but not included in the model, statistical models are often biased <ref type="bibr" target="#b3">(Basile, Durbán, Mínguez, Montero, &amp; Mur, 2014;</ref><ref type="bibr" target="#b22">Harris, 2019)</ref>. To demonstrate the flexibility of using machine learning model and SHAP, a new simulation is run on top of the model described in Section 3.2, but with two additional effects: one non-linear cubic effect (X 3 3 ) with a new feature X 3 and one interaction effect between existing features X 1 and X 2 (2X 1 X 2 ). Eq. ( <ref type="formula" target="#formula_10">7</ref>) shows the resulting data generating process for each data point i, which is used to create new data for fitting with both MGWR and XGBoost.</p><formula xml:id="formula_10">y i = β 0 (u i , v i ) + β 1 (u i , v i )x i1 + β 2 (u i , v i )x i2 + x 3 i3 + 2x i1 x i2 + ε i (<label>7</label></formula><formula xml:id="formula_11">)</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.3.2.">Results</head><p>The SHAP summary plot in Fig. <ref type="figure" target="#fig_5">6</ref> shows that XGBoost correctly picks up main effects from features X 1 , X 2 and X 3 as well as any possible interactions effects designed the Eq. ( <ref type="formula" target="#formula_10">7</ref>). In terms of the overall model accuracy, XGBoost has an R 2 value of 0.893 with a prediction RMSE of 1.167, while MGWR has an R 2 value of 0.735 with a prediction RMSE of 1.724. XGBoost is more accurate than MGWR in this case due to its correct identification of all co-existing effects. From Fig. <ref type="figure" target="#fig_6">7</ref>, we can see that for the estimated spatially varying effects, SHAP-explained XGBoost has a more accurate replication of the designed true data generating processes. The parameter estimates in MGWR are less accurate because the interaction and non-linear effects are being omitted. It is worth noting that for a non-linear effect, MGWR will estimate it as a spatially varying effect which may induce bias in both estimation and interpretation <ref type="bibr" target="#b44">(Sachdeva, Fotheringham, Li, &amp; Yu, 2021)</ref>. In this simulation, it can be seen in Fig. <ref type="figure" target="#fig_7">8</ref>, for feature X 3 , its partial relationship to the model prediction is supposed to be non-linear as correctly modelled by XGBoost (shown to the left) instead of spatially varying as modelled by MGWR (shown to the right). More discussions regarding modelling nonlinear relationships in MGWR and possible remedies can be found in <ref type="bibr" target="#b44">Sachdeva et al. (2021)</ref>.  </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.">An example of modelling ride-hailing service demand in Chicago</head><p>Simulations in the previous section demonstrate that machine learning model is accurate even when complex spatial and non-spatial effects present, and SHAP can be used to estimate these effects. In this section, we show an empirical example of using SHAP to explain a machine learning model of ride-hailing service demand in the city of Chicago at the census tract level. Ride-hailing trip data in 2019 were retrieved from the City of Chicago Data portal, which hosts all trip records provided by transportation network companies (e.g. Uber, Lyft). Each trip is geo-coded with the pick-up and drop-off census tracts, as well as other trip attributes such as the trip distance in miles and whether the trip is shared by multiple parties. Small anomalous trips having a duration of less than one minute, a distance of less than 0.1 mile, and a fare of less than 2.5 dollars were excluded from the analysis. The ride-hailing demand of a census tract, which serves as the dependent variable, is the sum of all trips that originate from that census tract. The dependent variable then was log transformed to avoid strong skewness in its distribution. Features used to predict demand were selected based on the recent literature of this topic (e.g. <ref type="bibr" target="#b2">Barajas &amp; Brown, 2021;</ref><ref type="bibr" target="#b13">Dean &amp; Kockelman, 2021;</ref><ref type="bibr" target="#b34">Marquet, 2020)</ref>, and data were downloaded from the American Community Survey (ACS) 2015-2019 5-year estimates and the U.S. Environmental Protection Agency (EPA) Smart Location Database (SLD) which include socioeconomics and built environment of census tracts. Specifically, the features used in the model are the percentage of white population (pct_white), the percentage of people aged between 18 and 34 (pct_18_34), the percentage of households without a vehicle (pct_no_car), the percentage of people with a Bachelor's degree or higher (pct_bach), employment entropy which is based on the diversity of 5 types of jobs defined in SLD (job_entrophy), logarithm of population density (log_pop_den), average trip distance (ave_trip_dist), the percentage of the trips that are shared (pct_shared), and the X and Y coordinates of the centroid of each census tract (x_coord and y_coord). Census tracts with fewer than 500 population were excluded in the analysis to avoid the small sample bias in the ACS and the SLD datasets. The final data used are shown in Figs. <ref type="figure" target="#fig_8">9</ref> and <ref type="figure" target="#fig_9">10</ref>.</p><p>The trip demand dataset was predicted using an XGBoost model, and SHAP values were computed subsequently. An MGWR model and an SLM model were also fitted. Regarding the overall model fit, XGBoost has the highest R 2 value of 0.94, and MGWR and SLM has R 2 value of 0.84 and 0.79, Detailed parameter estimates from SLM and MGWR can be found in Tables <ref type="table" target="#tab_0">C1</ref> and <ref type="table" target="#tab_1">C2</ref> in Appendix C, and here we focus on the results obtained from XGBoost and SHAP. Fig. <ref type="figure" target="#fig_10">11</ref> shows the SHAP summary plot with top 15 contributing features. It is clear that a tract's education level and average trip distance are the most important features in the model, followed by the percentage of people aged 18 to 34. The location effect is also crucial in the model, as assessed by the magnitude of SHAP values of the X and Y coordinates. Other features are also contributing to the model, except for network density which its impact is minimal. It is worth mentioning that no major interaction effects between locations and non-location features are found in the SHAP summary plot; thus, spatially varying coefficient models (e.g. GWR) may not be necessary in this case. Uncertainties in SHAP estimates (shaded in light blue) were also estimated using a non-parametric bootstrap method based on residual resampling <ref type="bibr" target="#b15">(Efron, 1992)</ref>. Model residuals were resampled with replacement and added to the predictions to create the new dependent variable, then a XGBoost model was re-trained using the same hyperparameters and SHAP values were re-calculated and stored. This was repeated for 5000 times, and the 95% confidence interval for SHAP values were computed using percentiles of the bootstrap sampling distributions.</p><p>Fig. <ref type="figure" target="#fig_11">12</ref> depicts the partial dependence plot for each non-location feature while accounting for the other factors in the model. From Fig. <ref type="figure" target="#fig_11">12</ref>, it can be shown that the education level (pct_bach) in a census tract has a strong positive association with ride-hailing service demand,  implying that residents in highly educated neighbourhoods use more ride-hailing services than those in less-educated neighbourhoods. Average trip distance has a strong negative correlation with travel demand. When travel distance increases, it reduces the predicted demand in a census tract, suggesting that riders tend to not use ride-hailing services for longer trips. The percentage of population in a census tract aged 18 to 34 shows a non-linear relationship with trip demand, with a strong positive trend being observed when it is less than 40% and no influence after it exceeds 40%. Except for census tracts with a very high proportion of shared passengers, which reduces the predicted trip demand, the percentage of users who choose to share their trip has no substantial impact on ride-hailing demand. The proportion of households without a vehicle has a positive relationship with ride-hailing demand. That correlation, however, is weak because the confidence interval is relatively wide. The curve for job entropy reveals that tracts with minimal job diversity use fewer ride-hailing services. The percentage of white residents in a census tract does not exhibit a strong association with ride-hailing trip demand, except for highly white neighbourhoods where demand is lower than the Chicago average. The logarithm of population density and network density have no noticeable relationships with ride-hailing demand from the model.</p><p>The contribution of location to trip demand, as measured by SHAP values of geographic coordinates, has a clear spatial pattern, as shown in Fig. <ref type="figure" target="#fig_12">13</ref>. The red areas represent places with a positive contribution, whereas the blue areas represent locations with a negative contribution. It should be noted that these contributions have already taken other factors into account, and they reflect contributions exclusively from the location, i.e., a context-based place effect. A positive contrition on ridehailing service demand may be seen in downtown Chicago and along the entire east coast, where the majority of businesses and popular tourist sites are located. The census tract in which the University of Chicago is located also has a high level of location-driven demand as well. Census tracts in the west have lower location-based demand in general. Previous modelling efforts on this topic either use statistical models (e.g. <ref type="bibr" target="#b13">Dean &amp; Kockelman, 2021;</ref><ref type="bibr" target="#b34">Marquet, 2020)</ref>, or machine learning models but without local interpretation (e.g. Yan, Liu, &amp; Zhao, 2020). This example, however, discovers interesting non-linear effects and spatial patterns that are not reported in the existing work, which is made possible by machine learning and local interpretation approaches.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.">Discussion</head><p>Previous sections demonstrate the utility of SHAP to interpret XGBoost model of spatial data under both simulated and empirical scenarios. In this section, we discuss some further issues and opportunities.</p><p>First, the use of SHAP to provide reliable estimates requires that the machine learning model be accurate and robust. It is a well-known concept of 'garbage in, garbage out' in data modelling that problematic input will lead to problematic output. As an analogy, for model explanation, any inaccuracies in the model will be transmitted to explanations, causing skewed understandings. If the model is not able to capture spatial relationships, then it is not possible to use SHAP to estimate any spatial effects. In this paper, we used a standard example of XGBoost with coordinates as spatial features, and we found that the model performs well and that the extracted spatial effects from SHAP are  good approximations of the true parameters. However, this is unlikely to be optimal in all the cases. In empirical spatial applications, instead of using standard machine learning models, it is encouraged to use models with special considerations to spatial data. For example, Lyft developed a GeoBoost algorithm that uses diagonal, Gaussian and periodic splitters rather than the standard tree split approach in gradient boosting to better split space into areas of varying shapes and sizes and to avoid jagged effects <ref type="bibr" target="#b11">(Cohen, 2021)</ref>.</p><p>Second, the interpretation of SHAP values needs special attention. A SHAP value is the contribution of a feature to the difference between the actual prediction and the mean prediction, while accounting for the other factors in the model <ref type="bibr" target="#b33">(Lundberg &amp; Lee, 2017)</ref>. SHAP values represent partial dependence, meaning that they do not have the exact same interpretation as coefficients in a regression model <ref type="bibr" target="#b35">(Molnar, 2020)</ref>.</p><p>In order to construct coefficients, one needs to calculate the gradient between features and their SHAP values. As shown in Section 3.2, an adhoc approach to calculating coefficients is by employing a kernel regression smoother to SHAP value against the feature. However, the Z. Li  kernel window may have an influence on the smoothed coefficients, and this should only be used for exploratory purposes. Future investigations are needed in this area. Another issue related to the interpretation of SHAP values is when there are correlated features. Correlation in features is generally not a problem in machine learning for prediction tasks, but it will affect the interpretation of feature importance (Tolos ¸i &amp; <ref type="bibr" target="#b53">Lengauer, 2011)</ref>. This is not a specific issue for SHAP, but more of a point to note that different models treat correlated features differently. For example, gradient boosting will have a focus on the feature with a stronger link to the dependent variable <ref type="bibr" target="#b10">(Chen &amp; Guestrin, 2016)</ref> while random forest will share the importance among the correlated features <ref type="bibr" target="#b51">(Strobl, Boulesteix, Zeileis, &amp; Hothorn, 2007)</ref>. Even though SHAP values are still faithful to reflect what a model thinks would be important, special attention is needed when interpreting and reporting the results. Third, the combination of machine learning and SHAP can be a great tool for identifying important features and exploring functional forms of relationships from the data. Model selection is usually computationally challenging for statistical models when the data size is large and relationships are complex and unknown. For spatial models, additional computation (e.g., inverse of a spatial covariance matrix, local regression at each location) is usually needed to account for possible spatial effects. Machine learning generally requires fewer assumptions about the underlying generating processes, and they are good at detecting patterns in a large amount of data, especially when complicated nonlinear interactions are present <ref type="bibr" target="#b8">(Bzdok, Altman, &amp; Krzywinski, 2018)</ref>. If formal statistical inference is desired, analysts can then estimate a statistical model based on the effects identified from SHAP. For example, in the Chicago study, we found that major effects are a spatial effect resulting from coordinates and other non-linear effects from features, which can be alternatively modelled by a Generalized Additive Model <ref type="bibr" target="#b24">(Hastie &amp; Tibshirani, 1990;</ref><ref type="bibr" target="#b58">Wood, 2006)</ref> or a Geoadditive Model <ref type="bibr" target="#b28">(Kammann &amp; Wand, 2003)</ref>. If strong interactions between coordinates and features are detected, a spatially varying coefficient model such as MGWR or Eigenvector Spatial Filtering <ref type="bibr" target="#b46">(Seya, Murakami, Tsutsumi, &amp; Yamagata, 2015;</ref><ref type="bibr" target="#b36">Murakami &amp; Griffith, 2019</ref>) may be more suited. Then analysts can benefit from a more rigorous inferential framework in these statistical models. Furthermore, there is also a possibility of deriving uncertainty measures for SHAP values using non-parametric inference. In the Chicago example, we employed a standard residual-based bootstrap to generate the 95% confidence interval for SHAP values. Future work can compare the inferential capabilities of the bootstrap based SHAP uncertainties with the parameter uncertainties in spatial statistical models.</p><p>Lastly, whereas much of recent research has focused on developing spatially explicit machine learning models (e.g. <ref type="bibr" target="#b14">Du, Wang, Wu, Zhang, &amp; Liu, 2020;</ref><ref type="bibr" target="#b59">Yan, Janowicz, Mai, &amp; Zhu, 2019;</ref><ref type="bibr" target="#b64">Zhan et al., 2017)</ref>, much less attention has been paid to advancing spatially explicit interpretation methods. It is possible to borrow the idea of, for example, geographic weights and proximity to construct local surrogate models to explain geographically local relationships. Future work could develop new interpretation methods that are better suited to spatial data and spatially explicit models to help understand spatial relationships.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.">Conclusions</head><p>Machine learning models have become increasingly common in modelling and predicting spatial phenomena. Interpretability is a major challenge in machine learning that limits its further adoption in spatial data modelling when the interest is in discovering the underlying processes and spatial effects. Recent advancements in interpretable machine learning, particularly in local interpretation approaches, allow us to peek into the black box and explain how a prediction is made for each observation. In spatial data applications where observations are geocoded, this further enables analysts to extract spatial relationships and visualise them on maps. SHAP, which is arguably the most popular method in the local interpretation toolbox, integrates several approaches (e.g. LIME, game theory) with a solid theoretical background and provides robust estimating algorithms and software. Despite existing research on applying SHAP to spatial data modelling, no research on deriving spatial effects from machine learning models has been reported.</p><p>This study fills this gap and shows how to use SHAP to draw spatial insights from machine learning models. The paper's main conclusion is that spatial effects can be retrieved by mapping SHAP values of interaction effects from location features, and these values are consistent with estimations in spatial statistical models at the parameter level. This paper specifically contributes to the spatial data modelling community in three ways. First, using simulated and empirical examples, this paper shows how to use SHAP to extract spatial effects (i.e., spatial autocorrelation and heterogeneity) from machine learning models. Second, this work demonstrates that the non-parametric and autonomous nature of machine learning makes it a great tool for exploring functional forms and model specifications for statistical models when prior assumptions are unknown. Third, by comparing machine learning to spatial statistical models (e.g., SLM and MGWR), this work provides confidence and trust in using machine learning for spatial data and may converge analysts who favour machine learning (due to its superior flexibility and predictability) and spatial statisticians who prefer traditional spatial statistical models (due to the lack of trust in black-box machine  Table C2 Summary statistics of parameter estimates and model goodness-of-fit from an MGWR model of the Chicago dataset. Variable Bandwidth Mean STD Min Median Max CONSTANT 793 10.048 0.008 10.033 10.051 10.06 pct_18_34 793 1.539 0.037 1.478 1.533 1.656 pct_white 591 -0.230 0.238 -0.628 -0.091 0.028 pct_bach 793 2.706 0.018 2.672 2.712 2.736 pct_no_car 793 1.371 0.065 1.294 1.379 1.476 log_pop_den 52 0.198 0.453 -1.153 0.159 1.459 job_entropy 328 0.441 0.539 -0.675 0.386 1.439 network_den 467 -0.002 0.007 -0.019 -0.001 0.010 ave_trip_dist 527 -0.301 0.081 -0.423 -0.244 -0.219 pct_shared 44 -2.357 3.865 -10.621 -2.552 15.173 RMSE 0.80 R 2 0.84</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Fig. 1 .</head><label>1</label><figDesc>Fig.1. SHAP summary plot for the XGBoost model when spatial autocorrelation presents. Note that in the SHAP summary plot produced by the SHAP python package, any interaction will appear twice and coloured by feature value noted with "*", respectively. For example, "X1* -X2" shows the interaction effect between feature X1 and X2 and coloured by the feature value of X1.</figDesc><graphic coords="4,112.68,397.77,369.84,309.36" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Fig. 2 .</head><label>2</label><figDesc>Fig. 2. SHAP estimated parametric and spatial effects with comparison to the true generating processes.</figDesc><graphic coords="5,42.15,56.23,510.19,363.19" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Fig. 3 .</head><label>3</label><figDesc>Fig. 3. Data generating processes used in Eq. (6).</figDesc><graphic coords="6,51.57,58.39,195.55,680.54" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Fig. 4 .</head><label>4</label><figDesc>Fig. 4. SHAP summary plot for the XGBoost model when spatially varying effects present.</figDesc><graphic coords="7,113.16,55.74,368.38,307.66" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Fig. 5 .</head><label>5</label><figDesc>Fig. 5. Comparison of estimated local coefficients for MGWR and XGBoost.</figDesc><graphic coords="8,105.79,38.38,578.40,510.24" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>Fig. 6 .</head><label>6</label><figDesc>Fig. 6. SHAP summary plot for the XGBoost model when spatial, non-linear and interaction effects co-exist.</figDesc><graphic coords="9,113.16,56.09,368.40,293.28" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>Fig. 7 .</head><label>7</label><figDesc>Fig. 7. A comparison of the estimated spatial effects from MGWR (top) and XGBoost (bottom).</figDesc><graphic coords="10,54.77,94.67,680.37,391.42" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><head>Fig. 8 .</head><label>8</label><figDesc>Fig. 8. Estimated non-linear effect for feature X 3 in XGBoost (left) and MGWR (right).</figDesc><graphic coords="11,84.64,56.25,425.47,166.16" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8"><head>Fig. 9 .</head><label>9</label><figDesc>Fig. 9. Map of the dependent variable (log of trip demand) used in the Chicago example.</figDesc><graphic coords="11,57.18,286.38,211.23,311.88" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_9"><head>Fig. 10 .</head><label>10</label><figDesc>Fig. 10. Maps of features used in the Chicago example.</figDesc><graphic coords="12,40.68,55.55,513.07,540.87" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_10"><head>Fig. 11 .</head><label>11</label><figDesc>Fig. 11. SHAP summary plot for the trip demand model.</figDesc><graphic coords="13,112.68,55.60,369.84,273.84" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_11"><head>Fig. 12 .</head><label>12</label><figDesc>Fig. 12. Partial dependence plots for all non-location features. Blue shade shows the bootstrap 95% confidence interval for SHAP values. (For interpretation of the references to colour in this figure legend, the reader is referred to the web version of this article.)</figDesc><graphic coords="13,40.68,367.85,513.36,338.40" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_12"><head>Fig. 13 .</head><label>13</label><figDesc>Fig. 13. The spatial effect of location to ride-hailing demand as measured by the SHAP values of geographic coordinates.</figDesc><graphic coords="14,61.12,56.29,203.62,306.14" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_13"><head>Fig. B1 .</head><label>B1</label><figDesc>Fig. B1. A comparison of estimated spatial effects between MGWR and XGBoost.</figDesc><graphic coords="16,99.19,59.23,396.86,366.19" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_14"><graphic coords="15,125.12,293.23,344.16,278.21" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1</head><label>1</label><figDesc>Comparison of overall model accuracy for SLM and XGBoost.</figDesc><table><row><cell></cell><cell>SLM</cell><cell>XGBoost</cell></row><row><cell>R 2</cell><cell>0.811</cell><cell>0.783</cell></row><row><cell>RMSE of residuals (ε)</cell><cell>1.005</cell><cell>1.088</cell></row><row><cell>Moran's I of residuals (ε)</cell><cell>0.013</cell><cell>0.055</cell></row><row><cell>RMSE of spatial lag (ρWy)</cell><cell>0.016</cell><cell>0.272</cell></row><row><cell>RMSE of parametric term 1 (β 1 X 1 )</cell><cell>0.007</cell><cell>0.218</cell></row><row><cell>RMSE of parametric term 2 (β 2 X 2 )</cell><cell>0.011</cell><cell>0.187</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 2</head><label>2</label><figDesc>Comparison of overall model accuracy for MGWR and XGBoost.</figDesc><table><row><cell>MGWR</cell><cell>XGBoost</cell></row></table></figure>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div><p>Acknowledgement I would like to thank <rs type="person">Dr. Wenwen Li</rs>'s lab at <rs type="affiliation">Arizona State University</rs> for their initial input on this work. I would also like to thank <rs type="person">Mr. Tianyang Xu</rs>, who assisted with the data collection, cleaning, and exploration of the Chicago ride-hailing example.</p></div>
+			</div>
+			<div type="funding">
+<div><head>Funding</head><p>This work was supported by the <rs type="grantName">Post-doctoral Enrichment Award</rs> from the <rs type="funder">Alan Turing Institute</rs>.</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_8V99FBW">
+					<orgName type="grant-name">Post-doctoral Enrichment Award</orgName>
+				</org>
+			</listOrg>
+
+			<div type="availability">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Code and data statement</head><p>The code and data used in this paper are available at this public repository: <ref type="url" target="https://github.com/Ziqi-Li/SHAP_spatial_data_paper">https://github.com/Ziqi-Li/SHAP_spatial_data_paper</ref> </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Data availability</head><p>The data and code are publicly available, and the link is included in the manuscript.</p></div>
+			</div>
+
+
+			<div type="conflict">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Declaration of Competing Interest</head><p>The authors declare that there is no conflict of interest.</p></div>
+			</div>
+
+
+			<div type="contribution">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>CRediT authorship contribution statement</head><p>Ziqi Li: Conceptualization, Methodology, Software, Visualization, Formal analysis, Writingoriginal draft, Writingreview &amp; editing.</p></div>
+			</div>
+
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>learning).</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Appendix A</head><p>Further simulation results to supplement Section 3.1 in the main text which includes two additional scenarios:1) a model with a long-range spatial autoregressive process and 2) a model with no spatial autoregressive process. The results are shown in Fig. <ref type="figure" target="#fig_15">A1</ref>. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Appendix B</head><p>Further simulation results to supplement Section 3.2 in the main text which includes spatially varying processes that are not parallel to coordinate axes. The regression equation was obtained from <ref type="bibr" target="#b18">Fotheringham et al. (2017)</ref>. And the estimated spatial effects from both MGWR and XGBoost can be seen in Fig. <ref type="figure">B1</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Appendix C</head><p>Table <ref type="table">C1</ref> and Table <ref type="table">C2</ref> show the parameter estimates and model goodness-of-fit from SLM and MGWR respectively.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Table C1</head><p>Parameter estimates and model goodness-of-fit from an SLM of the Chicago dataset.</p><p>Variable Coefficient Std.Error t-value p-value CONSTANT 6.090 0.657 9.269 0.000 pct_18_34 1.885 0.410 4.592 0.000 pct_white -0.856 0.210 -4.084 0.000 pct_bach 1.551 0.274 5.661 0.000 pct_no_car 0.401 0.280 1.433 0.152 log_pop_den 0.218 0.064 3.421 0.001 job_entropy 0.659 0.220 2.998 0.003 network_den 0.005 0.005 0.937 0.349 ave_trip_dist -0.226 0.031 -7.279 0.000 pct_shared -2.003 0.695 -2.882 0.004 W_y 0.362 0.043 8.327 0.000 RMSE 0.82 R 2 0.76</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_15"><head>Fig. A1 .</head><label>A1</label><figDesc>SHAP estimated spatial effects from XGBoost model when a long-range spatial autoregressive process presents (top) and when no spatial autoregressive process presents (bottom).</figDesc></figure>
+			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Peeking inside the black-box: Explainable machine learning applied to household transportation energy consumption</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">S</forename><surname>Amiri</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Mottahedi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">R</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Hoque</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Computers, Environment and Urban Systems</title>
+		<imprint>
+			<biblScope unit="volume">88</biblScope>
+			<biblScope unit="page">101647</biblScope>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<monogr>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+		<title level="m">Spatial econometrics: Methods and models</title>
+		<imprint>
+			<publisher>Springer Science &amp; Business Media</publisher>
+			<date type="published" when="1988">1988</date>
+			<biblScope unit="volume">4</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Not minding the gap: Does ride-hailing serve transit deserts</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename><surname>Barajas</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Brown</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Transport Geography</title>
+		<imprint>
+			<biblScope unit="volume">90</biblScope>
+			<date type="published" when="2021">2021. Article 102918</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Modeling regional economic dynamics: Spatial dependence, spatial heterogeneity and nonlinearities</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Basile</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Durbán</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Mínguez</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename><surname>Montero</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Mur</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Economic Dynamics and Control</title>
+		<imprint>
+			<biblScope unit="volume">48</biblScope>
+			<biblScope unit="page" from="229" to="245" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Making a science of model search: Hyperparameter optimization in hundreds of dimensions for vision architectures</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Bergstra</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Yamins</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Cox</surname></persName>
+		</author>
+		<idno>PMLR</idno>
+	</analytic>
+	<monogr>
+		<title level="m">International conference on machine learning</title>
+		<imprint>
+			<date type="published" when="2013-02">2013. February</date>
+			<biblScope unit="page" from="115" to="123" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Machine learning-based traffic prediction models for intelligent transportation systems</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Boukerche</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Wang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Computer Networks</title>
+		<imprint>
+			<biblScope unit="page">107530</biblScope>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Surveillance sans Frontieres: Internet-based emerging infectious disease intelligence and the HealthMap project</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">S</forename><surname>Brownstein</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">C</forename><surname>Freifeld</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">Y</forename><surname>Reis</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">D</forename><surname>Mandl</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">PLoS Medicine</title>
+		<imprint>
+			<biblScope unit="volume">5</biblScope>
+			<biblScope unit="issue">7</biblScope>
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+	<note>Article e151</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Mapping the landscape of artificial intelligence applications against COVID-19</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Bullock</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Luccioni</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">H</forename><surname>Pham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">S N</forename><surname>Lam</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Luengo-Oroz</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Artificial Intelligence Research</title>
+		<imprint>
+			<biblScope unit="volume">69</biblScope>
+			<biblScope unit="page" from="807" to="845" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Statistics versus machine learning</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Bzdok</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Altman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Krzywinski</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Nature Methods</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page">233</biblScope>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Interpretable vs. noninterpretable machine learning models for data-driven hydro-climatological process modeling</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Chakraborty</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Bas ¸agaoglu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Winterle</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Expert Systems with Applications</title>
+		<imprint>
+			<biblScope unit="volume">170</biblScope>
+			<date type="published" when="2021">2021. Article 114498</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Xgboost: A scalable tree boosting system</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Guestrin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 22nd acm sigkdd international conference on knowledge discovery and data mining</title>
+		<meeting>the 22nd acm sigkdd international conference on knowledge discovery and data mining</meeting>
+		<imprint>
+			<date type="published" when="2016-08">2016. August</date>
+			<biblScope unit="page" from="785" to="794" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">How and why we built a custom gradient boosted-tree package</title>
+		<author>
+			<persName><forename type="first">O</forename><surname>Cohen</surname></persName>
+		</author>
+		<ptr target="https://eng.lyft.com/how-and-why-to-build-your-own-gradient" />
+	</analytic>
+	<monogr>
+		<title level="j">Lyft Engineering</title>
+		<imprint>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+	<note>boost ed-tree-package-d5157cd77298</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Algorithmic transparency via quantitative input influence: Theory and experiments with learning systems</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Datta</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Sen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Zick</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">2016 IEEE symposium on security and privacy</title>
+		<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2016-05">2016. May</date>
+			<biblScope unit="page" from="598" to="617" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Spatial variation in shared ride-hail trip demand and factors contributing to sharing: Lessons from Chicago</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">D</forename><surname>Dean</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">M</forename><surname>Kockelman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Transport Geography</title>
+		<imprint>
+			<biblScope unit="volume">91</biblScope>
+			<biblScope unit="page">102944</biblScope>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Geographically neural network weighted regression for the accurate estimation of spatial non-stationarity</title>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Du</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Wu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Liu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Geographical Information Science</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="issue">7</biblScope>
+			<biblScope unit="page" from="1353" to="1377" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Bootstrap methods: Another look at the jackknife</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Efron</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Breakthroughs in statistics</title>
+		<meeting><address><addrLine>New York, NY</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="1992">1992</date>
+			<biblScope unit="page" from="569" to="593" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<monogr>
+		<title level="m" type="main">Switch transformers: Scaling to trillion parameter models with simple and efficient sparsity</title>
+		<author>
+			<persName><forename type="first">W</forename><surname>Fedus</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Zoph</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Shazeer</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:2101.03961</idno>
+		<imprint>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<monogr>
+		<title level="m" type="main">Geographically weighted regression: The analysis of spatially varying relationships</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2003">2003</date>
+			<publisher>John Wiley &amp; Sons</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Multiscale geographically weighted regression (MGWR)</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Yang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Kang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of the American Association of Geographers</title>
+		<imprint>
+			<biblScope unit="volume">107</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1247" to="1265" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Greedy function approximation: A gradient boosting machine</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">H</forename><surname>Friedman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of Statistics</title>
+		<imprint>
+			<biblScope unit="page" from="1189" to="1232" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">European Union regulations on algorithmic decision-making and a &quot;right to explanation</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Goodman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Flaxman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">AI Magazine</title>
+		<imprint>
+			<biblScope unit="volume">38</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="50" to="57" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">DARPA&apos;s explainable artificial intelligence (XAI) program</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Gunning</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Aha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">AI Magazine</title>
+		<imprint>
+			<biblScope unit="volume">40</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="44" to="58" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">A simulation study on specifying a regression model for spatial data: Choosing between autocorrelation and heterogeneity effects</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Harris</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">51</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="151" to="181" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">The use of geographically weighted regression for spatial prediction: An evaluation of models using simulated data sets</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Harris</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Crespo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Mathematical Geosciences</title>
+		<imprint>
+			<biblScope unit="volume">42</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="657" to="680" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<monogr>
+		<title level="m" type="main">Generalized additive models</title>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">J</forename><surname>Hastie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J</forename><surname>Tibshirani</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1990">1990</date>
+			<publisher>Routledge</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Knowledge-driven GeoAI: Integrating spatial knowledge into multi-scale deep learning for Mars crater detection</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">Y</forename><surname>Hsu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Wang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Remote Sensing</title>
+		<imprint>
+			<biblScope unit="volume">13</biblScope>
+			<biblScope unit="issue">11</biblScope>
+			<biblScope unit="page">2116</biblScope>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">A scalable deep learning platform for identifying geologic features from seismic attributes</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Huang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Dong</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">E</forename><surname>Clee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Leading Edge</title>
+		<imprint>
+			<biblScope unit="volume">36</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="249" to="256" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">Advancing methodologies for applying machine learning and evaluating spatiotemporal models of fine particulate matter (PM2. 5) using satellite data over large regions</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">C</forename><surname>Just</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">B</forename><surname>Arfer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Rush</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Dorman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Shtein</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Lyapustin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><surname>Kloog</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Atmospheric Environment</title>
+		<imprint>
+			<biblScope unit="page">239</biblScope>
+			<date type="published" when="2020">2020. Article 117649</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Geoadditive models</title>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">E</forename><surname>Kammann</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">P</forename><surname>Wand</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society: Series C: Applied Statistics</title>
+		<imprint>
+			<biblScope unit="volume">52</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1" to="18" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">GeoAI: Where machine learning and big data converge in GIScience</title>
+		<author>
+			<persName><forename type="first">W</forename><surname>Li</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Spatial Information Science</title>
+		<imprint>
+			<biblScope unit="volume">20</biblScope>
+			<biblScope unit="page" from="71" to="77" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Computational improvements to multi-scale geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Geographical Information Science</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="issue">7</biblScope>
+			<biblScope unit="page" from="1378" to="1397" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">Analysis of regression in game theory approach</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Lipovetsky</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Conklin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Applied Stochastic Models in Business and Industry</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="319" to="330" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<monogr>
+		<title level="m" type="main">Consistent individualized feature attribution for tree ensembles</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">M</forename><surname>Lundberg</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">G</forename><surname>Erion</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">I</forename><surname>Lee</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:1802.03888</idno>
+		<imprint>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">A unified approach to interpreting model predictions</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">M</forename><surname>Lundberg</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">I</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Advances in Neural Information Processing Systems</title>
+		<imprint>
+			<date type="published" when="2017">2017</date>
+			<biblScope unit="page">30</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<analytic>
+		<title level="a" type="main">Spatial distribution of ride-hailing trip demand and its association with walkability and neighborhood characteristics</title>
+		<author>
+			<persName><forename type="first">O</forename><surname>Marquet</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Cities</title>
+		<imprint>
+			<biblScope unit="volume">106</biblScope>
+			<biblScope unit="page">102926</biblScope>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<analytic>
+		<title level="a" type="main">Interpretable machine learning</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Molnar</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">A guide for making black box models explainable</title>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<analytic>
+		<title level="a" type="main">Eigenvector spatial filtering for large data sets: Fixed and random effects approaches</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Murakami</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Griffith</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">51</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="23" to="49" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<analytic>
+		<title level="a" type="main">Characterising risk of in-hospital mortality following cardiac arrest using machine learning: A retrospective international registry study</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Nanayakkara</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Fogarty</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Tremeer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Ross</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Richards</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Bergmeir</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">M</forename><surname>Kaye</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">PLoS Medicine</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="issue">11</biblScope>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+	<note>Article e1002709</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<analytic>
+		<title level="a" type="main">Mgwr: A Python implementation of multiscale geographically weighted regression for investigating process spatial heterogeneity and scale</title>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">M</forename><surname>Oshan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Kang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">J</forename><surname>Wolf</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">ISPRS International Journal of Geo-Information</title>
+		<imprint>
+			<biblScope unit="volume">8</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page">269</biblScope>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<analytic>
+		<title level="a" type="main">Application of XGBoost algorithm in hourly PM2. 5 concentration prediction</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Pan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IOP conference series: earth and environmental science</title>
+		<imprint>
+			<biblScope unit="volume">113</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page">12127</biblScope>
+			<date type="published" when="2018">2018</date>
+			<publisher>IOP publishing</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b40">
+	<analytic>
+		<title level="a" type="main">A machine learning approach for modelling parking duration in urban land-use</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Parmar</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Das</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">M</forename><surname>Dave</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Physica A: Statistical Mechanics and its Applications</title>
+		<imprint>
+			<biblScope unit="volume">572</biblScope>
+			<date type="published" when="2021">2021. Article 125873</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b41">
+	<analytic>
+		<title level="a" type="main">Toward safer highways, application of XGBoost and SHAP for real-time accident detection and feature analysis</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">B</forename><surname>Parsa</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Movahedi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Taghipour</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Derrible</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">K</forename><surname>Mohammadian</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Accident Analysis &amp; Prevention</title>
+		<imprint>
+			<biblScope unit="volume">136</biblScope>
+			<date type="published" when="2020">2020. Article 105405</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b42">
+	<analytic>
+		<title level="a" type="main">The PySAL ecosystem: Philosophy and Implementation</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">J</forename><surname>Rey</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Amaral</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Arribas-Bel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">X</forename><surname>Cortes</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">D</forename><surname>Gaboardi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">J</forename><surname>Wolf</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/gean.12276</idno>
+		<ptr target="https://doi.org/10.1111/gean.12276" />
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b43">
+	<analytic>
+		<title level="a" type="main">Explaining the predictions of any classifier</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">T</forename><surname>Ribeiro</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Singh</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Guestrin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 22nd ACM SIGKDD international conference on knowledge discovery and data mining</title>
+		<meeting>the 22nd ACM SIGKDD international conference on knowledge discovery and data mining</meeting>
+		<imprint>
+			<date type="published" when="2016-08">2016. August</date>
+			<biblScope unit="page" from="1135" to="1144" />
+		</imprint>
+	</monogr>
+	<note>Why should i trust you?</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b44">
+	<analytic>
+		<title level="a" type="main">Are we modelling spatially varying processes or non-linear relationships?</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Sachdeva</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Yu</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/gean.12297</idno>
+		<ptr target="https://doi.org/10.1111/gean.12297" />
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b45">
+	<analytic>
+		<title level="a" type="main">Training deep convolutional neural networks for land-cover classification of high-resolution imagery</title>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">J</forename><surname>Scott</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">R</forename><surname>England</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">A</forename><surname>Starms</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">A</forename><surname>Marcum</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">H</forename><surname>Davis</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Geoscience and Remote Sensing Letters</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="549" to="553" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b46">
+	<analytic>
+		<title level="a" type="main">Application of LASSO to the eigenvector selection problem in eigenvector-based spatial filtering</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Seya</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Murakami</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Tsutsumi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Yamagata</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">47</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="284" to="299" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b47">
+	<monogr>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">S</forename><surname>Shapley</surname></persName>
+		</author>
+		<title level="m">17. A value for n-person games</title>
+		<imprint>
+			<publisher>Princeton University Press</publisher>
+			<date type="published" when="1953">1953</date>
+			<biblScope unit="page" from="307" to="318" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b48">
+	<analytic>
+		<title level="a" type="main">Learning important features through propagating activation differences</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Shrikumar</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Greenside</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Kundaje</surname></persName>
+		</author>
+		<idno>PMLR</idno>
+	</analytic>
+	<monogr>
+		<title level="m">International Conference on Machine Learning</title>
+		<imprint>
+			<date type="published" when="2017-07">2017, July</date>
+			<biblScope unit="page" from="3145" to="3153" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b49">
+	<analytic>
+		<title level="a" type="main">Tabular data: Deep learning is not all you need</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Shwartz-Ziv</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Armon</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Information Fusion</title>
+		<imprint>
+			<biblScope unit="volume">81</biblScope>
+			<biblScope unit="page" from="84" to="90" />
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b50">
+	<monogr>
+		<title level="m" type="main">Deep inside convolutional networks: Visualising image classification models and saliency maps</title>
+		<author>
+			<persName><forename type="first">K</forename><surname>Simonyan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Vedaldi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Zisserman</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:1312.6034</idno>
+		<imprint>
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b51">
+	<analytic>
+		<author>
+			<persName><forename type="first">C</forename><surname>Strobl</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">L</forename><surname>Boulesteix</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Zeileis</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Hothorn</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Bias in random forest variable importance measures: Illustrations, sources and a solution</title>
+		<imprint>
+			<date type="published" when="2007">2007</date>
+			<biblScope unit="volume">8</biblScope>
+			<biblScope unit="page" from="1" to="21" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b52">
+	<analytic>
+		<title level="a" type="main">Explaining prediction models and individual predictions with feature contributions</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>Štrumbelj</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><surname>Kononenko</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Knowledge and Information Systems</title>
+		<imprint>
+			<biblScope unit="volume">41</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="647" to="665" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b53">
+	<analytic>
+		<title level="a" type="main">Classification with correlated features: Unreliability of feature ranking and solutions</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Tolos ¸i</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Lengauer</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Bioinformatics</title>
+		<imprint>
+			<biblScope unit="volume">27</biblScope>
+			<biblScope unit="issue">14</biblScope>
+			<biblScope unit="page" from="1986" to="1994" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b54">
+	<analytic>
+		<title level="a" type="main">Land-cover classification with high-resolution remote sensing images using transferable deep models</title>
+		<author>
+			<persName><forename type="first">X</forename><forename type="middle">Y</forename><surname>Tong</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">S</forename><surname>Xia</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Lu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Shen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>You</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Zhang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Remote Sensing of Environment</title>
+		<imprint>
+			<biblScope unit="volume">237</biblScope>
+			<date type="published" when="2020">2020. Article 111322</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b55">
+	<analytic>
+		<title level="a" type="main">Evaluation of the factors explaining the use of agricultural land: A machine learning and modelagnostic approach</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">M</forename><surname>Viana</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Santos</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Freire</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Abrantes</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Rocha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ecological Indicators</title>
+		<imprint>
+			<biblScope unit="page">131</biblScope>
+			<date type="published" when="2021">2021. Article 108200</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b56">
+	<analytic>
+		<title level="a" type="main">A CyberGIS framework for the synthesis of cyberinfrastructure, GIS, and spatial analysis</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Wang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of the Association of American Geographers</title>
+		<imprint>
+			<biblScope unit="volume">100</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="535" to="557" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b57">
+	<analytic>
+		<title level="a" type="main">Learning to detect patterns of crime</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Rudin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Wagner</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Sevieri</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Joint European conference on machine learning and knowledge discovery in databases</title>
+		<meeting><address><addrLine>Berlin, Heidelberg</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2013-09">2013. September</date>
+			<biblScope unit="page" from="515" to="530" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b58">
+	<monogr>
+		<title level="m" type="main">Generalized additive models: An introduction with R. chapman and hall/ CRC</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">N</forename><surname>Wood</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b59">
+	<analytic>
+		<title level="a" type="main">A spatially explicit reinforcement learning model for geographic knowledge graph summarization</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Yan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Janowicz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Mai</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Zhu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Transactions in GIS</title>
+		<imprint>
+			<biblScope unit="volume">23</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="620" to="640" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b60">
+	<analytic>
+		<title level="a" type="main">Using machine learning for direct demand modeling of ridesourcing services in Chicago</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Yan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Zhao</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Transport Geography</title>
+		<imprint>
+			<biblScope unit="volume">83</biblScope>
+			<date type="published" when="2020">2020. Article 102661</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b61">
+	<monogr>
+		<title level="m" type="main">Understanding neural networks through deep visualization</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yosinski</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Clune</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Nguyen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Fuchs</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Lipson</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:1506.06579</idno>
+		<imprint>
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b62">
+	<analytic>
+		<title level="a" type="main">Inference in multiscale geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Yu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Oshan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Kang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">J</forename><surname>Wolf</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">52</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="87" to="106" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b63">
+	<analytic>
+		<title level="a" type="main">prediction based on random forest, XGBoost, and deep learning using multisource remote sensing data</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Zamani Joharestani</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Cao</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Ni</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Bashir</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Talebiesfandarani</surname></persName>
+		</author>
+		<idno>PM2. 5</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Atmosphere</title>
+		<imprint>
+			<biblScope unit="volume">10</biblScope>
+			<biblScope unit="issue">7</biblScope>
+			<biblScope unit="page">373</biblScope>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b64">
+	<analytic>
+		<title level="a" type="main">Spatiotemporal prediction of continuous daily PM2. 5 concentrations across China using a spatially explicit machine learning algorithm</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Zhan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Luo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Deng</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">L</forename><surname>Grieneisen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Shen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Zhang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Atmospheric Environment</title>
+		<imprint>
+			<biblScope unit="volume">155</biblScope>
+			<biblScope unit="page" from="129" to="139" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b65">
+	<monogr>
+		<title level="m" type="main">Social sensing from street-level imagery: A case study in learning spatio-temporal urban mobility patterns. ISPRS journal of photogrammetry and remote sensing</title>
+		<author>
+			<persName><forename type="first">F</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Wu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Zhu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Liu</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+			<biblScope unit="volume">153</biblScope>
+			<biblScope unit="page" from="48" to="58" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b66">
+	<analytic>
+		<title level="a" type="main">A gradient boosting method to improve travel time prediction</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Haghani</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Transportation Research Part C: Emerging Technologies</title>
+		<imprint>
+			<biblScope unit="volume">58</biblScope>
+			<biblScope unit="page" from="308" to="324" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

@@ -1,0 +1,811 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">DIMENSION REDUCTION AND ALLEVIATION OF CONFOUNDING FOR SPATIAL GENERALIZED LINEAR MIXED MODELS</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability  status="unknown">
+					<licence/>
+				</availability>
+				<date type="published" when="2010-11-30">30 Nov 2010</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">John</forename><surname>Hughes</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution">PENNSYLVANIA STATE UNIVERSITY</orgName>
+								<address>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Murali</forename><surname>Haran</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution">PENNSYLVANIA STATE UNIVERSITY</orgName>
+								<address>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">DIMENSION REDUCTION AND ALLEVIATION OF CONFOUNDING FOR SPATIAL GENERALIZED LINEAR MIXED MODELS</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2010-11-30">30 Nov 2010</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">C0EEA59504AE0A28A7B0C5164A168BE0</idno>
+					<idno type="arXiv">arXiv:1011.6649v1[stat.ME]</idno>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-28T15:58+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>Dimension reduction</term>
+					<term>Generalized linear model</term>
+					<term>Mixed model</term>
+					<term>Regression</term>
+					<term>Spatial statistics</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Non-gaussian spatial data are very common in many disciplines. For instance, count data are common in disease mapping, and binary data are common in ecology. When fitting spatial regressions for such data, one needs to account for dependence to ensure reliable inference for the regression coefficients. The spatial generalized linear mixed model (SGLMM) offers a very popular and flexible approach to modeling such data, but the SGLMM suffers from three major shortcomings: (1) uninterpretability of parameters due to spatial confounding, (2) variance inflation due to spatial confounding, and (3) high-dimensional spatial random effects that make fully Bayesian inference for such models computationally challenging. We propose a new parameterization of the SGLMM that alleviates spatial confounding and speeds computation by greatly reducing the dimension of the spatial random effects. We illustrate the application of our approach to simulated binary, count, and Gaussian spatial datasets, and to a large infant mortality dataset.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">Introduction</head><p>Nearly 20 years ago <ref type="bibr" target="#b3">Besag, York, and Mollié (1991)</ref> proposed the spatial generalized linear mixed model (SGLMM) for areal data, a hierarchical model that introduces spatial dependence through a latent Gaussian Markov random field (GMRF). Although <ref type="bibr">Besag et al.</ref> focused only on prediction for count data, the SGLMM for areal data has since been applied to other types of data (e.g., binary), in many fields (e.g., ecology, geology, forestry), and for regression as well as prediction. In fact, the SGLMM has long been the dominant areal model, owing to its flexible hierarchical specification; to the availability of the WinBUGS software application <ref type="bibr" target="#b26">(Lunn, Thomas, Best, and Spiegelhalter, 2000)</ref>, which greatly eases data analysis; and to the various theoretical and computational difficulties that plague the areal SGLMM's nearest competitor, the automodel (see, e.g., <ref type="bibr" target="#b20">Hughes, Haran, and Caragea, 2010;</ref><ref type="bibr">Kaiser and</ref><ref type="bibr">Cressie, 1997, 2000)</ref>.</p><p>SGLMMs, while remarkably flexible and widely applicable, suffer from three major shortcomings: (1) uninterpretability of parameters due to spatial confounding, (2) variance inflation due to spatial confounding, and (3) computational challenges posed by high-dimensional latent variables. The issue of spatial confounding between the fixed and random effects was pointed out recently by <ref type="bibr" target="#b29">Reich, Hodges, and Zadnik (2006)</ref>, and they suggested a new model (henceforth RHZ) that seeks to alleviate confounding by explicitly introducing synthetic predictors that are orthogonal to the fixed effects predictors. But the RHZ model, by failing to account for the underlying graph, permits structure in the random effects that corresponds to negative spatial dependence, i.e., repulsion, which we do not expect to observe in the phenomena to which these models are typically applied.</p><p>We propose a new model that mitigates confounding while allowing only positive spatial dependence among the random effects. We achieve this by exploiting what we believe to be the "natural" geometry for these models. By utilizing this geometry we are also able to dramatically reduce the dimension of the random effects, which speeds computation to the extent that our model makes feasible the analyses of large areal datasets.</p><p>Several recent papers have focused on dimension reduction for point-level, i.e., Gaussian process-based, spatial models (cf., e.g., <ref type="bibr" target="#b19">Higdon, 2002;</ref><ref type="bibr" target="#b7">Cressie and Johannesson, 2008;</ref><ref type="bibr" target="#b1">Banerjee, Gelfand, Finley, and Sang, 2008;</ref><ref type="bibr" target="#b12">Furrer, Genton, and Nychka, 2006;</ref><ref type="bibr" target="#b31">Rue and Tjelmeland, 2002)</ref>. To our knowledge, this paper is the first to propose a principled approach to dimension reduction for areal models (while also improving regression inference).</p><p>The rest of the paper is organized as follows. In Section 2 we review the traditional SGLMM. In Section 3 we discuss spatial confounding and review the model proposed by <ref type="bibr">Reich et al.</ref> In Section 4 we present our sparse reparameterization of the areal SGLMM. In Section 5 we discuss dimension reduction for spatial models.</p><p>In Section 6 we discuss the results of our simulation study, which applied each of the three models to simulated binary, count, and Gaussian spatial data. In Section 7 we apply our sparse model to a large US infant mortality dataset. We conclude with a discussion.</p><p>2. The Traditional SGLMM <ref type="bibr" target="#b3">Besag et al. (1991)</ref> formulated their SGLMM for areal data as follows. Let G = (V, E) be the underlying undirected graph, where V = {1, 2, . . . , n} are the vertices (each of which represents an area of interest) and E are the edges (each of which is a pair, (i, j), that represents the proximity of areas i and j). In the sequel we shall represent G using its adjacency matrix, A, which is the n × n matrix with entries given by diag(A) = 0 and A ij = 1{(i, j) ∈ E, i = j}, where 1{•} denotes the indicator function.</p><p>Now, let Z = (Z 1 , . . . , Z n ) be the random field of interest, where Z i is the random variable associated with vertex i. Then the first stage of the model is given by</p><formula xml:id="formula_0">g(E(Z i | β, W i )) = X i β + W i , (<label>1</label></formula><formula xml:id="formula_1">)</formula><p>where g is a link function, X i is the ith row of the design matrix, β is a p-vector of regression parameters, and W i is a spatial random effect associated with vertex i. As is the case for classical generalized linear models, different types of data imply different (canonical) choices of the link function, g. For example, the canonical link function for binary spatial data is the logit function, logit(p) = log(p/(1 -p)), for count data it is the natural logarithm function, and for normal data it is the identity function <ref type="bibr" target="#b28">(Nelder and Wedderburn, 1972)</ref>. In the latter case we have the spatial linear mixed model (SLMM), which is of considerable interest (see, e.g., <ref type="bibr" target="#b8">Cressie, 1993;</ref><ref type="bibr" target="#b0">Banerjee, Carlin, and Gelfand, 2004)</ref>.</p><p>The field of random effects, W = (W 1 , . . . , W n ) , whereby the traditional model incorporates spatial dependence, is assumed to follow the so-called conditionally autoregressive (CAR) or Gaussian Markov random field prior:</p><formula xml:id="formula_2">p(W | τ ) ∝ τ rank(Q)/2 exp - τ 2 W QW , (<label>2</label></formula><formula xml:id="formula_3">)</formula><p>where τ is a smoothing parameter and Q = diag(A1) -A is a precision matrix (1 is the conformable vector of 1s). Note that Q intuitively incorporates both dependencies (W i and W j , i = j, are independent given their neighbors iff Q ij = Q ji = 0 iff (i, j) / ∈ E) and prior uncertainty (our uncertainty about W i is inversely proportional to the degree of vertex i: Q ii = A i 1).</p><p>As described in the seminal paper by <ref type="bibr" target="#b10">Diggle, Tawn, and Moyeed (1998)</ref>, an SGLMM for spatial data over a continuous domain, i.e., for point-level data, can be formulated by replacing the GMRF specification with that of a Gaussian process (also see <ref type="bibr" target="#b9">De Oliveira, 2000;</ref><ref type="bibr" target="#b6">Christensen and Waagepetersen, 2002)</ref>. See <ref type="bibr" target="#b0">Banerjee et al. (2004)</ref>, <ref type="bibr" target="#b30">Rue and Held (2005)</ref>, or <ref type="bibr">Haran (2010)</ref> for an introduction to the use of Gaussian random field models in spatial statistics.</p><p>Since (2) is improper (Q is singular) the traditional areal model restricts us to a Bayesian analysis, although it is possible to use a maximum likelihood-based approach if a proper GMRF distribution is used instead of this so-called intrinsic GMRF (see <ref type="bibr" target="#b2">Besag and Kooperberg, 1995)</ref>. The models described below in Sections 3 and 4 have CARs with invertible precision matrices, and so those models lend themselves to both classical and Bayesian analyses. In the interest of concision we use only Bayesian terminology in the sequel.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.">Spatial Confounding</head><p>We begin with a discussion of confounding for the areal SGLMM's closest competitor, the automodel, because we believe this offers insight regarding confounding for the SGLMM. The automodel, a Markov random field model that incorporates dependence directly rather than hierarchically, can be specified as</p><formula xml:id="formula_4">g(E(Z i | β, η, Z -i )) = X i β + η (i,j)∈E Z * j ,<label>(3)</label></formula><p>where Z -i denotes the field with the ith observation excluded and η is the dependence parameter (η &gt; 0 implies an attractive model, η &lt; 0 a repulsive model). For the so-called uncentered automodel, Z * j = Z j , while Z * j = Z j -µ j for the centered automodel, where µ j is the independence expectation of Z j , i.e.,</p><formula xml:id="formula_5">µ j = E(Z j | β, η = 0) = g -1 (X j β).</formula><p>The sum in (3) is called the autocovariate. We see that it is a synthetic predictor that employs only the observations themselves or the observations along with the posited regression component, Xβ, of the model. The centered form of the autocovariate leads easily to an interpretation of the dependence parameter: η measures the "reactivity" of an observation to its neighbors, conditional on the hypothesized regression component. This interpretation of η lends β their desired interpretation as regression parameters. Put another way, the purpose of the centered autocovariate is to fit small-scale structure in the data, by which we mean structure residual to the large-scale structure represented by Xβ. Evidently the centered autocovariate is well suited to this role, since η tends to be at most weakly correlated with β.</p><p>The uncentered automodel, on the other hand, exhibits both conceptual and spatial confounding. It is not clear how one should interpret the uncentered autocovariate, and so η and β are also difficult to interpret. Moreover, η and β tend to be strongly correlated for the uncentered model. <ref type="bibr">(See Caragea and Kaiser (2009)</ref> for a treatment of confounding in the context of the autologistic model.) <ref type="bibr" target="#b29">Reich et al. (2006)</ref> employed a reparameterization to show that the traditional SGLMM, like the uncentered automodel, is confounded. More specifically, they showed that introduction of the random effects tends to bias the posterior distribution of β and also inflate its variance. This is because the traditional model implicitly contains predictors that are collinear with X, and it is this collinearity that causes the bias and variance inflation. To see this, let P be the orthogonal projection onto span(X), i.e., P = X(X X) -1 X , and let P ⊥ be the projection onto span(X)'s orthogonal complement: P ⊥ = I -P. Now, spectrally decompose these operators to acquire orthogonal bases, K n×p and L n×(n-p) , for span(X) and span(X) ⊥ , respectively. These bases allow us to rewrite (1) as</p><formula xml:id="formula_6">g(E(Z i | β, W i )) = X i β + W i = X i β + K i γ + L i δ,</formula><p>where γ and δ are random coefficients. This form exposes the source of the spatial confounding: K is collinear with X.</p><p>Since the offending predictors, K, have no scientific meaning, Reich et al. suggest that they be deleted from the model. Setting γ = 0 leads to the following specification. For the first stage we have</p><formula xml:id="formula_7">g(E(Z i | β, δ)) = X i β + L i δ.</formula><p>And the prior for the random effects, δ, is now</p><formula xml:id="formula_8">p(δ | τ ) ∝ τ (n-p)/2 exp - τ 2 δ Q R δ ,</formula><p>where Q R = L QL. <ref type="bibr">Reich et al. refer</ref> to this as smoothing orthogonal to the fixed effects, and they showed that their model does, in principle, address the aforementioned problems. More specifically, adding this restricted CAR to the nonspatial model adjusts, but does not inflate, the variance of β's posterior but leaves the mean unchanged. We also note that RHZ reduces slightly the number of model parameters, from n+p+1 to n + 1.</p><p>The traditional SGLMM and RHZ take essentially the same approach as the automodel in the sense that all of these models augment the linear predictor with synthetic predictors. The traditional model can be considered to implicitly employ the synthetic predictors K and L, and RHZ explicitly employs L. The traditional SGLMM is analogous to the uncentered automodel in that both models introduce predictors-K and the uncentered autocovariate, respectively-that cause spatial confounding and thus render β uninterpretable. And RHZ is analogous to the centered automodel in that both models introduce predictors designed to fit only residual structure in the data.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.">A Sparse Reparameterization of the Areal SGLMM</head><p>Although the synthetic predictors for RHZ are readily interpreted, receiving their interpretation from the theory of linear models, they are not particularly well suited to their task of fitting the residual clustering that arises due to spatial dependence. This is because the geometry corresponding to the operator P ⊥ neglects the underlying graph, G. In this section we reparameterize the areal SGLMM using an alternative operator that we believe corresponds to the intrinsic geometry of these models. The random effects for our new model (1) permit patterns corresponding to positive spatial dependence only, i.e., repulsion is disallowed, and (2) have dimension much smaller than n.</p><p>In an attempt to reveal the structure of missing spatial covariates, Griffith (2003) augments a generalized linear model with selected eigenvectors of (I -11 /n)A(I -11 /n), where I is the n × n identity matrix and 1 is the n-vector of 1s. This operator appears in the numerator of Moran's I statistic,</p><formula xml:id="formula_9">I(A) = n 1 A1 Z (I -11 /n)A(I -11 /n)Z Z (I -11 /n)Z ,</formula><p>a popular nonparametric measure of spatial dependence <ref type="bibr" target="#b27">(Moran, 1950)</ref>. We see that I(A) is a scaled ratio of quadratic forms in e = Z -Z1. The numerator of the ratio is the squared length of e in the elliptical space corresponding to A, while the denominator is the squared length of e in a spherical space. Since we are interested not in missing covariates but in smoothing orthogonal to X (which may or may not contain 1), we replace I -11 /n with P ⊥ . The resulting operator, P ⊥ AP ⊥ , which we call the Moran operator for X with respect to G, appears in the numerator of a generalized form of Moran's I: <ref type="bibr" target="#b4">Boots and Tiefelsdorf (2000)</ref> showed that (1) the (standardized) spectrum of a Moran operator comprises the possible values for the corresponding I X (A), and</p><formula xml:id="formula_10">I X (A) = n 1 A1 Z P ⊥ AP ⊥ Z Z P ⊥ Z .</formula><p>(2) the eigenvectors comprise all possible mutually distinct patterns of clustering residual to X and accounting for G. The positive (negative) eigenvalues correspond to varying degrees of positive (negative) spatial dependence, and the eigenvectors associated with a given eigenvalue (λ i , say) are the patterns of spatial clustering that data exhibit when the dependence among them is of degree λ i .</p><p>To illustrate the appropriateness of the Moran basis for fitting residual spatial clustering, we consider the 30 × 30 square lattice and X = [x y], where the ith row of the design matrix contains the x and y coordinates of the ith lattice point, with coordinates restricted to the unit square. The panels of Figure <ref type="figure" target="#fig_0">1</ref> show eigenvectors 7, 13, and 42 (which we chose at random) of the RHZ basis (L 7 , L 13 , L 42 ) and of the Moran basis (M 7 , M 13 , M 42 ). Each panel displays its eigenvector as a "map" by associating the ith component of the vector with the spatial location, (x i , y i ), of the ith lattice point. (We note that M 7 , M 13 , and M 42 are associated with eigenvalues 0.995, 0.970, and 0.868, respectively, which implies that these eigenvectors correspond to strong positive spatial dependence.) Each vector of the RHZ basis is relatively flat, with the flatness occasionally broken by a very localized spike or dip. The vectors of the Moran basis, on the other hand, show clear and regular patterns of spatial variation at various scales.</p><p>We henceforth assume that the matrix M contains q n eigenvectors of the Moran operator. Since eigenvectors that correspond to inconsequential positive dependence, independence, or negative dependence (repulsion) are of no interest, we can discard at least half of the eigenvectors in many cases, and our simulation study will show that a much greater reduction is often possible.</p><p>Replacing L with M in the RHZ model gives, for the first stage,  </p><formula xml:id="formula_11">g(E(Z i | β, δ S )) = X i β + M i δ S . L 7 x y 0.2 0.4 0.6 0.8 1.0 0.2 0.4 0.6 0.8 1.0 M 7 x y 0.2 0.4 0.6 0.8 1.0 0.2 0.4 0.6 0.8 1.0 L 13 x y 0.2 0.4 0.6 0.8 1.0 0.2 0.4 0.6 0.8 1.0 M 13 x y 0.2 0.4 0.6 0.8 1.0 0.2 0.4 0.6 0.8 1.0 L 42 x y 0.2 0.4 0.6 0.8 1.0 0.2 0.4 0.6 0.8 1.0 M 42 x y 0.2 0.4 0.6 0.8 1.0 0.2 0.4 0.6 0.8 1.0</formula><formula xml:id="formula_12">(i,j)∈E Z j Yes No Yes Traditional SGLMM K i γ + L i δ Yes No No RHZ SGLMM L i δ No Yes No Centered Automodel η (i,j)∈E (Z j -µ j ) No Yes Yes Sparse SGLMM M i δ S No Yes Yes</formula><p>And the prior for the random effects is now</p><formula xml:id="formula_13">p(δ S | τ ) ∝ τ q/2 exp - τ 2 δ S Q S δ S ,</formula><p>where Q S = M QM. This implies p + q + 1 model parameters. This sparse model is more closely analogous to the centered automodel than is the RHZ model. The uncentered automodel accounts for the underlying graph, since the uncentered autocovariate is a sum over neighbors, but does not fit structure residual to X. The RHZ model accounts for X but not for the underlying graph. Both the centered automodel and our sparse SGLMM account for X and for the underlying graph. Table <ref type="table" target="#tab_0">1</ref> compares and contrasts the five models treated here.</p><p>We note that another popular measure of spatial dependence is Geary's C, which uses the graph Laplacian, Q, in place of A <ref type="bibr" target="#b13">(Geary, 1954</ref>). Geary's C is the spatial analog of the well-known Durbin-Watson statistic for measuring autocorrelation in the residuals from a time series regression <ref type="bibr" target="#b11">(Durbin and Watson, 1950)</ref>. More specifically, the Durbin-Watson statistic is similar to Geary's C for a path graph (where adjacency is in time rather than space). Moran's I corresponds to a product-moment formulation, Geary's C to a squared-difference formulation. The eigensystem of P ⊥ QP ⊥ is a viable alternative to that of P ⊥ AP ⊥ for the current application, and perhaps other matrix representations of G would also provide suitable eigensystems. We chose A because the spectrum of a Moran operator is particularly easy to interpret.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.">Dimension Reduction for Spatial Models</head><p>Fitting a Gaussian process model like that mentioned above in Section 2 requires the repeated evaluation of expressions involving the inverse of the covariance matrix, H(φ), where φ are the parameters of the spatial covariance function. The customary approach to this problem is to avoid inversion in favor of Cholesky decomposition of H followed by a linear solve. Since H is typically dense, its Cholesky decomposition is Θ(n 3 ), and so the time complexity of the overall fitting algorithm is Θ(n 3 ). This considerable computational expense makes the analyses of large point-level datasets time consuming or infeasible. Consequently, efforts to reduce the computational burden have resulted in an extensive literature detailing many approaches, e.g., process convolution <ref type="bibr" target="#b19">(Higdon, 2002)</ref>, fixed rank kriging <ref type="bibr" target="#b7">(Cressie and Johannesson, 2008)</ref>, Gaussian predictive process models <ref type="bibr" target="#b1">(Banerjee et al., 2008)</ref>, covariance tapering <ref type="bibr" target="#b12">(Furrer et al., 2006)</ref>, and approximation by a Gaussian Markov random field <ref type="bibr" target="#b31">(Rue and Tjelmeland, 2002)</ref>.</p><p>Fitting an areal mixed model can also require expensive matrix operations. It is well known that a univariate Metropolis-Hastings algorithm for sampling from the posterior distribution of W leads to a slow mixing Markov chain because the components of W exhibit strong a posteriori dependence. This has led to a number of approaches that involve updating the random effects in a block(s). Constructing proposals for these updates is challenging, and the improved mixing comes at the cost of increased running time per iteration (see, for instance, Knorr-Held and <ref type="bibr">Rue, 2002;</ref><ref type="bibr" target="#b17">Haran, Hodges, and Carlin, 2003;</ref><ref type="bibr" target="#b18">Haran and Tierney, 2010)</ref>.</p><p>The random effects for the RHZ model and for our sparse model, on the other hand, are practically a posteriori uncorrelated. This means we can use a spherical normal proposal for the random effects, which is very efficient computationally. Thus the computational crux of fitting the RHZ (sparse) model is the evaluation of the quadratic form δ Q R δ (δ S Q S δ S ). This operation has time complexity Θ(n) for the RHZ model, which is sufficient to discourage or prevent the application of the model to large datasets. As we will show in the next section, evaluation of δ S Q S δ S can be Θ(1), which renders our sparse model applicable to even very large datasets.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.">Simulation Study</head><p>We applied the classical GLM and the three spatial models to binary, count, and normal data simulated from the sparse model. (We also conducted an extensive study wherein we applied these models to binary, count, and normal data simulated from the traditional SGLMM (with a proper GMRF). That study yielded similar results, which we have omitted in the interest of brevity.) The underlying graph for the binary and count data was the 30 × 30 lattice, and we restricted the coordinates of the vertices to the unit square. We chose for our design matrix X = [x y], where x = (x 1 , . . . , x 900 ) and y = (y 1 , . . . , y 900 ) are the x and y coordinates of the vertices, and we let β = (1, 1) . A level plot of this large-scale structure, Xβ = (x 1 + y 1 , . . . , x 900 + y 900 ) , is shown in Figure <ref type="figure" target="#fig_1">2</ref>.</p><p>The plot in Figure <ref type="figure" target="#fig_2">3</ref> shows the standardized eigenvalues for the 30 × 30 lattice. Since over half of the values are non-positive, we chose to use only the first 400</p><formula xml:id="formula_14">q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q -1.0 -0.5 0.0 0.5 1.0 i λ i 1</formula><p>150 300 450 600 750 900 eigenvectors to simulate data for our study, i.e., dim(δ S ) = 400 and M is 900 × 400. The horizontal gray line marks the 400th eigenvalue, which equals 0.05. Since the traditional model requires a Bayesian analysis, we applied all three spatial models in a Bayesian setting. It is customary to put a flat prior or diffuse spherical normal prior on β. We assumed that β ∼ N (0, 100 I). The choice of a prior for τ has been the subject of debate. <ref type="bibr" target="#b24">Kelsall and Wakefield (1999)</ref> recommend a gamma prior with shape parameter 0.5 and scale parameter 2000. This prior is appealing because it corresponds to the prior belief that the fixed effects are sufficient to explain the data (since a large value for τ implies small variances for the random effects) and because it does not produce artifactual spatial structure in the posterior.</p><p>In all cases we simulated a sample path of length 2,000,000. We fit the SGLMMs using Metropolis-Hastings random walk updates and/or Gibbs updates. For the normal data we used Gibbs updates for all parameters, and we used a Gibbs update for τ for all three types of data. For the binary and count data we updated β using a random walk with proposal β (j+1) ∼ N (β (j) , V), where V is the estimated asymptotic covariance matrix from a classical GLM fit. We updated W using a univariate random walk with normal proposals. And we updated each of δ and δ S using a multivariate random walk with a spherical normal proposal. 6.1. Binary Data. We created a binary dataset by first setting τ = 1 and simulating random effects according to δ S ∼ N (0, Q -1 S ). Then we simulated independent observations according to Z | δ S ∼ B(p), where B denotes a Bernoulli random variable and p = exp(x + y + Mδ S )/(1 + exp(x + y + Mδ S )) is the vector of true probabilities.</p><p>We fitted the simulated dataset using a nonspatial model, i.e., the standard logistic model; the centered autologistic model; the traditional SGLMM; the RHZ model; and our sparse model with varying degrees of sparsity-400 eigenvectors  <ref type="figure">4</ref> illustrates the inference for β with box plots. We see that the RHZ model and the true model produced approximately the same inference for these data. This is not surprising since the RHZ model is also capable of fitting residual structure and has random effects that essentially "contain" the random effects for our sparse model, i.e., Lδ can accommodate any structure exhibited by Mδ S . The two models produced point estimates that are close to the true values, and confidence intervals that cover the true values but do not cover 0. The traditional SGLMM, on the other hand, gave a rather biased point estimate of β along with confidence intervals that are over four times as wide as those provided by the other SGLMMs.</p><p>The standard nonspatial logistic model gave a biased estimate of β, which we expect of a model that does not account for dependence. But the nonspatial model's confidence intervals did at least cover the true value of β but not 0. The autologistic estimate was also biased, albeit less so, and it too gave valid confidence intervals, but those intervals are slightly wider than those for the other models (except the traditional SGLMM).</p><p>The box plots in Figure <ref type="figure">5</ref> and the level plots in Figure <ref type="figure">6</ref> show the effect of increasing sparsity on regression inference and on fit, respectively. As we apply our sparse SGLMM with fewer and fewer eigenvectors, the posterior distribution of β exhibits increasing bias and decreasing variance, i.e., we observe the expected bias-variance tradeoff. The inference and fit provided by our model did not suffer appreciably until the number of eigenvectors had been reduced to 25, which represents a 97% reduction in the number of parameters relative to the traditional and RHZ models.</p><p>Figure <ref type="figure">7</ref> shows the distributions of the estimated posterior correlations among the random effects for the three SGLMMs. We see that the random effects for the RHZ model and for our sparse model are at most weakly correlated, while the 400 200 100 50 25 0.6 0.8 1.0 1.2 1.4 β 1 q 400 200 100 50 25 0.6 0.8 1.0 1.2 1.4 β 2 q Figure 5. Box plots illustrating the effect of increasing sparsity on regression inference for the binary data.</p><p>random effects for the traditional model are often strongly dependent. This is why spherical normal proposals are sufficient for δ and δ S . 6.2. Count Data. We created a count dataset by first simulating random effects according to δ S ∼ N (0, (3Q S ) -1 ) and then simulating independent observations according to Z | δ S ∼ P(λ), where P denotes a Poisson random variable and λ = exp(x + y + Mδ S ) is the vector of true rates.</p><p>The study results for the count data are shown in Table <ref type="table" target="#tab_2">3</ref>. The highest posterior density intervals for all three spatial models cover the true value of β, while the standard Poisson regression model yielded erroneous inference for β 2 because the model's failure to account for small-scale structure resulted in a poor point estimate.</p><p>The traditional SGLMM produced a good point estimate of β for this dataset but once again gave much wider intervals than the other models. 6.3. Normal Data. For the normal data we used the 20 × 20 lattice with the coordinates of the vertices again restricted to the unit square, and we used the Fitted (q = 400)</p><p>x y 0.2 0.4 0.6 0.8 1.0 0.2 0.4 0.6 0.8 1.0 0.0 0.2 0.4 0.6 0.8 1.0 True x y 0.2 0.4 0.6 0.8 1.0 0.2 0.4 0.6 0.8 1.0 0.0 0.2 0.4 0.6 0.8 1.0 Fitted (q = 200) x y 0.2 0.4 0.6 0.8 1.0 0.2 0.4 0.6 0.8 1.0 0.0 0.2 0.4 0.6 0.8 1.0 Fitted (q = 100) x y 0.2 0.4 0.6 0.8 1.0 0.2 0.4 0.6 0.8 1.0 0.0 0.2 0.4 0.6 0.8 1.0 Fitted (q = 50) x y 0.2 0.4 0.6 0.8 1.0 0.2 0.4 0.6 0.8 1.0 0.0 0.2 0.4 0.6 0.8 1.0 Fitted (q = 25) x y 0.2 0.4 0.6 0.8 1.0 0.2 0.4 0.6 0.8 1.0 0.0 0.2 0.4 0.6 0.8 1.0 -0.5 0.0 0.5 1.0 0 2 4 6 8 10 12 Posterior Correlation Density Traditional RHZ Sparse Figure 7. Posterior correlations among the random effects for the three SGLMMs. first 180 eigenvectors of the corresponding Moran operator. We simulated random effects according to δ S ∼ N (0, Q -1 S ) and then simulated observations according to Z | δ S ∼ N (µ = x + y + Mδ S , σ 2 I), where σ 2 = 1.</p><p>The study results for these data are shown in Table <ref type="table" target="#tab_3">4</ref>. The RHZ and sparse models gave narrower intervals than the ordinary linear model because the latter model overestimated σ 2 . For this dataset the traditional SGLMM gave a poor estimate of β and inflated the variance so much as to cause a Type II error. We note that the running times for this study were much longer than they would have been for binary and count datasets of the same size because we did a Gibbs update of the random effects for the normal data, which requires an expensive Cholesky decomposition. 6.4. A Heuristic for Dimension Reduction. We conducted a more extensive simulation study with the aim of providing a heuristic for unsupervised dimension reduction, i.e., dimension reduction that does not employ the data to be analyzed. For this study we used the 50 × 50 lattice, which is large but not so large as to make fitting the true model infeasible. We used the same regression component as before, i.e., X = [x y] and β = (1, 1) , and simulated binary datasets for four values of the smoothing parameter, τ : 0.5, 1, 2, and 4. We used the first 1,100 eigenvectors of the  Moran operator, which correspond to standardized eigenvalues greater than 0.06 and thus practically exhaust the patterns of positive dependence for this scenario.</p><p>We then fit the true model and four sparser models to the simulated data. The number of random effects for the sparser models were 625 (the upper quartile of the eigenvalues), 265 (standardized eigenvalues greater than 0.7), 100, and 50. The last two of these were chosen with the hope of recommending a small, fixed dimension for the random effects.</p><p>The results of the study are shown in Table <ref type="table" target="#tab_4">5</ref> and Figure <ref type="figure" target="#fig_6">10</ref>. Evidently, a very dramatic reduction in dimension comes at little cost to regression inference. In fact, since β 1 are β 2 are negatively correlated in this scenario, greater dimension reduction resulted in a better point estimate for β in many cases. And even using a mere 50 eigenvectors did not relocate any confidence interval enough to miss the true value of the parameter. Hence, 50-100 eigenvectors should suffice for most analyses, which removes evaluation of the above mentioned quadratic form as the chief computational burden in fitting the model. Should one wish to be more conservative, we recommend the use of all eigenvectors corresponding to standardized eigenvalues greater than 0.7. For a square lattice this means using approximately 10% of the eigenvectors. The plot in Figure <ref type="figure" target="#fig_7">11</ref> shows infant mortality data for 3,071 US counties. Each shaded circle represents a ratio of deaths to births, i.e., an empirical infant mortality rate, for a given county. The data were obtained from the 2008 Area Resource File (ARF), a county-level database maintained by the Bureau of Health Professions, Health Resources and Services Administration, US Department of Health and Human Services. Specifically, three variables were extracted from the ARF: the three-year <ref type="bibr">(2002)</ref><ref type="bibr">(2003)</ref><ref type="bibr">(2004)</ref> average number of infant deaths before the first birthday, the three-year average number of live births, and the three-year average number of low birth weight infants. To these data we fit our sparse Poisson SGLMM with</p><formula xml:id="formula_15">E(deaths i | β, δ S ) = births i e β0+β1lowi+β2blacki+β3hispi+β4ginii+β5affi+β6stabi+Miδ S , (<label>4</label></formula><formula xml:id="formula_16">)</formula><p>where deaths is the number of infant deaths; births is the number of live births; low is the rate of low birth weight; black is the percentage of black residents (according to the 2000 US Census); hisp is the percentage of hispanic residents (2000 US Census); gini is the Gini coefficient, a measure of income inequality <ref type="bibr" target="#b14">(Gini, 1921)</ref>; aff is a composite score of social affluence <ref type="bibr" target="#b32">(Yang, Teng, and Haran, 2009)</ref>; and stab is residential stability, an average z-score of two variables from the 2000 US Census. We chose dim(δ S ) = 100. Simulating a sample path of length 2,000,000 yielded Monte Carlo standard errors smaller than 0.005 for the regression coefficients, smaller than 0.1 for τ , and on the order of 0.001 for the random effects. The analysis took just 3.5 hours. Fitting the RHZ model to these data took approximately fourteen days, partly because storing the sample paths for the 3,064 random effects required the use of a 46 GB file-backed matrix <ref type="bibr" target="#b23">(Kane and Emerson, 2010)</ref>. Had we been able to store all results in RAM, fitting the RHZ model would have taken approximately four days.</p><p>The results are given in Table <ref type="table" target="#tab_5">6</ref>. We see that all predictors were found significant. The posterior mean for τ is much smaller than the prior mean of 1,000, which contraindicates a nonspatial analysis of these data. Moreover, five eigenvectors were found to be significant predictors.  In this paper we developed a framework for reparameterization of the areal SGLMM. By accounting appropriately for the covariates of interest, our approach alleviates the spatial confounding that plagues the traditional SGLMM. And, by accounting for the underlying graph, our model (1) permits patterns of positive spatial dependence only and (2) allows for dramatic reduction in the dimension of the random effects.</p><formula xml:id="formula_17">q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q qq q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q qq q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q qq q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q qq q q q q q q qq q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q qq q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q qq q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q qq q q q q q q q q q q q qq q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q qq q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q qq q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q qq q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q qq q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q qq q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q qq q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q qq q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q qq q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q qq q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q qq q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q</formula><p>We studied the performance of our approach for three of the most commonly used first-stage models: Bernoulli, Poisson, and Gaussian. In all three cases our approach resulted in better regression inference and in considerable gains in the computational efficiency of the MCMC algorithms used for inference. A thorough followup simulation study indicates that a small, fixed number of random effects is sufficient for all datasets. More conservatively, our sparse model appears to require no more than 0.1n random effects to perform well with respect to both regression and prediction. The resulting gain in computational efficiency will permit the relatively rapid analysis of datasets that were once considered too large for the areal SGLMM.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure 1 .</head><label>1</label><figDesc>Figure1. Eigenvectors 7, 13, and 42 from the RHZ and Moran bases. The Moran basis appears to be an appropriate basis for fitting small-scale structure.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Figure 2 .</head><label>2</label><figDesc>Figure2. The large-scale structure, Xβ, for our simulation study.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Figure 3 .</head><label>3</label><figDesc>Figure3. The standardized eigenvalues for the 30 × 30 lattice.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Figure 4 .Figure 5 .</head><label>45</label><figDesc>Figure 4. Box plots illustrating inference for β for the simulated binary data.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Figure 6 .Figure 7 .</head><label>67</label><figDesc>Figure6. The true and fitted probabilities for the simulated binary data, for various values of q = dim(δ S ).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>Figure 9 .</head><label>9</label><figDesc>Figure9. Box plots illustrating inference for β for the simulated Gaussian data.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>Figure 10 .</head><label>10</label><figDesc>Figure10. Box plots illustrating inference for β for simulated binary data with various values for τ and various degrees of sparsity.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><head>Figure 11 .</head><label>11</label><figDesc>Figure11. A plot of infant mortality rates for 3,071 counties of the contiguous United States. The shaded circle for a given county represents that county's ratio of deaths to births, where births and deaths were averaged over the three-year period 2002-2004. A darker circle indicates a higher rate.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1 .</head><label>1</label><figDesc>Comparing and contrasting various spatial generalized linear models.</figDesc><table><row><cell>Model</cell><cell>Systematic Distortion of Mean Confounded Accounts for X Accounts for G</cell></row><row><cell>Uncentered Automodel</cell><cell>η</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 2 .</head><label>2</label><figDesc>The results of our simulation study for an SGLMM for binary data, i.e., for a Bernoulli first stage. Running times are given in minutes.</figDesc><table><row><cell>Model</cell><cell>Dim</cell><cell>β1</cell><cell>CI(β 1 )</cell><cell>β2</cell><cell>CI(β 2 )</cell><cell>τ</cell><cell>CI(τ )</cell><cell>p -p</cell><cell>Time</cell></row><row><cell>Nonspatial</cell><cell>-</cell><cell cols="4">0.822 (0.445, 1.199) 0.852 (0.475, 1.230)</cell><cell>-</cell><cell>-</cell><cell>4.576</cell><cell>-</cell></row><row><cell>Autologistic</cell><cell>-</cell><cell cols="4">0.930 (0.446, 1.397) 0.915 (0.448, 1.367)</cell><cell>-</cell><cell>-</cell><cell>3.876</cell><cell>20</cell></row><row><cell cols="8">Traditional 900 2.149 (0.254, 4.107) 2.218 (0.391, 4.132) 2.803 (0.287, 6.729)</cell><cell>3.255</cell><cell>2,455</cell></row><row><cell>RHZ</cell><cell cols="7">898 1.079 (0.626, 1.538) 0.969 (0.536, 1.410) 0.949 (0.481, 1.482)</cell><cell>3.263</cell><cell>1,640</cell></row><row><cell>Sparse</cell><cell cols="7">400 1.013 (0.569, 1.465) 0.946 (0.520, 1.382) 1.425 (0.355, 2.477)</cell><cell>3.174</cell><cell>285</cell></row><row><cell>Sparse</cell><cell cols="7">200 1.014 (0.582, 1.452) 0.937 (0.519, 1.359) 1.052 (0.365, 1.872)</cell><cell>3.175</cell><cell>167</cell></row><row><cell>Sparse</cell><cell cols="7">100 0.997 (0.566, 1.426) 0.923 (0.510, 1.342) 0.935 (0.339, 1.724)</cell><cell>3.201</cell><cell>80</cell></row><row><cell>Sparse</cell><cell cols="7">50 0.982 (0.562, 1.403) 0.900 (0.495, 1.304) 0.945 (0.317, 1.751)</cell><cell>3.295</cell><cell>49</cell></row><row><cell>Sparse</cell><cell cols="7">25 0.964 (0.552, 1.377) 0.897 (0.501, 1.301) 0.867 (0.225, 1.699)</cell><cell>3.543</cell><cell>37</cell></row></table><note><p>(the true model), 200 eigenvectors, 100, 50, and 25. The study results are shown in Table2</p><p>, and Figure</p></note></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2"><head>Table 3 .</head><label>3</label><figDesc>The results of our simulation study for an SGLMM for count data, i.e., for a Poisson first stage. Running times are given in minutes.</figDesc><table><row><cell cols="2">Model</cell><cell cols="2">Dim</cell><cell>β1</cell><cell>CI(β 1 )</cell><cell>β2</cell><cell cols="2">CI(β 2 )</cell><cell>τ</cell><cell>CI(τ )</cell><cell>λ -λ</cell><cell>Time</cell></row><row><cell cols="2">Nonspatial</cell><cell>-</cell><cell></cell><cell cols="5">1.108 (0.989, 1.226) 1.179 (1.061, 1.297)</cell><cell>-</cell><cell>-</cell><cell>53.898</cell><cell>-</cell></row><row><cell cols="11">Traditional 900 1.007 (0.073, 1.913) 1.056 (0.117, 1.986) 5.141 (3.469, 6.952) 26.039 2,275</cell></row><row><cell>RHZ</cell><cell></cell><cell cols="9">898 0.934 (0.816, 1.051) 1.092 (0.975, 1.210) 4.978 (2.916, 7.324) 26.172 1,864</cell></row><row><cell cols="2">Sparse</cell><cell cols="9">400 0.942 (0.824, 1.060) 1.101 (0.986, 1.215) 4.499 (2.873, 6.402) 24.379</cell><cell>485</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell>β 1</cell><cell>2.0</cell><cell></cell><cell>β 2</cell><cell></cell><cell></cell></row><row><cell>1.5</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell>1.5</cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>1.0</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell>1.0</cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>0.5</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell>0.5</cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>0.0</cell><cell cols="2">Sparse</cell><cell>RHZ</cell><cell cols="2">Trad Nonspat</cell><cell>Sparse</cell><cell>RHZ</cell><cell cols="2">Trad Nonspat</cell></row></table><note><p>Figure8</p><p>. Box plots illustrating inference for β for the simulated count data.</p></note></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_3"><head>Table 4 .</head><label>4</label><figDesc>The results of our simulation study for an SLMM, i.e., for a Gaussian first stage. Running times are given in minutes.</figDesc><table><row><cell>Model</cell><cell>Dim</cell><cell>β1</cell><cell>CI(β 1 )</cell><cell>β2</cell><cell>CI(β 2 )</cell><cell>τ</cell><cell>CI(τ )</cell><cell>σ2</cell><cell>CI(σ 2 )</cell><cell>µ -μ</cell><cell>Time</cell></row><row><cell>Nonspatial</cell><cell>-</cell><cell>1.143</cell><cell>(0.824, 1.462)</cell><cell>0.925</cell><cell>(0.606, 1.244)</cell><cell>-</cell><cell>-</cell><cell>1.558</cell><cell>-</cell><cell>14.204</cell><cell>-</cell></row><row><cell>Traditional</cell><cell>400</cell><cell>1.583</cell><cell>(-0.816, 3.984)</cell><cell>0.288</cell><cell>(-2.066, 2.656)</cell><cell>0.825</cell><cell>(0.417, 1.322)</cell><cell>0.793</cell><cell>(0.585, 1.312)</cell><cell>9.798</cell><cell>1,248</cell></row><row><cell>RHZ</cell><cell>398</cell><cell>1.143</cell><cell>(0.912, 1.377)</cell><cell>0.925</cell><cell>(0.692, 1.158)</cell><cell>0.847</cell><cell>(0.427, 1.365)</cell><cell>0.802</cell><cell>(0.595, 1.141)</cell><cell>9.725</cell><cell>1,660</cell></row><row><cell>Sparse</cell><cell>180</cell><cell>1.143</cell><cell>(0.884, 1.403)</cell><cell>0.925</cell><cell>(0.666, 1.185)</cell><cell>0.961</cell><cell>(0.525, 1.486)</cell><cell>1.020</cell><cell>(0.866, 1.229)</cell><cell>8.692</cell><cell>385</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_4"><head>Table 5 .</head><label>5</label><figDesc>The effect of various levels of sparsity, for simulated binary data with τ equal to 0.5, 1, 2, and 4. Running times are given in minutes.</figDesc><table><row><cell>τ</cell><cell>Dim</cell><cell>β1</cell><cell>CI(β 1 )</cell><cell>β2</cell><cell>CI(β 2 )</cell><cell>τ</cell><cell>CI(τ )</cell><cell>p -p</cell><cell>Time</cell></row><row><cell></cell><cell cols="7">1100 0.862 (0.581, 1.147) 1.166 (0.865, 1.463) 0.665 (0.439, 0.912)</cell><cell>6.379</cell><cell>5,159</cell></row><row><cell></cell><cell cols="7">625 0.869 (0.592, 1.147) 1.114 (0.828, 1.402) 0.617 (0.372, 0.915)</cell><cell>6.521</cell><cell>1,836</cell></row><row><cell>0.5</cell><cell cols="7">265 0.857 (0.588, 1.127) 1.085 (0.805, 1.367) 0.512 (0.311, 0.720)</cell><cell>6.877</cell><cell>597</cell></row><row><cell></cell><cell cols="7">100 0.852 (0.588, 1.117) 1.035 (0.766, 1.307) 0.464 (0.253, 0.676)</cell><cell>7.424</cell><cell>260</cell></row><row><cell></cell><cell cols="7">50 0.832 (0.571, 1.092) 1.023 (0.757, 1.291) 0.410 (0.206, 0.621)</cell><cell>7.853</cell><cell>113</cell></row><row><cell></cell><cell cols="7">1100 1.125 (0.870, 1.380) 0.992 (0.743, 1.251) 0.930 (0.500, 1.319)</cell><cell>5.205</cell><cell>6,067</cell></row><row><cell></cell><cell cols="7">625 1.097 (0.847, 1.344) 0.971 (0.724, 1.221) 1.056 (0.585, 1.687)</cell><cell>5.294</cell><cell>1,666</cell></row><row><cell>1</cell><cell cols="7">265 1.086 (0.840, 1.337) 0.962 (0.715, 1.212) 0.793 (0.404, 1.198)</cell><cell>5.418</cell><cell>579</cell></row><row><cell></cell><cell cols="7">100 1.050 (0.809, 1.293) 0.924 (0.683, 1.165) 1.141 (0.533, 1.865)</cell><cell>5.787</cell><cell>169</cell></row><row><cell></cell><cell cols="7">50 1.037 (0.796, 1.275) 0.920 (0.679, 1.161) 1.031 (0.435, 1.726)</cell><cell>6.005</cell><cell>109</cell></row><row><cell></cell><cell cols="7">1100 1.046 (0.800, 1.293) 0.988 (0.739, 1.239) 2.234 (0.676, 3.789)</cell><cell>4.134</cell><cell>4,469</cell></row><row><cell></cell><cell cols="7">625 1.046 (0.805, 1.291) 0.992 (0.743, 1.237) 1.701 (0.856, 2.715)</cell><cell>4.098</cell><cell>1,926</cell></row><row><cell>2</cell><cell cols="7">265 1.034 (0.793, 1.276) 0.990 (0.744, 1.238) 1.507 (0.548, 2.723)</cell><cell>4.116</cell><cell>552</cell></row><row><cell></cell><cell cols="7">100 1.018 (0.780, 1.254) 0.966 (0.726, 1.210) 2.031 (0.616, 4.163)</cell><cell>4.230</cell><cell>184</cell></row><row><cell></cell><cell cols="7">50 1.012 (0.779, 1.250) 0.960 (0.721, 1.202) 2.478 (0.465, 5.205)</cell><cell>4.392</cell><cell>131</cell></row><row><cell></cell><cell cols="7">1100 0.978 (0.743, 1.214) 1.173 (0.934, 1.411) 4.530 (1.192, 6.581)</cell><cell>3.238</cell><cell>4,698</cell></row><row><cell></cell><cell cols="7">625 0.986 (0.750, 1.224) 1.142 (0.903, 1.380) 3.470 (1.246, 7.501)</cell><cell>3.417</cell><cell>2,316</cell></row><row><cell>4</cell><cell cols="7">265 0.972 (0.733, 1.205) 1.133 (0.898, 1.374) 2.839 (1.103, 5.186)</cell><cell>3.506</cell><cell>546</cell></row><row><cell></cell><cell cols="7">100 0.957 (0.725, 1.195) 1.126 (0.886, 1.363) 2.639 (0.935, 4.939)</cell><cell>3.567</cell><cell>249</cell></row><row><cell></cell><cell cols="7">50 0.951 (0.716, 1.185) 1.122 (0.885, 1.360) 2.296 (0.697, 4.580)</cell><cell>3.652</cell><cell>155</cell></row><row><cell></cell><cell></cell><cell cols="5">7. Application to US Infant Mortality Data</cell><cell></cell><cell></cell><cell></cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_5"><head>Table 6 .</head><label>6</label><figDesc>The results of fitting model (4) to the infant mortality data.</figDesc><table><row><cell>Predictor</cell><cell cols="2">Parameter Estimate</cell><cell>CI</cell></row><row><cell>Intercept</cell><cell>β 0</cell><cell>-5.452</cell><cell>(-5.638, -5.268)</cell></row><row><cell>low birth weight</cell><cell>β 1</cell><cell>8.719</cell><cell>(7.475, 9.971)</cell></row><row><cell>black</cell><cell>β 2</cell><cell>0.00428</cell><cell>(0.00295, 0.00559)</cell></row><row><cell>hispanic</cell><cell>β 3</cell><cell cols="2">-0.00405 (-0.00515, -0.00291)</cell></row><row><cell>gini</cell><cell>β 4</cell><cell>-0.495</cell><cell>(-0.930, -0.0610)</cell></row><row><cell>affluence</cell><cell>β 5</cell><cell>-0.0774</cell><cell>(-0.0896, -0.0654)</cell></row><row><cell>stability</cell><cell>β 6</cell><cell>-0.0292</cell><cell>(-0.0439, -0.0144)</cell></row><row><cell>-</cell><cell>τ</cell><cell>12.016</cell><cell>(6.088, 19.116)</cell></row></table></figure>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div><head>Acknowledgements</head><p>We thank <rs type="person">Tse-Chuan Yang</rs> for providing the infant mortality dataset and for helpful discussions.</p></div>
+			</div>			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<monogr>
+		<title level="m" type="main">Hierarchical modeling and analysis for spatial data</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Banerjee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Carlin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Gelfand</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2004">2004</date>
+			<publisher>Chapman &amp; Hall Ltd</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Gaussian predictive process models for large spatial data sets</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Banerjee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Gelfand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Finley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Sang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society: Series B (Statistical Methodology)</title>
+		<imprint>
+			<biblScope unit="volume">70</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="825" to="848" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">On conditional and intrinsic autoregression</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Besag</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Kooperberg</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometrika</title>
+		<imprint>
+			<biblScope unit="volume">82</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="733" to="746" />
+			<date type="published" when="1995">1995</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Bayesian image restoration, with two applications in spatial statistics</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Besag</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>York</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Mollié</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of the Institute of Statistical Mathematics</title>
+		<imprint>
+			<biblScope unit="volume">43</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1" to="20" />
+			<date type="published" when="1991">1991</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Global and local spatial autocorrelation in bounded regular tessellations</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Boots</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Tiefelsdorf</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Geographical Systems</title>
+		<imprint>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page">319</biblScope>
+			<date type="published" when="2000">2000</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Autologistic models with interpretable parameters</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Caragea</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Kaiser</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Agricultural, Biological, and Environmental Statistics</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="281" to="300" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Bayesian prediction of spatial count data using generalized linear mixed models</title>
+		<author>
+			<persName><forename type="first">O</forename><surname>Christensen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Waagepetersen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometrics</title>
+		<imprint>
+			<biblScope unit="volume">58</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="280" to="286" />
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Fixed rank kriging for very large spatial data sets</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Cressie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Johannesson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society: Series B (Statistical Methodology)</title>
+		<imprint>
+			<biblScope unit="volume">70</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="209" to="226" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<monogr>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">A</forename><surname>Cressie</surname></persName>
+		</author>
+		<title level="m">Statistics for Spatial Data</title>
+		<meeting><address><addrLine>New York</addrLine></address></meeting>
+		<imprint>
+			<publisher>John Wiley &amp; Sons</publisher>
+			<date type="published" when="1993">1993</date>
+		</imprint>
+	</monogr>
+	<note>2nd. ed.</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Bayesian prediction of clipped gaussian random fields</title>
+		<author>
+			<persName><forename type="first">V</forename><surname>De Oliveira</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Computational Statistics &amp; Data Analysis</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="299" to="314" />
+			<date type="published" when="2000">2000</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Model-based geostatistics</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Diggle</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Tawn</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Moyeed</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Applied Statistics</title>
+		<imprint>
+			<biblScope unit="volume">47</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="299" to="350" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Testing for serial correlation in least squares regression: I</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Durbin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Watson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometrika</title>
+		<imprint>
+			<biblScope unit="volume">37</biblScope>
+			<biblScope unit="issue">3/4</biblScope>
+			<biblScope unit="page" from="409" to="428" />
+			<date type="published" when="1950">1950</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Covariance tapering for interpolation of large spatial datasets</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Furrer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Genton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Nychka</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Computational and Graphical Statistics</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="502" to="523" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">The contiguity ratio and statistical mapping</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Geary</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Incorporated Statistician</title>
+		<imprint>
+			<biblScope unit="volume">5</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="115" to="146" />
+			<date type="published" when="1954">1954</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Measurement of inequality of incomes</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Gini</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Economic Journal</title>
+		<imprint>
+			<biblScope unit="volume">31</biblScope>
+			<biblScope unit="issue">121</biblScope>
+			<biblScope unit="page" from="124" to="126" />
+			<date type="published" when="1921">1921</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<monogr>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Griffith</surname></persName>
+		</author>
+		<title level="m">Spatial Autocorrelation and Spatial Filtering: Gaining Understanding Through Theory and Scientific Visualization</title>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<monogr>
+		<title level="m" type="main">Gaussian random field models for spatial data</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Haran</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">R</forename><surname>Brooks</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Gelman</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Andrew</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">L</forename><surname>Jones</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><forename type="middle">L</forename><surname>Meng</surname></persName>
+		</author>
+		<editor>Markov chain Monte Carlo</editor>
+		<imprint>
+			<date type="published" when="2010">2010</date>
+			<publisher>CRC</publisher>
+		</imprint>
+	</monogr>
+	<note>to appear</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Accelerating computation in markov random field models for spatial data via structured mcmc</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Haran</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Hodges</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Carlin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Computational and Graphical Statistics</title>
+		<imprint>
+			<biblScope unit="volume">12</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="249" to="264" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">On automating markov chain monte carlo for a class of spatial models</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Haran</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Tierney</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Bayesian Analysis</title>
+		<imprint>
+			<biblScope unit="page" from="1" to="26" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Space and space-time modeling using process convolutions</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Higdon</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Quantitative methods for current environmental issues</title>
+		<editor>
+			<persName><forename type="first">C</forename><surname>Anderson</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">V</forename><surname>Barnett</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">P</forename><surname>Chatwin</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">A</forename><surname>El-Shaarawi</surname></persName>
+		</editor>
+		<meeting><address><addrLine>London</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer-Verlag</publisher>
+			<date type="published" when="2002">2002</date>
+			<biblScope unit="page" from="37" to="56" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Autologistic models for binary data on a lattice</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Hughes</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Haran</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Caragea</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environmetrics</title>
+		<imprint>
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Modeling poisson variables with positive spatial dependence</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Kaiser</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Cressie</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistics &amp; Probability Letters</title>
+		<imprint>
+			<biblScope unit="volume">35</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="423" to="432" />
+			<date type="published" when="1997">1997</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">The construction of multivariate distributions from markov random fields</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Kaiser</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Cressie</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Multivariate Analysis</title>
+		<imprint>
+			<biblScope unit="volume">73</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="199" to="220" />
+			<date type="published" when="2000">2000</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<monogr>
+		<title level="m" type="main">bigmemory: Manage massive matrices with shared memory and memory-mapped files</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">J</forename><surname>Kane</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">W</forename><surname>Emerson</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+	<note>R package version 4.2.3</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Discussion of &quot;Bayesian models for spatially correlated disease and exposure data</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Kelsall</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Wakefield</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Bayesian Statistics 6</title>
+		<editor>
+			<persName><surname>Best</surname></persName>
+		</editor>
+		<imprint>
+			<publisher>Oxford University Press</publisher>
+			<date type="published" when="1999">1999</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">On block updating in markov random field models for disease mapping</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Knorr-Held</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Rue</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Scandinavian Journal of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">29</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="597" to="614" />
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Winbugs -a bayesian modelling framework: Concepts, structure, and extensibility</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Lunn</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Thomas</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Best</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Spiegelhalter</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistics and Computing</title>
+		<imprint>
+			<biblScope unit="volume">10</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="325" to="337" />
+			<date type="published" when="2000">2000</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">Notes on continuous stochastic phenomena</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Moran</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometrika</title>
+		<imprint>
+			<biblScope unit="volume">37</biblScope>
+			<biblScope unit="issue">1/2</biblScope>
+			<biblScope unit="page" from="17" to="23" />
+			<date type="published" when="1950">1950</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Generalized linear models</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Nelder</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Wedderburn</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society. Series A (General)</title>
+		<imprint>
+			<biblScope unit="volume">135</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="370" to="384" />
+			<date type="published" when="1972">1972</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">Effects of residual smoothing on the posterior of the fixed effects in disease-mapping models</title>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">J</forename><surname>Reich</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">S</forename><surname>Hodges</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Zadnik</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometrics</title>
+		<imprint>
+			<biblScope unit="volume">62</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="1197" to="1206" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<monogr>
+		<title level="m" type="main">Gaussian Markov Random Fields: Theory and Applications</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Rue</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Held</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2005">2005</date>
+			<publisher>Chapman and Hall</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">Fitting gaussian markov random fields to gaussian fields</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Rue</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Tjelmeland</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Scandinavian Journal of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">29</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="31" to="49" />
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">The impacts of social capital on infant mortality in the u.s.: A spatial investigation</title>
+		<author>
+			<persName><forename type="first">T.-C</forename><surname>Yang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H.-W</forename><surname>Teng</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Haran</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Applied Spatial Analysis and Policy</title>
+		<imprint>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="211" to="227" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

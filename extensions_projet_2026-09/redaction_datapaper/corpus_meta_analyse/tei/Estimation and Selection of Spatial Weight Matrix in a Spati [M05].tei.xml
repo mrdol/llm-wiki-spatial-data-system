@@ -1,0 +1,1118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Estimation and selection of spatial weight matrix in a spatial lag model Article (Accepted version) (Refereed)</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">Clifford</forename><surname>Lam</surname></persName>
+							<email>c.lam2@lse.ac.uk</email>
+							<affiliation key="aff0">
+								<orgName type="department" key="dep1">Department of Statistics</orgName>
+								<orgName type="department" key="dep2">London School of Economics and Political Science</orgName>
+							</affiliation>
+							<affiliation key="aff2">
+								<orgName type="department" key="dep1">Clifford Lam is Associate Professor</orgName>
+								<orgName type="department" key="dep2">Department of Statistics</orgName>
+								<orgName type="department" key="dep3">Department of Economics</orgName>
+								<orgName type="institution" key="instit1">London School of Economics</orgName>
+								<orgName type="institution" key="instit2">University of Warwick</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Pedro</forename><forename type="middle">C L</forename><surname>Souza</surname></persName>
+							<email>dro.souza@warwick.ac.uk</email>
+						</author>
+						<author>
+							<persName><forename type="first">Pedro</forename><forename type="middle">Cl</forename><surname>Souza</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="department">Department of Economics</orgName>
+								<orgName type="institution">University of Warwick</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">†</forename><surname>Pedro</surname></persName>
+						</author>
+						<author>
+							<persName><forename type="first">C</forename><forename type="middle">L</forename><surname>Souza</surname></persName>
+						</author>
+						<title level="a" type="main">Estimation and selection of spatial weight matrix in a spatial lag model Article (Accepted version) (Refereed)</title>
+					</analytic>
+					<monogr>
+						<idno type="ISSN">0735-0015 (In Press</idno>
+					</monogr>
+					<idno type="MD5">9DA4461163DB6CBE097BBE4B2C01B6E9</idno>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-28T15:58+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Spatial econometric models allow for interactions among variables through the specification of a spatial weight matrix. Practitioners often face the risk of misspecification of such a matrix. In many problems a number of potential specifications exist, such as geographic distances, or various economic quantities among variables. We propose estimating the best linear combination of these specifications, added with a potentially sparse adjustment matrix.</p><p>The coefficients in the linear combination, together with the sparse adjustment matrix, are subjected to variable selection through the adaptive Least Absolute Shrinkage and Selection Operator (LASSO). As a special case, if no spatial weight matrices are specified, the sparse adjustment matrix becomes a sparse spatial weight matrix estimator of our model. Our method can therefore be seen as a unified framework for the estimation and selection of a spatial weight matrix. The rate of convergence of all proposed estimators are determined when the number of time series variables can grow faster than the number of time points for data, while Oracle properties for all penalized estimators are presented. Simulations and an application to stocks data confirms the good performance of our procedure.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>Spatial econometrics is the study of the interaction between units or entities. Such interactions come in many forms. Examples include the peer effects of learning in classroom <ref type="bibr" target="#b1">(Ammermuller and</ref><ref type="bibr">Pischke, 2009, Angrist and</ref><ref type="bibr" target="#b2">Lang, 2004)</ref>, the spread of crime and delinquent behavior <ref type="bibr" target="#b26">(Glaeser et al., 1996)</ref> in criminology, and contagion between financial markets <ref type="bibr" target="#b36">(Longstaff, 2010)</ref>. In spatial econometric models, such interactions are usually assumed to be known through the so-called "spatial weight matrix", which is a square matrix of size N , with N being the number of time series variables that are being modeled.</p><p>It is inevitable to specify a spatial weight matrix when using a spatial econometric model.</p><p>Yet, in some scenarios there is no data to do so, for example when social interactions between the units or entities are not available to the researcher. Even with enough data to do so, if N is too large relative to the sample size T , the parameters in the spatial weight matrix are not identified without further assumptions on the structure of the matrix itself (e.g., sparsity), or other forms of regularization in place. For instance, <ref type="bibr" target="#b11">Bhattacharjee and Jensen-Butler (2013)</ref> propose to estimate the spatial weight matrix under the symmetric constraint, although they assume N to be finite. <ref type="bibr" target="#b39">Pinkse et al. (2002)</ref> and <ref type="bibr" target="#b41">Sun (2016)</ref> consider estimating a nonparametric function of some underlying "distance" variables for the spatial weight matrix parameters, which inherently assumes some form of smoothness in the function itself. This assumption of smoothness can be inaccurate, depending on the "distance" variable involved. For example, Germany and Japan can be close economic competitors with large geographical distance between them. The papers suggest including several distance measures, but only provide theories for including one. It is in fact difficult to estimate nonparametric smooth functions of higher dimension without specific assumptions on the function itself, on top of the smoothness assumption. <ref type="bibr" target="#b8">Beenstock and Felsenstein (2012)</ref> consider using the sample covariance of the data to infer the values of the spatial weight matrix. However, sample covariance matrix can suffer from serious bias in the extreme eigenvalues when N is of the same order as T (see topics in random matrix theory from, e.g., chapter 5 of <ref type="bibr" target="#b4">Bai and Silverstein (2009)</ref>, who describe mathematically the bias in the largest and the smallest eigenvalues of the sample covariance matrix). <ref type="bibr" target="#b0">Ahrens and Bhattacharjee (2015)</ref> and <ref type="bibr" target="#b32">Lam and Souza (2015)</ref> assume sparsity in the spatial weight matrix, and, in turn, use penalization methods such as the Least Absolute Shrinkage and Selection Operator (LASSO) for a penalized estimator. Indeed, the spatial weight matrix can be sparse. In many applications, however, it may not be sparse enough for a satisfactory penalized estimator.</p><p>Aside from estimating the spatial weight matrix, another important approach in spatial econometrics is selecting an appropriate model through testing. <ref type="bibr" target="#b5">Bailey et al. (2016)</ref> use multiple testing to infer if an element of the spatial weight matrix is zero, negative or positive. <ref type="bibr" target="#b35">Liu and Prucha (2017)</ref> generalize the Moran I test to check if a linear combination of specified spatial weight matrices is appropriate for modelling the data under a particular spatial lag model, but they do not consider the alternative hypothesis of an acceptable linear combination. <ref type="bibr" target="#b27">Kelejian and Piras (2011)</ref> and <ref type="bibr" target="#b28">Kelejian and Piras (2016)</ref> propose J-tests to find from among a number of alternatives with differently-specified spatial weight matrices. Clearly, the quality of the alternative hypothesis is very important, and pinpointing which spatial weight matrix to use may require multiple J-tests.</p><p>This paper tackles the the problem of spatial weight matrix estimation when multiple specifications of the spatial weight matrix are available, as <ref type="bibr" target="#b35">Liu and Prucha (2017)</ref> and <ref type="bibr" target="#b28">Kelejian and Piras (2016)</ref> consider. This is a very practical scenario. For instance, for geographical distance, one can specify w ij in the spatial weight matrix W by calculating the inverse of the distance r -1 between units i and j. One can, in fact, use r -ℓ with ℓ being a positive number to specify a spatial weight matrix. A simple adjacency matrix can also play the role of a spatial weight matrix. To combine information from these specifications, and select those that are useful to construct a spatial weight matrix, we consider finding their "best" sparse linear combination using the adaptive LASSO. This technique was proposed for variable selection in a linear regression model by <ref type="bibr" target="#b48">Zou (2006)</ref>. As a major contribution, we add a sparse adjustment matrix to the estimated best sparse linear combination, which overcomes the problem of potential misspecification of the spatial weight matrix. This sparse adjustment matrix, to be estimated from data, effectively incorporates errors of misspecification. Hence, if there are reasonable specifications, the sparse adjustment matrix is indeed expected to be truly sparse. In this sense, the sparsity assumption for the adjustment matrix is more easily satisfied than those in <ref type="bibr" target="#b0">Ahrens and Bhattacharjee (2015)</ref> or <ref type="bibr" target="#b32">Lam and Souza (2015)</ref>, which require the spatial weight matrix itself to be sparse. If this sparse adjustment is estimated to be the zero matrix, it means that the specified spatial weight matrices are good fit for the data, so testing like that in <ref type="bibr" target="#b35">Liu and Prucha (2017)</ref>, or the J-test of <ref type="bibr" target="#b28">Kelejian and Piras (2016)</ref>, become unnecessary.</p><p>When no specified spatial matrices are available, the estimator of the sparse adjustment matrix itself becomes a sparse spatial weight matrix estimator. This is an important special case, as practitioners are allowed not to specify any spatial weight matrices. In this sense, our method provides a unified framework in spatial weight matrix selection and estimation. It allows us to estimate which specified spatial weight matrices are the most informative. Ultimately, it provides an estimator of the spatial weight matrix at the same time.</p><p>We assume a time-invariant and exogenous spatial weight matrix in this paper. <ref type="bibr" target="#b3">Arnold et al. (2011)</ref> make the same assumptions and estimate a linear combination of three specified spatial weight matrices to model the stock returns of the Euro Stoxx 50 members. They estimate the coefficients using generalized method of moments, and assume a diagonal covariance matrix for the model errors with normality and serial independence. They also have a simple model without any regressors, but obtain good numerical results. In this paper, we generalize the model of <ref type="bibr" target="#b3">Arnold et al. (2011)</ref> to include both exogenous or endogenous regressors and fixed effects, while allowing for non-Gaussian errors with more general serial dependence and covariance structure. <ref type="bibr" target="#b37">Medeiros and Mendes (2016)</ref> explore the properties of LASSO and adaptive LASSO also under non-Gaussian and conditionally heteroskedastic errors, but do not consider spatial dependence.</p><p>We use exogenous covariates as instruments to uncouple intrinsic endogeneity of the observed variables similar to <ref type="bibr" target="#b22">Fan and Liao (2014)</ref>, although they use the Feasible Generalized Method of Moments (FGMM) method coupled with quasi-likelihood for the data.</p><p>We prove that the zero's in the sparse adjustment matrix and those in the coefficients of the spatial weight matrix linear combination can be selected consistently. We also prove the asymptotic normality for the non-zeros, as well as for the regression coefficient estimators in the spatial lag model. We can therefore carry out inference not only on the regression parameters, but also on the non-zero entries in the sparse adjustment matrix. This means that we can test how far individual spatial interactions are away from the "best" linear combination of the specified spatial weight matrices. We can also test how relevant each spatial weight matrix specification is, by looking at the estimated coefficients for the linear combination. In Section 5.2, we demonstrate that including more "relevant" spatial weight matrix specifications improves the inference and precision of the estimates of important regressors in the model. Incidentally, it shows that a better specification of spatial weight matrix helps us estimate the model parameters.</p><p>The rest of the paper is organized as follows. Section 2 presents the spatial lag model and the sparse adjustment idea on a linear combination of spatial weight matrices. The LASSO and adaptive LASSO estimation problems for various parameters in the model are also presented.</p><p>Section 3 presents all the assumptions in the paper. We show sign consistency and asymptotic normality of our estimators, and identification of parameters asymptotically. Section 4 presents the algorithm used for calculating our estimators, and the BIC criterion is used to find suitable tuning parameters. Section 5 provides detailed simulations to demonstrate finite sample performance of our estimators. In particular, Section 5.2 provides a thorough empirical study on the crosssectional dependence of stocks traded in the New York Stock Exchange (NYSE). Proofs of all theorems are given in the supplementary materials for this paper.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">Model and Motivation</head><p>As a starting point, we consider the following spatial lag model with fixed effects,</p><formula xml:id="formula_0">y t = µ * + W * y t + X t β * + ǫ t , t = 1, . . . , T, (2.1)</formula><p>where y t = (y 1t , . . . , y N t ) T is an N × 1 vector of dependent variables. The matrix W * is an N × N spatial weight matrix with 0 on the main diagonal. It may have negative off-diagonal elements, and it is not necessarily symmetric. These features allow for both positive and negative, and possibly asymmetric, spatial interactions among the component time series. The vector µ * is an N × 1 vector of constants (fixed effects), while the spatial regression parameter β * has size K × 1, so that the matrix of covariates X t has size N × K. The innovation process ǫ t has mean 0 and covariance matrix Σ ǫ . For more detailed assumptions, see Section 3.3.</p><p>In spatial econometrics, the matrix W * is usually assumed to be known (up to an unknown multiplicative constant ρ * , called the spatial autoregressive parameter). In this paper, we make use of possible expert knowledge regarding W * , while allowing the final estimator to deviate slightly from it. More specifically, we decompose W * = A * + ρ * W 0 , where W 0 is a pre-specified spatial weight matrix. We also denote W 0 as an "expert spatial matrix" since it incorporates expert knowledge about the interactions between units, such as inverse distances between countries. The spatial autoregressive parameter ρ * adjusts the magnitude and direction of the spatial interactions specified in W 0 . As in the spatial econometrics literature, we assume that |ρ * | &lt; 1 to ensure that the model is stationary. We also assume that the diagonal elements of A * are 0.</p><p>If W 0 exactly represents the true underlying spatial interaction pattern, then A * = 0. If W 0 is close to the true underlying spatial interaction pattern, then A * may not be exactly 0, but is expected to be sparse or approximately sparse (i.e., with many "small" elements). Hence, A * can be interpreted as a sparse adjustment to the matrix W 0 , and model (2.1) becomes</p><formula xml:id="formula_1">y t = µ * + (A * + ρ * W 0 )y t + X t β * + ǫ t , t = 1, . . . , T. (2.2)</formula><p>Finally, the special case W 0 = 0 corresponds to sparse spatial weight matrix estimation without any specifications. The matrix A * now plays solely the role of the spatial weight matrix for model (2.2). As outlined in the introduction, some papers attempted to estimate the spatial weight matrix directly from data, completely avoiding its specification. In this paper, we take pure spatial weight matrix estimation as a special case. We consider that elements of A * are constants, both invariant over time and exogenously determined, so they are independent of y t or ǫ t . For example, A * could be the fixed measure of proximity between pairs of countries that have not been captured by the pre-specified W 0 .<ref type="foot" target="#foot_0">foot_0</ref> </p><p>As a further generalization, which can be of practical use to applied researchers, we assume that more than one potential spatial weight matrix can be specified. This is particularly relevant if the researcher has various options for specifying W 0 . With sparse adjustment in mind, we propose to decompose the true spatial weight matrix W * into the following:</p><formula xml:id="formula_2">W * = A * + M i=1 δ * i W 0i , -1 ≤ ρ * = M i=1 δ * i ≤ 1. (2.3)</formula><p>Here A * is the sparse adjustment described before. The spatial autoregressive parameter ρ * is now the sum of δ * i , i = 1, . . . , M , when A * = 0. It can be considered a generalization of the traditional definition of spatial autoregressive parameter if A * = 0. The specification W 0 described before is now replaced by a linear combination of W 0i , i = 1, . . . , M , so that M denotes the total number of spatial matrices. This way, we can perform penalized estimation for the δ * i 's (see model (2.7) below) to see which specification, or linear combination of them, is the best suited to the data. 2</p><p>From the real data analysis in Section 5.2, including important specifications in the model can significantly improve the estimation of the spatial regression coefficients, and our penalization procedure facilitates this.</p><p>With sparse adjustment to a linear combination of specified spatial weight matrices, the complete model then reads</p><formula xml:id="formula_3">y t = µ * + A * + M i=1 δ * i W 0i y t + X t β * + ǫ t , t = 1, . . . , T.</formula><p>(2.4) Model (2.4) is a generalization of the usual spatial lag model formulation. See model (7.22) in <ref type="bibr" target="#b34">LeSage and Pace (2008)</ref>, for example. For the rest of the paper, we focus on analyzing model (2.4), since model (2.2) is, in fact, a special case of (2.4). In what follows, we assume without loss of generality that E(X t ) = 0. Otherwise, we can write</p><formula xml:id="formula_4">X t β * + µ * = (X t -E(X t ))β * + (µ * + E(X t )β * ),</formula><p>so that the spatial fixed effects are now captured by µ * + E(X t )β * rather than µ * , and the covariates have mean 0.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1">Instruments and the augmented model</head><p>Since y t (and possibly X t ) is correlated with ǫ t , we propose an instrumental variable version of model (2.4). We assume that instruments U t for t = 1, . . . , T , each of size N × ℓ with ℓ ≥ 1, are available to the researcher. Each U t is independent of ǫ t , but is correlated with y t in general (and X t , if X t is also endogenous). Hence, U t serves as instruments for model (2.4), since it only correlates with y t and X t but not ǫ t . If X t is exogenous, then U t = X t .</p><p>Following <ref type="bibr" target="#b29">Kelejian and Prucha (1998)</ref>, we generate instruments from within the model by interacting U t with the expert W 0i , i = 1, . . . , M . Define the matrix B t as</p><formula xml:id="formula_5">B t = {U t , W 01 U t , W 2 01 U t , . . . , W 0M U t , W 2 0M U t , . . .}, (2.5)</formula><p>which contains valid instruments since spatial lags of U t are independent of ǫ t . We denote B t as a matrix of linearly independent vectors from (2.5), with dimension T × L, where L ≥ K. 3 Note that if M = 0, meaning that no expert spatial weight matrices are specified, it is not possible to 2 One possible extension is to include several weight matrices to accommodate a structural break if breakpoint t * is known. For instance, the researcher could specify two separate 1[t ≤ t * ]W0i and 1[t &gt; t * ]W0i. This relaxes the assumption that W * is time-invariant in a limited but potentially revealing way. We leave this extension for future work.</p><p>3 Ideally, we should have instruments of the form (A * + W * ) k Ut for k = 0, 1, 2, . . .. However, we do not know A * and δ * i , and hence we select terms for which the values are known, excluding any cross-terms involving more than one W0i.</p><p>calculate the spatial lags of U t , and then U t must have size N × L with L ≥ K.</p><p>To utilize B t , we need to find a linear combination of instruments as correlated to the endogenous variables as possible. However, in what follows we compute the simple average of the vectors in B t -B, where B = T -1 T t=1 B t . The final vector of instruments is then (B t -B)γ, where γ = L -1 1 L and 1 L is the L × 1 vector of ones. The weights vector γ = L -1 1 L is a simple way to aggregate the instruments. This is done for clarity of exposition only, and can be estimated from the data as well. We defer the discussion about the optimal choice of instruments to Section 4.1.</p><p>The proofs of all our theorems are identical irrespective of the method for choosing γ.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2">Penalized estimators -LASSO</head><p>We perform penalized estimation of A * since it is assumed to be sparse. This can be achieved regardless of whether W 0i are good specifications. If W 0i = 0 for all i then we are estimating a sparse spatial weight matrix A * . If A * is approximately sparse, "small" estimated elements of A * are shrunk to 0. At the same time, we want to select which of the W 0i 's contribute to the spatial weight matrix in (2.3). Again, a penalized estimation of δ * i serves exactly this purpose. We start by profiling out β. If A and δ r are given, model (2.4) becomes</p><formula xml:id="formula_6">(I N -A - M r=1 δ r W 0r )y t = µ * + X T t β + ǫ t , t = 1, . . . , T.</formula><p>where the true values A * , δ * r and β * are replaced by A, δ r and β respectively. Multiplying both sides by (B t -B) T and summing over t, we obtain</p><formula xml:id="formula_7">T t=1 (B t -B) T (I N -A - M r=1 δ r W 0r )y t = T t=1 (B t -B) T X T t β + T t=1 (B t -B) T ǫ t .</formula><p>The constant µ * vanishes since T t=1 (B t -B) T µ * = 0. If X t is not exogenous, the operation above now weakens the correlation between T t=1 (B t -B) T X T t and T t=1 (B t -B) T ǫ t , which is a standard step in estimation with instrumental variables. Consistent least squares estimation is now possible since β is low-dimensional as K is considered to be small. We denote the least squares estimator of β by</p><formula xml:id="formula_8">β(ξ, δ) = T t=1 X T t (B t -B) T t=1 (B t -B) T X t -1 • T t=1 X T t (B t -B) T t=1 (B t -B) T I N -A - M r=1 δ r W 0r y t ,<label>(2.6)</label></formula><p>where ξ = (a 11 , . . . , a 1N , . . . , a N 1 . . . , a N N ) T contains the elements of the sparse adjustment matrix in stacked notation, and δ = (δ 1 , . . . , δ M ) T . Also define θ = (ξ T , δ T ) T , so that θ is a column vector of all elements of A and all δ r 's.</p><p>Given the profiled β(θ), we proceed to the estimation of A * . Since the length of θ is N 2 + M which can be larger than the sample size, the least squares problem can be ill-defined. Ridge regression is a traditional way to circumvent this problem. Introducing a penalty term ξ in the estimation problem effectively restricts the magnitude of ξ, where the notation • is the L 2 -norm of a vector. The estimator will be non-zero everywhere in general. <ref type="bibr" target="#b42">Tibshirani (1996)</ref> discovers that if the penalty is</p><formula xml:id="formula_9">• 1 instead of • in a classical regression model, where v 1 = i |v i | for a vector v = (v i ),</formula><p>then the estimator has elements estimated at exactly 0, thus achieving variable selection. This also suits our purpose, since ξ * is assumed sparse. In view of this, we propose to apply the LASSO to estimate ξ.</p><p>To accommodate instrumental variables in the LASSO framework, we define the following quantities. Let y i and X i be the outcome and covariates filtered through the instrumental variables,</p><formula xml:id="formula_10">y i = T t=1 (b t,i -bi ) T γy t and X i = T t=1 (b t,i -bi ) T γX t , i = 1, . . . , N,</formula><p>where b T t,i is the ith row of B t , and bT i is the ith row of B. Thus y i and X i are of dimensions N × 1 and N × K, respectively. The LASSO problem is then</p><formula xml:id="formula_11">θ = arg min θ 1 2T N i=1 (I N -A - M r=1 δ r W 0r ) y i -X i β(θ) 2 + λ T ξ 1 , (2.7) subj. to A + M r=1 δ r W 0r 1 N &lt; 1 N with |δ T 1 M | ≤ 1.</formula><p>The normalization 1/(2T ) facilitates proofs of all theorems, and λ T is a tuning parameter controlling the magnitude of ξ and the number of non-zeros within. We do not penalize δ at this stage, since the analysis of the theoretical properties of ξ is facilitated without penalizing both ξ and δ at the same rate.</p><p>We do not use the maximum likelihood approach in our setting, since we do not assume normality of the residual, which is allowed to have serial dependence as defined in Section 3.3.</p><p>Compared to the QMLE approach of <ref type="bibr" target="#b33">Lee and Yu (2010)</ref>, our need for both T and N to diverge arises from the fact that the spatial weight matrices are parameters to be estimated, rather than fixed. Considering them as parameters increases the difficulty substantially, since the vector of unknown is of order N 2 . Still, in some settings in our paper N can grow faster than T . See Remark 2 in Section 3.4. This also explains why we do not use the generalized method of moments (GMM)</p><p>since it is also difficult to implement under such a scenario. A penalized QMLE or GMM approach could be possible, and we leave this for future research.</p><p>In Section 4, we present a modified block coordinate descent (BCD) algorithm adapted to solve (2.7). With θ, the LASSO estimator β = β( θ) becomes an estimator of β * . The tuning parameter λ T is specified in Section 3.3 when we introduce the assumptions for our theoretical results.</p><p>If W 0r = 0 for r = 1, . . . , M , meaning that no specifications are available, there is no need to estimate δ, and problem (2.7) is still well-defined since W 0r = 0. Thus, δ disappears completely.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3">Penalized estimators -adaptive LASSO</head><p>In classical linear regression, in order for LASSO estimators to be sparse and to enjoy sign consistency (i.e., zeros are estimated as exactly zeros, non-zeros are estimated with correct signs), a stringent condition called the "irrepresentable condition" must be satisfied. <ref type="bibr" target="#b46">Zhao and Yu (2006)</ref> provide more details. This condition arises from the fact that the penalty term λ T ξ 1 penalizes each element in ξ under the same tuning parameter λ T . With a larger λ T , small elements in ξ are driven to 0, but large elements then receive excessive penalization. If λ T is smaller, large elements are penalized less, but small elements may not be driven exactly to 0.</p><p>This problem is resolved in <ref type="bibr" target="#b48">Zou (2006)</ref> elegantly by the use of a penalty</p><formula xml:id="formula_12">λ T v T |ξ| = i λ T | ξi | ξ i ,</formula><p>where ξ = ( ξi ) is an initial estimator for ξ * . If the number of parameters to be estimated is smaller than the sample size, <ref type="bibr" target="#b48">Zou (2006)</ref> suggests using the least squares estimator of ξ * as an initial estimator. We choose the LASSO estimator ξ for this purpose since our sample size in (2.7) is effectively N 2 but we have N 2 + M parameters to estimate. Now each ξ i is penalized by</p><formula xml:id="formula_13">a different tuning parameter λ T /| ξ i |.</formula><p>If ξ * i is small, then the LASSO estimator ξ i should be 0 or very small, so that λ T /| ξ i | is positive infinity or very large, which should drive the estimator of ξ * i to be exactly 0. On the other hand, if ξ * i is large, then ξ i should be large, so that λ T /| ξ i | is small, and the bias incurred in the estimator of ξ * i is thus reduced. The method has an adaptive tuning parameter for each variable, hence the name "adaptive LASSO". For classical linear regression, estimated regression coefficients under adaptive LASSO are sign-consistent, with non-zero estimators asymptotically normal and unbiased, and there is no need for the stringent irrepresentable condition.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3.1">When specifications W</head><formula xml:id="formula_14">01 , . . . , W 0M exist</formula><p>Motivated by the issues described above, when specifications W 01 , . . . , W 0M exist, we consider the adaptive LASSO problem</p><formula xml:id="formula_15">ξ = arg min ξ 1 2T N i=1 (I N -A - M r=1 δ r W 0r ) y i -X i β( θ) 2 + λ T v T |ξ|, (2.8) subj. to A + M r=1 δ r W 0r 1 N &lt; 1 N .</formula><p>where</p><formula xml:id="formula_16">v = (| ξ 1 | -1 , . . . , | ξ N 2 | -1 |) T , |ξ| = (|ξ 1 |, . . . , |ξ N 2 |) T .</formula><p>We replace the variables β and δ by their respective LASSO estimators β = β( θ) and δ from solving (2.7), so that the above equation becomes a proper adaptive LASSO problem for a regression-like setup. It can be solved by one more step of the modified BCD algorithm, to be introduced in Section 4. The tuning parameter λ T stays the same as in the LASSO problem (2.7). The sparse adjustment matrix A is then constructed back from ξ. The adaptive LASSO estimator for β * is β = β( ξ, δ).</p><p>For selection purpose, we want to find a sparse estimator of δ * as well. The estimator indicates which specified spatial weight matrix most contributes to the spatial interaction patterns observed from the data. To this end, we propose the following:</p><formula xml:id="formula_17">δ = arg min δ 1 2T N i=1 (I N -A - M r=1 δ r W 0r ) y i -X i β( ξ, δ) 2 + λ ′ T u T |δ|, (2.9) subj. to A + M r=1 δ r W 0r 1 N &lt; 1 N with |δ T 1 M | ≤ 1.</formula><p>where</p><formula xml:id="formula_18">u = (| δ 1 | -1 , . . . , | δ M | -1 |) T and |δ| = (|δ 1 |, . . . , |δ M |) T . The function β( ξ, δ) is defined in</formula><p>(2.6), with ξ replaced by the estimator ξ. The tuning parameter λ ′ T is different from λ T in general, and its choice is discussed in Section 4. However, these two parameters grow at the same rate, as stated in Assumption R7 in Section 3. The estimated spatial autoregressive parameter is then</p><formula xml:id="formula_19">ρ = M i=1 δ i .</formula><p>Theorem 5 presents the sign-consistency and asymptotic normality of the δ under certain conditions. In practice, the difference in the performance between β( ξ, δ) and β( ξ, δ) is negligible, so we set β = β( ξ, δ).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3.2">When specifications W</head><formula xml:id="formula_20">01 , . . . , W 0M do not exist</formula><p>If no specifications are available, then A * must act as the spatial weight matrix itself. The adaptive LASSO problem is to solve</p><formula xml:id="formula_21">ξ = arg min ξ 1 2T N i=1 (I N -A) y i -X i β(ξ) 2 + λ T v T |ξ|, (2.10) subj. to |A1 N | &lt; 1 N with |δ T 1 M | ≤ 1.</formula><p>The difference between (2.8) and (2.10) is that β is set at β = β( θ), the LASSO estimator, for (2.8), while β is set at β(ξ) for (2.10), so that the problem above is not exactly a penalized regression setup. The main reason we need to solve (2.10) rather than (2.8) is that when specifications do not exist, A * is a proper spatial weight matrix, and so has at least order N number of non-zero elements (e.g., assuming only 1 non-zero in each row of A * , then A * has exactly N non-zero elements). Assumption M2 is no longer valid, but is replaced by M2' in Section 3.3. The proof of partial sign-consistency and asymptotic normality of ξ is also changed slightly, compared to the proof of Theorem 3 with specifications. A solution from (2.10) greatly facilitates the proof. With ξ, the adaptive LASSO estimator for β * is β = β( ξ).</p><p>Remark 1. We penalize on ξ and δ in two different problems in Section 2.3.1. The reasons we do this are twofold. First, penalizing on both ξ and δ at the same time makes the proof of theoretical results more difficult. The dimension of ξ is N 2 which grows with T , while that for δ is M . This dimension, M , relies on the knowledge of the researcher. The tuning parameters needed for ξ and δ can potentially be very different. Second, penalizing on both of them first results in two LASSO estimators, which are not as accurate as the adaptive LASSO estimators. Hence, a second penalization is needed, on both ξ and δ. The computational complexities of finding the tuning parameters of two problems, penalizing on two parameters, will be more onerous than finding the tuning parameter of penalizing ξ first, and then on ξ and δ separately.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">Properties of the Estimators</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1">Full matrix notations for the LASSO and adaptive LASSO problems</head><p>In Section 2 we present the main LASSO and adaptive LASSO problems. They can actually be compactly presented in matrix notations, which facilitates the presentation of our theoretical results. We first introduce the notation</p><formula xml:id="formula_22">B = T -1/2 N -a/2 (B γ -Bγ ) = T -1/2 N -a/2 I N ⊗ {(I N ⊗ γ T )(B 1 -B, . . . , B T -B) T }. (3.1)</formula><p>The constant a is to be introduced in Assumption (R4) in Section 3.3. In general, a larger a means the exogenous variables in B t correlates with more covariates in X t . In practice we do not know a, and we can calculate B by setting a = 1. This does not change the optimal values of any tuning parameters and estimators in all LASSO and adaptive LASSO problems presented using B below.</p><p>We rewrite (2.4) as</p><formula xml:id="formula_23">y = µ * ⊗ 1 T + Zξ * + ZV 0 δ * + X β * vec(I N ) + ǫ,<label>(3.2)</label></formula><p>where</p><formula xml:id="formula_24">y = vec{(y 1 , . . . , y T ) T }, ǫ = vec{(ǫ 1 , . . . , ǫ T ) T }, Z = I N ⊗(y 1 , . . . , y T ) T , δ * = (δ * 1 , . . . , δ * M ) T , X β * = I N ⊗ {(I T ⊗ β * T )(X 1 , . . . , X T ) T }, ξ * = vec(A * T ), and V 0 = (vec(W T 01 ), . . . , vec(W T<label>0M</label></formula><p>)). The notation ⊗ represents the Kronecker product. Finally, vec(•) is the vectorization operator for a matrix, column by column. The model now has design matrices Z and ZV 0 in a classical linear regression setting, with ξ * and δ * being the true regression parameters, except for the fact that Z contains the endogenous variables y t . Multiplying both sides by B T , we then have an augmented model:</p><formula xml:id="formula_25">B T y = B T Z(ξ * + V 0 δ * ) + B T X β * vec(I N ) + B T ǫ.</formula><p>(3.3)</p><p>To express the LASSO problem in matrix form, we first define y v = (y T 1 , . . . , y T T ) T , so that model (2.4) becomes</p><formula xml:id="formula_26">y v = 1 T ⊗ µ * + A * ⊗ + M i=1 δ * i W ⊗ 0i y v + Xβ * + ǫ v ,</formula><p>where ǫ v is defined similar to y v , X = (X T 1 , . . . , X T T ) T , and for any matrix C, C ⊗ = I T ⊗ C. Then β(θ) defined in (2.6) can be expressed as</p><formula xml:id="formula_27">β(θ) = (X T B v B vT X) -1 X T B v B vT I T N -A ⊗ - M i=1 δ i W ⊗ 0i y v .</formula><p>Using (3.3), the LASSO problem (2.7) can then be rewritten as</p><formula xml:id="formula_28">θ = arg min θ 1 2T B T y -B T Zξ -B T ZV 0 δ -B T X β(θ) vec(I N ) 2 + λ T ξ 1 , subj. to A + M r=1 δ r W 0r 1 N &lt; 1 N with |δ T 1 M | ≤ 1.</formula><p>(3.4)</p><p>The formula for δ for the LASSO problem above is</p><formula xml:id="formula_29">δ = (H -B T ZV 0 ) T (H -B T ZV 0 ) -1 (H -B T ZV 0 ) T • (B T Z ξ -B T y + K(I T N -A ⊗ )y v ), with K = T -1/2 N -a/2 T t=1 X t ⊗ (B t -B)γ (X T B v B vT X) -1 X T B v B vT , H = K(W ⊗ 01 • • • W ⊗ 0M )(I M ⊗ y v ).</formula><p>(3.5)</p><p>The term N -a/2 is cancelled out in the formula for δ above. The adaptive LASSO problem (2.8)</p><p>with M &gt; 0, can be rewritten as</p><formula xml:id="formula_30">ξ = arg min ξ 1 2T B T y -B T Zξ -B T ZV 0 δ -B T X β vec(I N ) 2 + λ T v T |ξ|, subj. to A + M r=1 δ r W 0r 1 N &lt; 1 N .</formula><p>(3.6)</p><p>Finally, the adaptive LASSO problem for selecting δ in (2.9) can be rewritten as</p><formula xml:id="formula_31">δ = arg min δ 1 2T B T y -B T Z ξ -B T ZV 0 δ -B T X β( ξ,δ) vec(I N ) 2 + λ ′ T u T |δ|, subj. to A + M r=1 δ r W 0r 1 N &lt; 1 N with |δ T 1 M | ≤ 1.</formula><p>(3.7)</p><p>A more direct penalized least squares formulation exist for this problem</p><formula xml:id="formula_32">δ = arg min δ 1 2T B T y -B T Z ξ -h -(B T ZV 0 -H)δ 2 + λ ′ T u T |δ|, with h = T -1/2 N -a/2 T t=1 X t ⊗ (B t -B)γ (X T B v B vT X) -1 X T B v B vT (I T N -A ⊗ )y v , subj. to A + M r=1 δ r W 0r 1 N &lt; 1 N with |δ T 1 M | ≤ 1.</formula><p>(3.8)</p><p>When M = 0, problem (2.10) can be rewritten as</p><formula xml:id="formula_33">ξ = arg min ξ 1 2T B T y -B T Zξ -B T X β(ξ) vec(I N ) 2 + λ T v T |ξ|, subj. to |A1 N | &lt; 1 N .</formula><p>(3.9)</p><p>An equivalent problem which is a proper penalized regression setup is given by</p><formula xml:id="formula_34">ξ = arg min ξ 1 2T B T y -(B T Z -K ′ )ξ -Ky v 2 + λ T v T |ξ|, subj. to |A1 N | &lt; 1 N , with K ′ = T -1/2 N -a/2 T t=1 X t ⊗ (B t -B)γ (X T B v B vT X) -1 X T B v T t=1 (B t -B) T ⊗ y T t .</formula><p>(3.10)</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2">Time series variables and notations</head><p>We present notations used hereinafter, and introduce the measure of time dependence of all the time series variables involved. The concept of approximate sparsity of the adjustment matrix A * in (2.3) is introduced in Section 3.3, together with all assumptions we use in this paper. Theorems are presented in Section 3.4.</p><p>Denote {b t } = {vec(B t )} and x t = {vec(X t )} the vectorized processes for {B t } and {X t }, with length N L and N K, respectively. For t = 1, . . . , T , we assume that</p><formula xml:id="formula_35">x t = [f j (F t )] 1≤j≤N K , b t = [g j (G t )] 1≤j≤N L , ǫ t = [h j (H t )] 1≤j≤N ,<label>(3.11)</label></formula><p>where the f j (•)'s, g j (•)'s and h j (•)'s are measurable functions defined on the real line, and F t = (. . . , e x,t-1 , e x,t ), G t = (. . . , e b,t-1 , e b,t ), H t = (. . . , e ǫ,t-1 , e ǫ,t ) are defined by independent and identically distributed processes {e x,t } {e b,t } and {e ǫ,t } respectively, with {e b,t } independent of {e ǫ,t } but correlated with {e x,t }.</p><p>We use the functional dependence measure introduced by <ref type="bibr" target="#b44">Wu (2005)</ref> for gauging the serial dependence of a process. For d &gt; 0, denoting x t = (x it ), b t = (b jt ) and ǫ t = (ǫ ℓt ), we define</p><formula xml:id="formula_36">θ x t,d,i = x it -x ′ it d = (E|x it -x ′ it | d ) 1/d , i = 1, . . . , N K, θ b t,d,j = b jt -b ′ jt d = (E|b jt -b ′ jt | d ) 1/d , j = 1, . . . , N L, θ ǫ t,d,ℓ = ǫ ℓt -ǫ ′ ℓ t d = (E|ǫ ℓt -ǫ ′ ℓt | d ) 1/d , ℓ = 1, . . . , N,<label>(3.12)</label></formula><p>where</p><formula xml:id="formula_37">x ′ it = f i (F ′ t ), F ′ t = (. . . , e x,-1 , e ′ x,0 , e x,1 , . . . , e x,t ), with e ′ x,0 independent of all other e x,j 's. Hence x ′</formula><p>it is a coupled version of x it with e x,0 replaced by an i.i.d. copy e ′ x,0 . Intuitively, a large θ x t,d,i means that serial correlation is strong, at least for variables at most time t apart. Finally, we have similar definitions for b ′ jt and ǫ ′ ℓt . Such a definition of "physical" or functional dependence of time series on past "inputs" is used by various papers, for example <ref type="bibr" target="#b40">Shao (2010)</ref> and <ref type="bibr" target="#b47">Zhou (2010)</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.3">Assumptions and partial sign consistency</head><p>Assumptions in this paper are effective whether there are specifications W 01 , . . . , W 0M (so that M &gt; 0) or not (so that M = 0). The exceptions are M2, R5 and R8, which apply to the former scenario while M2', R5' and R8' are for the latter. These assumptions concern the elements in the sparse adjustment matrix A * , the potential specifications W 0i , the true spatial weight matrix W * in (2.3), and the distributional behavior and serial dependence of all the time series variables involved. The identification condition of model (3.3) is also presented as Assumption M5, with the identification of model (3.3) proved in Section 3.3.2. The partial sign consistency of an estimator of an approximately sparse matrix is discussed when we explain Assumptions M2 and M2'. Assumptions that start with "R" are in general more of a technical nature than those starting with "M".</p><p>M1. With the true spatial weight matrix W * defined in (2.3), there exists a constant η &gt; 0 such that W * ∞ &lt; η &lt; 1 uniformly as N → ∞. The elements in W * can be negative, and W * can be asymmetric.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>M2. (Approximate sparseness for A * when M &gt; 0)</head><p>There exists a constant τ &gt; 0 such that the elements a * ij of A * are constants as N → ∞ whenever they are larger than or equal to τ in magnitude. For those elements smaller than τ , we have either a * ij = 0 or a * ij → 0 as N → ∞.</p><p>Define</p><formula xml:id="formula_38">J 0 = {j : ξ * j = 0 and not corr. to the diagonal of A * }, J 1 = {j : |ξ * j | ≥ τ }, J 2 = {j : 0 &lt; |ξ * j | &lt; τ }. (3.13) Denote n = |J 1 |.</formula><p>Then the number of elements belonging to J 1 in each row of A * is bounded uniformly away from infinity as N → ∞. Moreover, n = o(N 1/2 ).</p><p>M2' (Approximate sparseness for A * when M = 0) Same as M2, except that n = O(N ).</p><p>M3. The processes {B t }, {X t } and {ǫ t } defined in Section 2 are second-order stationary, with {X t } and {ǫ t } having mean zero. The exogenous variables {B t } are independent of the noise {ǫ t }. The tail condition P (|Z| &gt; v) ≤ D 1 exp(-D 2 v q ) is satisfied for the variables B t,jk , X t,jk , ǫ t,j by the same constants D 1 , D 2 , and q.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>M4.</head><p>Define</p><formula xml:id="formula_39">Θ x m,a = ∞ t=m max 1≤j≤N K θ x t,a,i , Θ b m,a = ∞ t=m max 1≤j≤N L θ b t,a,j , Θ ǫ m,a = ∞ t=m max 1≤j≤N θ ǫ t,a,ℓ ,</formula><p>where θ x t,a,i , θ b t,a,j and θ ǫ t,a,ℓ are defined in (3.12). We assume that for some w &gt; 2, Θ x m,2w , Θ b m,2w , Θ ǫ m,2w ≤ Cm -α with α, C &gt; 0 being constants that can depend on w.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>M5. (Identification condition)</head><p>Assume that the two sets of parameters (ξ * , δ * , β * ) and (ξ o , δ o , β o ) both satisfy model (3.3). Let both ξ * and ξ o be exactly sparse (see also Assumption M2), with the set S defined as</p><formula xml:id="formula_40">S = {j : ξ * j = 0 or ξ o j = 0}.</formula><p>Then the identification condition is that the matrix Q T Q has all its eigenvalues uniformly bounded away from 0, where</p><formula xml:id="formula_41">Q = [E(B T Z S ), E(B T ZV 0 ), E(B T X)]</formula><p>and</p><formula xml:id="formula_42">X = (x 1,1 , . . . , x T,1 , . . . , x 1,N , . . . , x T,N ) T .</formula><p>The notation A S means that the matrix A has columns restricted to the set S. If M = 0,</p><formula xml:id="formula_43">the term E(B T ZV 0 ) is omitted.</formula><p>For approximately sparse ξ * and ξ o , we assume that those elements which are o(1) are all identified exactly to 0.</p><formula xml:id="formula_44">R1. Each column vector vec(W T 0i ) in V 0 , i = 1, .</formula><p>. . , M is linearly independent of each other, such that there exists a constant u &gt; 0 with σ 2 M (V 0 ) ≥ u &gt; 0 uniformly as N → ∞, where σ i (A) is the ith largest singular value of a matrix A.</p><formula xml:id="formula_45">Moreover, max 1≤i≤M W 0i 1 ≤ c &lt; ∞ uniformly as N → ∞ for some constant c &gt; 0. R2. Write ǫ t = Σ 1/2 ǫ ǫ *</formula><p>t , where Σ ǫ is the covariance matrix for ǫ t . Then the elements in Σ ǫ are all less than σ 2 max uniformly as N → ∞. The same logic applies to the variance of the elements in B t .</p><p>We also assume Σ 1/2 ǫ ∞ ≤ S ǫ &lt; ∞ uniformly as N → ∞, with {ǫ * t,j } 1≤j≤N being a martingale difference with respect to the filtration generated by σ(ǫ * t,1 , . . . , ǫ * t,j ). The tail condition P (|Z| &gt; v) ≤ D 1 exp(-D 2 v q ) is also satisfied by ǫ * t,j , while Assumption M4 is also satisfied by {ǫ * t } 1≤t≤T .</p><p>R3. All singular values of E(X T t B t ) are uniformly larger than N u for some constant u &gt; 0, while the maximum singular value is of order N . Individual entries in the matrix E(b t x T t ) are uniformly bounded away from infinity, where b t and x t are defined in the paragraph containing (3.11).</p><p>R4. For a ∈ (0, 1) the same as in the definition of (3.1), define R5. For the same constant a as in Assumption R4, we have for each N ,</p><formula xml:id="formula_46">G = N -a E(T -1 Z T (B γ -Bγ ))E(T -1 (B γ -Bγ ) T Z). Each block E(T -1 T t=1 (B t -B)γy T t ) = E(T -1 T t=1 (B t -B)γβ * T X T t Π * T ) in the block diagonal matrix E(T -1 (B γ -Bγ ) T Z)</formula><formula xml:id="formula_47">max 1≤i≤N N j=1 E(b t,i x T t,j ) max , max 1≤j≤N N i=1 E(b t,i x T t,j ) max ≤ C bx N a ,</formula><p>where C bx &gt; 0 is a constant and b t,i , x t,j are the column vectors for the ith row of B t and jth row of X t respectively. At the same time, E(X t ⊗ B t γ) has all singular values of order</p><formula xml:id="formula_48">N 1+a . R5' For the equation shown in R5, change the part for E(X t ⊗ B t γ) to E(X t ⊗ B t γ) 1 , E(B t ⊗ Π * X t β * ) 1 = O(N ).</formula><p>If the rows of the matrix X t ⊗ B t γ or B t ⊗ Π * X t β * are restricted to J 1 , then the above are assumed to be o(N ).</p><p>R6. Assume 0 &lt; b &lt; 1. For fixed 1 ≤ k ≤ K, the eigenvalues of var(N -b/2 B t,k ) and var(ǫ t ) are uniformly bounded away from 0 and infinity, and respectively dominate the singular values</p><formula xml:id="formula_49">from N -b E((B t+τ,k -µ b,k )(B t,k -µ b,k ) T</formula><p>) and E(ǫ t ǫ T t+τ ). The sum of the ith largest singular values over τ for each 1 ≤ i ≤ N is assumed finite for both {N -b/2 B t } and {ǫ t }.</p><p>R7. Define c T = dT -1/2 log 1/2 (T ∨ N ) for some constant d &gt; 0. The tuning parameter λ T for (2.7) is such that λ T = Cc T for some constant C &gt; 0. The tuning parameter λ ′ T for (2.9) is λ ′ T = C ′ c T for some constant C ′ &gt; 0.</p><p>R8. Assume that M &gt; 0. In all the statements above, we assume that as N, T → ∞,</p><formula xml:id="formula_50">c T n, nN a-1 log 1/2 (T ∨ N ) = o(1), T -1/2 N a-b 2 log(T ∨ N ), T -1/2 N b 2 + 1 2w = o(1).</formula><p>We further assume that</p><formula xml:id="formula_51">T 1/2 N a-b 2 max 1≤j≤N a * j,J 2 1 = o(1) and ξ * J 2 1 = o(c T N 1 2 + 1 2w ) which is a rate diverging to infinity. R8' We follow R8, except that M = 0. The consition nN 1-a log 1/2 (T ∨ N ) = o(1) is replaced by N a-b log(T ∨ N ) = o(1).</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.3.1">Explanations for Assumptions M1 to M4 and M2'</head><p>We now explain briefly the assumptions M1-M4 and M2'. Assumption M5 will be used in the Section 3.3.2 to prove the identification of model (3.3). Assumption M1 ensures that model (2.1) has a stable reduced form</p><formula xml:id="formula_52">y t = Π * µ * + Π * X t β * + Π * ǫ t , Π * = (I N -W * ) -1 , (3.14)</formula><p>where the innovations Π * ǫ t have finite variances. <ref type="bibr" target="#b14">Corrado and Fingleton (2011)</ref> uses a similar row sum condition in a slightly different spatial model specification. The row sum cannot be exactly one like traditional spatial autoregressive models with spatial weight matrix W * . In those models, a spatial autoregressive parameter ρ having |ρ| &lt; 1 is multiplied with W * , and so the spatial weight matrix is in fact ρW * in those models.</p><p>Assumptions M2 and M2' are ways to relax the requirement of strict sparseness on A * . These are two major assumptions in this paper. The set J 0 is the set of all the zeros in the sparse adjustment matrix A * excluding the diagonal elements, which are all 0 by definition. Both J 1 and J 2 are the sets for the non-zeros, but those elements in J 2 , according to assumption M2, are all o(1) as both T, N → ∞. A partially sign consistent estimator will estimate all the elements in J 0 and J 2 to be exactly 0, while estimating those in J 1 to be non-zero with the correct sign. Such a regularized estimator can accumulate smaller errors than those allowing for non-zero estimates for the small entries, since the estimation errors involved in estimating all those small entries can be much larger than setting them to zero. Theorem 3 shows that ξ in (3.6) and (3.10) for M &gt; 0 and M = 0, respectively, are partially sign-consistent with probability going to 1.</p><p>Assumption M2 states that n = o(N 1/2 ). This means that when M &gt; 0, the best linear combination of the specified spatial weight matrices has only o(N 1/2 ) number of non-zero elements not yet close enough to the corresponding true values. With reasonable specified spatial weight matrices, this is usually true. However, when M = 0, Assumption M2' has n = O(N ), reflecting that each row of the spatial weight matrix A * can have at least one substantially non-zero value.</p><p>At the same time, the number of elements with small non-zero values (those in J 2 ) can be large, but we control the absolute sum of their values so as to control the sparse estimation error of our estimators.</p><p>Theoretically, the value τ , defined in the sets J 1 and J 2 , can be as large as min j∈J 1 |ξ * j |. We can estimate τ as the smallest of | ξ j | for j ∈ J 1 . We check this important sparsity assumption in practice, for the case when M &gt; 0. If A is not very sparse (e.g., with non-zeros in every row), then we can split the data into a training and test set (e.g., with T -T 1/2 and T 1/2 data points respectively), and estimate the model again using the training set. We obtain estimators for the y t 's in the test set using the model trained from the training set. Out-sample estimation errors in the test set can then be obtained. If the level of this error is very different from the in-sample errors from the training set, then we suspect that the sparsity assumption may not be valid. We can do the same when M = 0, if A has many non-zero elements.</p><p>The independence of B t and ǫ t in Assumption M3 ensures that B t serves a function similar to an instrument for model (2.1). The tail condition in M3 implies that all the random variables involved have sub-exponential tails, so that exact normality is not required.</p><p>The assumption Θ x m,2w ≤ Cm -α in M4 essentially means that the strongest serial dependence for the x tj 's with at least m time units apart is decaying polynomially, as m increases. Together with M3, they allow for the application of a Nagaev-type inequality in Lemma 1 in the supplemen-tary material for our results to hold. Stationary Markov Chains and stationary linear processes are examples of time series that satisfy M4. See <ref type="bibr" target="#b13">Chen et al. (2013)</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.3.2">Identification of the model</head><p>Assumption M5 is sufficient for the identification of model (3.3). Consider two sets of parameters (ξ * , δ * , β * ) and (ξ o , δ o , β o ) both satisfying model (3.3). Then</p><formula xml:id="formula_53">0 = B T Z(ξ * -ξ o ) + B T ZV 0 (δ * -δ o ) + B T X β * -β o vec(I N ). But B T X β * -β o vec(I N ) = T -1/2 N -a/2     T t=1 (B t -B)γx T t,1 (β * -β o ) . . . T t=1 (B t -B)γx T t,N (β * -β o )     = B T X(β * -β o ).</formula><p>Hence, with the definition of the set S in Assumption M5, we have</p><formula xml:id="formula_54">[B T Z S B T ZV 0 B T X]     ξ * S -ξ o S δ * -δ o β * -β o     = 0.</formula><p>The above is true even for approximately sparse A * and A o , since we assume that all the o(1) elements (i.e., all those elements in J 2 ) are identified to 0, meaning that if both ξ * j and ξ o j are o(1), then ξ * j -ξ o j = 0. Then the corresponding column in the matrix B T Z can be removed. Taking expectation and multiplying Q T on both sides and then (Q T Q) -1 , we arrive at ξ * S = ξ o S , δ * = δ o , and β * = β o . It may seem that the assumption of being able to identify the "small" elements to 0 is strong under approximate sparsity. However, Theorem 3 does present a sign-consistent estimator which estimates all "small" elements to 0, with probability going to 1. Such an assumption is thus reasonable for our estimator.</p><p>Note that the matrix Q has size N 2 × (|S| + M + K). By Assumption M2 or M2' where there are only finite numbers of elements in each row of A * and A o belonging to J 1 , we can see that |S| is, at most, of order N . Hence assuming Q is of full rank is reasonable, since N 2 is then much larger than |S| + M + K, which is also of order N . In this sense, we see that the identification of the model parameters relies mainly on the sparsity of the sparse adjustment matrix.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.3.3">Explanations for Assumptions R1 to R8, R5' and R8'</head><p>Assumption R1 essentially requires that each specification W 0i be different from each other, to a certain extent. This is intuitive, since if W 0i and W 0j are too similar to each other, the coefficients δ * i and δ * j are not well-defined. This will have a negative impact on the performance of our estimators. This assumption is analogous to requiring the columns in the design matrix to be linearly independent in a classical linear regression. As an example, if W 0ℓ has an (i, j)th element being d -ℓ ij (excluding the diagonal which is 0) for ℓ = 1, . . . , M with at least M of the d ij 's different from each other, then each vec(W T 0i ) is linearly independent of the others. So V 0 , defined in (3.2), has full rank.</p><p>The assumptions on ǫ t and Σ ǫ in R2 are included mainly for convenience of the proof. The martingale difference assumption for ǫ * t is a relaxation to independence. This assumption also allows the elements of ǫ t to have a general second-order moments structure, as long as Σ ǫ ∞ &lt; ∞.</p><p>For instance, if ǫ t also follows a spatial lag model,</p><formula xml:id="formula_55">ǫ t = ρMǫ t + u t ,</formula><p>where u t has diagonal covariance matrix Σ u with Σ u max &lt; C u &lt; ∞, and M has M ∞ ≤ 1 with |ρ| &lt; 1, then ρM ∞ &lt; 1. Therefore,</p><formula xml:id="formula_56">ǫ t = (I N -ρM) -1 u t , with Σ ǫ = (I N -ρM) -1 Σ u (I N -ρM) -1 . This spatial model for ǫ t is very common in spatial econometrics. It is clear that Σ ǫ ∞ ≤ C u (1 -ρ M ∞ ) -2 &lt; ∞.</formula><p>Assumptions R3, R4, and R5 are closely related. They all paint a picture of how the exogenous variables in B t are correlated with X t . Assumption R3 essentially says that covariance between a variable in B t and one in X t is finite uniformly as N → ∞. Then for 1 ≤ k ≤ K, considering the kth diagonal entry of E(X T t B t ) to be N j=1 E(X t,jk B t,jk ) with each E(X t,jk B t,jk ) finite, it is indeed reasonable to assume that each diagonal entry in the matrix is of order N , so that it is also reasonable to assume that this finite K × K matrix has all singular values of order N . This assumption is needed for the estimator β = β( θ) to be well-defined in (2.7).</p><p>Assumption R4 is closely related to the identification condition M5, since the upper left block of Q T Q is in fact G SS , and the identification condition already implies that G SS has all eigenvalues uniformly bounded away from 0. Assumption R4 places more stringent condition, in the sense that the whole matrix G now has full rank. All eigenvalues of G are then uniformly bounded away from 0 and infinity. This is because it can avoid the need for a restricted eigenvalue condition which is unnecessarily complicated in our context.</p><p>Assumption R5 essentially describes how each row of variables in B t are correlated with different rows of variables in X t . The rate N a is closely related to Assumption R4. This can be seen by noting that each block E(T -1 T t=1 (B t -B)γy T t ) in G is asymptotically the same as (I N ⊗ γ T )L 0 (I N ⊗ β * )Π * T , where</p><formula xml:id="formula_57">L 0 = E(vec(B T t )vec(X T t ) T ). Note that the (i, j)th K × K block in L 0 is indeed E(b t,i x T</formula><p>t,j ). Assumption R4 then essentially says that both</p><formula xml:id="formula_58">max 1≤i≤N N j=1 E(b t,i x T t,j ) 2 max , max 1≤j≤N N i=1 E(b t,i x T t,j ) 2 max</formula><p>are of order similar to N a . Assumption R5 can then be seen as the regularity condition such that the upper bounds (with square removed for ease of proofs) are exactly of order N a . With this, we can derive that E(X t ⊗ B t γ) 1 has order at most N 1+a . This particular condition is needed for proving the rates of δδ * 1 in Theorem 1. When M = 0, this term is not required, and instead we have n = O(N ) in Assumption M2'.</p><p>We then need the rate in Assumption R5' to guarantee correct asymptotic normality formulae of the adaptive LASSO estimators ξ and β = β( ξ). This rate does not contradict the two rates listed in Assumption R5 and R5', but refines them. The two rates in R5 and R5' mean that some rows of B t are strongly correlated with a certain of rows of X t . Then the rate</p><formula xml:id="formula_59">E(B t ⊗Π * X t β * ) 1 = O(N )</formula><p>says that the number of such rows in B t is finite, and the majority of the rows of B t are not always strongly correlated with many rows of X t . For instance, there can be some universal economic variables in some rows of B t , but the majority of the variables are local, so they do not correlate strongly with too many rows of X t . We can check this assumption using the estimated spatial weight matrix and estimated regression parameters.</p><p>Assumption R6 gives a rate for the singular values of var(B t,k ). This is important in certain asymptotic normality results. The rate N b , possibly different from N a , is reasonable as well, since the way that B t and X t are correlated does not directly indicate how the variables in B t itself are correlated. That is, unless when B t = X t when X t itself is exogenous, in which case b = a.</p><p>The variance-covariance matrix dominating the lag-τ auto-covariances enables easier presentation of rates of convergence in asymptotic normality.</p><p>Assumption R7 spells out the rate of the penalization parameters for all adaptive LASSO estimators in this paper to be (partial) sign consistent, with non-zeros enjoying asymptotic normality. This also makes it easier to grid search for the best tuning parameter using the BIC criterion (4.17), to be introduced in Section 4.</p><p>For Assumption R8, when M &gt; 0, the first line of rates are needed for the oracle inequality and preliminary rates of convergence for ξ J 1ξ * J 1 . This inequality is used for the rest of the proofs of all other theorems. Since Assumption M2 has n = o(N 1/2 ), c T n = o(1) potentially still allows for N to grow faster than T , while nN a-1 = o(1) means a ≤ 1/2. If M = 0, we have n = O(N ) from Assumption M2', and so c T n = o(1) means N has to grow slower than T 1/2 . This is not surprising, as potentially we have a large number of non-zeros to estimate in A * . Since we are not making any structural assumptions on A * other than sparseness, having more non-zeros estimated in A * means N cannot grow too fast relative to T . Also in R8', the rate related to nN a-1 is dropped, since when M &gt; 0 this rate controls the rate of convergence of δ, which is identically zero when M = 0. The addition of N a-b log(T ∨ N ) = o(1) is needed for the correct formula for the asymptotic normality of β.</p><p>The second line of rates in Assumption R8 (and R8') are required for controlling the dominating terms in all asymptotic normality results, while the other two rates involving ξ * J 2 provide partial sign consistency of ξ. If A * is exactly sparse, then J 2 = φ and ξ * J 2 = 0, so that the rates are trivially satisfied. For instance, if M &gt; 0, a = b = 1/2, and A * is exactly sparse, then N can grow faster than T depending on the number of large non-zero elements in A * .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.3.4">Extension: allowing past y t</head><p>The assumptions above allow X t to contain past values of y t . If X t = (y t-1 , . . . , y t-d , z t ) for instance, where z t contains covariates other than {y t }, then</p><formula xml:id="formula_60">X t β * = d j=1 β * j y t-j + z t β * 2 , with β * = (β * 1 , . . . , β * d , β * T 2 ) T . Hence model (2.1) becomes y t = µ * + W * y t + d j=1 β * j y t-j + z t β * 2 + ǫ t .</formula><p>The reduced form model in (3.14) then becomes</p><formula xml:id="formula_61">y t = Π * µ * + d j=1 β * j Π * y t-j + Π * (z t β * 2 + ǫ t ). (3.15)</formula><p>This model has a vector autoregressive part with coefficient matrices β * j Π * . It is similar to vector autoregressions (VARs) requiring the estimation of dN 2 parameters. In typical macroeconomic applications, the number of time periods T might be small relative to the number of parameters.</p><p>In particular, <ref type="bibr" target="#b30">Kock and Callot (2015)</ref> demonstrate Oracle properties of LASSO and Adaptive LASSO estimators in the context of high-dimensional vector autoregresions. See also <ref type="bibr" target="#b37">Medeiros and Mendes (2016)</ref>. Model (3.15) is more general, since it allows for lagged y t along with covariates X t and instrumental variables. It also complements recent research on global VARs. <ref type="bibr" target="#b38">Pesaran et al. (2004)</ref> consider country-specific VARs, interlinked by cross-country spillovers and international fluctuations in the global economy. Other approaches include the Bayesian modelling of <ref type="bibr" target="#b6">Bańbura et al. (2010)</ref> and data-reduction techniques, such as the factor-augmented VAR of <ref type="bibr" target="#b10">Bernanke et al. (2005)</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.4">Main results</head><p>We first present the rates related to our estimators for an arbitrary sparse adjustment matrix.</p><p>Theorem 1 Let all the assumptions in Section 3.3 hold (excluding M2', R5', R8'). Moreover, let α &gt; 1/2 -1/w in Assumption M4, and N = o(T w/4-1/2 log w/4 (T )). Let A be any estimator of the sparse adjustment A * (not necessarily a LASSO estimator). Then the estimator δ in (3.5) and β = β( θ) in (3.4), with θ = ( ξ T , δ T ) T and c T defined in Assumption R7, satisfy</p><formula xml:id="formula_62">δ -δ * 1 = O p (c T N -1 2 + 1 2w + N -1 ξ -ξ * 1 ) = β -β * 1 .</formula><p>If M = 0, the above still hold if Assumptions M2, R5, and R8 are replaced by M2', R5', and R8', respectively.</p><p>The quality of both δ and β is dependent on ξ, and hence A, as shown by the above bound.</p><p>If our initial specifications W 01 , . . . , W 0M are insufficient to form a good linear combination for estimating the spatial weight matrix, then we need more non-zero adjustments on A * . Estimating too many of them, however, inflates the error bound ξ -ξ * 1 . Also, the constant w can be chosen to be large enough to satisfy N = o(T w/4-1/2 log w/4 (T )), so that N 1/(2w) can grow very slowly compared to N 1/2 .</p><p>Theorem 2 Let the assumptions in Section 3.3 and in Theorem 1 hold. Then the LASSO solution</p><formula xml:id="formula_63">ξ satisfies ξ -ξ * 1 = O p (c T N 1 2 + 1 2w + n 1/2 ξ J 1 -ξ * J 1 ), ξ J 1 -ξ * J 1 = O p (c T n 1/2 (1 + N a-1 2 + 1 2w ) + c T N 1 2w (N a/2 + c 1/2 T N 1/2 )).</formula><p>For the LASSO estimators β and δ,</p><formula xml:id="formula_64">β -β * 1 = O p (c T N -1 2 + 1 2w ) = δ -δ * 1 .</formula><p>If M = 0 and Assumptions M2, M5, and M8, are replaced by M2', R5', and R8' respectively, the rate for ξξ * 1 is the same as above, but with</p><formula xml:id="formula_65">ξ J 1 -ξ * J 1 = O p (c T n 1/2 (1 + N -1 2 + 1 2w ) + c 3/2 T N 1 2 + 1 2w ), β -β * 1 = O p (c T ).</formula><p>Although ξξ * 1 may not necessarily converge to 0, the L 2 error ξ J 1ξ * J 1 does indeed go to 0 in probability. Our empirical results confirm this. The term ββ * has a slower rate of convergence when M = 0, since from Assumption M2', more non-zero elements are in A * (of order N ) to be estimated. These bounds are important stepping stones for proving Theorems 3, 4, and 5 for all adaptive LASSO estimators.</p><p>Theorem 3 (Oracle Property for ξ) Let the assumptions in Section 3.3 and in Theorem 1 hold (excluding M2', R5', and R8'). Then, with large enough T and N , having probability going to 1,</p><formula xml:id="formula_66">ξ in (3.6) satisfies sign( ξ J 1 ) = sign(ξ * J 1 ), ξ J 0 ∪J 2 = 0,</formula><p>where J 0 , J 1 , and J 2 are defined in Assumption M2. Moreover, define the predictive dependence measures</p><formula xml:id="formula_67">P b 0 (B t,sk ) = E(B t,sk |G 0 ) -E(B t,sk |G -1 ), P ǫ 0 (ǫ tj ) = E(ǫ tj |H 0 ) -E(ǫ tj |H -1 ),</formula><p>where G t and H t are defined just after Equation (3.11). Assume</p><formula xml:id="formula_68">t≥0 max 1≤k≤K max 1≤s≤N P b 0 (B t,sk ) &lt; ∞, t≥0 max 1≤j≤N P ǫ 0 (ǫ tj ) &lt; ∞. (3.16)</formula><p>Then for M = (α 1 , . . . , α m ) T with m finite and α i 1 &lt; ∞, we have</p><formula xml:id="formula_69">T 1/2 (MRΣR T M T ) -1/2 M( ξ J 1 -ξ * J 1 + G -1 J 1 J 1 λ T g J 1 ) D -→ N (0, I m ), where R = N -a G -1 J 1 J 1 E(T -1 Z T J 1 (B γ -Bγ )), and Σ = τ E(ǫ t ǫ T t+τ ) ⊗ E((B t -µ b )γγ T (B t+τ - µ b ) T ). The vector g J 1 is a vector of 1 or -1, depending on whether the corresponding element in ξ * J 1 is positive or negative.</formula><p>If M = 0, the above still holds for ξ in (3.9) if Assumptions M2, R5, and R8 are replaced by M2', R5', and R8', respectively.</p><p>The predictive dependence measure, introduced in Definition 2 of <ref type="bibr" target="#b45">Wu (2011)</ref>, quantifies the degree of dependence of outputs on inputs in physical systems, similar to our variables defined in (3.11).</p><p>To draw inference on the non-zero sparse adjustments on A * , we can use the sign consistency of ξ and the asymptotic normality of ξ J 1 . We can estimate the matrices R and Σ using the corresponding sample autocovariance estimators. Since {ǫ t } is unobserved, we replace this by { ǫ t } obtained as the residuals of model (2.1) with µ * , A * , δ * , and β * replaced by µ, A, δ, and</p><formula xml:id="formula_70">β, respectively. Note that R is in fact independent of the unknown index a. Since G also has the term N -a , it cancels out the N -a in the definition of R. The term ξ * J 1 is a vector of non- zero constants while on M, G -1 J 1 J 1 λ T g J 1 max = O(c T ) = o(<label>1</label></formula><p>) (see the proof of the Theorem in the supplementary materials for more details), we can ignore the term G -1 J 1 J 1 λ T g J 1 in using the asymptotic normality result in construction of confidence intervals.</p><p>To illustrate, if ( A) 23 (corresponding to ξ N +3 ) and ( A) 35 (corresponding to ξ 2N +5 ) are nonzero and we want to make inference on them, then we can set m = 2 and M = (e N +3 , e 2N +5 ) T where e i ∈ R N 2 is 0 everywhere except 1 at the ith position. The asymptotic bivariate normality of the two estimators can then be established, and a confidence region can be constructed.</p><p>In practice, we can find a reasonable cut-off on τ in calculating Σ. See Remark 2 in Section 4 for more practical details on this. The rate of convergence of each ξ j for j ∈ J 1 can be deduced to be T -1/2 N -(a-b)/2 from the asymptotic normality result. This is done by using Assumption R6 to deduce that N -b Σ has uniformly bounded eigenvalues from 0 and infinity.</p><p>The asymptotic normality for β = β( ξ, δ) (when M &gt; 0) and β = β( ξ) (when M = 0) appear in the following theorem.</p><p>Theorem 4 Let the assumptions in Section 3.3 and in Theorem 1 hold (excluding M2', <ref type="bibr">R5', and R8')</ref>. Assume that the predictive dependence measures P b 0 (B tk ) and P ǫ 0 (ǫ tj ) are as defined in Theorem 3 with the same assumptions (3.16) applied. Then for β = β( ξ, δ), we have</p><formula xml:id="formula_71">T 1/2 S -1/2 0 ( β -β * ) D -→ N (0, I K ), where, defining R 0 = (E(X T t B t )E(B T t X t )) -1 E(X T t B t ), S 0 = τ R 0 E(B T t ǫ t ǫ T t+τ B t+τ )R T 0 .</formula><p>If M = 0 and Assumptions M2, R5, and R8 are replaced by M2', R5', and R8', respectively, then for β = β( ξ),</p><formula xml:id="formula_72">T 1/2 (K 0 RΣR T K T 0 ) -1/2 ( β -β * ) D -→ N (0, I K ),</formula><p>where R and Σ are defined in Theorem 3, and</p><formula xml:id="formula_73">K 0 = [E(X T t B t )E(B T t X t )] -1 E(X T t B t )E(B T t ⊗ β * T X T t Π * T ).</formula><p>It is unsurprising that the asymptotic normality results for M &gt; 0 and M = 0 are different.</p><p>When M &gt; 0 we have n = o(N 1/2 ), but it is n = O(N ) when M = 0. The dominating terms under these two scenarios are different, and so the asymptotic covariance matrices, as well as the rates of convergence, are also different. As discussed under Theorem 3, we can estimate S 0 , R, Σ, and K 0 using appropriate sample autocovariance matrices, with ǫ t , β * , and Π * replaced by ǫ t , β, and (I N -W) -1 , respectively. Similar to estimating Σ, we can find a reasonable cut-off for the sum in the definition of S 0 . See Remark 2 in Section 4 for more practical details on this.</p><p>Next, we present the oracle property of δ defined in (3.7) in the following theorem.</p><p>Theorem 5 (Oracle property for δ) Let the assumptions in Section 3.3 and in Theorem 1 hold (excluding M2', R5', and R8'). We then have, as T, N → ∞, with probability approaching 1,</p><formula xml:id="formula_74">sign( δ H ) = sign(δ * H ), δ H c = 0, where H = {j : δ * j = 0}.</formula><p>Moreover, with the predictive dependence measures P b 0 (B tk ) and P ǫ 0 (ǫ tj ) as defined in Theorem 3 with the same assumptions (3.16) applied, we have</p><formula xml:id="formula_75">T 1/2 (R 1 S γ S 0 S T γ R T 1 ) -1/2 ( δ H -δ * H ) D -→ N (0, I |H| ), where R 1 = [(H 10 -H 20 ) T H (H 10 -H 20 ) H ] -1 (H 10 -H 20 ) T</formula><p>H , with H 10 , H 20 and S γ defined as</p><formula xml:id="formula_76">H 10 = I N ⊗ (I N ⊗ γ T )E(vec(B T t )vec(X T t ) T )(I N ⊗ β * )Π * T V 0 , H 20 = E(X t ⊗ B t γ) E(X T t B t )E(B T t X t ) -1 E(X T t B t ) V T W T 01 • • • V T W T 0M (I M ⊗ U 0 V Π * β * ),<label>and</label></formula><formula xml:id="formula_77">S γ = cov(x t,1 , b t,1 )γ, . . . , cov(x t,1 , b t,N )γ, . . . , cov(x t,N , b t,1 )γ, . . . , cov(x t,N , b t,N )γ T . The definition of S 0 is as in Theorem 4, while U 0 = I N ⊗ E(b t x T t )</formula><p>and</p><formula xml:id="formula_78">V Π * =     I K ⊗ π * 1 . . . I K ⊗ π * N     , where π * T j is the jth row of Π * . We also assume that the smallest eigenvalue of R 1 S γ S T γ R T</formula><p>1 is of constant order. In particular, we have</p><formula xml:id="formula_79">T 1/2 s -1/2 1 ( ρ -ρ * ) = T 1/2 s -1/2 1 1 T |H| ( δ H -δ * H ) D -→ N (0, 1), where s 1 = 1 T |H| R 1 S γ S 0 S T γ R T 1 1 |H| .</formula><p>The above theorem is important in determining which potential specifications of spatial weight matrices are important and which are not, and how important each specification is. Similar to ξ J 1 , hypothesis testing can be conducted and confidence regions constructed for the elements in β and δ. Various autocovariance matrices are estimated from the data and their respective asymptotic normality is used.</p><p>It may seem that expecting the smallest eigenvalue of R 1 S γ S T γ R T 1 to have a constant order is a strong assumption. However, in the proof of Theorem 5 in the supplementary material, we show that the largest eigenvalue of R 1 S γ S T γ R T 1 has a constant order. Considering the matrix is K × K and has a constant size, this assumption is not particularly strong.</p><p>Theorem 6 Let the assumptions in Section 3.3 and in Theorem 1 hold. Then</p><formula xml:id="formula_80">W -W * = O p (c T ) = µ -µ * max , where W = A + M r=1 δ r W 0r , µ = I N -W ȳ -X β.</formula><p>The rate for the spatial fixed effect, Π µ -Π * µ * max , is the same.</p><p>The above gives a rate of convergence for the spectral norm of the error for the estimated spatial weight matrix, which can be of independent interest.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">Practical Implementation</head><p>In this section we provide details of the block-coordinate descent (BCD) algorithm used to conduct the minimization of (3.4)-(3.8). The optimization problem with respect to (ξ, β, δ) is not convex.</p><p>This gives rise to significant computational challenges. When M = 0, solving (3.10) does not involve any steps in the BCD algorithm, but just like step 3' (see below) we need to utilize the LASSO solution from the LASSO stage to solve for the adaptive LASSO problem. Hence the details for solving for ξ in (3.10) when M = 0 is omitted.</p><p>We make use of the fact that when given any two of the three variables, the problem is convex in the remaining variable. For example, given (ξ, β), the optimization problem is convex in δ. While it is difficult to establish global convergence of the BCD algorithm without convexity, each iteration delivers an improvement of the objective functions since given one parameter, the objective functions are convex in the others. The BCD algorithm is closely related to the Iterative Coordinate Descent of <ref type="bibr" target="#b23">Fan and Lv (2011)</ref>, and is also discussed by <ref type="bibr" target="#b25">Friedman et al. (2010)</ref> and <ref type="bibr" target="#b15">Dicker et al. (2013)</ref>.</p><p>The Block Coordinate Descent Algorithm (LASSO stage) 0. Set an initial value ξ (0) , for example ξ (0) = 0.</p><p>1. At iteration r, update β (r) according to the closed-form expression r) as a function of β (r) and ξ (r) , with</p><formula xml:id="formula_81">β (r) = (X T B v B vT X) -1 X T B v B vT I T N -(I T ⊗ A (r) ) - M i=1 δ (r-1) i W ⊗ 0i y v . 2. Update δ (</formula><formula xml:id="formula_82">δ (r) = (H -B T ZV 0 ) T (H -B T ZV 0 ) -1 (H -B T ZV 0 ) T •(B T Zξ (r) -B T y + K(I T N -(I T ⊗ A (r) ))y v ).</formula><p>3. Using the Least Angle Regression (LARS), solve sequentially for each row of A, denoted η T j , fixing all the remaining (1, . . . , j -1, j + 1, . . . , n) rows, for j = 1, . . . , N . That is, solve</p><formula xml:id="formula_83">η (r) j = arg min η j 1 2T B T y -B T Zη -B T ZV 0 δ (r-1) -B T X β (r-1) vec(I N ) 2 + λ T η 1 , where η = (η (r-1)T 1 , . . . , η (r-1)T j-1 , η j , η (r-1)T j+1 , . . . , η (r-1)T n</formula><p>) T , subject to the constraints as stated in (2.7). We obtain ξ (r) = (η -1) is smaller than some predetermined number. The LASSO solution is ξ = ξ (r) , β = β (r) and δ = δ (r) . We can construct A from ξ = vec( A T ).</p><formula xml:id="formula_84">(r)T 1 , . . . , η (r)T n ) T . 4. Repeat steps 1-3, until ξ (r) -ξ (r</formula><p>With the LASSO solution, compute the final adaptive LASSO stage, which is obtained by setting the initial values as ξ, β, and δ, and repeating the steps above with the following modifications.</p><p>The Block Coordinate Descent Algorithm (Adaptive LASSO stage) 2 ′ . Introduce penalization for δ: -1) is defined similar to h in (3.8) with A replaced by (r-1) , and the above is subjected to the constraints as stated in (3.8).</p><formula xml:id="formula_85">δ (r) = arg min δ 1 2T B T y -B T Zξ (r-1) -g (r-1) -(B T ZV 0 -H)δ 2 + λ ′ T u T |δ|, where u = (| δ 1 | -1 , . . . , | δ M | -1 ) T , g (r</formula><formula xml:id="formula_86">A</formula><p>3 ′ . The adaptive LASSO objective function observes penalty λ T v T |η|, that is,</p><formula xml:id="formula_87">η (r) j = arg min η j 1 2T B T y -B T Zη -B T ZV 0 δ (r-1) -B T X β (r-1) vec(I N ) 2 + λ T v T |η|, where v = (| ξ 1 | -1 , . . . , | ξ N 2 | -1 ) T</formula><p>, and remaining definitions are as in step 3. The above is also subjected to the constraints as stated in (3.6).</p><p>For the choice of λ T and λ ′ T used in the penalization of ξ and δ, respectively, we minimize the following BIC criterion with respect to both of them:</p><formula xml:id="formula_88">BIC(λ ξ,T , λ δ,T ) = log T -2 B T y -B T Z ξ -B T ZV 0 δ -B T X β vec(I N ) 2 +| S| log(T ) T log(log(2N -2)) (4.17)</formula><p>where ξ and δ are the adaptive LASSO solutions with tuning parameters λ ξ,T and λ δ,T , respectively, and β = β( ξ, δ). The set S is the indices for the non-zero values of ξ. The BIC criterion (4.17) is in fact inspired by <ref type="bibr" target="#b43">Wang et al. (2009)</ref>. <ref type="foot" target="#foot_1">4</ref> Although the value of a is unknown in the definition of B, the optimal values λ T and λ ′ T are in fact independent of a because of the logarithmic operation in the first term of (4.17). In practice we set a = 1.</p><p>Remark 2. We mention in the discussions of Theorem 3 and 4 how to estimate Σ and S 0 by finding a cut-off in the infinite sum. In practice, since the matrices involved in the infinite sum are usually almost zero everywhere when |τ | is larger than 2 or 3, we can compare the individual matrices at different τ , up to |τ | = 10 for example, and select a cut-off such that the sum changes little beyond that. agonal. This ensures that the variance-covariance matrix is symmetric and introduces spatial dependence also in the disturbance term. Each column of the covariates X t are also generated as standard normals, and added to the ǫ t divided by half. Instruments B t are equal to the covariates plus a standard normal noise. We provide simulations with alternative specifications in Subsection 1.1 of the supplementary materials to this article. The vector of true β * is equal to one. All simulations introduce individual fixed effects. Finally, response data y t are generated according to model (2.4). In all simulations, we consider N = 25, 50 and 75 and T = 50, 100 and 200. Tuning parameters are chosen by the BIC criterion in (4.17). Each combination has at least one thousand replications. Standard errors across replications are shown in parentheses.</p><p>In Table <ref type="table">1</ref>, we use several criteria to evaluate the performance of the estimator. Specificity is defined as the proportion of true zeros estimated as zeros. Sensitivity is the proportion of non-zeros estimated as non-zeros. These measures apply to A * and δ * . Furthermore, we present the L 1 norm ξξ * 1 of the LASSO estimator ξ, and also ξξ * 1 of the adaptive LASSO estimator ξ. We show the bias for the elements of A * , δ * , and β * . Finally, we compute the sparsity of A * .</p><p>Table <ref type="table">1</ref> shows very good performance of the estimator for various choices of N and T . Specificity of A * is above 95% in most cases, and sensitivity approaches 100% as more time periods are made available. In the "no expert knowledge" case, performance is slightly better at lower T , and slightly deteriorates when expert matrices are included in the estimation in the "partial expert knowledge case." This is expected as sparse deviation may pick up estimation errors of δ 0 . In the "full expert knowledge case," the estimated sparse deviation is 99% of zeros (since by construction there are no true non-zeros, the sensitivity is not defined). Compared to the earlier partial-knowledge case, the practitioner could then interpret this result as a correct specification of expert matrices.</p><p>Results on LASSO and adaptive LASSO L 1 norms show that the latter provided significant gains in performance. Moreover, the biases on β and δ are small. Finally, selection of relevant δ's is demonstrated by the specificity and sensitivity parameters, which in most cases are above 80%.</p><p>Additional simulation results, which can be found in the supplementary materials to this paper, demonstrate the robustness of the procedure under alternative scenarios.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Table 1: Simulation results</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>No knowledge</head><p>Partial knowledge Full knowledge <ref type="table" target="#tab_0">T=50 T=100 T=200 T=50 T=100 T=200 T=50 T=100</ref> T=200 . N = 25 A * Specificity .995 .998 .999 .995 .991 .977 .995 .996 .997 (.004) (.002) (.001) (.005) (.008) (.017) (.005) (.004) (.005) A * Sensitivity .975 1.000 1.000 .846 .933 .984 ---(.030) (.004) (.000) (.059) (.053) (.027) A * bias -.022 -.021 -.021 -.027 -.026 -.026 .000 .000 .000 (.001) (.000) (.000) (.002) (.001) (.002) (.000) (.000) (.000) LASSO L1 .036 .033 .030 .035 .035 .037 .013 .013 .010 (.002) (.002) (.001) (.003) (.003) (.004) (.002) (.002) (.001) AdaLASSO L1 .023 .022 .022 .028 .027 .027 .000 .000 .000 (.001) (.000) (.000) (.002) (.001) (.002) (.000) (.000) (.000) Sparsity .946 .948 .949 .953 .945 .929 .995 .996 .997 (.005) (.002) (.001) (.005) (.008) (.016) (.005) (.004) (.005) β bias .019 .015 .011 .038 .033 .029 .029 .020 .014 (.011) (.008) (.006) (.020) (.016) (.013) (.016) (.010) (.007) δ * Specificity 1.000 1.000 1.000 .876 .814 .751 .999 1.000 1.000 (.000) (.000) (.000) (.085) (.095) (.088) (.009) (.000) (.000) δ * Sensitivity ---.750 .816 .944 .783 .839 .905 (.270) (.246) (.158) (.162) (.167) (.151) δ * Bias .000 .000 .000 .006 .015 .027 -.021 -.016 -.011 (.000) (.000) (.000) (.013) (.014) (.011) (.007) (.007) (.007) N = 50 A * Specificity .960 .972 .984 .958 .953 .940 .961 .970 .977 (.004) (.004) (.003) (.010) (.014) (.018) (.004) (.005) (.007) A * Sensitivity .872 .980 1.000 .666 .847 .966 ---(.031) (.013) (.002) (.083) (.058) (.020) A * bias -.012 -.011 -.011 -.018 -.017 -.016 .000 .000 .000 (.000) (.000) (.000) (.002) (.002) (.001) (.000) (.000) (.001) LASSO L1 .029 .027 .023 .029 .028 .028 .017 .016 .013 (.001) (.001) (.001) (.001) (.001) (.001) (.001) (.001) (.001) AdaLASSO L1 .015 .013 .011 .019 .018 .017 .002 .002 .001 (.001) (.000) (.000) (.002) (.002) (.001) (.000) (.000) (.000) Sparsity .918 .925 .934 .927 .913 .894 .961 .970 .977 (.004) (.003) (.003) (.007) (.012) (.016) (.004) (.005) (.007) β bias .010 .009 .007 .034 .026 .020 .025 .017 .011 (.006) (.005) (.004) (.018) (.012) (.009) (.012) (.009) (.006) δ * Specificity 1.000 1.000 1.000 .770 .749 .714 .991 .988 .989 (.000) (.000) (.000) (.091) (.095) (.090) (.035) (.039) (.039) δ * Sensitivity ---.994 .998 .998 .895 .898 .917 (.053) (.030) (.030) (.155) (.154) (.144) δ * Bias .000 .000 .000 .040 .039 .040 -.009 -.004 .001 (.000) (.000) (.000 ) (.011) (.010) (.006) (.010) (.013) (.015) N = 75 A * Specificity .945 .958 .967 .931 .933 .995 .998 .999 .999 (.003) (.003) (.002) (.007) (.010) (.004) (.001) (.001) (.001) A * Sensitivity .747 .879 .989 .750 .790 .805 ---(.032) (.021) (.007) (.060) (.048) (.096) A * bias -.009 -.008 -.008 -.012 -.012 -.010 .000 .000 .000 (.000) (.000) (.000) (.002) (.001) (.001) (.000) (.000) (.000) LASSO L1 .024 .024 .023 .025 .025 .017 .008 .008 .009 (.000) (.000) (.000) (.001) (.001) (.001) (.000) (.001) (.001) AdaLASSO L1 .013 .010 .009 .015 .013 .011 .000 .000 .000 (.000) (.000) (.000) (.001) (.001) (.001) (.000) (.000) (.000) Sparsity .916 .916 .920 .907 .897 .955 .998 .999 .999 (.003) (.003) (.002) (.005) (.008) (.006) (.001) (.001) (.001) β bias .006 .006 .005 .031 .021 .013 .017 .011 .008 (.003) (.004) (.003) (.016) (.011) (.006) (.009) (.006) (.004) δ * Specificity 1.000 1.000 1.000 .729 .709 .790 1.000 1.000 1.000 (.000) (.000) (.000) (.107) (.097) (.092) (.000) (.000) (.000) δ * Sensitivity ---1.000 1.000 1.000 .729 .828 .865 (.000) (.000) (.000) (.131) (.167) (.164) δ * Bias .000 .000 .000 .040 .043 .027 -.022 -.017 -.013 (.000) (.000) (.000) (.013) (.010) (.011) (.004) (.006) (.007)</p><p>Notes: Simulated results under various combinations of N and T for 1,000 iterations. "No knowledge case" refers to the "No expert knowledge case,"where expert matrices are not used in the estimated model, and the true network is defined by the sparse deviation only. In the "Partial knowledge" case, the true matrix is a combination of two expert matrices and a sparse deviation. There are no sparse deviations in true matrix of the "Full knowledge" case, but it is included in the estimated model. Specificity (Sensitivity) refers to the proportion of true zeros (non-zeros) that are estimated as zeros (non-zeros). Lasso L1 and AdaLasso L1 refer to the L1 norm of the vectorized sparse deviation matrix of the LASSO and adaptive LASSO steps, respectively. Standard error across are calculated across iterations. Penalization parameters are chosen by BIC.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.2">Empirical illustration</head><p>In this subsection, we illustrate how the procedure can be applied to uncover new findings in empirical practice. We provide suggestive evidence that the stock returns exhibit significant crosssectional correlation, even after controlling for fluctuation in the market risk to account for the co-movement in stocks due to external reasons to specific pairs of stocks. Thus the residual correlation in stocks can neither be fully explained by aggregate shocks nor by several potential measures of proximity between firms, both economical and geographical. <ref type="bibr" target="#b19">Fama and French (1992</ref><ref type="bibr" target="#b20">, 1993</ref><ref type="bibr">and 1996)</ref> proposed a benchmark stock return model which include factors to capture movements in market risk. The so-called "Fama-French factors" are calculated over a very large class of stocks. These factors are meant to absorb co-movements that are not particular to a specific pair of stocks, but are instead due to general market fluctuations.</p><p>See <ref type="bibr" target="#b24">Feng et al. (2017)</ref> for additional factors and measures of market risk. However, these papers did not explore that, beyond general market movements, stock returns might directly affect other stock returns. One possibility, for example, is that firms are subject to more specific sectoral or state shocks, or that interconnectedness in the supply chains is reflected as co-movement in stock returns. Other papers in the literature, such as <ref type="bibr" target="#b18">Engle et al. (2012)</ref>, <ref type="bibr" target="#b16">Diebold and Yilmaz (2015)</ref>, and recent work by <ref type="bibr" target="#b7">Barigozzi and Brownlees (2018)</ref> consider the spillovers of the volatility measures across markets. <ref type="foot" target="#foot_3">6</ref>To bring light to this issue and quantify the prevalence of cross-section dependence in the intra-market stock returns, we build a panel of daily returns of the largest N = 75 firms traded on the New York Stock Exchange throughout 2017. We obtain T = 251 trading days. Reproducing the Fama-French papers, we use their factors as covariates. <ref type="foot" target="#foot_4">7</ref> We consider the following eight measures of proximity: firms' same sector and subsector of activity according to GICS classifications, state and city of the headquarters, inverse and inverse squared distance, and the state-sector and subsector-state interactions. If any row sums of the matrices exceed one, we divide them by the L 1 norm of the row. These constitute our expert matrices W 0i .</p><p>In specification (i) we make no use of expert matrices, corresponding to "no expert knowledge" in the previous subsection. The density of the estimated sparse adjustment matrix (defined as one minus the sparsity) is 12.4%. It is not significantly affected by the inclusion of three or five Fama-French factors. We then add the two measures of economic distance in specification (ii): similarity along sectors or subsectors of activity. Subsector of activity does explain the dependence structure in the cross-section of returns. These results are robust to the inclusion of additional Fama-French factors. This is intuitive, as firms in the same subsector of activity can be subject to common shocks. We then explore measures of distance related to geography in specification (iii). Geographical distance by itself does not matter in any specification. Finally, in (iv) we introduce the interaction of geography and sectors and subsector of activity. In one specification, the interaction of state and sector of activity has explanatory power. Again, this is intuitive, as firms in the same sector of activity may be subject to common state-specific shocks.</p><p>All specifications contain stock fixed effects.</p><p>The density of the estimated sparse adjustment matrix fell from 12.4% to 6.7% in the less parsimonious specification (iv). This indicates that the cross-sectional correlation in stocks may be partly explained by observable characteristics of the firms, but not to the full extent to lead to an adjustment matrix A * populated only by zeros.</p><p>Finally, by interpreting the estimated sparse adjustment matrix, we observe a similar reduction in the clustering coefficient. This coefficient measures the extent to which stock returns form small co-moving subgroups. More specifically, it is defined as the fraction of connected triads that are triangles; that is, the number of times where the (i, j)-th, (j, k)-th and (k, i)-th elements are non-zero under the estimated A * over the number of times that only the (i, j)-th and (j, k)-th elements are non-zero. Therefore, a smaller (larger) coefficient can be interpreted as less (more) comovement along small groups of stocks. We find that the clustering coefficients fall by about half, from .026 in specification (i) to .011 in specification (iv). This is in line with the expectation that groups were, to a large extent, defined by the combination of economic and geographic distance.</p><p>Overall, these results point out the importance of idiosyncratic elements in the co-movement of stocks, captured in the sparse adjustment matrix, that cannot be explained by Fama-French factors or economical or geographical measures of proximity between firms. Notes: Estimated model results with three and five Fama-French factors <ref type="bibr" target="#b20">(Fama and French, 1993)</ref> for the cross-section of stock returns of the N = 75 stocks with largest trading volume in 2017. T = 251. The five Fama-French factors are: the excess return on the market (Rm-Rf) and measures of dispersion as captured by the average return on a portfolio of small stock minus big stocks (Small minus Big, SMB), the average return on the value portfolios minus the average return on growth portfolios (High minus Low, HML), the average return of operating profitability portfolios minus the return on weakly-operating return portfolios (Robust minus Weak, RMW) and, finally, the difference between the return in conservative and aggressive investment portfolios (Conservative minus Agressive, CMA). The first panel shows the estimated β coefficient with standard errors in parenthesis. The second panel shows the estimated δ coefficients for four specifications: with no expert matrix, with economic expert matrices (sector and subsector of activity), with geographic proximity matrices (state, city, inverse and inverse squared distance, calculated over the address of the headquarters), and the interaction of economic and state. Density is one minus sparsity. Clustering coefficient is the fraction of connected triads that are triangles. The size of the largest coefficient is the number of elements of the smallest submatrix such that every stock is connected at least one other, possibly by paths of any length. In our case, the size of the largest component is always equal to the number of stocks.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><figDesc>is assumed to have full rank N , such that there exists a constant u &gt; 0 with λ min (G) ≥ u &gt; 0 uniformly as N → ∞. The maximum eigenvalue of G is uniformly bounded from infinity.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 2 :</head><label>2</label><figDesc>Dependence in stock returns</figDesc><table><row><cell></cell><cell cols="4">3 Fama-French factors</cell><cell cols="4">5 Fama-French factors</cell></row><row><cell></cell><cell>(i)</cell><cell>(ii)</cell><cell>(iii)</cell><cell>(iv)</cell><cell>(i)</cell><cell>(ii)</cell><cell>(iii)</cell><cell>(iv)</cell></row><row><cell>Excess return (Rm-Rf)</cell><cell>.011</cell><cell>.006</cell><cell>.003</cell><cell>.003</cell><cell>.012</cell><cell>.006</cell><cell>.005</cell><cell>.005</cell></row><row><cell></cell><cell cols="2">(.001) (.001)</cell><cell>(.005)</cell><cell>(.005)</cell><cell>(.001)</cell><cell>(.001)</cell><cell>(.004)</cell><cell>(.004)</cell></row><row><cell>Small minus Big (SMB)</cell><cell>-.009</cell><cell>-.004</cell><cell>-.002</cell><cell>-.002</cell><cell>-.008</cell><cell>-.004</cell><cell>-.003</cell><cell>-.003</cell></row><row><cell></cell><cell cols="2">(.002) (.001)</cell><cell>(.007)</cell><cell>(.007)</cell><cell>(.002)</cell><cell>(.001)</cell><cell>(.006)</cell><cell>(.006)</cell></row><row><cell>High minus Low (HML)</cell><cell>.013</cell><cell>.005</cell><cell>.001</cell><cell>.001</cell><cell>.012</cell><cell>.004</cell><cell>.001</cell><cell>.001</cell></row><row><cell></cell><cell cols="2">(.002) (.001)</cell><cell>(.007)</cell><cell>(.007)</cell><cell>(.002)</cell><cell>(.001)</cell><cell>(.006)</cell><cell>(.006)</cell></row><row><cell>Robust minus Weak (RMW)</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell>.005</cell><cell>.001</cell><cell>.001</cell><cell>.001</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell>(.002)</cell><cell>(.001)</cell><cell>(.007)</cell><cell>(.007)</cell></row><row><cell>Conservative minus Aggressive (CMA)</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell>.003</cell><cell>.002</cell><cell>.002</cell><cell>.002</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell>(.002)</cell><cell>(.001)</cell><cell>(.006)</cell><cell>(.006)</cell></row><row><cell>Sector</cell><cell>-</cell><cell>.000</cell><cell>.000</cell><cell>.000</cell><cell>-</cell><cell>.000</cell><cell>.000</cell><cell>.000</cell></row><row><cell>Subsector</cell><cell></cell><cell>.161</cell><cell>.173</cell><cell>.245</cell><cell></cell><cell>.120</cell><cell>.112</cell><cell>.055</cell></row><row><cell></cell><cell></cell><cell cols="2">(.025) (.026)</cell><cell>(.036)</cell><cell></cell><cell>(.031)</cell><cell>(.034)</cell><cell>(.023)</cell></row><row><cell>State</cell><cell></cell><cell></cell><cell>.000</cell><cell>.000</cell><cell></cell><cell></cell><cell>.000</cell><cell>.000</cell></row><row><cell>City</cell><cell></cell><cell></cell><cell>.000</cell><cell>.000</cell><cell></cell><cell></cell><cell>.000</cell><cell>.000</cell></row><row><cell>Distanceˆ(-1)</cell><cell></cell><cell></cell><cell>.000</cell><cell>.000</cell><cell></cell><cell></cell><cell>.000</cell><cell>.000</cell></row><row><cell>Distanceˆ(-2)</cell><cell></cell><cell></cell><cell>.000</cell><cell>.000</cell><cell></cell><cell></cell><cell>.000</cell><cell>.000</cell></row><row><cell>Sector x state</cell><cell></cell><cell></cell><cell></cell><cell>.000</cell><cell></cell><cell></cell><cell></cell><cell>.107</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell>(.023)</cell></row><row><cell>Subsector x state</cell><cell></cell><cell></cell><cell></cell><cell>.000</cell><cell></cell><cell></cell><cell></cell><cell>.000</cell></row><row><cell>Density</cell><cell>.124</cell><cell>.122</cell><cell>.077</cell><cell>.076</cell><cell>.124</cell><cell>.122</cell><cell>.068</cell><cell>.067</cell></row><row><cell>Clustering</cell><cell>.026</cell><cell>.025</cell><cell>.013</cell><cell>.012</cell><cell>.025</cell><cell>.025</cell><cell>.012</cell><cell>.011</cell></row><row><cell>Size of largest component</cell><cell>75</cell><cell>75</cell><cell>75</cell><cell>75</cell><cell>75</cell><cell>75</cell><cell>75</cell><cell>75</cell></row></table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="1" xml:id="foot_0"><p>Only recently has the literature considered dynamic neighboring matrices (see<ref type="bibr" target="#b17">Elhorst (2014)</ref>, among others).</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="4" xml:id="foot_1"><p>We also experimented with the Extended BIC of<ref type="bibr" target="#b12">Chen and Chen (2008)</ref> and obtained similar results.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="5" xml:id="foot_2"><p>Downloaded from the GeoDist database from CEPII, available at www.cepii.fr.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="6" xml:id="foot_3"><p>For other work in this are, see also<ref type="bibr" target="#b31">Kutzker and Wied (2018)</ref>.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="7" xml:id="foot_4"><p>Daily data for the Fama-French factors are available at French's data library at http://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html.</p></note>
+		</body>
+		<back>
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1">Finding a more suitable γ and selection of instruments</head><p>We introduce γ = L -1 1 L in Section 2.1 for aggregating the instruments. In fact, this can be estimated to provide maximal correlation with the endogenous variable y t through two-stage least squares. In doing so, we consider the model</p><formula xml:id="formula_89">y t = α + B t γ + v t ,</formula><p>where α is an N × 1 vector of unknown coefficients, and γ is the K × 1 vector of coefficients we want to estimate. To get γ, we can consider the problem min α,γ T t=1 y tα -B t γ</p><p>2 , where we have the solution</p><formula xml:id="formula_90">γ = T t=1 (B t -B) T (B t -B) -1 T t=1 (B t -B) T (y t -ȳ).</formula><p>Implementing this does not change our proof much, since we can easily show that γ 1 = O p (1), which substitutes γ 1 = 1 in all of our proofs.</p><p>If the set (2.5) contains too many instruments, then we can follow <ref type="bibr" target="#b9">Belloni et al. (2012)</ref> and use LASSO to select the most important linear combination of them, which essentially is a penalized version of the problem above. The proofs of all theorems still stay the same. Since in this paper we do not have many instruments, the practical performance in our simulations and real data analysis are indistinguishable among using γ = L -1 1 L , the least squares estimator γ above, or the LASSO estimator from <ref type="bibr" target="#b9">Belloni et al. (2012)</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5">Simulations and empirical illustration</head><p>We conduct a detailed Monte-Carlo exercise in Section 5.1 to demonstrate the finite-sample performance of our estimators. In Section 5.2, we use our methodology to analyze the determinants of cross-section variation in returns of the largest stocks traded on the New York Stock Exchange in 2017. We find that firms' stock returns exhibit a dependence in the cross-section that cannot be explained by observable characteristics such as similar sector or subsector of activity.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.1">Simulation</head><p>We first construct the expert neighboring matrices from various measures of true distances between units. This approximates matrices that practitioners face in real-world applications. More specifically, we construct the expert matrices W 0i from the following ten measures of distance:</p><p>dummies for sharing a border; free-trade agreement; common currency; past colonial relation; common language, religion and origins of the legal system; and if the pair were ever part of the same nation. We further add non-binary relations for the inverse distance between capital cities and inverse time zone difference. 5 Finally, we construct the sparse deviation matrix A * sampling 5% of its elements to be equal to 0.5. If any row sums of the ten W 0i or A * exceed one, we divide by the L 1 norm of the row.</p><p>We construct the following scenarios to demonstrate the flexibility of the method. They exemplify the following situations to which the practitioner could be subjected to, and are particular cases of the general specification in Equation (2.3):</p><formula xml:id="formula_91">W * = A * + M i=1 δ * i • W 0i .</formula><p>(5.1) (a) No expert knowledge: The practitioner either has no prior knowledge about the neighboring matrix or is unwilling to use it. This corresponds to the estimation of sparse spatial weight matrix without any prior specifications, and the method reduces to estimating the entire spatial weight matrix. In this case, we assume that W * = A * . The weights δ * i are not estimated, and M = 0.</p><p>(b) Partial expert knowledge: The practitioner uses the full information of the ten expert matrices, so M = 10, and selects which matrices best explain the data. Yet, the practitioner has partial information in the sense that he or she did not fully specify the expert matrices, and the true network has a sparse deviation from its linear combination. We assume that</p><formula xml:id="formula_92">W * = 0.2 • W 01 + 0.2 • W 02 + A * , so δ * 1 = δ * 2 = 0.2 and δ * 3 = • • • = δ * 10 = 0.</formula><p>The estimated model includes the M = 10 matrices.</p><p>(c) Full expert knowledge: Similar to the case above, except that we do not include the sparse deviation in the true network, i.e.,</p><formula xml:id="formula_93">W * = 0.2 • W 01 + 0.2 • W 02 , so δ * 1 = δ * 2 = 0.2 and δ * 3 = • • • = δ * 10 = 0.</formula><p>The practitioner is uncertain if he or she has the correct specification, however, and includes the sparse deviation term in the estimated model.</p><p>By focusing on the case of no-expert knowledge, we can assess the performance in cases when no information is available about the true neighboring matrix. The partial and full information cases highlight the benefits of using the method combined with prior information on the neighboring matrices. Doing so, we make use of available information and estimate a model robust to misspecification or incompleteness.</p><p>At each period, disturbances ǫ t are jointly normally distributed, with variance-covariance matrix having 1 on the diagonal. Off-diagonal elements (i, j) above the main diagonal are randomly chosen to be 0.25 with 10% probability, and replicated to the (j, i) element below the main di-</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6">Conclusion</head><p>In this paper, we unify the selection and estimation of a spatial weight matrix in a spatial autoregressive model through the introduction of a sparse adjustment matrix, added to a linear combination of specified spatial weight matrices from expert knowledge. Without any expert knowledge, the problem reduces to pure spatial weight matrix estimation. When one or more spatial matrices are used, this is a selection plus estimation problem. The estimation of the sparse adjustment matrix, and the selection of which specified spatial weight matrix to include in a linear combination, are done through solving two respective adaptive LASSO problems. Theoretical results support inferences on various parameters including the elements in the sparse adjustment matrix itself, with practical implementation also discussed.</p><p>From the simulations and real data analysis, we see that our method indeed practically allows for the improvement of the spatial weight matrix estimation through giving a non-zero estimated sparse adjustment matrix in the stock returns example. This provides insights into the comovements of different spatial units and how much our expert knowledge, translated into specified spatial weight matrices, helps in understanding such co-movements.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Supplementary Material</head><p>All the proofs are presented in the supplementary materials in this paper.</p></div>			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Two-step lasso estimation of the spatial weights matrix</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Ahrens</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Bhattacharjee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">3</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page">128</biblScope>
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Peer effects in european primary schools: Evidence from pirls</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Ammermuller</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J.-S</forename><surname>Pischke</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Labor Economics</title>
+		<imprint>
+			<biblScope unit="volume">27</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="315" to="348" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Does school integration generate peer effects? evidence from boston&apos;s metco program</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">D</forename><surname>Angrist</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Lang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">American Economic Review</title>
+		<imprint>
+			<biblScope unit="volume">94</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="1613" to="1634" />
+			<date type="published" when="2004-12">2004. December</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Modeling different kinds of spatial dependence in stock returns</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Arnold</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Stahlberg</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Wied</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Empirical Economics</title>
+		<imprint>
+			<biblScope unit="volume">44</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="761" to="774" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<monogr>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Bai</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Silverstein</surname></persName>
+		</author>
+		<title level="m">Spectral Analysis of Large Dimensional Random Matrices. Springer Series in Statistics</title>
+		<meeting><address><addrLine>New York</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">A two stage approach to spatio temporal analysis with strong and weak cross sectional dependence</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Bailey</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Holly</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">H</forename><surname>Pesaran</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Applied Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">31</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="249" to="280" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Large bayesian vector auto regressions</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Bańbura</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Giannone</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Reichlin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Applied Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">25</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="71" to="92" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<monogr>
+		<title level="m" type="main">Nets: Network estimation for time series</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Barigozzi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">T</forename><surname>Brownlees</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Nonparametric estimation of the spatial connectivity matrix using spatial panel data</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Beenstock</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Felsenstein</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">44</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="386" to="397" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Sparse models and methods for optimal instruments with an application to eminent domain</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Belloni</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Chernozhukov</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Hansen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">80</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="2369" to="2429" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Measuring the effects of monetary policy: a factoraugmented vector autoregressive (favar) approach</title>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">S</forename><surname>Bernanke</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Boivin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Eliasz</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Quarterly journal of economics</title>
+		<imprint>
+			<biblScope unit="volume">120</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="387" to="422" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Estimation of the spatial weights matrix under structural constraints</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Bhattacharjee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Jensen-Butler</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">43</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="617" to="634" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Extended bayesian information criteria for model selection with large model spaces</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Chen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometrika</title>
+		<imprint>
+			<biblScope unit="volume">95</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="759" to="771" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Covariance and precision matrix estimation for high-dimensional time series</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Xu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">B</forename><surname>Wu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Annals of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">41</biblScope>
+			<biblScope unit="issue">12</biblScope>
+			<biblScope unit="page" from="2994" to="3021" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<monogr>
+		<title level="m" type="main">Multilevel modelling with spatial effects</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Corrado</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Fingleton</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Variable selection and estimation with the seamless-l0 penalty</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Dicker</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Huang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Lin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistica Sinica</title>
+		<imprint>
+			<biblScope unit="volume">23</biblScope>
+			<biblScope unit="page" from="929" to="962" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Trans-atlantic equity volatility connectedness: Us and european financial institutions, 2004-2014</title>
+		<author>
+			<persName><forename type="first">F</forename><forename type="middle">X</forename><surname>Diebold</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Yilmaz</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Financial Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="81" to="127" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Dynamic spatial panels: models, methods and inferences</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Elhorst</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Spatial Econometrics</title>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2014">2014</date>
+			<biblScope unit="page" from="95" to="119" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Volatility spillovers in east asian financial markets: a mem-based approach</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">F</forename><surname>Engle</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">M</forename><surname>Gallo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Velucchi</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Review of Economics and Statistics</title>
+		<imprint>
+			<biblScope unit="volume">94</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="222" to="223" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">The cross-section of expected stock returns</title>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">F</forename><surname>Fama</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">R</forename><surname>French</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Finance</title>
+		<imprint>
+			<biblScope unit="volume">47</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="427" to="465" />
+			<date type="published" when="1992">1992</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Common risk factors in the returns on stocks and bonds</title>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">F</forename><surname>Fama</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">R</forename><surname>French</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of financial economics</title>
+		<imprint>
+			<biblScope unit="volume">33</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="3" to="56" />
+			<date type="published" when="1993">1993</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Multifactor explanations of asset pricing anomalies</title>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">F</forename><surname>Fama</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">R</forename><surname>French</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The journal of finance</title>
+		<imprint>
+			<biblScope unit="volume">51</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="55" to="84" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Endogeneity in high dimensions</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Fan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Liao</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ann. Statist</title>
+		<imprint>
+			<biblScope unit="volume">42</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="872" to="917" />
+			<date type="published" when="2014-06">2014, 06</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Non-concave penalized likelihood with np-dimensionality</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Fan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Lv</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Transactions on Information Theory</title>
+		<imprint>
+			<biblScope unit="volume">57</biblScope>
+			<biblScope unit="page" from="5467" to="5484" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<monogr>
+		<author>
+			<persName><forename type="first">G</forename><surname>Feng</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Giglio</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Xiu</surname></persName>
+		</author>
+		<title level="m">Taming the factor zoo</title>
+		<imprint>
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Regularization paths for generalized linear models via coordinate descent</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Friedman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Hastie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Tibshirani</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Statistical Software</title>
+		<imprint>
+			<biblScope unit="volume">33</biblScope>
+			<biblScope unit="page" from="1" to="22" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Crime and social interactions</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>Glaeser</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Sacerdote</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">A</forename><surname>Scheinkman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Quarterly Journal of Economics</title>
+		<imprint>
+			<biblScope unit="volume">111</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="507" to="548" />
+			<date type="published" when="1996-05">1996. May</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">An extension of kelejian&apos;s j test for non-nested spatial models</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Piras</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">41</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="281" to="292" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">An extension of the j test to a spatial panel data framework</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Piras</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Applied Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">31</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="387" to="402" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">A generalized spatial two stage least squares procedure for estimating a spatial autoregressive model with autoregressive disturbances</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Real Estate Finance and Economics</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="page" from="99" to="121" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Oracle inequalities for high dimensional vector autoregressions</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">B</forename><surname>Kock</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Callot</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">186</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="325" to="344" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<monogr>
+		<title level="m" type="main">Testing the correct specification of a spatial dependence panel model for stock returns</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Kutzker</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Wied</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">Detection and estimation of block structure in spatial weight matrix</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Lam</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">C L</forename><surname>Souza</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometric Reviews</title>
+		<imprint>
+			<biblScope unit="page" from="1" to="30" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">Estimation of spatial autoregressive panel data models with fixed effects</title>
+		<author>
+			<persName><forename type="first">L.-F</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">154</biblScope>
+			<biblScope unit="page" from="165" to="185" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<monogr>
+		<title level="m" type="main">Introduction to Spatial Econometrics</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Lesage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">K</forename><surname>Pace</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2008">2008</date>
+			<publisher>Chapman and Hall</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<monogr>
+		<title level="m" type="main">A robust test for network generated dependence</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2017-08">2017. August</date>
+		</imprint>
+	</monogr>
+	<note>Working paper</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<analytic>
+		<title level="a" type="main">The subprime credit crisis and contagion in financial markets</title>
+		<author>
+			<persName><forename type="first">F</forename><forename type="middle">A</forename><surname>Longstaff</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Financial Economics</title>
+		<imprint>
+			<biblScope unit="volume">97</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="436" to="450" />
+			<date type="published" when="2010-09">2010, September</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<analytic>
+		<title level="a" type="main">l1-regularization of high-dimensional time-series models with non-gaussian and heteroskedastic errors</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Medeiros</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Mendes</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">191</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="255" to="271" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<analytic>
+		<title level="a" type="main">Modeling regional interdependencies using a global error-correcting macroeconometric model</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">H</forename><surname>Pesaran</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Schuermann</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">M</forename><surname>Weiner</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Business &amp; Economic Statistics</title>
+		<imprint>
+			<biblScope unit="volume">22</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="129" to="162" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<analytic>
+		<title level="a" type="main">Spatial price competition: A semiparametric appraoch</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Pinkse</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">E</forename><surname>Slade</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brett</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">70</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="1111" to="1153" />
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b40">
+	<analytic>
+		<title level="a" type="main">Nonstationary-extended whittle estimation</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Shao</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometric Theory</title>
+		<imprint>
+			<biblScope unit="volume">26</biblScope>
+			<biblScope unit="page" from="1060" to="1087" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b41">
+	<analytic>
+		<title level="a" type="main">Functional-coefficient spatial autoregressive models with nonparametric spatial weights</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Sun</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">195</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="134" to="153" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b42">
+	<analytic>
+		<title level="a" type="main">Regression shrinkage and selection via the lasso</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Tibshirani</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society. Series B (Methodological)</title>
+		<imprint>
+			<biblScope unit="volume">58</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="267" to="288" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b43">
+	<analytic>
+		<title level="a" type="main">Shrinkage tuning parameter selection with a diverging number of parameters</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Leng</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society: Series B (Statistical Methodology)</title>
+		<imprint>
+			<biblScope unit="volume">71</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="671" to="683" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b44">
+	<analytic>
+		<title level="a" type="main">Nonlinear system theory: another look at dependence</title>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">B</forename><surname>Wu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Proc. Natl. Acad. Sci. USA</title>
+		<imprint>
+			<biblScope unit="volume">102</biblScope>
+			<biblScope unit="page" from="14150" to="14154" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b45">
+	<analytic>
+		<title level="a" type="main">Asymptotic theory for stationary processes</title>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">B</forename><surname>Wu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistics and Its Interface</title>
+		<imprint>
+			<biblScope unit="volume">4</biblScope>
+			<biblScope unit="page" from="207" to="226" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b46">
+	<analytic>
+		<title level="a" type="main">On model selection consistency of lasso</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Zhao</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Yu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Machine Learning Research</title>
+		<imprint>
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="page" from="2541" to="2563" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b47">
+	<analytic>
+		<title level="a" type="main">Nonparametric inference of quantile curves for nonstationary time series</title>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Zhou</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ann. Statist</title>
+		<imprint>
+			<biblScope unit="volume">38</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="2187" to="2217" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b48">
+	<analytic>
+		<title level="a" type="main">The adaptive lasso and its oracle properties</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Zou</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">101</biblScope>
+			<biblScope unit="page" from="1418" to="1429" />
+			<date type="published" when="2006-12">2006, December</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

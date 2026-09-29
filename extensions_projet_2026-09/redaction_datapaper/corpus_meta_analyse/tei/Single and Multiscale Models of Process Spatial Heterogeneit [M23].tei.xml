@@ -1,0 +1,1098 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Single and Multiscale Models of Process Spatial Heterogeneity</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author role="corresp">
+							<persName><forename type="first">Levi</forename><forename type="middle">John</forename><surname>Wolf</surname></persName>
+							<email>levi.john.wolf@bristol.ac.uk</email>
+							<affiliation key="aff0">
+								<orgName type="department">School of Geographical Sciences</orgName>
+								<orgName type="institution">University of Bristol</orgName>
+								<address>
+									<settlement>Bristol</settlement>
+									<country key="GB">United Kingdom</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Taylor</forename><forename type="middle">M</forename><surname>Oshan</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="department">School of Geographical Sciences and Urban Planning</orgName>
+								<orgName type="institution">Arizona State University</orgName>
+								<address>
+									<settlement>Tempe</settlement>
+									<region>Arizona</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">A</forename><forename type="middle">Stewart</forename><surname>Fotheringham</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="department">School of Geographical Sciences and Urban Planning</orgName>
+								<orgName type="institution">Arizona State University</orgName>
+								<address>
+									<settlement>Tempe</settlement>
+									<region>Arizona</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">John</forename><surname>Levi</surname></persName>
+						</author>
+						<author>
+							<persName><surname>Wolf</surname></persName>
+						</author>
+						<author>
+							<affiliation key="aff2">
+								<orgName type="department">School of Geographical Sciences</orgName>
+								<orgName type="institution">University of Bristol</orgName>
+								<address>
+									<settlement>Bristol</settlement>
+									<region>Avon</region>
+									<country>United Kingdom of Great Britain Northern Ireland</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Single and Multiscale Models of Process Spatial Heterogeneity</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<idno type="MD5">2672AEC0991DF6DAF47CFF5B310C34D5</idno>
+					<idno type="DOI">10.1111/gean.12147</idno>
+					<note type="submission">Submitted: May 26, 2017. Revised version accepted: September 14, 2017.</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-29T10:21+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Recent work in local spatial modeling has affirmed and broadened interest in multivariate local spatial analysis. Two broad approaches have emerged: Geographically Weighted Regression (GWR) which follows a frequentist perspective and Bayesian Spatially Varying Coefficients models. Although several comparisons between the two approaches exist, recent developments, particularly in GWR, mean that these are incomplete and missing some important axes of comparison. Consequently, there is a need for a more thorough comparison of the two families of local estimators, including recent developments in multiscale variants and their relative performance under controlled conditions. We find that while both types of local models generally perform similarly on a series of criteria, some interesting and important differences exist.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Introduction</head><p>Analytical methods for modeling spatial variation in geographic relationships (process spatial heterogeneity) have long been of interest to researchers from both the social sciences and the physical sciences. Techniques for investigating spatial variation in model parameters have been around for over 40 years <ref type="bibr" target="#b7">(Casetti 1972</ref>) and the development and application of such models has become increasingly pervasive over the last two decades. Typically, these techniques use spatially defined subsets of the available sample to investigate how the relationships vary across a study area. Two categories of spatial analysis techniques for investigating spatial variation can be distinguished. The first group, regional models, require discrete local subsets to be identified by the analyst a priori. This group includes spatial fixed effects models, spatial regime models, and Bayesian hierarchical models that map nested probability models to varying spatial scales. In these cases, the data are partitioned into a finite number of subsets with well-defined membership, so the number of locales that can be compared is fixed at the outset. This makes these models more regional than local in nature and we do not concern ourselves with these models in this article. In contrast, the second group of models estimate process heterogeneity directly from the data without pre-specified groups, typically providing estimates of a process at every location in a sample, and conceptually at locations not in the sample, which allows for a more flexible and in-depth analysis of the heterogeneity among processes. Examples of such models include eigenvector spatial filter-based local regression <ref type="bibr" target="#b24">(Griffith 2008;</ref><ref type="bibr" target="#b19">Oshan and Fotheringham 2016;</ref><ref type="bibr" target="#b31">Murakami et al. 2017;</ref><ref type="bibr" target="#b33">Oshan and Fotheringham 2017)</ref>, geographically weighted regression (GWR) <ref type="bibr" target="#b4">(Brunsdon, Fotheringham, and Charlton 1998;</ref><ref type="bibr" target="#b18">Fotheringham, Charlton and Brunsdon 1998;</ref><ref type="bibr" target="#b16">Fotheringham, Brunsdon, and Charlton 2002;</ref><ref type="bibr" target="#b27">LeSage 2004)</ref>, and some kinds of Bayesian spatially-varying coefficient (SVC) models <ref type="bibr" target="#b21">(Gelfand et al. 2003;</ref><ref type="bibr" target="#b2">Banerjee, Carlin, and Gelfand 2014)</ref>. Of these three types of local models, the GWR and Bayesian SVC frameworks are more frequently encountered and have been the subject of recent comparisons <ref type="bibr" target="#b38">(Waller et al. 2007;</ref><ref type="bibr" target="#b40">Wheeler and Calder 2007;</ref><ref type="bibr" target="#b41">Wheeler and Waller 2009;</ref><ref type="bibr" target="#b13">Finley 2011)</ref>.</p><p>However, many important features of GWR and Bayesian SVC models remain unexplored. First, many previous experiments either use empirical data where the true coefficients are unknown or use relatively small sample sizes, usually consisting of only a few hundred spatial units, or both. Focus on small sample properties is valid but limits understanding. GWR has been shown to be more robust in larger samples <ref type="bibr" target="#b34">(P€ aez, Farber, and Wheeler 2011;</ref><ref type="bibr" target="#b19">Fotheringham and Oshan 2016)</ref>, so explorations of small sample performance likely do not reflect the technique's large sample properties. Second, many comparisons provide a somewhat incomplete picture of the overall model performance. In a controlled experiment, where coefficient surfaces are known, models can be compared on many different dimensions, such as goodness of model fit, surface recovery, estimate accuracy, estimate efficiency, as well as other computational and procedural measures of ease of use. Existing empirical comparisons have generally been assessed by model fit, and thus are limited in the intuition they are able to build. Finally, the multiscale GWR method of <ref type="bibr" target="#b20">Fotheringham, Yang, and Kang (2017)</ref> has not yet been compared Bayesian specifications, such as those previously discussed by <ref type="bibr" target="#b13">Finley (2011)</ref>. As a result, an important aspect of this work is to extend the above-mentioned axes of comparison to multiscale models.</p><p>The primary goal of this article, therefore, is to explore the quality and meaning of single and multiscale specifications of GWR and Bayesian SVC models. As a result, a review of the models and their estimators is first provided. Next, the simulation design used to obtain known nonstationary processes is introduced. Results are then presented, which compare and contrast various features of GWR and SVC models. Specifically, the efficiency and accuracy of each specification's ability to estimate known nonstationary processes are assessed. Computation time and specification generalizability for each model are also considered in order to better gauge the practical trade-offs of each model. In addition, how the bandwidth parameters change between model types and between sample size is examined. Following this, the overall differences and comparative advantages of each technique are summarized. Consequently, a more holistic comparison and evaluation of these local modeling frameworks is provided.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Local analysis of spatially varying relationships</head><p>The subsequent discussion outlines the single and multiscale model specifications of both GWR and SVC models and compares the structure of these local estimators.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Geographically weighted regression</head><p>Geographically weighted methods <ref type="bibr" target="#b4">(Brunsdon, Fotheringham, and Charlton 1998;</ref><ref type="bibr" target="#b18">Fotheringham, Charlton, and Brunsdon 1998;</ref><ref type="bibr" target="#b16">Fotheringham, Brunsdon, and Charlton 2002)</ref>, are a set of techniques to model potential parameter heterogeneity in spatial processes. When focused on the linear model, GWR techniques model spatially nonstationary parameters using a data borrowing technique. Typically, a Geographically Weighted Regression is stated:</p><formula xml:id="formula_0">YðsÞ5XðsÞbðsÞ1eðsÞ (<label>1</label></formula><formula xml:id="formula_1">)</formula><p>where Y(s) denotes the relationship to a response specific to the area around site s. The data for this local process realization is often related to other locales using a smooth function of distance expressed in a local weighting matrix for each location, W(s). Thus, given the form of W(s), location-specific parameter estimates, bðsÞ, can be constructed using standard estimating techniques, essentially conducting a regression at each site:</p><formula xml:id="formula_2">bðsÞ5 X 0 WðsÞX ð Þ 21 X 0 WðsÞY<label>(2)</label></formula><p>Here, W(s) is a diagonal matrix containing the importance weight of the ith observation to the focal site, s. Constructing W(s) can be done in many ways, but common choices of weighting functions are smooth kernel distance functions <ref type="bibr" target="#b16">(Fotheringham, Brunsdon, and Charlton 2002)</ref>, parameterized by some measure of the range or scale of the process and which has a basis in the geographical "law" that nearby things are more related than those that are further away <ref type="bibr" target="#b37">(Tobler 1970</ref>). The range value, often called the "bandwidth," is unknown in practice, so it is typically estimated by optimizing a model fit metric.</p><p>A novel development provided by <ref type="bibr" target="#b20">Fotheringham et al. (2017)</ref>, multiscale GWR or MGWR, allows each b j , j51; 2; . . . ; p, to have a unique bandwidth. In this case, the estimator for parameter k becomes dependent on the bandwidth used for that parameter:</p><formula xml:id="formula_3">bðsÞ j 5 X 0 Wðs; / j ÞX À Á 21 X 0 Wðs; / j ÞY (<label>3</label></formula><formula xml:id="formula_4">)</formula><p>This model is estimated using an iterative back-fitting algorithm developed from the theory of generalized additive models. First, a set of initial estimates is generated and an initial set of predictions for Y is obtained. Then, the residuals for these predictions are computed. These residuals plus the "current" set of estimate values for the first term, denoted f 0 , are then regressed on X 0 using GWR as a subroutine. This provide an estimate of the bandwidth, / 0 for the partial regression between X 0 and f 0 . The process then moves on to the second variable, X 1 , following the same procedure: a new set of residuals is computed using the updated f 0 and these new residuals plus the current value of f 1 are GW-regressed on X 1 to estimate the partial bandwidth / 1 . This continues until the last of the p partial GWRs are computed and each partial smoother f j updated. This constitutes a single iteration of the backfitting, which iterates until f j converge. Again, a full presentation of this technique is provided in <ref type="bibr" target="#b20">Fotheringham et al. (2017)</ref>. At this time, no analytical expression is available for standard errors of the MGWR estimates. Parameter uncertainty in b and / j will be assessed through Monte Carlo replications. The MGWR framework is flexible because it may be used to model processes that exhibit no spatial heterogeneity, have similar spatial heterogeneity, or where each process has a different level and nature of spatial heterogeneity. However, neither GWR nor MGWR treat bandwidth as a stochastic quantity and, therefore, do not provide an estimate of uncertainty associated with the bandwidth estimates.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Bayesian spatially varying coefficients model</head><p>An alternative approach to modeling local spatial relationships is to specify spatial structure using a Bayesian hierarchical model. For Bayesian Spatially Varying Coefficient models with endogenous spatial scales, a specification structure proposed by <ref type="bibr" target="#b21">Gelfand et al. (2003)</ref> has become common. For a full discussion of the different possible generalizations of the SVC, <ref type="bibr" target="#b14">Finley, Banerjee, and Carlin (2007)</ref> or <ref type="bibr" target="#b2">Banerjee, Carlin, and Gelfand (2014)</ref> provides an excellent overview. At its core, the SVC specification is a correlated mixed effects model, where the random effect covariance is structured using a spatial correlation kernel.</p><p>For the SVC model, first consider a model predicting response Y, using p covariates observed at N sites, grouped into an N 3 p design matrix, X. An SVC specification models the response as a function of a global effect l and two random effects, f and e. For site i, the response becomes:</p><formula xml:id="formula_5">y i 5 X p j X ij ðl j 1f ij Þ1e i<label>(4)</label></formula><p>where e i is an independent and identically distributed (iid) normal error term with zero mean and variance s 2 , and f ij is a spatially correlated error term for each process j. In this model, l represents the mean global effect for process j. Then, site-specific parameter estimates, b ij , are recovered by computing l j 1f ij for each site. The spatial structure in the local disturbance term is induced in f through its hierarchical prior covariance. To state this model in vector form, <ref type="bibr" target="#b21">Gelfand et al. (2003)</ref> "stretches" X into an N 3 Np matrix, X s , where each row corresponds to an observation and each set of p columns contains the p covariates observed in that row. This tiling places p-length covariate vectors on the diagonal and zeros elsewhere. Then, f can become the Np31 collection of random effects where the ith block contains p random effects for each of the j processes, and l is Np31 and contains the plength vector for the process means repeated N times. With this tiling, the model can be stated:</p><formula xml:id="formula_6">Y5X s l1X s f1e<label>(5)</label></formula><p>After this, the hierarchical prior for f is structured by a p 3 p between-process covariance matrix, T, and an N 3 N between-site correlation matrix, Hð/Þ, that is a function of / alone. The full covariance matrix for the Np31 spatial random effects is:</p><formula xml:id="formula_7">f N ð0; Hð/Þ TÞ<label>(6)</label></formula><p>Typically, Hð/Þ may be the same kind of spatial kernel function as in a GWR. However, the kernel here affects the covariance of the random effects directly, rather than weighting the data used to estimate local models. This is because the full Hð/Þ T covariance matrix defines a correlation structure between each process at all sites N, embodying the full set of Np 3 Np site-process relationships. As in GWR, this kernel may also be more complex, modeling anisotropy or alternative distance metrics. However, the kernel must provide a valid covariance matrix to ensure the resulting covariance is still valid. This precludes the class of "adaptive" nearest-neighbor bandwidths often used in GWR because these result in an asymmetric H. For the remaining parameters, the SVC model's conventional priors are picked for conditional conjugacy 1 and often estimated via Gibbs sampling <ref type="bibr" target="#b14">(Finley, Banerjee, and Carlin 2007)</ref>.</p><p>To generalize this model to be comparable to an MGWR, a method to model multiple processes with potentially different scales is required. While a specification is suggested in <ref type="bibr" target="#b13">(Finley 2011</ref>, Appendix 1), it must be elaborated to make it operational. The case where all covariates vary locally is derived here since this is the focus of the analysis, but including nonvarying terms is a straightforward extension. First, we define a new tiling of X, called X c , which differs from the tiling used in the single-bandwidth SVC model of <ref type="bibr" target="#b21">Gelfand et al. (2003)</ref> where stacking occurs in N sets of p. For the multiprocess model, we instead stack p sets of N.</p><p>Let X c be an N 3 Np matrix that stacks the diagonalized covariates X j horizontally. This means X c is p N 3 N diagonal matrices:</p><formula xml:id="formula_8">X c 5 Diag½X 1 Diag½X 2 . . . Diag½X p ½<label>(7)</label></formula><p>Then, let f be an Np31 column vector created by stacking each processes' N-vector of sitespecific spatial effects for each of the p processes. Since each process has its own bandwidth, each f j for j 2 f1; 2; . . . ; pg, has its own hierarchical prior. These are modeled separable to match the MGWR specification, which treats subprocesses as conditionally independent of one another. 2 Together, X c f is the N31 vector that matches the correct process-and-site specific random effect f ij to the correct covariate x ij in each site:</p><formula xml:id="formula_9">X c f5 P p j x 1j f 1j P p j x 2j f 2j Ӈ P p j x nj f nj<label>2</label></formula><p>6 6 6 6 6 4 3 7 7 7 7 7 5 (8)</p><p>With this, we can state a local model for the response in vector form:</p><formula xml:id="formula_10">Y5Xl b 1X c f1e<label>(9)</label></formula><formula xml:id="formula_11">f N ð0; Diag½Hð/ j Þr 2 j p j Þ (<label>10</label></formula><formula xml:id="formula_12">) e N ð0; s 2 Þ (<label>11</label></formula><formula xml:id="formula_13">)</formula><p>where Diag½M k i is a block-diagonal matrix with M repeated k times along the diagonal. The covariance matrix for f is a block-diagonal Np 3 Np matrix, so f can be constructed by collecting together the draws of each process's distribution of spatial effects separately:</p><formula xml:id="formula_14">f j N ð0; Hð/ j Þr 2 j Þ (<label>12</label></formula><formula xml:id="formula_15">)</formula><p>Using this blocking, the local effects for each process can again be recovered by adding together the mean effect and the random perturbations for that process:</p><formula xml:id="formula_16">b ij 5ðl b Þ j 1f ij (<label>13</label></formula><formula xml:id="formula_17">)</formula><p>The fact that each processes' spatial random effects decompose into their own distributions also ensures that, after marginalizing or conditioning on the global parameters, the posterior distribution for each process is independent. A Gibbs sampler that iterates between drawing global model parameters fl; s; fg and the process-specific parameters f/ j ; r 2 j g can be defined. Unlike the blocking used in the single-bandwidth SVC, this allows the MSVC to process p of the N 3 N process-specific covariance matrices, rather than handling the full Np 3 Np random effects covariance of the single-bandwidth model. The exact conditional posteriors for this specification are provided as supplementary materials using the analogous prior forms to the single-bandwidth SVC.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Local estimator families</head><p>While GWR and SVC models enable similar analyses, their estimators are quite different and may be categorized as either having a kernel-smoothing term or a mixed effect term, respectively. A primary feature of the mixed effect specification that defines SVC models is a spatially patterned interaction effect defined over the entire map to "localize" a global process estimate. Typically, this means that the estimator is divided into one process-specific mean estimate, l j , and a random component for each observation in the jth process, f ij :</p><formula xml:id="formula_18">x ij b ij 5x ij l j 1f ij À Á<label>(14)</label></formula><p>This mixed-effect structure may be present regardless of the estimation method, and is often intrinsic to the specification. In the case of the SVC model, it follows directly from its structure as a specific instance of the more general class of hierarchical linear models (as in <ref type="bibr" target="#b29">Lindley and Smith 1972)</ref>. Eigenvector spatial filter specifications can also be recast as a kind of correlated random effects local model that uses spatially patterned synthetic variables and interaction terms to reconstruct the spatially patterned parameter surfaces (e.g., <ref type="bibr" target="#b30">Murakami and Griffith 2015)</ref>. In addition, this mixed effects structure is also used to model nonstationarity in many hierarchical models that examine regional nonstationarity <ref type="bibr" target="#b23">(Gelman and Hill 2006)</ref>. Even the Bayesian GWR specification of LeSage (2004) yields an augmented GWR estimator that induces this random effect structure. All of these mixed effect specifications provide an explicit model that relates the local fluctuations to the global process structure. Typically, unless special structure is found in the data, the estimation of the random spatially-correlated components (f ij ) requires a full N 3 N covariance matrix for the effects. Since this N 3 N covariance matrix is frequently some distance-decay spatial correlation function, these techniques often characterize the correlation between observations over the entire map, and suggest how correlated any f ij and f kj are, given the bandwidth estimate. Kernel-smoothed specifications typically used in GWR are fundamentally different from mixed effect local specifications used in the SVC model. First, site-specific estimates b i are constructed directly from a local data set constructed using the geographic weights matrix W(s). Second, kernel-smoothed GWR estimators do not exhibit a formal link between global process means and local correlated fluctuations around this mean, since each site estimate set comprises a unique regression on the derived data. Indeed, there is no special local GWR estimator-each local weighted regression is a distinct model and is the global regression when a kernel is infinite. Each local estimator, conditional on the process bandwidth estimate(s), only considers the data local to that site, which may overlap or coincide with other models' local data. Thus, a GWR estimation is not a "full-map" technique in the way that the mixed effect specifications are. The (M)GWR estimator conducts N regressions on potentially overlapping sets of data where N i , the sample size of the regression at site i, is often much smaller than N. In fact, in adaptive bandwidth specifications, the N i may be estimated from the data directly and may embody a different notion of map distance at each site, since densely packed areas may have a smaller effective kernel than areas where observations are sparse. This style of nearest-neighbors model is currently unavailable for mixed effects specifications, since the nearest-neighbor adaptive bandwidth specification may be asymmetric and may invalidate the covariance matrix.</p><p>The lack of distributional linking between the local effect estimator and an estimate of global process mean in GWR is noted offhand in many comparisons (e.g., <ref type="bibr" target="#b41">Wheeler and Waller 2009;</ref><ref type="bibr" target="#b13">Finley 2011)</ref>, but its importance is often elided. This difference indicates GWR is more similar to local regression in parametric space <ref type="bibr" target="#b8">(Cleveland 1979;</ref><ref type="bibr" target="#b9">Cleveland and Devlin 1988)</ref> than the correlated disturbance (i.e., mixed effects) concepts that inform SVC local model specifications. However, this locality comes at a cost, since GWR does not provide a full probabilistic model relating its bandwidth estimate, local coefficients, and the global process mean. While the Geographically Weighted Lasso <ref type="bibr" target="#b39">(Wheeler 2009</ref>) can introduce "local-to-global" regularization in GWR specifications, the free parameter governing shrinkage is arbitrary in contrast to the regularization in Bayesian hierarchical estimators underlying the SVC model <ref type="bibr" target="#b11">(Draper and Van Nostrand 1979)</ref>. Therefore, this difference in basic estimator structure should be noted explicitly in comparisons of the model specifications.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Simulation design</head><p>In order to compare the single and multiscale variants of GWR and SVC local models, a known set of patterns which are illustrative of nonstationary processes are needed. Each pattern or surface is a single process whose pattern is expected to be recovered by the models as a set of site-specific marginal effects b i0 ; b i1 , and b i2 . Many previous studies of local modeling techniques were computationally limited, using smaller samples sizes, simpler patterns, or both. For example, <ref type="bibr" target="#b40">(Wheeler and Calder 2007)</ref>, estimated single-scale models on surfaces comprised of two lattices where n 5 100, one with a vertical gradient and one with a horizontal gradient. Therefore, to obtain a controlled experimental data set with a significantly larger sample size and surface diversity, three distinct surfaces with various levels and types of heterogeneity are specified on regular lattices using sample sizes of n 5 625 and n 5 2,500.</p><p>Shown in Fig. <ref type="figure">1</ref>, the surfaces are generated to ensure that the spatial heterogeneity for each surface is substantially different. That is, in the first surface, all sites have the same value, so the bandwidth is expected to be large. In the second surface, sites in the top left are most dissimilar from those in the bottom right, and the resulting estimated bandwidths from multiscale models are expected to be significantly smaller than those for the first surface. Finally, in the last surface, four distinct peaks provide a pattern where nearby sites are even more likely to be similar, and is anticipated to produce the most "local" bandwidth estimates of the three patterns (i.e., the smallest bandwidth). Y is constructed from these surfaces using an N 3 p matrix of synthetic covariates X 1;2 N ð0; 2Þ À Á and a random unobserved component, e, with fixed deviation, r 5 2: Y5Xb1e (15) For each sample size, a GWR and MGWR model are estimated first using fixed bandwidth(s) and then using adaptive bandwidth(s). In addition, an SVC and multiscale separable SVC (MSVC) model are estimated on this synthetic data. The SVC and MSVC are estimated using Metropolis-within-Gibbs sampling, as suggested by <ref type="bibr" target="#b21">Gelfand et al. (2003)</ref>, while the GWR and MGWR are fit by optimizing the corrected Akaike Information Criterion (Fotheringham, Brundson, and Charlton 2004). The MGWR model also utilizes an iterative back-fitting algorithm described in <ref type="bibr" target="#b20">Fotheringham et al. (2017)</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Results</head><p>Once single-scale and multiscale variants of both GWR and SVC models are fit, 3 a comparison of several factors can be made between the two modeling frameworks. These include: general process surface recovery, process estimate accuracy, model fit, the magnitude and nature of bandwidth estimate values, calibration and diagnostics, efficiency of process estimates, scalability regarding sample size, flexibility of methodology, and accessibility. The adaptive bandwidth fits are omitted for brevity, because they are nearly identical to the fixed exponential distance-based kernel in this case due to the regularity in the density of sample points. It should be noted that in more realistic scenarios, the adaptive bandwidth formulation possible in GWR might prove to have superior properties to the Bayesian SVC models where an adaptive bandwidth framework does not exist.</p><p>Figure <ref type="figure">1</ref>. Three covariates in two differently sized processes. These are the "known" patterns, with the side-length labeled. So, the n 5 625 known pattern is labeled as "Known 25 2 ."</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Surface recovery</head><p>All four of the techniques (GWR, MGWR, SVC, MSVC) are able to generally recover the pattern of heterogeneity in each process (Fig. <ref type="figure" target="#fig_0">2</ref>). That is, site-specific posterior estimates for the (M)SVC models and the point estimates for the (M)GWR models visually resemble the patterns apparent in the known process surfaces (Fig. <ref type="figure">1</ref>). However, some differences in the ability of the four models to recover the parameter surfaces are evident. For (M)GWR, sample size is important and both GWR and MGWR perform better with larger sample sizes: for the 25 3 25 matrix GWR and MGWR produce overly smoothed local parameter estimates. As expected, MGWR outperforms GWR for both samples but the SVC model outperforms the MSVC model in both the 25 3 25 and the 50 3 50 data sets. The fact that the single-scale model outperforms the multiscale model is unexpected, since the latter should (in theory) be able to conform better to local variation in each process. However, the differences across the four models, particularly for the large sample, are relatively minor compared to the surfaces which would be generated by global models-all four models are able to identify the nature of the spatial variation in the processes being modeled.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Estimate accuracy</head><p>Quantifying the accuracy of the parameter estimate surfaces provides a more detailed analysis of process recovery. The mean squared error and the correlation between the known surfaces and the estimated surfaces for the single-scale models are shown in Tables <ref type="table" target="#tab_0">1</ref> and <ref type="table" target="#tab_1">2</ref>, respectively. At the smaller scale, GWR estimates b 0 and b 1 with lower error than the SVC, but estimates b 2 with almost twice the error as the SVC; it fails to pick up the complexity of the b 2 parameter surface, as well as the SVC model does. However, at the larger scale, GWR estimates all three of the surfaces with lower error than the SVC. For the global intercept, the MSE for the SVC model is over 8x larger than that of the GWR model and for the b 1 surface the MSE for the SVC model is almost twice that of the GWR model. This supports previous work that indicated that GWR can provide more accurate estimates with larger sample sizes (P€ aez, Farber, and Wheeler 2011; Fotheringham and Oshan 2016), especially for more complex surfaces such as b 2 . The correlations between the predicted and actual surfaces of b 1 and b 2 suggest that GWR outperforms SVC in replicating the local values of b 1 for both sample sizes but SVC outperforms GWR in replicating the local values of b 2 . However, the difference in performance narrows markedly as sample size increases and the performance of the two models is virtually the same for the 50 3 50 matrix. It is interesting to speculate on what would happen in even larger samples.</p><p>The source of estimate error in the GWR and SVC models appear to be different according to Fig. <ref type="figure" target="#fig_1">3a</ref>, which demonstrates the overall performance for each surface in each model against the scenario of perfect replication (the solid red line). GWR estimates for the 25 3 25 matrix tend to err by over-smoothing the b 2 surface, under-estimating the larger values, and over-estimating the smaller values. This can be seen as a form of bias, which is likely the reason GWR had almost double the mean squared error than the SVC for b 2 for this matrix. However, this over-smoothing is much less for the 50 3 50 matrix, although there is still noticeable under-prediction of the larger b 2 values. In contrast, the SVC model appears to have noisier estimates than GWR, though the noise is consistent regardless of the magnitude of b 2 . The multiscale model estimates tend to be more consistent than the single-scale model estimates in that MSVC recovers all three known surfaces with lower error than MGWR at either scale (Table <ref type="table" target="#tab_2">3</ref>), although the visualization of the errors in Fig. <ref type="figure" target="#fig_1">3b</ref> indicate the results from both models are virtually identical. Interestingly, for the smaller scale the b 1 estimates from the MSVC and MGWR model appear to exhibit the same over-smoothing properties observed in the GWR model (Fig. <ref type="figure" target="#fig_1">3b</ref>), but this disappears in both models when sample size is increased. Table <ref type="table" target="#tab_3">4</ref> illustrates that multiscale models produce estimates that are more strongly correlated the single scale models with the true values at both sample sizes, although the discrepancies are marginal in some cases. While the MSVC generally has marginally higher levels of correlation between estimates and known values for b 1 and b 2 , the MGWR model for the smaller sample size provides a large improvement over the correlation yielded by the GWR  </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Model fit</head><p>For single-scale models, the SVC outperforms the GWR model in terms of the root mean squared error between the predicted values, Ŷ, and the known dependent variable values, Y, for both samples, although the difference in fit decreases as sample size increases (Fig. <ref type="figure" target="#fig_2">4</ref>). In contrast, the prediction errors for the multiscale models are much closer, with the MSVC outperforming the MGWR for the smaller sample size and the MGWR outperforming the MSVC for the larger sample size. However, this difference is marginal and the two multiscale models have very similar goodness-of-fits. All the models appear to provide unbiased predictions for Y over the entire range of magnitudes, despite the previously discussed bias for the largest and smallest magnitudes in the coefficient surface estimates. The spatial distribution of prediction errors are omitted since they exhibit no clear spatial pattern, indicating little-to-no spatial autocorrelation in the model residuals.</p><p>A surprising result is that the single-scale SVC has the best fit overall in terms of the root mean squared error. When moving from a single-scale to a multiscale GWR, the accuracy improves slightly, which is expected due to the fact that each processes is being separately modeled rather than as one average process. However, when moving from a single-scale to a multiscale SVC, accuracy degrades substantially, which is unexpected. This may be due to the fact that the SVC explicitly incorporates between-surface correlation, while the MSVC assumes each surface to be independent of the other surfaces, similarly to MGWR. It is  possible that a MSVC with a nonseparable covariance for b j that explicitly models betweensurface correlation like the SVC might perform even better, but would also likely be significantly more complex to estimate than the separable MSVC analogous to MGWR that is considered here.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Bandwidth estimation</head><p>In endogenous-scale local models, bandwidth is interpreted as a proxy for the scale at which a process occurs. If estimates of bandwidth differ between the (M)GWR and (M)SVC models or between sample sizes for each specification, this may reveal differences in the substantive interpretation of the bandwidth parameter.</p><p>In both model frameworks, the bandwidth represents a "real world" distance, though distance is used differently by each specification. For the SVC models, the bandwidth controls the spatial correlation kernel for the random effects. Thus, a large bandwidth parameter, /, means that even distant spatial random effects are strongly correlated. For the GWR models, the bandwidth describes the width of the kernel used to include and weight observations for the local data in each site-specific model. Therefore, a large / includes further observations than a smaller /. Table <ref type="table" target="#tab_4">5</ref> describes the bandwidth values for both single-scale model forms for the two sample sizes.</p><p>This provides an insight into what "bandwidth" implies in the two models. As can be seen in Fig. <ref type="figure">1</ref>, the underlying patterns of the three parameter surfaces are the same in both the small (25 2 ) and (50 2 ) samples. The surface of b 0 is constant for both samples but the "granularity" of both b 1 and b 2 increases. That is, although the same overall spatial pattern of heterogeneity exists in both samples, the local variance of the parameters increases in the larger sample size. Conceptually, the bandwidth in GWR appears to describe the overall spatial pattern of heterogeneity in the local parameter surface whereas the bandwidth in the SVC model incorporates two effects-the overall spatial pattern of spatial heterogeneity and local variation. Neither of these interpretations is "better" than the other; they are simply different. If one wants an overall measure of the degree of spatial heterogeneity, the GWR bandwidth is more appropriate as this is the same in both scales. If ones want a measure that is a function of both overall heterogeneity and local variation, the SVC bandwidth is more appropriate. This important difference is highlighted in the multiscale results presented in Table <ref type="table">6</ref>.</p><p>Both MGWR and MSVC models produce relationship-specific bandwidths estimates rather than a single "average" value as in the GWR and SVC models. This is important if the  <ref type="table">6</ref> highlight this situation. Our three sets of parameters (shown in Fig. <ref type="figure">1</ref>) vary at different scales: b 0 is invariant over space; b 1 exhibits a medium amount of spatial heterogeneity with a trend running north-west to southeast; and b 2 exhibits the largest amount of spatial heterogeneity with four evenly spaced peaks of high values surrounded by lower values. A transect of values across the three surfaces from the north-west to the south-east as in Fig. <ref type="figure">5</ref> characterize the complexity of the spatial heterogeneity in each surface; b 0 's transect is a line with a slope of 0; b 1 's transect is heterogenous with a single trend; b 2 's transect is heterogenous with multiple trends. The estimated bandwidths for both the MGWR and MSVC models reflect the different patterns with the smallest bandwidth being estimated for b 2 and the largest for b 0 . Consequently, both models generate important information on the different scales of heterogeneity in the three different processes, which is obscured in the GWR and SVC models. The results for the MGWR models in comparison to the GWR model results in Table <ref type="table" target="#tab_4">5</ref> exemplify this. For the 25 3 25 sample, the GWR bandwidth is 2.03 where the three separate bandwidths for b 0 , b 1 , b 2 , in the MGWR model are 17.06, 2.14, and 1.25, respectively, reflecting the different levels of spatial heterogeneity in the three surfaces. The GWR "average" bandwidth is essentially a weighted average of the two "behavioral" parameters, b 1 and b 2 , where the weight is related to the relative influence of X 1 and X 2 on y.</p><p>These results are replicated for the applications of GWR and MGWR to the 50 3 50 sample. Interestingly, the GWR estimate of / is effectively the same when n 5 625 or n 5 2,500 whereas the estimate of / for the SVC model doubles when the grid grows from Figure <ref type="figure">5</ref>. Plots of values for each known parameter surface sampled along a diagonal transect from the north-west to the south-east. These plots characterize the heterogeneity in the parameter surfaces: b 0 's transect is a line with a slope of 0; b 1 's transect is heterogenous with a single trend; b 2 's transect is heterogenous with multiple trends. The top row is for the 25 3 25 sample and the bottom row is for the 50 3 50 sample. 25 2 to 50 2 . The / 0 estimate from MGWR doubles when the study area is increased from n 5 625 to n 5 2,500, but the bandwidth estimate for b 1 and b 2 remain approximately the same. This doubling of magnitude of the bandwidth for the intercept (17.06 for the smaller sample size and 34.79 for the larger sample size) appear to be related to the study area size since both appear to be approximately half of the maximal distance in their respective study area (35.36 and 70.72). This indicates that MGWR seems to ascribe half of the maximal study area distance as an estimate of a "global" process (i.e., stationarity in b 0 ) in the case of a regular grid. As with the GWR results, the bandwidths for b 1 and b 2 appear to be invariant to sample size, reflecting the similarity of the general patterns of the spatial heterogeneity in the two parameter surfaces.</p><p>The bandwidth estimates for the MSVC models must be interpreted in a different manner than the MGWR bandwidths, since they are used directly in the covariance matrix, rather than in generating local data. Notably, the MVSC bandwidth estimates are much larger than that for the MGWR bandwidth estimates (or any other model). In fact, they are larger than any possible pairwise distance within the study area. For example, in the n 5 2,500 case, the largest distance between two points is along the diagonal of the grid, which is approximately 70 units in magnitude. Even b 2 , the process that is theorized to have the smallest scale, has a bandwidth estimate that is over four times this maximal distance. To assist with an interpretation of the MSVC bandwidths, it is helpful to examine a correlation matrix of the MSVC instead of directly interpreting the values of / j . The correlation matrix for the random effects in an (M)SVC model takes its structure from the spatial kernel function, Hð/ j Þ. Given a functional form for H, a negative exponential function in this case, the correlation in the spatial random effects depends on / j alone. For the MSVC, the distributions of site-to-site spatial correlations qði; jÞ, in f j resulting from Hð/ j Þ for many values of / j can be visualized (Fig. <ref type="figure" target="#fig_3">6</ref>). As / j increases, correlations in the random effects between sites rapidly increase to 1. The solid black line in Fig. <ref type="figure" target="#fig_3">6</ref> represents the median correlation implied by / j , and the dotted black envelope indicates the 5th and 95th percentiles of between-site correlation at that value of / j , respectively. For the b 0 and b 1 surfaces, most of the random effects are strongly correlated, while the b 2 surfaces have moderate-to-high between-site correlations. Between the two sample sizes, the vastly different / j estimates result in nearly the same amounts of between-site correlation, though correlation between all sites is slightly higher in the larger lattice than in the smaller one. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Calibration and diagnostics</head><p>Local models typically have a larger number of free parameters that need to be tuned than do traditional global models and this has implications for both computing time and the calculation of diagnostics. As is common for spatial parameters in hierarchical models, the bandwidth(s) in the (M)SVC models have nonstandard distributions, and must be sampled using Markov Chain Monte Carlo techniques <ref type="bibr" target="#b3">(Brooks et al. 2011)</ref>. The other (M)SVC parameters have conditionally conjugate prior choices, yielding a single step within a Gibbs sampler. In the case of the SVC, standard concerns of Markov Chain Monte Carlo estimation apply and there are a wealth of methods to assess model convergence <ref type="bibr" target="#b10">(Cowles and Carlin 1996)</ref>. However, the bandwidth in the MSVC model presents unique challenges for identifying chain convergence. Since one of the processes analyzed here has no spatial variation (i.e., global process), the bandwidth estimate may increase without bound due to the fact that marginal changes to / provide effectively the same model fit. Thus, it is useful to employ the intersite correlation displayed in Fig. <ref type="figure" target="#fig_3">6</ref> and to consider a trace of / j stable when the correlations implied by / j remains constant. Since it is not possible to tell ahead of time whether a given surface will be "global" and produce unbounded / j , this heuristic is necessary. Alternatively, one may restrict the range of / to an arbitrary fraction of the maximum map distance, as is common the GWR framework. However, the fact that these parameters have substantively different behavior between the two specification types means an appropriate domain restriction for / may be different for an SVC than for a GWR, so focusing instead on the convergence of between-site correlation should be preferred to arbitrary domain restrictions.</p><p>For GWR, model calibration is trivial since the bandwidth is first selected by optimizing a model fit or information criterion, in this case, a GWR-specific version of the Akaike information criterion, and all other parameters are computed conditionally on the derived bandwidth. However, model calibration of MGWR is more complex since the bandwidths of each process are estimated conditionally on the other bandwidths. Therefore, an iterative bandwidth estimation routine, which uses a general additive modeling (GAM) framework, continues until there are little-to-no changes in some score function and the bandwidths are considered to have converged. Here, convergence in MGWR is assessed by a smooth "score of change" function outlined in <ref type="bibr" target="#b20">Fotheringham et al. (2017)</ref>. This score is the sum of squared changes between the current estimates and the previous estimates, divided by a total sum of squares in the current iteration. First, let X i;j denote the observation of the jth covariate at the ith site. Likewise, let b ij be the estimate of the jth process at the ith site. Then, the score of change for iteration t over all surfaces Xb is:</p><formula xml:id="formula_19">SOC Xb 5 ffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffi ffi X p j X n i ðX ðtÞ ij b ðtÞ ij 2X ðt21Þ ij b ðt21Þ ij Þ n X n i X p j X ðtÞ ij b ðtÞ ij 2 v u u u u u t (<label>16</label></formula><formula xml:id="formula_20">)</formula><p>where t denotes the current iteration and t -1 the previous iteration of the fitting technique. This score function is based on results from the wider GAM literature and is further discussed by <ref type="bibr" target="#b20">Fotheringham et al. (2017)</ref>. It is possible that other score functions may yield better model fit, though this is left for future research.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Efficiency of estimation</head><p>Uncertainty about the estimated values of the b surfaces is analyzed using estimated standard errors. Standard errors for the single-scale GWR models are computed analytically using the same weight matrix that is used during parameter estimation <ref type="bibr" target="#b16">(Fotheringham, Brunsdon, and Charlton 2002)</ref>. A Bayesian analogue to this standard error is constructed using the posterior standard deviation of the sampled coefficients at each site for the (M)SVC models. However, there exists no analytical expression for the standard error in a MGWR at this time. Therefore, we construct standard errors for MGWR using a Monte Carlo simulation technique. Since the distribution of X 1 and X 2 was controlled, independent, and random, we resample them and reconstruct a new Y vector using the same known surfaces shown in Fig. <ref type="figure">1</ref> and the random X and the idiosyncratic error e. The distributions of the estimated standard errors for the (M)GWR models and the posterior standard deviations from the (M)SVC models are shown in Figs. <ref type="figure" target="#fig_4">7</ref> and <ref type="figure" target="#fig_5">8</ref> for the single-scale and multiscale models, respectively.</p><p>For the theoretical processes employed in this research, the M(GWR) models consistently produce surface estimates with less uncertainty. GWR standard errors are much smaller than the SVC posterior standard deviations. On average, the posterior standard deviation for b 2 and b 1 in the SVC is between 2 and 4 times as large as the analytically derived GWR standard error. The Monte Carlo MGWR standard errors are also slightly smaller than the posterior standard deviation for the MSVC. The MSVC posterior standard deviations are approximately 1.5 times the Monte Carlo standard errors for b 1 and b 2 in the MGWR model. The MGWR standard error for b 0 is only slightly below the MSVC posterior standard deviation, though.  It is also possible to analyze the uncertainty associated with the individual bandwidth estimates. While no parametric model for / j was provided in this case, the estimates for / j in the MGWR Monte Carlo experiment yielded consistent estimates. These estimates also tend to cluster much more tightly around the mean estimate of / j than those for the posterior standard deviations from the MSVC model. 4 Since the magnitudes of / j are so strongly different between the two methods, the coefficient of variation provides a better measure of the relative noise associated with estimates. Here, we use an empirical estimate of the coefficient of variation:</p><formula xml:id="formula_21">ĈV 5 rð /j Þ /j<label>(17)</label></formula><p>where rð /j Þ is the posterior standard deviation for / j in an MSVC model and the standard deviation over Monte Carlo replications in the MGWR case. This coefficient of variation for the MGWR bandwidth estimates are nearly one tenth the coefficient of variation for the MVSC estimates for both / 1 and / 2 . Thus, the bandwidth estimate over Monte Carlo replications is substantially more precise than that for / j in the MSVC model for the local surfaces. 5 This relationship reverses for / 0 , though, where the MSVC has a much smaller coefficient of variation than the GWR. Regardless, a Monte Carlo technique that uses known surfaces is not applicable where the data generating process is unknown. Therefore, no estimate of uncertainty of / j (or / in a single-scale model) is available for (M)GWR in applied settings while the posterior standard deviations used to assess uncertainty in the (M)SVC models is still applicable.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Scalability</head><p>In terms of scalability, <ref type="bibr" target="#b1">Banerjee et al. (2008)</ref> note that efficient sampling of SVC-type models grows cubic in N, due to requiring the Cholesky factorization of the Np 3 Np covariance matrix. GWR estimators, however, only require N sets of p 3 p covariances, which avoids this particular problem. Instead, the computational burden of GWR techniques is that N models are fit iteratively during bandwidth estimation. The computational burden is further increased in MGWR as the algorithm essentially carries out several GWR estimations until the score of change function converges. The computing times to calibrate all four models with both data sets are given in Table <ref type="table" target="#tab_5">7</ref>.</p><p>In practice, the single-scale models were generally faster than the multiscale models (Table <ref type="table" target="#tab_5">7</ref>), but the savings were more pronounced for GWR models than they were for SVC models. Ultimately, the (M)GWR models require much less overhead in terms of computational time than the (M)SVC models. These timings demonstrate that GWR is much faster than 22,000 iterations of a Gibbs sampler for either type of SVC model. While all 22,000 iterations are required for the MSVC models to sample after convergence, the SVC converges in around 5,000 iterations. Noting this, the single-scale SVC draws around 94 samples per minute when n 5 625 and around five samples per minute when n 5 2,500. In the time a GWR finishes, the SVC would only draw 37 samples in the smaller scenario and around 19 samples in the larger scenario. A sampling of around 5,000 draws would still require a significantly larger amount of time than that used by the GWR in either sample size. Regardless of the rate of convergence, it is highly unlikely that these Bayesian models will be time-competitive with GWR-derived methods unless special care is taken to increase the speed of the sampler or to approximate the problem. Many different methods to address Markov Chain Monte Carlo estimation performance for SVC models are available <ref type="bibr" target="#b21">(Gelfand et al. 2003;</ref><ref type="bibr" target="#b1">Banerjee et al. 2008;</ref><ref type="bibr" target="#b12">Eidsvik et al. 2012)</ref>. Notably, estimating SVC models using integrated nested Laplace approximation may yield significant performance benefits over direct Gibbs sampling <ref type="bibr" target="#b12">(Eidsvik et al. 2012)</ref> and has also been demonstrated to be useful for other families of local spatial models <ref type="bibr" target="#b28">(Lindgren and Rue 2015)</ref>. In addition, knot-based subsampling strategies, like those explored by <ref type="bibr" target="#b1">Banerjee et al. (2008)</ref> may make SVC's tractable for larger sample sizes, though they can also be employed in a GWR framework, and thus are unlikely to provide a significant advantage for (M)SVC models over the (M)GWR models. Another major advantage for the (M)GWR modeling framework is that it may be easily parallelized, since it essentially consists of an ensemble of distinct (and related) regressions. This means that even models with very large sample sizes may be estimated efficiently in terms of computation time if high-performance computing resources are available.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Flexibility</head><p>Both the GWR and SVC modeling frameworks draw from more general modeling paradigms, which allow them to accommodate various statistical extensions and to be applied in many different contexts. However, some popular extensions to GWR, such as adaptive kernel weighting (i.e., nearest-neighbors), are not currently available for the SVC framework. Furthermore, GWR is easily extended to non-Gaussian probability models, such as the Poisson and Binomial models, through the use of generalized linear models. These forms are also available for SVCstyle models, such as the Poisson-SVC suggested by <ref type="bibr" target="#b38">Waller et al. (2007)</ref>. Thus, GWR is more flexible, since more exotic asymmetric kernel weighting functions can be used. However, developments in adaptive covariances for SVC models may narrow this gap.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Accessibility</head><p>Accessibility encompasses computation time, the software available for each technique, and the ease with which a model can be specified. A discussion of the main computational burden of each modeling frameworks has already been provided and it has been demonstrated that GWR requires significantly less computation time. High-quality GWR implementations exist under free software licenses for both command-line and graphical user-interface style software environments. In contrast, Gibbs sampling is typically used for the SVC models, which presents an obstacle for practitioners. While the general Gaussian process models underlying the SVC can be fit in spBayes <ref type="bibr" target="#b14">(Finley, Banerjee, and Carlin 2007)</ref>, the actual SVC model that produces local process estimates like GWR is not supported. In addition, the SVC-family of models may be estimable in Bayesian frameworks, like Stan <ref type="bibr" target="#b6">(Carpenter et al. 2017)</ref> or Open-BUGS, but these lack the ability to exploit the sparsity inherent in the random effects covariance matrix. In terms of specifying models, GWR models may be formulated using the language of ordinary regression, and specifications can be understood in terms of the regression formulas that have become common in many statistical computing environments. Even with Bayesian frameworks like Stan, the SVC model (and Bayesian models in general) may require more knowledge of the underlying mathematics in order to state them and program them in Stan, OpenBUGS, or another programming language for estimation. Given that the SVC typically requires longer computation times and more expert knowledge to employ correctly, it is clear that GWR is a more accessible framework for applied work. However, as Bayesian modeling increases in popularity, perhaps the two frameworks may become equally accessible.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Discussion and conclusion</head><p>By comparing the SVC and GWR modeling frameworks, several similarities become apparent.</p><p>Although the (M)GWR and (M)SVC frameworks were developed independently, have their origins in different statistical traditions (frequentist and Bayesian), and are mathematically and logically distinct, they nevertheless share the common goal of accounting for process spatial heterogeneity and appear to produce very similar results in terms of model predictions and local parameter estimates. Both frameworks have at least two versions-one which assumes that all the processes being modeled exhibit the same degree of spatial heterogeneity (GWR and SVC) and one which allows the degree of spatial heterogeneity to vary by process (MGWR and MSVC).</p><p>However, this article identifies several axes along which the two frameworks differ. First, the interpretation of the bandwidth parameter is not transferrable between the two frameworks because the correlation kernel used to specify spatial mixed effects in the SVC simply behaves differently from the data-borrowing kernel of a GWR. Importantly, the two frameworks displayed different bandwidth behavior when the sample size of the spatial processes was increased. While GWR bandwidth estimates are typically consistent regardless of the sample size, the SVC bandwidth estimates increase when sample size increases while the spatial pattern is held constant. This incongruity between bandwidth interpretations makes it difficult to assess what the appropriate behavior of bandwidth estimates should be for surfaces with different patterns, levels of spatial heterogeneity, and sample sizes. Defining the substantive meaning of bandwidth estimates is an under-explored avenue of research that deserves future attention. Specifically, this raises questions about how to interpret bandwidth and how hypotheses about process scale might be tested. Are bandwidth estimates specific to a single study area or statistical method? If not, can bandwidths from different surfaces, model specifications, or spatial processes be related at all? Exploring the substantive relationship between process, surface structure, model specification, and bandwidth would build a more robust understanding of spatial processes in the context of local statistical modeling. We have taken first steps in this direction, and believe further work in this domain could illuminate novel understandings of local models that go beyond surface examination of model fit.</p><p>Another difference between the two modeling frameworks stems from the technical specification of the bandwidth(s). GWR specifies bandwidths as deterministic quantities that are considered fixed when estimating the coefficient surface. In contrast, the SVC specifies the bandwidth as a random variable in a Bayesian context, using a prior and yielding a posterior distribution of plausible values. Therefore, the SVC bandwidth point estimate has intrinsic uncertainty that may be quantified by the standard deviation of its posterior distribution, while GWR does not produce a measure of uncertainty or estimation error for its bandwidth estimates. This difference probably explains why GWR provides smaller standard errors for the local parameter estimates. In contrast, quantities that depend on /, namely the local random effects and recovered coefficient surfaces, are expected to be noisier in the SVC because uncertainty about / is present in the posterior sample. This uncertainty may be seen as a benefit, since the process estimates may be over-confident if uncertainty about bandwidth estimates does not propagate into the process estimates. Even though an estimate of uncertainty about / in MGWR was constructed using Monte Carlo simulation in this case and indicated that the precision of the optimal bandwidth might be greater in GWR than in the SVC framework, this is not available in empirical work, where the distribution of X is not controlled.</p><p>A third difference between the two modeling frameworks is that MGWR lacks an analytical expression for the standard errors of the process estimates. In this research, Monte Carlo replications were used in order to estimate the standard errors, but this is only possible for experimental research where the processes are specified. Therefore, developing a feasible estimate of the MGWR standard errors is another important topic for future research. Until one is developed, MSVC specifications retain this advantage over MGWR. Estimated standard errors on the local parameter estimates are available in both the GWR and SVC models.</p><p>Despite the lack of process inference in MGWR, the GWR framework still displayed strong merit in terms of efficiency of estimation, scalability, flexibility, and accessibility. Given these advantages, it is clearly important to continue building on the MGWR model of <ref type="bibr" target="#b20">Fotheringham et al. (2017)</ref>. However, this does not imply that the SVC framework should not also be further developed. It was ultimately the single-scale SVC that achieved the best model fit even though both of the multiscale models produced process estimate surfaces that more closely resembled the known surfaces. This indicates that further study of the advantages of multiscale local models versus single-scale models deserves significantly more attention, regardless of the modeling framework. In particular, the development of a robust, computationally tractible multiscale Bayesian SVC specification with full covariance both between sites and between processes is a clear next step.</p><p>Formal specification tests, like those available for spatial econometric models <ref type="bibr" target="#b15">(Florax, Folmer, and Rey 2003)</ref>, could be helpful in assessing whether multiscale or single-scale variants should be preferred, rather than relying solely on a model fit criteria. This is particularly important for applied settings where the true processes are unknown and it is not possible to quantify the accuracy of the process estimates as was done here. Until such tests are available, it seems reasonable to prefer the single-scale SVC model for achieving the best in-sample predictions of the dependent variable. However, the model does not identify any differences in the spatial scale over which processes operate, which in some applications could be the primary interest. In this study, there was no analysis of out-of-sample prediction, which could be another direction of future research into multiscale local models. A final extension of this work that might be useful is the investigation of a nonseparable MSVC model that incorporates between-process and between-site correlation simultaneously, which is more closely related to the single-scale SVC and may also achieve a higher model fit. However, the cost of estimating such a model may be prohibitively expensive for all but the most modestly sized data sets.</p><p>Finally, other axes of dissimilarity between the two local modeling frameworks include flexibility and accessibility. The (M)GWR framework would appear to produce more intuitive distance measures of the scales over which processes operate and these can also be extended to an adaptive bandwidth framework where bandwidth is measured in terms of the number of nearest neighbors for which weights are non-zero and which has intuitive appeal as well as being efficient. The (M)GWR framework can also be extended to other nonregression frameworks such as spatial interaction modeling <ref type="bibr" target="#b26">(Kordi and Fotheringham 2016)</ref>, discriminant analysis <ref type="bibr" target="#b4">(Brunsdon, Fotheringham, and Charlton 1998)</ref> and kriging <ref type="bibr" target="#b25">(Harris, Charlton, and Fotheringham 2010)</ref>. The (M)SVC framework, conversely, has appeal in terms of its flexibility in being able to encompass a wide variety of error-covariance structures. The (M)GWR framework is more limited in this regard being based on the concept of "data borrowing" and the fundamental geographical principle that "near things are more related than more distant ones"; a principle that also applies to processes. Ultimately, the choice of which model to employ to study process spatial heterogeneity might come down to personal preference, access to software and familiarity with the broad statistical framework in which each model sits.</p><p>This article has presented the most comprehensive comparison of GWR and SVC models to date. While there are some significant divergences between the two modeling frameworks, overall they may be more alike than they differ, which provides strong evidence in favor of local statistical modeling and the investigation of nonstationary processes. A primary novelty of the comparisons made here is that each framework was extended to include processes that occur at multiple and potentially different scales. Though multiscale local models are relatively recent, it appears that the differences between single-scale and multiscale models may be just as great as the differences between the two modeling frameworks. The discrepancies observed here seem to be driven by the differences in estimator structure and choice of how bandwidth is specified. In general, local models are more complex than global models, and the same is true of multiscale local models compared to single-scale local models. Therefore, much work still needs to be done to understand multiscale models and make their implementations simpler and widely available. As these local modeling techniques are applied in various new contexts, new insights about the models themselves may also be acquired.</p><p>Notes</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure 2 .</head><label>2</label><figDesc>Figure 2. Maps of the known parameter surfaces and the recovered parameter surfaces for each specification and problem size. The first row is the known parameter surfaces. The next two rows contain the single-scale models and the bottom two rows contain the multiscale models. On the left are the n 5 625 models and on right the n 5 2,500. The row labels note each scenario's side length (e.g., 25 2 5n5625) and model name, (M)SVC or (M)GWR. (a) Single-scale models. (b) Multiscale models.</figDesc><graphic coords="9,56.52,223.54,372.96,340.96" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Figure 3 .</head><label>3</label><figDesc>Figure 3. Scatterplots and histograms relating the estimated and known parameter values. Red lines indicate perfect estimate recovery, and black dots or bins reflect the values of the recovered estimates. b 0 is the same everywhere, so recovered parameters are presented as a histogram. Labeling is akin to that in Figure 2.</figDesc><graphic coords="11,56.52,54.26,372.96,271.52" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Figure 4 .</head><label>4</label><figDesc>Figure 4. Scatterplots of predicted and fitted response.</figDesc><graphic coords="12,56.52,433.59,372.96,195.04" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Figure 6 .</head><label>6</label><figDesc>Figure 6. Correlations in spatial random effects implied by different values of / j in two problem sizes. The black line denotes the median intersite correlation at a given / j , and the dotted black lines mark the 5th and 95th percentiles of the distribution of correlations at / j .</figDesc><graphic coords="15,56.52,516.87,372.96,84.96" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Figure 7 .</head><label>7</label><figDesc>Figure 7. Standard Errors for GWR and posterior standard deviation for the SVC model.</figDesc><graphic coords="17,56.52,54.26,372.96,116.32" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>Figure 8 .</head><label>8</label><figDesc>Figure 8. Posterior standard deviation for b in the MSVC and Monte Carlo estimates of standard error for MGWR.</figDesc><graphic coords="17,56.52,498.33,372.96,117.28" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><graphic coords="8,56.52,54.26,372.96,263.36" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><graphic coords="14,56.24,358.58,373.59,217.98" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1 .</head><label>1</label><figDesc>Mean Squared Error for Estimate Recovery in Single-Scale Models</figDesc><table><row><cell></cell><cell>GWR 25</cell><cell>SVC 25</cell><cell>GWR 50</cell><cell>SVC 50</cell></row><row><cell>MSE ðb 0 Þ</cell><cell>0.017398</cell><cell>0.019426</cell><cell>0.001106</cell><cell>0.009084</cell></row><row><cell>MSE ðb 1 Þ</cell><cell>0.019069</cell><cell>0.031364</cell><cell>0.013702</cell><cell>0.025584</cell></row><row><cell>MSE ðb 2 Þ</cell><cell>0.086998</cell><cell>0.046174</cell><cell>0.044762</cell><cell>0.046174</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 2 .</head><label>2</label><figDesc>Correlation between Estimated and Known Value for Single-Scale Models</figDesc><table><row><cell></cell><cell>GWR 25</cell><cell>SVC 25</cell><cell>GWR 50</cell><cell>SVC 50</cell></row><row><cell>qðb 1 ; b1 Þ</cell><cell>0.967274</cell><cell>0.933194</cell><cell>0.962017</cell><cell>0.935944</cell></row><row><cell>qðb 2 ; b2 Þ</cell><cell>0.670550</cell><cell>0.780006</cell><cell>0.817833</cell><cell>0.819730</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2"><head>Table 3 .</head><label>3</label><figDesc>Mean Squared Error for Estimate Recovery in Multiscale ModelsIt appears that MGWR may mitigate the over-smoothing present in the singlescale GWR estimates for b 2 , which encourages the use of MGWR over GWR.</figDesc><table><row><cell></cell><cell>MGWR 25</cell><cell>MSVC 25</cell><cell>MGWR 50</cell><cell>MSVC 50</cell></row><row><cell>MSE ðb 0 Þ</cell><cell>0.012363</cell><cell>0.000452</cell><cell>0.004400</cell><cell>0.003012</cell></row><row><cell>MSE ðb 1 Þ</cell><cell>0.015673</cell><cell>0.014279</cell><cell>0.019564</cell><cell>0.013920</cell></row><row><cell>MSE ðb 2 Þ</cell><cell>0.047987</cell><cell>0.044703</cell><cell>0.065979</cell><cell>0.054315</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_3"><head>Table 4 .</head><label>4</label><figDesc>Correlation between Estimate and Known Value for Multiscale Models</figDesc><table><row><cell></cell><cell>MGWR 25</cell><cell>MSVC 25</cell><cell>MGWR 50</cell><cell>MSVC 50</cell></row><row><cell>qðb 1 ; b1 Þ</cell><cell>0.969841</cell><cell>0.971346</cell><cell>0.965528</cell><cell>0.966188</cell></row><row><cell>qðb 2 ; b2 Þ</cell><cell>0.744311</cell><cell>0.784360</cell><cell>0.823949</cell><cell>0.827317</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_4"><head>Table 5 .</head><label>5</label><figDesc>Bandwidth Estimates for Single-Scale Models</figDesc><table><row><cell></cell><cell>GWR 25</cell><cell>SVC 25</cell><cell>GWR 50</cell><cell>SVC 50</cell></row><row><cell>/</cell><cell>2.03</cell><cell>5.54</cell><cell>2.00</cell><cell>10.22</cell></row></table><note><p>different processes represented in the model vary at different spatial scales. The resulting bandwidth estimates for the MGWR and MSVC models in Table</p></note></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_5"><head>Table 7 .</head><label>7</label><figDesc>Computation Time in Minutes</figDesc><table><row><cell cols="7">GWR 25 SVC 25 GWR 50 SVC 50 MGWR 25 MSVC 25 MGWR 50 MSVC 50</cell></row><row><cell>.4</cell><cell>186.63</cell><cell>3.76</cell><cell>4834.61 3.6</cell><cell>233.68</cell><cell>31.433</cell><cell>4324.131</cell></row></table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" xml:id="foot_0"><p>Levi John Wolf et al.Single and Multiscale Models</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="1" xml:id="foot_1"><p>It is important to note that the canonical SVC specification's inverse gamma/Wishart priors for scale parameters/covariance matrices in HLMs have been shown to be unintentionally informative in other spatial and aspatial HLM specifications(Gelman  </p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" xml:id="foot_2"><p>2006;<ref type="bibr" target="#b35">Polson and Scott 2012;</ref><ref type="bibr" target="#b0">Alvarez 2014;</ref><ref type="bibr" target="#b36">Simpson et al. 2017)</ref>. 2 One may consider the nonseparable SVC specifications of<ref type="bibr" target="#b13">Finley (2011)</ref> a more robust model, but the discussion is restricted to separable models here to ensure that similar specifications are compared. 3 Implementations in Python were used to estimate the models, which were all computed on a platform equipped with two Intel Xeon ES-2640, 2.6 GHz and 64 GB of available memory. The Python implementations leveraged Numpy for array computations and standard lower-level linear algebra routines were run in parallel using the Intel Math Kernel Library. For the Bayesian SVC routines, the Markov chains were run for 22,000 iterations, after which convergence was assessed. Convergence for the multiscale, Bayesian model was difficult to identify, and an alternative heuristic will be discussed in Calibration and Diagnostics section. The single-scale SVC converged rapidly to a stable interval estimate in all parameters. In all cases, the last 6,000 observations from the Bayesian models will be used for estimate comparison without thinning. 4 By itself, this does not indicate higher precision for this estimate, though: the relevant distributional theory for the bandwidth estimate in a (M)GWR over Monte Carlo replications is not defined. 5 This comparison is approximate and only holds if the MSVC MCMC chains are geometrically ergodic, which is difficult to identify in practice and has no sufficient condition. Further, replications of an MGWR would be most succinctly compared to replications of the MSVC, not the posterior standard deviations in a single MSVC.</p></note>
+		</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Bayesian inference for a covariance matrix</title>
+		<author>
+			<persName><forename type="first">I</forename><surname>Alvarez</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Niemi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Simpson</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:1408.4050</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Gaussian Predictive Process Models for Large Spatial Data Sets</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Banerjee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">O</forename><surname>Finley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Sang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society: Series B (Statistical Methodology)</title>
+		<imprint>
+			<biblScope unit="volume">70</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="825" to="848" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<monogr>
+		<author>
+			<persName><forename type="first">S</forename><surname>Banerjee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">P</forename><surname>Carlin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+		<title level="m">Hierarchical Modeling and Analysis for Spatial Data</title>
+		<meeting><address><addrLine>Boca Raton, FL</addrLine></address></meeting>
+		<imprint>
+			<publisher>CRC Press</publisher>
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<monogr>
+		<title level="m" type="main">Handbook of Markov Chain Monte Carlo</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Brooks</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Gelman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">L</forename></persName>
+		</author>
+		<editor>Jones, and X.-L. Meng</editor>
+		<imprint>
+			<date type="published" when="2011">2011</date>
+			<publisher>CRC press</publisher>
+			<pubPlace>Boca Raton, FL</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Geographically Weighted Regression-Modelling Spatial Nonstationarity</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society</title>
+		<imprint>
+			<biblScope unit="volume">47</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="431" to="443" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Geographically Weighted Discriminant Analysis</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">39</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="376" to="396" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Stan: A Probabilistic Programming Language</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Carpenter</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Gelman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Hoffman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Goodrich</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Betancourt</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Brubaker</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Guo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Riddell</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Statistical Software</title>
+		<imprint>
+			<biblScope unit="volume">76</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1" to="32" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Generating Models by the Expansion Method: Applications to Geographical Research</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>Casetti</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">4</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="81" to="91" />
+			<date type="published" when="1972">1972</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Robust Locally Weighted Regression and Smoothing Scatterplots</title>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">S</forename><surname>Cleveland</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">74</biblScope>
+			<biblScope unit="issue">368</biblScope>
+			<biblScope unit="page" from="829" to="836" />
+			<date type="published" when="1979">1979</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Locally Weighted Regression: An Approach to Regression Analysis by Local Fitting</title>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">S</forename><surname>Cleveland</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">J</forename><surname>Devlin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">83</biblScope>
+			<biblScope unit="issue">403</biblScope>
+			<biblScope unit="page" from="596" to="610" />
+			<date type="published" when="1988">1988</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Markov Chain Monte Carlo Convergence Diagnostics: A Comparative Review</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">K</forename><surname>Cowles</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">P</forename><surname>Carlin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">91</biblScope>
+			<biblScope unit="issue">434</biblScope>
+			<biblScope unit="page" from="883" to="904" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Ridge Regression and James-Stein Estimation: Review and Comments</title>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">R</forename><surname>Draper</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">C</forename><surname>Van Nostrand</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Technometrics</title>
+		<imprint>
+			<biblScope unit="volume">21</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="451" to="466" />
+			<date type="published" when="1979">1979</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Approximate Bayesian Inference for Large Spatial Datasets Using Predictive Process Models</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Eidsvik</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">O</forename><surname>Finley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Banerjee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Ruea</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Computational Statistics Data &amp; Analysis</title>
+		<imprint>
+			<biblScope unit="volume">56</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1362" to="1380" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Comparing Spatially-Varying Coefficients Models for Analysis of Ecological Data with Non-Stationary and Anisotropic Residual Dependence: Spatially-Varying Coefficients Models</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">O</forename><surname>Finley</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Methods in Ecology and Evolution</title>
+		<imprint>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="143" to="154" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">spbayes: An R Package for Univariate and Multivariate Hierarchical Point-Referenced Spatial Models</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">O</forename><surname>Finley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Banerjee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">P</forename><surname>Carlin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Statistical Software</title>
+		<imprint>
+			<biblScope unit="volume">19</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page">1</biblScope>
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Specification searches in spatial econometrics: the relevance of Hendry&apos;s methodology</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J</forename><surname>Florax</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Folmer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">J</forename><surname>Rey</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">33</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="557" to="579" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<monogr>
+		<title level="m" type="main">Geographically Weighted Regression: The Analysis of Spatially Varying Relationships</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2002">2002</date>
+			<publisher>Wiley</publisher>
+			<pubPlace>New York</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<monogr>
+		<title level="m" type="main">Geographically Weighted Regression: The Analysis of Spatially Varying Relationships</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brundson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2004">2004</date>
+			<publisher>Wiley</publisher>
+			<pubPlace>New York</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Geographically Weighted Regression: A Natural Evolution of the Expansion Method for Spatial Data Analysis</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">E</forename><surname>Charlton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environment and Planning A</title>
+		<imprint>
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="issue">11</biblScope>
+			<biblScope unit="page" from="1905" to="1927" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Geographically Weighted Regression and Multicollinearity: Dispelling the Myth</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">M</forename><surname>Oshan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Geographical Systems</title>
+		<imprint>
+			<biblScope unit="volume">18</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="303" to="329" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Multi-scale Geographically Weighted Regression (MGWR)</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Yang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Kang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of the American Association of Geographers</title>
+		<imprint>
+			<biblScope unit="volume">107</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1247" to="1265" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Spatial Modeling with Spatially Varying Coefficient Processes</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H.-J</forename><surname>Kim</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">F</forename><surname>Sirmans</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Banerjee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">98</biblScope>
+			<biblScope unit="issue">462</biblScope>
+			<biblScope unit="page" from="387" to="396" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Prior Distributions for Variance Parameters in Hierarchical Models (Comment on Article by Browne and Draper)</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Gelman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Bayesian Analysis</title>
+		<imprint>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="515" to="534" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<monogr>
+		<title level="m" type="main">Data Analysis Using Regression and Multilevel/Hierarchical Models</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Gelman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Hill</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2006">2006</date>
+			<publisher>Cambridge University Press</publisher>
+			<pubPlace>Cambridge, England</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Spatial-Filtering-Based Contributions to a Critique of Geographically Weighted Regression (gwr)</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Griffith</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environment and Planning A</title>
+		<imprint>
+			<biblScope unit="volume">40</biblScope>
+			<biblScope unit="issue">11</biblScope>
+			<biblScope unit="page" from="2751" to="2769" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Moving Window Kriging with Geographically Weighted Variograms</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Harris</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Stochastic Environmental Research and Risk Assessment</title>
+		<imprint>
+			<biblScope unit="volume">24</biblScope>
+			<biblScope unit="issue">8</biblScope>
+			<biblScope unit="page" from="1193" to="1209" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Spatially Weighted Interaction Models (SWIM)</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Kordi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of the American Association of Geographers</title>
+		<imprint>
+			<biblScope unit="volume">106</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="990" to="1012" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">A Family of Geographically Weighted Regression Models</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Lesage</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Advances in Spatial Econometrics</title>
+		<editor>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">R</forename><forename type="middle">J G M</forename><surname>Florax</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">S</forename><forename type="middle">J</forename><surname>Rey</surname></persName>
+		</editor>
+		<meeting><address><addrLine>New York; Berlin, Heidelberg</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2004">2004</date>
+			<biblScope unit="page" from="241" to="264" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Bayesian Spatial Modelling with R-INLA</title>
+		<author>
+			<persName><forename type="first">F</forename><surname>Lindgren</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Rue</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Statistical Software</title>
+		<imprint>
+			<biblScope unit="volume">63</biblScope>
+			<biblScope unit="page" from="1" to="25" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">Bayes Estimates for the Linear Model</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">V</forename><surname>Lindley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">F M</forename><surname>Smith</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society. Series B (Methodological)</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1" to="41" />
+			<date type="published" when="1972">1972</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Random Effects Specifications in Eigenvector Spatial Filtering: A Simulation Study</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Murakami</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Griffith</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Geographical Systems</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="311" to="331" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">A Moran Coefficient-Based Mixed Effects Approach to Investigate Spatially Varying Relationships</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Murakami</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Yoshida</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Seya</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Griffith</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Yamagata</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Spatial Statistics</title>
+		<imprint>
+			<biblScope unit="volume">19</biblScope>
+			<biblScope unit="page" from="68" to="89" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">A Closer Examination of Spatial-Filter-Based Local Models</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Oshan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Stewart</surname></persName>
+		</author>
+		<ptr target="https://doi.org/0.21433/B31104" />
+	</analytic>
+	<monogr>
+		<title level="m">International Conference on GIScience Short Paper Proceedings</title>
+		<imprint>
+			<date type="published" when="2016">2016</date>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="page" from="232" to="235" />
+		</imprint>
+	</monogr>
+	<note>t0t6ds</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">A Comparison of Spatially Varying Regression Coefficient Estimates Using Geographically Weighted and Spatial-Filter-Based Techniques</title>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">M</forename><surname>Oshan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/gean.12133</idno>
+		<ptr target="https://doi.org/10.1111/gean.12133" />
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<analytic>
+		<title level="a" type="main">A Simulation-Based Study of Geographically Weighted Regression as a Method for Investigating Spatially Varying Relationships</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>P€ Aez</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Farber</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Wheeler</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environment and Planning A</title>
+		<imprint>
+			<biblScope unit="volume">43</biblScope>
+			<biblScope unit="issue">12</biblScope>
+			<biblScope unit="page" from="2992" to="3010" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<analytic>
+		<title level="a" type="main">On the Half-Cauchy Prior for a Global Scale Parameter</title>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">G</forename><surname>Polson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">G</forename><surname>Scott</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Bayesian Analysis</title>
+		<imprint>
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="887" to="902" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<analytic>
+		<title level="a" type="main">Penalising Model Component Complexity: A Principled, Practical Approach to Constructing Priors</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Simpson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Rue</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Riebler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">G</forename><surname>Martins</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">H</forename><surname>Sørbye</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistical Science</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1" to="28" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<analytic>
+		<title level="a" type="main">A Computer Movie Simulating Urban Growth in the Detroit Region</title>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">R</forename><surname>Tobler</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Economic Geography</title>
+		<imprint>
+			<biblScope unit="volume">46</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="234" to="240" />
+			<date type="published" when="1970">1970</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<analytic>
+		<title level="a" type="main">Quantifying Geographic Variations in Associations between Alcohol Distribution and Violence: A Comparison of Geographically Weighted Regression and Spatially Varying Coefficient Models</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">A</forename><surname>Waller</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Zhu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">A</forename><surname>Gotway</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">M</forename><surname>Gorman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">J</forename><surname>Gruenewald</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Stochastic Environmental Research and Risk Assessment</title>
+		<imprint>
+			<biblScope unit="volume">21</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="573" to="588" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<analytic>
+		<title level="a" type="main">Simultaneous Coefficient Penalization and Model Selection in Geographically Weighted Regression: The Geographically Weighted Lasso</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">C</forename><surname>Wheeler</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environment and Planning A</title>
+		<imprint>
+			<biblScope unit="volume">41</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="722" to="742" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b40">
+	<analytic>
+		<title level="a" type="main">An Assessment of Coefficient Accuracy in Linear Regression Models with Spatially Varying Coefficients</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">C</forename><surname>Wheeler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">A</forename><surname>Calder</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Geographical Systems</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="145" to="166" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b41">
+	<analytic>
+		<title level="a" type="main">Comparing Spatially Varying Coefficient Models: A Case Study Examining Violent Crime Rates and Their Relationships to Alcohol Outlets and Illegal Drug Arrests</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">C</forename><surname>Wheeler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">A</forename><surname>Waller</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Geographical Systems</title>
+		<imprint>
+			<biblScope unit="volume">11</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1" to="22" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

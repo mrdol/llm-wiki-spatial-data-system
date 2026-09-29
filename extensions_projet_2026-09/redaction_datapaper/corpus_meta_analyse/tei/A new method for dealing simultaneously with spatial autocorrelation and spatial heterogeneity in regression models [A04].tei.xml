@@ -1,0 +1,1679 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">A new method for dealing simultaneously with spatial autocorrelation and spatial heterogeneity in regression models ☆</title>
+				<funder ref="#_HJp7z7R">
+					<orgName type="full">AgreenSkills</orgName>
+				</funder>
+				<funder>
+					<orgName type="full">URBANSIMUL</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability  status="unknown">
+					<licence/>
+				</availability>
+				<date type="published" when="2017-04-12">12 April 2017</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">Ghislain</forename><surname>Geniaux</surname></persName>
+							<email>ghislain.geniaux@inra.fr</email>
+							<affiliation key="aff0">
+								<orgName type="institution" key="instit1">UR Ecodevelopment</orgName>
+								<orgName type="institution" key="instit2">INRA</orgName>
+								<address>
+									<settlement>Avignon</settlement>
+									<country key="FR">France</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Davide</forename><surname>Martinetti</surname></persName>
+							<email>davide.martinetti@inra.fr</email>
+							<affiliation key="aff0">
+								<orgName type="institution" key="instit1">UR Ecodevelopment</orgName>
+								<orgName type="institution" key="instit2">INRA</orgName>
+								<address>
+									<settlement>Avignon</settlement>
+									<country key="FR">France</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">A new method for dealing simultaneously with spatial autocorrelation and spatial heterogeneity in regression models ☆</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2017-04-12">12 April 2017</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">9D9ACFFDA4E4B5C50E7C22583A864599</idno>
+					<idno type="DOI">10.1016/j.regsciurbeco.2017.04.001</idno>
+					<note type="submission">Received 8 October 2016; Received in revised form 28 March 2017; Accepted 4 April 2017 ☆ Davide Martinetti has received the support</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-06-03T07:51+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>Local models Geographically weighted regression Mixed GWR SAR</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Although spatial heterogeneity and spatial dependence are two cornerstones of spatial econometrics, models and methods for dealing at the same time with both issues are still rare in the literature, with few notable exceptions. The same can be said for studies on the performance of spatial econometric models under misspecification of explanatory variables and unknown structure of the spatial weight matrix. In this article, we introduce a new class of data generating processes (DGP), called MGWR-SAR, in which the regression parameters and the spatial autocorrelation coefficient can vary over the space. For the estimation of these new models, we resort to the Spatial Two-Stage Least Squares (S2SLS) technique. We rely on a Monte Carlo experiment for testing the performance of classical models, such as OLS, GWR (Geographically Weighted Regression), mixed GWR and SAR (Spatial AutoRegressive model), as well as our proposals, paying special attention to simulated data under the realistic assumption that they suffer from multicollinearity/concurvity problems and/or misspecification of the covariates. The results suggest that certain model specifications amongst the newly proposed family MGWR-SAR are the more robust. Furthermore, to complete our proposal, we also suggest a specification procedure to identify the correct spatial weight matrix for DGPs with spatial heterogeneity and spatial autocorrelation of the endogenous. We conclude the article with an empirical study on the Lucas County house price dataset, confirming the good performance of the proposed estimators.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">Introduction</head><p>Usual spatial-econometric estimation frameworks, based on models with spatial autocorrelation and with a given spatial weight matrix are sometimes unfeasible in the presence of model misspecification. In fact, they are unable to disentangle between real spatial autocorrelation and the different sources of violation of IID, such as non-linear relationship of spatially-correlated independent variables, spatial heterogeneity through unobserved covariates and/or spatially varying relationships (see, amongst others, <ref type="bibr">(Anselin, 1990a;</ref><ref type="bibr" target="#b4">Anselin and Bera, 1998;</ref><ref type="bibr" target="#b15">Brunsdon et al., 1999)</ref>). Non-linearities and spatial heterogeneity can cause spatial dependence and the reverse is also true (see, e.g. <ref type="bibr" target="#b24">(Fotheringham, 2009;</ref><ref type="bibr" target="#b60">Pace and LeSage, 2004</ref>)) 1 .</p><p>Studies that consider both spatial autocorrelation and spatial heterogeneity are still scarce in spatial statistics and spatial econo-metrics literature, and even scarcer when possible model misspecification is considered. Tests to diagnose the join presence of spatial autocorrelation and spatial heterogeneity, or to test heteroskedasticity taking into account spatial autocorrelation, exist: JLM test of <ref type="bibr" target="#b1">Anselin (1988)</ref>, KR-SPHET test of <ref type="bibr" target="#b35">Kelejian and Robinson (1998)</ref>, spatial Breuch-Pagan test, spatial Chow test <ref type="bibr">(Anselin, 1990b)</ref>, LM test <ref type="bibr" target="#b57">(Mur et al., 2008)</ref>. However, they are limited to specific forms of spatial variation of the parameters, such as spatial regimes that imply block heteroskedasticity and they are not suitable for more general forms of spatial heterogeneity of model parameters, i.e. when the spatial variation of parameters is continuous (smooth) over the space and depends on coordinates. Moreover, when there is high uncertainty on which spatial interaction matrix to choose or on the model specification, like in the presence of non-linearities and/or unobserved spatial heterogeneity, the existing tests are insufficient for delivering a significant diagnosis of the presence of both spatial autocorrelation and spatial heterogeneity of unknown form.</p><p>The recent work of <ref type="bibr" target="#b6">Basile et al. (2014)</ref> is a nice attempt in this line to promote more flexible estimation frameworks that follow the recommendations of <ref type="bibr" target="#b50">McMillen (2012)</ref> of using spatial smoother technics in order to remove spatial heterogeneity while considering other potential non-linearities. The extension of geoadditve models with spatial autocorrelation proposed by <ref type="bibr" target="#b6">Basile et al. (2014)</ref> allows to consider spatially autocorelated error terms and/or endogenous variable, and it provides a useful tool for spatial econometrics practitioners.</p><p>An alternative to geoadditve models for considering spatiallyvarying coefficients can be found amongst local regression models <ref type="bibr" target="#b25">(Fotheringham et al., 1999;</ref><ref type="bibr">Loader, 1999b;</ref><ref type="bibr" target="#b53">McMillen, 1989)</ref>: they constitute a simple framework for extending local models in order to account for spatial autocorrelation. For example, <ref type="bibr" target="#b14">Brunsdon et al. (1996)</ref> proposed a Spatial AutoRegressive model (a.k.a. SAR) estimated with local maximum likelihood in which all coefficients are spatially varying. <ref type="bibr" target="#b19">Cho et al. (2010)</ref> proposed an approach that combines geographically weighted regression (GWR) and Spatial Error Model (SEM), called GWR-SEM, using Generalized Method of Moments <ref type="bibr" target="#b31">(Kelejian and Prucha, 1998)</ref>. SEM should allay spatial autocorrelation, while GWR addresses spatial heterogeneity by allowing the coefficients to vary across observations. Nevertheless, their model is over-specified, since it has a random intercept term in both the GWR and the SEM part. In the same vein, <ref type="bibr" target="#b62">Páez et al. (2002)</ref> propose an estimation method in which the covariance is locally varying and that can handle spatial autocorrelation of the error terms. Another notable contribution accounting for both spatial autocorrelation and non-stationarity of the regression parameters has been made by <ref type="bibr" target="#b60">Pace and LeSage (2004)</ref>: they propose a spatial autoregressive local estimation based on a recursive approach for maximum-likelihood estimation of SAR that implies estimates on subsamples related to a neighboring of each observation.</p><p>The two weaknesses shared by these propositions are that they do not allow to consider the mixed case in which some parameters are constant over space and other are spatially varying and, secondly, that they are computationally intensive. Despite local regression provides a powerful tool to model spatial heterogeneity, it suffers some limitations regarding multicollinearity <ref type="bibr" target="#b5">Barcena et al. (2014)</ref>; <ref type="bibr">Páez et al. (2017/02)</ref>; <ref type="bibr">Wheeler and Tiefelsdorf (2005a)</ref> and extreme coefficients, including sign reversal <ref type="bibr" target="#b23">Farber and Páez (2007)</ref>. Particularly, the presence of multicollinearity can lead to artificial spatial patterns of the coefficients, so that other authors prefer to use extended bandwidth <ref type="bibr" target="#b5">Barcena et al. (2014)</ref>; <ref type="bibr">Páez et al. (2017/02)</ref>, to use ridge or lasso <ref type="bibr">GWR Wheeler (2007</ref><ref type="bibr">, 2009)</ref> or a "mixed" GWR approach, with only a limited number of coefficients that can vary over space. <ref type="bibr" target="#b27">Geniaux et al. (2011)</ref> proposed a framework for a specific class of spatial econometrics models in which also the spatial autocorrelation coefficient is non-stationary and the corresponding spatial autoregressive mixed GWR is estimated using local Two-Stage Least Square methods. We show in this paper that the fact that some covariates could be spatially dependent is a key dimension of the problem and that "mixed" GWR approaches are a way of solving the concurvity/multicollinearity problems caused by spatially dependent covariates.</p><p>The previous discussion highlights the need for more flexible models where both the regression and the spatial autocorrelation coefficients can either be constant or non-stationary. In Section 2 we provide an economic justification for our approach and we later introduce a set of local regression models that include all possible combinations of constant and spatially-varying coefficients. Each model is presented with its corresponding estimation technique and in Section 3 we present a Monte-Carlo simulation study. The first set of experiments allows to study the finite properties of the proposed estimation techniques, particularly when multi-collinearity/concurvity problems are artificially introduced in the data. In the second set of experiments, each models is estimated over all possible DGPs, with and without misspecification of covariate. In the absence of suitable tests for the joint presence of spatial heterogeneity of general form and spatial dependence, the aim is to asses which model would perform better in case of unknown DGP and is more robust to model misspecification. The last experiment allows to assess the performance of the estimation technique for identifying the spatial weight matrix. Finally, in Section 4, we compare the performance of our proposed methodology against the classical SAR model on the Lucas County pricing data set by comparing their predictive accuracy using cross validation techniques. Conclusions and future developments are sketched in Section 5.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.">Spatial econometrics models and estimators with spatial dependence and spatial heterogeneity</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1.">Motivations for spatially varying coefficient models in urban economics</head><p>Spatial heterogeneity problems in regression models are, in our point of view, inseparable from other issues such as non-linearities and spatial autocorrelation. It is the case, for example, of the effects of land area on land price in hedonic price function estimation: empirical evidence suggests that the relationship between the area and the price of a plot of land is often non-linear, with threshold effects due to zoning regulation (wherever applicable). Furthermore, the spatial distribution of land areas is usually linked to the distance to the city centre, the closer to the city, the smaller the area, but other less-measurable variables can also have an influence on that distribution. Is then easy to prove that not accounting for non-linearities can introduce spatial biases, under the form of spatial autocorrelation and/or unobserved spatial heterogeneity <ref type="bibr" target="#b6">Basile et al. (2014)</ref>. On the contrary, models that explicitly consider spatial autocorrelation and spatial heterogeneity can help reducing the problems of non-linearities <ref type="bibr" target="#b37">Le Gallo (2004)</ref>. Several authors have also proved that the misspecification of the spatial autocorrelation (either on the form of the model or on the specification of the spatial weight matrix) can introduce spatial heterogeneity and that, on the other hand, considering spatial heterogeneity can reduce the problems issued from spatial autocorrelation. It is then hard to disentangle between spatial autocorrelation, spatial heterogeneity and non-linearities within the calibration of the same model: whenever one of these aspects is ill-specified, it can lead to the creation, intensification or sometimes the disappearance, of the effects of the others. Many authors have discussed the relationship between these three subjects, but, in practice, there is still no clear agreement and the vast majority of spatial econometric practitioners still resort to classical models that only consider spatial autocorrelation. We then highlight that the interest in regression models with spatial heterogeneity has not been sufficiently promoted and justified from the economic point of view, as well as the importance of considering spatial heterogeneity, spatial autocorrelation and non-linearity jointly. The interest in using regression models with spatially-varying coefficients is then multiple. Firstly, we can argue that models that only consider spatial autocorrelation are not capable of correcting all the problems related to non-observable spatial heterogeneity. This has pushed several authors to consider a non-stationary intercept term amongst the regression variables, for example, by means of a spline function of the space coordinates <ref type="bibr" target="#b74">Wood (2011)</ref>. Nonetheless, this same argument can be pushed even further to consider a regression model with more spatially-varying coefficients. To keep the example of hedonic price function of land sales, it is sometimes difficult to have access to detailed urban regulation; these unobserved variables can sometimes introduce spatial heterogeneity that can only be partially taken into account by SEM models or models with a spatially-varying intercept term. The resultant of these variables cannot be accounted as either a fixed or a random effect in reduced form of micro-econometric models, but it should rather be understood as an indicator of a different economic behaviour, hence it demands a differentiation of the parameters of agent preferences (indirect utility function) that drives bidding process. Similarly, <ref type="bibr" target="#b11">Brady and Irwin (2011)</ref> invoked this same argument to promote the use of models that integrate spatial heterogeneity in order to better account for the variability of willingness to pay with respect to environmental amenities, according to socio-spatial segregation of individuals: they affirm that the propensity of householders for green or open spaces can vary according to their socio-professional category or their level of revenue that, on the other hand, are often clustered in space. Likewise, the willingness to pay of individuals for parking lots can vary strongly over the space according, for example, to urban density, type of neighborhood or proximity to public transportation. These two examples fit better in the logic of a model with spatial differentiation of the regressors rather than with spatial interaction.</p><p>The choice of a model with spatial autocorrelation, justified merely as a microeconomic model with agents interactions (see <ref type="bibr" target="#b12">(Brueckner, 2006)</ref>), is just a way to include a spatial structure to the specification and to allow the evaluation of the marginal effects. Nonetheless, the same can be achieved by means of other statistical methods that can include spatially-varying coefficients <ref type="bibr" target="#b48">(McMillen, 2004</ref><ref type="bibr" target="#b49">(McMillen, , 2010))</ref>. Another way of justifying this approach is to write explicitly the underlying micro-economic model in which some variables of the price function depend on some unobserved spatial covariates. For example, <ref type="bibr" target="#b27">Geniaux et al. (2011)</ref> have applied an inter-temporal utility model for land price with non-stationary coefficients to evaluate the anticipation of land owners on the likelihood of future development of their lands: the level of anticipation varied over the space according to stability/uncertainty of land regulation in the neighborhood which is not directly observable.</p><p>In our propositions, we also consider the possibility of a nonstationary spatial autocorrelation parameter. This possibility is based on its theoretical soundness, even if some economic behavior can be evoked to justify it: when the spatial weight matrix W is unknown and spatial locations are irregularly distributed over space, the choice of a neighboring scheme based only on distance or first nearest neighbours can be tricky. Choosing one weighting scheme instead of the other can lead to a spatial interaction matrix that is too dense (resp. too dispersed) in the heterogeneous parts of the space, resulting in under or overestimation of the spatial parameter. There exist at least two possible solutions to mitigate the effect of the spatial weight matrix misspecification with cross section data: either to adapt the structure of W in order to improve the quality of the fit ( <ref type="bibr" target="#b22">(Ertur and Koch, 2006;</ref><ref type="bibr" target="#b54">Meen, 1996;</ref><ref type="bibr" target="#b57">Mur et al., 2008)</ref>, see Section 2.3.4) keeping a stationary spatial parameter or to use of a non-stationary spatial autocorrelation parameter like in our proposition. This highlight the link between a suitable choice of W when considering both spatial autocorrelation and spatial dependence, so we also propose in Section 2.3.4 a method for choosing W in such settings.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2.">DGPs with spatial autocorrelation and spatially varying coefficients</head><p>In spatial econometric literature, a regression model that considers spatial autocorrelation of the endogenous variable Y is formally written as:</p><formula xml:id="formula_0">Y λW X β i n Y = + + ϵ , ∀ ∈ {1, …, }, i i i (<label>1</label></formula><formula xml:id="formula_1">)</formula><p>where Y is the n-vector of the continuous dependent variable, X is a matrix of k exogenous explanatory variables, ϵ i is a IID error vector and W is a n n × spatial weight matrix. Assuming linear spatial dependence of Y i with his neighbors simply implies that there exists a set of nonnull λ ij such that:</p><formula xml:id="formula_2">∑ Y λ Y X β i n = + +ϵ ∀ ∈{ 1 , … , } , i j ij j i i (<label>2</label></formula><formula xml:id="formula_3">)</formula><p>The hypothesis that we can capture the effect of the λ ij by using a single term λW , with a known interaction matrix W that specify the relation- ship between each observation i and j, is very practical because it simplifies the estimation and the interpretation of the model's parameters. However, this hypothesis is very restrictive. In fact, there is no definitive indication for the best choice of W in the econometric literature <ref type="bibr" target="#b8">Bhattacharjee and Jensen-Butler (2006)</ref>; <ref type="bibr" target="#b28">Harris et al. (2011)</ref>. Moreover, even with a proper specification of W, when the interaction between neighbors is changing over space, in intensity and/ or in structure, a true W does not really exist and the estimates of Eq. ( <ref type="formula" target="#formula_0">1</ref>) could be biased. For these reasons, we aim to improve the modelization of Eq. ( <ref type="formula" target="#formula_2">2</ref>), in order to provide better estimators for the parameters and for being able to capture a larger variety of spatial interaction patterns. To reduce the complexity of estimating the set of λ ij , and to keep the interpretation as a diffusion process of the spatial autocorrelation, we propose to relax one of the main hypothesis generally adopted by existing estimators of SAR models, i.e. the parameter λ and the linear regression coefficients β are constant over the coordinates space. On the other hand, in Section 2.3.4 we will also propose a methodology to improve the estimates by adapting the structure of the spatial weight matrix W.</p><p>In our first proposition, the value of λ and β depends on the coordinates u v ( ,</p><formula xml:id="formula_4">) i i (λ λ u v = ( , ) i i and β u v (<label>,</label></formula><formula xml:id="formula_5">) i i )</formula><p>, where u v ( , ) i i represents the longitude and latitude of observation i. The parameters λ u v ( , ) i i and β u v ( , ) i i are only required to be spatially smoothed (continuity of the second derivative). The corresponding class of DGP can be written as:</p><formula xml:id="formula_6">Y λ u v h WY β X β u v h X = ( , ; ) + + ( , ; ) + ϵ , i i i c c v i i v i (<label>3</label></formula><formula xml:id="formula_7">)</formula><p>where h is a bandwidth parameter that allow to define the local subsample around the coordinates of each points u v ( , ) i i using a given distance kernel, X c represents k c explanatory variables with spatially stationary coefficients and X v contains k v explanatory variables with non-stationary coefficients.</p><p>From Eq. ( <ref type="formula" target="#formula_6">3</ref>) we can derive nine different DGPs as a combination of fixed and spatially-varying coefficients λ β β ( , , ) c v :</p><formula xml:id="formula_8">y β X y β u v X y β X β u v X y λ W y βX y λ W y β u v X k y λ W y βX β u v X k k y λ u v Wy βX k y λ u v Wy β u v X k y λ u v Wy βX β u v X k k = + ϵ ( O L S ) = ( , )+ ϵ ( G W R ) = + ( , ) + ϵ ( M G W R ) = + + ϵ ( S A R ) = + ( , ) + ϵ( M G W R -S A R ( 0 , 0 , ) ) = + + (, ) + ϵ ( M G W R -S A R ( 0 , , ) ) = ( , ) + +ϵ (MGWR-SAR(1, , 0)) = ( , ) + ( , ) + ϵ (MGWR-SAR(1, 0, )) = ( , ) + + ( , ) +ϵ (MGWR-SAR(1, , )) c c i v i i v i c c v i i v i c c i v i i v i c c v i i v i c v i i c c i i i v i i v i i i c c v i i v i c v (<label>4</label></formula><formula xml:id="formula_9">)</formula><p>The first triplet of equations contains, respectively, a model with only constant regression coefficients, only spatially-varying coefficients or a combination of constant and spatially-varying coefficients. The same pattern is used in the second and third triplets of equations, i.e. the ones with constant or spatially-varying spatial autocorrelation coefficient, respectively.</p><p>We introduced the term MGWR-SAR in order to identify the DGPs of the second and third triplets of Eq. ( <ref type="formula" target="#formula_8">4</ref>). To simplify the notation, we suppose that the number of regression parameters is always the same, k, and that it can include both constant (k c ) and spatially-varying (k v ) coefficients in such a way that</p><formula xml:id="formula_10">k k k = + c v . The values in parenthesis of the MGWR-SAR(i k k , , λ c v ) notations denote: i , λ</formula><p>the fact that λ is constant (0) or spatially varying (1);. k , c the number of constant βs (any integer between 0 and k);. k , v the number of spatially varying βs (any integer between 0 and k).</p><p>Model MGWR-SAR( k 1, 0, ) corresponds to the mixed GWR model of <ref type="bibr" target="#b16">Brunsdon et al. (1998);</ref><ref type="bibr" target="#b25">Fotheringham et al. (1999)</ref>; <ref type="bibr" target="#b62">Páez et al. (2002)</ref>, while the other four MGWR-SAR models in Eq. ( <ref type="formula" target="#formula_8">4</ref>) are our original contribution.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3.">Estimators for models with spatial autocorrelation and spatial heterogeneity</head><p>Although most of the models involving local parameters are unidentifiable because they suppose more parameters than observations, we found in the literature different ways to approximate these local coefficients by introducing conditions on local continuity and smoothness. The first approach in this field consisted in parametric models incorporating the spatial coordinates of observations as for example the "Trend Surface Analysis" method <ref type="bibr" target="#b64">Ripley (2005)</ref> or "Variable Expansion" method proposed by <ref type="bibr" target="#b17">Casetti (1972</ref><ref type="bibr" target="#b18">Casetti ( , 1997))</ref>. Nevertheless, while these parametric methods allowed to identify a spatial trend valid throughout the sample, they were unable to detect local variations <ref type="bibr" target="#b25">Fotheringham et al. (1999)</ref>. After that, the main contributions considered semi-parametric methods like the "Locally Weighted Regression" (LWR) <ref type="bibr" target="#b47">McMillen (1996)</ref> and the "Geographically Weighted Regression" (GWR) <ref type="bibr" target="#b14">Brunsdon et al. (1996)</ref> who provided a methodological framework to estimate local values of the parameters from local regressions. The idea was to estimate as many regressions as focal points (data coordinates or other sets of coordinates) by weighting the local regressions with respect to the observations' distance to these focal points. The Mixed GWR introduced by <ref type="bibr" target="#b25">Fotheringham et al. (1999)</ref> and extended by <ref type="bibr" target="#b55">Mei et al. (2004)</ref> and <ref type="bibr" target="#b27">Geniaux et al. (2011)</ref> allows to combine spatially stationary and non-stationary coefficients.</p><p>A notable contribution that takes into account the spatial autocorrelation in a local regression framework has been made by <ref type="bibr" target="#b60">Pace and LeSage (2004)</ref>. They proposed a "Spatial Autoregressive Local Estimation" based on a recursive approach for maximum-likelihood estimation of SAR, implying estimates on subsamples related to a neighboring of each observation. Despite the fact that they used local estimates of the spatial parameter, they did not really exploited that possibility and only focused on the spatial variability of the parameter β. Moreover, their proposition did not allow to consider the mixed-GWR case and it was computationally very intensive.</p><p>Amongst the DGPs that implies both spatial autocorrelation and spatial heterogeneity, the MGWR-SAR( k 1, 0, ) has been studied in the spatial econometric literature <ref type="bibr" target="#b25">Fotheringham et al. (1999)</ref>; <ref type="bibr" target="#b62">Páez et al. (2002)</ref> (known there as simply "mixed GWR"). The MGWR-SAR( k 1, , 0) model was already introduced in Brunsdon et al. (1998). While these authors proposed local maximum likelihood estimation, if we want to rely only on linear regression to keep reasonable computation time, the parameters of such DGP should be estimated using the "Spatial Two-Stage Least Squares" (S2SLS) <ref type="bibr" target="#b1">Anselin (1988)</ref>; <ref type="bibr" target="#b31">Kelejian and Prucha (1998)</ref>. We also explored another estimation technique, notably the "Best Spatial Two-Stage Least Squares" (BS2SLS) of Lee <ref type="bibr" target="#b39">Lee (2003)</ref>, that can be relevant here in case of misspecification of the true model DGP but the results were not convincing and are not presented in this version of the paper (although they are available upon request).</p><p>All the estimators and methods proposed in the following sections have been coded in C++ and embedded into R through the Rcpp package <ref type="bibr" target="#b21">Eddelbuettel et al. (2011)</ref>. They are the core functions of a forthcoming R package, called gwrsar.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3.1.">OLS estimation</head><p>It is the classical "Ordinary Least Square" estimation:</p><formula xml:id="formula_11">β X X X Y = ( ′ ) ′ . -1 (5)</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3.2.">Geographically Weighted Regression (GWR) estimation</head><p>For each observation i n ∈ {1, …, } we deal with a different vector of local coefficients β u v ( , ) i i . Consider the following weight matrix M, with size n×n, such that m K d h = ( , )</p><formula xml:id="formula_12">ii ii ′ ′</formula><p>, for any i n ′ ∈ {1,…, }, with K () a kernel function based on the distance d ii′ between coordinates u v ( ,</p><formula xml:id="formula_13">) i i</formula><p>and the u v ( , ) i i ′ ′ and a bandwidth h. Let define the n×n diagonal matrix M i that has on the diagonal the i-th row of M. Hence, the estimation of the coefficients in each point i is given by</p><formula xml:id="formula_14">β u v X M X X M Y ( , ) = ( ′</formula><p>) ′ .</p><formula xml:id="formula_15">i i i i -1 (6)</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3.3.">Mixed GWR (MGWR) estimation</head><p>Geographically Weighted Regression can appear inadequate for many socioeconomic variables that have global effects and are independent from individual location. Moreover, GWR is inappropriate for local categorical variables, since spatially-varying coefficients associated with such polytomous variables may have no meaning. For an adequate treatment of these problems, mixed models or MGWR were developed. This kind of model can be expressed as:</p><formula xml:id="formula_16">∑ ∑ y β x β u v x i n = + ( , ) + ϵ = 1, 2, …, . i j k j ij l k l i i il i =1 =1 c v (<label>7</label></formula><formula xml:id="formula_17">)</formula><p>The intercept can be set amongst spatially varying variables or not. The MGWR was already introduced by <ref type="bibr" target="#b25">Fotheringham et al. (1999)</ref> with a seven-steps estimation, requiring k 2 + v GWR estimations; somewhat intensive in terms of computation. <ref type="bibr" target="#b55">Mei et al. (2004)</ref> proposed a twosteps methodology, based on partial linear models developed in <ref type="bibr" target="#b66">Speckman (1988)</ref> and <ref type="bibr" target="#b10">Bowman and Azzalini (1997)</ref>. We will use this methodology that seems to be better adapted to empirical studies and large samples. To reduce excessive notation and for inference purposes, the estimation of the GWR in terms of a Hat matrix <ref type="bibr" target="#b29">Hoaglin and Welsch (1978)</ref> can be rewritten as:</p><formula xml:id="formula_18">⎛ ⎝ ⎜ ⎜ ⎜ ⎜ ⎜ ⎞ ⎠ ⎟ ⎟ ⎟ ⎟ ⎟ S X X M X X M X X M X X M X X M X X M = ( ) [ ] ( ) [ ] ⋮ ( ) [ ] , v v v v v v v v v v n v n v v n 1 ′ 1 -1 ′ 1 2 ′ 2 -1 ′ 2 ′ -1 ′</formula><p>where M i follows the same notation used in Section 2.3.2. It is then possible to define a two-steps estimation for β c and β u v ( , ) v i i as follows:</p><formula xml:id="formula_19">β X I S I S X X I S I S Y β u v X M X X M Y X β Step 1: = [ ( -)′( -) ] ( -)′( -) . Step 2: ( , ) = [ ] ( - ). c c v v c c v v v i i v i v v i c c ′ -1 ′ ′ ′ -1 ′ ′ 2.3.4. MGWR-SAR estimation All MGWR-SAR models include a spatially-lagged dependent vari- able (either constant λWy, if i = 0 λ , or spatially varying λ u v Wy (<label>,</label></formula><formula xml:id="formula_20">) i i , if i = 1 λ</formula><p>) that introduces a source of endogeneity. The spatially-lagged dependent variable is usually correlated with the error term ϵ. In order to get rid of the endogenous part, all MGWR-SAR models are estimated by means of a Spatial Two-Stage Least Square (a.k.a. S2SLS, see amongst others <ref type="bibr" target="#b1">(Anselin, 1988;</ref><ref type="bibr">Kelejian and</ref><ref type="bibr">Prucha, 1998, 1999;</ref><ref type="bibr" target="#b33">Kelejian et al., 2004)</ref>) that uses the following set of instruments H X WX W X W X = [ , , , ]</p><p>-1 2 -1 3 -1 , where X -1 denotes the matrix of covariates without the column of ones that corresponds to the intercept term. The advantages of using S2SLS are that it allows to formulate easily the solution of the parameters of the mixed version of the GWR, and also to reduce computation time (particularly helpful for iterated computation of local regressions).</p><p>Kernel and Bandwidth selection. In this paper, the estimators that imply local regression usually adopt a bisquare kernel, namely</p><formula xml:id="formula_21">⎧ ⎨ ⎪ ⎩ ⎪ ⎛ ⎝ ⎜ ⎞ ⎠ ⎟ m K d h d h = ( , ) = 15 16 if &lt; 1, 0 o t h e r w i s e , i i i i i i d h ′ ′ ′ 2 i i ′</formula><p>where d i i ′ denotes the Euclidean distance between locations i and i′ and h a bandwidth or an adaptive bisquare kernel (see Eq. ( <ref type="formula" target="#formula_23">9</ref>)). This bandwidth is selected by minimizing the following Cross Validation (CV) criteria:</p><formula xml:id="formula_22">∑ h y y h = min ( -( ) ) , h i n i =1 - 2<label>(8)</label></formula><p>where y h ( ) i -represents the vector of estimated y h ( ) as a function of the bandwidth h, from which the i-th observation has been removed. The reason for removing the i-th observation is that otherwise the minimum would converge with a null bandwidth h. The choice of the bandwidth is more critical than the choice of kernel (see <ref type="bibr" target="#b51">(McMillen and Redfearn, 2010)</ref> for a recent discussion on the issue of bandwidth selection). Nevertheless, minimizing the Cross Validation criteria may be unsuccessful when kernel is based on distance with data irregularly distributed over space. When the bandwidth becomes too small for some local points, the continuity of cross validation values can not be guaranteed and some singularity appears. Then, in order to avoid numerical problems due to the presence of unconnected observations or too small local subsamples, it could be useful to use an adaptive bisquare kernel that allows to have at least k 2 + 1 observations for each local regression as follows:</p><formula xml:id="formula_23">⎧ ⎨ ⎪ ⎪ ⎪ ⎩ ⎪ ⎪ ⎪ ⎛ ⎝ ⎜ ⎞ ⎠ ⎟ ⎛ ⎝ ⎜ ⎞ ⎠ ⎟ m K d h d h m k d h h m k = ( , ) = 15 16 if #{ &gt; 0} &gt; 2 + 1 15 16 otherwise, where is such that #{ &gt; 0} ≥ 2 + 1. ∼ ∼ i i i i i i i i i i ′ ′ ′ 2 ′. ′ 2 ′.<label>(9)</label></formula><p>Another issue concerning bandwidth selection is related to models with spatially-varying λ estimated via S2SLS. For such models, the S2SLS method could lead to an estimation of λ that is out of the domain interval [-1, 1] for those bandwidths h that are too small. To avoid such issue, we use a penalized CV criteria with an arbitrary large penalty for bandwidth values that lead to an out-of-support λ. The chosen kernel will be the one showing the smallest penalized CV criteria.</p><p>In search of W . As suggested in Section 2.1, the issue of estimating λ ij presents several analogies with the estimation procedures that propose to adapt the structure of W by iteratively modifying w ij to improve the fit <ref type="bibr" target="#b8">Bhattacharjee and Jensen-Butler (2006)</ref>; <ref type="bibr" target="#b22">Ertur and Koch (2006)</ref>; <ref type="bibr" target="#b30">Jennrich (2001)</ref>; <ref type="bibr" target="#b54">Meen (1996)</ref>; <ref type="bibr" target="#b57">Mur et al. (2008)</ref>. A choice of W that corresponds to the true data generating process is then crucial, since otherwise we will observe dramatic changes of parameter estimates and explanatory variables specification <ref type="bibr" target="#b8">Bhattacharjee and Jensen-Butler (2006)</ref>. <ref type="bibr" target="#b28">Harris et al. (2011)</ref> identified three main approaches for choosing W. First, it is common practice to compare pre-specified versions of W using "goodness of fit statistics", like AIC, to choose the best specification of W. <ref type="bibr" target="#b40">LeSage and Fischer (2008)</ref> use Bayesian technics for choosing between non-nested competing models, while <ref type="bibr" target="#b67">Stakhovych and Bijmolt (2009)</ref> show through Monte Carlo experiments that information criteria could also be a valid option for choosing W. However, such approaches provide a local maximum for which substantial bias of regression estimates may still remain. A second approach starts with an unspecified spatial weight matrix W and try to fit it in such a way that it is consistent with observed patterns of spatial dependence. <ref type="bibr" target="#b20">Conley (1999)</ref> proposes a method to estimate the spatial auto-covariance matrix involving imperfect measures of economic distance. In the same vain, <ref type="bibr" target="#b63">Pinkse et al. (2002)</ref> develop a framework with uncertainty on distance measures and the possibility of spatial non-stationarity. <ref type="bibr" target="#b57">Mur et al. (2008)</ref> proposed the zoom estimation based on local ML estimates that adapt the number of neighbors to consider in W for each observation. When observations over time are available, the original proposal of <ref type="bibr" target="#b54">Meen (1996)</ref> has been extended by <ref type="bibr">Beenstock and</ref>  <ref type="formula">Felsenstein (2012); Bhattacharjee and Jensen-Butler  (2006); Harris et al. (2011)</ref>to construct W by taking benefits of the panel structure of the data, without requiring the pre-specification of W when N is small, relative to T (time). Finally, a third approach is to use non parametric approaches for measuring spatial correlation of a single variable. For example, <ref type="bibr" target="#b46">López et al. (2010)</ref> use the concept of symbolic entropy as a measure of spatial dependence, while other authors propose the use of Moran I (see <ref type="bibr" target="#b58">(Ord and Getis, 1995)</ref>) or local statistics (see <ref type="bibr" target="#b0">(Aldstadt and Getis, 2006)</ref>) to identify the most suitable W.</p><p>Our proposal is to use a parametric approach that is at the frontier of the approaches discussed earlier. The estimation procedure uses a family of distance kernels with a single parameter h w (the bandwidth or the number of neighbors, according to the kernel). To identify the matrix W, we use a moment estimator that tries to minimize the residual sum of squares (RSS) of the model estimation with respect to W h ( ) w . In this paper, we consider only three types of kernel: k-nearest neighbors with rectangular kernel, bisquare or adaptive bisquare. The search is performed for each kernel, in order to find the best value of h w . The final choice correspond to the pair of kernel/bandwidth that assures the best RSS for the model.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.">Monte Carlo experiments</head><p>In this section we present three Monte Carlo experiments. The first set of experiments focuses on the finite properties of the proposed estimation techniques, particularly when multi-collinearity/concurvity problems are artificially introduced in the simulated data. In the second set of experiments, each models is estimated over all possible DGPs, with and without misspecification of covariates, to assess the robustness of the estimators. The last experiment allows to assess the performance of the estimation technique for finding the right specification of W.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1.">Monte Carlo settings</head><p>All data are simulated over a coordinate space contained in the unit square [0, 1] 2 with n=1000 observations. We consider four CBDs, positioned around the four points (0.25, 0.25), (0.25, 0.75), (0.75, 0.25) and (0.75, 0.75) respectively, and a set of explanatory variables X X X X X = [ , , , ] 0 1 2 3 , where X 0 is the intercept term, X ∼ (4, 8) 1 and X ∼ (1, 2) 3 . The covariate X 2 is constructed as a function of the coordinates space (based on the distance from nearest CBD) plus a zero-mean noise:</p><formula xml:id="formula_24">X u v u v ( , ) = dist( , , CBD) + ϵ. i i i i 2 (10)</formula><p>Hence, the covariate X 2 is spatially dependent. The regression coefficients β and the spatial autocorrelation parameter λ can either be constant or spatially varying, according to the chosen DGP. When they are constant, they will take the values β = 0 0 , β = 1 1 , β = -1 2 , β = 1 3 and λ = 0.4. Otherwise, they will follow these spatial patterns (see Fig. <ref type="figure" target="#fig_0">1</ref>):</p><formula xml:id="formula_25">• β u v ( , ) i i 0 is mono-centric w.r.t.</formula><p>the origin of the coordinate space (0, 0),</p><formula xml:id="formula_26">• β u v ( , ) i i 1</formula><p>is mono-centric w.r.t. the center of the coordinate space (0.5, 0.5),</p><formula xml:id="formula_27">• β u v ( , ) i i 2</formula><p>corresponds to the x y (-, )-plane,</p><formula xml:id="formula_28">• β u v (<label>,</label></formula><formula xml:id="formula_29">) i i 3</formula><p>corresponds to the (x,y)-plane, λ u v   ( , )  i i is mono-centric w.r.t. the North-Est CBD.</p><formula xml:id="formula_30">•</formula><p>The spatial weight matrix W (whenever applicable) used for simulating data is based on the four first neighbors. The error term ϵ is drawn from a normal distribution with zero mean and a level of variance that allows to achieve a proxy of signal-to-noise ratio equal either to 0.95 or 0.75. We use the formula proposed by <ref type="bibr" target="#b36">Kelley Pace et al. (2012)</ref> to estimate this signal-to-noise ratio in presence of spatial dependence.</p><p>When simulating data with spatial heterogeneity, our three Monte Carlo experiments consider always DGPs in which all coefficients are non-stationary. Said differently, we do not simulate mixed model that have both stationary and non-stationary coefficients and we only used mixed model for estimation. The only exception to this rule is in the first set of experiments, where some mixed GDP are simulated for exploring the source of bias related to concurvity/multicollinearity problems in GWR. In this experiment, to study the effects of introducing concurvity between β 0 and β 2 , we simulate data with β 0 and/or β 2 stationary, and X 2 with and without spatial dependence.</p><p>In the second experiment, each of the five considered estimators (OLS, SAR, GWR, MGWR-SAR( k k 0, ,</p><formula xml:id="formula_31">c v ), MGWR-SAR( k k 1, , c v )</formula><p>) is repeatedly tested (1000 repetitions) over all the five corresponding DGPs (OLS, SAR, GWR, MGWR-SAR( k 0, 0, v ), MGWR-SAR( k 1, 0, v )) in order to assess their robustness 2 . Moreover, we consider the case where X 2 can be misspecified, in the sense that in the DGP it is constructed as in Eq. ( <ref type="formula">10</ref>), while we suppose that its observed value is as follows:</p><formula xml:id="formula_32">X u v ψ X u v ψX u v α i ( , ) = (1 -) ( , ) + ( , ) ( , CBD), i i i i i i 2′ 2 2 (<label>11</label></formula><formula xml:id="formula_33">)</formula><p>where ψ ∈ [0, 1] represents the amount of misspecification and α i ( , CBD) is the angle of the ray joining observation i and the closest CBD point. The form of misspecification follows the suggestions of <ref type="bibr" target="#b50">McMillen (2012)</ref> and <ref type="bibr" target="#b52">McMillen and Soppelsa (2014)</ref>.</p><p>Finally, in the third experiment, we will test our algorithm to find the best spatial weight matrix W. Obviously, the experiment make sense only for those DGPs where W is present, i.e. those of the MGWR-SAR family and SAR. We proceed by choosing randomly a kernel function between k-nearest neighbors, bisquare and adaptive bisquare kernel. Then a bandwidth value is also randomly selected amongst:</p><p>• a number of neighbors between {2, 4, 6, 10, 16}, if k-nearest neigh- bors or adaptive bisquare kernel was chosen in the first step;</p><p>• a real value drawn from the interval [0.045, 0.075] with uniform law, otherwise<ref type="foot" target="#foot_0">foot_0</ref> .</p><p>A simulated data set for each DGP is generated with the spatial weight matrix W constructed according to the random choice of the kernel and bandwidth.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2.">Experiment 1: multicollinearity/concurvity problems</head><p>Before testing our family of estimators (MGWR-SAR), we first focus on the potential sources of bias estimation when the data are analyzed via a standard GWR model. To do that, we simulate different datasets, where the introduction of a spatially dependent variable X 2 leads to concurvity problems between the β u v ( ,</p><formula xml:id="formula_34">) i i 0 (intercept) and the β u v (<label>,</label></formula><formula xml:id="formula_35">) i i 2 parameters.</formula><p>This problem has been already partially addressed for GWR estimators through collinearity analysis of certain variables in local samples <ref type="bibr">Páez et al. (2017/02)</ref>; <ref type="bibr">Wheeler and Tiefelsdorf (2005b)</ref>, but it makes the estimation of the parameters not reliable. For example, <ref type="bibr" target="#b72">Wheeler (2007</ref><ref type="bibr" target="#b73">Wheeler ( , 2009) )</ref> proposed to use ridge or LASSO GWR, while <ref type="bibr" target="#b13">Brunsdon et al. (2012)</ref> and <ref type="bibr" target="#b5">Barcena et al. (2014)</ref> used "extended kernels" (whenever collinearity is detected, the kernel extends to consider a bigger local neighbourhood). On the other hand, <ref type="bibr">Páez et al. (2017/02)</ref> and <ref type="bibr" target="#b26">Fotheringham and Oshan (2016)</ref> showed that using sufficiently large local samples in the GWR could improve the quality of the estimated parameters. Nevertheless, the finite-sample properties of estimators adopting these strategies have only been studied on simulated data where all variables where generated 2 The MGWR-SAR( k 1, , 0 c ) DGP has not been included because it can be considered as a special case of the MGWR-SAR( k k 1, , c v).</p><p>independently from the space. We will show in this section that once the spatial independence assumption fails to be verified, concurvity problems become more puzzling, as already noticed by <ref type="bibr" target="#b26">Fotheringham and Oshan (2016)</ref>. This can be easily observed by looking at the first two columns of Table <ref type="table">1</ref>, where the introduction of spatial dependence of variable X 2 (second column) causes the GWR estimates of β u v ( ,</p><formula xml:id="formula_36">) i i 0 and β u v (<label>,</label></formula><formula xml:id="formula_37">) i i 2</formula><p>to be strongly biased. On the other hand, we observe no deterioration of the quality of the estimation of β u v ( ,</p><formula xml:id="formula_38">) i i 1 and β u v (<label>,</label></formula><formula xml:id="formula_39">) i i 3 .</formula><p>In order to identify the source of bias in the estimation of a GWR model, we also considered an alternative DGP with fixed intercept or fixed β 2 parameter. The behaviour of the GWR estimator did not changed (β u v ( ,</p><formula xml:id="formula_40">) i i 0 and β u v (<label>,</label></formula><formula xml:id="formula_41">) i i 2</formula><p>are still biased). Alternative DGPs have been tested, as well as a LASSO GWR estimation, but the results did not improved (results are not reported and are available upon request). The take-home message of this first experience is definitively that the source of bias of β u v ( ,</p><formula xml:id="formula_42">) i i 0 and β u v (<label>,</label></formula><formula xml:id="formula_43">) i i 2</formula><p>comes exclusively from the fact that X 2 is spatially dependent. This is particularly interesting, if we consider that the vast majority of data that practitioners are faced to, actually include independent variables that are strongly correlated with their localisation.</p><p>In order to correct for the bias introduced by the spatially dependent variable X 2 , we test the performance of mixed models (MGWR) with different combinations of fixed and spatially varying coefficients (again on data generated with a GWR DGP and spatially dependent X 2 ). We immediately observe in Table <ref type="table">2</ref> that the introduction of fixed coefficients reduce the bias relative to the coefficients β 0 and β 2 . Notably, fixing β 2 reduces by one half the bias, while fixing the intercept or the intercept and β 2 , leads to more significant improvements. In some sense, fixing these coefficients coincides conceptually with the idea of using extended kernels <ref type="bibr" target="#b13">Brunsdon et al. (2012)</ref>; <ref type="bibr" target="#b5">Barcena et al. (2014)</ref>: if we take the kernel extension to the extremes, we enlarge the local sample up to cover the entire space. Nonetheless, in contrast with the proposition of these authors, we only extend the parameters that correspond to the problematic variables.</p><p>To conclude the first experiment we also consider the case of DGPs with spatially varying coefficients and spatial autocorrelation of the dependent variable, with the λ coefficient either fixed (MGWR-SAR(0,0,4)) or spatially varying (MGWR-SAR(1,0,4)). In Table <ref type="table">3</ref> we report the results of the estimation of the regression coefficients of different estimators: MGWR-SAR(0,0,4) with all spatially varying coefficients (as in the DGP), MGWR-SAR(0,1,3) with either β 0 or β 2 fixed and MGWR-SAR(0,2,2) with β 0 or β 2 fixed. Similarly, in Table <ref type="table">4</ref>, we report the result for the case of DGP and estimators with the spatially varying coefficient of spatial autocorrelation λ u v ( , ) i i . We can observe that introduction of the spatial autoregressive parameter does not remove the bias on the parameters β u v ( ,</p><formula xml:id="formula_44">) i i 0 and β u v (<label>,</label></formula><formula xml:id="formula_45">) i i 2</formula><p>as far as the estimators consider only spatially varying coefficients. Again, the solution seems to be using mixed models. In particular, for the DGP with stationary λ (MGWR-SAR(0,0,4)), the ratio bias/RMSE suggests that fixing the coefficient β 0 can be sufficient, while for the DGP with non-stationary λ, the best estimations are obtained through a mixed model with both β 0 and β 2 fixed.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.3.">Experiment 2: robustness of MGWR-SAR estimators</head><p>The first experiment taught us that it is preferable to use mixed models whenever we detect that certain independent variables are spatially dependent, and that the coefficients corresponding to those variables and the intercept should be kept stationary. In empirical studies, we suggest to test spatial autocorrelation of all covariates in order to detect potentially problematic variables. It is worth noting that the problems of identification of the parameters for the GWR, MGWR-SAR( k 0, 0, v ) and MGWR- SAR( k 1, 0, v ) models makes complicated the use of asymptotic tests <ref type="bibr" target="#b43">Leung et al. (2000)</ref>; <ref type="bibr" target="#b62">Páez et al. (2002)</ref>; <ref type="bibr" target="#b69">Wei and Qi (2012)</ref> for the identification of the true DGP, even in case of applying a correction adapted to the critical thresholds as a function of the d.o.f. <ref type="bibr" target="#b62">Páez et al. (2002)</ref>. Alternatively, bootstrap tests like the one proposed by <ref type="bibr" target="#b56">Mei et al. (2016)</ref> can contribute to the identification of the stationary coefficients.</p><p>Table <ref type="table">1</ref> Bias and RMSE of the regression coefficients estimated with GWR, for 4 DGPs (GWR with no spatial dependence of X 2 , GWR with spatial dependence of X 2 , MGWR with spatial dependence of X 2 and stationary β 0 or β 2 ).</p><formula xml:id="formula_46">X 2 IID X 2 Spatially Autocorelated DGP GWR GWR MGWR β 0 stat. MGWR β 2 stat. β u v (<label>,</label></formula><formula xml:id="formula_47">) i i 0 BIAS 0.</formula><p>0037 0.6945 0.6523 0.6467 RMSE 0.5344 0.7048 0.6679 0.6592 β u v ( , ) i i 1 BIAS 0.0022 0.0028 0.0042 0.0043 RMSE 0.0044 0.0047 0.0061 0.0055 β u v ( , ) i i 2 BIAS -0.0000 -0.5993 -0.5674 -0.5587 RMSE 0.0267 0.6087 0.5836 0.5713 β u v ( , ) i i 3 BIAS 0.0039 0.0063 0.0037 0.0003 RMSE 0.0164 0.0173 0.0157 0.0148</p><p>Table <ref type="table">2</ref> Bias and RMSE of the regression coefficients on data simulated with a GWR DGP and estimated with a GWR and a MGWR where β 0 , β 2 or both are kept stationary.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>GWR MGWR</head><p>β 0 and β 2 stat. β 0 stat. β 2 stat.</p><formula xml:id="formula_48">β u v (<label>,</label></formula><formula xml:id="formula_49">) i i 0 BIAS 0.</formula><p>6631 0.1090 0.3344 0.1953 RMSE 0.6816 0.1460 0.3656 0.2289 β u v ( , ) i i 0 BIAS 0.0044 0.0037 0.0039 0.0053 RMSE 0.0068 0.0059 0.0063 0.0073 β u v ( , ) i i 0 BIAS -0.5843 -0.1300 -0.3559 -0.2547 RMSE 0.6011 0.1674 0.3876 0.2851 β u v ( , ) i i 0 BIAS 0.0019 0.0030 0.0019 0.0065 RMSE 0.0173 0.0164 0.0173 0.0185</p><p>Table <ref type="table">3</ref> Bias and RMSE of the regression coefficients on data simulated with a MGWR-SAR (0,0,4) DGP and estimated with a MGWR-SAR(0,0,4), a MGWR-SAR(0,1,3) where β 0 or β 2 are kept stationary and MGWR-SAR(0,2,2) where both β 0 and β 2 are stationary.</p><p>MGWR-SAR(0,0,4) MGWR-SAR( k k 0, , c v )</p><formula xml:id="formula_50">k β β = { , } c 0 2 k β = c 0 k β = c 2 β u v (<label>,</label></formula><formula xml:id="formula_51">) i i 0 BIAS 0.</formula><p>7009 0.1539 0.0810 -0.0046 RMSE 0.7046 0.1650 0.2176 0.1540 β u v ( , ) i i 1 BIAS 0.0034 0.0028 0.0035 0.0060 RMSE 0.0064 0.0059 0.0063 0.0080 β u v ( , ) i i 2 BIAS -0.6000 -0.1212 -0.0681 -0.0384 RMSE 0.6075 0.1428 0.2326 0.1744 β u v ( , ) i i 3 BIAS 0.0050 -0.0002 0.0007 0.0107 RMSE 0.0105 0.0123 0.0111 0.0154</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Table 4</head><p>Bias and RMSE of the regression coefficients on data simulated with a MGWR-SAR (1,0,4) DGP and estimated with a MGWR-SAR(0,0,4), a MGWR-SAR(1,1,3) where β 0 or β 2 are kept stationary and MGWR-SAR(1,2,2) where both β 0 and β 2 are stationary.</p><formula xml:id="formula_52">MGWR-SAR(1,0,4) MGWR-SAR( k k 1, , c v ) k β β = { , } c 0 2 k β = c 0 k β = c 2 β u v (<label>,</label></formula><formula xml:id="formula_53">) i i 0 BIAS 0.</formula><p>8996 0.1182 0.5476 0.2022 RMSE 0.9086 0.1672 0.5699 0.2336 β u v ( , ) i i 0 BIAS 0.0079 0.0109 0.0087 0.0101 RMSE 0.0095 0.0119 0.0105 0.0114 β u v ( , ) i i 0 BIAS -0.7500 -0.1225 -0.4005 -0.2321 RMSE 0.7599 0.1846 0.4318 0.2680 β u v ( , ) i i 0 BIAS -0.0051 0.0085 -0.0070 0.0045 RMSE 0.0175 0.0181 0.0185 0.0173</p><p>In the second experiment we focus on the robustness of the different estimators w.r.t. unknown DGP. Such experiment is indispensable, since there exist no test in the literature that is capable of detecting simultaneously spatially heterogeneity and spatial dependence, hence there is no way of choosing the model specification based on solid assumptions. Since we plan to cross different DGP and estimators, there is no point in looking at the bias of the estimators parameters and we rather turn to the bias of marginal spatial effects. For example, if the true DGP is a SAR model and we use a OLS for the estimation, we are more interested in the ability of the OLS of approximating I λW β ( -) -1 , instead that a comparison against the initial parameters that does not account for the predictive capability of the estimator. In the following tables we then measure the mean bias and RMSE of the spatial marginal effects I λ u v W β u v ( -( , ) ) ( , )</p><formula xml:id="formula_54">i i i i -1 on Table 6</formula><p>Mean Bias and RMSE of the marginal effects of β 1 . Rows correspond to estimators and columns to DGPs.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Table 7</head><p>Mean Bias and RMSE of the marginal effects of β 2 . Rows correspond to estimators and columns to DGPs.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Table 5</head><p>Mean Bias and RMSE of the marginal effects of β 0 . Rows correspond to estimators and columns to DGPs.</p><p>the set of combinations of DGPs and estimators.</p><p>From Tables <ref type="table">5</ref><ref type="table">6</ref><ref type="table">7</ref><ref type="table">8</ref>, in which the darker shades of grey indicates the smallest BIAS/RMSE and the lighter shades of grey indicates the second best, we can observe that:</p><p>• the most severe bias are again on the parameters β 0 and β 2 ; • OLS estimates are always biased as far as spatial heterogeneity or spatial autocorrelation are introduced in the DGP;</p><p>• MGWR estimates are always biased as far as spatial autocorrelation are introduced in the DGP;</p><p>• the MGWR-SAR(0,2,2) estimator with stationary β 0 and β 2 seems to be the more robust, since it is always the first or second best performing, independently on the true DGP, and it allows to avoid too high biases in the presence of spatial heterogeneity and/or spatial autocorrelation.</p><p>If we introduce misspecification on the variable X 2 (Table <ref type="table">9</ref>), we observe that both bias and RMSE tend to increase, while the hierarchy of best estimators remains the same, except for the case of SAR DGP where the estimation of λ is biased and it makes models without spatial autocorrelation (OLS and MGWR) preferable. This is in line with what observed in Le <ref type="bibr" target="#b38">Gallo and Fingleton (2012)</ref>, where OLS estimators prove better performance than standard techniques, in the context of spatial models with measurement errors of the independent variable. Similar conclusion can be reached for the case of an increase of the signal-to-noise ratio (see <ref type="bibr" target="#b36">(Kelley Pace et al., 2012)</ref>, Eq. ( <ref type="formula">62</ref>)) that makes models with spatial autocorrelation and spatial heterogeneity (MGWR-SAR(0,2,2) and MGWR-SAR(1,2,2)) preferable. Whenever the expected adjustment of the model is poor, due to an increase of σ and/or of the misspecification on the variable X 2 , we observe that the MGWR-SAR(0,2,2) and MGWR-SAR(1,2,2) estimators are no longer the second best choice. Instead, it appears more important the ability to test if spatial heterogeneity and or spatial autocorrelation are present. Nonetheless, both MGWR-SAR(0,2,2) and MGWR-SAR(1,2,2) remain at a reasonable distance from the best performing model and still insure to avoid too high bias. The take-home message from the second experiment is then the following: the more robust estimators in case of lack of appropriate tests for model specification that encompass all DGPs considered here, are MGWR-SAR( k k 0, , c v ) and MGWR-SAR( k k 1, , c v ) (Table <ref type="table">10</ref>).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.4.">Experiment 3: searching W</head><p>In the third experiment we test the performance of the identification procedure for the spatial weight matrix W detailed earlier in Section 2.3.4. For the three DGPs with spatial autocorrelation used in the second experiment, we compute the percentage of correct identification according to the following criteria:</p><p>• the kernel is correctly identified and • the estimated bandwidth is less than 5% apart from the true bandwidth used for generating the true W.</p><p>In Table <ref type="table" target="#tab_0">11</ref> we observe that in general our procedure is highly reliable:</p><p>Table 8</p><p>Mean Bias and RMSE of the marginal effects of β 3 . Rows correspond to estimators and columns to DGPs.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Table 9</head><p>Mean Bias and RMSE of the marginal effects of β 2 . The variable X 2 is misspecified with ψ = 0.4. Rows correspond to estimators and columns to DGPs.</p><p>for simulated data with a signal-to-noise ratio of 95% (σ = 1), the degree of right identification is around 90%, while it decreases to 70% for simulated data with higher variance (σ = 3, SNR=75%).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.">Empirical study on Lucas county pricing data</head><p>We conclude the experimentations of the proposed MGWR-SAR( k k 0, , c v ) method and the W-identification procedure by testing their performance on a real data set. We consider the well-known Lucas county house-price dataset<ref type="foot" target="#foot_1">foot_1</ref> , in line with what has been done by other authors such as LeSage and <ref type="bibr" target="#b42">Pace (2009)</ref>; <ref type="bibr" target="#b9">Bivand (2010)</ref> and <ref type="bibr" target="#b6">Basile et al. (2014)</ref>, when treating with comparable spatial issues.</p><p>We plan to test the following models:</p><p>• SAR model with W soi as in Basile et al. (2014);</p><p>• SAR model with W opt issued from our identification procedure; • MGWR-SAR( k k 0, , c v ) with W opt issued from our identification procedure.</p><p>In Table <ref type="table" target="#tab_1">12</ref>, we present the Residual Sum of Squares (RSS), the Akaike Information Criterion (AIC) and the Predicted Mean Square Error for two train/test splitting strategies (PMSE 10 for 10-fold cross validation and PMSE 20 for 20-fold cross validation, see <ref type="bibr" target="#b65">Shao (1993)</ref>). For the latter, PMSE 10 and PMSE 20 , the predictions on the out-of-sample data have been computed by means of the Best Linear Unbiased Predictor (BLUP)<ref type="foot" target="#foot_2">foot_2</ref> , that ensure a better performance than using directly the parameters estimated on the in-sample data. The first observation concerns the choice of the spatial weight matrix W: the matrix W soi is computed from a sphere-of-influence (soi) graph constructed from a triangulation of the point coordinates of the houses after projection to the Ohio North NAD83 Lambert Conformal Conical specification. The resulting matrix is relatively sparse, with less than three neighbors per observation <ref type="bibr" target="#b6">Basile et al. (2014)</ref>. On the other hand, the matrix W opt chosen by our identification algorithm is constructed with an adaptive kernel with 12 nearest neighbors (see Eq. ( <ref type="formula" target="#formula_23">9</ref>)), where closest observations are assigned higher weights. Actually, we can observe that the first three neighbours (out of 12) of each observation in W opt absorb almost 40% of the total weight for that observation, meaning that W soi and W opt are, in principle, comparable.</p><p>By comparing the results of the SAR estimation with W soi and W opt , we notice that the estimation with W opt is always better (in terms of both RSS and AIC) than the one with (W soi )<ref type="foot" target="#foot_3">foot_3</ref> . In conclusion, we can say that the predictive power of the two methods is comparable, but that our approach can be considered as an "off-the-shelf" solution that does not requires to make assumptions on the true form of the spatial weight.</p><p>For the MGWR-SAR( k k 0, , c v ) estimator, the first issue is choosing the parameters that will be spatially stationary. The variable ''baths" is almost an obligate choice, since discrete variables are very likely to create problems in local samples. Since all the other continuous variables are spatially dependent<ref type="foot" target="#foot_4">foot_4</ref> , we chose to test the out-of-sample predictive power for all combinations of spatially stationary and nonstationary. Based on this criteria, we finally retained the intercept, the number of bathrooms and the (log of the) lot size as spatially stationary variables, while age and (log of the) total living area are spatially nonstationary.</p><p>The performance of the MGWR-SAR( k k 0, , c v ) model improves considerably that of the SAR specification, in terms of RSS, AIC and PMSE. Nonetheless, the remarkable drop of the RSS of the MGWR-SAR( k k 0, , c v ) model should be put into perspective, accounting for the fact that this model has different degrees of freedom. On the other hand, both AIC, PMSE 10 and PMSE 20 criteria allow a direct comparison of the MGWR-SAR( k k 0, , c v ) against the SAR model: we then observe that the decrease is substantial and favors the mixed model. Results for PMSE 10 and PMSE 20 are similar and highlight the good performance of MGWR-SAR( k k 0, , c v ) model: the PMSE 10 decreases between 10% and 18% according to the year. We think that a 15% mean improvement in the predictive power of a model that has already been the subject of several researches is undoubtedly an encouraging result and proves once more the advantage of having more flexible models: in empirical situations, where the true DGP and W are unknown, the possibility of adjusting the structure of the spatial weight matrix and of choosing amongst different combination of stationary and non-stationary parameters, can help reducing the unsolvable identification problem of empirical spatial data. Table 10</p><p>Mean Bias and RMSE of the marginal effects of β 2 . The signal-to-noise ratio is increased by generating errors with higher variance σ = 3. Rows correspond to estimators and columns to DGPs.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.">Conclusions and future works</head><p>The goal of this paper was to study the problem of spatial regression models with spatial autocorrelation of the dependent variable and spatial heterogeneity of the parameters, a subject that has not received enough attention in the literature, but that it is crucial for spatial econometric practitioners. In Section 2.2 we recalled existing techniques to deal with either spatial autocorrelation of the dependent variable (SAR model) or spatial heterogeneity of the regression parameters (GWR model if all coefficients vary over the space or MGWR if some coefficients are stationary and others are not). We also proposed four new models that simultaneously accounts for both autocorrelation of the endogenous variable and spatial heterogeneity of the parameters.</p><p>These models are more flexible, since they relax the hypothesis on the nature of the spatial interactions. The results of a series of Monte Carlo experiments show that they are also more robust to certain types of misspecification of the model. In particular, it appeared that mixed models with a combination of stationary and non-stationary regression coefficients are more reliable, since they reduce identification problems. In fact, MGWR-SAR( k k 0, , c v ) and MGWR-SAR( k k 1, , c v ) models are often amongst the best or the second best, especially when faced to the presence of autocorrelation of the endogenous variable and spatial heterogeneity of the regression coefficients.</p><p>Another issue that arose during the Monte Carlo experiments is that the presence of spatially dependent covariates have a strong impact on the performance of certain models. In fact, we included in the DGPs a variable which value is dependent on its location and that caused different models, especially those with non-stationary coefficients, to underperform w.r.t. the case of non-spatially dependent covariates. Although there exist tests for the detection of spatial dependence, we found that specification tests in the literature never consider the case of a DGP with spatially dependent regressors. In view of the results of our experiment, we foster the study of appropriate tests that also consider spatially dependent covariates, while the use of bootstrap tests can provide a first solution, whenever the sample size and the number covariates remain treatable.</p><p>Regarding the choice of stationary and non-stationary coefficients, it seems that good performances are achieved by leaving only the intercept term amongst the stationary coefficients. Further improvements can be obtained by adding some of those coefficients that correspond to spatially dependent covariates to the set of stationary coefficients. Indeed, in empirical settings, we are likely to find a large number of strongly spatially-dependent regressors, and some of them can generate more or less concurvity problems than others: as rule of thumb, our results suggest that out-of-sample cross-validation procedures should be prioritized for choosing the set of spatially varying coefficients.</p><p>We also tested a specification procedure for the identification of the spatial weight matrix W. The results on the accuracy of the identification procedure on simulated data are very encouraging. Furthermore when we applied this strategy to the Lucas dataset using a SAR model, we have been able to slightly improve the results with respect to the SAR estimation with the original W matrix.</p><p>In order to improve the performance of our model specification procedure, that is burdened by an high number of iterations over several different DGPs and possible specifications of the spatial structure, we see the urgent need for asymptotic tests for:</p><p>• non-stationarity of the spatial autocorrelation parameter (in our notation, MGWR-SAR(0, •,•) vs. MGWR-SAR(1, •,•));</p><p>• detecting spatial autocorrelation for mixed models (MGWR vs MGWR-SAR( k k 0, , c v ));</p><p>• identifying mixed vs non-mixed models in the presence of spatial autocorrelation (MGWR-SAR( k 0, 0, ) vs. MGWR-SAR( k k 0, ,</p><p>In our contribution, scarce attention has been paid to the estimation time required by the different methods. Nevertheless, in the future we will look for improved estimators, capable of handling large samples in reasonable time. For this purpose, we plan to use the target-point technique for the family of MGWR-SAR models as already proposed by <ref type="bibr">Loader (1999a)</ref> for regression models and by <ref type="bibr" target="#b51">McMillen and Redfearn (2010)</ref>; <ref type="bibr" target="#b50">McMillen (2012)</ref> for the GWR model. Other proposals for improving the computational efficiency of the estimators are to use the Estimated Generalized Least Squares (EGLS) and Maximum Likelihood methods proposed by <ref type="bibr">Pace and Barry (1997a)</ref>, provided that we can extend these techniques to the MGWR-SAR family of models. Finally, the exponential matrix model proposed by <ref type="bibr" target="#b41">LeSage and Pace (2007)</ref> can also be used to reduce computational requirements: this method implies the transformation of the spatial weight matrix inverse by means of the so called matrix exponential. This allow to avoid the computation of log-determinant of large matrices. </p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Fig. 1 .</head><label>1</label><figDesc>Fig. 1. Spatial pattern of spatially varying coefficients and X2 covariate.</figDesc><graphic coords="6,117.64,56.81,360.00,300.36" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 11</head><label>11</label><figDesc>Percentage of correct identification of W, 1000 replications.</figDesc><table><row><cell>DGP</cell><cell>SAR</cell><cell>MGWR-SAR( 1, 0, v) k</cell><cell>MGWR-SAR( 0, 0, v) k</cell></row><row><cell>σ = 1</cell><cell>96.54%</cell><cell>94.55%</cell><cell>87.75%</cell></row><row><cell>σ = 3</cell><cell>79.75%</cell><cell>67.50%</cell><cell>76.50%</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 12</head><label>12</label><figDesc>Comparison of SAR and MGWR-SAR( k k 0, , c v ) estimation for Lucas county house price dataset, 100 repeated cross validation (k-fold).</figDesc><table><row><cell></cell><cell>year</cell><cell></cell><cell>1995</cell><cell></cell><cell></cell><cell></cell><cell>1996</cell><cell></cell><cell></cell></row><row><cell>Est.</cell><cell>W</cell><cell>RSS</cell><cell>AIC</cell><cell>PMSE 10</cell><cell>PMSE 20</cell><cell>RSS</cell><cell>AIC</cell><cell>PMSE 10</cell><cell>PMSE 20</cell></row><row><cell>SAR</cell><cell>W soi</cell><cell>152.002</cell><cell>7.020</cell><cell>0.193</cell><cell>0.197</cell><cell>224.616</cell><cell>7.411</cell><cell>0.218</cell><cell>0.223</cell></row><row><cell>SAR</cell><cell>W opt</cell><cell>150.520</cell><cell>7.011</cell><cell>0.195</cell><cell>0.198</cell><cell>216.116</cell><cell>7.373</cell><cell>0.226</cell><cell>0.234</cell></row><row><cell>MGWR-SAR( k k 0, , c v )</cell><cell>W opt</cell><cell>95.596</cell><cell>5.143</cell><cell>0.175</cell><cell>0.177</cell><cell>128.032</cell><cell>5.502</cell><cell>0.197</cell><cell>0.202</cell></row><row><cell></cell><cell>year</cell><cell></cell><cell>1997</cell><cell></cell><cell></cell><cell></cell><cell>1998</cell><cell></cell><cell></cell></row><row><cell>Est.</cell><cell>W</cell><cell>RSS</cell><cell>AIC</cell><cell>PMSE 10</cell><cell>PMSE 20</cell><cell>RSS</cell><cell>AIC</cell><cell>PMSE 10</cell><cell>PMSE 20</cell></row><row><cell>SAR</cell><cell>W soi</cell><cell>269.684</cell><cell>7.594</cell><cell>0.221</cell><cell>0.219</cell><cell>220.117</cell><cell>7.391</cell><cell>0.264</cell><cell>0.294</cell></row><row><cell>SAR</cell><cell>W opt</cell><cell>245.287</cell><cell>7.500</cell><cell>0.221</cell><cell>0.218</cell><cell>217.397</cell><cell>7.379</cell><cell>0.265</cell><cell>0.290</cell></row><row><cell>MGWR-SAR( k k 0, , c v )</cell><cell>W opt</cell><cell>140.606</cell><cell>5.571</cell><cell>0.194</cell><cell>0.193</cell><cell>121.536</cell><cell>5.436</cell><cell>0.216</cell><cell>0.231</cell></row></table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="3" xml:id="foot_0"><p>Note that we have chosen the interval for the bandwidth of continuous kernels in such a way that it will result in a number of neighbours comparable to the case of discrete kernels.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="4" xml:id="foot_1"><p>See<ref type="bibr" target="#b42">LeSage and Pace (2009)</ref> for a detailed explanation of the dataset.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="5" xml:id="foot_2"><p>We adapted the BLUP to our estimators via the Golberger formula, see<ref type="bibr" target="#b34">Kelejian and Prucha (2007)</ref> and Thomas-Agnan et al. (2013).</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="6" xml:id="foot_3"><p>The comparison in terms of PMSE does not highlight any statistical difference between the two approaches.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="7" xml:id="foot_4"><p>We tested spatial dependency by means of the Moran's I test and all variables resulted dependent from their location.</p></note>
+		</body>
+		<back>
+
+			<div type="funding">
+<div><p>of the EU in the framework of the <rs type="programName">Marie-Curie FP7 COFUND People Programme</rs>, through the award of an <rs type="funder">AgreenSkills</rs> fellowship under grant agreement <rs type="grantNumber">267196</rs>. The research reported in this work has been partially supported by projects <rs type="funder">URBANSIMUL</rs> and EPIDEC.</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_HJp7z7R">
+					<idno type="grant-number">267196</idno>
+					<orgName type="program" subtype="full">Marie-Curie FP7 COFUND People Programme</orgName>
+				</org>
+			</listOrg>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Using amoeba to create a spatial weights matrix and identify spatial clusters</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Aldstadt</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Getis</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geogr. Anal</title>
+		<imprint>
+			<biblScope unit="volume">38</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="327" to="343" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<monogr>
+		<title level="m" type="main">Spatial econometrics: Methods and Models</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1988">1988</date>
+			<publisher>Wiley Online Library</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Some robust approaches to testing and estimation in spatial econometrics</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Reg. Sci. Urban Econ</title>
+		<imprint>
+			<biblScope unit="volume">20</biblScope>
+			<biblScope unit="page" from="141" to="163" />
+			<date type="published" when="1990">1990</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Spatial dependence and spatial structural instability in applied regression analysis</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Reg. Sci</title>
+		<imprint>
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="185" to="207" />
+			<date type="published" when="1990">1990</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Spatial dependence in linear regression models with an introduction to spatial econometrics</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">K</forename><surname>Bera</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Stat. Textb. Monogr</title>
+		<imprint>
+			<biblScope unit="volume">155</biblScope>
+			<biblScope unit="page" from="237" to="290" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Alleviating the effect of collinearity in geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Barcena</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Menendez</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Palacios</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Tusell</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Geogr. Syst</title>
+		<imprint>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="441" to="466" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Modeling regional economic dynamics: spatial dependence, spatial heterogeneity and nonlinearities</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Basile</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Durbán</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Mínguez</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename><surname>Montero</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Mur</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Econ. Dyn. Control</title>
+		<imprint>
+			<biblScope unit="volume">48</biblScope>
+			<biblScope unit="page" from="229" to="245" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Nonparametric estimation of the spatial connectivity matrix using spatial panel data</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Beenstock</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Felsenstein</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geogr. Anal</title>
+		<imprint>
+			<biblScope unit="volume">44</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="386" to="397" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<monogr>
+		<title level="m" type="main">Estimation of spatial weights matrix in a spatial error model, with an application to diffusion in housing demand</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Bhattacharjee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Jensen-Butler</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2006">2006</date>
+		</imprint>
+		<respStmt>
+			<orgName>University of St Andrews. Department of Economics</orgName>
+		</respStmt>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Computing the Jacobian in Spatial Models: an Applied Survey</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Bivand</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Statistical Software VV</title>
+		<imprint>
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+	<note>II</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<monogr>
+		<title level="m" type="main">Applied Smoothing Techniques for Data Analysis: The Kernel Approach with S-Plus Illustrations 18</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">W</forename><surname>Bowman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Azzalini</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1997">1997</date>
+			<publisher>OUP</publisher>
+			<pubPlace>Oxford</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Accounting for spatial effects in economic models of land use: recent developments and challenges ahead</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Brady</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Irwin</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/s10640-010-9446-6</idno>
+		<ptr target="http://dx.doi.org/10.1007/s10640-010-9446-6" />
+	</analytic>
+	<monogr>
+		<title level="j">Environ. Resour. Econ</title>
+		<imprint>
+			<biblScope unit="volume">48</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="487" to="509" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<monogr>
+		<title level="m" type="main">Strategic interaction among governments</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">K</forename><surname>Brueckner</surname></persName>
+			<affiliation>
+				<orgName type="collaboration">Companion Urban Econ</orgName>
+			</affiliation>
+		</author>
+		<imprint>
+			<date type="published" when="2006">2006</date>
+			<biblScope unit="page" from="332" to="347" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Living with collinearity in local regression models</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Harris</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Spatial Accuracy Conference Brazil</title>
+		<imprint>
+			<date type="published" when="2012">2012. 2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Geographically weighted regression: a method for exploring spatial nonstationarity</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geogr. Anal</title>
+		<imprint>
+			<biblScope unit="volume">28</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="281" to="298" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Some notes on parametric significance tests for geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Reg. Sci</title>
+		<imprint>
+			<biblScope unit="volume">39</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="497" to="524" />
+			<date type="published" when="1999">1999</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Spatial nonstationarity and autoregressive models</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environ. Plan. A</title>
+		<imprint>
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="957" to="973" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Generating models by the expansion method: applications to geographical research *</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>Casetti</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geogr. Anal</title>
+		<imprint>
+			<biblScope unit="volume">4</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="81" to="91" />
+			<date type="published" when="1972">1972</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">The expansion method, mathematical modeling, and spatial econometrics</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>Casetti</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Int. Reg. Sci. Rev</title>
+		<imprint>
+			<biblScope unit="volume">20</biblScope>
+			<biblScope unit="issue">1-2</biblScope>
+			<biblScope unit="page" from="9" to="33" />
+			<date type="published" when="1997">1997</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Moderating urban sprawl: Is there a balance between shared open space and housing parcel size?</title>
+		<author>
+			<persName><forename type="first">S.-H</forename><surname>Cho</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Lambert</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Roberts</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Kim</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Econ. Geogr</title>
+		<imprint>
+			<biblScope unit="volume">10</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="763" to="783" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Gmm estimation with cross sectional dependence</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Conley</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Econ</title>
+		<imprint>
+			<biblScope unit="volume">92</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1" to="45" />
+			<date type="published" when="1999">1999</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Rcpp: seamless r and c++ integration</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Eddelbuettel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>François</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Allaire</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Chambers</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Bates</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Ushey</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Stat. Softw</title>
+		<imprint>
+			<biblScope unit="volume">40</biblScope>
+			<biblScope unit="issue">8</biblScope>
+			<biblScope unit="page" from="1" to="18" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Regional disparities in the european union and the enlargement process: an exploratory spatial data analysis</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Ertur</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Koch</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ann. Reg. Sci</title>
+		<imprint>
+			<biblScope unit="volume">40</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="723" to="765" />
+			<date type="published" when="1995">2006. 1995-2000</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">A systematic investigation of cross-validation in GWR model estimation: empirical analysis and Monte Carlo simulations</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Farber</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Páez</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Geogr. Syst</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="371" to="396" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">the problem of spatial autocorrelation and local spatial statistics</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Fotheringham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geogr. Anal</title>
+		<imprint>
+			<biblScope unit="volume">41</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="398" to="403" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+	<note>cited By 14</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Some notes on parametric significance tests for geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Reg. Sci</title>
+		<imprint>
+			<biblScope unit="volume">39</biblScope>
+			<biblScope unit="page" from="497" to="524" />
+			<date type="published" when="1999">1999</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Geographically weighted regression and multicollinearity: dispelling the myth</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">M</forename><surname>Oshan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Geogr. Syst</title>
+		<imprint>
+			<biblScope unit="volume">18</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="303" to="329" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">A spatial hedonic approach on land use change anticipations</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Geniaux</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J.-S</forename><surname>Ay</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Napoléone</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Reg. Sci</title>
+		<imprint>
+			<biblScope unit="volume">51</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="967" to="986" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title/>
+		<author>
+			<persName><forename type="first">R</forename><surname>Harris</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Moffat</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Kravtsova</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">In search of w. Spat. Econ. Anal</title>
+		<imprint>
+			<biblScope unit="volume">6</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="249" to="270" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">The hat matrix in regression and ANOVA</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Hoaglin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Welsch</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Am. Stat</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="17" to="22" />
+			<date type="published" when="1978">1978</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">A simple general procedure for orthogonal rotation</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Jennrich</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Psychometrika</title>
+		<imprint>
+			<biblScope unit="volume">66</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="289" to="306" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">A generalized spatial two-stage least squares procedure for estimating a spatial autoregressive model with autoregressive disturbances</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Real Estate Financ. Econ</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="page" from="99" to="121" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">A generalized moments estimator for the autoregressive parameter in a spatial model</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Int. Econ. Rev</title>
+		<imprint>
+			<biblScope unit="volume">40</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="509" to="533" />
+			<date type="published" when="1999">1999</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">Instrumental variable estimation of a spatial autoregressive model with autoregressive disturbances: large and small sample results</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><surname>Prucha</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Yuzefovich</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Adv. Econ</title>
+		<imprint>
+			<biblScope unit="volume">18</biblScope>
+			<biblScope unit="page" from="163" to="198" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<analytic>
+		<title level="a" type="main">The relative efficiencies of various predictors in spatial econometric models containing spatial lags</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Reg. Sci. Urban Econ</title>
+		<imprint>
+			<biblScope unit="volume">37</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="363" to="374" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<analytic>
+		<title level="a" type="main">A suggested test for spatial autocorrelation and/or heteroskedasticity and corresponding monte carlo results</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">P</forename><surname>Robinson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Reg. Sci. Urban Econ</title>
+		<imprint>
+			<biblScope unit="volume">28</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="389" to="417" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<analytic>
+		<title level="a" type="main">Spatial dependence in regressors and its effect on performance of likelihood-based and instrumental variable estimators</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Kelley Pace</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Lesage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Zhu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">th Anniversary Edition</title>
+		<imprint>
+			<publisher>Emerald Group Publishing Limited</publisher>
+			<date type="published" when="2012">2012</date>
+			<biblScope unit="page" from="257" to="295" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<analytic>
+		<title level="a" type="main">Hétérogénéité spatiale</title>
+		<author>
+			<persName><forename type="first">Le</forename><surname>Gallo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econ. Prévision</title>
+		<imprint>
+			<biblScope unit="volume">162</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="151" to="172" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<analytic>
+		<title level="a" type="main">Measurement errors in a spatial context</title>
+		<author>
+			<persName><forename type="first">Le</forename><surname>Gallo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Fingleton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Reg. Sci. urban Econ</title>
+		<imprint>
+			<biblScope unit="volume">42</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="114" to="125" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<analytic>
+		<title level="a" type="main">Best spatial two-stage least squares estimators for a spatial autoregressive model with autoregressive disturbances</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econ. Rev</title>
+		<imprint>
+			<biblScope unit="volume">22</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="307" to="335" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b40">
+	<analytic>
+		<title level="a" type="main">Spatial growth regressions: model specification, estimation and interpretation</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Lesage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Fischer</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Spat. Econ. Anal</title>
+		<imprint>
+			<biblScope unit="volume">3</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="275" to="304" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b41">
+	<analytic>
+		<title level="a" type="main">A matrix exponential spatial specification</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Lesage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">K</forename><surname>Pace</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Econ</title>
+		<imprint>
+			<biblScope unit="volume">140</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="190" to="214" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b42">
+	<monogr>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Lesage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">K</forename><surname>Pace</surname></persName>
+		</author>
+		<title level="m">Introduction to Spatial Econometrics (Statistics, Textbooks and Monographs)</title>
+		<imprint>
+			<publisher>CRC Press</publisher>
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b43">
+	<analytic>
+		<title level="a" type="main">Testing for spatial autocorrelation among the residuals of the geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Leung</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Mei</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Zhang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environ. Plan. A</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="page" from="871" to="890" />
+			<date type="published" when="2000">2000</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b44">
+	<monogr>
+		<title level="m" type="main">Local Regression and Likelihood 47</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Loader</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1999">1999</date>
+			<publisher>springer</publisher>
+			<pubPlace>New York</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b45">
+	<analytic>
+		<title level="a" type="main">Bandwidth selection: classical or plug-in?</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">R</forename><surname>Loader</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ann. Stat</title>
+		<imprint>
+			<biblScope unit="page" from="415" to="438" />
+			<date type="published" when="1999">1999</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b46">
+	<analytic>
+		<title level="a" type="main">A non-parametric spatial independence test using symbolic entropy</title>
+		<author>
+			<persName><forename type="first">F</forename><surname>López</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Matilla-García</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Mur</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Marín</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Reg. Sci. Urban Econ</title>
+		<imprint>
+			<biblScope unit="volume">40</biblScope>
+			<biblScope unit="issue">2-3</biblScope>
+			<biblScope unit="page" from="106" to="115" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b47">
+	<analytic>
+		<title level="a" type="main">One hundred fifty years of land values in Chicago: a nonparametric approach</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Mcmillen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Urban Econ</title>
+		<imprint>
+			<biblScope unit="volume">40</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="100" to="124" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b48">
+	<analytic>
+		<title level="a" type="main">Employment densities, spatial autocorrelation, and subcenters in large metropolitan areas</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Mcmillen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Reg. Sci</title>
+		<imprint>
+			<biblScope unit="volume">44</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="225" to="244" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b49">
+	<analytic>
+		<title level="a" type="main">Issues in spatial data analysis</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Mcmillen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Reg. Sci</title>
+		<imprint>
+			<biblScope unit="volume">50</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="119" to="141" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b50">
+	<analytic>
+		<title level="a" type="main">Perspectives on spatial econometrics: linear smoothing with structured models</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Mcmillen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Reg. Sci</title>
+		<imprint>
+			<biblScope unit="volume">52</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="192" to="209" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b51">
+	<analytic>
+		<title level="a" type="main">Estimation and hypothesis testing for nonparametric hedonic house price functions</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Mcmillen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Redfearn</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Reg. Sci</title>
+		<imprint>
+			<biblScope unit="volume">50</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="712" to="733" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b52">
+	<analytic>
+		<title level="a" type="main">A conditionally parametric probit model of microdata land use in chicago</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Mcmillen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Soppelsa</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Reg. Sci</title>
+		<imprint>
+			<biblScope unit="volume">55</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="391" to="415" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b53">
+	<analytic>
+		<title level="a" type="main">An empirical model of urban fringe land use</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">P</forename><surname>Mcmillen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Land Econ</title>
+		<imprint>
+			<biblScope unit="volume">65</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="138" to="145" />
+			<date type="published" when="1989">1989</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b54">
+	<analytic>
+		<title level="a" type="main">Spatial aggregation, spatial dependence and predictability in the uk housing market</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Meen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Hous. Stud</title>
+		<imprint>
+			<biblScope unit="volume">11</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="345" to="372" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b55">
+	<analytic>
+		<title level="a" type="main">A note on the mixed geographically weighted regression model</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Mei</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>He</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Fang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Reg. Sci</title>
+		<imprint>
+			<biblScope unit="volume">44</biblScope>
+			<biblScope unit="page" from="143" to="157" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b56">
+	<analytic>
+		<title level="a" type="main">A bootstrap test for constant coefficients in geographically weighted regression models</title>
+		<author>
+			<persName><forename type="first">C.-L</forename><surname>Mei</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Xu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Wang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Int. J. Geogr. Inf. Sci</title>
+		<imprint>
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="issue">8</biblScope>
+			<biblScope unit="page" from="1622" to="1643" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b57">
+	<analytic>
+		<title level="a" type="main">Symptoms of instability in models of spatial dependence</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Mur</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>López</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Angulo</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geogr. Anal</title>
+		<imprint>
+			<biblScope unit="volume">40</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="189" to="211" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b58">
+	<analytic>
+		<title level="a" type="main">Local spatial autocorrelation statistics:distributional issues and an application</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Ord</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Getis</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geogr. Anal</title>
+		<imprint>
+			<biblScope unit="volume">27</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="286" to="306" />
+			<date type="published" when="1995">1995</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b59">
+	<analytic>
+		<title level="a" type="main">Quick computation of spatial autoregressive estimators</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Pace</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Barry</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geogr. Anal</title>
+		<imprint>
+			<biblScope unit="volume">29</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="232" to="247" />
+			<date type="published" when="1997">1997</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b60">
+	<analytic>
+		<title level="a" type="main">Spatial autoregressive local estimation</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Pace</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Lesage</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Spat. Econ. Spat. Stat</title>
+		<imprint>
+			<biblScope unit="page" from="31" to="51" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b61">
+	<analytic>
+		<title level="a" type="main">A simulation-based study of geographically weighted regression as a method for investigating spatially varying relationships</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Páez</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Farber</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Wheeler</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environment and Planning A</title>
+		<imprint>
+			<biblScope unit="volume">43</biblScope>
+			<biblScope unit="page" from="2992" to="3010" />
+			<date type="published" when="2011">2017/02/09 2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b62">
+	<analytic>
+		<title level="a" type="main">A general framework for estimation and inference of geographically weighted regression models: 1. location-specific kernel bandwidths and a test for locational heterogeneity</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Páez</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Uchida</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Miyamoto</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environ. Plan. A</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="733" to="754" />
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b63">
+	<analytic>
+		<title level="a" type="main">Spatial price competition: a semiparametric approach</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Pinkse</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Slade</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brett</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">70</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="1111" to="1153" />
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b64">
+	<analytic>
+		<title/>
+		<author>
+			<persName><forename type="first">B</forename><surname>Ripley</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Spatial Statistics</title>
+		<imprint>
+			<biblScope unit="volume">575</biblScope>
+			<date type="published" when="2005">2005</date>
+			<publisher>Wiley-Interscience</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b65">
+	<analytic>
+		<title level="a" type="main">Linear model selection by cross-validation</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Shao</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Am. Stat. Assoc</title>
+		<imprint>
+			<biblScope unit="volume">88</biblScope>
+			<biblScope unit="issue">422</biblScope>
+			<biblScope unit="page" from="486" to="494" />
+			<date type="published" when="1993">1993</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b66">
+	<analytic>
+		<title level="a" type="main">Kernel smoothing in partial linear model</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Speckman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. R. Stat. Soc. Ser. B</title>
+		<imprint>
+			<biblScope unit="volume">50</biblScope>
+			<biblScope unit="page" from="413" to="436" />
+			<date type="published" when="1988">1988</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b67">
+	<analytic>
+		<title level="a" type="main">Specification of spatial models: a simulation study on weights matrices</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Stakhovych</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Bijmolt</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Pap. Reg. Sci</title>
+		<imprint>
+			<biblScope unit="volume">88</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="389" to="408" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b68">
+	<monogr>
+		<title level="m" type="main">About Predictions in Spatial Autoregressive Models: Optimal and Almost Optimal Strategies</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Thomas-Agnan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Laurent</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Goulard</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+	<note type="report_type">Working Paper</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b69">
+	<analytic>
+		<title level="a" type="main">On the estimation and testing of mixed geographically weighted regression models</title>
+		<author>
+			<persName><forename type="first">C.-H</forename><surname>Wei</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Qi</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econ. Model</title>
+		<imprint>
+			<biblScope unit="volume">29</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="2615" to="2620" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b70">
+	<analytic>
+		<title level="a" type="main">Multicollinearity and correlation among local regression coefficients in geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Wheeler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Tiefelsdorf</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Geogr. Syst</title>
+		<imprint>
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="161" to="187" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b71">
+	<analytic>
+		<title level="a" type="main">Multicollinearity and correlation among local regression coefficients in geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Wheeler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Tiefelsdorf</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Geogr. Syst</title>
+		<imprint>
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="161" to="187" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b72">
+	<analytic>
+		<title level="a" type="main">Diagnostic tools and a remedial method for collinearity in geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">C</forename><surname>Wheeler</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environ. Plan. A</title>
+		<imprint>
+			<biblScope unit="volume">39</biblScope>
+			<biblScope unit="issue">10</biblScope>
+			<biblScope unit="page" from="2464" to="2481" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b73">
+	<analytic>
+		<title level="a" type="main">Simultaneous coefficient penalization and model selection in geographically weighted regression: the geographically weighted lasso</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">C</forename><surname>Wheeler</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environ. Plan. A</title>
+		<imprint>
+			<biblScope unit="volume">41</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="722" to="742" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b74">
+	<analytic>
+		<title level="a" type="main">Fast stable restricted maximum likelihood and marginal likelihood estimation of semiparametric generalized linear models</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">N</forename><surname>Wood</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. R. Stat. Soc.: Ser. B Stat. Methodol</title>
+		<imprint>
+			<biblScope unit="volume">73</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="3" to="36" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

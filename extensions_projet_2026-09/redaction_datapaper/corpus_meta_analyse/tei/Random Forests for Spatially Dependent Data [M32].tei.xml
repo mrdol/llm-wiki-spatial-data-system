@@ -1,0 +1,1276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Random forests for spatially dependent data</title>
+				<funder>
+					<orgName type="full">Johns Hopkins Bloomberg American Health Initiative Spark Award</orgName>
+				</funder>
+				<funder ref="#_wU4qwG4 #_rrnGTAT">
+					<orgName type="full">National Institutes of Health</orgName>
+					<orgName type="abbreviated">NIH</orgName>
+				</funder>
+				<funder ref="#_EccEYEj #_SteGXJj">
+					<orgName type="full">National Science Foundation</orgName>
+					<orgName type="abbreviated">NSF</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">Arkajyoti</forename><surname>Saha</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Biostatistics</orgName>
+								<orgName type="institution">Johns Hopkins University</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Sumanta</forename><surname>Basu</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="department">Department of Statistics and Data Science</orgName>
+								<orgName type="institution">Cornell University</orgName>
+							</affiliation>
+						</author>
+						<author role="corresp">
+							<persName><forename type="first">Abhirup</forename><surname>Datta</surname></persName>
+							<email>abhidatta@jhu.edu</email>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Biostatistics</orgName>
+								<orgName type="institution">Johns Hopkins University</orgName>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Random forests for spatially dependent data</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<idno type="MD5">D360D68E19F2DC249195AB9C5DBF7CD5</idno>
+					<idno type="DOI">10.1080/01621459.2021.1950003</idno>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-29T10:20+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>Spatial</term>
+					<term>Gaussian Processes</term>
+					<term>Random forests</term>
+					<term>generalized leastsquares</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Spatial linear mixed-models, consisting of a linear covariate effect and a Gaussian Process (GP) distributed spatial random effect, are widely used for analyses of geospatial data. We consider the setting where the covariate effect is non-linear. Random forests (RF) are popular for estimating non-linear functions but applications of RF for spatial data have often ignored the spatial correlation. We show that this impacts the performance of RF adversely. We propose RF-GLS, a novel and well-principled extension of RF, for estimating non-linear covariate effects in spatial mixed models where the spatial correlation is modeled using GP. RF-GLS extends RF in the same way generalized least squares (GLS) fundamentally extends ordinary least squares (OLS) to accommodate for dependence in linear models. RF becomes a special case of RF-GLS, and is substantially outperformed by RF-GLS for both estimation and prediction across extensive numerical experiments with spatially correlated data. RF-GLS can be used for functional estimation in other types of dependent data like time series. We prove consistency of RF-GLS for βmixing dependent error processes that includes the popular spatial Matérn GP. As a byproduct, we also establish, to our knowledge, the first consistency result for RF under dependence. We establish results of independent importance, including a general consistency result of GLS optimizers of data-driven function classes, and a uniform laws of large numbers under β-mixing dependence with weaker assumptions. These new tools can be potentially useful for asymptotic analysis of other GLS-style estimators in nonparametric regression with dependent data.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>Geo-referenced data, exhibiting spatial correlation, are commonly analyzed in a mixed-model framework consisting of a fixed-effect component for the covariates and a spatial random-effect <ref type="bibr" target="#b1">(Banerjee et al., 2014)</ref>. If Y, X and respectively denote the response, the D-dimensional vector of covariates, and the spatial location, then the spatial linear mixed model can be expressed as ( ) error Y X w    β . The linear regression term x β parsimoniously models the fixed covariate effect</p><formula xml:id="formula_0">( ) ( | ) m E Y X  xx</formula><p>, while the spatial random effect () w is often modeled flexibly using Gaussian Processes (GP) that encode the dependence in the data across locations. The mixed model allows for inference on the covariate effect as the estimate of β while adjusting for the spatial dependence via w. At the same time, it leverages the conveniences of a GP to seamlessly predict the outcome at a new location via kriging. This flexibility has made the spatial linear mixed model with GPdistributed random effects the flag-bearer in geo-statistics. This manuscript focuses on applications where the linearity assumption for the covariate effect () m x is inappropriate. We consider the spatial non-linear mixed effect model ( ) ( ) error Y m X w    . A non-linear () m x can be modeled in terms of splines or other basis function expansions, while still modeling the spatial effect using GP. However, smooth and continuous basis functions not ideal for modeling non-smooth and possibly discontinuous (like piecewise constant) covariate effects.</p><p>Also, basis functions on multi-dimensional covariate domains experience curse of dimensionality even for only 3 or 4 covariates as the knots are usually too far apart to adequately represent the covariate space <ref type="bibr" target="#b47">(Taylor and Einbeck, 2013)</ref>.</p><p>Random forests (RF) <ref type="bibr">(Breiman, 2001)</ref> estimates non-linear regression functions using an ensemble of non-smooth, data-adaptive family of basis functions, which have more expressive powers than traditional fixed basis methods <ref type="bibr" target="#b33">(Lin and Jeon, 2006;</ref><ref type="bibr" target="#b43">Scornet, 2016)</ref>. RF has become one of the most popular method for flexible non-linear function estimation, with wide applications in different scientific and engineering fields. While RF has also been used for a number of geo-spatial applications <ref type="bibr" target="#b0">(Ahijevych et al., 2016;</ref><ref type="bibr" target="#b12">Di et al., 2019;</ref><ref type="bibr" target="#b32">Lim et al., 2019;</ref><ref type="bibr" target="#b49">Viscarra Rossel et al., 2014;</ref><ref type="bibr" target="#b16">Fayad et al., 2016)</ref>, most of the aforementioned work do not make A c c e p t e d M a n u s c r i p t procedural considerations for the RF algorithm to address the spatial correlation in the data. This is fundamentally at odds with the tenets of spatial modeling where the spatial correlation is explicitly accommodated using GP-distributed random effects.</p><p>Very little attention has been paid to how ignoring this spatial correlation affects function estimation using RF. The criterion (loss function) used to recursively split the nodes of decision trees of RF is essentially an ordinary least squares (OLS) loss. It is well known that OLS is sub-optimal for dependent data as it ignores data correlation.</p><p>Also, RF creates and consolidates the trees using "bagging" (bootstrap aggregation) <ref type="bibr" target="#b3">(Breiman, 1996)</ref>. As spatial data are correlated, this resampling violates the assumption of independent and identically distributed (i.i.d.) data units fundamental to bootstrapping. We provide empirical evidence that these limitations manifest in inferior estimation/prediction performance of RF under spatial dependence.</p><p>There have been two ways of accounting for spatial dependence in RF. The first approach performs spatial adjustment through kriging after fitting an RF without accounting for the spatial dependence. For prediction at new locations, it uses the spatial mixed model framework to combine this vanilla RF estimate of the covariate effect m(X) with the kriging from the GP part (using the residuals from the RF fit) <ref type="bibr" target="#b16">(Fayad et al., 2016;</ref><ref type="bibr" target="#b19">Fox et al., 2020)</ref>. This is referred to as Random Forest residual kriging (RF-RK). The other approaches attempt to explicitly use spatial information in RF. The spatial RF (RFsp) of <ref type="bibr" target="#b29">Hengl et al. (2018)</ref> adds all pairwise spatial-distances as additional covariates. <ref type="bibr" target="#b25">Georganos et al. (2019)</ref> proposes geographically local estimation of RF. These approaches abandon the spatial mixed model framework, only focusing on prediction, modeling the response as a joint function g of the covariates and the locations, i.e., ( ) ( , ) E Y g X  , and are thus not able to isolate or estimate the covariate effect () m x . Also, to our knowledge, there is no asymptotic theory justifying these approaches.</p><p>In this article, we bridge the gap between spatial mixed effect modeling using GP and regression function estimation using RF by proposing a well-principled rendition of RF to explicitly incorporate the spatial correlation structure implied by GP. This enables using RF for estimating a non-linear covariate effect in the spatial mixed effect model while explicitly accounting for spatial correlation via the GP-distributed A c c e p t e d M a n u s c r i p t random effects. Our approach is motivated by the fact that in a GP-based spatial linear mixed model, marginal likelihood maximization for β is equivalent to a generalized least squares (GLS) optimization. Under data dependence, GLS is more efficient than OLS for linear regression leading to better finite sample performance.</p><p>GLS has been previously used for parameter estimation in non-linear regression under data dependence <ref type="bibr" target="#b31">(Kimeldorf and Wahba, 1971;</ref><ref type="bibr" target="#b13">Diggle and Hutchinson, 1989)</ref>.</p><p>Since regression with polynomials, splines or other known basis functions are essentially linear in the parameters, the extension of these approaches to a GLSstyle quadratic form global optimization is immediate and the solution is available in closed form. However, RF uses basis functions obtained by a data-adaptive, greedy algorithm, so a GLS formulation for estimating the regression part using RF in a spatial GP regression is not immediate and has not been explored before.</p><p>An observation, central to our GLS extension of regression trees and forests is that to split a node of decision tree in RF, the local (intra-node) loss can be equivalently represented as a global (in all nodes) OLS linear regression problem with a binary design matrix. The subsequent node representative assignment is simply the OLS fit given the chosen split. For dependent data, we can replace this OLS step with a GLS optimization problem at every node split and grow the tree accordingly. The node representatives also become the GLS fits instead of node means. The global GLS loss-based splitting and fits thus use information from all current nodes as is desirable under data-dependence and are more efficient than the OLS analogs (Figure <ref type="figure" target="#fig_14">1</ref>).</p><p>Our GLS-style RF also naturally accommodates data resampling or sub-sampling used for creating a forest of trees. The key observation for this is that in a linear regression between response Y and covariates X , the GLS loss with covariance matrix 0 Σ coincides with an OLS loss with 1/2 1/2 00 ,   Y Σ Y X Σ X . Thus GLS can be thought of as OLS with the decorrelated responses Y . Analogously, we introduce resampling after the decorrelation in our algorithm, essentially resampling the uncorrelated contrasts Y instead of the correlated outcomes Y .</p><p>A c c e p t e d M a n u s c r i p t</p><p>We refer to our method as RF-GLS and present a computationally efficient algorithm for implementing it. RF-GLS reduces exactly to RF when the working correlation matrix used in the GLS-loss is the identity matrix. For spatial mixed model regression, RF-GLS estimates the non-linear covariate effect while using the GP to model the spatial random effect. Hence, traditional spatial tasks like kriging (spatial predictions) can be performed easily. For large spatial data, RF-GLS also avoids onerous big GP computations by harmonizing with Nearest Neighbor Gaussian Processes <ref type="bibr">(Datta et al., 2016a)</ref> to yield an algorithm of linear time-complexity.</p><p>We show that RF-GLS has distinct advantages over competing methods for both estimation and prediction. For estimation, RF-GLS, accounting explicitly for the spatial correlation via GLS loss, provides improved estimates of the covariate effect m(X) in a wide range of simulation scenarios over RF which completely ignores the spatial information. Other methods like RFsp do not even produce a separate estimate of the covariate effect and cannot be considered for the task of estimation.</p><p>For prediction, RF-GLS outperforms both RF-RK and RFsp. RF-GLS conveniently uses the spatial mixed model framework where the structured spatial dependence is parsimoniously encoded via GP. Methods like RFsp abandon this mixed-model framework and uses a large number of additional distance-based covariates in RF. A downside to this unnecessary escalation of the problem to high-dimensional settings is that the several additional distance-based covariates far outnumber the true set of covariates thereby biasing the covariate selection at each node-splitting towards the spatial covariates. This leads to poor prediction performance of RFsp when the spatial noise is small relative to the covariate signal. On the other hand, when the spatial noise is large, RF-RK, estimating the covariate effect m(X) without accounting for the spatial dependence, performs substantially poorly while RFsp (dominated by spatial covariates) performs comparably to RF-GLS. RF-GLS performs best at all ranges of the covariate-signal-to-spatial-noise-ratio (SNR), where each of RF-RK</p><p>and RFsp suffers at opposite ends of this SNR spectrum (See Figure <ref type="figure" target="#fig_16">3</ref>).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.1">Theoretical contributions</head><p>Another major contribution of this article is a thorough theoretical analysis of RF-GLS under dependent error processes like GP. For i.i.d. data, <ref type="bibr" target="#b44">Scornet et al. (2015)</ref> A c c e p t e d M a n u s c r i p t proved the consistency of Breiman's RF, which allows the node splitting and node representation to be based on the same data. The other strand of RF theory consider "honest" trees <ref type="bibr" target="#b34">(Mentch and Hooker, 2016;</ref><ref type="bibr" target="#b50">Wager and Athey, 2018)</ref> which use disjoint data subsets for splitting and representation. To our knowledge, study of RF under dependent processes has not been conducted in either paradigms. RF-GLS, like Breiman's RF, uses the same data for partitioning and node representation. Hence we adopt the framework of <ref type="bibr" target="#b44">Scornet et al. (2015)</ref> to study consistency.</p><p>Our main result (Theorem 3.1) proves RF-GLS is 2 consistent if the error process is absolutely-regular (β-) mixing <ref type="bibr" target="#b2">(Bradley, 2005)</ref>. As corollary, we prove RF-GLS is consistent for non-linear mean estimation in the spatial mixed model regression under the ubiquitous Matérn family of covariance functions. As a byproduct of the theory, we also establish consistency of the vanilla CART <ref type="bibr" target="#b5">(Breiman et al., 1984)</ref> and of RF under β-mixing error processes. To our knowledge, this is the first result on consistency of these procedures under dependence.</p><p>The theoretical analysis, besides being novel in terms of establishing consistency for forest estimators under dependence, required addressing several new challenges that do not arise for the analysis of classic RF for iid settings. These complications were introduced by the global GLS-style quadratic loss and the dependent errors.</p><p>We summarize the new contributions here:</p><p>(i) Limits of GLS regression-trees: Node splitting and node representation in regression trees of classic RF uses local (intra-node) sample means and variances which trivially asymptote to their population analogs. For RF-GLS, to adjust for data correlation, we use a global GLS (quadratic form) loss for node-splitting and the set of node representatives is the global GLS estimate.</p><p>Both steps now depend on data from all nodes (weighted by their spatial dependence) and their asymptotic limits are non-trivial. We meticulously track these data-weights from all nodes when splitting a given node to show in Lemma 2.1 and Theorem 2.1 that the RF-GLS split-criterion and node representatives converge to the same desirable local population limits as in RF while being empirically more efficient under dependence (Figure <ref type="figure" target="#fig_14">1</ref>). These A c c e p t e d M a n u s c r i p t findings may seem similar to the well-known fact that GLS and OLS estimates both converge to the same limits with the GLS being more efficient under dependence. However, those classic results assume a true linear model whereas for us the true function is non-linear ( ) ( ) ym  X , and is being estimated by a mis-specified tree estimate. To our knowledge, limits of the global GLS tree estimates as population-level local node means for that tree is a new contribution.</p><p>(ii) Equicontinuity of split-criterion: A center-piece in the proof of consistency of RF in <ref type="bibr" target="#b44">Scornet et al. (2015)</ref> was stochastic equicontinuity of the CART split criterion, such that if two set of splits are close, their corresponding empirical split-criterion values are close, irrespective of the location of the splits. For RF-GLS, the split criterion (GLS loss with plugged in GLS estimate) is is a complicated matrix-based function of the design matrix representing a set of splits. Hence, the scalar techniques of <ref type="bibr" target="#b44">Scornet et al. (2015)</ref> do not apply here.</p><p>Our equicontinuity proof is quite involved and is built on viewing GLS predictions as oblique projections on the design matrices corresponding to the splits and subsequently using results on perturbations of projection operators.</p><p>More details about the technique used can be found in Section 5.2.1.</p><p>(iii) New uniform laws of large number (ULLNs): Controlling the quadratic form estimation error for RF-GLS under dependence by an ULLN is key to establishing consistency. The standard technique of first proving an ULLN that replaces the dependent errors by iid ones fails here as the iid error sequence does not preserve the distribution of the cross-product terms of the quadratic form. We use a novel strategy of creating separate bivariate iid error sequences for each of the off-diagonal bands of cross-product terms in the quadratic form. We then establish a new ULLN (Proposition S2.1) for these cross-product terms having the same concentration bound (in terms of random p norm entropy numbers) as the squared (diagonal) terms. Next, to generalize the ULLNs from iid to dependent settings, existing results require Lipschitz continuity or an uniform bound on the estimators none of which are satisfied by regression-trees. We established a general ULLN (Proposition 5.3) for β-mixing processes that uses a weaker (2 ) th   moment assumption that is satisfied by regression-trees. Neither of the two ULLNs were needed in A c c e p t e d M a n u s c r i p t</p><p>the asymptotic study of RF for iid data as there was no quadratic form loss or cross-product terms, and the error process was independent thereby not requiring any dependent ULLNs.</p><p>(iv) General tools for machine learning for dependent data: Using these ULLNs described above we established a general consistency result (Theorem 5.1) for GLS estimates for a broad class of functions under dependent error. This result generalizes Theorem 10.2 of <ref type="bibr" target="#b26">Györfi et al. (2006)</ref> (which was for iid data and OLS estimates) to β-mixing dependent processes and GLS losses. We believe this general result would be of widespread interest. Just like the iid result of <ref type="bibr" target="#b26">Györfi et al. (2006)</ref> was used to establish consistency of a wide range of OLS estimators (including piecewise polynomials, univariate and multivariate splines, data-driven partitioning based estimators like random forests and trees), our Theorem 5.1 can potentially be used to establish consistency of the analogs of each of these methods that explicitly accounts for dependence (spatial/serial correlation) in the data by switching to a GLS procedure.</p><p>(v) Consistency for Matérn Gaussian Processes: We prove consistency of RF-GLS when the true dependent error process comes from the Matérn Gaussian family (the staple choice for geospatial analysis due to interpretability of the parameters in terms of spatial surface smoothness). The proof combines several results spread over the fields of time-series, stochastic differential equations, information theory, and spatial statistics. To our knowledge, this is the first consistency result for an RF-type algorithm under Matérn spatial correlation.</p><p>While RF-GLS is motivated by the spatial GP-based mixed model framework, the method and the theory is developed much more broadly and can be used for regression function estimation in many other dependent data settings. The method only relies on knowledge of the residual covariance matrix and thus can work with any dependent error process with a valid second moment. The theory is applicable for the large class of β-mixing processes. We briefly discuss how RF-GLS can be used for function estimation under serially correlated errors (time series). In A c c e p t e d M a n u s c r i p t particular, we show that for autoregressive errors, one of the mainstays of timeseries analysis, RF-GLS would yield a consistent estimate of the regression function.</p><p>The rest of the paper is organized as follows. In Section 2 we present our methodology. The theory of consistency is presented in Section 3, including theory for common spatial and time-series processes in Section 3.3. Results from a variety of simulation experiments validating our method is presented in Section 4. While the formal proofs of all the results are provided in the Supplementary Materials, an outline of the proof of the main consistency result is presented in Section 5 that highlights the new technical tools developed in the process. We discuss future extension of the presented work in Section 6.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Notations</head><p>|| S denotes the cardinality of any set S.</p><p>(•) I is the indicator function. The null set is {}. For any matrix ,  MM denotes its generalized Moore-Penrose inverse, and p M , for 1 p    , denotes its matrix p norm. For any n × n symmetric matrix min 1 2 max , n           M denotes its eigenvalues. A sequence of numbers 1 {} nn a  is () n Ob (or () n ob ) when the sequence | / | nn ab is bounded above (or goes to 0) as n . A sequence of random variables is called (1) b O if it is uniformly bounded almost surely, (1) p O if it is bounded in probability, and (1) p o if it goes to 0 in probability. XY implies X follows the same distribution as Y. , , and denote the set of real numbers, integers, and natural numbers respectively. For ,; M MT   is the truncation operator, i.e. ( ) max( , min( , )) M T u M u M  .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">Method</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1">Review of spatial Gaussian Process regression</head><p>The standard geospatial data unit is the triplet ( , , )</p><p>i i i YX where Yi is the univariate response, Xi is a D-dimensional covariate (feature) vector, and i is the spatial location (often, geographical co-ordinates). A spatial linear mixed-model for such data is specified as * () i i i i Y X w    β , where i X β is the linear mean (covariate effect), () i w models the spatial structure in the response not accounted for by the covariates, and i.i.d. *2 ~(0, ) i N  is the random noise. The spatial effect () i w is often A c c e p t e d M a n u s c r i p t posit to be a smooth surface across space and is modeled as a centered Gaussian Process (GP) (•) ~(0, (•,•| )) w GP C  with covariance function C. This essentially means that for any finite collection of locations 1 ,, n  , we have 1 ( ( ), , ( )) ~( , ) n w w N  w 0 C where C is the n × n matrix with entries ( ( ), ( )) ( , | ) i j i j Cov w w C  θ . We can marginalize over the spatial random effects () i w and write 10 ( , , ) ~( , ) n Y Y N  YX Σ β where 2 0   Σ C I . For known 0 Σ , maximizing this marginalized likelihood of Y is equivalent to minimizing the quadratic form 1 0 1 min ( ) ( ). n   YX Σ Y X β ββ This expression can be recognized as the generalized least square (GLS) loss which replaces the squared error loss 2 1 (1/ ) ( ) n ii i n Y X    β of OLS when the data are correlated. We focus on estimating a general mean function in the spatial non-linear mixed model * ( ) ( ) ; (•) ~(0, (•,•| ))</p><formula xml:id="formula_1">i i i i Y m X w w GP C    <label>(1)</label></formula><p>When () m x is modeled in terms of a fixed basis expansion, the marginalized model becomes 0 ~( ( ) , ) NB YX Σ γ where () B X are the bases and γ are the coefficients. Hence, the model remains linear in the unknown coefficients γ which can be once again estimated using GLS.</p><p>As discussed in the introduction, the scope of fixed basis function expansions are limited due to their inability to model regression functions with discontinuities, and curse of dimensionality in multi-dimensional covariate domains. Random forests (RF) are particularly suitable for such general regression function estimation due to their use of regression trees, and natural accommodation of higher covariatedimensionality using random selection. However, unlike fixed basis expansion models which are linear in the parameters, RF estimation is a non-linear greedy algorithm for which a GLS extension is not straightforward. In the next sections, we will develop a GLS-style RF algorithm for estimating m(X) under dependence.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2">Revisiting the RF algorithm</head><p>A c c e p t e d M a n u s c r i p t</p><p>We first review the original RF algorithm. Given data <ref type="bibr">( , )</ref> , 1, ,</p><p>D ii Y X i n     , the RF estimate of the mean function ( ) ( | ) m Y X  xx is the average of ntree regression tree estimates of m. In a regression tree, data are split recursively into nodes of a tree starting from a root node. To split a node, a set of () try MD features are chosen randomly and the best split point is determined with respect to each feature d by searching over all the "gaps" in that feature of the data as cutoff candidate : ( ) c c d  . Here "best" is determined as the feature-cutoff combination (d, c) maximizing the CART (classification and regression trees) split criterion (Breiman et al., 1984): 2 2 2 1 1 1 1 (( , )) ( ) ( ) ( ) P R L rl n n n CART P P R R L L n i i i i i i P v d c Y Y Y Y Y Y n              (2) where, , PR ii YY and L i Y denote the responses in parent node, right child and left child respectively. , PR YY and L Y denote the respective node means, P R L n n n , nR and nL are the respective node cardinalities. The feature and cut-off value combination that minimizes the CART-split criterion (2) is chosen to create the child nodes. As each split is only based on one feature, all nodes are hyper-rectangles. Each newly created node is assigned a node representative -the mean of the responses of the node members. The nodes are iteratively partitioned this way till a pre-specified stopping rule is metwe arrive at leaf nodes having single element (fully grown tree) or the number of data points in each leaf node is less than a pre-specified number or the total number of nodes reaches a pre-specified threshold. The regression tree estimate for an input feature D  x</p><p>is given by the representative value of the leaf node containing x . RF is the average of an ensemble of regression trees with each tree only using a resample or subsample of the data.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3">Dependency adjusted node-splitting</head><p>The RF algorithm of Section 2.2 does not utilize any information on the locations i or the ensuing spatial correlation. The fundamental unit of the algorithm is splitting of a given node, and it is inherently local in nature (in the covariate domain).</p><p>The split criterion (2) and subsequent assignment of the node representatives are both based A c c e p t e d M a n u s c r i p t only on members within the parent node. For i.i.d. data, this local approach is reasonable as members of one node are independent of the others. However, georeferenced data units data can be distant in the covariate-domain while being close in the spatial domain, and therefore strongly correlated. The spatial non-linear mixed model from Section 2.1 can be written more generally as () i i i Y m X  where * () i i i w  is not an i.i.d process but a stochastic (Gaussian) Process capturing the spatial dependence. Hence, ( , ) ( , ) 0 i j i j Cov Y Y Cov  for most or all (i, j) pairs implying that members of the other nodes can be highly correlated with those of a node-to-be-split and operating locally (intra-node) leaves out this information. We now propose a new global split-criterion using all the correlations in the data, as is desirable and in line with the common practice in spatial analysis. To explore generalizations of RF for dependent settings, we first recall an equivalent global representation of the CART-split criterion (2). Consider a regression tree grown up to the set of leaf nodes 12 { , , , } K forming a partition of the feature space. The node representatives (0) 1 ˆ( , , ) K   β are the corresponding means. To split the next node, say K without loss of generality, the CART-split criterion (2) determines the best feature-cutoff combination ** ( , ) dc and creates child nodes * ( ) * { | } LD KK d xc     x and * ( ) * { | } RD KK d xc     x and the node representatives () ˆL K  and () ˆR K  (simply the means of the left and right child nodes respectively). We can write the optimal split-direction ** ( , ) dc and node representatives ( ) ( ) ˆ, LR KK  as the maximizer</p><formula xml:id="formula_2">    ( ) ( ) 2 * * ( ) ( ) 2 , ,( , ) 22 ( ) ( ) ,, 1 ˆˆ( , , , ) arg max ( ) || [ ( )] LR iK i K id i K id LR K K i K dc X K LR ii X X c X X c d c y yy                    (<label>3</label></formula><formula xml:id="formula_3">)</formula><p>After the split, the new set of nodes is</p><formula xml:id="formula_4">( ) ( ) 1 2 1 { , , , , , } LR K K K  and the set of representatives is updated to ( ) ( ) 11 ˆˆˆ( , , , , ) LR K K K       β . Let 0 ( ( ) ) ij X  Z I</formula><p>be the n × K membership matrix before the split, and Z denote the ( 1) nK  membership matrix for a split of K using (d, c), i.e.</p><formula xml:id="formula_5">(0) ij ij  ZZ for j &lt; k, A c c e p t e d M a n u s c r i p t ({ } { }) iK i K id X X c     Z I and ( 1) ({ } { }) i K i K id X X c      Z I</formula><p>. We note but suppress the dependence of Z on (d, c). Then the optimization in (3) can be rewritten in the following way.</p><p> </p><formula xml:id="formula_6">1 (0) * * (0) 2 2 22 ,, 1 ( , , ) arg max . K dc dc n       Y Z Y Z β β β β (<label>4</label></formula><formula xml:id="formula_7">)</formula><p>This connection of OLS regression with RF is well-known (see, e.g., <ref type="bibr" target="#b23">Friedman et al., 2008)</ref> where RF rules are used in downstream Lasso fit). To see why ( <ref type="formula" target="#formula_2">3</ref>) and ( <ref type="formula" target="#formula_6">4</ref>) are equivalent, note that, for a given (d, c) the β optimizing (4) is simply</p><formula xml:id="formula_8">1 () OLS   Z Z Z Y β</formula><p>, the minimizer of the OLS loss 2 2  YZ β . Since the membership matrices have orthogonal columns consisting of only 1s and 0s, the components of OLS β are simply the node means. Hence, the last two components of β are () ˆL K  and</p><p>() R K  . Since the first ( 1) K  columns of Z are same as that of (0) Z , this implies that the first ( 1) K  components of β are the same as that of (0) β , i.e. the means of the first ( 1) K  nodes. So although β in (4) is a global optimizer of a linear regression re-estimating all the node representatives, in practice, only the representatives of the child nodes of K are updated and this is equivalent to the local optimization (3).</p><p>The global formulation of node-splitting offers an avenue for GLS-style generalization of the split criterion for the spatial GP regression. Let </p><formula xml:id="formula_9">        (0) (0) (0) (0) , 1 ˆ(( , )) ( ) ( ) ˆ( ) ( ) . [ ] DART n GLS GLS GLS GLS v d c n       Q Y Z Z Q Y Z Z Y Z Z Q Y Z Z ββ ββ (<label>5</label></formula><formula xml:id="formula_10">)</formula><p>We refer to ( <ref type="formula" target="#formula_9">5</ref>) as the Dependency Adjusted Regression Tree (DART) split criterion.</p><p>For a split ** ( , ) dc maximizing (5), the new set of node representatives are given by the GLS estimate</p><formula xml:id="formula_11">    1 ( ) . GLS   Z Z QZ Z QY ββ (<label>6</label></formula><formula xml:id="formula_12">)</formula><p>A c c e p t e d M a n u s c r i p t</p><p>Both the loss used to choose the optimal split and the node representatives now depend on data from all nodes, weighted by the precision (inverse covariance) matrix Q , akin to the spatial linear mixed-model. Even though we preserve the greedy recursive partitioning strategy of RF, for each node split our loss function and node representation are now global in the sense that they consider all the data points, not just the ones inside the node to be split.</p><p>To demonstrate why the DART loss function and the GLS node representatives are respectively more appropriate for dependent data than the CART loss and node means used in the original RF, we now present a theoretical result and an empirical example. To split a given parent node into left and right child nodes L and R respectively based on the split direction (d, c), it is almost immediate that the CART split criterion (2), being the difference between the sample variance of the parent node with the those of the children nodes, is an estimator of its asymptotic limit</p><formula xml:id="formula_13">( ) ( | ) ( | ) ( | ) ( | ) ( | ) , [] R R L L Vol Y Y Y          X X X X X X X (7)</formula><p>i.e, the population difference between the variance in the parent node and the pooled variance in the potential children nodes. Indeed, if we were privileged to infinite amount of data, we should use (7) to split a node as it minimizes the total intra-node variances in the children. Hence, for i.i.d. data it is reasonable to use the CART criterion (2) which is the finite sample analogue of (7). Under dependence, however, it is unclear if (2) is an efficient estimator of (7).</p><p>Our construction of the DART split criterion is guided by the same principles of GLS used in linear regression for dependent data. The resulting loss function ( <ref type="formula" target="#formula_9">5</ref>) depends on data from not only the node to be split, but on all data, and it is not immediately clear what its population limit is. Optimization of (5) for the optimal split ** ( , ) dc relies on the GLS estimate (6) which is also a function of all data. Hence, we first provide a result about its asymptotic limit. We use assumptions on the dependence structure of the error process (Assumption 1) and regularity of the precision matrix (Assumption 2) discussed in more details later in Section 3 on consistency of our method. The proofs of these results can be found in Section S2.1.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A c c e p t e d M a n u s c r i p t</head><p>Assumption 1 (Mixing condition).</p><p>()</p><formula xml:id="formula_14">i i i Y m X </formula><p>where the error process {} i is a stationary, absolutely regular (β-mixing) process <ref type="bibr" target="#b2">(Bradley, 2005)</ref> with finite (2 ) th   moment for some 0   .</p><p>Assumption 2 (Regularity of the working precision matrix). The working precision matrix 1   Q Σ admits a regular and sparse lower-triangular Cholesky factor .. ˆ( | ) as for 1, , .</p><formula xml:id="formula_15">as ll Y X n l K       β</formula><p>Lemma 2.1 shows that the GLS-estimate for the node representatives, although using data from all the nodes, asymptote to within node population means -the same limit as that of the sample node means used in RF. This is a new result of independent importance showing that the GLS estimate for a fixed-partition regression-tree, is a consistent estimator of the node-specific conditional means. This in turn leads to the following result about the DART loss. </p><formula xml:id="formula_16">  Q : A c c e p t e d M a n u s c r i p t * (( , )) ( ) ( | ) ( | ) ( | ) ( | ) ( | ) . [ ] RR LL v d c Vol Y Y Y            Q X X X X X X X<label>(8)</label></formula><p>The aforementioned result shows that remarkably the limit of the the DART-split criterion converge to the same respective limit (7) of the CART-split criterion up to a constant α. This result is intriguing as although the empirical DART split criterion depends on the entire set of splits and data from all the nodes, its asymptotic limit is simply the population variance difference (7) between the parent node and the children nodes and does not depend on the other nodes. As discussed before, the quantity (7) would be the ideal one to use for splitting a node if one had knowledge of the population distribution, and its reassuring that the DART criterion asymptotes to it.</p><p>These asymptotic results are in line with the conventional GLS wisdom. GLS estimators are known to have the same asymptotic limit as the OLS estimators but are more efficient under dependence. To demonstrate how these asymptotic results translate to finite sample performance, we conduct a simple experiment using data generated from ()</p><formula xml:id="formula_17">i i i Y m X</formula><p> , where i is an GP with exponential covariance function on the regularly spaced one-dimensional lattice, and m(x) is a function of a single covariate supported on [0,1] such that m(x) = 1 for 0.5 x </p><p>, and ( ) 1.5 mx  for x &gt; 0.5. If we use a two-node decision tree to estimate m, it is obvious that a good loss criterion should be maximized near the cutoff value of 0.5 where there is a discontinuity in the true regression function. In Figure <ref type="figure" target="#fig_14">1</ref> A c c e p t e d M a n u s c r i p t</p><p>choose cutoff far away from 0.5 with high probability whereas the DART loss chooses a cutoff near 0.5 almost always. We will show in Section 4 over a wide range of simulation studies how this leads to poor finite sample estimation and prediction performance of RF for dependent data.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.4">GLS-style regression tree</head><p>The DART split criterion (5) and node representation (6) constitute the fundamental node-splitting operation of a GLS-style regression tree algorithm that incorporates the spatial information via the correlation matrix. We now introduce additional notation to formally detail the algorithm of this GLS-style regression tree. Creation of a forest from the trees will be discussed in Section 2.5.</p><p>For ease of presentation, so far we have talked about the case of splitting the last node (K th ) at a given level of the tree. More generally, we can denote the complete set of nodes in level</p><formula xml:id="formula_18">1 k  by ( 1) ( 1) ( 1) ( 1) ( 1) 12 { , , , } k k k k k g       C</formula><p>which is a partition of the feature space. To split the</p><formula xml:id="formula_19">1 th l node 1 ( 1) k l </formula><p>, we consider the following membership matrices: (0) Z , which corresponds to the nodes in parent level, with the column for the node-to-be-split pushed to the last column, and Z which corresponds to the membership of the potential child nodes</p><formula xml:id="formula_20">(1) ( 2) 11 11 ( ) ( 1) ( ) ( 1) { | }, { | } k k D k k D l d l d ll x c x c          xx (<label>9</label></formula><formula xml:id="formula_21">)</formula><p>based on a split (d, c). Note that Z above is a function of the previous set of nodes</p><p>( 1) k  C , the node to be split l1 and the split (d, c) all of which is kept implicit. We denote the GLS-style split criterion (5) as</p><formula xml:id="formula_22">( 1) , 1 , ( , ,( , )) : (<label>,</label></formula><formula xml:id="formula_23">) DART k DART nn v l d c v d c   QQ C</formula><p>for the node A c c e p t e d M a n u s c r i p t 1; { },</p><formula xml:id="formula_24">D k  C (1) 1 g  ; 3: while () k n gt  and () || k lc t  for at least one () 1, 2, , k lg  do 4: Update 1 kk ; 5: Initialize () {}; k  C () 0; k g  6: for ( 1) 1 1: k lg   do 7: if 1 ( 1) || k lc t   or () k n gt  then 8: 1 ( ) ( )<label>( 1)</label></formula><p>;</p><formula xml:id="formula_25">k k k l   CC ( ) ( )</formula><p>1; kk gg  9: else 10:</p><formula xml:id="formula_26">i.i.d. RR   11: for 1 , gaps({ |1 1}) id d R c X i n      do 12: , (( , )) DART n v d c  Q Equation (5) 13: ** ( , ) , ( , ) arg min (( , )) DART d c n d c v d c  Q 14:</formula><p>(1) 1 () k l and</p><p>( 2) 1 () k l  Equation ( <ref type="formula" target="#formula_20">9</ref>) with ** ( , ) dc 15:</p><p>(1)</p><p>( 2) 11 ( ) ( ) ( ) ( )</p><p>;</p><formula xml:id="formula_27">k k k k ll    CC 16: ( ) ( ) 2; kk gg  17: Representatives () 1 ˆ( , , ) k g     β Equation (6) with   () () () k k il ng X   Z I ; 18: Output () () 00 1 ( ; ) ( ) k g k n l l l m       xx I ; Note that, if the true covariance matrix 0 Σ is unknown, as in practice, Q will be 1  Σ</formula><p>where Σ is some working covariance matrix (estimate and/or computational approximation of 0 Σ ). We discuss estimation of 0 Σ and choice of Q in Section 2.7.</p><p>The algorithm works with any choice of the working precision matrix Q . For example, with  QI , the algorithm is identical to the usual regression-tree used in RF.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.5">RF-GLS</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A c c e p t e d M a n u s c r i p t</head><p>We now focus on growing a random forest from ntree number of GLS-style trees. In RF, each tree is built using a resample or subsample of the data , ( , ) n t t t  YX where t Y is the resampled (or subsampled) vector of the responses and t X is the design matrix using the corresponding rows. For our GLS-style approach, naive emulation of this is not recommended. To elucidate, if one resorts to resampling, under dependent settings, this would mean resampling correlated data units (Y i, Xi) thereby violating the principle of bootstrap. Also, it is unclear what the working covariance matrix would be between the resampled points. If subsampling is used, this is avoided, as one can use the submatrix t Σ corresponding to the subsample.</p><p>However, each tree will use a different subsample and hence a different t Σ .</p><p>Inverting covariance matrices of dimension O(n) require 3 () On operations, and this approach would require inverting ntree such matrices, thereby substantially increasing the computation.</p><p>Interestingly, the GLS-loss itself offers a synergistic solution to resampling of dependent data. To motivate our approach, we once again revisit RF, and note that the CART-split criterion (4) for a re(sub)sample can be expressed using the squared error loss</p><p>2 2 tt  P Y P Zβ , where t P is the selection matrix for the resample. Now GLS loss with Y and Zβ coincides with an OLS loss with 1/2 1/2 ,   Y Σ Y Z Σ Z . Hence, the immediate extension for the resample (subsample) in our setup would be using the loss 11 22 22 22 /2 1/2 ( ) ( ). t t t t tt         P Y P Z P Σ Y P Σ Z YZ Σ P P Σ Y Z ββ ββ (10) Thus to use a GLS-loss in RF, we essentially resample the contrasts Y instead of the outcomes Y . This principle of contrast resampling has been used in parametric bootstrapping of spatial data (Pardo-Igúzquiza and Olea, 2012; Saha and Datta, 2018a). In our algorithm the resampling amounts to simply replacing the Q in the DART-split criterion (5) and node representative calculation (6) with /2 1/2 t t t   Q Σ P P Σ . Computationally, our approach has the advantage of only requiring a one-time evaluation of the Cholesky factor 1/2  Σ that is used in all trees. As in RF, subsequent to growing ntree trees corresponding to each different resample we take the average to get the forest estimate. This completes the specification of a A c c e p t e d M a n u s c r i p t novel GLS-style random forest for dependent data. We refer to the algorithm as RF-GLS and summarize it in Algorithm 2. It is clear when  QI , the node-split criterion, the node representatives, and the resampling step all become identical to RF. Hence, RF is simply a sub-case of RF-GLS with an identity working correlation matrix. Algorithm 2 RF-GLS Input: Data 11 ( , , , , ) n n n Y X Y X  , working correlation matrix Σ , number of trees ntree, stopping rules for the trees: tn (maximum number of nodes) and tc (minimum number of members per node), number of features considered for each split Mtry, randomness (1) R  (some probability distribution to choose a resample of size n from {1. , } n  ), randomness (2) R  (some probability distribution to choose a subsample of size Mtry from {1. , } D  ), output point 0 x . Output: Estimate 0 ( ; ) n m  x of the mean function m at 0 x . 1: procedure 2: Calculate 1/2  Σ ; 3: Initialize t = 1; 4: for 1: tree tn  do 5: Generate i.i.d. (1) t RR   6: ( ( [ ])) tt I i R j  P 7: /2 1/2 t t t   Q Σ P P Σ 8: 0 ( ; ) nt m  x Algorithm 1 with (2) 0 , , , , , , n t n c try t t M R  Qx ; 9: Output 00 1 1 ˆ( ) ( ; ) tree n n n t t tree mm n    xx</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.6">Kriging using RF-GLS with Gaussian Processes</head><p>Subsequent to estimating the regression function () m x using RF-GLS in the spatial non-linear mixed model (1), we can seamlessly perform traditional spatial tasks like predictions (kriging) and recovery of the latent spatial random surface () w . This is because RF-GLS only estimates the mean part, and the covariance is still being modeled using a GP. This facilitates easy formulation of the predictive or latent </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.7">Practical considerations</head><p>The development of the RF-GLS method has been presented using a working covariance matrix Σ . In practice, the true correlation 0 Σ will not be known and needs to be estimated assuming a parametric form Σ based on the covariance function used. In Section 3 we present the result that both RF and RF-GLS are consistent under dependent errors (akin to both OLS and GLS being consistent for linear models). Hence, for data analysis, we recommend running a first pass of RF on the data to get a preliminary estimate of m, use it to obtain the residuals from which the parameters of Σ can be estimated using a maximum likelihood approach.</p><p>This once again parallels the practice in linear models where the oracle GLS assuming knowledge of the true covariance matrix is replaced by a feasible GLS where the covariance matrix is estimated based on residuals from an initial OLS estimate.</p><p>The second consideration concerns computational scalability of the approach. RF-GLS requires computing the Cholesky factor 1/2  Σ . It is clear from Algorithm 2, that   this is only a one-time cost, unlike the possible alternate approach discussed in Section 2.5 where subsampling is conducted before decorrelation, which would lead to computing a different Cholesky factor for each tree. However, spatial covariance and precision matrices arising from GP are dense and for large n, evaluating 1  Σ even once still incurs the computational cost of 3 () On and storage cost of 2 () On both of which are taxing on typical personal computing resources.</p><p>Over the last decade, the inventory of approximation techniques attacking the computational weakness of GP has grown and become increasingly sophisticated (see <ref type="bibr" target="#b28">Heaton et al., 2019</ref>, for a review). Nearest Neighbor Gaussian Processes (NNGP) <ref type="bibr">(Datta et al., 2016a;</ref><ref type="bibr" target="#b18">Finley et al., 2019;</ref><ref type="bibr">Datta et al., 2016b,c</ref>) has emerged as one of the leading candidates. Centered on the principle that a few nearby locations are enough to capture the spatial dependence at a given location <ref type="bibr" target="#b48">(Vecchia, 1988)</ref>, NNGP replaces the dense graph among spatial locations with a A c c e p t e d M a n u s c r i p t nearest neighbor graphical model. This was shown to directly yield a sparse Cholesky factor</p><formula xml:id="formula_28">1/2  Σ</formula><p>that offers an excellent approximation to the original dense 1/2  Σ <ref type="bibr">(Datta et al., 2016a)</ref>. Software packages implementing NNGP are also publicly available <ref type="bibr" target="#b17">(Finley et al., 2021;</ref><ref type="bibr">Saha and Datta, 2018b)</ref>. Hence, for very large data, we recommend using this NNGP sparse Cholesky factor</p><formula xml:id="formula_29">1/2  Σ instead of 1/2  Σ .</formula><p>This will reduce both the computation and storage cost from cubic to linear in sample size.</p><p>We will show in Proposition 3.1, that using NNGP for RF-GLS ensures a consistent estimate of m even when the true data generation is from a full Matérn GP.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">Consistency</head><p>In this Section we present the main theoretical result on consistency of RF-GLS for a very general class of dependent error processes. The outline of the proof highlighting the new theoretical challenges addressed are presented in Section 5 along with some general results of independent importance. The formal proofs are provided in the Supplementary materials.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1">Assumptions</head><p>We first discuss assumptions 1 and 2 and make additional assumptions required for the proof of consistency. In Assumption 1, we focus on absolutely regular or β-mixing processes, since this class of stochastic processes is rich enough to accommodate many commonly used dependent error processes like ARMA <ref type="bibr" target="#b36">(Mokkadem, 1988)</ref>, GARCH <ref type="bibr" target="#b6">(Carrasco and Chen, 2002)</ref>, certain Markov processes <ref type="bibr" target="#b14">(Doukhan, 2012)</ref> and Gaussian processes with Matérn covariance family. At the same time, uniform law of large numbers (ULLN) from independent processes can be extended to this dependent process under moderate restriction on the class of functions under consideration. No additional assumption is required on the decay rate of the β-mixing coefficients (which are often hard to check).</p><p>Assumption 2 requires the Cholesky factor of the precision matrix to be sparse and regular. Such structured Cholesky factors routinely appear in time series analysis for AR(p) process. For spatial data, exponential covariance family on a 1-dimensional grid satisfies this. Other covariances like the Matérn family (except the exponential covariance) do not generally satisfy this assumption. However, NNGP covariance A c c e p t e d M a n u s c r i p t matrices satisfy this and are now commonly used as an excellent approximation to the full GP covariance matrices <ref type="bibr">(Datta et al., 2016a)</ref>. Since this assumption is on the working covariance matrix and not on the true covariance of the process, we can always use an approximate working covariance matrix like ones arising from NNGP to satisfy this. We discuss these examples in Section 3.3. Under Assumption 2, for any two vectors x and y , defining</p><formula xml:id="formula_30">0 ii xy  for 0 i  , we have 12 , 0 , q i i j j i j i j i i i i i j j i ii x y x y x y                       x Qy (<label>12</label></formula><p>) where 2 12 2 , , {1, 2, , } n   ρ with 12 , | |,| | 2 , ii q    's are fixed (independent of n) functions of L and ρ . The expression of the quadratic form in (12) makes it evident that max ()  Q is bounded as n . As the third term is a sum of fixed (at most 2 4q ) number of terms, it is O(1) as long as x and y are bounded. Assumption 3 (Diagonal dominance of the working precision matrix). Q is diagonally dominant satisfying || ii ij ji     QQ for all i, for some constant 0   . Diagonal dominance implies min ()  Q is bounded away from zero as n  which is needed to ensure stability of the GLS estimate. We will discuss in Section 3.3 how working correlation matrices from popular time series and spatial processes with regular design satisfy this Assumption. Note that under Assumption 2, checking that the first ( 1) q  rows of Q are diagonally dominant is enough to verify Assumption 3. Assumption 4 (Tail behavior of the error distribution). As demonstrated in <ref type="bibr" target="#b44">Scornet et al. (2015)</ref>, additive models provide a rich enough environment to address the asymptotic properties of nonparametric methods like RF sans the additional complexities in controlling asymptotic variation of m in leaf nodes.</p><p>Since RF is invariant to monotone transformations of covariates <ref type="bibr" target="#b20">(Friedman et al., 2001;</ref><ref type="bibr">Friedman, 2006)</ref>, without loss of generality, the covariates can be distribution function transformed to be Unif[0,1] distributed. Hence we assume that the components (functions) md are supported on [0,1] , implying m is uniformly bounded by some constant M0.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2">Main result</head><p>For the t th tree, the predicted value from our method at a new point</p><formula xml:id="formula_31">0 x in covariate space is denoted by 0 ( ; , , ) n t n m  x Σ where {( , )| 1, , } n i i y i n    x</formula><p>denote the data.</p><p>Note that the i th data unit corresponds to location Corollary 3.2. Under Assumptions 1, 4 and 5, RF <ref type="bibr">(Breiman, 2001</ref>) is 2 -consistent.</p><p>To our knowledge, Corollary 3.2 is the first result on consistency of RF under a dependent (β-mixing) error process. Since RF is simply RF-GLS with the working correlation matrix  ΣI , Assumptions 2 and 3 are automatically satisfied, and hence we only need the Assumptions of β-mixing process, tail bounds and additive model.</p><p>The consistency result is analogous to the ordinary least squares estimate being consistent even for correlated errors. Besides its own importance, Corollary 3.2 also heuristically justifies the first step used in practical implementation of RF-GLS. The parameters in the working correlation matrix is unknown, and as highlighted in Section 2.7, we use the RF to get a preliminary estimate of m, estimate the spatial parameters using the residuals, and use these estimated parameters in the working correlation matrix for RF-GLS. This is again, analogous to feasible GLS which estimates the working correlation matrix using residuals based on OLS. Corollary 3.2 guarantees that the initial estimator used to obtain the residuals is consistent.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.3">Examples</head><p>In this Section, we give examples of two popular dependent error processes under which a consistent estimate of m can be obtained using RF-GLS.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.3.1">Spatial Matérn Gaussian processes</head><p>Our main example focuses on the spatial non-linear mixed model using Gaussian Processes as described in Section 2.6. While many candidates exist for the A c c e p t e d M a n u s c r i p t covariance function of GP, the class of Matérn covariances enjoy hegemonic popularity in the spatial literature owing to its remarkable property of characterizing the smoothness of the spatial surface () (Stein, 2012). The stationary (isotropic) Matérn covariance function is specified by</p><formula xml:id="formula_32">    1 2 2 22 22 ( , | ) ( ) 2 , () ij i j i j i j CC                (<label>13</label></formula><formula xml:id="formula_33">)</formula><p>where 2 ( , , )</p><formula xml:id="formula_34">    </formula><p>and  is the modified Bessel function of second kind.</p><p>We consider a Matérn process sampled on one-dimensional regular lattice. This regular design is considered both for tractability of the Matérn GP likelihood but also for ensuring stationarity of the process in the sense required in Theorem 3.1 as for irregular spaced data</p><formula xml:id="formula_35">1 2 2 3 ( , ) ( , ) Cov Cov  whenever 1 2 2 2 3 2    . Such</formula><p>assumptions on the dimensionality and/or regularity of design has been widely used for theoretical studies of spatial processes <ref type="bibr" target="#b15">(Du et al., 2009;</ref><ref type="bibr" target="#b46">Stein et al., 2002)</ref>. By keeping the gap in the lattice fixed, we are also essentially using increasing-domain asymptotics, as parameters are generally not identifiable in fixed domain asymptotics for Matérn GPs <ref type="bibr" target="#b51">(Zhang, 2004)</ref>.</p><p>The error process arising from the marginalization of (1) is the sum of a Matérn process and a nugget (random error) process. We consider half-integer 1.5, 2.5,   . This class of processes are popularly studied and used owing to their convenient state-space representation <ref type="bibr" target="#b27">(Hartikainen and Särkkä, 2010)</ref>  A c c e p t e d M a n u s c r i p t</p><p>Instead, we consider the working correlation Σ to come from a Nearest Neighbor Gaussian Process (NNGP) <ref type="bibr">(Datta et al., 2016a)</ref> based on the Matérn covariance. As discussed in Section 2.7, NNGP covariance matrices are one of the most successful surrogates for full GP covariances for large spatial data, reducing likelihood computations from 3 () On to O(n). What is important for the theoretical study is that an NNGP is constructed by sequentially specifying the conditional distributions as</p><p>1: 1 ( ) | ~| q i i i N i  where ( ) {1, , 1} q N i i    is the set of q-nearest neighbors of i among 11 ,, i  . When the locations are the integer grid, () q Ni becomes { 1, , } i i q    , and the NNGP construction is akin to an AR(q) process. Consequently, the Cholesky factor 1/2  Σ from NNGP on an integer lattice satisfies Assumption 2 with 11 (1, ) / 1     c C c C c ρ and L such that 1   L L C where 1: () q Cov  C , 1: 1 ( , ) qq Cov   c (Finley et al., 2019). This ensures the following consistency result of RF-GLS fitted with NNGP for data generated using Matérn GP. The proof is in Section S2.6. Proposition 3.1. Consider a spatial process ( ) ( ) ( ) i i i y m X  from (1) where m is an additive model as specified in Assumption 5, * ( ) ( ) ( ) i i i w  where * () denote i.i.d. 2 0 (0, ) N  noise, and () w be a Matérn GP, sampled on the integer lattice, with parameters 2 0 0 0 0 ( , , )      , ν0 being a half-integer. Let Σ denote a covariance matrix from a Nearest Neighbor Gaussian Process (NNGP) derived from a Matérn covariance with parameters 2 ( , , )      and 2</p><p> . Then there exists some K &gt; 0 such if K   , then RF-GLS using Σ yields an 2 consistent estimate of m.</p><p>One observation is central to the proof. The half-integer Matérn GP, which is an 0 () AR q process in the continuous domain, when sampled on a discrete lattice becomes an ARMA process ( <ref type="bibr" target="#b30">( Ihara, 1993)</ref> Theorem 2.7.1). This will establish absolutely regular mixing of these Matérn processes using the result of <ref type="bibr" target="#b36">Mokkadem (1988)</ref> on ARMA processes, and subsequently consistency of RF-GLS by Theorem 3.1.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.3.2">Autoregressive time series</head><p>Our main focus in this manuscript is estimation of nonlinear regression function in the spatial mixed model (1). However, the scope of our RF-GLS algorithm is much A c c e p t e d M a n u s c r i p t broader. It can be used for functional estimation in the general nonlinear regression model ()</p><formula xml:id="formula_36">i i i Y m X</formula><p> where i is a dependent stochastic process with valid second moment. The method only relies on knowledge of an estimate of the residual covariance matrix () Cov  Σ . The general consistency result (Theorem 3.1) is also not specific to the spatial GP setting, and only relies on general assumptions on the nature of the dependence, tail bounds of the error, and structure of the working correlation matrix. In this Section, we demonstrate that RF-GLS can be used for consistent function estimation for time series data, i.e., where i models the serial (temporal) correlation. In particular, we discuss consistency of RF-GLS for Autoregressive (AR) error processes, one of the mainstays of time series studies. An AR(q) model can be written as:</p><formula xml:id="formula_37">1 1 2 2 i i i q i q i a a a         (<label>14</label></formula><formula xml:id="formula_38">)</formula><p>where ηi is a realization of a white noise process at time i. AR processes are βmixing <ref type="bibr" target="#b36">(Mokkadem, 1988)</ref>, they also produce a banded Cholesky factor of the precision matrix as required in Assumption 2. Hence, we have the following assertion. Its proof is in Section S2.6.</p><p>Proposition 3.2. Consider a time series () i i i Y m X  where i is the time, m satisfies Assumption 5, i denote a sub-Gaussian stable 0 () AR q process. Let Σ denote a working correlation matrix from a stationary AR(q) process. Then RF-GLS using Σ produces an 2 consistent estimate of m if 1. q = 1 and the working autocorrelation parameter ρ used in Σ satisfies | | 1   (for bounded errors) or | | 1/ (2 2)  </p><p>(for unbounded errors).</p><p>2. q &gt; 1 and the AR(q) working precision matrix</p><formula xml:id="formula_39">1   Q Σ satisfies Assumption 3 (for bounded error) or min 2 max | | i ii i ij ji    QQ (for unbounded error).</formula><p>We separate the results for q = 1 and 2 q  since unlike AR(1), for general AR(q) it is challenging to derive closed form expressions of the constraints on the parameter space needed to satisfy Assumption 3 or the stronger diagonal dominance condition in Proposition 3.2 part 2 (for unbounded errors). However, verifying these conditions for a given AR precision matrix Q is straightforward due to stationarity and banded A c c e p t e d M a n u s c r i p t structure. One only needs to check the first q + 1 rows of Q irrespective of the sample size n. The necessary condition for row q + 1 is</p><formula xml:id="formula_40">2 1 2 | | qq j j j j j j          ρ (<label>15</label></formula><formula xml:id="formula_41">)</formula><p>where κ equals 1 for bounded errors and equals 2 for unbounded errors. Additional checks are only needed for the first q rows of Q .</p><p>In practical implementation of AR processes, the order of the autoregression is often chosen based on analysis of the auto-correlation function of the residuals and may not equal the true order of the autoregression. Proposition 3.2 accommodates this scenario by not restricting the working autoregressive covariance to be of the same order or have the same coefficients as the ones generating the data.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">Illustrations</head><p>We conduct simulation experiments to demonstrate the advantages of the RF-GLS over competing methods for both estimation and prediction in finite samples. We simulate data from the spatial non-linear mixed model of (1). We consider the following choices for the true mean function 1 ( ) 10sin( ) <ref type="bibr">(Friedman function, Friedman, 1991)</ref>. () w is an exponential GP on a two-dimensional spatial domain with 27 different combinations of covariance parameters spatial variance 2  , spatial decay  and error variance 2  as a % of the spatial variance. For each setting, we perform simulations for 100 replicate datasets. To evaluate prediction performance, we keep 10% hold-out data. Details of the parameter choices and hold-out design are in Section S1.1.</p><formula xml:id="formula_42">m x x   and 2 2 1 2 3 4 5 ( ) (10sin( ) 20( 0.5) 10 5 ) / 6 m x x x x x       x</formula><p>For evaluating estimation performance, we consider RF (which does not use spatial information), RF-GLS (Oracle) using true covariance parameter values, and RF-GLS which obtains an estimate of the covariance parameters from RF residuals using the BRISC package <ref type="bibr">(Saha and Datta, 2018b)</ref> and uses them in RF-GLS. The estimation performance of the methods are evaluated based on a discrete Mean Integrated Square Errors (MISE) for m, evaluated over uniformly generated data points from the A c c e p t e d M a n u s c r i p t covariate space that provides a good coverage of the entire space. MISE for the estimated function m is given as:</p><formula xml:id="formula_43">0 22 1 0 1 ˆMISE ( ( )<label>( )) ( ( ) ( ))</label></formula><formula xml:id="formula_44">n ii i m m d m m n        x x x x x</formula><p>where 0 1 ,, n xx are a dense set of points in the covariate domain (See Section S1.1 for details).</p><p>We observe that the RF-GLS performs at par with RF-GLS (Oracle) which assumes knowledge of the true spatial parameters (Supplementary Materials Section S1.2).</p><p>As in reality, we won't have knowledge of the true parameters, for the rest of the article we will be comparing the competing methods only with RF-GLS, where model parameters are unknown and estimated from RF residuals. We present the estimation and prediction results for m = m2. The results for m = m1 are similar, and are provided in the Supplementary Materials Section S1.3.</p><p>The median MISE over 100 simulations for all the 27 setups are shown in Figure <ref type="figure" target="#fig_15">2</ref> (a). RF-GLS outperforms RF across all the scenarios demonstrating that exploiting the spatial information substantially improves estimation performance over the vanilla RF. Additionally, we also notice that as the strength of the spatial variation increases ( <ref type="formula">2</ref> goes from 1 to 10), the ratio of MISE of RF and RF-GLS increases indicating a greater gain in terms of MISE.</p><p>We consider five candidates for evaluating prediction performance: RF, RF-RK <ref type="bibr" target="#b19">(Fox et al., 2020)</ref>, RF-GLS, RF-Loc (the 2-D spatial locations of the data are used as additional covariates in RF to account for the spatial structure), and RFsp <ref type="bibr" target="#b29">(Hengl et al., 2018)</ref>. Among these, RF is the only one that does not use spatial information and only accounts for the mean. For RFsp, we used unordered pairwise Euclidean distances as additional covariates in RF to account for the spatial structure in the</p><p>data. The prediction performance are evaluated based on the Relative Mean Squared Error (MSE) for the test data. MSE measures the average squared difference between the estimated values and the actual value of the response. Relative MSE helps compare MSE across different simulation setups, while standardizing by the variance of the response. A c c e p t e d M a n u s c r i p t 2 1 2 1 1 MSE MSE ( ) ; Relative MSE 1 () test test n ii n i test i test i test yy n yy n         Figure 2 (b) shows the median Relative MSE over 100 simulations for all the 27 setups. Expectedly, all methods performed better than RF, as unlike the other methods, RF doesn't use any spatial information. RF-GLS performs best or at par with the best across all settings. RF-Loc and RFsp belong to the class of approaches that add extra spatial covariates to RF. RF-Loc always performed worse than RFsp and RF-GLS. However, when the spatial variance 2 ()  is high, RFsp performs comparably to that of RF-GLS, both of which outperform the others. For lower 2  , RF-GLS significantly outperforms all the other methods. In this case, RFsp performs worse than RF-RK which is now the second best method.</p><p>We conducted an in-depth study in Section S1.4 to understand the performance of RFsp. We summarize the findings here. <ref type="bibr" target="#b35">Mentch and Zhou (2020)</ref> showed that for iid errors, adding additional noise covariates can improve prediction performance of RF for low (covariate-)signal-to-(random-)noise ratio (SNR). For high SNR, the trend was reversed and using extra noise covariates (when uncorrelated with the true covariates) did not help. For our setting of spatially correlated errors, akin to how noise covariates can be added to RF to explain random variation, RFsp adds distance-based covariates to explain spatial variation. The appropriate quantity to understand the performance of RFsp would be the (covariate-)signal-to-(spatial- Consequently, RF-GLS produce comparable or better results to both RF-RK and RFsp across the SNR spectrum (Figure <ref type="figure" target="#fig_16">3</ref>).</p><formula xml:id="formula_45">)noise ratio 2 SNR ( ( )) / ( ( )) (<label>(</label></formula><p>Section S1 of the Supplementary Materials file contains a number of additional simulation studies. These include results for larger sample size (Section S1.5), mean function with more covariates (Section S1.6), misspecified Gaussian Process smoothness (Section S1.7), and misspecified entire spatial effect (not generated from a Gaussian Process, Section S1.8). For each study, and all choices of data generation parameters, RF-GLS performed as the best or comparably with the best method across all scenarios for both estimation and prediction.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5">Proof of Consistency</head><p>For studying RF-GLS with dependent data, we adopt the framework of consistency analysis of nonparametric regression (introduced in <ref type="bibr" target="#b38">Nobel et al. (1996)</ref>, generalized in <ref type="bibr" target="#b26">Györfi et al. (2006)</ref>). In <ref type="bibr" target="#b44">Scornet et al. (2015)</ref>, the authors also adopted this framework to prove consistency of RF for i.i.d. errors. After presenting an informal outline of the consistency argument in <ref type="bibr" target="#b26">Györfi et al. (2006)</ref>, we provide a road map of how we extend different pieces of this argument for RF-GLS with dependent data, and highlight additional technical challenges that we resolved in this work. All formal proofs are provided in the Supplementary materials.</p><p>Györfi et al. (2006) consider a least squares estimator of the form A c c e p t e d M a n u s c r i p t   2 1 (, ) min ( ) n n f i</p><formula xml:id="formula_46">i i m arg f X Y n     </formula><p>where n is a carefully chosen, data-dependent function class which is large enough to control approximation error (i.e., how well the true function is estimated by the function class), and small enough to control estimation error (i.e., how far the estimate mn is from the representative of n closest to m) in the sense that a Uniform Law of Large Number (ULLN) holds on this class. mn is consistent if both errors vanish asymptotically.</p><p>In order to use powerful exponential inequalities which hold for classes of bounded functions, the proof of 2 -consistency in <ref type="bibr" target="#b26">Györfi et al. (2006)</ref> uses a standard truncation argument in probability theory with a diverging sequence of truncation thresholds {} n  . They first show that if uniformly over the class In the analysis of RF-GLS, there are two main challenges. The error process ϵi is no longer an i.i.d process but a stochastic process capturing the dependence. Also, we work with a quadratic loss (</p><formula xml:id="formula_47">)) ( ( )) ff  Y X Q Y X instead of 2 () f  YX where, A c c e p t e d M a n u s c r i p t   1 1 2 2 ( ) ( ) , ( ) , , ( ) nn f f X Y f X Y f X Y      XY<label>(</label></formula><p>. Addressing these require non-trivial generalizations of each of the above pieces.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.1">Consistency of quadratic loss optimizers in data-driven function classes under dependent errors</head><p>Our main technical statement (Theorem 5.1) is a generalization of <ref type="bibr">(Györfi et al., 2006, Theorem 10</ref>.2) to the setting of dependent error processes and quadratic loss functions. Let 11 ( , ), ,( , )</p><formula xml:id="formula_48">{} n n n X Y X Y </formula><p>be the data where</p><formula xml:id="formula_49">() i i i Y m X  . With randomness parameter Θ, let ( , ) n n n</formula><p> be a data- dependent class of functions. We will consider an optimal estimator nn m  with respect to quadratic loss:</p><formula xml:id="formula_50">1 arg min ( ( ) ) ( ( ) ). n nf m f f n     X Y Q X Y (<label>16</label></formula><formula xml:id="formula_51">)</formula><p>This simply states that mn is the GLS estimate with respect to the working precision matrix Q in the class n . This is analogous to the OLS assumption used in <ref type="bibr" target="#b26">Györfi et al. (2006)</ref>. When n is the class of piecewise constant functions on the partitions generated by a regression tree, mn is our GLS-style regression-tree estimate. Hence studying estimators of the form (16) more generally suffices to prove consistency of GLS-style regression tree and henceforth of RF-GLS.</p><p>We now state a general technical result establishing 2 -consistency of such GLS estimators mn under β-mixing (absolutely regular) error processes. This is a sufficiently large class of processes that includes spatial Matérn GP and </p><formula xml:id="formula_52">. . . . 11 lim sup | ( ( ) ) ( ( ) ) ( ( ) ) ( ( ) ) | 0. n n n fT f f f f nn             X Y Q X Y X Y Q X Y</formula><p>Then we have 2 2 lim ( ( , ) ( )) ) 0, and</p><formula xml:id="formula_53">lim ( ( ) ( )) 0; Xn n Xn n m X m X m X m X         where ( ) ( , ) nn m X m X  </formula><p>and X is a new sample independent of the data.</p><p>The proof is deferred to Section S2.3. Theorem 5.1 is a result of independent importance as it is a general statement on 2 consistency of a wide class of GLS estimates under β-mixing dependent errors. Besides data-driven-partitioning-based estimates like RF or RF-GLS, it can be used to study properties of histograms, kernel-density estimates, local polynomials, etc., under β-mixing error processes.</p><p>The second part of the theorem states that the consistency also holds for an ensemble estimator n m that averages many such estimates mn each specified with random parameters Θ. This will be used to show consistency of the RF-GLS forest estimate subsequent to showing consistency of each RF-GLS tree estimate.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.2">Approximation Error</head><p>The condition C.2 of asymptotically vanishing approximation error ensures that as sample size increases, the growing class of approximating functions (e.g. piece-wise A c c e p t e d M a n u s c r i p t constant functions in the case of regression trees) is rich enough to approximate the target function. In earlier works on consistency of RF, approximation error was controlled under a stringent assumption of vanishing diameter of leaf nodes. <ref type="bibr" target="#b44">Scornet et al. (2015)</ref> replaced this by a condition that the variance of Y (or equivalently, variation of m) within a leaf node of a regression-tree vanishes asymptotically, and verified this condition for RF. There are two steps to show this.</p><p>(i) Establish a theoretical or population-level split-criterion -an asymptotic limit of the empirical split-criterion used in practice, such that variation of m in the leaf-nodes of a hypothetical regression tree generated using the theoretical criterion is small.</p><p>(ii) Establish stochastic equicontinuity of the empirical split-criterion, such that if two set of qualifying splits (1) Z and (2) Z are close, their corresponding empirical splitcriterion values are close, irrespective of the location of the splits.</p><p>For our RF-GLS trees, the partitioning is driven by the DART criterion (5) and is different from the CART (2) criterion used in the RF trees. Since the GLS loss and estimator involves the matrix Q , they are not available in simple scalar expressions unlike the OLS loss (sum of squares) and estimator (mean response within a node).</p><p>So we address a number of technical challenges for steps (i) and (ii) that do not appear in the analysis of RF.</p><p>For (i), Lemma 2.1 and Theorem 2.1, establishes that the DART split-criterion remarkably has the same limit of as that for the CART criterion. Hence, variation of m in trees generated by this theoretical criterion is controlled in the same way as for RF.</p><p>For (ii), we require an entirely new and involved proof of equicontinuity for the DARTsplit criterion of RF-GLS as the previous arguments of <ref type="bibr" target="#b44">Scornet et al. (2015)</ref> do not immediately generalize for RF-GLS loss function (5). We discuss the new contributions in Section 5.2.1.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.2.1">Equicontinuity of the split criterion</head><p>A c c e p t e d M a n u s c r i p t</p><formula xml:id="formula_54">1 [ ( ) ( ) ( ) ] P R L rl n n n P P R R L L iii i i i P Y Y Y Y Y Y n         </formula><p>was the center-piece of the theory in <ref type="bibr" target="#b44">Scornet et al. (2015)</ref>, requiring involved but elegant arguments on the geometry of splits. Since the CART criterion only concerns the parent node to be split and its potential two child nodes, the equicontinuity essentially boiled down to showing closeness of the respective means and variances of these 3 nodes for the two sets of splits. These 3 scalar mean and variance differences are functions of the difference in volumes of the respective nodes which goes to zero uniformly as the splits come closer.</p><p>For RF-GLS, to update each node, the entire set of node representatives get updated via the GLS-estimate (6) which is analytically intractable due to the matrix inversion. Also, the DART-split criterion ( <ref type="formula" target="#formula_9">5</ref>)</p><formula xml:id="formula_55">        (0) (0) (0) (0) 11 ˆˆˆ( ) ( ) ( ) ( ) [] GLS GLS GLS GLS nn      Y Z Z Q Y Z Z Y Z Z Q Y Z Z β β β β</formula><p>is a quadratic form of the plugged-in GLS-estimate and thus a function of the representatives of all nodes and not just the 3 nodes as in RF. Our equicontinuity proof is built on viewing GLS predictions as oblique projections on the design matrices corresponding to the splits.</p><p>We consider two scenarios: R1 -where for at least one set of split, both potential child nodes have substantial volumes, and R2 -where for each set of split, one potential child node have ignorable volume. Under R1 , all nodes for at least one set of split have substantial representation ensuring that the gram matrix has norm bounded away from zero and equicontinuity can be established using perturbation bounds on orthogonal projection operators <ref type="bibr" target="#b7">(Chen et al., 2016)</ref>. Under R2 , this will not be the case as for both set of splits one child node will have small volume.</p><p>Instead, we first show that difference of the DART-split criterion at the previous level of (parent) splits is small using the same perturbation argument as the parent node volumes are bounded away from zero. Subsequently we argue that the creation of the children nodes do not change the split criterion substantially as one of the child nodes is essentially empty. This new matrix-based proof for equicontinuity also </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.3">Estimation Error</head><p>Theorem 5.1 shows that for GLS estimators like (16), one needs to control the quadratic form estimation error (ULLN C.3). A common technique for proving ULLNs under dependence is (i) to prove an analogous ULLN for i.i.d. error processes, and then (ii) use mixing conditions to generalize the result for the dependent process of interest.</p><p>Both steps require addressing new challenges for RF-GLS which we discuss in the next two subsections.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.3.1">Cross-product function classes</head><p>For step (i), it is difficult to directly state an i.</p><p>i.d. analogue of the ULLN C.3 as it is not possible to have an error process * {} i which is simultaneously i.i.d., satisfies * ĩi and ** ( ) ( ) EE  y Qy y Qy . To see this, simply note that as ** ( , ) 0 ( , ) i i j i i j Cov Cov   , with ** () i i i y m X  we will have ** ,, ( ) ( ) i i j i i j i i j i i j E q y y E q y y      where () ii q   Q . Instead, we create separate i.i.d. A c c e p t e d M a n u s c r i p t analogues of ULLN for each term in the expansion of the quadratic form, i.e., both the squared error and the cross-product terms. These ULLN are stated as condition C.3.iid in the Supplementary materials. Condition C.3.iid(a) for the squared (diagonal) terms is the standard squared error ULLN using the i.i.d error processes, and has been proved in Györfi et al. (2006) Theorem 10.2 generally, and in Scornet et al. (2015) in particular for RF. For the cross-product (off-diagonal) terms, the ULLN is stated in Condition C.3.iid(b) of the Supplement, and is to our knowledge a novel strategy. The analysis of RF under iid settings in Scornet et al. (2015) only uses a squared error loss which does not involve any cross-product terms and hence did not need to prove any ULLN for cross-product terms. We construct separate ULLN for the cross-product terms , i i j i i j i q   for each lag 1, , jq  . As mentioned earlier, use of the univariate copy * {} i will not allow to generalize to the corresponding term in C.3. This is because ** i i j   but i and ij  are correlated. Instead, for each lag 1, , jq  , we create bivariate i.i.d. sequences ( , ) i i j  that are identically distributed as the joint (bivariate) distribution of the pairs ( , ) i i j </p><p>, but are independent over i. We thus exploit the banded nature of the working precision matrix Q to prove i.i.d ULLNs for cross- product terms at each of the q lags. Combining these with the ULLN for the squared terms gives us a ULLN for the entire quadratic form.</p><p>Formulation and establishing this cross-product ULLN using lag-specific bivariate i.i.d copies is a new contribution and is of independent importance for establishing vanishing limits of any estimation error that involves interaction terms. We prove this ULLN in Proposition S2.1 of the Supplement by showing that cross-product function classes has the same concentration rate as that for squared-error function classes with respect to the random p norm entropy number.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.3.2">ULLN for β-mixing processes</head><p>For step (ii), we need to go from Conditions (C.  <ref type="bibr">, 2002)</ref>. If we look at the "hierarchy" of dependence structures, strongmixing or α-mixing <ref type="bibr" target="#b2">(Bradley, 2005)</ref>, is one of the broadest family of dependent processes accommodating dependent structures "furthest" from independence.</p><p>However, existing ULLN results for α-mixing processes require the class of functions in n to be Lipschitz continuous <ref type="bibr" target="#b11">(Dehling and Philipp, 2002)</ref>. As regression-tree estimates are inherently discontinuous due to nature of discrete partitioning, this will not be satisfied here.</p><p>Hence we focus on absolutely regular or β-mixing process. This class of mixing processes is rich enough to include a number of commonly used spatial or timeseries structures as discussed in the examples of Section 3.3. Our main challenge here is that no existing ULLN for β-mixing processes apply to the class of functions on partitions of the RF-GLS trees. ULLN for Glivenko-Cantelli classes under β-mixing was established in <ref type="bibr" target="#b37">Nobel and Dembo (1993)</ref>. Similar results have been established</p><p>for a class of  -mixing processes in <ref type="bibr" target="#b40">Peligrad (2001)</ref>.</p><p>Both results, do not need any convergence rate on the mixing coefficients, but require the class n to have an envelope (dominator) F (free of n). For data-driven partitioning based estimates like RF or RF-GLS trees such uniform envelopes are not available (as the envelop is the truncation threshold n  ). Instead we propose a ULLN for dependent processes that uses a weaker assumption of a n-varying envelop with a moment-bound. The proof is deferred to Section S2.2. Proposition 5.3. (A general ULLN for β-mixing processes) Let {} i U be an d -valued stationary β-mixing process. Let 1 0 ({ } ) n n i i U   be a class of functions d  with envelope sup | | n n g Gg  </p><p>, such that Gn is "uniformly mean integrable", i.e.</p><formula xml:id="formula_56">1 lim lim | ( ) | (| ( ) | ) 0. n i n i Cn i G U G U C n     I (<label>17</label></formula><p>) Let * {} i U be such that * i U is identically distributed as ,;; ; i Ui  and ** __ || ;;; ij U U i j  . Then, 11 ** 11 sup ( ( ) ( )) 0 sup ( ( ) ( )) 0. | | | | nn i i i i gg ii g U g U g U g U nn        A c c e p t e d M a n u s c r i p t Proposition 5.3 ensures that ULLN for i.i.d. errors is enough to generalize to β-mixing error processes as long as the function classes are contained within a sequence of " mean uniform integrable" envelopes in the sense of (17). Next, we show that the ULLN holds for RF-GLS trees under a (2 ) th   moment assumption that is sufficient for mean uniform integrability. Proposition 5.4 (Estimation error for RF-GLS). Let () nn  is the set of all functions :[0,1] D f  , piecewise constant on each cell of the partition obtained by an RF-GLS tree. If any subset nn F  satisfies the following condition: (C.4) (Moment bound:)  an envelope sup | | n n f Ff   , such that 2 1 lim | ( ) | ni n i FX n      for some 0   , then n n T  satisfies the ULLN (C3) for β-mixing error processes, and under Assumption 2. The proof is in Section S2.2. The (2 ) th   moment condition C.4 is easier to verify for RF or RF-GLS as discussed in Corollaries 3.1 and 3.2.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.4">Proof of Theorem 3.1</head><p>Equipped with Theorem 5.1, we can prove Theorem 3.1 by showing that RF-GLS meets the conditions C.1 -C.3. Proposition S2.3 in the Supplement shows that the truncation error condition C.1 is met for any ζn satisfying the scalings of Assumption 4(a) required for proving the approximation and estimation error conditions.</p><p>We have already shown conditions C.2 (Proposition 5.2) and C.3 (Proposition 5.4) for two separate choices of function classes. The last step of the proof is choosing the function class that satisfies both conditions. Let () nn  be the set of all functions :[0,1] D f  piece-wise constant on each cell of the partition () n  created by an RF-GLS tree with data n and randomization Θ. We have already shown in in Proposition 5.2 that n satisfies C.2. To apply Proposition 5.4, n also needs to satisfy the moment condition of C.4. As n n T  is only bounded by ζn which goes to  , clearly n will not satisfy C.4 .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A c c e p t e d M a n u s c r i p t</head><p>We carefully carve out a subclass n n  which is still wide enough to satisfy the approximation error condition (C.2), while satisfying the additional restriction (C.4).</p><p>For a given partition () n  , we define n as follows:</p><p>() () ( ) { } ( ) ( ) ( ).</p><formula xml:id="formula_57">{} n n nn nn mm              x xx I<label>(18)</label></formula><p>Since by construction of RF-GLS, mn is the optimizer over a much larger set () n  , trivially mn is also the optimizer in n . The first step of the proof of Proposition 5.2 makes it evident why Condition C.2 will also hold for this smaller class n . To apply Proposition 5.4 and show Condition C.3, the final piece is to show that the condition (C.4) is satisfied by n . Since apart from mn, n consists of functions that are bounded by M0, we can have the envelope to be</p><p>0 || nn F m M  . Hence, for Condition (C.4) to hold, it is enough to show 2 1 lim | ( ) | ni n i mX n      which is an assumption of the Theorem. □</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6">Discussion</head><p>We considered non-linear regression function estimation in the spatial mixed model and developed a random forest method (RF-GLS) for estimating the non-linear covariate effect, while still modeling the spatial effect using Gaussian Processes, as is conventional. Retaining the GP framework facilitates parsimonious encoding of structured spatial dependence, and conducting all traditional spatial tasks like kriging (prediction at a new location), and recovery of the latent spatial random effect surface. We show in Section 4 how these advantages of RF-GLS manifest into superior estimation performance over naive RF that does not use any spatial information, and superior predictive performance over many existing spatial random forest methods.</p><p>Our method RF-GLS, more generally, can be used for functional estimation under many types of dependence. RF-GLS uses the same fundamental principle that generalizes OLS to GLS. We show how adapting the concept of GLS in random forests synergistically mitigates all the issues encountered in naive application of RF to dependent settings. While simple in principle, RF-GLS algorithm differs inherently A c c e p t e d M a n u s c r i p t from RF, by optimizing globally (across all nodes) for each split, to account for dependence across all data points. We show RF is a special case of RF-GLS with an identity working correlation matrix, and is substantially outperformed by RF-GLS for both estimation and prediction under dependence.</p><p>We present a thorough theoretical study establishing consistency of RF-GLS under a general assumption of β-mixing dependence. In particular, we establish consistency of function estimation by RF-GLS for the spatial non-linear mixed-model using the ubiquitous Matérn GP. We also establish consistency of RF-GLS for functional estimation under auto-regressive time-series errors. Finally, as a byproduct of the theory, we also establish consistency of RF for dependent settings, which to our knowledge, is the first such result.</p><p>The theoretical results required involved proofs to address the challenges of accommodating dependent error processes and use of a quadratic form loss for node-splitting. In the process, we developed a number of tools of independent importance. The general result (Theorem 5.1) on 2 consistency of data-driven partitioning-based GLS estimates under β-mixing dependence extends the analogous result in <ref type="bibr" target="#b26">Györfi et al. (2006)</ref> Theorem 10.2 which was for i.i.d. settings and OLS estimates. This will be useful for studying other function estimators like local polynomials under dependence. Proposition S2.2 establishes random-norm entropy number concentration bounds for general cross-product function classes, which can find its use in establishing ULLN for any class of functions containing interaction terms. Finally, Proposition 5.3 proposes a general ULLN for β-mixing processes requiring less restrictive assumptions than existing results.</p><p>For future work, extension to multivariate outcomes is an important direction. The spatial community is increasing shifting towards multivariate analysis, as GIS systems are empowered to collect data on many variables. Multivariate extension of RF-GLS can leverage the rich literature of multivariate cross-covariance functions for GP (see <ref type="bibr" target="#b24">Genton and Kleiber, 2015</ref>, for a review). When working with a very large number of variables p, a potential computational roadblock for RF-GLS will be evaluation of the np × np Cholesky factor. Strategies like graphical models may need to be adopted to enforce sparsity and effectuate computational speedup.</p><p>A c c e p t e d M a n u s c r i p t  is m = m2.</p><p>A c c e p t e d M a n u s c r i p t A c c e p t e d M a n u s c r i p t</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><figDesc>ββ , and propose a GLS-style split criterion</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><figDesc>q  , and L is a fixed lowertriangular q × q matrix .Lemma 2.1 (Limit of GLS estimate for fixed partition regression-tree). Under Assumptions 1 and 2, for a regression-tree based on a fixed (data-independent)</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><figDesc>Theorem 2.1 (Theoretical DART-split criterion). Under Assumptions 1 and 2, for a tree built with a fixed (data-independent) set of splits 1 ,, K  , as n  the empirical DART-split criterion (5) to split a node l  into left and right child nodes L and R respectively, converges almost surely to the following for some constant ()</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><figDesc>Figure1(b). While both losses lead to similar mean estimates of the cutoff, and node representatives, the variability is substantially higher for the OLS loss. This large variability is especially evident for the choice of the cutoff where the CART loss can</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><figDesc>notation, the GLS-style regression tree algorithm is presented below: Algorithm 1 GLS-style random regression tree Input: Data 11 ( , , , , ) n n n Y X Y X  , working precision matrix Q , stopping rules tn (maximum number of nodes) and tc (minimum number of members per node), A c c e p t e d M a n u s c r i p t number of features considered for each split Mtry, randomness R  (some probability distribution to choose a subsample of size Mtry from {1.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><figDesc>s c r i p t distribution conditional on the data as standard conditional normal distributions. If denotes the training data locations, m is the estimate of m from RF-GLS, then prediction at a new location of non-parametrically estimating the mean function of the covariates while retaining the spatial structure encoded in the GP covariance function which adheres to the philosophy of first law of geography, i.e., proximal things are more correlated than distant ones. The prediction framework is completely agnostic to the choice of the covariance function and can work with non-stationary or multi-resolutional covariance functions if deemed appropriate. One can also obtain estimates of the latent surface using the conditional distributions ( )| , w YX akin to the spatial linear model. Prediction equations of the form (11) has been used in applications of RF to spatial settings and has been termed as random forest residual kriging (RF-RK) (Viscarra Rossel et al., 2014; Fayad et al., 2016). The estimate m in these applications come from a naive application of RF without accounting for the dependence. Our empirical studies in Section 4 will demonstrate how residual kriging using RF-GLS improves over use of RF in dependent settings. RF-GLS also has several advantages over the spatial RF (RFsp) of Hengl et al. (2018), which does not use GP but include pairwise distances between a location and all other locations, as additional covariates. For n locations, this adds n -1 covariates. RF-GLS avoids such unnecessary escalation of the problem to highdimensional settings. Direct use of the GP and the mixed-model framework helps model the spatial structure parsimoniously via the covariance function parameters. Our simulation studies in Section 4 demonstrates the improved prediction performance of RF-GLS over RFsp. Most importantly, RF-GLS separates out the contribution of the covariates and the spatial component, thereby allowing estimation of the regression function m. Estimate of m is not available from the spatial RF of A c c e p t e d M a n u s c r i p t Hengl et al. (2018) which only offers a prediction given the covariates and the location.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><figDesc>. This is the same scaling used in<ref type="bibr" target="#b44">Scornet et al. (2015)</ref> for Gaussian errors and using the entire sample. In general, the choice of ζn will be dependent on the error distribution. Assumption 4(a), (b) and (c) will all be satisfied by sub-Gaussian errors.Assumption 5 (Additive model). The true mean function () m x is additive on the coordinates xd of x , i.e., component md is continuous.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><head>i</head><figDesc>and that the covariance matrix Σ is based on the covariance function evaluated at pairs of locations i and j . But unless otherwise needed we suppress the locations i and simply use the sub-script i.Θt indicates the randomness associated with each tree. In practice, Θt will include both the re-sampling of data-points used in each tree as well as the choice of A c c e p t e d M a n u s c r i p t random splitting variable for iterative splitting in the tree. For tractability, Scornet et al. (2015) considered sub-sampling instead of re-sampling for the theoretical study. In our theoretical study, for analytical tractability of the GLS weights, we consider trees that use the entire set of samples and the randomness Θt in each tree is only used to choose the candidate set of features for each split. The randomness for each tree are i.i.d., i.e., used in practice is given by the sample average of the individual tree estimates. Conceptually, ntree can be arbitrarily large, hence following Scornet et al. (2015), we focus on "infinite" RFand n throughout the rest of this article. Our main result on 2 -consistency is stated next, the proof is deferred to Section 5.1. Theorem 3.1. Under Assumptions 1-5 and if for some 0 of large number to bound the GLS estimation error from the i.i.d. setting to the dependent setting. We discuss this in details in Section 5.3. The following corollaries discuss three specific cases where this assumption is met. Their proofs are deferred to Section S2.3and hence consistency can be established without further assumptions. For unbounded errors, a stronger form of diagonal dominance condition is needed in Corollary 3.1 Part (b). This is used to control the (2 ) th   moment of the data weights arising from the gram-matrix 1 ()  Z QZ which in turn A c c e p t e d M a n u s c r i p t ensures the moment-bound. We discuss examples and specific parameter choices ensuring this in Section 3.3. Also note that, the assumption of diagonal dominance is not on the true correlation matrix of the error process and hence is not a restriction on the data-generation mechanism, but rather on the working correlation matrix which is chosen by the user. One can always use parameters in the working correlation matrix that satisfies this (although enforcing this is not needed in practice). RF is RF-GLS with  QI . Hence the assumption of Corollary 3.1 part (b) is trivially satisfied. This proves consistency of RF under β-mixing dependence.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8"><figDesc>which in turn leads to efficient computation of these Matérn GP likelihoods. The state-space representation of half-integer Matérn GP is equivalent to that of a stable the Matérn GP when sampled on the discrete integer lattice is no longer an 0 () AR q process. Consequently, unlike covariance matrices from AR processes, covariance matrices Σ generated from Matérn GP (expect for exponential GP), do not satisfy the sparsity and regularity of the working correlation matrix of Assumption 2.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_9"><figDesc>versa (FigureS3(a)).RFsp adds n pairwise distance-based covariates to RF to explain the spatial variation. If D denotes the number of true covariates, then RFsp uses a total of n + D covariates in RF and the probability to include a true covariate in the Mtry set of candidates for splitting a node becomes vanishingly small when nD . When 2  is small (high SNR), the true covariates predominantly dictates the variation in the outcome but is rarely selected in RFsp (FigureS3(b)) resulting in its poor performance. In fact for high SNR, RFsp performs even worse than RF-RK which A c c e p t e d M a n u s c r i p t can estimate m reasonably well in this setting despite ignoring the spatial dependence as the covariate signal dominates. For low SNR ( 2 10   ), as the spatial contribution increases, RFsp (being naturally equipped to capture the spatial correlation in the data) performs comparably to RF-GLS (Figure2). For low SNR, RF-RK, ignoring the dominant spatial variation when estimating m, performs worse than both RF-GLS and RFsp.RF-RK and RFsp outperforms each other in two ends of the SNR spectrum. RF-GLS combines the strengths of both, using RF to estimate a non-linear covariate effect while parsimoniously modeling the spatial effect using a GP specified by only 2 or 3 parameters thereby avoiding introduction of a large number of spatial covariates.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_10"><figDesc>Error of m by a data-driven class n containing mn is small, Error is small so that a ULLN holds over n for squared error loss, for f. Then they extended the consistency guarantee from truncated to the original estimators by showing that the truncation error vanishes under suitable tail decay assumptions on the error distribution.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_11"><head>Y</head><figDesc>autoregressive time series as discussed in Sections 3.3.1 and 3.3.2. The result is applicable beyond RF to more general nonparametric GLS estimators from dependent data using other suitable of function classes. Theorem 5.1. Let {} i be a stationary β-mixing process satisfying Assumption 1, and the matrix Q satisfies Assumptions 2 and 3. Let (., ) : D n m  denote a quadratic-loss optimizer (with respect to Q ) of the form (16) in a data-dependent function class n . If mn and n satisfies the following conditions:. Then, we have for all arbitrary L &gt; 0</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_12"><figDesc>s c r i p t circumvents the need to invoke mathematical induction as required in Scornet et al. (2015). Proposition 5.1 (Equicontinuity of empirical DART-split criterion). Under Assumptions 2, 3, and 4(b) and 4(c), the DART split criterion (5) is stochastically equicontinuous with respect to the set of splits. The proof is involved, and is deferred to Section S2.1 where the Proposition is more technically phrased using additional notation on splits. Subsequent to proving equicontinuity, we can prove the following result of approximation error Proposition 5.2. Let () nn  is the set of all functions :[0,1] D f  , piecewise constant on each cell of the partition obtained by an RF-GLS tree. Then, under Assumptions 1 -5, the class n n T  satisfies the approximation error condition (C.2).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_13"><figDesc>3.iid)(a) and (C.3.iid)(b) for i.i.d processes to their analogs for dependent error processes, which would then immediately establish C.3. It has been shown that the mixing condition of the stochastic process determines the assumptions required on the class n (Dehling A c c e p t e d M a n u s c r i p t and Philipp</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_14"><head>Fig. 1</head><label>1</label><figDesc>Fig. 1 Comparison between OLS loss (CART criterion) and our GLS loss (DART criterion) for node-splitting in a regression tree under Gaussian Process correlated errors. Left Figure (a) plots the average CART (blue) and DART (brown) criterion and point-wise 95% confidence bands over 100 replicate datasets. The true regression function m(x) is plotted in orange in the secondary axis. Right figure (b) plots the densities (violin plots) of the estimates of the cutoff used for node-splitting and the node representatives from the two loss functions.</figDesc><graphic coords="53,72.00,72.00,480.25,232.30" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_15"><head>Fig. 2</head><label>2</label><figDesc>Fig. 2 Comparison between competing methods on (a) estimation and (b) spatial prediction when the mean function is m = m2.</figDesc><graphic coords="54,72.00,72.00,510.10,279.15" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_16"><head>Fig. 3</head><label>3</label><figDesc>Fig. 3 MSE ratio for RF-RK &amp; RF-GLS (MSE(RF-RK) _ MSE(RF-GLS) ) and RFsp &amp; RF-GLS (MSE(RFsp) __ MSE(RF-GLS) ) for 22 10%   when the mean function</figDesc><graphic coords="55,72.00,72.00,415.70,187.45" type="bitmap" /></figure>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div><head>Acknowledgment</head><p>We thank the Editor, the Associate Editor and two anonymous reviewers for their suggestions which helped to improve the paper. <rs type="person">Arkajyoti Saha</rs> and <rs type="person">Abhirup Datta</rs> were supported by <rs type="funder">NSF</rs> award <rs type="grantNumber">DMS-1915803</rs> and the <rs type="funder">Johns Hopkins Bloomberg American Health Initiative Spark Award</rs>. <rs type="person">Sumanta Basu</rs> was supported by <rs type="funder">NSF</rs> award <rs type="grantNumber">DMS-1812128</rs>, and <rs type="funder">NIH</rs> awards <rs type="grantNumber">R01GM135926</rs> and <rs type="grantNumber">R21NS120227</rs>.</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_EccEYEj">
+					<idno type="grant-number">DMS-1915803</idno>
+				</org>
+				<org type="funding" xml:id="_SteGXJj">
+					<idno type="grant-number">DMS-1812128</idno>
+				</org>
+				<org type="funding" xml:id="_wU4qwG4">
+					<idno type="grant-number">R01GM135926</idno>
+				</org>
+				<org type="funding" xml:id="_rrnGTAT">
+					<idno type="grant-number">R21NS120227</idno>
+				</org>
+			</listOrg>
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Supplementary Materials</head><p>An online Supplementary materials file contains additional data analyses, and proofs of all the theoretical results.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Notes</head><p>1 For any set of real numbers</p><formula xml:id="formula_58">1 {} s S r r    , gaps 1 ( ) {( ) / 2 : 1, , 1} ii A r r i s      </formula></div>			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Probabilistic forecasts of mesoscale convective system initiation using the random forest data mining technique</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Ahijevych</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">O</forename><surname>Pinto</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">K</forename><surname>Williams</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Steiner</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Weather and Forecasting</title>
+		<imprint>
+			<biblScope unit="volume">31</biblScope>
+			<biblScope unit="page" from="581" to="599" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<monogr>
+		<title level="m" type="main">Hierarchical modeling and analysis for spatial data</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Banerjee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">P</forename><surname>Carlin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2014">2014</date>
+			<publisher>CRC press</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<monogr>
+		<title level="m" type="main">Basic properties of strong mixing conditions. A survey and some open questions</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">C</forename><surname>Bradley</surname></persName>
+		</author>
+		<idno>arXiv preprint math/0511078</idno>
+		<imprint>
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Bagging predictors</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Breiman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Machine learning</title>
+		<imprint>
+			<biblScope unit="volume">24</biblScope>
+			<biblScope unit="page" from="123" to="140" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Random forests</title>
+	</analytic>
+	<monogr>
+		<title level="j">Machine learning</title>
+		<imprint>
+			<biblScope unit="volume">45</biblScope>
+			<biblScope unit="page" from="5" to="32" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<monogr>
+		<author>
+			<persName><forename type="first">L</forename><surname>Breiman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Friedman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">J</forename><surname>Stone</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">A</forename><surname>Olshen</surname></persName>
+		</author>
+		<title level="m">Classification and regression trees</title>
+		<imprint>
+			<publisher>CRC press</publisher>
+			<date type="published" when="1984">1984</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Mixing and moment properties of various GARCH and stochastic volatility models</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Carrasco</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Chen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometric Theory</title>
+		<imprint>
+			<biblScope unit="page" from="17" to="39" />
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">On perturbation bounds for orthogonal projections</title>
+		<author>
+			<persName><forename type="first">Y</forename><forename type="middle">M</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><forename type="middle">S</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Li</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Numerical Algorithms</title>
+		<imprint>
+			<biblScope unit="volume">73</biblScope>
+			<biblScope unit="page" from="433" to="444" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Hierarchical Nearest-Neighbor Gaussian Process Models for Large Geostatistical Datasets</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Datta</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Banerjee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">O</forename><surname>Finley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">111</biblScope>
+			<biblScope unit="page" from="800" to="812" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">On nearest-neighbor Gaussian process models for massive spatial data</title>
+	</analytic>
+	<monogr>
+		<title level="j">Wiley Interdisciplinary Reviews: Computational Statistics</title>
+		<imprint>
+			<biblScope unit="volume">8</biblScope>
+			<biblScope unit="page" from="162" to="171" />
+			<date type="published" when="2016">2016b</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Nonseparable dynamic nearest neighbor Gaussian process models for large spatiotemporal data with an application to particulate matter analysis</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Datta</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Banerjee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">O</forename><surname>Finley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">A S</forename><surname>Hamm</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Schaap</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of Applied Statistics</title>
+		<imprint>
+			<biblScope unit="volume">10</biblScope>
+			<biblScope unit="page" from="1286" to="1316" />
+			<date type="published" when="2016">2016c</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Empirical process techniques for dependent data</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Dehling</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Philipp</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Empirical process techniques for dependent data</title>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2002">2002</date>
+			<biblScope unit="page" from="3" to="113" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">An ensemble-based model of PM2. 5 concentration across the contiguous United States with high spatiotemporal resolution</title>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Di</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Amini</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Shi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><surname>Kloog</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Silvern</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Kelly</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">B</forename><surname>Sabath</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Choirat</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Koutrakis</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Lyapustin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environment international</title>
+		<imprint>
+			<biblScope unit="volume">130</biblScope>
+			<biblScope unit="page">104909</biblScope>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">On spline smoothing with autocorrelated errors</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">J</forename><surname>Diggle</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">F</forename><surname>Hutchinson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Australian Journal of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">31</biblScope>
+			<biblScope unit="page" from="166" to="182" />
+			<date type="published" when="1989">1989</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<monogr>
+		<title level="m" type="main">Mixing: properties and examples</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Doukhan</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2012">2012</date>
+			<publisher>Springer Science &amp; Business Media</publisher>
+			<biblScope unit="volume">85</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Fixed-domain asymptotic properties of tapered maximum likelihood estimators</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Du</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Mandrekar</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">37</biblScope>
+			<biblScope unit="page" from="3330" to="3361" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<monogr>
+		<title level="m" type="main">Regional scale rain-forest height mapping using regression-kriging of spaceborne and airborne LiDAR data: Application on French Guiana</title>
+		<author>
+			<persName><forename type="first">I</forename><surname>Fayad</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Baghdadi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J.-S</forename><surname>Bailly</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Barbier</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Gond</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Hérault</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>El Hajj</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Fabre</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Perrin</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+	<note>Remote Sensing, 8, 240</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">spNNGP: R package for Nearest Neighbor Gaussian Process models</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">O</forename><surname>Finley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Datta</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Banerjee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Statistical Software</title>
+		<imprint>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+	<note>Accepted conditionally</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Efficient algorithms for Bayesian nearest neighbor Gaussian processes</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">O</forename><surname>Finley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Datta</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">D</forename><surname>Cook</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">C</forename><surname>Morton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">E</forename><surname>Andersen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Banerjee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Computational and Graphical Statistics</title>
+		<imprint>
+			<biblScope unit="volume">28</biblScope>
+			<biblScope unit="page" from="401" to="414" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Comparing spatial regression to random forests for large environmental data sets</title>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">W</forename><surname>Fox</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename><surname>Ver Hoef</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">R</forename><surname>Olsen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">PloS one</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<date type="published" when="2020">2020. e0229509</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<monogr>
+		<author>
+			<persName><forename type="first">J</forename><surname>Friedman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Hastie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Tibshirani</surname></persName>
+		</author>
+		<title level="m">The elements of statistical learning</title>
+		<meeting><address><addrLine>New York</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer series in statistics</publisher>
+			<date type="published" when="2001">2001</date>
+			<biblScope unit="volume">1</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Multivariate adaptive regression splines</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">H</forename><surname>Friedman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The annals of statistics</title>
+		<imprint>
+			<biblScope unit="page" from="1" to="67" />
+			<date type="published" when="1991">1991</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Recent advances in predictive (machine) learning</title>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of classification</title>
+		<imprint>
+			<biblScope unit="volume">23</biblScope>
+			<biblScope unit="page" from="175" to="197" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Predictive learning via rule ensembles</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">H</forename><surname>Friedman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">E</forename><surname>Popescu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Annals of Applied Statistics</title>
+		<imprint>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="page" from="916" to="954" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Cross-covariance functions for multivariate geostatistics</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">G</forename><surname>Genton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Kleiber</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistical Science</title>
+		<imprint>
+			<biblScope unit="page" from="147" to="163" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Geographical random forests: a spatial extension of the random forest algorithm to address spatial heterogeneity in remote sensing and population modelling</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Georganos</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Grippa</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Niang Gadiaga</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Linard</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Lennert</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Vanhuysse</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Mboga</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Wolff</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Kalogirou</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geocarto International</title>
+		<imprint>
+			<biblScope unit="page" from="1" to="16" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<monogr>
+		<title level="m" type="main">A distribution-free theory of nonparametric regression</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Györfi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Kohler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Krzyzak</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Walk</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2006">2006</date>
+			<publisher>Springer Science &amp; Business Media</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<monogr>
+		<title level="m" type="main">Kalman filtering and smoothing solutions to temporal Gaussian process regression models,&quot; in 2010 IEEE international workshop on machine learning for signal processing</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Hartikainen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Särkkä</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2010">2010</date>
+			<publisher>IEEE</publisher>
+			<biblScope unit="page" from="379" to="384" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">A case study competition among methods for analyzing large spatial data</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">J</forename><surname>Heaton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Datta</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">O</forename><surname>Finley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Furrer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Guinness</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Guhaniyogi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Gerber</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">B</forename><surname>Gramacy</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Hammerling</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Katzfuss</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Agricultural, Biological and Environmental Statistics</title>
+		<imprint>
+			<biblScope unit="volume">24</biblScope>
+			<biblScope unit="page" from="398" to="425" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<monogr>
+		<title level="m" type="main">Random forest as a generic framework for predictive modeling of spatial and spatiotemporal variables</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Hengl</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Nussbaum</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">N</forename><surname>Wright</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">B</forename><surname>Heuvelink</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Gräler</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+	<note>PeerJ, 6, e5518</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<monogr>
+		<author>
+			<persName><forename type="first">S</forename><surname>Ihara</surname></persName>
+		</author>
+		<title level="m">Information theory for continuous systems</title>
+		<imprint>
+			<publisher>World Scientific</publisher>
+			<date type="published" when="1993">1993</date>
+			<biblScope unit="volume">2</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">Some results on Tchebycheffian spline functions</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Kimeldorf</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Wahba</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of mathematical analysis and applications</title>
+		<imprint>
+			<biblScope unit="volume">33</biblScope>
+			<biblScope unit="page" from="82" to="95" />
+			<date type="published" when="1971">1971</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">Mapping urban air quality using mobile sampling with low-cost sensors and machine learning in Seoul, South Korea</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">C</forename><surname>Lim</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Kim</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">R</forename><surname>Vilcassim</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">D</forename><surname>Thurston</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Gordon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L.-C</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Heimbinder</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S.-Y</forename><surname>Kim</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environment international</title>
+		<imprint>
+			<biblScope unit="volume">131</biblScope>
+			<biblScope unit="page">105022</biblScope>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">Random forests and adaptive nearest neighbors</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Lin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Jeon</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">101</biblScope>
+			<biblScope unit="page" from="578" to="590" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<analytic>
+		<title level="a" type="main">Quantifying uncertainty in random forests via confidence intervals and hypothesis tests</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Mentch</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Hooker</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Journal of Machine Learning Research</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="page" from="841" to="881" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<monogr>
+		<title level="m" type="main">Getting Better from Worse: Augmented Bagging and a Cautionary Tale of Variable Importance</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Mentch</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Zhou</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:2003.03629</idno>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<analytic>
+		<title level="a" type="main">Mixing properties of ARMA processes</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Mokkadem</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Stochastic processes and their applications</title>
+		<imprint>
+			<date type="published" when="1988">1988</date>
+			<biblScope unit="volume">29</biblScope>
+			<biblScope unit="page" from="309" to="315" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<analytic>
+		<title level="a" type="main">A note on uniform laws of averages for dependent processes</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Nobel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Dembo</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistics &amp; Probability Letters</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="page" from="169" to="172" />
+			<date type="published" when="1993">1993</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<analytic>
+		<title level="a" type="main">Histogram regression estimation using data-dependent partitions</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Nobel</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Annals of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">24</biblScope>
+			<biblScope unit="page" from="1084" to="1105" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<analytic>
+		<title level="a" type="main">VARBOOT: A spatial bootstrap program for semivariogram uncertainty assessment</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>Pardo-Igúzquiza</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">A</forename><surname>Olea</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Computers &amp; Geosciences</title>
+		<imprint>
+			<biblScope unit="volume">41</biblScope>
+			<biblScope unit="page" from="188" to="198" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b40">
+	<analytic>
+		<title level="a" type="main">A note on the uniform laws for dependent processes via coupling</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Peligrad</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Theoretical Probability</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="page" from="979" to="988" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b41">
+	<monogr>
+		<title level="m" type="main">BRISC: bootstrap for rapid inference on spatial covariances</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Saha</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Datta</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+	<note>a) Stat, 7, e184</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b42">
+	<monogr>
+		<title level="m" type="main">BRISC: Fast Inference for Large Spatial Datasets using BRISC</title>
+		<imprint>
+			<date type="published" when="2018">2018b)</date>
+		</imprint>
+	</monogr>
+	<note>r package version 0.1.0</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b43">
+	<analytic>
+		<title level="a" type="main">Random forests and kernel methods</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>Scornet</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Transactions on Information Theory</title>
+		<imprint>
+			<biblScope unit="volume">62</biblScope>
+			<biblScope unit="page" from="1485" to="1500" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b44">
+	<analytic>
+		<title level="a" type="main">Consistency of random forests</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>Scornet</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Biau</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J.-P</forename><surname>Vert</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Annals of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">43</biblScope>
+			<biblScope unit="page" from="1716" to="1741" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b45">
+	<monogr>
+		<title level="m" type="main">Interpolation of spatial data: some theory for kriging</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">L</forename><surname>Stein</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2012">2012</date>
+			<publisher>Springer Science &amp; Business Media</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b46">
+	<analytic>
+		<title level="a" type="main">The screening effect in kriging</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">L</forename><surname>Stein</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Annals of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="page" from="298" to="323" />
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b47">
+	<analytic>
+		<title level="a" type="main">Challenging the curse of dimensionality in multivariate local linear regression</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Taylor</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Einbeck</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Computational Statistics</title>
+		<imprint>
+			<biblScope unit="volume">28</biblScope>
+			<biblScope unit="page" from="955" to="976" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b48">
+	<analytic>
+		<title level="a" type="main">Estimation and model identification for continuous spatial processes</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">V</forename><surname>Vecchia</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society: Series B (Methodological)</title>
+		<imprint>
+			<biblScope unit="volume">50</biblScope>
+			<biblScope unit="page" from="297" to="312" />
+			<date type="published" when="1988">1988</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b49">
+	<analytic>
+		<title level="a" type="main">Mapping gamma radiation and its uncertainty from weathering products in a Tasmanian landscape with a proximal sensor and random forest kriging</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">A</forename><surname>Viscarra Rossel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Webster</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Kidd</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Earth Surface Processes and Landforms</title>
+		<imprint>
+			<date type="published" when="2014">2014</date>
+			<biblScope unit="volume">39</biblScope>
+			<biblScope unit="page" from="735" to="748" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b50">
+	<analytic>
+		<title level="a" type="main">Estimation and inference of heterogeneous treatment effects using random forests</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Wager</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Athey</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">113</biblScope>
+			<biblScope unit="page" from="1228" to="1242" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b51">
+	<analytic>
+		<title level="a" type="main">Inconsistent estimation and asymptotically equal interpolations in model-based geostatistics</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Zhang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">99</biblScope>
+			<biblScope unit="page" from="250" to="261" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

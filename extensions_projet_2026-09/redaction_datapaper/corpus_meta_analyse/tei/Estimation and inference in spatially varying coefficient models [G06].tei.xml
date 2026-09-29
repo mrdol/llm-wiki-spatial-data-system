@@ -1,0 +1,1263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Estimation and inference in spatially varying coefficient models</title>
+				<funder ref="#_S89RJQf">
+					<orgName type="full">National Science Foundation</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">Jingru</forename><surname>Mu</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Statistics</orgName>
+								<orgName type="institution">Iowa State University</orgName>
+								<address>
+									<postCode>50011</postCode>
+									<region>IA</region>
+									<country key="US">U.S.A</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Guannan</forename><surname>Wang</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="department">Department of Mathematics</orgName>
+								<orgName type="institution">College of William &amp; Mary</orgName>
+								<address>
+									<postCode>23187</postCode>
+									<settlement>Williamsburg</settlement>
+									<region>VA</region>
+									<country key="US">U.S.A</country>
+								</address>
+							</affiliation>
+						</author>
+						<author role="corresp">
+							<persName><forename type="first">Li</forename><surname>Wang</surname></persName>
+							<email>lilywang@iastate.edu</email>
+							<idno type="ORCID">0000-0001-8432-9986</idno>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Statistics</orgName>
+								<orgName type="institution">Iowa State University</orgName>
+								<address>
+									<postCode>50011</postCode>
+									<region>IA</region>
+									<country key="US">U.S.A</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<affiliation key="aff2">
+								<orgName type="department">Department of Statistics</orgName>
+								<orgName type="institution">Iowa State University</orgName>
+								<address>
+									<postCode>50011</postCode>
+									<settlement>Ames</settlement>
+									<region>IA</region>
+									<country key="US">U.S.A</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Estimation and inference in spatially varying coefficient models</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<idno type="MD5">B42695456CED6D48497E9E75F14B9A13</idno>
+					<idno type="DOI">10.1002/env.2485</idno>
+					<note type="submission">Received: 11 April 2017 Revised: 19 October 2017 Accepted: 20 October 2017</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-08-13T13:27+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>bivariate splines</term>
+					<term>bootstrap test</term>
+					<term>penalized splines</term>
+					<term>permutation test</term>
+					<term>spatial data</term>
+					<term>triangulation</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Spatially varying coefficient models are a classical tool to explore the spatial nonstationarity of a regression relationship for spatial data. In this paper, we study the estimation and inference in spatially varying coefficient models for data distributed over complex domains. We use bivariate splines over triangulations to represent the coefficient functions. The estimators of the coefficient functions are consistent, and rates of convergence of the proposed estimators are established. A penalized bivariate spline estimation method is also introduced, in which a roughness penalty is incorporated to balance the goodness of fit and smoothness. In addition, we propose hypothesis tests to examine if the coefficient function is really varying over space or admits a certain parametric form. The proposed method is much more computationally efficient than the well-known geographically weighted regression technique and thus usable for analyzing massive data sets. The performances of the estimators and the proposed tests are evaluated by simulation experiments. An environmental data example is used to illustrate the application of the proposed method.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">INTRODUCTION</head><p>In spatial data analysis, a common problem is to identify the nature of the relationship that exists between variables. In many situations, a simple "global" model often cannot explain the relationships between some sets of variables, which is referred to as "spatial nonstationarity". To handle such nonstationarity, the model needs to reflect the spatially varying structure within the data. In this paper, we investigate a class of spatially varying coefficient models (SVCMs) to explore the spatial nonstationarity of a regression relationship. The data in our study need not be evenly distributed; instead, we assume that the observations are randomly distributed over two-dimensional domain Ω ⊆ R 2 of arbitrary shape, for example, a polygonal domain with interior holes. Suppose there are n random selected locations, and let U i = (U i1 , U i2 ) ⊤ be the location of ith point, i = 1, … , n, which ranges over Ω. Let Y i be the response variable and X i = (X i0 , X i1 , … , X ip ) ⊤ , with X i0 ≡ 1 being the explanatory variables. Suppose that {(U i , X i , Y i )} n i=1 satisfies the following model <ref type="bibr" target="#b4">(Brunsdon, Fotheringham, &amp; Charlton, 1996;</ref><ref type="bibr" target="#b5">1998;</ref><ref type="bibr" target="#b12">Fotheringham, Brunsdon, &amp; Charlton, 2002;</ref><ref type="bibr" target="#b36">Shen, Mei, &amp; Zhang, 2011)</ref>:</p><formula xml:id="formula_0">Y i = X ⊤ i 𝜷(U i ) + 𝜖 i = p ∑ k=0 X ik 𝛽 k (U i ) + 𝜖 i , i = 1, … , n,<label>(1)</label></formula><p>where 𝛽 k (•) are unknown varying-coefficient functions, and 𝜖 i are independent and identically distributed random noises with E(𝜖 i ) = 0 and Var(𝜖 i ) = 𝜎 2 and are independent of X i . Our primary interest is to estimate and make inferences for 𝜷 = (𝛽 0 , 𝛽 1 , … , 𝛽 p ) ⊤ based on the given observations {(U i , X i , Y i )} n i=1 . When 𝛽 k (•) are univariate functions, model (1) is the typical varying-coefficient model that has been extensively studied in the literature <ref type="bibr" target="#b9">(Fan &amp; Zhang, 1999;</ref><ref type="bibr" target="#b10">Ferguson, Bowman, Scott, &amp; Carvalho, 2009;</ref><ref type="bibr" target="#b15">Hastie &amp; Tibshirani, 1993;</ref><ref type="bibr" target="#b24">Lian, 2012;</ref><ref type="bibr" target="#b42">Tang &amp; Cheng, 2009;</ref><ref type="bibr" target="#b47">Xue &amp; Yang, 2006)</ref>. In this paper, 𝛽 k (•) are bivariate functions of locations, and model (1) allows the regression coefficients to vary over space and therefore can be used to explore the spatial nonstationarity of the regression relationship via the spatial variation patterns of the estimated coefficients.</p><p>In the past decade, SVCMs have been widely applied to a variety of fields including geography <ref type="bibr" target="#b38">(Su, Lei, Li, Pi, &amp; Cai, 2017)</ref>, ecology <ref type="bibr" target="#b11">(Finley, 2011)</ref>, econometrics <ref type="bibr" target="#b0">(Al-Sulami, Jiang, Lu, &amp; Zhu, 2017;</ref><ref type="bibr" target="#b3">Bitter, Mulligan, &amp; Dall'erba, 2007;</ref><ref type="bibr" target="#b16">Helbich &amp; Griffith, 2016)</ref>, epidemiology <ref type="bibr" target="#b30">(Nakaya, Fotheringham, Brunsdon, &amp; Charlton, 2005)</ref>, meteorology <ref type="bibr" target="#b26">(Lu, Steinskog, Tjøstheim, &amp; Yao, 2009)</ref>, and environmental science <ref type="bibr" target="#b17">(Hu et al., 2013;</ref><ref type="bibr" target="#b19">Huang, Yuan, &amp; Lu, 2017;</ref><ref type="bibr" target="#b41">Tang, 2014;</ref><ref type="bibr" target="#b43">Waller, Zhu, Gotway, Gorman, &amp; Gruenewald, 2007)</ref>.</p><p>There is a rich literature on how to estimate SVCMs. Two competing methods are the Bayesian approach (see <ref type="bibr" target="#b1">Assunção, 2003;</ref><ref type="bibr" target="#b13">Gelfand, Kim, Sirmans, &amp; Banerjee, 2003)</ref> and the local approach, such as the geographically weighted regression (GWR) technique <ref type="bibr" target="#b4">(Brunsdon et al., 1996;</ref><ref type="bibr" target="#b5">1998;</ref><ref type="bibr" target="#b12">Fotheringham et al., 2002)</ref>. The Bayesian procedure is carried out by assuming a certain prior distribution of the coefficients and computing their posterior distribution on which the estimation and inference are performed. However, there is no correct way of choosing a prior. In practice, misleading results will be generated if one does not choose prior distributions with caution. In addition, for a large data set with many variables being estimated, the Bayesian method may be prohibitively computationally intensive. The GWR method estimates the coefficients in the traditional regression framework of kernel smoothing. It incorporates local spatial relationships into the regression framework in an intuitive and explicit manner. While this local kernel-based approach is very nice and useful, it becomes very computationally intensive for large data sets as it requires solving an optimization problem at every sample location. Typically, the GWR model fitting and spatial prediction require O(n 2 ) operations for a data set of size n. Recent evolutions in technology provide increasing volumes of spatial data <ref type="bibr" target="#b2">(Banerjee, Gelfand, Finley, &amp; Sang, 2008;</ref><ref type="bibr" target="#b48">Zhang, Deng, Qian, &amp; Wang, 2013)</ref>, which are beyond the computing limit of the traditional Bayesian and GWR method. It is urgent to develop a more computationally expedient tool for analyzing spatial data. <ref type="bibr" target="#b42">Tang and Cheng (2009)</ref> and <ref type="bibr" target="#b27">Lu, Tang, and Cheng (2014)</ref> proposed a B-spline approximation of the coefficient functions. The method is fast and efficient because it inherits many advantages of spline-based techniques. However, the data are required to be regularly spaced over a rectangular domain. In practice, spatial data are often collected over complex domains with irregular boundaries, peninsulas, and interior holes. Many smoothing methods, such as kernel smoothing, tensor product smoothing, and wavelet smoothing, suffer from the problem of "leakage" across the complex domains, which refers to the poor estimation over difficult regions by smoothing inappropriately across boundary features; see the discussions by <ref type="bibr" target="#b32">Ramsay (2002)</ref>; <ref type="bibr" target="#b35">Sangalli, Ramsay, and Ramsay (2013)</ref>; <ref type="bibr" target="#b45">and Wood, Bravington, and Hedley (2008)</ref>.</p><p>In this paper, we develop a powerful and efficient method to estimate SVCMs for data distributed over two-dimensional complex domains. Our method tackles the estimation problem differently from the local approach, and the coefficient functions 𝛽 k (•) are approximated using the bivariate splines over triangulations (BSTs) by <ref type="bibr" target="#b21">Lai and Schumaker (2007)</ref> and <ref type="bibr" target="#b22">Lai and Wang (2013)</ref>. The proposed estimator solves the problem of "leakage" across the complex domains. Another advantage of this approach is that it can formulate a global penalized least-squares problem; thus, it is sufficiently fast and efficient for the user to analyze large data sets within seconds. In addition, under the independence error condition, which is not uncommon in the GWR literature <ref type="bibr" target="#b4">(Brunsdon et al., 1996;</ref><ref type="bibr" target="#b5">1998;</ref><ref type="bibr" target="#b19">Huang, Yuan, &amp; Lu, 2017;</ref><ref type="bibr" target="#b36">Shen et al., 2011;</ref><ref type="bibr" target="#b38">Su et al., 2017)</ref>, we show that the proposed coefficient estimators converge to the true coefficient functions.</p><p>An important statistical question in fitting SVCMs is whether the coefficient function is really varying over space <ref type="bibr" target="#b6">(Brunsdon, Fotheringham, &amp; Charlton, 1999;</ref><ref type="bibr" target="#b23">Leung, Mei, &amp; Zhang, 2000)</ref>, which amounts to testing if the coefficient functions are constant or in a certain parametric form. In the pioneering work of GWR by <ref type="bibr" target="#b4">Brunsdon et al. (1996)</ref>, two kinds of permutation test are proposed for global stationarity and individual stationarity, respectively. For the individual test, the variability of the estimated coefficient function is used to describe the plausibility of a constant coefficient. <ref type="bibr" target="#b6">Brunsdon et al. (1999)</ref> developed a test via comparing the residual sum of squares (RSS) from the GWR estimation with that from the ordinary least-squares estimation for the null hypothesis of global spatial stationarity. Moreover, <ref type="bibr" target="#b23">Leung et al. (2000)</ref> introduced another RSS-based statistics to test for the global stationarity of the regression relationship. Motivated by many sophisticated statistical inferential problems in a variety of areas and fueled by the power of modern computing techniques, bootstrap methods got increasingly popular in the past two decades. For example, <ref type="bibr" target="#b29">Mei, Wang, and Zhang (2006)</ref> used the bootstrap test to investigate the zero coefficients in a mixed GWR model, <ref type="bibr" target="#b7">and Cai, Fan, and Yao (2000)</ref> proposed a new wild bootstrap test for the goodness of fit of the varying-coefficient models for nonlinear time series. In this work, we adopt the idea from <ref type="bibr" target="#b7">Cai et al. (2000)</ref> and employ a bootstrap test for testing a globally stationary regression relationship in an SVCM. For individual stationarity test, we suggest the permutation test, which is an easily understandable and generally applicable approach to testing problems. Our simulation shows that the resulting testing procedure is indeed powerful and the bootstrap method does give the right null distribution.</p><p>The rest of the paper is organized as follows. In Section 2, we give a short review of the triangulations and propose our estimation method based on bivariate splines. Section 3 is devoted to the asymptotic analysis of the proposed estimators. Section 4 extends the bivariate splines to the penalized bivariate splines, in which smoothing parameters are used to balance the goodness of fit and smoothness. Section 5 describes the bootstrap goodness-of-fit test to examine the global stationarity, and the permutation test for each coefficient functions to check individual stationarity. Section 6 presents simulation results comparing our method with its competitors. An illustration of the proposed approach is provided in Section 7 by an analysis of the particle pollution data. Section 8 concludes the paper. Technical details, some Matlab codes, and more numerical studies are provided in Supporting Information.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">TRIANGULATIONS AND BIVARIATE SPLINE ESTIMATORS</head><p>Our estimation is based on BST. We briefly introduce below the techniques of triangulations and the bivariate spline smoothing for SVCMs.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1">Triangulations</head><p>Triangulation is an effective tool to handle data distributed on irregular regions with complex boundaries and/or interior holes. In the following, we use 𝜏 to denote a triangle that is a convex hull of three points not located in one line. A collection △ = {𝜏 1 , … , 𝜏 K } of K triangles is called a triangulation of Ω = ∪ K j=1 𝜏 j , provided that if a pair of triangles in △ intersect, then their intersection is either a common vertex or a common edge. Without loss of generality, we assume that all U i are inside triangles of △, that is, they are not on edges or vertices of triangles in △. Otherwise, we can simply count them twice or multiple times if any observation is located on an edge or at a vertex of △.</p><p>There are quite a few packages available that can be used to construct a triangulation. For example, one can use the "Delaunay" algorithm to find a triangulation; see MATLAB program delaunay.m or MATHEMATICA function DelaunayTriangulation. "DistMesh" is another method to generate unstructured triangular and tetrahedral meshes; see the DistMesh generator at <ref type="url" target="http://persson.berkeley.edu/distmesh/">http://persson.berkeley.edu/distmesh/</ref>. A detailed description of the program is provided by <ref type="bibr" target="#b31">Persson and Strang (2004)</ref>. In all the simulation studies and real data analysis below, we used the "DistMesh" to generate the triangulations.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2">Bivariate spline estimators</head><p>For a nonnegative integer r, let C r (Ω) be the collection of all rth continuously differentiable functions over Ω. Given a triangulation △, let  r d (△) = {s ∈ C r (Ω) ∶ s| 𝜏 ∈ P d (𝜏), 𝜏 ∈ △} be a spline space of degree d and smoothness r over triangulation △, where s| 𝜏 is the polynomial piece of spline s restricted on triangle 𝜏, and P d is the space of all polynomials of degree less than or equal to d. Given {(U i , X i , Y i )} n i=1 , we consider the following minimization problem:</p><formula xml:id="formula_1">min s k ∈ r d (△),k=0, … ,p n ∑ i=1 { Y i - p ∑ k=0 X ik s k (u i ) } 2 .</formula><p>We use Bernstein basis polynomials to represent the bivariate splines. For any k = 0, … , p, let {B j } j∈ k be the set of degree-d bivariate Bernstein basis polynomials for  r d (△) constructed by <ref type="bibr" target="#b21">Lai and Schumaker (2007)</ref>, where  k denotes the index set of the basis functions. Then, we can write the function s k (u) = ∑ j∈ k B kj (u)γ kj = B k (u) ⊤ 𝛄 k , where 𝛄 k = (γ kj , j ∈  k ) ⊤ is the spline coefficient vector. Using the above approximation, we have the following minimization:</p><formula xml:id="formula_2">n ∑ i=1 { Y i - p ∑ k=0 X ik B k (U i ) ⊤ 𝛄 k } 2 .</formula><p>(</p><p>To meet the smoothness requirement of the bivariate splines, we need to impose some linear constraints on the spline coefficients to enforce smoothness across shared edges of triangles. Denote by H k the constraint matrix on the coefficients 𝜸 k . Here H k depends on the smoothness r and the structure of the triangulation. Putting all smoothness conditions together yields H k 𝜸 k = 0. We first remove the constraint via the following QR decomposition:</p><formula xml:id="formula_4">H ⊤ k = (Q 1,k Q 2,k ) ( R 1,k<label>0</label></formula><p>) , where (Q 1,k Q 2,k ) is an orthogonal matrix, and R 1,k is an upper triangle matrix. We then reparametrize using 𝜸 k = Q 2,k 𝜽 k for some 𝜽 k ; it is then guaranteed that H k 𝜸 k = 0. Thus, the minimization problem in (2) is now converted to a conventional regression problem without any restriction, as follows:</p><formula xml:id="formula_5">n ∑ i=1 { Y i - p ∑ k=0 X ik B ⊤ k (U i )Q 2,k 𝜽 k } 2 . (<label>3</label></formula><formula xml:id="formula_6">)</formula><p>For simplicity, we assume B(u</p><formula xml:id="formula_7">) = B 0 (u) = B 1 (u) = • • • = B p (u) = {B j (u)} j∈ , then H 0 = H 1 = • • • = H p and Q 2 = Q 2,0 = Q 2,1 = • • • = Q 2,p .</formula><p>In practice, if the coefficients are of very different degrees of smoothness, one can choose different bivariate spline basis functions with variable triangulations for different coefficient functions to guarantee sufficient smoothness. Denote 𝜽 = (</p><formula xml:id="formula_8">𝜽 ⊤ 0 , 𝜽 ⊤ 1 , • • • , 𝜽 ⊤ p ) ⊤ and let X i = (1, X i1 , … , X ip ) ⊤ . Let B * (U i ) = Q ⊤ 2 B(U i ).</formula><p>Then the minimization problem in (3) can be written as follows:</p><formula xml:id="formula_9">n ∑ i=1 { Y i - p ∑ k=0 X ik B * (U i ) ⊤ 𝜽 k } 2 .</formula><p>(4)</p><p>Let "⊗" denote the Kronecker product. Solving the least-squares problem in (4), we obtain the following:</p><formula xml:id="formula_10">θ = [ n ∑ i=1 {X i ⊗ B * (U i )} {X i ⊗ B * (U i )} ⊤ ] -1 n ∑ i=1 {X i ⊗ B * (U i )} Y i . (<label>5</label></formula><formula xml:id="formula_11">) The BST estimator of 𝛽 k (u) is βk (u) = B(u) ⊤ γk , where γk = Q 2 θk , for k = 0, … , p.</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">ASYMPTOTIC RESULTS</head><p>This section studies the asymptotic properties of the proposed estimators. To discuss these properties, we introduce some notation of norms. For any function g over the closure of domain Ω, denote by</p><formula xml:id="formula_12">||g|| 2 L 2 (Ω) = ∫ u∈Ω g 2 (u)du 1 du 2 the regular L 2 norm of g, and ||g|| ∞,Ω = sup u∈Ω |g(u)| the supremum norm of g. For directions u j , j = 1, 2, let D q u j g(u) denote the qth order derivative in the direction u j at the point u. Let |g| 𝜐,∞,Ω = max i+j=𝜐 ||D i u 1 D j u 2 g(u)|| ∞,Ω be the maximum norms of all the 𝜐th order derivatives of g over Ω. Let W 𝓁,∞ (Ω) = {g ∶ |g| k,∞,Ω &lt; ∞, 0 ≤ k ≤ 𝓁} be the standard Sobolev space. Given random variables T n for n ≥ 1, we write T n = O P (b n ) if lim c→∞ lim sup n P(|T n | ≥ cb n ) = 0. Similarly, we write T n = o P (b n ) if lim n P(|T n | ≥ cb n ) = 0, for any constant c &gt; 0. Also, we write a n ≍ b n if there exist two positive constants c 1 , c 2 such that c 1 |a n | ≤ |b n | ≤ c 2 |a n |, for all n ≥ 1.</formula><p>For a triangle 𝜏 ∈ △ defined in Section 2.1, let |𝜏| be its longest edge length, and 𝜌 𝜏 be the radius of the largest disk, which can be inscribed in 𝜏. Define the shape parameter of 𝜏 as the ratio 𝜋 𝜏 = |𝜏|∕𝜌 𝜏 . When 𝜋 𝜏 is small, the triangles are relatively uniform in the sense that all angles of triangles in the triangulation 𝜏 are relatively the same. Denote the size of △ by | △ | ∶= max{|𝜏|, 𝜏 ∈ △}, that is, the length of the longest edge of △.</p><p>In the following, we introduce some technical conditions.</p><p>(C1) The joint density function of U = (U 1 , U 2 ), f U (•) is bounded away from 0 and infinity. (C2) For any k = 0, … , p, there exists a positive constant C k such that</p><formula xml:id="formula_13">|X k | ≤ C k . The eigenvalues 𝜙 0 (u) ≤ 𝜙 1 (u) ≤ • • • ≤ 𝜙 p (u) of 𝜮(u) = E(XX ⊤ |U = u)</formula><p>are bounded away from 0 and infinity uniformly for all u ∈ Ω, that is, there are positive constants C 1 and</p><formula xml:id="formula_14">C 2 such that C 1 ≤ 𝜙 0 (u) ≤ 𝜙 1 (u) ≤ • • • ≤ 𝜙 p (u) ≤ C 2 for all u ∈ Ω. (C3) For any k = 0, … , p, the bivariate function 𝛽 k belongs to the Sobolev spaceW 𝓁+1,∞ (Ω) for an integer 𝓁 ≥ 1. (C4) For every s ∈  r d (△)</formula><p>and every 𝜏 ∈ △, there exists a positive constant F 1 , independent of s and 𝜏, such that</p><formula xml:id="formula_15">F 1 ||s|| ∞,𝜏 ≤ { ∑ U i ∈𝜏,i=1,• • • ,n s(U i ) 2 } 1∕2</formula><p>, for all 𝜏 ∈ △.</p><p>(C5) Let F 2 be the largest among the numbers of observations in triangles 𝜏 ∈ △, that is, { ∑ U i ∈𝜏,i=1, … ,n s(U i ) 2 } 1∕2 ≤ F 2 ||s|| ∞,𝜏 , for all 𝜏 ∈ △, where ||s|| ∞,𝜏 denotes the supremum norm of s over triangle 𝜏. The constants F 1 and F 2 satisfy F 2 ∕F 1 = O(1). (C6) The triangulation △ is 𝜋-quasi-uniform, that is, there exists a positive constant 𝜋 such that the triangulation △ satisfies | △ |∕𝜌 𝜏 ≤ 𝜋, for all 𝜏 ∈ △.</p><p>Conditions (C1) and (C2) are common in the nonparametric regression literature; specifically, they are similar to Conditions (C1) and (C2) in <ref type="bibr" target="#b47">Xue and Yang (2006)</ref> and Conditions (C1)-(C3) in <ref type="bibr" target="#b18">Huang, Wu, and Zhou (2004)</ref>. Condition (C3) describes the requirement for the coefficient functions usually used in the literature of nonparametric estimation. Condition (C4) ensures the existence of a discrete least-squares spline. In practice, it requires that within each triangle, the number of data points should not be too small. Condition (C5) suggests that we should not put too many observations in one triangle. In Section 4, we describe the penalized least-squares spline fitting so that Conditions (C4) and (C5) can be relaxed in the application, for example, F 1 can be zero for some triangles. Condition (C6) suggests the use of more uniform triangulations with smaller shape parameters, and this condition can be automatically handled via Delaunay and DistMesh triangulation program in MATLAB/MATHEMATICA.</p><p>The following theorem provides the convergence rate of βk (•). The detailed proofs of this theorem are given in Supporting Information.</p><p>Theorem 1. Suppose Conditions (C1)-(C6) hold, then for any k = 0, … , p, the spline estimator βk (•) is consistent and</p><formula xml:id="formula_16">satisfies that || βk -𝛽 k || L 2 (Ω) = O P ( F 2 F 1 | △ | 𝓁+1 + 1 √ n|△| ).</formula><p>Theorem 1 implies that if F 2 ∕F 1 = O(1), and the number of triangles K n and the sample size n satisfy that K n ≍ n 1/(𝓁+2) , then the BST estimator βk has the convergence rate</p><formula xml:id="formula_17">|| βk -𝛽 k || 2 L 2 (Ω) = O P (n -(𝓁+1)∕(𝓁+2)</formula><p>), which is the optimal convergence rate in <ref type="bibr" target="#b37">Stone (1982)</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">BIVARIATE PENALIZED SPLINE ESTIMATORS</head><p>When we have regions of sparse data, bivariate penalized splines, as a direct ridge regression shrinkage-type global smoothing method, provide a more convenient tool for data fitting than the BST approach presented in Section 2.2. In this section, we introduce a computationally efficient and stable method to estimate the regression coefficients based on the bivariate penalized splines over triangulations (BPSTs). In this approach, roughness penalty parameters are used to balance the goodness of fit and smoothness. The number and shape of the triangles in triangulation are no longer crucial, compared with the BST in Section 2.2, as long as the minimum number of triangles is reached. To define the BPST method, let</p><formula xml:id="formula_18">(g) = ∫ Ω { (D 2 u 1 g) 2 + 2(D u 1 D u 2 g) 2 + (D 2 u 2 g) 2 } du 1 du 2 ,<label>(6)</label></formula><p>which is similar to the thin-plate spline penalty <ref type="bibr" target="#b14">(Green &amp; Silverman, 1994)</ref>, except that the latter is integrated over the entire plane R 2 . An advantage of this penalty is that it is invariant with respect to Euclidean transformations of spatial coordinates; thus, the bivariate smoothing does not depend on the choice of the coordinate system. Let 𝜆 k ≥ 0 be the penalty parameter for coefficient function</p><formula xml:id="formula_19">𝛽 k , k = 0, 1, … , p. Given {(U i , X i , Y i )} n i=1</formula><p>, we consider the following regularized minimization problem:</p><formula xml:id="formula_20">min s k ∈ r d (△),k=0, … ,p n ∑ i=1 { Y i - p ∑ k=0 X ik s k (u i ) } 2 + p ∑ k=0 𝜆 k (s k ),</formula><p>where separate penalty parameters are used to allow different smoothness for different coefficient functions. Using the bivariate splines approximation, we have the following minimization:</p><formula xml:id="formula_21">n ∑ i=1 { Y i - p ∑ k=0 X ik B k (U i ) ⊤ 𝜸 k } 2 + p ∑ k=0 λ k 𝜸 ⊤ k P k 𝜸 k . (<label>7</label></formula><formula xml:id="formula_22">)</formula><p>where P k is the diagonally block penalty matrix satisfying that</p><formula xml:id="formula_23">𝜸 ⊤ k P k 𝜸 k = (B ⊤ k 𝜸 k ).</formula><p>Similar to what has been done in Section 2.2, we remove the constraint via QR decomposition of H ⊤ k ; then, the minimization problem in ( <ref type="formula" target="#formula_21">7</ref>) is converted to the following: <ref type="formula">8</ref>) can be written as follows:</p><formula xml:id="formula_24">n ∑ i=1 { Y i - p ∑ k=0 X ik B k (U i ) ⊤ Q 2,k 𝜽 k } 2 + p ∑ k=0 𝜆 k 𝜽 ⊤ k Q ⊤ 2,k P k Q 2,k 𝜽 k . (8) Assuming B(u) = B 0 (u) = B 1 (u) = • • • = B p (u) = {B j (u)} j∈ , the minimization problem in (</formula><formula xml:id="formula_25">n ∑ i=1 { Y i - p ∑ k=0 X ik B(U i ) ⊤ Q 2 𝜽 k } 2 + p ∑ k=0 𝜆 k 𝜽 ⊤ k Q ⊤ 2 PQ 2 𝜽 k . (<label>9</label></formula><formula xml:id="formula_26">)</formula><formula xml:id="formula_27">Let 𝜦 = diag(𝜆 0 , 𝜆 1 , • • • , 𝜆 p ) and D Λ = 𝜦 ⊗ (Q ⊤ 2 PQ 2 ).</formula><p>Solving the penalized least-squares problem in (9), we obtain the following:</p><formula xml:id="formula_28">θ * = [ n ∑ i=1 {X i ⊗ B * (U i )} {X i ⊗ B * (U i )} ⊤ + D Λ ] -1 n ∑ i=1 {X i ⊗ B * (U i )} Y i .</formula><p>Therefore, the bivariate penalized spline estimators of</p><formula xml:id="formula_29">𝛽 k is β * k (u) = B(u) ⊤ γ * k , where γ * k = Q 2 θ * k , k = 0, … , p.</formula><p>A crucial issue for the implementation of penalized smoothing above is the selection of the penalty parameters λ k , which control the trade-off between the goodness of fit and smoothness. A standard possibility is to select the penalty parameters using the cross-validation approach, for example, multi-fold cross-validation and generalized cross-validation. Based on our simulation studies and real data applications, we find that multi-fold cross-validation and generalized cross-validation usually yield similar results. In this work, we choose a common 𝜆 for all coefficient functions; nevertheless, separate smoothing parameters for coefficient functions can be adopted with heavier computing; see the discussion by <ref type="bibr" target="#b33">Ruppert (2002)</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5">TESTS FOR NONSTATIONARITY</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.1">Goodness-of-fit test</head><p>Statistical tests for examining if some of the coefficients vary over space are fundamental in achieving a valid interpretation of spatial nonstationarity of the regression relationship. To test whether model (1) holds with a specified parametric form such as linear regression models, we propose a bootstrap goodness-of-fit test based on the comparison of the RSS from both parametric and nonparametric fittings.</p><p>Consider the following null hypothesis:</p><formula xml:id="formula_30">H 0 ∶ 𝛽 k (u) = 𝛽 k (u; 𝝆), 0 ≤ k ≤ p,<label>(10)</label></formula><p>where 𝛽 k (•; 𝝆) is a given family of functions indexed by unknown parameter vector 𝝆. Let ρ be an estimator of 𝝆. The RSS under H 0 (RSS 0 ) and the RSS corresponding to model (1) (RSS 1 ) are as follows:</p><formula xml:id="formula_31">RSS 0 = n ∑ i=1 { Y i - p ∑ k=0 X ik 𝛽 k (U i ; ρ) } 2 , RSS 1 = n ∑ i=1 { Y i - p ∑ k=0 X ik βk (U i ) } 2 .</formula><p>The test statistics is defined as follows:</p><formula xml:id="formula_32">T n = (RSS 0 -RSS 1 )∕RSS 1 = RSS 0 ∕RSS 1 -1, (<label>11</label></formula><formula xml:id="formula_33">)</formula><p>and we reject the null hypothesis (10) for large values of T n . Due to the feature of less assumption on the distribution of the error term of the model, bootstrap is a good technique for testing the nonstationarity for the SVCMs. We use the following nonparametric bootstrap approach <ref type="bibr" target="#b7">(Cai et al., 2000)</ref> to evaluate the p value of the test.</p><p>Step 1. Based on the data {(U i , X i , Y i )} n i=1 , obtain the following residuals εi = Y i -∑ p k=0 X ik βk (U i ), i = 1, … , n, and calculate the centered residuals εiε, where ε = 1 n ∑ n i=1 εi ; Step 2. Generate the bootstrap residuals {ε * i } n i=1 from the empirical distribution function of the centered residuals εiε in Step 1, and define Y * i = ∑ p k=0 X ik 𝛽 k (U i ; ρ) + ε * i ; Step 3. Calculate the bootstrap test statistic T * n based on the sample {(U i , X i , Y * i )} n i=1 ; Step 4. Repeat Steps 2 and 3 B times and obtain a bootstrap sample of the test statistics T n as {T * nb } B b=1 , and the p value is estimated by p = ∑ B b=1 I(T * nb ≥ T obs )∕B, where I(•) is the indicator function, and T obs is the observed value of the test statistics T n by ( <ref type="formula" target="#formula_32">11</ref>), or reject the null hypothesis H 0 when T n is greater than the upper-𝛼 quantile of {T * nb } B b=1 . Note that the nonparametric estimate is always consistent, no matter the null or whether the alternative hypothesis is correct. Therefore, here, we bootstrap the centralized residuals from the nonparametric fit instead of the parametric fit, and this should provide a consistent estimator of the null hypothesis even when the null hypothesis does not hold. As proved by <ref type="bibr" target="#b20">Kreiss, Neumann, and Yao (2008)</ref>, which considered the nonparametric bootstrap tests in a general nonparametric regression setting, asymptotically, the conditional distribution of the bootstrap test statistics is indeed the distribution of the test statistics under the null hypothesis, as long as ρ converges to 𝝆 at the root-n rate.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.2">Testing individual function stationarity</head><p>One important question arose in varying-coefficient literature: "Does a particular set of local parameter estimates exhibit significant spatial variation?". To answer this question, we focus on testing the following null hypothesis:</p><formula xml:id="formula_34">H 0k ∶ 𝛽 k (u) = 𝛽 k , versus H 1k ∶ 𝛽 k (u) ≠ 𝛽 k , for a fixed k = 0, … ,p.<label>(12)</label></formula><p>To conduct a hypothesis test, we can use the variability of the local estimates to examine the plausibility of the stationarity assumption held in traditional regression <ref type="bibr" target="#b4">(Brunsdon et al., 1996;</ref><ref type="bibr">1999)</ref>. Specifically, for a given covariate function 𝛽 k at location i, suppose βk (u i ) is the BST or BPST estimate of 𝛽 k (u i ). If we take n values of this parameter estimate (one for each location point within the region), an estimate of variability of the parameter is given by the variance of the n parameter estimates.</p><p>The test statistics is defined as follows:</p><formula xml:id="formula_35">V nk = 1 n -1 n ∑ i=1 ( βk (U i ) -̄β k ) 2 , (<label>13</label></formula><formula xml:id="formula_36">)</formula><p>and we reject the null hypothesis (12) for large values of V nk .</p><p>The next stage is to determine the sampling distribution of V nk under the null hypothesis. Under H 0k , any permutation of U i among the data points is equally likely. Thus, the observed value of V nk could be compared with the values obtained from randomly rearranging the data in space and repeating the BPST procedure. The comparison between the observed V nk value and those obtained from a large number of randomized distributions can then form the basis of the significance test.</p><p>Step 1. Randomly shuffle the n locations and obtain {U * i } n i=1 ; Step 2. Calculate the test statistics V * nk based on the sample {(U * i , X i , Y i )} n i=1 ; Step 3. Repeat Steps 1 and 2 B times and obtain a sample of the test statistics V * nk as {V * nk,b } B b=1 , and the p value is estimated by p = ∑ B b=1 I(V * nk,b ≥ V k,obs )∕B, where V k,obs is the observed value of the test statistics V nk by (13), or reject the null hypothesis when V nk is greater than the upper-𝛼 quantile of {V * nk,b } B b=1 .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6">SIMULATION</head><p>In this section, we analyze synthetic data generated from the model to assess the validity of the proposed estimation and inference procedure based on BST and BPST smoothing methods. We also implement the GWR method to each of these artificial data and compare the estimator with our proposed ones. To obtain the BST and BPST estimators, we set degree d = 2 and smoothness r = 1 when generating the bivariate spline basis functions. Supporting Information provides more simulation results with different values of d and different triangulations. For BPST, a common penalty 𝜆 for all coefficient functions is selected using 5-fold cross-validation from a 9-point grid, where the values of log 10 (λ) are equally spaced between -2 and 2. For the GWR method, we use the "spgwr" R package to obtain the GWR estimator. In all simulation studies, the total number of replications is 500.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.1">Simulation study 1</head><p>Following <ref type="bibr" target="#b36">Shen et al. (2011)</ref>, the spatial layout in this example is designated as a [0, 6] 2 domain, and the population is collected at N = 100 × 100 lattice points with equal distance between any two neighboring points along the horizontal and vertical directions. At each location, the response variable is generated by</p><formula xml:id="formula_37">Y i = 𝛽 0 (U i )+X i 𝛽 1 (U i )+ε i , i = 1, … , N,</formula><p>where X i is generated randomly from a Uniform(0,2) distribution. The random error, ε i , i = 1, … , N, are generated independently from N(0, 1), and the coefficient functions are as follows:  estimators of the coefficient functions, as well as the MSPE of the response variable Y, are computed using the following:</p><formula xml:id="formula_38">𝛽 0 (u 1 , u 2 ) = 2 sin ( 𝜋u 1<label>6</label></formula><formula xml:id="formula_39">) , 𝛽 1 (u 1 , u 2 ) = 2 81 {9 -(3 -u 1 ) 2 }{9 -(3 -u 2 ) 2 }.<label>(14)</label></formula><formula xml:id="formula_40">MSE( βk ) = 1 n n ∑ i=1 { βk (U i ) -𝛽 k (U i ) } 2 , MSPE( βk ) = 1 N N ∑ i=1 { βk (U i ) -𝛽 k (U i ) } 2 , k = 0, 1, MSPE( Ŷ ) = 1 N N ∑ i=1 ( Ŷi -Y i ) 2 .</formula><p>In addition, we report the bias (BIAS</p><formula xml:id="formula_41">) of σ2 = 1 n ∑ n i=1 (Y i -Ŷi ) 2</formula><p>in estimating the true variance of errors 𝜎 2 . All the results are summarized in Table <ref type="table" target="#tab_0">1</ref>.</p><p>We compare the proposed BST and BPST with GWR by evaluating the estimation accuracy and their predictive accuracy of the spatial pattern. As the sample size increases, all three estimators tend to result in better performance in terms of MSE, MSPE, and BIAS. Moreover, regardless of the sample size, both the BST and BPST estimators outperform the GWR estimator. Compared with the BST estimators, the BPST estimators are more stable, especially when the sample size is small, and the difference between the BST and the BPST estimators is getting smaller as the sample size increases. Supporting Information provides more simulation results with different triangulations, which suggest that the number of triangles or the number of basis functions only has a little effect on the BPST estimator, especially when there is a sufficient number of triangles.</p><p>Figure <ref type="figure" target="#fig_2">2</ref> visualizes the estimated surfaces of 𝛽 0 (•) and 𝛽 1 (•) using BST, BPST, and GWR, which are based on one typical replication with n = 2000. These plots suggest that the BPST method is able to estimate the spatial pattern with the greatest accuracy, followed by the BST method, and the GWR is not able to capture the spatial pattern very accurately.</p><p>In terms of the computing, because the GWR technique is largely based on kernel regression, a locally weighted regression is required at every single point in the data set, which results in great computational complexity. In contrast, both BST and BPST can be formulated as one single least-squares problem; thus, the computing is very easy and fast. The last column (Time) in Table <ref type="table" target="#tab_0">1</ref> summarizes the average computing time per iteration in seconds for each method. All the methods are implemented using a personal computer with Intel(R) Core(TM) i5 CPU dual core @ 2.90 GHz and 8.00 GB RAM. Specifically, one can see that as the sample size increases, the computational time for GWR method increases dramatically, whereas BST and BPST almost provide a linear complexity of the sample size when the number of triangles is much less than the sample size.</p><p>As one of the most important inferences in the GWR literature, the test for a globally stationary regression relationship can provide the information that a SVCM is really necessary for the given data. Next, we investigate the performance of the proposed bootstrap test described in Section 5.1. We consider the following hypothesis:</p><formula xml:id="formula_42">H 0 ∶ 𝛽 k (u) = 𝛽 k , k = 0, 1 versus H 1 ∶ 𝛽 k (u) ≠ 𝛽 k , for at least one 𝑘.</formula><p>Note that H 0 corresponds to the ordinary linear regression model. The power function is evaluated under a sequence of the alternative models indexed by 𝛿, as follows:</p><formula xml:id="formula_43">H 1 ∶ 𝛽 k (u) = β0 k + 𝛿 ( 𝛽 0 k (u) -β0 k ) , k = 0, 1, (0 ≤ 𝛿 ≤ 1), (<label>15</label></formula><formula xml:id="formula_44">)</formula><p>where 𝛽 0 k (u), k = 0, 1, are given in ( <ref type="formula" target="#formula_39">14</ref>), and β0 k is the average height of 𝛽 0 k (u), and in our simulation, β0 0 = 1.2604, β0 1 = 0.8710. The parameter 𝛿 is designated different values to evaluate the power of the test. The null hypothesis corresponds to 𝛿 = 0 in the coefficients.  </p><formula xml:id="formula_45">) H 0 ∶ 𝛽 k (u) = 𝛽 k , k = 1, 2 versus H 1 ∶ 𝛽 k (u) = β0 k + 𝛿(𝛽 0 k (u) -β0 k ), k = 1, 2; (b) H 0 ∶ 𝛽 0 (u) = 𝛽 0 versus H 1 ∶ 𝛽 0 (u) = β0 0 + 𝛿(𝛽 0 0 (u) -β0 0 ); (c) H 0 ∶ 𝛽 1 (u) = 𝛽 1 versus H 1 ∶ 𝛽 1 (u) = β0 1 + 𝛿(𝛽 0 1 (u) -β0 1 ). BPST = bivariate penalized splines over triangulation; GWR = geographically weighted regression</formula><p>We apply the bootstrap goodness-of-fit test in a simulation with 500 replications of sample size n = 500 and 1000, and we record the relative frequencies of rejecting H 0 under the significance level 𝛼 = 0.05. For each realization, we repeat bootstrap sampling 100 times. Figure <ref type="figure" target="#fig_3">3</ref> illustrates the empirical frequencies of rejecting H 0 against 𝛿 using BPST and GWR methods. For GWR, we use the "BFC02.gwr.test" function within the "spgwr" package in R, where the test result is obtained by test statistics based on the RSS described by <ref type="bibr" target="#b12">Fotheringham et al. (2002)</ref>. When 𝛿 = 0, these relative frequencies represent the size of the test. For BPST, the relative frequency is 0.060, which is fairly close to the given significant level 5%. This demonstrates that the bootstrap estimate of the null distribution is approximately correct. However, the GWR gives 0.000, which is much smaller than the significant level. For our BPST-based bootstrap test, regardless of the sample size, the power increases rapidly to one when 𝛿 = 0.2, suggesting that the proposed test is quite powerful. Overall, the proposed test is of a higher power in identifying the varying coefficients than the GWR based test.</p><p>Next, we conduct an individual stationarity test with H 0k ∶ 𝛽 k (u) = 𝛽 k versus H 1k ∶ 𝛽 k (u) ≠ 𝛽 k , for k = 0, 1. Similar to (15), the power function is evaluated under a sequence of the alternative models indexed by 𝛿, specifically,</p><formula xml:id="formula_46">H 1k ∶ 𝛽 k (u) = β0 k + 𝛿(𝛽 0 k (u) -β0 k ), (0 ≤ 𝛿 ≤ 1</formula><p>). We apply the individual stationarity test described in Section 5.2 at significant level 𝛼 = 0.05 with n = 500 and 1000, respectively. Similar as in the global stationarity, 500 replications with B = 100 bootstrap samples in each replication are conducted to compute the p value. The individual test for the GWR is based on the test statistics proposed by <ref type="bibr" target="#b23">Leung et al.(2000)</ref> and implemented using the R function "LMZ.F3GWR.test".</p><p>When 𝛿 = 0, the rejection frequencies of BPST are reasonably close to the given significance level for both coefficient functions. Consider the specific alternative with 𝛿 = 0.4, where the functions {𝛽 k (u)} under H 1k are shown in Figure <ref type="figure" target="#fig_4">4</ref>. Even with such a small difference, we can correctly detect the alternative over 80% of the 500 simulations. With the value of 𝛿 increasing, the rejection frequencies increase rapidly, and thus, the rejection frequency of BPST is definitely high if the coefficient functions are indeed spatially varying. However, for GWR, the rejection frequencies are much higher than the given significance level, which indicates a much larger Type I error. Although the results improve with the sample size increasing, the rejection rates are still two or three times higher than the significance level.</p><p>In summary, the simulation study demonstrates that the proposed bootstrap tests can well approximate the null distribution of the test statistics even for a moderate sample size.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.2">Simulation study 2</head><p>In this simulation study, we consider a modified horseshoe domain constructed by <ref type="bibr" target="#b45">Wood et al. (2008)</ref>. In particular, we divide the entire horseshoe domain evenly into N = 401 × 901 grid points, which are considered as the population. We adopt the coefficient functions shown in Figure <ref type="figure" target="#fig_5">5 (a</ref>) and (b), where 𝛽 0 (•) is the same function used by <ref type="bibr" target="#b46">Wood (2003)</ref> and</p><formula xml:id="formula_47">𝛽 1 (u 1 , u 2 ) = 4 sin {0.05𝜋(u 2 1 +u 2 2 )}.</formula><p>The response variable Y i are generated from the following model:</p><formula xml:id="formula_48">Y i = 𝛽 0 (u i )+X i 𝛽 1 (u i )+ ε i , i = 1, … , N,</formula><p>where X i is generated randomly from a Uniform(0,2) distribution. The random errors, ε i , i = 1, … , N, are generated independently from the N(0, 0.5 2 ) distribution. For each of the 500 Monte Carlo experiments, we randomly sample n = 2000 and 5000 locations uniformly on the domain.</p><p>Figure <ref type="figure" target="#fig_5">5</ref> (c) shows the triangulation used to obtain the BST and BPST estimators, and there are 77 triangles and 65 vertices in this triangulation. The results of MSE, MSPE, and BIAS based on 500 replications are summarized in Table <ref type="table" target="#tab_1">2</ref>, and the predicted surfaces from one iteration when n = 2000 are demonstrated in Figure <ref type="figure" target="#fig_6">6</ref>. These results highlight, on the irregular domain, that both BST and BPST methods can provide more accurate and efficient estimation than the GWR method.</p><p>Another computational issue worth mentioning is that when GWR is used for prediction, a locally weighted regression is also required at every single point in the predicting data set. In this example, the prediction is conducted over the entire 401 × 901 = 361301 grid points. Therefore, the entire process cannot be completed using personal computers; instead, the GWR algorithm is conducted via cluster using a parallel computing of 24 general-purpose compute nodes with 128 GB RAM associated to each node, in which, on average, each iteration takes more than 5 hr to complete for n = 2000. Unfortunately, when n = 5000, we are not able to obtain any results using the same cluster with the same setting within 1 week. On the other hand, for BST and BPST, the prediction can be done with one simple matrix multiplication, and thus,    TABLE 4 Estimation and prediction accuracy for air pollution data OLS GWR BPST MSE 18.68 8.44 7.03 MSPE 18.95 13.20 12.30 Note. OLS = ordinary linear least squares; GWR = geographically weighted regression; BPST = bivariate penalized splines over triangulation; MSE = mean squared estimation error; MSPE = mean squared prediction error.</p><p>it is very fast even when the data set is huge. For example, one BPST-based iteration of size 5000 only takes about 1 min on a personal computer with Intel(R) Core(TM) i5 CPU dual core @ 2.90 GHz and 8.00 GB RAM.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="7">APPLICATION TO AIR POLLUTION DATA ANALYSIS</head><p>Recently, fine particles (PM 2.5 , which is a particulate matter with a diameter of 2.5 μm or less) has become a major air quality concern because it poses significant risks to human health, such as asthma, chronic bronchitis, lung cancer, and atherosclerosis. Many recent research works <ref type="bibr" target="#b17">(Hu et al., 2013;</ref><ref type="bibr" target="#b34">Russell, Wang, &amp; McMahan, 2017;</ref><ref type="bibr" target="#b40">Tai, Mickley, &amp; Jacob, 2010)</ref> suggest that PM 2.5 concentrations depend on meteorological conditions. To improve current pollution control strategies, there is an urgent need for a more comprehensive understanding of PM 2.5 and a more accurate quantification between the meteorological drivers and the levels of PM 2.5 .</p><p>In this section, we show the applicability of the proposed SVCM on a meteorological data set to study the effects of meteorological characteristics on air quality. In our study, daily mean surface concentrations of total PM 2.5 for the year 2011 are obtained from the United States Environmental Protection Agency; meteorological drivers are provided by the National Oceanic and Atmospheric Administration (<ref type="url" target="http://www.esrl.noaa.gov/psd/">http://www.esrl.noaa.gov/psd/</ref>); daily total gridded precipitation (PPTN), surface wind speed (WS), surface daily minimum air temperature (T min ), and surface daily maximum air temperature (T max ) are acquired from <ref type="bibr" target="#b25">Livneh et al. (2013)</ref>; air relative humidity (RH) and total column cloud cover (TCDC) are obtained from North American Regional Reanalysis. See Table <ref type="table" target="#tab_2">3</ref> for details.</p><p>Noting that there are some missing values in RH, TCDC, and total PM 2.5 , we aggregate the data by season and focus on the most severely polluted season in a year-winter (December, January, February). We predict the PM 2.5 for winter season using the proposed SVCM, as follows:</p><formula xml:id="formula_49">PM 2.5 = 𝛽 0 (u) + 𝛽 1 (u)PPTN + 𝛽 2 (u)RH + 𝛽 3 (u)T min + 𝛽 4 (u)T max + 𝛽 5 (u)WS + 𝛽 6 (u)TCDC + ε.<label>(16)</label></formula><p>We also consider the multiple linear regression without using the spatial information, as follows:</p><formula xml:id="formula_50">PM 2.5 = 𝛽 0 + 𝛽 1 PPTN + 𝛽 2 RH + 𝛽 3 T min + 𝛽 4 T max + 𝛽 5 WS + 𝛽 6 TCDC + ε.<label>(17)</label></formula><p>To evaluate different methods, we examine both the estimation accuracy and the prediction accuracy of the multiple linear regression in (17) and the GWR and the BPST in ( <ref type="formula" target="#formula_49">16</ref>). The out-of-sample prediction errors of each method are calculated by 10-fold cross-validation. The MSE and MSPE of the three methods are summarized in Table <ref type="table">4</ref>. It is obvious that the BPST estimator provides a much more accurate estimation and prediction. Figure <ref type="figure" target="#fig_7">7 (b</ref>)-(h) summarizes the coefficient estimation results via BPST.</p><p>A natural question is if the coefficients are really varying over space in model ( <ref type="formula" target="#formula_49">16</ref>). We now use our proposed test procedure in Section 5 to answer this question. The p values of these tests are listed in Table <ref type="table" target="#tab_3">5</ref>. For the global stationary test, the p value is smaller than 0.001, so under the significance level 𝛼 = 0.05, we conclude that at least one of the coefficients is nonstationary over the entire United States. For the individual stationarity test, the resulting p values for the intercept,  T max , WS, and TCDC are all smaller than the significant level 𝛼 = 0.05, indicating that the coefficients 𝛽 0 (u), 𝛽 4 (u), 𝛽 5 (u), and 𝛽 6 (u) are really varying over space. However, for PPTN, RH, and T min , the p value ≫ 𝛼, so we do not have enough evidence to reject the null hypothesis. The estimated coefficient function plots in Figure <ref type="figure" target="#fig_7">7</ref> confirm the conclusion of the proposed tests.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="8">CONCLUDING REMARKS</head><p>In summary, the proposed method has the following advantages in analyzing the spatial nonstationarity of a regression relationship for spatial data. First, compared with GWR, the proposed method is much more computationally efficient to deal with large data sets. Specifically, the computational complexity of BST and BPST is O(nK 2 n ), which indicates that it is almost linear in terms of the sample size. In addition, as a global estimation with an explicit model expression, the proposed spline approach enables easy-to-implement prediction compared with the local approaches. Second, the proposed method can overcome the problem of "leakage" across the complex domains that many conventional tools suffer. Third, by introducing the roughness penalty into the BST, the BPST can alleviate the adverse effect of the collinearity problem in GWR <ref type="bibr" target="#b44">(Wheeler &amp; Tiefelsdorf, 2005)</ref> and provide more accurate estimators of the coefficient functions. By assigning different penalty parameters, the BPST also easily allows different smoothness for different functional coefficients. Finally, with increasing volumes of data being collected on the environment through remote sensing platforms, complex sensor networks, and Global Positioning System (GPS) movement, this work provides one feasible approach to study large-scale environmental spatial data.</p><p>The proposed method in this article can be easily extended to semiparametric varying-coefficient partially linear models <ref type="bibr" target="#b6">(Brunsdon et al., 1999;</ref><ref type="bibr" target="#b8">Fan &amp; Huang, 2005;</ref><ref type="bibr" target="#b12">Fotheringham et al., 2002)</ref>, where some coefficients in the model are assumed to be constant and the remaining coefficients are allowed to spatially vary across the studied region.</p><p>In spatial data analysis, there are mainly two issues: spatial dependence and spatial heterogeneity, and our paper focuses on the latter. To understand the theoretical behavior of the estimators, we assume that the errors are independent. Although this assumption is not uncommon in the GWR literature, it is more realistic to relax the independence assumption. The spatial dependence can be alleviated by choosing the optimal triangulation; it may not fully vanish, and certainly, there is more future work ahead to investigate this issue. <ref type="bibr" target="#b28">Lu and Tjøstheim (2014)</ref> proposed nonparametric kernel estimators for probability density functions for irregularly observed spatial data and established a new framework of expanding-domain infill asymptotics, which might be useful in defining the "mixing" condition for the errors in our model and in studying the asymptotics of our estimators. <ref type="bibr" target="#b39">Sun, Yan, Zhang, and Lu (2014)</ref> proposed the following semiparametric spatial autoregressive varying-coefficient model:</p><formula xml:id="formula_51">Y i = 𝛼 ∑ j≠i w ij Y j + X ⊤ i 𝜷(U i ) + 𝜖 i , i = 1, … , n,<label>(18)</label></formula><p>where w ij is the impact of Y j on Y i , for example, a specified physical or economic distance. This model considers the neighboring effect and is thus able to take care of the spatial dependence issue. We are interested in extending our work to this class of models for irregularly spaced data over complex domains. However, it is challenging to define w ij (distance) for our method due to the "leakage" problem across complex boundary features. Another interesting future work is the spatiotemporal extension to analyze data collected across time and space. We might be able to establish some promising theoretical results under some dependent error assumptions if we let the number of time points go to infinity. We believe that more careful and intensive future work is necessary in these directions.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>FIGURE 1</head><label>1</label><figDesc>FIGURE 1 Simulation study 1: plots of (a) true 𝛽 0 , (b) true 𝛽 1 , (c) triangulation</figDesc><graphic coords="8,46.09,258.80,236.44,189.52" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>See Figure 1</head><label>1</label><figDesc>(a) and (b) for the contour plots of the two true coefficient functions. We randomly sample n = 500, 1000, and 2000 points from the 100 × 100 points in each Monte Carlo experiment.Figure1(c) shows the triangulation used to obtain the BST and BPST estimators, and there are 13 triangles and 12 vertices in this triangulation. The mean squared estimation error (MSE) and mean squared prediction error (MSPE) for the</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>FIGURE 2</head><label>2</label><figDesc>FIGURE 2 Simulation study 1: estimated surface via (a) BPST, (b) BST, and (c) GWR based on sample size n = 2000. BPST = bivariate penalized splines over triangulation; BST = bivariate splines over triangulation; GWR = geographically weighted regression</figDesc><graphic coords="10,47.59,488.03,498.64,191.20" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>FIGURE 3</head><label>3</label><figDesc>FIGURE 3 Type I errors and power for boostrap tests in Simulation study 1: (a) H 0 ∶ 𝛽 k (u) = 𝛽 k , k = 1, 2 versus</figDesc><graphic coords="11,51.10,264.47,238.84,194.92" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>FIGURE 4</head><label>4</label><figDesc>FIGURE 4 Simulation study 1: coefficient functions under H 1 when 𝛿 = 0.4. (a)𝛽 0 (b)𝛽 1</figDesc><graphic coords="12,52.09,47.39,490.24,188.44" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>FIGURE 5</head><label>5</label><figDesc>FIGURE 5 Simulation study 2: plots of (a) true 𝛽 0 , (b) true 𝛽 1 , and (c) triangulation</figDesc><graphic coords="13,49.60,270.83,240.04,186.52" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>FIGURE 6</head><label>6</label><figDesc>FIGURE 6 Simulation study 2: estimated surface via (a) BPST; (b) BST; (c) GWR based on sample size n = 2000. BPST = bivariate penalized splines over triangulation; BST = bivariate splines over triangulation; GWR = geographically weighted regression</figDesc><graphic coords="14,51.43,487.07,491.44,185.68" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><head>FIGURE 7</head><label>7</label><figDesc>FIGURE 7 Estimates of the coefficient functions of the spatially varying coefficient model for PM 2.5 data. PPTN = daily total precipitation; RH = relative humidity; T min = surface daily minimum air temperature; T max = surface daily maximum air temperature; WS = wind speed; TCDC = total column cloud cover. (a) Triangulation with Data Points (b)𝛽 0 (Intercept) (c)𝛽 1 (PPTN) (d)𝛽 2 (RH) (e)𝛽 3 (T min ) (f)𝛽 4 (T max ) (g)𝛽 5 (WS) (h)𝛽 6 (TCDC)</figDesc><graphic coords="16,89.83,538.76,199.18,118.93" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>TABLE 1</head><label>1</label><figDesc>Estimation and prediction results for Simulation study 1</figDesc><table><row><cell>n</cell><cell>Method</cell><cell>𝛽 0</cell><cell>𝛽 1</cell><cell>𝜎 2</cell><cell>Y</cell><cell>Time</cell></row><row><cell></cell><cell></cell><cell cols="4">MSE MSPE MSE MSPE BIAS MSPE</cell><cell></cell></row><row><cell></cell><cell>BST</cell><cell cols="4">0.1046 0.1128 0.0840 0.0904 0.0642 1.0345</cell><cell>0.087</cell></row><row><cell>500</cell><cell>BPST</cell><cell cols="4">0.0628 0.0637 0.0548 0.0559 0.0527 1.0165</cell><cell>1.102</cell></row><row><cell></cell><cell>GWR</cell><cell cols="4">0.1708 0.1763 0.1379 0.1434 0.1439 1.1063</cell><cell>28.152</cell></row><row><cell></cell><cell>BST</cell><cell cols="4">0.0479 0.0496 0.0410 0.0421 0.0427 1.0030</cell><cell>0.121</cell></row><row><cell>1000</cell><cell>BPST</cell><cell cols="4">0.0340 0.0345 0.0326 0.0331 0.0381 0.9984</cell><cell>2.138</cell></row><row><cell></cell><cell>GWR</cell><cell cols="5">0.1127 0.1144 0.0889 0.0907 0.1097 1.0505 102.666</cell></row><row><cell></cell><cell>BST</cell><cell cols="4">0.0241 0.0244 0.0219 0.0222 0.0300 0.9897</cell><cell>0.186</cell></row><row><cell>2000</cell><cell>BPST</cell><cell cols="4">0.0204 0.0205 0.0205 0.0207 0.0266 0.9888</cell><cell>4.902</cell></row><row><cell></cell><cell>GWR</cell><cell cols="5">0.0726 0.0733 0.0564 0.0571 0.0798 1.0122 441.230</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>TABLE 2</head><label>2</label><figDesc>Estimation and prediction results for Simulation study 2Note. The average computational time is measured using a personal computer with Intel(R) Core(TM) i5 CPU dual core @ 2.90 GHz and 8.00 GB RAM. a The average computational time is measured by cluster using a parallel computing of 24 general-purpose compute nodes with 128 GB RAM associated to each node.b We do not have the results here because the computing time for 500 iterations in total is more than 168 hr even using a cluster with 24 cores in parallel. MSE = mean squared estimation error; MSPE = mean squared prediction error.</figDesc><table><row><cell>n</cell><cell>Method</cell><cell>𝛽 0</cell><cell></cell><cell>𝛽 1</cell><cell></cell><cell>𝜎 2</cell><cell>Y</cell><cell>Time</cell></row><row><cell></cell><cell></cell><cell cols="6">MSE MSPE MSE MSPE BIAS MSPE</cell></row><row><cell></cell><cell>BST</cell><cell cols="6">0.0312 0.0348 0.0237 0.0269 0.0129 0.2647</cell><cell>12.376 #</cell></row><row><cell>2000</cell><cell>BPST</cell><cell cols="6">0.0130 0.0132 0.0080 0.0081 0.0060 0.2588</cell><cell>29.589 #</cell></row><row><cell></cell><cell>GWR</cell><cell cols="7">0.0325 0.0337 0.0240 0.0248 0.0306 0.2697 18280.320 a</cell></row><row><cell></cell><cell>BST</cell><cell cols="6">0.0117 0.0120 0.0085 0.0088 0.0051 0.2560</cell><cell>14.033 #</cell></row><row><cell>5000</cell><cell>BPST</cell><cell cols="6">0.0070 0.0070 0.0042 0.0042 0.0028 0.2545</cell><cell>64.016 #</cell></row><row><cell></cell><cell>GWR</cell><cell>-b</cell><cell>-b</cell><cell>-b</cell><cell>-b</cell><cell>-b</cell><cell>-b</cell><cell>-b</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2"><head>TABLE 3</head><label>3</label><figDesc>Meteorological parameters</figDesc><table><row><cell cols="2">Variable Meteorological Parameter</cell></row><row><cell>PPTN</cell><cell>Daily total precipitation (mm)</cell></row><row><cell>RH</cell><cell>Air relative humidity at 2m (%)</cell></row><row><cell>T min</cell><cell>Surface daily minimum air temperature ( • C)</cell></row><row><cell>T max</cell><cell>Surface daily maximum air temperature ( • C)</cell></row><row><cell>WS</cell><cell>Surface wind speed (m∕s)</cell></row><row><cell>TCDC</cell><cell>Total column cloud cover (%)</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_3"><head>TABLE 5</head><label>5</label><figDesc>Hypothesis tests with their p values of the tests for PM 2.5 data Note. PPTN = daily total precipitation; RH = relative humidity; T min = surface daily minimum air temperature; T max = surface daily maximum air temperature; WS = wind speed; TCDC = total column cloud cover.</figDesc><table><row><cell>Null hypothesis</cell><cell>Corresponding variables</cell><cell>p value</cell></row><row><cell>𝛽 0 (u) = 𝛽 0</cell><cell>Intercept</cell><cell>&lt; 0.001</cell></row><row><cell>𝛽 1 (u) = 𝛽 1</cell><cell>PPTN</cell><cell>0.406</cell></row><row><cell>𝛽 2 (u) = 𝛽 2</cell><cell>RH</cell><cell>0.688</cell></row><row><cell>𝛽 3 (u) = 𝛽 3</cell><cell>T min</cell><cell>0.430</cell></row><row><cell>𝛽 4 (u) = 𝛽 4</cell><cell>T max</cell><cell>0.020</cell></row><row><cell>𝛽 5 (u) = 𝛽 5</cell><cell>WS</cell><cell>&lt; 0.001</cell></row><row><cell>𝛽 6 (u) = 𝛽 6</cell><cell>TCDC</cell><cell>&lt; 0.001</cell></row><row><cell>𝛽 k (u) = 𝛽 k , k = 0, 1, … , 6</cell><cell></cell><cell>&lt; 0.001</cell></row></table></figure>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div><head>ACKNOWLEDGEMENTS</head><p><rs type="person">Guannan Wang</rs>'s research was partially supported by the <rs type="grantName">Faculty Summer Research Grant</rs> from the <rs type="institution">College of William &amp; Mary</rs>. <rs type="person">Li Wang</rs>'s research was partially supported by the <rs type="funder">National Science Foundation</rs> under Grant No. <rs type="grantNumber">DMS-1542332</rs>. We are very grateful to <rs type="person">Ming-Jun Lai</rs> for providing us with the Matlab code on bivariate spline basis constructions. The authors would also like to thank the editor, associate editor, and two reviewers for their valuable comments and suggestions to improve the quality of the paper.</p></div>
+			</div>
+			
+			<div type="funding">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>College of William &amp; Mary; National Science Foundation, Grant/Award Number: DMS-1542332</head></div>
+			</div>
+
+
+			<listOrg type="funding">
+				<org type="funding" xml:id="_S89RJQf">
+					<idno type="grant-number">DMS-1542332</idno>
+					<orgName type="grant-name">Faculty Summer Research Grant</orgName>
+				</org>
+			</listOrg>
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>SUPPORTING INFORMATION</head><p>Additional Supporting Information may be found online in the supporting information tab for this <ref type="url" target="https://doi.org/10.1002/env.2485">article</ref>.</p><p>How to cite this article: Mu J, Wang G, Wang L. Estimation and inference in spatially varying coefficient models. Environmetrics. 2017;e2485. <ref type="url" target="https://doi.org/10.1002/env.2485">https://doi.org/10.1002/env.2485</ref> </p></div>			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Estimation for semiparametric nonlinear regression of irregularly located spatial time-series data</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Al-Sulami</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Jiang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Lu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Zhu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrics and Statistics</title>
+		<imprint>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="page" from="22" to="35" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Space varying coefficient models for small area data</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">M</forename><surname>Assunção</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environmetrics</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="page" from="453" to="473" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Gaussian predictive process models for large spatial data sets</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Banerjee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">O</forename><surname>Finley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Sang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society: Series B (Statistical Methodology)</title>
+		<imprint>
+			<biblScope unit="volume">70</biblScope>
+			<biblScope unit="page" from="825" to="848" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Incorporating spatial variation in housing attribute prices: A comparison of geographically weighted regression and the spatial expansion method</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Bitter</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">F</forename><surname>Mulligan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Dall'erba</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Geographical Systems</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="page" from="7" to="27" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Geographically weighted regression: A method for exploring spatial nonstationarity</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">E</forename><surname>Charlton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">28</biblScope>
+			<biblScope unit="page" from="281" to="298" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">E</forename><surname>Charlton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society: Series D (The Statistician)</title>
+		<imprint>
+			<biblScope unit="volume">47</biblScope>
+			<biblScope unit="page" from="431" to="443" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Some notes on parametric significance tests for geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">E</forename><surname>Charlton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Regional Science</title>
+		<imprint>
+			<biblScope unit="volume">39</biblScope>
+			<biblScope unit="page" from="497" to="524" />
+			<date type="published" when="1999">1999</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Functional-coefficient regression models for nonlinear time series</title>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Cai</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Fan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Yao</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">95</biblScope>
+			<biblScope unit="page" from="941" to="956" />
+			<date type="published" when="2000">2000</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Profile likelihood inferences on semiparametric varying-coefficient partially linear models</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Fan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Huang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Bernoulli</title>
+		<imprint>
+			<biblScope unit="volume">11</biblScope>
+			<biblScope unit="page" from="1031" to="1057" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Statistical estimation in varying coefficient models</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Fan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Zhang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">27</biblScope>
+			<biblScope unit="page" from="1491" to="1518" />
+			<date type="published" when="1999">1999</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Multivariate varying-coefficient models for an ecological system</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">A</forename><surname>Ferguson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">W</forename><surname>Bowman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">M</forename><surname>Scott</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Carvalho</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environmetrics</title>
+		<imprint>
+			<biblScope unit="volume">20</biblScope>
+			<biblScope unit="page" from="460" to="476" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Comparing spatially-varying coefficients models for analysis of ecological data with non-stationary and anisotropic residual dependence</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">O</forename><surname>Finley</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Methods in Ecology and Evolution</title>
+		<imprint>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="page" from="143" to="154" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<monogr>
+		<title level="m" type="main">Geographically weighted regression: the analysis of spatially varying relationships</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">E</forename><surname>Charlton</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2002">2002</date>
+			<publisher>Wiley</publisher>
+			<pubPlace>Chichester</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Spatial modeling with spatially varying coefficient processes</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">J</forename><surname>Kim</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">F</forename><surname>Sirmans</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Banerjee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">98</biblScope>
+			<biblScope unit="page" from="387" to="396" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<monogr>
+		<title level="m" type="main">Nonparametric regression and generalized linear models</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">J</forename><surname>Green</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">W</forename><surname>Silverman</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1994">1994</date>
+			<publisher>Chapman and Hall</publisher>
+			<pubPlace>London</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Varying-coefficient models</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Hastie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Tibshirani</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society: Series B (Statistical Methodology)</title>
+		<imprint>
+			<biblScope unit="volume">55</biblScope>
+			<biblScope unit="page" from="757" to="796" />
+			<date type="published" when="1993">1993</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Spatially varying coefficient models in real estate: Eigenvector spatial filtering and alternative approaches</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Helbich</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Griffith</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Computer, Environment and Urban Systems</title>
+		<imprint>
+			<biblScope unit="volume">57</biblScope>
+			<biblScope unit="page" from="1" to="11" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Estimating ground-level PM 2.5 concentrations in the southeastern u.s. using geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Hu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">A</forename><surname>Waller</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">Z</forename><surname>Al-Hamdan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">L</forename><surname>Crosson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">G</forename><surname>Estes</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">M</forename><surname>Estes</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Liu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environmental Research</title>
+		<imprint>
+			<biblScope unit="volume">121</biblScope>
+			<biblScope unit="page" from="1" to="10" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Polynomial spline estimation and inference for varying coefficient models with longitudinal data</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Huang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">O</forename><surname>Wu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Zhou</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistica Sinica</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="page" from="763" to="788" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Spatially varying relationships between surface urban heat islands and driving factors across cities in China</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Huang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Yuan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Lu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environment and Planning B: Urban Analytics and City Science</title>
+		<imprint>
+			<biblScope unit="volume">0</biblScope>
+			<biblScope unit="page" from="1" to="18" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Bootstrap tests for simple structures in nonparametric time series regression</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Kreiss</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">H</forename><surname>Neumann</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Yao</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistics and its Interface</title>
+		<imprint>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="page" from="367" to="380" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<monogr>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">J</forename><surname>Lai</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">L</forename><surname>Schumaker</surname></persName>
+		</author>
+		<title level="m">Spline functions on triangulations</title>
+		<meeting><address><addrLine>New York</addrLine></address></meeting>
+		<imprint>
+			<publisher>Cambridge University Press</publisher>
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Bivariate penalized splines for regression</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">J</forename><surname>Lai</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Wang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistica Sinica</title>
+		<imprint>
+			<biblScope unit="volume">23</biblScope>
+			<biblScope unit="page" from="1399" to="1417" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Statistical tests for spatial nonstationarity based on the model</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Leung</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">L</forename><surname>Mei</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">X</forename><surname>Zhang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environment and Planning A</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="page" from="9" to="32" />
+			<date type="published" when="2000">2000</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Variable selection for high-dimensional generalized varying-coefficient models</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Lian</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistica Sinica</title>
+		<imprint>
+			<biblScope unit="volume">22</biblScope>
+			<biblScope unit="page" from="1563" to="1588" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">A long-term hydrologically based dataset of land surface fluxes and states for the conterminous United States: Update and extensions</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Livneh</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">A</forename><surname>Rosenberg</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Lin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Nijssen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Mishra</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">M</forename><surname>Andreadis</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">.</forename><forename type="middle">.</forename><surname>Lettenmaier</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">P</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Climate</title>
+		<imprint>
+			<biblScope unit="volume">26</biblScope>
+			<biblScope unit="page" from="9384" to="9392" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Adaptively varying-coefficient spatiotemporal models</title>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Lu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">J</forename><surname>Steinskog</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Tjøstheim</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Yao</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society: Series B (Statistical Methodology)</title>
+		<imprint>
+			<biblScope unit="volume">71</biblScope>
+			<biblScope unit="page" from="859" to="880" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">Estimating spatial quantile regression with functional coefficients: A robust semiparametric framework</title>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Lu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Tang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Cheng</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Bernoulli</title>
+		<imprint>
+			<biblScope unit="volume">20</biblScope>
+			<biblScope unit="page" from="164" to="189" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Nonparametric estimation of probability density functions for irregularly observed spatial data</title>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Lu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Tjøstheim</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">109</biblScope>
+			<biblScope unit="issue">508</biblScope>
+			<biblScope unit="page" from="1546" to="1564" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">Testing the importance of the explanatory variables in a mixed geographically weighted regression model</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">L</forename><surname>Mei</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">X</forename><surname>Zhang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environment and Planning A</title>
+		<imprint>
+			<biblScope unit="volume">38</biblScope>
+			<biblScope unit="page" from="587" to="598" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Geographically weighted poisson regression for disease association mapping</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Nakaya</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">E</forename><surname>Charlton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistics in Medicine</title>
+		<imprint>
+			<biblScope unit="volume">24</biblScope>
+			<biblScope unit="page" from="2695" to="2717" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">A simple mesh generator in matlab</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">O</forename><surname>Persson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Strang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">SIAM Review</title>
+		<imprint>
+			<biblScope unit="volume">46</biblScope>
+			<biblScope unit="page" from="329" to="345" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">Spline smoothing over difficult regions</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Ramsay</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society: Series B (Statistical Methodology)</title>
+		<imprint>
+			<biblScope unit="volume">64</biblScope>
+			<biblScope unit="page" from="307" to="319" />
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">Selecting the number of knots for penalized splines</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Ruppert</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Computational and Graphical Statistics</title>
+		<imprint>
+			<biblScope unit="volume">11</biblScope>
+			<biblScope unit="page" from="735" to="757" />
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<analytic>
+		<title level="a" type="main">Spatially modeling the effects of meteorological drivers of PM 2.5 in the eastern United States via a local linear penalized quantile regression estimator</title>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">T</forename><surname>Russell</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">S</forename><surname>Mcmahan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environmetrics</title>
+		<imprint>
+			<biblScope unit="page">2448</biblScope>
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<analytic>
+		<title level="a" type="main">Spatial spline regression models</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Sangalli</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Ramsay</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Ramsay</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society: Series B (Statistical Methodology)</title>
+		<imprint>
+			<biblScope unit="volume">75</biblScope>
+			<biblScope unit="page" from="681" to="703" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<analytic>
+		<title level="a" type="main">Spatially varying coefficient models: Testing for spatial heteroscedasticity and reweighting estimation of the coefficients</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">L</forename><surname>Shen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">L</forename><surname>Mei</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><forename type="middle">J</forename><surname>Zhang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environment and Planning A</title>
+		<imprint>
+			<biblScope unit="volume">43</biblScope>
+			<biblScope unit="page" from="1723" to="1745" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<analytic>
+		<title level="a" type="main">Optimal global rates of convergence for nonparametric regression</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">J</forename><surname>Stone</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">10</biblScope>
+			<biblScope unit="page" from="1040" to="1053" />
+			<date type="published" when="1982">1982</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<analytic>
+		<title level="a" type="main">Coverage inequality of volunteered geographic features in Chinese cities: analyzing the associated local characteristics using geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Su</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Lei</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Pi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Cai</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Applied Geography</title>
+		<imprint>
+			<biblScope unit="volume">78</biblScope>
+			<biblScope unit="page" from="78" to="93" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<analytic>
+		<title level="a" type="main">A semiparametric spatial dynamic model</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Sun</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Yan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Lu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">42</biblScope>
+			<biblScope unit="page" from="700" to="727" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b40">
+	<analytic>
+		<title level="a" type="main">Correlations between fine particulate matter (PM 2.5 ) and meteorological variables in the United States: Implications for the sensitivity of PM 2.5 to climate change</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Tai</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">J</forename><surname>Mickley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">J</forename><surname>Jacob</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Atmospheric Environment</title>
+		<imprint>
+			<biblScope unit="volume">44</biblScope>
+			<biblScope unit="page" from="3976" to="3984" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b41">
+	<analytic>
+		<title level="a" type="main">Robust estimation for functional coefficient regression models with spatial data</title>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Tang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistics</title>
+		<imprint>
+			<biblScope unit="volume">48</biblScope>
+			<biblScope unit="page" from="388" to="404" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b42">
+	<analytic>
+		<title level="a" type="main">B-spline estimation for varying coefficient regression with spatial data</title>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Tang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Cheng</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Science in China Series A: Mathematics</title>
+		<imprint>
+			<biblScope unit="volume">11</biblScope>
+			<biblScope unit="page" from="2321" to="2340" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b43">
+	<analytic>
+		<title level="a" type="main">Quantifying geographic variations in associations between alcohol distribution and violence: A comparison of geographically weighted regression and spatially varying coefficient models</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">A</forename><surname>Waller</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Zhu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">A</forename><surname>Gotway</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">M</forename><surname>Gorman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">J</forename><surname>Gruenewald</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Stochastic Environmental Research and Risk Assessment</title>
+		<imprint>
+			<biblScope unit="volume">21</biblScope>
+			<biblScope unit="page" from="573" to="588" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b44">
+	<analytic>
+		<title level="a" type="main">Multicollinearity and correlation among local regression coefficients in geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Wheeler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Tiefelsdorf</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Geographical Systems</title>
+		<imprint>
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="page" from="161" to="187" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b45">
+	<analytic>
+		<title level="a" type="main">Soap film smoothing</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">N</forename><surname>Wood</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">V</forename><surname>Bravington</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">L</forename><surname>Hedley</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society: Series B (Statistical Methodology)</title>
+		<imprint>
+			<biblScope unit="volume">70</biblScope>
+			<biblScope unit="page" from="931" to="955" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b46">
+	<analytic>
+		<title level="a" type="main">Thin plate regression splines</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">N</forename><surname>Wood</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society: Series B (Statistical Methodology)</title>
+		<imprint>
+			<biblScope unit="volume">65</biblScope>
+			<biblScope unit="page" from="95" to="114" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b47">
+	<analytic>
+		<title level="a" type="main">Additive coefficient modeling via polynomial spline</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Xue</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Yang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistica Sinica</title>
+		<imprint>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="page" from="1423" to="1446" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b48">
+	<analytic>
+		<title level="a" type="main">Spatial modeling for refining and predicting surface potential mapping with enhanced resolution</title>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Deng</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Qian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Wang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Nanoscale</title>
+		<imprint>
+			<biblScope unit="volume">5</biblScope>
+			<biblScope unit="page" from="921" to="926" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

@@ -1,0 +1,668 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">A Generalized Moments Estimator for the Autoregressive Parameter in a Spatial Model</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability  status="unknown">
+					<licence/>
+				</availability>
+				<date type="published" when="1997-03">Revised March 1997</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">Harry</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Economics</orgName>
+								<orgName type="institution">University of Maryland</orgName>
+								<address>
+									<postCode>20742</postCode>
+									<settlement>College Park</settlement>
+									<region>MD</region>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Ingmar</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Economics</orgName>
+								<orgName type="institution">University of Maryland</orgName>
+								<address>
+									<postCode>20742</postCode>
+									<settlement>College Park</settlement>
+									<region>MD</region>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">A Generalized Moments Estimator for the Autoregressive Parameter in a Spatial Model</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="1997-03">Revised March 1997</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">6E9050F4DCEAFEEE02DDAB0D96F31A4B</idno>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-17T13:17+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>This paper is concerned with the estimation of the autoregressive parameter in a widely considered spatial autocorrelation model. The typical estimator for this parameter considered in the literature is the (quasi) maximum likelihood estimator corresponding to a normal density. However, as discussed in the paper, the (quasi) maximum likelihood estimator may not be computationally feasible in many cases involving moderate or large sized samples. In this paper we suggest a generalized moments estimator that is computationally simple irrespective of the sample size. We provide results concerning the large and small sample properties of this estimator. 1 We would like to thank Michael Binder, Benedikt Pötscher, You-Qiang Wang, an anonymous referee and the editors for helpful comments, and Dennis Robinson for providing some of the weighting matrices.</p><p>2 Of course, if panel data are available one can consider, e.g., a seemingly unrelated regression model, or an error component model to permit for cross sectional correlation, and estimate the cross sectional correlations via the time dimension of the panel if the time dimension is sufficiently large.</p><p>3 There is an extensive literature relating to spatial models in the regional science and geography literature; see, e.g., Anselin (1988), Bennett and<ref type="bibr" target="#b3">Hordijk (1986)</ref>, <ref type="bibr" target="#b5">Cliff and Ord (1973</ref><ref type="bibr" target="#b6">, 1981</ref><ref type="bibr" target="#b8">), and Cressie (1993)</ref> and the references cited therein. For critical comments see <ref type="bibr" target="#b18">Kelejian and Robinson (1995)</ref>. 8 Generalizations and variations on these assumptions have been considered -see, e.g., <ref type="bibr" target="#b0">Anselin (1988</ref><ref type="bibr" target="#b5">), and Cliff and Ord (1973</ref><ref type="bibr" target="#b6">, 1981)</ref>. 9 As remarked in the Introduction, this violates one of the assumptions maintained by <ref type="bibr" target="#b20">Mardia and Marshall's (1984)</ref> theorem regrading the consistency and asymptotic normality of ML estimators for Gaussian processes.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction 1</head><p>There exists a large body of literature that considers autocorrelation of the disturbances across cross sectional units for panel data, i.e., data which are observed both across cross sectional units and over time. However, the estimation of models that permit for autocorrelation of the disturbances across cross sectional units for cases in which the data are only observed in one time period has -until recently -only received relatively little attention in the theoretical econometrics literature. For example, in most econometric text books there is no discussion relating to spatial models, when only a single cross section of data is available. 2 This is unfortunate because issues relating to geographical proximity, transportation, spill-over effects, etc., suggest that such models are important. Indeed, in recent years there have been a number of theoretical and applied econometric studies involving spatial issues, which include contributions by <ref type="bibr" target="#b4">Case (1991)</ref>, <ref type="bibr" target="#b7">Conley (1996)</ref>, <ref type="bibr" target="#b9">Delong and Summers (1991)</ref>, <ref type="bibr" target="#b10">Dubin (1988)</ref>, <ref type="bibr" target="#b17">Kelejian and Robinson (1993)</ref>, <ref type="bibr" target="#b21">Moulton (1990)</ref>, <ref type="bibr" target="#b27">Quah (1992)</ref> and <ref type="bibr" target="#b28">Topa(1996)</ref>. 3  One of the most widely referenced models of spatial autocorrelation is one that was put forth by <ref type="bibr">Cliff and</ref><ref type="bibr">Ord (1973, 1981)</ref>. This model is a variant of the model considered by <ref type="bibr" target="#b30">Whittle (1954)</ref>, and is sometimes referred to as a spatial autoregressive (SAR) model -see, e.g., <ref type="bibr" target="#b0">Anselin (1988)</ref>. In the SAR model the disturbance term corresponding to a cross sectional unit is, as discussed in more detail below, modeled as a weighted average of disturbances corresponding to other cross sectional units, plus an innovation. This weighted average involves a scalar parameter, say ρ, and a set of weights which describe the spatial interactions. The innovations are typically assumed to be i.i.d. N(0, σ 2 ). In a regression framework, the parameters of interest would then be ρ, σ 2 , and the vector of regression coefficients. Typi-cally, the spatial weights do not involve unknown parameters. 4  Regression models containing spatially correlated disturbance terms based on the SAR model are typically estimated by the (quasi) maximum likelihood (ML) estimator, where the likelihood function corresponds to the normal distribution. We use the term (quasi) ML estimator rather than the term ML estimator to cover specifications where the actual distribution is permitted to differ from the normal distribution, as is the case in our analysis below. Given appropriate conditions these (quasi) ML estimators should be consistent and asymptotically normally distributed. However, to the best of our knowledge, formal results establishing these properties under a specific set of low level assumptions do not seem to be available for the SAR model considered here. We note, however, that <ref type="bibr" target="#b20">Mardia and Marshall (1984)</ref> give a general result concerning the consistency and asymptotic normality of the ML estimator for regression models with general disturbance covariances, provided that the disturbances are normally distributed. Clearly their theorem will cover many Gaussian spatial processes. However, in a formal sense their theorem is not applicable to the typical SAR model, even in the case where the disturbances are normally distributed. The reason for this is that Mardia and Marshall assume that the elements of the disturbance covariance matrix do not depend on the sample size. As will be seen below, this assumption is not satisfied for the typical SAR model. 5  A practical difficulty with the (quasi) ML method in SAR models is that the estimation of ρ entails significant computational complexities. As our discussion will make clear, these complexities can be overwhelming if the spatial weights are not symmetric, which is typically the case in practice, 4 See, e.g., <ref type="bibr" target="#b0">Anselin (1988</ref><ref type="bibr" target="#b1">Anselin ( , 1990</ref>) and the references cited therein. For an empirical study involving a parameterized weighting matrix see <ref type="bibr" target="#b10">Dubin (1988)</ref>. 5 Of course, the general literature on (quasi) ML estimation contains various sets of sufficient conditions under which (quasi) ML estimators are consistent and asymptotically normally distributed; see, e.g., <ref type="bibr" target="#b12">Gallant and White (1988)</ref>, <ref type="bibr">Heijmans and</ref><ref type="bibr">Magnus (1986, 1987)</ref>, and <ref type="bibr">Pötscher and Prucha (1991a,b)</ref> for recent contributions in the econometrics literature as well as for other references. One approach to formally establish the asymptotic properties of the (quasi) ML estimators under a specific set of low level assumptions for the SAR model considered here would be to formally establish that those assumptions are covered by one of the sets of sufficient conditions given in the general literature on (quasi) ML estimation. We note, however, that such a demonstration may be involved. Also, if N cross sections are observed not only for one but for T periods, spatial autocorrelation can be modeled in a general fashion via a seemingly unrelated regression model and standard large sample theory can be applied to the case in which N is fixed and T → ∞.</p><p>even if the sample size is only moderate, or if the sample size is large, which is also the case in various applications -e.g., there are more than 3000 counties in the U.S. These practical difficulties are troublesome since, as <ref type="bibr">Cliff and Ord (1981, p.153)</ref> suggest, thus far the only available alternative to the (quasi) ML estimator of ρ in the SAR model is a moments estimator, which was suggested by <ref type="bibr" target="#b22">Ord (1975)</ref>. This estimator, however, is generally not seriously considered because of its inefficiency -see, e.g., Ord (1975, p.122). <ref type="foot" target="#foot_0">6</ref>The purpose of this paper is two-fold. First, on a theoretical level, we suggest an estimator for the parameter ρ in the SAR model based on a "generalized" moments approach. This estimator is, relative to the (quasi) ML estimator, computationally simple. We then provide a formal proof for the consistency of the estimator under an explicit set of conditions. We note that these conditions do not involve the assumption of normality. Second, we give Monte Carlo results relating to, among other things, the small sample distribution of our suggested estimator and the (quasi) ML estimator. These results suggest that under a variety of distributions including the normal distribution our estimator of ρ is "virtually as efficient" as the (quasi) ML estimator, defined as the maximizer of the likelihood function corresponding to the normal distribution.</p><p>In the context of a regression model we also demonstrate that, under typical assumptions, ρ is a nuisance parameter in the sense that the feasible generalized least squares (feasible GLS) estimator based on a consistent estimator of ρ is asymptotically equivalent to the GLS estimator. Therefore, the importance of our results concerning the estimation of ρ also relate to the computational simplicity of feasible GLS estimators. As a by-product we also establish the limiting distribution of those estimators. We note that this requires the use of a central limit theorem for triangular arrays.</p><p>Recently, in an interesting dissertation, <ref type="bibr" target="#b7">Conley (1996)</ref> has also considered a class of generalized method of moments estimators within a spatial setting. Rather than to assume a specific model for the generation of the data he maintains that the data are stationary and spatially mixing. Clearly, avoiding specific modelling assumptions is appealing with regard to issues of potential misspecification. On the other hand, Conley's stationarity assumption may be restrictive in many applied settings. Also, this assumption is in general not satisfied by the class of spatial ARMA processes as defined, e.g., in <ref type="bibr" target="#b2">Anselin and Florax (1995)</ref>, including the SAR model considered here, because of the nature of the spatial weighting matrices used in modelling those processes. 7 Additionally, the derivation of asymptotic results for Mestimators, and in particular generalized method of moments estimators, typically involves a demonstration that the objective function of the estimator converges uniformly over the parameter space to its asymptotic counter part. Provided that the functions forming the objective function are "first moment continuous", that a "local" law of large numbers holds, and given compactness of the parameter space the desired uniform convergence follows immediately from <ref type="bibr" target="#b29">Wald's (1949)</ref> approximation technique, cp., e.g., Pötscher and Prucha (1989, pp. 680-81). Conley maintains "first moment continuity" as an assumption towards establishing uniform convergence. However, in particular applications a verification of this high level assumption may be "involved". In this paper we deduce the needed uniform convergence from a set of lower level assumptions. We note further that Conley's dissertation also provides a treatment of covariance matrix estimators in a spatial setting.</p><p>The SAR model is specified and interpreted in Section 2. This section also contains a discussion relating to (quasi) maximum likelihood estimation. Our estimator, and a variation of it, are defined and discussed in Section 3.</p><p>Results showing that ρ is a nuisance parameter in a regression framework are given in Section 4. The Monte Carlo study is described, and results relating to our suggested estimators as well as to the (quasi) maximum likelihood are given in Section 5. Section 6 contains suggestions for further work. All proofs are relegated to the Appendix.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">The Spatial Autoregressive Model</head><p>In the SAR model an N × 1 disturbance vector u is generated as follows:</p><formula xml:id="formula_0">u = ρMu + , (<label>1</label></formula><formula xml:id="formula_1">)</formula><p>where M is an N × N matrix of known constants, ρ is a scalar parameter, which is typically referred to as the spatial autoregressive parameter, and 7 As a further technical detail, let (z i ) denote the data generating process, and let θ denote the vector of unknown parameters. Then Conley considers moments of the form Eg(z i , θ) = 0, i = 1, . . . , N, where g is some vector valued function. In contrast, the moments utilized in this paper are of the form Eg i,N (z 1 , . . . , z N , θ) = 0, i = 1, . . . , N.</p><p>is a N × 1 vector of innovations. For reasons which will become evident, M is often referred to as a spatial weighting matrix. For reasons of generality we permit the elements of M and to depend on N , i.e., to form triangular arrays. However, for simplicity of notation we do not indicate this possible dependence on N explicitly in the following.</p><p>It proves helpful to introduce the following notational conventions: In general, we denote the i-th element of a vector v as v i , and the (i, j)-th element of a matrix A as a ij . Correspondingly, we denote the i-th row and jth column of A as a i. and a .j . Given this notation, the typical assumptions of the SAR model are: 8   Assumption 1 : The innovations 1 , ..., N are independently and identically distributed (for all N ) with zero mean and variance σ 2 , where 0 &lt; σ 2 &lt; b with b &lt; ∞. Additionally the innovations are assumed to possess finite fourth moments. Given these assumptions it follows from (1) that u = (I -ρM) -1 . Thus, E(u) = 0 and E(uu ) = Ω(ρ), where Ω(ρ) = σ 2 (I -ρM) -1 (I -ρM ) -1 .</p><p>(</p><formula xml:id="formula_2">)<label>2</label></formula><p>We note that, in general, the elements of (I -ρM) -1 will depend on the sample size N . As a consequence, in general, the elements of u will also depend on N and thus form a triangular array, even if the elements of do not depend on N . It also follows that, in general, the elements of Ω(ρ) will depend on N . 9  The specification in (1) implies that u i = ρ N j=1 m ij u j + i , i = 1, . . . , N. In a cross sectional setting, the nonzero weights m ij are often specified to be those which correspond to units which relate to the i-th unit in a meaningful way. Such units are often said to be neighbors of unit i. As one example, if the cross sectional units are geographical regions, one might take m ij = 0 if the i-th and j-th regions are contiguous, and m ij = 0, otherwise. In this setting, each disturbance consists of a weighted sum of disturbances in related regions, and a term which is i.i.d. over the regions. Clearly Assumption 2(a) is a normalization of the model, Assumption 2(b) is a stability condition for certain specifications of M, and Assumption 2(c) ensures that the disturbance vector u is uniquely defined in terms of the innovation vector . <ref type="foot" target="#foot_1">10</ref>One implication of a model such as (1) is that, unlike for most time series models, m ij need not be zero for j &gt; i. Thus, one distinguishing feature of a spatial model is that the i-th disturbance term may be directly related to both "future" and "past" disturbances. Also, in a spatial model there is typically no natural order for arranging the sample.</p><p>Assuming for the moment that u is observable and normally distributed, the log-likelihood for the model in (1) is, using evident notation, given by</p><formula xml:id="formula_3">ln(L) = - N 2 {ln(σ 2 ) + ln(2π)} (<label>3</label></formula><formula xml:id="formula_4">) - 1 2σ 2 u (I -ρM )(I -ρM )u + ln ||I -ρM || .</formula><p>As remarked above, the normality of u is not one of our maintained assumptions, and hence we refer to the maximizers of (3) as (quasi) ML estimators. In the following we denote those (quasi) ML estimators for ρ and σ 2 as ρQML and σ2 QM L , respectively. As is evident from (3) the computation of the (quasi) ML estimators involves the repeated evaluation of the determinant of the N × N matrix I -ρM. To minimize the computational burden, <ref type="bibr" target="#b22">Ord (1975)</ref> suggested that the troublesome term in (3) be expressed as ln ||I -ρM|| = N i=1 ln(|1ρλ i |), where λ i denotes the i-th eigenvalue of M . The advantage of this approach is that (since M is a known matrix) the eigenvalues of M only have to be computed once at the outset of the numerical optimization procedure employed in finding the (quasi) ML estimates, and not repeatedly at each of the necessary numerical iterations. However, this still leaves the researcher with the task of finding the eigenvalues of the N × N matrix M . Unless M has a particular structure this task is typically "challenging", especially if N is large -recall, e.g., that there are over 3000 counties in the U.S. In fact, in many cases it will be practically impossible to compute those eigenvalues accurately based on computing technology typically available to empirical researchers. As an illustration, in some of the Monte Carlo experiments reported below we use "idealized" symmetric M matrices in which each spatial unit has the same number of neighbors, say J. Clearly for those matrices all eigenvalues are real. However, when we employed a standard subroutine for computing the eigenvalues of a general matrix from the IMSL program library the routine reported eigenvalues with imaginary parts that differed substantially from zero even for the moderate sample size N = 400, when the number of neighbors J was 6 or larger. 11  In fact, some of the reported imaginary parts differed from zero by more than .5 in absolute value. Only when we employed a subroutine that utilized the symmetric nature of those M matrices were we able to compute the eigenvalues accurately. Since, in practice, spatial weighting matrices are typically not symmetric this suggest that an accurate computation of the (quasi) ML estimator may not be feasible in many cases even for moderate sample sizes. 12 Given these computational problems, it is clearly important to have an alternative to the (quasi) ML estimator, which is computationally feasible for general weighting matrices M, and large sample sizes N .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">Definition and Consistency of a Generalized Moments Estimator of ρ</head><p>Suppose u defined in (1) represents the disturbance vector in a model, and based on that model u is a predictor of u. For notational convenience let u = Mu and u = MMu, and correspondingly, u = M u, and u = MM u. Similarly, let = M and note that under Assumptions 1 and 2: 11 The IMSL subroutine employed was DEVLGR, which itself is based on subroutines from the EISPACK program library. It seems that other packages such as MATLAB also employ routines from EISPACK. 12 We also experimented with MATLAB 4.2 for Windows, using a PC with a Pentium 133Mhz processor and 32MBs of memory, to calculate the eigenvalues for our "idealized" M matrices. In those experiments we encountered "out of memory" errors for M matrices with N ≥ 2000 and J = 10, even when using a routine for sparse symmetric matrices. In terms of computational time it took, e.g., 22 minutes to compute the eigenvalues in the case N = 1500 and J = 10, again using a routine for sparse symmetric matrices. The subsequent computation of the (quasi) ML estimator based on those eigenvalues and using TSP 4.2 only took seconds. The computation of our generalized moments estimator, which does not require the computation of eigenvalues, also took only seconds.</p><formula xml:id="formula_5">E[ 1 N ] = σ 2 , E[ 1 N ] = σ 2 N -1 T r(M M ), E[ 1 N ] = 0.<label>(4)</label></formula><p>Our generalized moments estimator for ρ is based on these three moments. Specifically, noting from (1) that = uρu and so = uρu, consider the following three equation system implied by ( <ref type="formula" target="#formula_0">1</ref>) and ( <ref type="formula" target="#formula_5">4</ref>) :</p><formula xml:id="formula_6">Γ N [ρ, ρ 2 , σ 2 ] -γ N = 0 (<label>5</label></formula><formula xml:id="formula_7">)</formula><p>where</p><formula xml:id="formula_8">Γ N =    2 N E(u u) -1 N E(u u) 1 2 N E(u u) -1 N E(u u) 1 N tr(M M) 1 N E(u u + u u) -1 N E(u u) 0    , γ N =    1 N E(u u) 1 N E(u u) 1 N E(u u)    .</formula><p>Now consider the following analog to ( <ref type="formula" target="#formula_6">5</ref>) in terms of sample moments based on u:</p><formula xml:id="formula_9">G N [ρ, ρ 2 , σ 2 ] -g N = ν N (ρ, σ 2 )<label>(6)</label></formula><p>where</p><formula xml:id="formula_10">G N =     2 N u u -1 N u u 1 2 N u u -1 N u u 1 N tr(M M ) 1 N ( u u + u u) -1 N u u 0     , g N =    1 N u u 1 N u u 1 N u u    ,</formula><p>and where the 3×1 vector ν N (ρ, σ 2 ) can be viewed as a vector of residuals. We now define our generalized moments estimator for ρ and σ 2 as the nonlinear least squares estimator, say ρNLS,N and σ2 N LS,N , corresponding to (6). More specifically,</p><formula xml:id="formula_11">(ρ NLS,N , σ2 N LS,N ) = argmin ν N (ρ, σ 2 ) ν N (ρ, σ 2 ) : ρ ∈ [-a, a], σ 2 ∈ [0, b]<label>(7)</label></formula><p>where a ≥ 1.</p><p>Remark 1: Note that (7) implies that ρNLS,N ≤ a with a ≥ 1. Since |ρ| &lt; 1, if the bound a is sufficiently large, ρNLS,N is essentially the unconstrained nonlinear least squares estimator of ρ. The existence and measurability of ρNLS,N and σ2</p><p>N LS,N is assured by, e.g., Lemma 2 in Jennrich (1969).</p><p>In the following let P (ρ) = (I -ρM) -1 . We now specify three additional assumptions. Assumption 4 : Let u i denote the i-th element of u, where again we suppress the dependence of u and its elements on N for notational convenience. We then assume that there exist (finite dimensional) random vectors d iN and</p><formula xml:id="formula_12">∆ N such that | u i -u i | ≤ d iN ∆ N with N -1 N i=1 d iN 2+δ = O p (1)</formula><p>for some δ &gt; 0 and N 1/2 ∆ N = O p (1). 13   Assumption 5 : The smallest eigenvalue of Γ N Γ N is bounded away from zero, i.e., λ min (Γ N Γ N ) ≥ λ * &gt; 0.</p><p>Remark 2: (a) In practice spatial models are often formulated in such a way that each cross sectional unit has a limited number of "neighbors" regardless of the sample size -see, e.g., <ref type="bibr" target="#b4">Case(1991)</ref> and <ref type="bibr" target="#b18">Kelejian and Robinson (1995)</ref>. In such cases the weighting matrix M is sparse for large N and so Assumption 3(i) would be satisfied. As a point of information we note that in many of these cases the elements of M are taken to be nonnegative and row normalized in that j m ij = 1. In still other cases, the weighting matrix does not contain zeros but its elements are assumed to decline rapidly in certain directions because they are defined in terms of variables such as distance -see e.g., <ref type="bibr" target="#b10">Dubin (1988)</ref> and De Long and Summers (1991). Again, under further reasonable (but idealized) conditions, Assumption 3(i) would be expected to hold. (b) Recall from (2) that Ω = σ 2 P P . Assumption 3(ii) then implies that N -1 N i=1 N j=1 |ω ij | is bounded, thus limiting the degree of correlation. 14  In a time series context this condition ensures that the process possesses a fading memory. We also note that Assumption 3(ii) is closely related to Condition A5 in Mandy and Martins-Filho (1994) in their study of large sample properties of feasible GLS estimators. 13 For definiteness, let A be some vector or matrix, then A = [T r(A A)] 1/2 . We note that this norm is submultiplicative, i.e., AB ≤ A B . We also define |A| as the vector or matrix of absolute values. 14 Observe that</p><formula xml:id="formula_13">N -1 N i=1 N j=1 |ω ij | ≤ σ 2 N -1 N i=1 N j=1 N k=1 |p ik | |p jk | = σ 2 N -1 N k=1 N i=1 |p ik | N j=1 |p jk | ≤ σ 2 c 2 p &lt; ∞.</formula><p>Remark 3: Assumption 4 should be satisfied for most cases in which u is based upon N 1/2 -consistent estimators of the regression coefficients. For example, using evident notation, consider the nonlinear regression model y i = f (x i , β) + u i . Let β N denote the nonlinear least squares estimator and let u i = y if (x i , β N ). Assuming that f is differentiable and applying the mean value theorem it readily seen that</p><formula xml:id="formula_14">| u i -u i | ≤ d iN ∆ N with d iN = sup β | ∂f (x i , β )/∂β | and ∆ N = β N -β.</formula><p>Under typical assumptions maintained for the nonlinear regression model, d iN and ∆ N will satisfy the conditions postulated in Assumption 3; cp., e.g., Pötscher and Prucha (1986).</p><p>Remark 4: It will become evident that Assumption 5 is an identifiability condition.</p><p>Our basic result is Theorem 1, whose proof is given in the appendix.</p><p>Theorem 1 : Let ρNLS,N and σ2 NLS,N be the nonlinear least squares estimators defined by <ref type="bibr" target="#b6">(7)</ref>. Then, given Assumptions 1-5,</p><formula xml:id="formula_15">(ρ N LS,N , σ2 N LS,N ) p → (ρ, σ 2 ) as N → ∞.</formula><p>An obvious variation on ρNLS,N in Theorem 1 is based on an over parameterization of (6). Specifically, let ϕ = ρ 2 , α = (ρ, ϕ, σ 2 ), and let αOLS,N = (ρ OLS,N , φOLS,N , σ2 OLS,N ) be the ordinary least squares estimator of α based on (6). Then, it is evident from the proof of Theorem 1 that, under the same conditions, (ρ OLS,N , φOLS,N , σ2 OLS,N ) p → (ρ, ϕ, σ 2 ) as N → ∞.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">An Application to the Generalized Least Squares Model</head><p>As discussed, the vector u defined in (1) will often represent the vector of disturbances of some econometric model. In such cases ρ will often be a nuisance parameter in the sense that the asymptotic distribution of some estimator of the model parameters of interest will be the same if ρ is known or if ρ is replaced by a consistent estimator. In many of these cases it will be possible to estimate the disturbances N 1/2 -consistently in a first step. The force of Theorem 1 is that based on those estimated disturbances a simple and consistent estimator of ρ is available.</p><p>In the following we illustrate this point within the context of a linear regression model with spatially autoregressive disturbances. In particular, consider the following model:</p><formula xml:id="formula_16">y = Xβ + u (<label>8</label></formula><formula xml:id="formula_17">)</formula><p>where y is the N × 1 vector of observations on the dependent variable, X is the N × K matrix of observations on the explanatory variables, β is the K×1 vector of unknown model parameters and u is the vector of disturbances assumed to be generated by <ref type="bibr" target="#b0">(1)</ref>. As discussed in Section 2, in general, the elements of u and hence those of y will depend on N . For reasons of generality we also permit the elements of X to depend on N , but again we do not indicate this possible dependence on N explicitly. We maintain the following typical assumptions for the regressor matrix X and the variance covariance matrix Ω of the disturbance vector u.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Assumption 6 :</head><p>The elements of X are nonstochastic and bounded in absolute value by c x , 0 &lt; c x &lt; ∞. Also X has full column rank and the matrix Q x = lim N →∞ N -1 X X is finite and nonsingular. Furthermore, the matrices Q x (ρ) = lim N →∞ N -1 X Ω(ρ) -1 X and Q x (ρ) = lim N →∞ N -1 X Ω(ρ)X are finite and nonsingular for all |ρ| &lt; 1.</p><p>The true GLS estimator for β is defined as β G N = [X Ω(ρ) -1 X] -1 X Ω(ρ) -1 y, and the feasible GLS estimator for β corresponding to some estimator of ρ, say ρ N , is defined as</p><formula xml:id="formula_18">β F G N = [X Ω( ρ N ) -1 X] -1 X Ω( ρ N ) -1 y.</formula><p>The following theorem first establishes the asymptotic distribution of β G N , and then shows that β F G N has the same asymptotic distribution as β G N , if ρ N is a consistent estimator for ρ. All proofs are relegated to the appendix.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Theorem 2 : Given assumptions A1 -A3 and A6 hold:</head><p>(a) The true GLS estimator β G N is a consistent estimator for β, and</p><formula xml:id="formula_19">N 1/2 [ β G N -β] D → N (0, σ 2 Q x (ρ) -1 ).</formula><p>(b) Let ρ N be a consistent estimator for ρ. Then the true GLS estimator β G N and the feasible GLS estimator β F G N have the same asymptotic distribution.</p><p>(c) Suppose further that σ 2 N is a consistent estimator for σ 2 . Then</p><formula xml:id="formula_20">σ 2 N [N -1 X Ω( ρ N ) -1 X] -1 is a consistent estimator for σ 2 Q x (ρ) -1 .</formula><p>As remarked in the Introduction, for the spatial model considered here a rigorous proof of the asymptotic distribution of the GLS estimator β G N requires the use of a central limit theorem for triangular arrays (even if the elements of M and X do not depend on N ). Such a central limit theorem is given in the Appendix.</p><p>Theorem 2 assumes the existence of a consistent estimator of ρ and σ 2 . We demonstrate in the Appendix that under Assumptions 1-3 and 5-6 the ordinary least squares (OLS) estimator β N = [X X] -1 X y is N 1/2 -consistent. Given this, the corresponding residuals u i = y ix i. β N satisfy Assumption 4 with d iN = |x i. | and ∆ N = β Nβ. Thus, via the suggested generalized moments estimator and Theorem 1, these residuals can be used to obtain consistent estimators of ρ and σ 2 . According to Theorem 2 these estimators can then be used in formulating a feasible GLS estimator (and an estimator for its asymptotic variance covariance matrix) with the feasible and true GLS estimator being asymptotically equivalent.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5">A Monte Carlo Model Study</head><p>It is of interest to analyze the small sample properties of the generalized moments estimators ρNLS and ρOLS and compare them with those of the (quasi) maximum likelihood estimator ρQML defined as the maximizer of the normal log-likelihood function (3). <ref type="foot" target="#foot_2">15</ref> For this purpose we have conducted a two part Monte Carlo study. The first part of the Monte Carlo study is based on "idealized" weighting matrices M which differ in size and in the number of neighbors. For these idealized weighting matrices the number of neighbors per unit is taken to be the same in each of the respective matrices. For future reference, we note that, for a given sample size, the number of neighbors per unit can be viewed as a measure of the sparseness of that matrix. In using these idealized weighting matrices we can readily explore the effects of sample size and number of neighbors on the small sample properties of our considered estimators. Of course, the use of idealized weighting matrices raises the concern that results corresponding to those matrices may not be representative of results corresponding to "real world" matrices. The second part of the Monte Carlo study is hence based on real world weighting matrices.</p><p>For both parts of the Monte Carlo study we consider three distributions of and seven selections of ρ. As discussed in more detail below, we consider a total of 36 cases for each distribution of . The results for each case are based on 500 Monte Carlo replications. To summarize the results of the respective Monte Carlo experiments we estimate response functions. It turns out that the estimated response functions based on idealized and real world weighting matrices are not "significantly" different. <ref type="foot" target="#foot_3">16</ref> The estimates for the response functions reported below will hence be based on both sets of weighting matrices. These response functions can also be used to interpolate results for other cases.</p><p>We now describe the design of the Monte Carlo experiments in more detail. Note first from (1) that σ is a scale factor for u, as well as for u and u, in that their standard deviations are proportional to σ. Because of this, the estimators for ρ defined above do not depend upon σ 2 . Hence, without loss of generality, we took σ 2 = 1 in generating the data for all of the experiments considered; however, in all of the experiments, σ 2 was viewed as an unknown parameter concerning estimation.</p><p>The first distribution for explored in the experiments is the normal. More specifically, we assume that the i are i.i.d. N (0, 1). This case is viewed as a base case for the small sample comparisons, since in this case ρQML is actually the maximum likelihood estimator . The second distribution considered is a normalized version of the log-normal. More specifically, we assume in this case that i = [exp(ξ i ) -exp(.5)]/[exp(2) -exp(1)] .5 , where the ξ i are i.i.d. N (0, 1). The normalization implies that the i are i.i.d. (0, 1). This distribution was considered because it is not symmetric. The third distribution considered is a normalized version of a mixture of normals in which one normally distributed random variable is contaminated by another which has a larger variance. More specifically, we assume here that i = [λ i ξ i +(1-λ i )ζ i ]/(5.95) .5 , where the λ i are i.i.d. Bernoulli variables with Prob(λ i = 1) = .95, the ξ i are i.i.d. N (0, 1), and the ζ i are i.i.d. N (0, 100). Also, the processes (λ i ), (ξ i ) and (ζ i ) are assumed to be jointly independent. Again, the normalization implies that i is i.i.d. (0, 1). This case was consid-ered because the implied distribution has thicker tails than the normal. <ref type="foot" target="#foot_4">17</ref> In particular, for the specification considered E 4 i /(E 2 i ) 2 =14.15. As mentioned, the first part of the Monte Carlo study is based on idealized weighting matrices M. For each of the three distributions of we consider 15 cases which relate to seven selections of ρ, three selections of the weighting matrix M, and three selections of the sample size N . We note that the total number of combinations of these selections of ρ, M, and N would lead to 7 × 3 × 3 = 63 cases for each distribution of . To keep the Monte Carlo study manageable we consider only 15 of those cases per distribution of , but summarize the results of the Monte Carlo experiments in terms of response functions. The three specifications of the weighting matrices M differ in terms of sparseness, and therefore in terms of the extent of implied autocorrelation concerning the disturbance terms u i defined by (1). In the first specification, which we henceforth refer to as 1 ahead and 1 behind, M was selected such that each element of u is directly related to the one immediately after and immediately before it. In doing this, we specified a "circular" world so that, e.g., u N is directly related to u 1 and to u N -1 and, and similarly, u 1 to u 2 and u N . Furthermore, we specified M such that all nonzero elements of M are equal and that the respective rows sum to unity. That is, in this case, each row of M has two nonzero elements which are equal to 1/2. Correspondingly, the next two specifications of M are "3 ahead and 3 behind", and "5 ahead and 5 behind", again in a circular world. The nonzero elements of M in these two cases are respectively taken as 1/6 and 1/10. <ref type="foot" target="#foot_5">18</ref>Let J denote the average number of neighbors for each unit. We can then characterize the above matrices with J = 2, 6, 10, respectively.</p><p>The second part of the Monte Carlo experiment is based on three real world weighting matrices M . In particular, those matrices represent the spatial weighting matrices for 58, 100, and 254 counties in the states of California, North Carolina, and Texas. For these matrices two counties are defined as neighbors if they are in the same state and if a 50 mile circle centered at the population center of one county includes the population center of the other county. Neighbors are indicated by nonzero elements in the M matrix. These nonzero elements are specified to be equal in each row, and to sum to unity in each row. Again, we characterize these matrices by their average number of neighbors, i.e., with J = 3.8, 10.9, 6.6, respectively. Given seven selections of ρ the three real world weighting matrices lead to 7×3 = 21 additional cases per distribution.</p><p>Table <ref type="table">1</ref> gives results on two characteristics of the distributions of ρNLS , ρOLS , and ρQML for each of the 15 + 21 = 36 cases (defined in terms of N , J, and ρ) for each of the three disturbance distributions considered. These characteristics are closely related to the standard measures of bias and root mean squared error (RMSE), but unlike these measures are assured to exist. Our measure of bias is defined as the difference between the median and the true parameter value. Our measure corresponding to the RMSE is defined as [bias 2 + (IQ/1.35) 2 ] 1/2 where IQ is the inter-quantile range. That is, IQ = c 1 -c 2 where c 1 is the .75 quantile and c 2 is the .25 quantile. If the distribution is normal, IQ/1.35 is (apart from rounding errors) equal to the standard deviation. In the following we will refer to our measures simply as bias and RMSE. The results in Table <ref type="table">1</ref> are Monte Carlo estimates of these measures based on quantiles computed from the empirical distributions corresponding 500 Monte Carlo replications. Before discussing response functions for the RMSEs we note some points.</p><p>The average absolute biases are generally similar for ρQML and ρNLS , but higher for ρOLS for all three cases of considered distributions. The biases, while typically negative, are relatively small in absolute value. The RMSEs for ρQML and ρNLS are also generally very close in magnitude, and considerably lower than those relating to ρOLS . This suggests that the generalized moments estimator ρNLS and the (quasi) maximum likelihood estimator ρQML possess very similar small sample properties, both under normality and non-normality. We conjecture that a reason for this is that ρQML and ρNLS are both, in essence, defined in terms of second order moments. Given the similarity of the small sample properties of ρQML and ρNLS , a major advantage of the generalized moments estimator ρNLS as compared to the (quasi) maximum likelihood estimator ρQML seems to be that ρNLS remains readily computable even for large sample sizes N and general spatial weighting matrices M, as was discussed in some detail at the end of Section 2. We note, however, that the over-parameterization underlying the definition of ρOLS is costly in terms of small sample efficiency. For example, on average the RMSE corresponding to ρOLS is more than twice as large as those of ρNLS and ρQML . For this reason we will henceforth focus attention only on ρNLS and ρQML .</p><p>Table 1a: Biases and RMSE of Estimators for ρ, Normal Error Distribution Bias RMSE N J ρ ρ QM L ρ NLS ρ OLS ρ QM L ρ NLS ρ OLS 49. 2.0 -0.90 .0034 -.0012 -.0205 .0364 .0439 .2111 49. 2.0 0.90 -.0051 -.0031 .0222 .0351 .0436 .2155 49. 6.0 -0.50 -.0008 -.0345 -.0155 .2879 .2952 .2973 49. 6.0 0.50 -.0193 -.0184 -.0078 .1599 .1649 .4807 49. 10.0 0.00 -.0294 -.0416 -.0210 .3139 .3410 .7245 58. 3.8 -0.90 .0205 -.0068 -.0429 .1110 .1190 .4705 58. 3.8 -0.50 .0175 -.0126 .0217 .1615 .1715 .2964 58. 3.8 -0.25 .0113 -.0127 .0246 .1663 .1836 .2173 58. 3.8 0.00 -.0023 -.0153 -.0076 .1691 .1814 .2991 58. 3.8 0.25 -.0080 -.0135 .0423 .1610 .1632 .4441 58. 3.8 0.50 -.0139 -.0132 .1085 .1332 .1324 .6179 58. 3.8 0.90 -.0070 -.0049 .1209 .0434 .0475 .5320 100. 2.0 0.00 .0019 .0013 .0029 .0903 .0907 .0931 100. 6.0 -0.50 .0006 -.0106 -.0128 .1925 .2043 .2000 100. 6.0 0.50 -.0092 -.0064 .0141 .1076 .1121 .3553 100. 10.0 -0.25 -.0068 -.0234 .0067 .2292 .2431 .4278 100. 10.0 0.25 -.0145 -.0167 .0448 .1734 .1751 .5031 100. 10.9 -0.90 -.0143 -.0275 -.0477 .2871 .3195 .3025 100. 10.9 -0.50 -.0165 -.0249 -.0554 .2762 .2958 .3431 100. 10.9 -0.25 -.0148 -.0234 -.0300 .2573 .2721 .3937 100. 10.9 0.00 -.0147 -.0198 -.0227 .2390 .2432 .4449 100. 10.9 0.25 -.0197 -.0150 -.0105 .2024 .2058 .4635 100. 10.9 0.50 -.0123 -.0128 -.0007 .1588 .1618 .4610 100. 10.9 0.90 -.0061 -.0042 .0140 .0510 .0622 .3492 254. 6.6 -0.90 .0126 -.0039 -.0158 .0617 .0960 .1543 254. 6.6 -0.50 -.0020 -.0059 .0026 .1068 .1206 .1249 254. 6.6 -0.25 -.0012 -.0085 -.0042 .1116 .1171 .1221 254. 6.6 0.00 .0017 -.0080 .0016 .1093 .1097 .1525 254. 6.6 0.25 -.0041 -.0058 .0137 .0953 .0972 .1795 254. 6.6 0.50 -.0074 -.0061 .0195 .0763 .0795 .2025 254. 6.6 0.90 -.0042 -.0029 .0139 .0267 .0303 .1642 400. 2.0 -0.25 -.0010 -.0017 -.0035 .0464 .0463 .0628 400. 2.0 0.25 -.0026 -.0021 -.0019 .0449 .0461 .0606 400. 6.0 0.00 -.0093 -.0114 -.0022 .0811 .0833 .1408 400. 10.0 -0.90 -.0189 -.0122 -.0251 .1379 .1557 .1466 400. 10.0 0.90 -.0017 -.0018 -.0086 .0201 .0213 .1435 Column Averages of Absolute Values .0093 .0121 .0231 .1378 .1466 .2999 Table 1b: Biases and RMSE of Estimators for ρ, Log-normal Error Distribution Bias RMSE N J ρ ρ QM L ρ NLS ρ OLS ρ QM L ρ NLS ρ OLS 49. 2.0 -0.90 .0036 -.0030 -.0087 .0337 .0357 .2005 49. 2.0 0.90 -.0013 -.0038 .0042 .0299 .0358 .2013 49. 6.0 -0.50 .0018 -.0008 -.0183 .2348 .2706 .2827 49. 6.0 0.50 -.0041 -.0010 .0451 .1426 .1456 .4277 49. 10.0 0.00 -.0211 -.0138 .0158 .2789 .3165 .5880 58. 3.8 -0.90 .0521 -.0317 -.2430 .1642 .1485 .7087 58. 3.8 -0.50 .0277 -.0556 .0199 .1948 .1936 .3784 58. 3.8 -0.25 -.0031 -.0557 .0675 .1832 .1942 .3569 58. 3.8 0.00 -.0147 -.0586 .0676 .1532 .1884 .4968 58. 3.8 0.25 -.0225 -.0479 .1685 .1478 .1755 .7617 58. 3.8 0.50 -.0223 -.0326 .2603 .1362 .1428 1.0143 58. 3.8 0.90 -.0106 -.0111 .1848 .0504 .0540 .8143 100. 2.0 0.00 -.0016 -.0014 -.0007 .0870 .0851 .0851 100. 6.0 -0.50 .0058 -.0040 -.0093 .1653 .1816 .1816 100. 6.0 0.50 -.0007 -.0007 .0117 .0938 .0953 .3031 100. 10.0 -0.25 -.0085 -.0143 .0155 .2268 .2405 .3735 100. 10.0 0.25 -.0116 -.0110 .0434 .1718 .1745 .4255 100. 10.9 -0.90 -.0038 -.0177 -.0306 .2547 .2920 .2772 100. 10.9 -0.50 -.0002 -.0169 -.0269 .2423 .2706 .3407 100. 10.9 -0.25 -.0018 -.0163 -.0218 .2306 .2535 .3927 100. 10.9 0.00 -.0091 -.0123 -.0102 .2029 .2272 .4627 100. 10.9 0.25 -.0134 -.0094 -.0029 .1789 .1891 .5049 100. 10.9 0.50 -.0135 -.0083 .0057 .1412 .1451 .5032 100. 10.9 0.90 -.0091 -.0055 .0192 .0516 .0558 .3820 254. 6.6 -0.90 .0395 -.0155 -.0215 .0851 .0983 .1734 254. 6.6 -0.50 .0033 -.0158 .0105 .1038 .1109 .1321 254. 6.6 -0.25 -.0044 -.0132 .0280 .1032 .1079 .1415 254. 6.6 0.00 -.0052 -.0076 .0458 .0949 .1002 .2061 254. 6.6 0.25 -.0056 -.0060 .0646 .0862 .0889 .2697 254. 6.6 0.50 -.0067 -.0041 .0854 .0727 .0708 .2978 254. 6.6 0.90 -.0058 -.0019 .0661 .0296 .0286 .2211 400. 2.0 -0.25 -.0012 -.0014 .0013 .0442 .0442 .0573 400. 2.0 0.25 -.0009 -.0015 -.0012 .0434 .0444 .0600 400. 6.0 0.00 .0010 .0007 -.0053 .0827 .0874 .1352 400. 10.0 -0.90 -.0066 -.0057 -.0077 .1417 .1538 .1452 400. 10.0 0.90 -.0013 -.0003 .0027 .0194 .0217 .1366 Column Averages of Absolute Values .0096 .0141 .0456 .1307 .1408 .3456 Table 1c: Biases and RMSE of Estimators for ρ, Contaminated Error Distribution Bias RMSE N J ρ ρ QM L ρ NLS ρ OLS ρ QM L ρ NLS ρ OLS 49. 2.0 -0.90 .0021 .0005 .0094 .0257 .0268 0.1630 49. 2.0 0.90 .0005 .0016 .0031 .0252 .0273 0.1667 49. 6.0 -0.50 .0148 .0035 .0049 .1947 .2219 0.2329 49. 6.0 0.50 -.0020 .0012 .0120 .1183 .1206 0.3708 49. 10.0 0.00 .0023 -.0042 .0605 .2289 .2505 0.5745 58. 3.8 -0.90 .0563 -.0215 -.2058 .1679 .1218 0.7515 58. 3.8 -0.50 .0377 -.0395 -.0112 .1707 .1637 0.3739 58. 3.8 -0.25 .0224 -.0388 .0520 .1370 .1677 0.3178 58. 3.8 0.00 -.0035 -.0319 .0892 .1203 .1687 0.5490 58. 3.8 0.25 -.0117 -.0261 .2298 .1345 .1596 0.9347 58. 3.8 0.50 -.0110 -.0171 .3210 .1271 .1345 1.2607 58. 3.8 0.90 -.0040 -.0058 .2363 .0508 .0524 0.7936 100. 2.0 0.00 -.0034 -.0020 -.0023 .0582 .0582 0.0621 100. 6.0 -0.50 .0051 .0081 .0006 .1493 .1514 0.1615 100. 6.0 0.50 .0035 .0043 .0060 .0832 .0851 0.2636 100. 10.0 -0.25 .0122 .0016 .0210 .1984 .1975 0.3424 100. 10.0 0.25 .0013 .0017 .0479 .1384 .1403 0.3728 100. 10.9 -0.90 .0358 .0084 .0078 .2505 .2614 0.2890 100. 10.9 -0.50 .0301 .0056 .0095 .2313 .2390 0.3676 100. 10.9 -0.25 .0232 .0040 .0277 .2158 .2193 0.4303 100. 10.9 0.00 .0173 .0032 .0463 .1871 .1952 0.4862 100. 10.9 0.25 .0104 .0035 .0547 .1635 .1650 0.5121 100. 10.9 0.50 -.0009 .0023 .0654 .1264 .1264 0.5069 100. 10.9 0.90 -.0018 -.0004 .0713 .0455 .0484 0.3719 254. 6.6 -0.90 .0458 -.0132 -.0256 .0872 .0961 0.1961 254. 6.6 -0.50 .0086 -.0102 .0148 .1012 .1069 0.1289 254. 6.6 -0.25 .0007 -.0075 .0338 .0891 .1046 0.1685 254. 6.6 0.00 .0006 -.0075 .0598 .0846 .1037 0.2428 254. 6.6 0.25 -.0035 -.0046 .0981 .0838 .0921 0.3248 254. 6.6 0.50 -.0062 -.0041 .1165 .0737 .0760 0.3618 254. 6.6 0.90 -.0055 -.0022 .0887 .0290 .0315 0.2571 400. 2.0 -0.25 .0000 -.0002 -.0019 .0369 .0360 0.0490 400. 2.0 0.25 -.0002 .0001 .0024 .0363 .0361 0.0535 400. 6.0 0.00 -.0021 -.0031 -.0008 .0791 .0775 0.1252 400. 10.0 -0.90 .0004 -.0049 .0026 .1356 .1419 0.1341 400. 10.0 0.90 -.0011 -.0013 .0033 .0177 .0195 0.1232 Column Averages of Absolute Values .0108 .0082 .0568 .1168 .1229 .3561</p><p>Observations concerning the response of the RMSEs to the sample size N , the average number of neighbors J of the weighting matrix M, and the value of ρ are not readily apparent from Table <ref type="table">1</ref>. For this reason, we describe the general results in the table via response functions. In doing this we estimate separate response functions for ρNLS and ρQML for each of the three distributions considered. These six functions have the same form but different parameters. These response functions describe the results in Table <ref type="table">1</ref>, and should be useful for inferring corresponding results for experiments which have "similar" sets of parameter values.</p><p>Let s = 1, . . . , 36 denote the s-th case considered in Table <ref type="table">1</ref> corresponding to a particular distribution. Using evident notation, we then specify the response functions for the RMSE of ρ = ρQML or ρ = ρNLS for a particular distribution as follows:</p><formula xml:id="formula_21">RMSE(ρ s | N s , J s , ρ s ) = (9) N -1/2 s exp[a 1 + a 2 (1/J s ) + a 3 ρ s + a 4 (ρ s /J s ) + a 5 ρ 2 s ]</formula><p>where a 1 , . . . , a 5 are parameters to be estimated using the data from Table <ref type="table">1</ref> on the corresponding 36 cases. We estimate a 1 , . . . , a 5 by least squares (taking logs on both sides). A few points concerning the response function in (9) should be noted. First, rather than being empirically determined, the exponent of the sample size is taken as -1/2 because of evident large sample considerations. Second, the function in (9) is relatively simple, but yet nonnegative and able to accommodate certain patterns that might be suggested from time series considerations. For example, for an AR(1) model (with autocorrelation coefficient ρ), the variance in the asymptotic distribution of the (quasi) maximum likelihood estimator for ρ is, under typical assumptions, proportional to 1ρ 2 . <ref type="foot" target="#foot_6">19</ref> It should be noted that this variance is symmetric about, and maximized at, zero; in addition, it approaches its minimum value as ρ approaches the "critical" points ±1. Although the spatial models considered in our Monte Carlo study are not identical to an AR(1) model, one might never-the-less expect the relationship between the RMSE and the parameter ρ to peak at some point, and then decline as ρ approaches "critical" points at which I -ρM is singular. For all of the spatial weighting matrices considered in our experiments, the smallest positive critical point is 1.0; however, the largest negative critical point is equal to -1 only for the case in which J = 2; for all other cases considered the largest negative critical point is less than -1. In allowing for an interaction term between ρ and 1/J in (9) our response function permits a priori that the RMSEs might peak at a value of ρ which varies with J. There is also another avenue by which J might effect the RMSEs. Specifically, recall that u i = ρu i + i . The weighting matrices considered in the experiments are such that u i is a straight average of the disturbances which correspond to the "neighbors" of the i-th region. Because of this, the variance of u i (relative to that of u i ) should be inversely related to J, the average number of neighbors. Ceteris paribus, one might expect large values of J to be associated with large RMSEs because estimation efficiency is typically an increasing function of regressor variances. Finally, other forms of the response functions were considered but were dominated by the form in (9).</p><p>The estimation results for the six response functions are given in Table A in the appendix. Over-all, the results in that table suggest that the response functions fit the data well. The R 2 values and the t-ratios are all quite high suggesting both a tight fit and that each term considered is important. For all cases considered, the estimated value of a 5 is negative and so each function peaks at a given value of ρ, and then declines. The estimates of the coefficients are such that this "maximizing" value of ρ declines as J increases. For all cases considered, if J &gt; 2 the value of ρ at which each function peaks is negative but greater than -.25. For all cases in which J = 2, this "maximizing" value of ρ is very close to zero, namely, between -.03 and .04. The estimated coefficients are also such that increases in J are, again in all cases, associated with increases in the RMSEs. These results are consistent with prior notions. Graphs of the estimated response functions for the case of a normal error distribution are given in Figures <ref type="figure" target="#fig_2">1</ref> and <ref type="figure" target="#fig_0">2</ref> for ρ QM L and ρ NLS . Of course, in this case the (quasi) ML estimator ρQML is the ML estimator. The graphs for the case of a log-normal and contaminated error distribution are similar, but are not given here to conserve space.</p><p>The Monte Carlo results reported here correspond to the case in which the disturbances u i are observable. We also performed corresponding experiments involving estimated disturbances, but we do not report here the details of those experiments because of space limitations. Those experiments suggest that the statements based on Table <ref type="table">1</ref> and Table A in the Appendix concerning the relative efficiency of the three estimators carry over qualitatively to cases in which ρ is estimated from estimated disturbances.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6">Suggestions for Further Work</head><p>The autocorrelation model considered in this paper is sometimes referred to as a spatial autoregressive model of order one in that only one "spatial lag" of the disturbance term, represented by ρM u in (1), is being considered. Higher order spatial models involving more than one spatial lag of the disturbance term (e.g., using evident notation, ρ 1 M 1 u + . . . + ρ p M p u) as well as of the innovation term (e.g., + ρ p+1 M p+1 + . . . ρ p+q M p+q ) have also been considered in the literature. It should be of interest to extend the generalized moments approach suggested in this paper to those models, and to determine corresponding large sample properties.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A Appendix</head><p>In proving Theorem 1 we have to consider the following moments ϑ 1,N = N -1 u u = N -1 (C 1,N ) , C 1,N = P P, ϑ 2,N = N -1 u u = N -1 (C 2,N ) , C 2,N = P MP, ϑ 3,N = N -1 u u = N -1 (C 3,N ) , C 3,N = P M MP, ϑ 4,N = N -1 u u = N -1 (C 4,N ) , C 4,N = P (M ) 2 MP, ϑ 5,N = N -1 u u = N -1 (C 5,N ) , C 5,N = P (M ) 2 M 2 P, ϑ 6,N = N -1 u u = N -1 (C 6,N ) , C 6,N = P M 2 P, ϑ 7,N = N -1 = N -1 (C 7,N ) , C 7,N = M M, ϑ 8,N = N -1 = N -1 (C 8,N ) , C 8,N = M .</p><p>(A.1)</p><p>The corresponding moments based on u, u and u in place of, respectively, u, u and u will be denoted by ϑ h,N , h = 1, . . . , 6. In the following we will suppress the subscript N for the matrices C h,N and their elements, h = 1, . . . , 8. To prove Theorem 1 we need several lemmata. Proof. The first claim follows since by Assumption 3 the row and column sums of the absolute values of the elements of the matrices P and M are bounded, and this property is preserved under matrix multiplication. <ref type="foot" target="#foot_7">20</ref> Next observe that the row and column sums of the absolute values of the elements of the matrices C h + C h and [C h + C h ][C h + C h ] are then bounded by 2c and 4c 2 , respectively. The second claim of the lemma now follows since</p><formula xml:id="formula_22">N -2 N i=1 N j=1 (c h,ij + c h,ji ) 2 = N -2 T r{[C h + C h ][C h + C h ]} ≤ 4c 2 /N → 0 as N → ∞.</formula><p>Hence u i and u i as well as u i and u i also satisfy the properties maintained for v i,N and v i,N in Lemma 3, and thus the claims of Lemma 4 follow from Lemma 3.</p><p>Proof of Theorem 1: The existence and measurability of ρNLS,N and σ2 N LS,N is assured by, e.g., Lemma 2 in <ref type="bibr" target="#b15">Jennrich (1969)</ref>. The objective function of the nonlinear least squares estimator and its corresponding nonstochastic counterpart are given by, respectively,</p><formula xml:id="formula_23">R N (θ) = G N (ρ, ρ 2 , σ 2 ) -g N G N (ρ, ρ 2 , σ 2 ) -g N R N (θ) = Γ N (ρ, ρ 2 , σ 2 ) -γ N Γ N (ρ, ρ 2 , σ 2 ) -γ N</formula><p>where θ = ( ρ, σ 2 ) . To prove the consistency of (ρ N LS,N , σ2 NLS,N ) we show that the conditions of, e.g., Lemma 3.1 in Pötscher and Prucha (1991a) are satisfied for the problem at hand. We first show that θ = (ρ, σ 2 ) is identifiably unique (where θ = (ρ, σ 2 ) denotes the vector of true parameters). Observe that because of ( <ref type="formula" target="#formula_6">5</ref></p><formula xml:id="formula_24">) R N (θ) -R N (θ) = ρ -ρ, ρ 2 -ρ 2 , σ 2 -σ 2 Γ N Γ N ρ -ρ, ρ 2 -ρ 2 , σ 2 -σ 2 ≥ λ min (Γ N Γ N ) ρ -ρ, ρ 2 -ρ 2 , σ 2 -σ 2 ρ -ρ, ρ 2 -ρ 2 , σ 2 -σ 2 ≥ λ * ρ -ρ, σ 2 -σ 2 ρ -ρ, σ 2 -σ 2 = λ * θ -θ 2 .</formula><p>Hence for every &gt; 0 and any N we have:</p><formula xml:id="formula_25">inf {θ: θ-θ ≥ } [R N (θ) -R N (θ)] ≥ inf {θ: θ-θ ≥ } λ * θ -θ 2 = λ * 2 &gt; 0, which proves that θ is identifiable unique. Next let F N = [G N , -g N ] and Φ N = [Γ N , -γ N ], then R N (θ) -R N (θ) = ρ, ρ 2 , σ 2 , 1 [F N F N -Φ N Φ N ] ρ, ρ 2 , σ 2 , 1 ≤ F N F N -Φ N Φ N ρ, ρ 2 , σ 2 , 1 2 ≤ F N F N -Φ N Φ N [1 + a 2 + a 4 + b 4 ].</formula><p>Since Lemmata 2 and 4 imply that F N -Φ N p → 0 and that the elements of F N and Φ N are, respectively, O p (1) and O(1) it follows that R N (θ) -R N (θ) converge to zero uniformly over the (extended) parameter space, i.e., The proof of Theorem 2 requires a central limit theorem (CLT) for triangular arrays. The CLT below follows readily from a corollary to the Lindeberg-Feller CLT for triangular arrays using the Cramer-Wold device. That corollary is, e.g., given in Billingsley (1979), p. 319 (Problem 27.6). 21   Theorem A : Let {v iN , 1 ≤ i ≤ N, N ≥ 1} be a triangular array of random variables that are identically distributed and (jointly) independent for each N with Ev iN = 0 and Ev 2 iN = σ 2 , 0 &lt; σ 2 &lt; ∞. Let {z ij,N , 1 ≤ i ≤ N, N ≥ 1}, j = 1, ..., K be triangular arrays of real numbers that are bounded in absolute value, i.e., c z = sup N sup i≤N,j≤K | z ij,N |&lt; ∞. Further, let {V N : n ≥ 1} and {Z N : n ≥ 1} with V N = (v iN ) i=1,...,N and Z N = (z ij,N ) i=1,...,N ; j=1,...,K denote corresponding sequences of N × 1 random vectors and N × K real matrices, respectively, and let lim N →∞ N -1 Z N Z N = Q be finite and positive definite. Then N -1/2 Z N V N D → N (0, σ 2 Q).</p><p>Proof of Theorem 2: To prove part (a) of the theorem observe that N 1/2 [ β G Nβ] = [N -1 Z Z] -1 N -1/2 Z where Z = (I -ρM)X. Note that, in general, the elements of Z will depend on the sample size N . However, for notational simplicity we will not denote this dependence explicitly in the following. Observe further that under the maintained assumptions the elements of Z are bounded in absolute value by (1 + c m )c x and that lim N →∞ N -1 Z Z = Q x (ρ) is finite and nonsingular. Recall that the innovations 1 , ..., N are independently and identically distributed (for each N ) with mean zero and variance σ 2 . Hence it follows from Theorem A that N -1/2 Z D → N(0, σ 2 Q x (ρ)) 21 More precisely, we use a slight generalization of that corollary where the assumption that the random variables of interest are constructed from a sequence of i.i.d. random variables is replaced by the assumption that they are constructed from a triangular array of (for each sample) independent and identically distributed random variables. and consequently N 1/2 [ β G Nβ] D → N(0, σ 2 Q x (ρ) -1 ). Of course, this also implies that β G N is consistent. We prove part (b) of the theorem by showing that</p><formula xml:id="formula_26">N 1/2 [ β G N -β F G N ] p → 0 as N → ∞.</formula><p>To prove this it suffices to show that</p><formula xml:id="formula_27">N -1 X [Ω( ρ N ) -1 -Ω(ρ) -1 ]X p → 0 (A.3) and N -1/2 X [Ω( ρ N ) -1 -Ω(ρ) -1 ]u p → 0. (A.4) Clearly Ω( ρ N ) -1 -Ω(ρ) -1 = (ρ -ρ N )(M + M ) + (ρ 2 -ρ 2 N )M M . Hence N -1 X [Ω( ρ N ) -1 -Ω(ρ) -1 ]X (A.5) = (ρ -ρ N )N -1 X (M + M )X + (ρ 2 -ρ 2 N )N -1 X M MX<label>and</label></formula><formula xml:id="formula_28">N -1/2 X [Ω( ρ N ) -1 -Ω(ρ) -1 ]u (A.6) = (ρ -ρ N )N -1/2 X (M + M )u + (ρ 2 -ρ 2 N )N -1/2 X M Mu.</formula><p>Under the maintained assumptions the elements of N -1 X (M + M )X and N -1 X M MX are bounded in absolute value by 2c 2 x c m and c 2 x c 2 m , respectively; cp. footnote 20. Condition (A.3) then follows from (A.5) since ρ N is assumed to be consistent.</p><p>Next consider the terms N -1/2 X M u, N -1/2 X Mu and N -1/2 X M Mu. Clearly the expected value of each element of these vectors is zero. The variance covariance matrices of these vectors are given by, respectively, N -1 X Φ s X, s = 1, 2, 3, with Φ 1 = M P P M, Φ 2 = MP P M , Φ 3 = M MP P M M . Since the row and column sums of the absolute values of the matrices P and M are bounded, it follows that the row and column sums of the matrices Φ s are also bounded by some finite constants, say, c s (s = 1, 2, 3); cp. footnote 20. Since the elements of X are bounded in absolute value by c x it then follows that the elements of the variance covariance matrices N -1 X Φ s X are bounded in absolute value by c 2 x c s &lt; ∞ (s = 1, 2, 3). It then follows from, e.g., Corollary 5.1.1.2 in <ref type="bibr" target="#b11">Fuller (1976)</ref>, that the elements of N -1/2 X M u, N -1/2 X Mu and N -1/2 X M Mu are O p (1). Condition (A.4) is now seen to hold from (A.6) since ρ N is assumed to be consistent.</p><p>Table A: The Response Functions for ρ QM L and ρ NLS Parameter Estimates Estimator a 1 a 2 a 3 a 4 a 5 R 2 * Normal Error Distribution ρ QM L 1.11015 -2.77568 -0.98016 2.03430 -1.14638 .91 (16.88) (11.49) (9.46) (4.92) (11.53) ρ NLS 1.12976 -2.77091 -1.04065 2.17021 -0.97829 .93 (20.10) (13.42) (11.75) (6.14) (11.51) Log-normal Error Distribution ρ QM L 1.01024 -2.70593 -0.98919 1.85930 -0.97475 .92 (15.25) (11.12) (9.48) (4.46) (9.74) ρ NLS 1.08550 -2.77321 -1.06518 2.19157 -0.96662 .94 (18.99) (13.21) (11.83) (6.10) (11.19) Contaminated Error Distribution ρ QM L 0.93495 -3.07788 -1.04396 2.10490 -0.85946 .90 (12.40) (11.11) (8.78) (4.44) (7.54) ρ NLS 1.01993 -3.13841 -1.04142 2.24336 -0.92679 .93 (16.09) (13.47) (10.43) (5.63) (9.67) * The R 2 statistic is the square of the correlation coefficient between the RMSE and its response function prediction based on the values in Table 1. The numbers in parentheses are t-ratios (in absolute value).</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Assumption 2 :</head><label>2</label><figDesc>(a) All diagonal elements of M are zero. (b) |ρ| &lt; 1. (c) The matrix I -ρM is nonsingular for all |ρ| &lt; 1.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Assumption 3 :</head><label>3</label><figDesc>(i) The sums N i=1 |m ij | and N j=1 |m ij | are bounded by, say, c m &lt; ∞ for all 1 ≤ i, j ≤ N, N ≥ 1. (ii) The sums N i=1 |p ij (ρ)| and N j=1 |p ij (ρ)| are bounded by, say, c p &lt; ∞ for all 1 ≤ i, j ≤ N, N ≥ 1, |ρ| &lt; 1.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Lemma 1 :</head><label>1</label><figDesc>Under Assumption 3 the elements of the matrices C h defined in (A.1) have the following properties, h = 1, . . . , 8: N i=1 |c h,ij | ≤ c, N j=1 |c h,ij | ≤ c for all N ≥ 1 and 1 ≤ i, j ≤ N for some 0 &lt; c &lt; ∞. Furthermore N -2 N i=1 N j=1 (c h,ij + c h,ji ) 2 = o(1).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><figDesc>sup ρ∈[-a,a],σ 2 ∈[0,b] R N (θ) -R N (θ) ≤ F N F N -Φ N Φ N [1 + a 2 + a 4 + b 4 ] p → 0 as N → ∞. The consistency of (ρ N LS,N , σ2 NLS,N ) now follows directly from Lemma 3.1 in Pötscher and Prucha (1991a).</figDesc></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="6" xml:id="foot_0"><p>Also, this estimator is specified as the solution of a single quadratic equation and hence, in general, is not well defined unless a further selection mechanism between the two possible roots is specified.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="10" xml:id="foot_1"><p><ref type="bibr" target="#b18">Kelejian and Robinson (1995)</ref> give results which suggest that Assumption 2(c) is satisfied for many specifications of M considered in the literature.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="15" xml:id="foot_2"><p>We note that ρQML (and σ2 QML ) denote the (joint) maximizers of the normal log- likelihood function (3), even if the actual distribution is not normal.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="16" xml:id="foot_3"><p>For our "test of significance" we employed the Chow test in a classical fashion. While in this context this testing procedure is not a formal one, it should be illustrative.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="17" xml:id="foot_4"><p>We note that mixtures of normals are frequently used to model the effects of outliers.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="18" xml:id="foot_5"><p>We emphasize that the estimators for ρ considered in this paper do not depend on the particular ordering of the data. Thus any M matrix obtained from a rearrangement of the data would yield the same results.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="19" xml:id="foot_6"><p>See, e.g.,Johnston (1984, p.329).</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="20" xml:id="foot_7"><p>To see this consider matricesA N = (a ij,N ), B N = (b ij,N ) and D N = (d ij,N ) = A N B N . Suppose N i=1 |a ij,N | &lt; c a , N j=1 |a ij,N | &lt; c a , N i=1 |b ij,N | &lt; c b , N j=1 |b ij,N | &lt; c b . Then N i=1 |d ij,N | ≤ N i=1 N k=1 |a ik,N | |b kj,N | = N k=1 |b kj,N | N i=1 |a ik,N | ≤ c a c b . Similarly, N j=1 |d ij,N | ≤ c a c b .</p></note>
+		</body>
+		<back>
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Lemma 2 : Under Assumptions 1-3 the moments ϑ h,N have the following properties, h = 1, . . . , 8: Eϑ h,N = O(1) and var(ϑ h,N ) = o(1), and hence ϑ h,N -Eϑ h,N p →0 as N → ∞, and ϑ h,N = O p <ref type="bibr" target="#b0">(1)</ref>.</p><p>Proof. By Lemma 1, all elements c h,ji are bounded in absolute value. Hence Eϑ h,N = σ 2 N -1 N i=1 c h,ii = O(1). Observe further that var(ϑ h,N ) = N -2 [(µ 4σ 4</p><formula xml:id="formula_29">) N i=1 c 2 h,ii + σ 4 N -1 i=1 N j=i+1 (c h,ij + c h,ji ) 2</formula><p>] with µ 4 = E 4 i , since cov( i j , r s ) = 0 unless i = r and j = s, or i = s and j = r. Clearly a sufficient condition for var(ϑ h,N ) = o(1) is that N -2 N i=1 N j=1 (c h,ij + c h,ji ) 2 = o(1), which holds in light of Lemma 1. The last two claims follow from Chebychev's inequality and, e.g., Corollary 5.1.1.2 in Fuller (1976), p. 186, respectively.</p><p>Lemma 3 : Consider random variables v i,N , w i,N , v i,N and w i,N and assume that</p><formula xml:id="formula_30">| v i,N -v i,N |≤ D v iN τ v N , | w i,N -w i,N |≤ D w iN τ w N , (A.2)</formula><p>where D v iN , D w iN , τ v N , and τ w N are, respectively, nonnegative random variables with</p><formula xml:id="formula_31">N -1 N i=1 (D v iN ) 2 = O p (1), N -1 N i=1 (D w iN ) 2 = O p (1), τ v N = o p (1), τ w N = o p (1). Suppose furthermore that N -1 N i=1 v 2 i,N = O p (1) and N -1 N i=1 w 2 i,N = O p (1). Then N -1 N i=1 v i,N w i,N -N -1 N i=1 v i,N w i,N p → 0 as N → ∞.</formula><p>Proof. Observe that</p><formula xml:id="formula_32">N -1 N i=1 v i,N w i,N -N -1 N i=1 v i,N w i,N ≤ N -1 N i=1 | v i,N -v i,N | |w i,N | + N -1 N i=1 | w i,N -w i,N | |v i,N | +N -1 N i=1 | v i,N -v i,N | | w i,N -w i,N | ≤ [N -1 N i=1 (D v iN ) 2 ] 1/2 [N -1 N i=1 w 2 i,N ] 1/2 τ v N +[N -1 N i=1 (D w iN ) 2 ] 1/2 [N -1 N i=1 v 2 i,N ] 1/2 τ w N +[N -1 Σ N i=1 (D v iN ) 2 ] 1/2 [N -1 Σ N i=1 (D w iN ) 2 ] 1/2 τ v N τ w N .</formula><p>The last inequality follows from (A.2) and Hölder's inequality. Since τ v N = o p (1) and τ w N = o p (1) the claim in the lemma follows by observing that all other terms are bounded in probability. Proof. To prove the lemma it suffices to show, in light of Lemma 3, that u i , u i , u i and the u i , u i , u i , satisfy the properties maintained for v i,N and v i,N in that lemma. First observe that by Lemma 2, N -1 N i=1 u 2 i = O p (1), N -1 N i=1 u 2 i = O p (1) and N -1 N i=1 u 2 i = O p (1). Next observe that by Assumption 4 we have</p><formula xml:id="formula_33">| u i -u i | ≤ d iN ∆ N with N -1 N i=1 d iN 2+δ = O p (1) for some δ &gt; 0 and N 1/2 ∆ N = O p (1). Since N -1 N i=1 d iN 2 ≤ [N -1 N i=1 d iN 2+δ ] 2/(2+δ</formula><p>) by Lyapunov's inequality, u i and u i clearly satisfy the properties maintained for v i,N and v i,N in Lemma 3. Next observe that</p><formula xml:id="formula_34">N j=1 |m ij | p = c p-1 m N j=1 |m ij | [|m ij | /c m ] p-1 ≤ c p-1 m N j=1 |m ij | ≤ c p m</formula><p>and that</p><formula xml:id="formula_35">u i = N j=1 m ij u j = u i + N j=1 m ij ( u j -u j ),<label>and</label></formula><formula xml:id="formula_36">u i = N j=1 m ij u j = u i + Σ N j=1 m ij Σ N s=1 m js ( u s -u s ).</formula><p>Hence, using the triangle and Hölder's inequalities with q = 2+δ and 1 q + 1 p = 1,</p><formula xml:id="formula_37">u i -u i ≤ N j=1 |m ij | d jN ∆ N ≤ [ N j=1 |m ij | p ] 1/p [ N j=1 d jN q ] 1/q ∆ N ≤ D N τ N , | u i -u i | ≤ N j=1 |m ij | N s=1 |m js | d sN ∆ N ≤ N j=1 |m ij | [ N s=1 |m js | p ] 1/p [ N s=1 d sN q ] 1/q ∆ N ≤ D N τ N , with D N = c m [N -1 N j=1 d jN q ] 1/q , D N = c 2 m [N -1 N j=1 d jN q ] 1/q and τ N = N 1/q ∆ N .</formula><p>By Assumption 4, D N = O p (1), D N = O p (1) and τ N = o p (1).</p><p>Part (c) of the Theorem follows immediately from (A.3) and Assumption 6 and the fact that σ 2 is a consistent estimator for σ 2 .</p><p>Next we prove that under Assumptions 1-3 and 5-6 the OLS estimator β N is N 1/2 -consistent, as was claimed in the discussion after Theorem 2. Observe that N 1/2 [ β Nβ] = [N -1 X X ] -1 N -1/2 Z with Z defined here as Z = (I -ρM ) -1 X. Note again that, in general, the elements of Z will depend on the sample size N . By assumption lim N→∞ N -1 Z Z = lim N→∞ N -1 X Ω(ρ)X = Q x (ρ) is finite and nonsingular, and the innovations 1 , ..., N are independently and identically distributed (for each N ) with mean zero and variance σ 2 . Hence it follows from Theorem A that</p><formula xml:id="formula_38">N -1/2 Z D → N (0, σ 2 Q x (ρ)). Observing that Q x = lim N →∞ N -1 X X is finite and nonsingular it follows that N 1/2 [ β N -β] D → N (0, Q -1 x Q x (ρ)Q -1 x ).</formula><p>The following table contains the estimation results for the response functions for ρ QM L and ρ NLS discussed in Section 5.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Lemma 4 :</head><label>4</label><figDesc>Under Assumptions 1-4, ϑ h,Nϑ h,N p → 0 as N → ∞ for h = 1, . . . , 6.</figDesc></figure>
+			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<monogr>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+		<title level="m">Spatial Econometrics: Methods and Models</title>
+		<meeting><address><addrLine>Boston</addrLine></address></meeting>
+		<imprint>
+			<publisher>Kluwer Academic Publishers</publisher>
+			<date type="published" when="1988">1988</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Some robust approaches to testing and estimation in spatial econometrics</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">20</biblScope>
+			<biblScope unit="page" from="141" to="163" />
+			<date type="published" when="1990">1990</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Small sample properties of tests for spatial dependence in regression models: some further results</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J G M</forename><surname>Florax</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">L. Anselin and R.J.G.M. Florax, New Directions in Spatial Econometrics</title>
+		<imprint>
+			<biblScope unit="page" from="21" to="74" />
+			<date type="published" when="1995">1995</date>
+			<publisher>Springer Verlag</publisher>
+			<pubPlace>New York</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Regional econometric and dynamic models</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Bennett</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Hordijk</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Handbook of Regional and Urban Economics</title>
+		<editor>
+			<persName><forename type="first">P</forename><surname>Nijkamp</surname></persName>
+		</editor>
+		<meeting><address><addrLine>North Holland, Amsterdam, Holland</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="1986">1986</date>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="page" from="407" to="441" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<author>
+			<persName><forename type="first">A</forename><surname>Case</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Spatial patterns in household demand</title>
+		<imprint>
+			<date type="published" when="1991">1991</date>
+			<biblScope unit="volume">59</biblScope>
+			<biblScope unit="page" from="953" to="966" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<monogr>
+		<author>
+			<persName><forename type="first">A</forename><surname>Cliff</surname></persName>
+			<affiliation>
+				<orgName type="collaboration">Pion</orgName>
+			</affiliation>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Ord</surname></persName>
+			<affiliation>
+				<orgName type="collaboration">Pion</orgName>
+			</affiliation>
+		</author>
+		<title level="m">Spatial Autocorrelation</title>
+		<meeting><address><addrLine>London</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="1973">1973</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<monogr>
+		<author>
+			<persName><forename type="first">A</forename><surname>Cliff</surname></persName>
+			<affiliation>
+				<orgName type="collaboration">Pion</orgName>
+			</affiliation>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Ord</surname></persName>
+			<affiliation>
+				<orgName type="collaboration">Pion</orgName>
+			</affiliation>
+		</author>
+		<title level="m">Spatial Process: Models and Applications</title>
+		<meeting><address><addrLine>London</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="1981">1981</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<monogr>
+		<title level="m" type="main">Econometric modelling of cross sectional dependence, University of Chicago</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Conley</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+	<note>Ph.D. thesis</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title/>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">A C</forename><surname>Cressie</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistics for Spatial Data</title>
+		<imprint>
+			<date type="published" when="1993">1993</date>
+			<publisher>Wiley</publisher>
+			<pubPlace>New York</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Equipment investment and economic growth</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">B</forename><surname>Delong</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Summers</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Quarterly Journal of Economics</title>
+		<imprint>
+			<biblScope unit="volume">106</biblScope>
+			<biblScope unit="page" from="445" to="502" />
+			<date type="published" when="1991">1991</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Estimation of regression coefficients in the presence of spatially autocorrelation error terms</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Dubin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Review of Economics and Statistics</title>
+		<imprint>
+			<biblScope unit="volume">70</biblScope>
+			<biblScope unit="page" from="466" to="474" />
+			<date type="published" when="1988">1988</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<monogr>
+		<title/>
+		<author>
+			<persName><forename type="first">W</forename><surname>Fuller</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1976">1976</date>
+			<publisher>John Wiley</publisher>
+			<pubPlace>New York</pubPlace>
+		</imprint>
+	</monogr>
+	<note>Introduction to Statistical Time Series</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<monogr>
+		<title level="m" type="main">A Unified Theory of Estimation and Inference for Nonlinear Dynamic Models</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Gallant</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>White</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1988">1988</date>
+			<publisher>Oxford University Press</publisher>
+			<pubPlace>Oxford</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Consistent maximum likelihood estimation with dependent observations</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Heijmans</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Magnus</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="page" from="253" to="285" />
+			<date type="published" when="1986">1986</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title/>
+		<author>
+			<persName><forename type="first">R</forename><surname>Heijmans</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Magnus</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Corrigenda, Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">35</biblScope>
+			<biblScope unit="page">395</biblScope>
+			<date type="published" when="1987">1987</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Asymptotic properties of non-linear least squares estimators</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Jennrich</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Annals of Mathematical Statistics</title>
+		<imprint>
+			<biblScope unit="volume">40</biblScope>
+			<biblScope unit="page" from="633" to="643" />
+			<date type="published" when="1969">1969</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<monogr>
+		<author>
+			<persName><forename type="first">J</forename><surname>Johnston</surname></persName>
+		</author>
+		<title level="m">Econometric Methods</title>
+		<meeting><address><addrLine>New York</addrLine></address></meeting>
+		<imprint>
+			<publisher>McGraw-Hill</publisher>
+			<date type="published" when="1984">1984</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">A suggested method of estimation for spatial interdependent models with autocorrelated errors, and an application to a county expenditure model</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Robinson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Papers in Regional Science</title>
+		<imprint>
+			<biblScope unit="volume">72</biblScope>
+			<biblScope unit="page" from="297" to="312" />
+			<date type="published" when="1993">1993</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Spatial correlation: a suggested alternative to the autoregressive model</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Robinson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">L. Anselin and R.J.G.M. Florax, New Directions in Spatial Econometrics</title>
+		<imprint>
+			<biblScope unit="page" from="75" to="95" />
+			<date type="published" when="1995">1995</date>
+			<publisher>Springer Verlag</publisher>
+			<pubPlace>New York</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">A unified approach to asymptotic equivalence of Aitken and feasible Aitken instrumental variable estimators</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Mandy</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Martins-Filho</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Economic Review</title>
+		<imprint>
+			<biblScope unit="volume">35</biblScope>
+			<biblScope unit="page" from="957" to="980" />
+			<date type="published" when="1994">1994</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Maximum likelihood estimation of models for residual covariance in spatial regression</title>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">V</forename><surname>Mardia</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J</forename><surname>Marshall</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometrika</title>
+		<imprint>
+			<biblScope unit="volume">71</biblScope>
+			<biblScope unit="page" from="135" to="146" />
+			<date type="published" when="1984">1984</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">An illustration of a pitfall in estimating the effects of aggregate variables on micro units</title>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">R</forename><surname>Moulton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Review of Economics and Statistics</title>
+		<imprint>
+			<biblScope unit="volume">72</biblScope>
+			<biblScope unit="page" from="334" to="338" />
+			<date type="published" when="1990">1990</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Estimation methods for models of spatial interaction</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Ord</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">70</biblScope>
+			<biblScope unit="page" from="120" to="126" />
+			<date type="published" when="1975">1975</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">A class of partially adaptive onestep M-estimators for the nonlinear regression model with dependent observations</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Pötscher</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="page" from="219" to="251" />
+			<date type="published" when="1986">1986</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">A uniform law of large numbers for dependent and heterogeneous data processes</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Pötscher</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">57</biblScope>
+			<biblScope unit="page" from="675" to="683" />
+			<date type="published" when="1989">1989</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Basic structure of asymptotic theory in dynamic nonlinear models, I: consistency and approximation concepts</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Pötscher</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometric Reviews</title>
+		<imprint>
+			<biblScope unit="volume">10</biblScope>
+			<biblScope unit="page" from="125" to="216" />
+			<date type="published" when="1991">1991</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Basic structure of asymptotic theory in dynamic nonlinear models, II: asymptotic normality</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Pötscher</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometric Reviews</title>
+		<imprint>
+			<biblScope unit="volume">10</biblScope>
+			<biblScope unit="page" from="253" to="325" />
+			<date type="published" when="1991">1991</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<monogr>
+		<title level="m" type="main">International patterns of growth: I. Persistence in crosscountry disparities, London School of Economics, Department of Economics</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Quah</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1992">1992</date>
+		</imprint>
+	</monogr>
+	<note>working paper</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<monogr>
+		<title level="m" type="main">Social interactions, local spillovers, and unemployment, University of Chicago</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Topa</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+	<note>Ph.D. thesis</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">A note on the consistency of the maximum likelihood estimate</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Wald</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of Mathematical Statistics</title>
+		<imprint>
+			<biblScope unit="volume">20</biblScope>
+			<biblScope unit="page" from="595" to="600" />
+			<date type="published" when="1949">1949</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">On stationary processes in the plane</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Whittle</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometrica</title>
+		<imprint>
+			<biblScope unit="volume">41</biblScope>
+			<biblScope unit="page" from="434" to="449" />
+			<date type="published" when="1954">1954</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

@@ -1,0 +1,1832 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">OpenML-CTR23 -A curated tabular regression benchmarking suite</title>
+				<funder ref="#_kvDG6QA">
+					<orgName type="full">Deutsche Forschungsgemeinschaft (DFG, German Research oundation) -460135501</orgName>
+				</funder>
+				<funder ref="#_uAzxGF5">
+					<orgName type="full">Wyoming&apos;s Advanced Research Computing Center</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">Sebastian</forename><surname>Fischer</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution">LMU Munich</orgName>
+							</affiliation>
+							<affiliation key="aff1">
+								<orgName type="department">Munich Center for Machine Learning (MCML)</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Liana</forename><surname>Harutyunyan</surname></persName>
+						</author>
+						<author>
+							<persName><forename type="first">Matthias</forename><surname>Feurer</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution">LMU Munich</orgName>
+							</affiliation>
+							<affiliation key="aff1">
+								<orgName type="department">Munich Center for Machine Learning (MCML)</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Bernd</forename><surname>Bischl</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution">LMU Munich</orgName>
+							</affiliation>
+							<affiliation key="aff1">
+								<orgName type="department">Munich Center for Machine Learning (MCML)</orgName>
+							</affiliation>
+						</author>
+						<title level="a" type="main">OpenML-CTR23 -A curated tabular regression benchmarking suite</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<idno type="MD5">8B593004F18270D265378A9B37C51BA7</idno>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-25T16:07+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Benchmark experiments are one of the cornerstones of modern machine learning research.</p><p>An essential part in the design of such experiments is the selection of datasets. We present the OpenML Curated Tabular Regression benchmarking suite 2023 (OpenML-CTR23). It is available on OpenML and comprises 35 regression problems that have been selected according to a set of strict criteria. We compare its design with existing regression benchmark suites and also challenge some of the dataset choices of previous efforts. As a first experiment, we compare five machine learning methods of varying complexity on the OpenML-CTR23.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>Machine learning algorithms and their respective implementations should be studied not only through the lens of formal analysis, but also through proper empirical evaluation. Very often, specific details in their construction (which we abstract away in mathematical derivations) influence performance results considerably, and many real-world datasets do not fully satisfy the assumptions we make about data in formal analysis. For this reason, benchmark experiments are an integral part of modern machine learning research. To perform them effectively, researchers need access to a diverse collection of datasets.</p><p>In this paper, we present the OpenML Curated Tabular Regression benchmarking suite 2023 (OpenML-CTR23), a collection of 35 regression problems that meet a large number of quality criteria. We follow many of the design choices of the OpenML-CC18 <ref type="bibr" target="#b9">(Bischl et al., 2021)</ref>, which is the first benchmarking suite for classification algorithms that was created using rigorous inclusion criteria, and refine them for regression. We also evaluate five (non-deep) machine learning methods of varying complexity on the benchmark suite. These are XGBoost, a Random Forest, a Generalized Additive Model (GAM), a Ridge Regression and a Regression Tree.</p><p>First, we discuss related work. Then, we will outline the benchmark suite, its design criteria, and compare it to existing work. In the next section, we describe the experimental results. Finally, we will discuss the broader impact and limitations of our work.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">Background and Related Work</head><p>OpenML <ref type="bibr" target="#b67">(Vanschoren et al., 2014)</ref> is a platform for collaborative research in machine learning. As part of this it hosts thousands of easily accessible datasets in a standardized format. It also supports the creation of machine learning tasks, which are concrete problem specifications on datasets (they define the target variable and train-test splits such as k-fold cross-validation). Tasks can be bundled into benchmarking suites, which are curated sets of tasks that meet certain quality criteria defined by the creator <ref type="bibr" target="#b9">(Bischl et al., 2021)</ref>. These make it easier for researchers to quickly find high-quality datasets on which to evaluate their methods. The use of clearly defined inclusion criteria is a substantial improvement over the common practice of selecting datasets without a clear rationale for their selection. Most tabular benchmarking suites deal with supervised classification, such as the OpenML-CC18 and the suites mentioned therein <ref type="bibr" target="#b9">(Bischl et al., 2021)</ref>, but there are also two benchmarking suites for regression, that we discuss in more detail in section 3.2.</p><p>Beyond OpenML, there are also other repositories that offer access to large collections of datasets, including Kaggle <ref type="bibr" target="#b0">(Anthony and Howard, 2010)</ref>, the UCI machine learning repository <ref type="bibr" target="#b24">(Dua and Graff, 2017)</ref>, and the Penn Machine Learning Benchmark <ref type="bibr" target="#b53">(Olson et al., 2017)</ref>.</p><p>There also exists a large-scale comparison of regression methods using a subset of 42 regression problems from the UCI repository <ref type="bibr" target="#b28">(Fernández-Delgado et al., 2019)</ref>. However, the focus of this study was to empirically compare methods, not to create an easy-to-use benchmarking suite.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">Benchmarking Suite</head><p>Our main contribution is a curated collection of 35 regression problems available on OpenML. <ref type="foot" target="#foot_0">1</ref> The benchmarking suite is accessible either via the website or the REST API, for which client libraries exist in Python <ref type="bibr" target="#b29">(Feurer et al., 2021)</ref>, R <ref type="bibr" target="#b14">(Casalicchio et al., 2019)</ref>, Java (van Rijn, 2016), and Julia. <ref type="foot" target="#foot_1">2</ref> In addition to using existing OpenML datasets, we have also uploaded new datasets. In many cases, we have also re-uploaded datasets to OpenML with more accurate metadata.</p><p>We now discuss our design criteria and then compare our proposed suite with existing benchmarking suites. Figure <ref type="figure" target="#fig_0">1</ref> shows the distribution of the number of features and number of observations in a scatter plot and we provide an overview of all datasets in Appendix A.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1">Quality Criteria</head><p>We follow the design criteria of the OpenML-CC18 <ref type="bibr" target="#b9">(Bischl et al., 2021)</ref> as it was the first benchmarking suite to follow clearly defined inclusion criteria. We list these criteria here in order to keep the paper self-contained:</p><p>(a) There are between 500 and 100000 observations.</p><p>(b) There are less than 5000 features after one-hot encoding all categorical features.</p><p>(c) The dataset is not in a sparse format.</p><p>(d) The observations are i.i.d., which means that we exclude datasets that have time dependencies or require grouped data splits.</p><p>(e) The dataset comes with a source or reference that clearly describes it.</p><p>(f) We did not consider the dataset to be artificial, but allowed simulated datasets, see <ref type="bibr" target="#b9">Bischl et al. (2021)</ref> for more information on the difference.</p><p>(g) The data is not a subset of a larger dataset.</p><p>In addition, we introduce the following criteria, which are relevant for regression tasks (and ignore the CC18 criteria, which are specific to classification tasks):</p><p>(a) There is a numeric target variable with at least 5 different values.</p><p>(b) The dataset is not trivially solvable by a linear model, i.e. the training error of a linear model fitted to the whole data has an 𝑅 2 of less than 1.</p><p>Moreover, we have included the following two criteria to increase the broad usability of our benchmarking suite (see Appendix C for more details):</p><p>(a) The dataset does not have ethical concerns.</p><p>(b) The use of the dataset for benchmarking is not forbidden.</p><p>In addition to the datasets, the OpenML tasks also contain resampling splits, which were determined according to the following rule: If there are less than 1000 observations we use 10 times repeated 10-fold CV. If there are more than 10000 observations we use a 33% holdout split, and for everything between, we use 10-fold CV.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2">Comparison with existing OpenML Regression Suites</head><p>There are two other regression benchmarking suites available on OpenML, one from the AutoML benchmark <ref type="bibr" target="#b34">(Gijsbers et al., 2022)</ref>, which we will refer to as AMLB from now on, and another from a recent comparison of deep learning methods with tree-based models <ref type="bibr" target="#b36">(Grinsztajn et al., 2022)</ref>, which we will refer to as GOVB <ref type="bibr">(Grinsztajn, Oyallon, and Varoquaux Benchmark)</ref>. For a more fine-grained discussion on the dataset level (here we only compare design criteria), see Appendix C. Additional Datasets : the OpenML-CTR23 contains 23 datasets that are not included in any of the existing regression suites.</p><p>Quality of Description : we put a strong emphasis on the quality of the dataset description. This excludes datasets from both existing suites for which we were unable to find satisfactory information.</p><p>Dataset Size : we focused on medium-sized datasets in the range of 500 to 100000 observations. The GOVB contains datasets from 3000 up to around 5.5 million observations. The AMLB covers datasets from 240 up to 10 million observations. The rationale for this is to make it widely usable by limiting the computational requirements of running experiments on the suite.</p><p>Usage Restrictions : we exclude datasets from Kaggle challenges that can only be legally used during the duration of the competition. We find such datasets in the other two suites.</p><p>Missing Values : both the AMLB and CTR23 contain datasets with missing values, while they have been removed in the GOVB. Since some learning algorithms handle missing values natively, such global preprocessing steps may put these algorithms at a relative disadvantage.</p><p>Removed Features : the GOVB excludes categorical features with more than 20 items and numerical features with less than 10 unique values. Therefore, the resulting tasks might miss important features and do not necessarily respond to real-world problems anymore.</p><p>Dataset Difficulty : the CTR23 is the most conservative of the three benchmarking suites in terms of removing datasets based on a difficulty criterion, as we only remove datasets that follow a perfectly linear relationship. Both the AMLB and the GOVB remove datasets when the score difference between selected evaluated machine learning methods are considered to be too small. Task Splits : Both the AMLB and the CTR23 use OpenML task splits, while the the GOVB does not. In fact, we found 3 datasets in the GOVB that require custom train-splits, which we list in Appendix C.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">Experiments</head><p>We now compare five machine learning models on all CTR23 datasets. The selected methods range from complex black box models (XGBoost, Random Forest) to simple interpretable models (Ridge Regression, Decision Tree). As a middle ground between these two extremes, we also consider a Generalized Additive Model (GAM). With this experiment, we test whether the datasets are sufficiently complex that the simple models are not yet able to adequately capture the functional relationships between the features and the target. We will also compare the experimental results with the results of previous studies to see if they are in agreement.</p><p>We run each algorithm once on every task defined by the benchmarking suite and use the root mean-squared error (RMSE) as the evaluation measure. We use the train-test splits provided on OpenML, which we have defined in section 3.2 and conduct a rank-based analysis of the results using the Friedman test <ref type="bibr" target="#b31">(Friedman, 1937)</ref> and the Nemenyi post-hoc test <ref type="bibr" target="#b22">(Demšar, 2006)</ref>. Further details on the experimental setup and specific configurations can be found in the Appendix B. The code and experimental results are available on GitHub.<ref type="foot" target="#foot_2">foot_2</ref> </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1">Models</head><p>We briefly describe the algorithms we compare and refer to Appendix B for additional details and hyperparameter search spaces. XGBoost (Chen and Guestrin, 2016): we tune 8 hyperparameters for 500 random search iterations <ref type="bibr" target="#b3">(Bergstra and Bengio, 2012)</ref> and use a nested resampling procedure. Random Forest <ref type="bibr" target="#b12">(Breiman, 2001)</ref>: we use the implementation from the R package ranger <ref type="bibr" target="#b71">(Wright and Ziegler, 2017)</ref> with the default configuration which is known to work reasonably well <ref type="bibr" target="#b58">(Probst et al., 2019)</ref>. Generalized Additive Model: a flexible statistical model that (additively) combines multiple smooth functions of predictor variables <ref type="bibr" target="#b38">(Hastie, 2017)</ref>. We used the the R package mgcv <ref type="bibr" target="#b70">(Wood, 2001)</ref> and neither performed hyperparameter tuning nor specified interaction effects. Ridge Regression <ref type="bibr" target="#b39">(Hoerl and Kennard, 1970)</ref>: The lambda parameter is tuned using a simple grid search and an inner cross-validation. We use the implementation from the R package glmnet <ref type="bibr" target="#b30">(Friedman et al., 2010)</ref>. Regression Tree: a single decision tree <ref type="bibr" target="#b11">(Breiman, 1984)</ref> as a baseline model without hyperparameter tuning. We use the implementation from the R package rpart <ref type="bibr" target="#b63">(Therneau and Atkinson, 2022)</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2">Results</head><p>A global Friedman test showed the results to be significant on the 5% levels. Figure <ref type="figure" target="#fig_1">2</ref> summarizes the results of the post-hoc Nemenyi test. XGBoost is statistically different in all pairwise comparisons and is the clear winner with an average rank of 1.31. The Random Forest comes in second with an average rank of 2.46, but is not significantly different from the GAM, which has an average rank of 2.83. The two worst-performing models are the Ridge Regression with an average rank of 4.17 and the Regression Tree with 4.23. The top performance of XGBoost is not surprising, as it is the only model other than the much simpler Ridge Regression that we have tuned. This is consistent with the results of <ref type="bibr" target="#b36">Grinsztajn et al. (2022)</ref>, where XGBoost is also the best performing model for the regression datasets. Fernández-Delgado et al. ( <ref type="formula">2019</ref>) also find a gradient boosted tree (although the gbm implementation of <ref type="bibr" target="#b35">Greenwell et al. (2022)</ref>) to be superior to all other methods considered in our benchmark experiment. They also find the Random Forest (albeit a different implementation) to be superior to the GAM, Ridge Regression and the (rpart) decision tree. As the ranking reflects the complexity of the models considered, we can conclude that the relationships in the CTR23 datasets are challenging enough to be used to benchmark more sophisticated algorithms.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5">Conclusion</head><p>Our goal was to provide a high-quality collection of carefully curated regression problems and to make it easily accessible via OpenML. The result of this effort is the OpenML-CTR23, a benchmark suite of 35 regression problems. As design criteria, we adapted those of the CC18 to the regression setting and added two criteria to make it more usable. We then evaluated five machine learning methods of varying complexity, whose performance differed significantly. From this, we concluded that the developed regression suite contains sufficiently challenging datasets to discriminate between simple and complex methods.</p><p>While these design criteria are conceptually motivated, they are not experimentally evaluated. An interesting question for further research is how different choices of quality criteria, such as the exclusion of time dependencies, different difficulty criteria, or the inclusion of simulated datasets, affect the results of benchmark experiments.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6">Broader Impact and Limitations</head><p>We are not aware of any direct negative impact on society. By providing carefully curated datasets, we hope to help other researchers in two ways. First, they will need to spend less time collecting datasets, as the work has already been done for them. Second, because our primary focus was the creation of a benchmarking suite rather than developing a new method, we probably spent more time selecting datasets than is realistic in a study where a dataset collection is only a by-product. We, therefore, hope that the use of this benchmarking suite will lead to more reliable results in future machine learning research.</p><p>Although we were already more conservative about including datasets due to license restrictions, we still included some datasets without explicit licenses, when we felt they were clearly intended for academic use. These are mostly old datasets from a time when dataset licenses were not commonly added. We acknowledge that this is not optimal, but also see it as a step in the right direction and a FAIRer research culture <ref type="bibr" target="#b62">(Stall et al., 2019)</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A Dataset Overview</head><p>Table <ref type="table">1</ref> summarizes all datasets contained in the OpenML-CTR23.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>B More Details on Benchmark</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>B.1 Software Environment</head><p>The experiments were carried out using the R package mlr3 <ref type="bibr" target="#b47">(Lang et al., 2019)</ref>, which is a machine learning framework for the R language (R Core Team, 2018). The data was pre-processed using the mlr3 extension mlr3pipelines <ref type="bibr" target="#b7">(Binder et al., 2021)</ref>. We also used the R package batchtools <ref type="bibr" target="#b48">(Lang et al., 2017)</ref> to run the experiments on the cluster. Although the experiments were performed in R, the results are included in the GitHub repository as a CSV file.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>B.2 Preprocessing</head><p>We included the following preprocessing operations:</p><p>• We collapse the rarest categorical levels until there are at most 1000 different factor levels.</p><p>• If the method cannot handle categorical data, such features are one-hot encoded.</p><p>• If the method cannot handle missing data, missing categorical values are imputed using out-ofrange imputation.</p><p>• If the method cannot handle missing data, missing numerical features are imputed by sampling values from their empirical histogram.</p><p>Task XGBoost RF GAM Ridge Tree abalone 2.118 2.133 2.120 2.330 2.404 ×10 0 airfoil_self_noise 1.170 2.203 4.588 4.930 4.414 ×10 0 auction_verification 0.394 2.972 6.140 6.301 3.155 ×10 3 brazilian_houses 0.446 0.587 0.321 0.442 1.149 ×10 4 california_housing 4.464 5.050 6.193 7.247 7.809 ×10 4 cars 2.111 2.486 2.935 3.080 3.422 ×10 3 concrete_compressive_strength 0.371 0.529 0.963 1.075 0.900 ×10 1 cps88wages 3.800 3.830 3.856 4.120 4.027 ×10 2 cpu_activity 2.190 2.461 2.714 9.984 4.767 ×10 0 diamonds 0.521 0.540 2.127 1.335 1.311 ×10 3 energy_efficiency 0.280 1.082 2.934 3.298 2.575 ×10 0 fifa 0.893 0.929 0.904 1.517 1.029 ×10 4 forest_fires 4.830 5.037 4.883 4.601 6.112 ×10 1 fps_benchmark 0.051 3.363 1.166 1.189 2.339 ×10 1 geographical_origin_of_music 1.519 1.567 1.733 1.711 1.809 ×10 1 grid_stability 0.744 1.280 1.711 2.212 2.678 ×10 -2 health_insurance 1.439 1.452 1.465 1.503 1.523 ×10 1 kin8nm 1.092 1.452 1.974 2.034 2.160 ×10 -1 kings_county 1.144 1.314 1.560 1.651 2.050 ×10 5 miami_housing 0.815 0.925 1.328 1.803 1.726 ×10 5 Moneyball 2.218 2.428 2.090 2.265 3.640 ×10 1 naval_propulsion_plant 0.078 0.112 0.013 1.080 0.773 ×10 -2 physiochemical_protein 3.326 3.456 4.951 5.232 5.422 ×10 0 pumadyn32nh 2.176 2.621 3.306 3.322 2.424 ×10 -2 QSAR_fish_toxicity 0.864 0.861 0.923 0.986 1.028 ×10 0 red_wine 5.473 5.614 6.508 6.647 6.828 ×10 -1 sarcos 0.214 0.292 0.472 0.628 1.122 ×10 1 socmob 1.246 1.902 2.119 2.904 2.273 ×10 1 solar_flare 7.627 8.004 7.664 8.106 7.921 ×10 -1 space_ga 1.049 1.151 1.053 1.535 1.400 ×10 -1 student_performance_por 2.675 2.638 2.749 2.844 2.889 ×10 0 superconductivity 0.901 0.914 1.414 1.901 1.796 ×10 1 video_transcoding 0.078 0.337 1.092 1.115 0.706 ×10 1 wave_energy 0.497 4.536 0.009 0.420 9.226 ×10 4 white_wine 5.693 5.937 7.183 7.639 7.613 ×10 -1</p><p>Table <ref type="table">3</ref>: The root mean-square error of all five models (XGBoost, Random Forest, GAM, Ridge Regression, and Regression Tree) on all 35 datasets of the CTR23. To obtain the actual RMSE score, each value must be multiplied by the factor in the rightmost column.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure 1 :</head><label>1</label><figDesc>Figure1: Size of the datasets in the OpenML-CTR23. We show the number of observations on the x-axis and the number of features on the y-axis; both are on log scale.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Figure 2 :</head><label>2</label><figDesc>Figure2: A critical difference plot visualizing the results of the post hoc Nemenyi test for pairwise comparisons. Algorithms that are connected by a thick horizontal line have a rank difference smaller than the critical difference value and are not significantly different on the 5% level.</figDesc><graphic coords="5,133.20,-48.77,345.60,345.60" type="bitmap" /></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="1" xml:id="foot_0"><p>https://www.openml.org/search?type=study&amp;study_type=task&amp;sort=tasks_included&amp;id=353</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="2" xml:id="foot_1"><p>https://www.openml.org/apis</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="3" xml:id="foot_2"><p>https://github.com/slds-lmu/paper_2023_regression_suite</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="4" xml:id="foot_3"><p>https://github.com/slds-lmu/paper_2023_ci_for_ge</p></note>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div><p>Acknowledgements. The authors of this work take full responsibilities for its content. <rs type="person">Sebastian Fischer</rs> is supported by the <rs type="funder">Deutsche Forschungsgemeinschaft (DFG, German Research oundation) -460135501</rs> (<rs type="projectName">NFDI</rs> project <rs type="projectName">MaRDI</rs>). This work has been carried out by making use <rs type="funder">Wyoming's Advanced Research Computing Center</rs>, on its Beartooth Compute Environment (<ref type="url" target="https://doi.org/10.15786/M2FY47">https://doi.org/10.15786/M2FY47</ref>). The authors gratefully acknowledge the computational and data resources provided by <rs type="funder">Wyoming's Advanced Research Computing Center</rs> (<ref type="url" target="https://www.uwyo.edu/arcc/">https://www.uwyo.edu/arcc/</ref>).</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funded-project" xml:id="_kvDG6QA">
+					<orgName type="project" subtype="full">NFDI</orgName>
+				</org>
+				<org type="funded-project" xml:id="_uAzxGF5">
+					<idno type="grant-number">15786/M2FY47</idno>
+					<orgName type="project" subtype="full">MaRDI</orgName>
+				</org>
+			</listOrg>
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Name Data ID Task ID n p Source abalone 44956 361234 4177 9 Nash et al. (1994) airfoil_self_noise 44957 361235 1503 6 Brooks et al. (1989) auction_verification 44958 361236 2043 8 Ordoni et al. (2022) brazilian_houses 44990 361267 10692 10 Kaggle (2020) california_housing 44977 361255 20640 9 Pace and Barry (1997b) cars 44994 361622 804 18 Kuiper (2008) concrete_compressive_strength 44959 361237 1030 9 Yeh (1998) cps88wages 44984 361261 28155 7 Bierens and Ginther (2001) cpu_activity 44978 361256 8192 22 Rasmussen et al. (1996) diamonds 44979 361257 53940 10 Wickham (2011) energy_efficiency 44960 361617 768 9 Tsanas and Xifara (2012) fifa 45012 361272 19178 29 Kaggle (2021) forest_fires 44962 361618 517 13 Cortez and Morais (2007) fps_benchmark 44992 361268 24624 44 Peeters et al. (2021) geographical_origin_of_music 44965 361243 1059 117 Zhou et al. (2014) grid_stability 44973 361251 10000 13 Arzamasov et al. (2018) health_insurance 44993 361269 22272 12 Olson (1998) kin8nm 44980 361258 8192 9 Ghahramani (1996a) kings_county 44989 361266 21613 22 Kaggle (2016) miami_housing 44983 361260 13932 16 Kaggle (2022) Moneyball 41021 361616 1232 15 Kaggle (2017) naval_propulsion_plant 44969 361247 11934 15 Coraddu et al. (2016) physiochemical_protein 44963 361241 45730 10 Rana (2013) pumadyn32nh 44981 361259 8192 33 Ghahramani (1996b) QSAR_fish_toxicity 44970 361621 908 7 Cassotti et al. (2015) red_wine 44972 361250 1599 12 Cortez et al. (2009) sarcos 44976 361254 48933 22 Vijayakumar and Schaal (2000) socmob 44987 361264 1156 6 Biblarz and Raftery (1993) solar_flare 44966 361244 1066 11 Bradshaw (1989) space_ga 45402 361623 3107 7 Pace and Barry (1997a) student_performance_por 44967 361619 649 31 Cortez and Silva (2008) superconductivity 44964 361242 21263 82 Hamidieh (2018) video_transcoding 44974 361252 68784 19 Deneke et al. (2014) wave_energy 44975 361253 72000 49 Nesha (2019) white_wine 44971 361249 4898 12 Cortez et al. (2009) Table 1: Overview of datasets, including the name, OpenML data and task ID, the number of observations (n), the number of features (p), and the source.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>B.3 Hyperparameter Settings</head><p>XGBoost : the search space is defined in Table <ref type="table" target="#tab_1">2</ref> and is taken from <ref type="bibr" target="#b8">Bischl et al. (2023)</ref>. As mentioned in section 4.1, we tune XGBoost using 500 random search iterations and using a nested resampling procedure. In the inner resampling we use 10-fold cross-validation for datasets with less than 1000 observations, 3 folds for datasets between 1000 and 10000 observations and a 33% holdout resampling for everything else.</p><p>Random Forest : we use the default configuration from the R package ranger <ref type="bibr" target="#b71">(Wright and Ziegler, 2017)</ref>. GAM For the generalised additive model we add smooth effects for all numerical features with more than 20 different values. We set the number of knots for each smooth effect to 5 if the ratio of the number of observations to the number of features is less than 10, and to 5 otherwise, thereby avoiding non-identifiable models.</p><p>Ridge Regression : we tune the lambda parameter using the default tuning strategy of the glmnet package <ref type="bibr" target="#b30">(Friedman et al., 2010)</ref>. For the inner resampling we use 20-fold cross-validation for datasets with less than 1000 observations and 10-fold cross-validation for all other datasets. Regression Tree : We tune no hyperparameters and use the default configuration from the rpart package (Therneau and Atkinson, 2022).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>B.4 Computational Workload and Reproducibility</head><p>The total amount of CPU hours for the final experiment was roughly 13000. The code for the experiments 4 is available and open source. Seeds are set for all experiments and an renv file describing the computational environment (Ushey, 2023) is included. Instructions on how to reproduce the results are contained in the README file of the repository.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>B.5 More results</head><p>Table <ref type="table">3</ref>  </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>C Discussion of Datasets</head><p>While we compared the design criteria of existing benchmarking suites in section 3.2, here we go one step further and comment on some of the datasets included in other benchmarking suites.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>C.1 Usage Restrictions</head><p>Both the AMLB and the GOVB include datasets from Kaggle challenges that can only be used for the purpose and the duration of the challenge. These include the Mercedes-Beng Greener Manufacturing challenge (OpenML dataset ID 42570) and the Santander Customer Transaction Prediction challenge (ID 42395).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>C.2 Ethical Considerations</head><p>The boston housing (Dataset ID 531) is ethically questionable, as one of its features encodes racist assumptions <ref type="bibr" target="#b25">(Fairlearn, 2016)</ref>. As a precaution, we also remove the us crimes dataset (ID 42730), as the goal is to predict crime rates based on ethnical demographics, for which we do not have enough information about its context.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>C.3 Dataset Description</head><p>For both the yprop_4_1 and the topo_2_1 datasets (IDs 416, 550) we could not match the dataset description from the associated paper <ref type="bibr" target="#b26">(Feng et al., 2003)</ref> with the dimensions of the data on OpenML and therefore exclude them. The paper associated with Buzzinsocialmedia_Twitter (ID 4549) is in French and therefore inaccessible to non-French speakers. Other datasets such as delays_zurich_transport (ID 40753), pol (ID 201), Yolanda (ID 42705), or quake have rather sparse descriptions, which make it impossible to judge the quality of the data.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>C.4 I.I.D. Data</head><p>Some of the datasets in the AMLB and and GOVB have time dependencies. The OnlineNewsPopularity (ID 42724) should be treated with a rolling window cross-validation as described in the associated article <ref type="bibr" target="#b27">(Fernandes et al., 2015)</ref>. Another example is Airlines_DepDelay_10M (ID 42728), as the delays of different aircraft are inherently time related and the dataset is treated accordingly in other research papers <ref type="bibr" target="#b2">(Bayle et al., 2020)</ref>. The Bike Sharing Demand data (ID 44142) comes from a Kaggle forecasting challenge <ref type="bibr" target="#b40">(Kaggle, 2015)</ref> and should therefore also be treated with a rolling window cross-validation. The particulate-matter-ukair-2017 (ID 42207) is a data stream collected continuously over time.</p><p>In addition to time dependencies, other datasets also require custom resampling splits. These include the ailerons and elevators datasets (IDs 296 and 216, <ref type="bibr" target="#b49">Michie and Camacho (1994)</ref>) and the YearPredictionMSD dataset <ref type="bibr">(ID 44027, Bertin-Mahieux et al. (2011)</ref>).</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 2 :</head><label>2</label><figDesc>Search space for XGBoost</figDesc><table><row><cell>Hyperparameter</cell><cell>Range</cell><cell>Scale</cell></row><row><cell>𝜂</cell><cell cols="2">[1 × 10 -4 , 1] Logscale</cell></row><row><cell>𝑛 rounds</cell><cell>[1, 5000]</cell><cell></cell></row><row><cell>max_depth</cell><cell>[1, 20]</cell><cell></cell></row><row><cell cols="2">colsample_bytree [0.1, 1]</cell><cell></cell></row><row><cell cols="2">colsample_bylevel [0.1, 1]</cell><cell></cell></row><row><cell>𝜆</cell><cell cols="2">[0.001, 1000] Logscale</cell></row><row><cell>𝛼</cell><cell cols="2">[0.001, 1000] Logscale</cell></row><row><cell>subsample</cell><cell>[0.1, 1]</cell><cell></cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2"><head>Table 4 :</head><label>4</label><figDesc>contains the RMSE of all five models on all datasets.The ranks of all five models (XGBoost, Random Forest (RF), GAM, Ridge Regression, and Regression Tree) on all 35 tasks from the OpenML-CT323. Lower ranks indicate a smaller root mean-square error.</figDesc><table><row><cell>Task</cell><cell cols="5">XGBoost RF GAM Ridge Tree</cell></row><row><cell>abalone</cell><cell>1</cell><cell>3</cell><cell>2</cell><cell>4</cell><cell>5</cell></row><row><cell>airfoil_self_noise</cell><cell>1</cell><cell>2</cell><cell>4</cell><cell>5</cell><cell>3</cell></row><row><cell>auction_verification</cell><cell>1</cell><cell>2</cell><cell>4</cell><cell>5</cell><cell>3</cell></row><row><cell>brazilian_houses</cell><cell>3</cell><cell>4</cell><cell>1</cell><cell>2</cell><cell>5</cell></row><row><cell>california_housing</cell><cell>1</cell><cell>2</cell><cell>3</cell><cell>4</cell><cell>5</cell></row><row><cell>cars</cell><cell>1</cell><cell>2</cell><cell>3</cell><cell>4</cell><cell>5</cell></row><row><cell>concrete_compressive_strength</cell><cell>1</cell><cell>2</cell><cell>4</cell><cell>5</cell><cell>3</cell></row><row><cell>cps88wages</cell><cell>1</cell><cell>2</cell><cell>3</cell><cell>5</cell><cell>4</cell></row><row><cell>cpu_activity</cell><cell>1</cell><cell>2</cell><cell>3</cell><cell>5</cell><cell>4</cell></row><row><cell>diamonds</cell><cell>1</cell><cell>2</cell><cell>5</cell><cell>4</cell><cell>3</cell></row><row><cell>energy_efficiency</cell><cell>1</cell><cell>2</cell><cell>4</cell><cell>5</cell><cell>3</cell></row><row><cell>fifa</cell><cell>1</cell><cell>3</cell><cell>2</cell><cell>5</cell><cell>4</cell></row><row><cell>forest_fires</cell><cell>3</cell><cell>4</cell><cell>2</cell><cell>1</cell><cell>5</cell></row><row><cell>fps_benchmark</cell><cell>1</cell><cell>5</cell><cell>2</cell><cell>3</cell><cell>4</cell></row><row><cell>geographical_origin_of_music</cell><cell>1</cell><cell>2</cell><cell>4</cell><cell>3</cell><cell>5</cell></row><row><cell>grid_stability</cell><cell>1</cell><cell>2</cell><cell>3</cell><cell>4</cell><cell>5</cell></row><row><cell>health_insurance</cell><cell>1</cell><cell>2</cell><cell>3</cell><cell>4</cell><cell>5</cell></row><row><cell>kin8nm</cell><cell>1</cell><cell>2</cell><cell>3</cell><cell>4</cell><cell>5</cell></row><row><cell>kings_county</cell><cell>1</cell><cell>2</cell><cell>3</cell><cell>4</cell><cell>5</cell></row><row><cell>miami_housing</cell><cell>1</cell><cell>2</cell><cell>3</cell><cell>5</cell><cell>4</cell></row><row><cell>Moneyball</cell><cell>2</cell><cell>4</cell><cell>1</cell><cell>3</cell><cell>5</cell></row><row><cell>naval_propulsion_plant</cell><cell>2</cell><cell>3</cell><cell>1</cell><cell>5</cell><cell>4</cell></row><row><cell>physiochemical_protein</cell><cell>1</cell><cell>2</cell><cell>3</cell><cell>4</cell><cell>5</cell></row><row><cell>pumadyn32nh</cell><cell>1</cell><cell>3</cell><cell>4</cell><cell>5</cell><cell>2</cell></row><row><cell>QSAR_fish_toxicity</cell><cell>2</cell><cell>1</cell><cell>3</cell><cell>4</cell><cell>5</cell></row><row><cell>red_wine</cell><cell>1</cell><cell>2</cell><cell>3</cell><cell>4</cell><cell>5</cell></row><row><cell>sarcos</cell><cell>1</cell><cell>2</cell><cell>3</cell><cell>4</cell><cell>5</cell></row><row><cell>socmob</cell><cell>1</cell><cell>2</cell><cell>3</cell><cell>5</cell><cell>4</cell></row><row><cell>solar_flare</cell><cell>1</cell><cell>4</cell><cell>2</cell><cell>5</cell><cell>3</cell></row><row><cell>space_ga</cell><cell>2</cell><cell>3</cell><cell>1</cell><cell>5</cell><cell>4</cell></row><row><cell>student_performance_por</cell><cell>2</cell><cell>1</cell><cell>3</cell><cell>4</cell><cell>5</cell></row><row><cell>superconductivity</cell><cell>1</cell><cell>2</cell><cell>3</cell><cell>5</cell><cell>4</cell></row><row><cell>video_transcoding</cell><cell>1</cell><cell>2</cell><cell>4</cell><cell>5</cell><cell>3</cell></row><row><cell>wave_energy</cell><cell>3</cell><cell>4</cell><cell>1</cell><cell>2</cell><cell>5</cell></row><row><cell>white_wine</cell><cell>1</cell><cell>2</cell><cell>3</cell><cell>5</cell><cell>4</cell></row></table></figure>
+			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<monogr>
+		<author>
+			<persName><forename type="first">G</forename><surname>Anthony</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Howard</surname></persName>
+		</author>
+		<ptr target="https://www.kaggle.com/" />
+		<title level="m">Kaggle</title>
+		<imprint>
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Towards concise models of grid stability</title>
+		<author>
+			<persName><forename type="first">V</forename><surname>Arzamasov</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Böhm</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Jochem</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">2018 IEEE international conference on communications, control, and computing technologies for smart grids (SmartGridComm)</title>
+		<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2018">2018</date>
+			<biblScope unit="page" from="1" to="6" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Cross-validation confidence intervals for test error</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Bayle</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Bayle</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Janson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Mackey</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Larochelle</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Ranzato</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Hadsell</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M.-F</forename><surname>Balcan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Lin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 33rd International Conference on Advances in Neural Information Processing Systems (NeurIPS&apos;20)</title>
+		<meeting>the 33rd International Conference on Advances in Neural Information Processing Systems (NeurIPS&apos;20)</meeting>
+		<imprint>
+			<publisher>Curran Associates</publisher>
+			<date type="published" when="2020">2020</date>
+			<biblScope unit="page" from="16339" to="16350" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Random search for hyper-parameter optimization</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Bergstra</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Bengio</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Machine Learning Research</title>
+		<imprint>
+			<biblScope unit="volume">13</biblScope>
+			<biblScope unit="page" from="281" to="305" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">The million song dataset</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Bertin-Mahieux</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Ellis</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Whitman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Lamere</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 12th International Conference on Music Information Retrieval</title>
+		<meeting>the 12th International Conference on Music Information Retrieval</meeting>
+		<imprint>
+			<date type="published" when="2011">2011. 2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">The effects of family disruption on social mobility</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Biblarz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Raftery</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">American sociological review</title>
+		<imprint>
+			<biblScope unit="page" from="97" to="109" />
+			<date type="published" when="1993">1993</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Integrated conditional moment testing of quantile regression models</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Bierens</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Ginther</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Empirical Economics</title>
+		<imprint>
+			<biblScope unit="volume">26</biblScope>
+			<biblScope unit="page" from="307" to="324" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">mlr3pipelines-flexible machine learning pipelines in R</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Binder</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Pfisterer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Lang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Schneider</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Kotthoff</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Bischl</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Journal of Machine Learning Research</title>
+		<imprint>
+			<biblScope unit="volume">22</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="8314" to="8320" />
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<author>
+			<persName><forename type="first">B</forename><surname>Bischl</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Binder</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Lang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Pielok</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Richter</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Coors</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Thomas</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Ullmann</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Becker</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Boulesteix</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Deng</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Lindauer</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Hyperparameter optimization: Foundations, algorithms, best practices, and open challenges</title>
+		<imprint>
+			<publisher>Wiley Interdisciplinary Reviews</publisher>
+			<date type="published" when="2023">2023</date>
+			<biblScope unit="page">e1484</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">OpenML benchmarking suites</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Bischl</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Casalicchio</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Feurer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Hutter</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Lang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Mantovani</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Van Rijn</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Vanschoren</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the Neural Information Processing Systems Track on Datasets and Benchmarks</title>
+		<editor>
+			<persName><forename type="first">J</forename><surname>Vanschoren</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">S</forename><surname>Yeung</surname></persName>
+		</editor>
+		<meeting>the Neural Information Processing Systems Track on Datasets and Benchmarks</meeting>
+		<imprint>
+			<publisher>Curran Associates</publisher>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<monogr>
+		<title level="m" type="main">Solar flare data set</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Bradshaw</surname></persName>
+		</author>
+		<ptr target="http://archive.ics.uci.edu/ml/datasets/solar+flare" />
+		<imprint>
+			<date type="published" when="1989">1989</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<monogr>
+		<author>
+			<persName><forename type="first">L</forename><surname>Breiman</surname></persName>
+		</author>
+		<title level="m">Classification and regression trees</title>
+		<imprint>
+			<publisher>Routledge</publisher>
+			<date type="published" when="1984">1984</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Random forests</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Breiman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Machine Learning Journal</title>
+		<imprint>
+			<biblScope unit="volume">45</biblScope>
+			<biblScope unit="page" from="5" to="32" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<monogr>
+		<title level="m" type="main">Airfoil self-noise and prediction</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Brooks</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Pope</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Marcolini</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1989">1989</date>
+		</imprint>
+		<respStmt>
+			<orgName>NASA</orgName>
+		</respStmt>
+	</monogr>
+	<note type="report_type">Technical report</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">OpenML: An R package to connect to the machine learning platform OpenML</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Casalicchio</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Bossek</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Lang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Kirchhoff</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Kerschke</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Hofner</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Seibold</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Vanschoren</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Bischl</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Computational Statistics</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="977" to="991" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">A similarity-based qsar model for predicting acute toxicity towards the fathead minnow (pimephales promelas)</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Cassotti</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Ballabio</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Todeschini</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Consonni</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">SAR and QSAR in Environmental Research</title>
+		<imprint>
+			<biblScope unit="volume">26</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="217" to="243" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Xgboost: A scalable tree boosting system</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Guestrin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Krishnapuram</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Shah</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Smola</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Aggarwal</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Shen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Rastogi</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining (KDD&apos;16)</title>
+		<meeting>the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining (KDD&apos;16)</meeting>
+		<imprint>
+			<publisher>ACM Press</publisher>
+			<date type="published" when="2016">2016</date>
+			<biblScope unit="page" from="785" to="794" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Machine learning approaches for improving condition-based maintenance of naval propulsion plants</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Coraddu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Oneto</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Ghio</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Savio</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Anguita</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Figari</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Proceedings of the Institution of Mechanical Engineers, Part M: Journal of Engineering for the Maritime Environment</title>
+		<imprint>
+			<biblScope unit="volume">230</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="136" to="153" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Modeling wine preferences by data mining from physicochemical properties</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Cortez</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Cerdeira</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Almeida</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Matos</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Reis</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Decision support systems</title>
+		<imprint>
+			<biblScope unit="volume">47</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="547" to="553" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">A data mining approach to predict forest fires using meteorological data</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Cortez</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Morais</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">New trends in artificial intelligence : proceedings of the 13th Portuguese Conference on Artificial Intelligence (EPIA 2007)</title>
+		<editor>
+			<persName><forename type="first">J</forename><surname>Neves</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">M</forename><surname>Santos</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">J</forename><surname>Machado</surname></persName>
+		</editor>
+		<imprint>
+			<publisher>Associação Portuguesa para a Inteligência Artificial</publisher>
+			<date type="published" when="2007">2007</date>
+			<biblScope unit="page" from="512" to="523" />
+		</imprint>
+	</monogr>
+	<note>APPIA</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<monogr>
+		<title level="m" type="main">Using data mining to predict secondary school student performance</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Cortez</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Silva</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<monogr>
+		<title level="m">Proceedings of 5th Annual Future Business Technology Conference</title>
+		<editor>
+			<persName><forename type="first">A</forename><surname>Brito</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">J</forename><surname>Teixeira</surname></persName>
+		</editor>
+		<meeting>5th Annual Future Business Technology Conference</meeting>
+		<imprint>
+			<publisher>EUROSIS-ETI</publisher>
+			<biblScope unit="page" from="5" to="12" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Statistical comparisons of classifiers over multiple data sets</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Demšar</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Machine Learning Research</title>
+		<imprint>
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="page" from="1" to="30" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Video transcoding time prediction for proactive load balancing</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Deneke</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Haile</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Lafond</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Lilius</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">2014 IEEE International Conference on Multimedia and Expo (ICME)</title>
+		<imprint>
+			<date type="published" when="2014">2014</date>
+			<biblScope unit="page" from="1" to="6" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<monogr>
+		<title level="m" type="main">UCI machine learning repository</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Dua</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Graff</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<monogr>
+		<author>
+			<persName><surname>Fairlearn</surname></persName>
+		</author>
+		<ptr target="https://fairlearn.org/main/user_guide/datasets/boston_housing_data.html" />
+		<title level="m">Revisiting the boston housing dataset</title>
+		<imprint>
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Predictive toxicology: benchmarking molecular descriptors and statistical methods</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Feng</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Lurati</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Ouyang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Robinson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Yuan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Young</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of chemical information and computer sciences</title>
+		<imprint>
+			<biblScope unit="volume">43</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="1463" to="1470" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">A proactive intelligent decision support system for predicting the popularity of online news</title>
+		<author>
+			<persName><forename type="first">K</forename><surname>Fernandes</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Vinagre</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Cortez</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Progress in Artificial Intelligence: 17th Portuguese Conference on Artificial Intelligence</title>
+		<meeting><address><addrLine>Coimbra, Portugal</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2015-09-08">2015. 2015. September 8-11, 2015</date>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="page" from="535" to="546" />
+		</imprint>
+	</monogr>
+	<note>EPIA</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">An extensive experimental survey of regression methods</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Fernández-Delgado</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Sirsat</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Cernadas</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Alawadi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Barro</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Febrero-Bande</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Neural Networks</title>
+		<imprint>
+			<biblScope unit="volume">111</biblScope>
+			<biblScope unit="page" from="11" to="34" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">OpenML-Python: an extensible Python API for OpenML</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Feurer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Van Rijn</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Kadra</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Gijsbers</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Mallik</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Ravi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Müller</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Vanschoren</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Hutter</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Machine Learning Research</title>
+		<imprint>
+			<biblScope unit="volume">22</biblScope>
+			<biblScope unit="issue">100</biblScope>
+			<biblScope unit="page" from="1" to="5" />
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Regularization paths for generalized linear models via coordinate descent</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Friedman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Hastie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Tibshirani</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Statistical Software</title>
+		<imprint>
+			<biblScope unit="volume">33</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1" to="22" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">The use of ranks to avoid the assumption of normality implicit in the analysis of variance</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Friedman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="issue">200</biblScope>
+			<biblScope unit="page" from="675" to="701" />
+			<date type="published" when="1937">1937</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<monogr>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Ghahramani</surname></persName>
+		</author>
+		<ptr target="https://www.cs.toronto.edu/~delve/data/kin/desc.html" />
+		<title level="m">The kin datasets</title>
+		<imprint>
+			<date type="published" when="1996">1996a</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">The pumadyn datasets</title>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Ghahramani</surname></persName>
+		</author>
+		<ptr target="https://www.cs.toronto.edu/~delve/data/pumadyn/desc.html" />
+	</analytic>
+	<monogr>
+		<title level="j">J. Complex</title>
+		<imprint>
+			<biblScope unit="page" from="1" to="6" />
+			<date type="published" when="1996">1996b</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<monogr>
+		<author>
+			<persName><forename type="first">P</forename><surname>Gijsbers</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">L P</forename><surname>Bueno</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Coors</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Ledell</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Poirier</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Thomas</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Bischl</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Vanschoren</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:2207.12560[cs.LG]</idno>
+		<title level="m">Amlb: an automl benchmark</title>
+		<imprint>
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<monogr>
+		<title level="m" type="main">gbm: Generalized Boosted Regression Models</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Greenwell</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Boehmke</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Cunningham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Developers</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+	<note>R package version 2.1.8.1</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<analytic>
+		<title level="a" type="main">Why do tree-based models still outperform deep learning on typical tabular data?</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Grinsztajn</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Oyallon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Varoquaux</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Thirty-sixth Conference on Neural Information Processing Systems Datasets and Benchmarks Track</title>
+		<imprint>
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<analytic>
+		<title level="a" type="main">A data-driven statistical model for predicting the critical temperature of a superconductor</title>
+		<author>
+			<persName><forename type="first">K</forename><surname>Hamidieh</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Computational Materials Science</title>
+		<imprint>
+			<biblScope unit="volume">154</biblScope>
+			<biblScope unit="page" from="346" to="354" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<analytic>
+		<title level="a" type="main">Generalized additive models</title>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">J</forename><surname>Hastie</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Statistical models in S</title>
+		<imprint>
+			<publisher>Routledge</publisher>
+			<date type="published" when="2017">2017</date>
+			<biblScope unit="page" from="249" to="307" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<analytic>
+		<title level="a" type="main">Ridge regression: Biased estimation for nonorthogonal problems</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Hoerl</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">W</forename><surname>Kennard</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Technometrics</title>
+		<imprint>
+			<biblScope unit="volume">12</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="55" to="67" />
+			<date type="published" when="1970">1970</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b40">
+	<monogr>
+		<author>
+			<persName><surname>Kaggle</surname></persName>
+		</author>
+		<ptr target="https://www.kaggle.com/c/bike-sharing-demand/data/" />
+		<title level="m">Bike sharing demand dataset</title>
+		<imprint>
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b41">
+	<monogr>
+		<author>
+			<persName><surname>Kaggle</surname></persName>
+		</author>
+		<ptr target="https://www.kaggle.com/datasets/harlfoxem/housesalesprediction" />
+		<title level="m">House sales in king county, usa</title>
+		<imprint>
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b42">
+	<monogr>
+		<title level="m" type="main">Moneyball</title>
+		<author>
+			<persName><surname>Kaggle</surname></persName>
+		</author>
+		<ptr target="https://www.kaggle.com/datasets/wduckett/moneyball-mlb-stats-19622012" />
+		<imprint>
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b43">
+	<monogr>
+		<title level="m" type="main">Brazilian houses to rent</title>
+		<author>
+			<persName><surname>Kaggle</surname></persName>
+		</author>
+		<ptr target="https://www.kaggle.com/datasets/rubenssjr/brasilian-houses-to-rent" />
+		<imprint>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b44">
+	<monogr>
+		<author>
+			<persName><surname>Kaggle</surname></persName>
+		</author>
+		<ptr target="https://www.kaggle.com/datasets/stefanoleone992/fifa-22-complete-player-dataset" />
+		<title level="m">Fifa 22 complete player dataset</title>
+		<imprint>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b45">
+	<monogr>
+		<author>
+			<persName><surname>Kaggle</surname></persName>
+		</author>
+		<ptr target="https://www.kaggle.com/datasets/deepcontractor/miami-housing-dataset" />
+		<title level="m">Miami housing dataset</title>
+		<imprint>
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b46">
+	<analytic>
+		<title level="a" type="main">Introduction to multiple regression: How much is your car worth</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Kuiper</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Statistics Education</title>
+		<imprint>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b47">
+	<analytic>
+		<title level="a" type="main">mlr3: A modern object-oriented machine learning framework in R</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Lang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Binder</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Richter</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Schratz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Pfisterer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Coors</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Au</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Casalicchio</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Kotthoff</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Bischl</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Open Source Software</title>
+		<imprint>
+			<biblScope unit="volume">4</biblScope>
+			<biblScope unit="issue">44</biblScope>
+			<biblScope unit="page">1903</biblScope>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b48">
+	<analytic>
+		<title level="a" type="main">batchtools: Tools for R to work on batch systems</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Lang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Bischl</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Surmann</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Open Source Software</title>
+		<imprint>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="issue">10</biblScope>
+			<biblScope unit="page">135</biblScope>
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b49">
+	<analytic>
+		<title level="a" type="main">Building symbolic representations of intuitive real-time skills from performance data</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Michie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Camacho</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Machine Intelligence</title>
+		<imprint>
+			<biblScope unit="volume">13</biblScope>
+			<date type="published" when="1994">1994</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b50">
+	<monogr>
+		<title level="m" type="main">The population biology of abalone (haliotis species) in tasmania. i. blacklip abalone (h. rubra) from the north coast and islands of bass strait. Sea Fisheries Division</title>
+		<author>
+			<persName><forename type="first">W</forename><surname>Nash</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Sellers</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Talbot</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Cawthorn</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Ford</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1994">1994</date>
+			<biblScope unit="page" from="48" to="411" />
+		</imprint>
+	</monogr>
+	<note type="report_type">Technical Report</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b51">
+	<monogr>
+		<title level="m" type="main">Wave energy converters data set</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Nesha</surname></persName>
+		</author>
+		<ptr target="https://archive.ics.uci.edu/ml/datasets/Wave+Energy+Converters" />
+		<imprint>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b52">
+	<analytic>
+		<title level="a" type="main">A comparison of parametric and semiparametric estimates of the effect of spousal health insurance coverage on weekly hours worked by wives</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">A</forename><surname>Olson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Applied Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">13</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="543" to="565" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b53">
+	<analytic>
+		<title level="a" type="main">PMLB: a large benchmark suite for machine learning evaluation and comparison</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">S</forename><surname>Olson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>La Cava</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Orzechowski</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J</forename><surname>Urbanowicz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">H</forename><surname>Moore</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">BioData mining</title>
+		<imprint>
+			<biblScope unit="volume">10</biblScope>
+			<biblScope unit="page" from="1" to="13" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b54">
+	<analytic>
+		<title level="a" type="main">Analyzing and predicting verification of data-aware process models-a case study with spectrum auctions</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>Ordoni</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Bach</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A.-K</forename><surname>Fleck</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Access</title>
+		<imprint>
+			<biblScope unit="volume">10</biblScope>
+			<biblScope unit="page" from="31699" to="31713" />
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b55">
+	<analytic>
+		<title level="a" type="main">Quick computation of spatial autoregressive estimators</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">K</forename><surname>Pace</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Barry</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical analysis</title>
+		<imprint>
+			<biblScope unit="volume">29</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="232" to="247" />
+			<date type="published" when="1997">1997a</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b56">
+	<analytic>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">K</forename><surname>Pace</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Barry</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Sparse spatial autoregressions</title>
+		<imprint>
+			<date type="published" when="1997">1997b</date>
+			<biblScope unit="volume">33</biblScope>
+			<biblScope unit="page" from="291" to="297" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b57">
+	<analytic>
+		<title level="a" type="main">Performance prediction for hardware-software configurations: A case study for video games</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Peeters</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Melnikov</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Hüllermeier</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Advances in Intelligent Data Analysis XIX: 19th International Symposium on Intelligent Data Analysis, IDA 2021</title>
+		<meeting><address><addrLine>Porto, Portugal</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2021-04-26">2021. April 26-28, 2021</date>
+			<biblScope unit="volume">19</biblScope>
+			<biblScope unit="page" from="222" to="234" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b58">
+	<analytic>
+		<title level="a" type="main">Hyperparameters and tuning strategies for random forest</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Probst</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Wright</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Boulesteix</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">WIREs Data Mining and Knowledge Discovery</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b59">
+	<analytic>
+		<title level="a" type="main">R: A Language and Environment for Statistical Computing</title>
+		<author>
+			<orgName type="collaboration">R Core Team</orgName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">R Foundation for Statistical Computing</title>
+		<meeting><address><addrLine>Vienna, Austria</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b60">
+	<monogr>
+		<title level="m" type="main">Physicochemical properties of protein tertiary structure data set</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Rana</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b61">
+	<monogr>
+		<author>
+			<persName><forename type="first">C</forename><surname>Rasmussen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Neal</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Hinton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Van Camp</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Revow</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Ghahramani</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Kustra</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Tibshirani</surname></persName>
+		</author>
+		<ptr target="http://www.cs.toronto.edu/~delve/data/datasets.html" />
+		<title level="m">Computer activity dataset</title>
+		<imprint>
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b62">
+	<analytic>
+		<title level="a" type="main">Make scientific data fair</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Stall</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Yarmey</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Cutcher-Gershenfeld</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Hanson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Lehnert</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Nosek</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Parsons</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Robinson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Wyborn</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Nature</title>
+		<imprint>
+			<biblScope unit="volume">570</biblScope>
+			<biblScope unit="issue">7759</biblScope>
+			<biblScope unit="page" from="27" to="29" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b63">
+	<monogr>
+		<title level="m" type="main">rpart: Recursive Partitioning and Regression Trees</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Therneau</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Atkinson</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+	<note>R package version 4.1.19</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b64">
+	<analytic>
+		<title level="a" type="main">Accurate quantitative estimation of energy performance of residential buildings using statistical machine learning tools</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Tsanas</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Xifara</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Energy and buildings</title>
+		<imprint>
+			<biblScope unit="volume">49</biblScope>
+			<biblScope unit="page" from="560" to="567" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b65">
+	<monogr>
+		<title/>
+		<author>
+			<persName><forename type="first">K</forename><surname>Ushey</surname></persName>
+		</author>
+		<idno>renv: Project Environments. R package version 0.17.0</idno>
+		<imprint>
+			<date type="published" when="2023">2023</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b66">
+	<monogr>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">N</forename><surname>Van Rijn</surname></persName>
+		</author>
+		<title level="m">Massively Collaborative Machine Learning</title>
+		<imprint>
+			<date type="published" when="2016">2016</date>
+		</imprint>
+		<respStmt>
+			<orgName>Leiden University</orgName>
+		</respStmt>
+	</monogr>
+	<note type="report_type">PhD thesis</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b67">
+	<analytic>
+		<title level="a" type="main">OpenML: Networked science in machine learning</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Vanschoren</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Van Rijn</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Bischl</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Torgo</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">SIGKDD Explorations</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="49" to="60" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b68">
+	<analytic>
+		<title level="a" type="main">Locally weighted projection regression: An o (n) algorithm for incremental real time learning in high dimensional space</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Vijayakumar</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Schaal</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the seventeenth international conference on machine learning (ICML 2000)</title>
+		<meeting>the seventeenth international conference on machine learning (ICML 2000)</meeting>
+		<imprint>
+			<publisher>Morgan Kaufmann</publisher>
+			<date type="published" when="2000">2000</date>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="page" from="288" to="293" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b69">
+	<analytic>
+		<title/>
+		<author>
+			<persName><forename type="first">H</forename><surname>Wickham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Wiley interdisciplinary reviews: computational statistics</title>
+		<imprint>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="180" to="185" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b70">
+	<analytic>
+		<title level="a" type="main">mgcv: GAMs and generalized ridge regression for</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Wood</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">R. R news</title>
+		<imprint>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="20" to="25" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b71">
+	<analytic>
+		<title level="a" type="main">ranger: A fast implementation of random forests for high dimensional data in C++ and R</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Wright</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Ziegler</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Statistical Software</title>
+		<imprint>
+			<biblScope unit="volume">77</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1" to="17" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b72">
+	<analytic>
+		<title level="a" type="main">Modeling of strength of high-performance concrete using artificial neural networks</title>
+		<author>
+			<persName><forename type="first">I.-C</forename><surname>Yeh</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Cement and Concrete research</title>
+		<imprint>
+			<biblScope unit="volume">28</biblScope>
+			<biblScope unit="issue">12</biblScope>
+			<biblScope unit="page" from="1797" to="1808" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b73">
+	<analytic>
+		<title level="a" type="main">Predicting the geographical origin of music</title>
+		<author>
+			<persName><forename type="first">F</forename><surname>Zhou</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Claire</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">D</forename><surname>King</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">2014 IEEE International Conference on Data Mining</title>
+		<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2014">2014</date>
+			<biblScope unit="page" from="1115" to="1120" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

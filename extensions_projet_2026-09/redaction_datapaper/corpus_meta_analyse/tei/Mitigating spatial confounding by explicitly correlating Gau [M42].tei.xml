@@ -1,0 +1,861 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Mitigating spatial confounding by explicitly correlating Gaussian random fields</title>
+				<funder ref="#_HW5Tze5">
+					<orgName type="full">Deutsche Forschungsgemeinschaft</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author role="corresp">
+							<persName><forename type="first">Isa</forename><surname>Marques</surname></persName>
+							<email>imarques@uni-goettingen.de</email>
+							<affiliation key="aff0">
+								<orgName type="department">Chairs of Statistics and Econometrics</orgName>
+								<orgName type="institution">Georg-August-University of Göttingen</orgName>
+								<address>
+									<settlement>Göttingen</settlement>
+									<country key="DE">Germany</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Thomas</forename><surname>Kneib</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Chairs of Statistics and Econometrics</orgName>
+								<orgName type="institution">Georg-August-University of Göttingen</orgName>
+								<address>
+									<settlement>Göttingen</settlement>
+									<country key="DE">Germany</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Nadja</forename><surname>Klein</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="department">Chair of Statistics and Data Science</orgName>
+								<orgName type="institution">Humboldt-Universität zu Berlin</orgName>
+								<address>
+									<settlement>Berlin</settlement>
+									<country key="DE">Germany</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<affiliation key="aff2">
+								<orgName type="department">Chairs of Statistics and Econometrics</orgName>
+								<orgName type="institution" key="instit1">Correspondence Isa Marques</orgName>
+								<orgName type="institution" key="instit2">Georg-August-University of Göttingen</orgName>
+								<address>
+									<addrLine>Humboldtallee 3</addrLine>
+									<postCode>37073</postCode>
+									<settlement>Göttingen</settlement>
+									<country key="DE">Germany</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Mitigating spatial confounding by explicitly correlating Gaussian random fields</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<idno type="MD5">F9DD9D4901EC41B332B13E7FC97E2EEE</idno>
+					<idno type="DOI">10.1002/env.2727</idno>
+					<note type="submission">Received: 8 April 2021 Revised: 24 March 2022 Accepted: 26 March 2022</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-28T15:58+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>Bayesian inference</term>
+					<term>penalized complexity prior</term>
+					<term>spatial statistics</term>
+					<term>stochastic partial differential equation</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Spatial models are used in a variety of research areas, such as environmental sciences, epidemiology, or physics. A common phenomenon in such spatial regression models is spatial confounding. This phenomenon is observed when spatially indexed covariates modeling the mean of the response are correlated with a spatial random effect included in the model, for example, as a proxy of unobserved spatial confounders. As a result, estimates for regression coefficients of the covariates can be severely biased and interpretation of these is no longer valid. Recent literature has shown that typical solutions for reducing spatial confounding can lead to misleading and counterintuitive results. In this article, we develop a computationally efficient spatial model that explicitly correlates a Gaussian random field for the covariate of interest with the Gaussian random field in the main model equation and integrates novel prior structures to reduce spatial confounding. Starting from the univariate case, we extend our prior structure also to the case of multiple spatially confounded covariates. In simulation studies, we show that our novel model flexibly detects and reduces spatial confounding in spatial datasets, and it performs better than typically used methods such as restricted spatial regression. These results are promising for any applied researcher who wishes to interpret covariate effects in spatial regression models. As a real data illustration, we study the effect of elevation and temperature on the mean of monthly precipitation in Germany.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>INTRODUCTION</head><p>Spatial regression data are regression data {(y(s), z(s) ∶ s ∈ }, where both the response variable y(s) and the explanatory variables z(s) are indexed by a spatial variable s representing the location of the corresponding observational unit in a spatial domain . Based on observations collected at locations s i ∈ , i = 1, … , n, a standard regression model would then be of the form y(s i ) = 𝛽 0 + z(s i ) T 𝜷 + 𝜀 i</p><p>(1) with i.i.d. error terms 𝜀 i ∼ N(0, 𝜎 2 𝜀 ). However, this model could only be applied if-after adjusting for the covariates z(s i )-no spatial dependence remains such that the residuals can indeed be assumed to be independent. This assumption is questionable for typical, observational spatial data where spatial dependence is likely to arise, for example, due to direct interaction between observational units of interest with spatial proximity determining the intensity of mutual interactions (e.g., when studying outcomes relating to animal behavior) or due to omitted variables that themselves obey spatial dependence. In this article, we are considering situations of the second type, that is, model (1) is assumed to represent the true data generating mechanism, yet we only have access to a subset of covariates instead of the complete vector.</p><p>More formally, we assume that z(s) = (z obs (s) T , z unobs (s) T ) T and z obs (s) is a subset of covariates that are observed, while the remainder z unobs (s) is unobserved. This refers to the classical setup of unobserved confounders where</p><p>• naive estimation of the model relying exclusively on observed data will be biased unless observed and unobserved covariates are uncorrelated, and</p><p>• estimation uncertainty will usually be underestimated in the naive model based on observed data only, see <ref type="bibr" target="#b8">Greene (1990)</ref> or <ref type="bibr">Wooldridge (2015)</ref> for details. In spatial data, it is particularly unlikely that z obs (s) and z unobs (s) are uncorrelated when both obey spatial dependence themselves. A common approach that is considered to adjust for unobserved spatial covariates is to approximate their overall effect as 𝛾(s) ≈ z unobs (s) T 𝜷 unobs and to model 𝛾(s) as a spatially correlated random effect in the model y(s i ) = 𝛽 0 + z obs (s i ) T 𝜷 obs + 𝛾(s i ) + 𝜀 i .</p><p>(</p><p>Unfortunately, this modeling strategy does not completely solve the problem since the correlation between the observed and unobserved part of the covariates carries over to dependence between z obs (s) and 𝛾(s), which is then usually referred to as spatial confounding. As a consequence, the problem of unobserved confounding remains but, unlike the standard case of omitted variables, the possibility to estimate the spatial effect 𝛾(s) as a part of model ( <ref type="formula" target="#formula_0">2</ref>) allows one to device dedicated estimation approaches.</p><p>Initially, most research on spatial confounding was motivated by the empirical observation that including a correlated spatial effect in model (2) could have severe (and often detrimental) impact on estimating the regression effects 𝜷 obs <ref type="bibr" target="#b11">(Hodges &amp; Reich, 2010;</ref><ref type="bibr" target="#b24">Schnell &amp; Papadogeorgou, 2020)</ref>. Early approaches were notably agnostic about the underlying model and reasons for this behavior, and simply tried to device improved estimation approaches that allowed to recover the true effects 𝜷 obs . Whether or not spatial confounding is a relevant concern, depends both on the specific properties of the omitted variables z unobs (s) and the purpose of the analysis. For the former, the scale at which spatial variability is observed and how this scale relates to the spatial variability in z obs (s) is of major relevance <ref type="bibr" target="#b10">(Hefley et al., 2017;</ref><ref type="bibr" target="#b17">Paciorek, 2010;</ref><ref type="bibr" target="#b18">Page et al., 2017)</ref>.</p><p>With respect to the aim of the analysis, one can distinguish at least four situations. First, if the main goal is to obtain point predictions for the response only, it may be sufficient to just estimate the spatial model (2) since the potential bias in estimating 𝜷 obs will usually be compensated by estimating 𝛾(s) <ref type="bibr" target="#b18">(Page et al., 2017)</ref>. This does not necessarily carry over to the quantification of prediction uncertainty, but still spatial confounding may only be a second order problem in this case. Second, one may be interested in evaluating whether the overall spatial variability observed in the response of interest can be sensibly attributed to spatial risk factors by including candidate risk factors in z obs (s) and evaluating how much spatial variation remains in 𝛾(s) after adjusting for these risk factors <ref type="bibr" target="#b1">(Adin et al., 2021;</ref><ref type="bibr" target="#b17">Paciorek, 2010)</ref>. In this case, spatial confounding is a major concern since in general one will not be able to tell apart spatial variation in z obs (s) and 𝛾(s) without further structural model assumptions. One may also be interested in evaluating the effect of a specific treatment variable on the response while simultaneously adjusting for a number of additional confounding variables which, together, form the vector z obs (s) <ref type="bibr" target="#b3">(Davis et al., 2019;</ref><ref type="bibr" target="#b9">Guan et al., 2020;</ref><ref type="bibr" target="#b24">Schnell &amp; Papadogeorgou, 2020)</ref>. Here, dealing with spatial confounding is particularly important to identify the causal effect of the treatment. When it comes to the fourth situation, we distinguish a very significant part of the literature that is agnostic to the specific aims of the study <ref type="bibr" target="#b4">(Dupont et al., 2021;</ref><ref type="bibr" target="#b9">Hanks et al., 2015;</ref><ref type="bibr" target="#b10">Hefley et al., 2017;</ref><ref type="bibr" target="#b11">Hodges &amp; Reich, 2010;</ref><ref type="bibr" target="#b12">Hughes &amp; Haran, 2013)</ref>. In this article, we pragmatically consider dealing with spatial confounding as a way of getting a more realistic approximation of the underlying data generating process that enables meaningful interpretation of 𝜷 obs , positioning our contribution close to the evaluation of spatial risk factors. While our modeling approach may serve as a useful tool for exploring the presence of spatial confounding in a first place, the prior structures can also be useful as a building block in more complex spatial models.</p><p>The most common solution for spatial confounding is restricted spatial regression (RSR), which has been utilized both when evaluating the effect of a specific treatment (e.g., <ref type="bibr" target="#b20">Reich et al., 2006)</ref> or risk factors (e.g., <ref type="bibr" target="#b1">Adin et al., 2021)</ref>. This method alleviates confounding by projecting the spatial effects into the orthogonal space spanned by the covariates and, thus, carries strong assumptions for the fixed effects. Recent studies show that RSR has counterintuitive consequences for causal inference and can perform worse than a nonspatial (NS) model such as the one in (1) <ref type="bibr" target="#b13">(Khan &amp; Calder, 2020;</ref><ref type="bibr" target="#b28">Zimmerman &amp; Ver Hoef, 2021)</ref>. Several alternatives to RSR have been brought forward. In the causal inference front, <ref type="bibr" target="#b26">Thaden and Kneib (2018)</ref> use a three-stage structural equation model to extract the spatial structure in z obs (s) and 𝛾(s), while Schnell and Papadogeorgou (2020) consider a joint model for z obs (s) and 𝛾(s) based on Gaussian Markov random fields. <ref type="bibr" target="#b9">Guan et al. (2020)</ref> explicitly address the importance of spatial scale, develop a joint model for z obs (s) and 𝛾(s) in the spectral domain and study their correlation at different scales. On the more agnostic side, <ref type="bibr" target="#b4">Dupont et al. (2021)</ref> use a two-stage approach to remove the spatial structure in z obs (s) and, thus, avoid spatial confounding in the main equation ( <ref type="formula" target="#formula_0">2</ref>).</p><p>Some literature has focused on simultaneously alleviating the computational bottlenecks of dealing with high dimensional latent spatial effects and spatial confounding <ref type="bibr" target="#b12">(Hughes &amp; Haran, 2013)</ref>. To address this in our setting, we develop a Bayesian framework that allows to deal with spatial confounding in continuously indexed spatial models using a novel prior structure. We model 𝛾(s) and z obs (s) jointly using a multivariate Gaussian random field (MGRF) distribution. For this, we use the stochastic partial differential equation (SPDE) approach <ref type="bibr" target="#b15">(Lindgren et al., 2011)</ref> which utilizes a Gaussian Markov random field (GMRF) for computations. Moreover, we explore a penalized complexity (PC) prior for the correlation parameter that controls the shrinkage toward a base model, that is, the case of no spatial confounding <ref type="bibr" target="#b25">(Simpson et al., 2017)</ref>. Finally, thus far, the literature on spatial confounding does not discuss in-depth the case of multiple spatially confounded covariates in a spatial model. In this article, we address this gap, while explicitly accounting for spatial scale and computational complexity.</p><p>In summary, with this article, we 1. develop a new prior structure to deal with spatial confounding, 2. increase computational efficiency of the developed prior by exploiting the sparsity of the precision matrix of GMRFs in the SPDE-approach, and 3. extend the prior structure to the case of multiple covariates being correlated with the spatial random effect.</p><p>The remainder of this article is organized as follows. In Section 2, we introduce the novel prior structure. In Section 3, we extend the prior structure to the case of multiple spatial covariates. In Section 4, we present the details relating to the MCMC sampling. In Section 5, we present a simulation study that investigates the sources and consequences of spatial confounding. This simulation study compares our model with a spatial model that does not account for spatial confounding (called base model), RSR and a NS model. Additionally, we present a simulation study for the multiple covariates case. In Section 6, we demonstrate the useful properties of our prior structure in an application to precipitation data from Germany. Section 7 discusses the results and proposes future steps to further improve upon the present work.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">A NOVEL MGRF PRIOR FOR DEALING WITH SPATIAL CONFOUNDING IN ONE COVARIATE</head><p>A spatial process {𝛾(s) ∶ s ∈ } is a continuously indexed GRF if all finite-dimensional distributions of the process are Gaussian, that is, for all n ∈ N and all s 1 , … , s n ∈ , the vector (𝛾(s 1 ), … , 𝛾(s n )) T is multivariate Gaussian distributed. A GRF is specified by using a mean function 𝜇 𝜸 (s) and a covariance function Σ 𝜸 (s, s ′ ), for s, s ′ ∈ . We assume 𝜇 𝜸 (s) = 0 for all s.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1">A MGRF model specification</head><p>Consider the model in (2). For notational simplicity, we will refer to z obs as z and omit the spatial index s. Let z be a covariate having a spatial structure that can be represented by a GRF with mean 𝝁 Z and covariance matrix 𝚺 Z , that is, Let 𝜸 ∼  (0, 𝚺 𝜸 ). We assume that 𝜸 and z are jointly Gaussian distributed such that</p><formula xml:id="formula_1">( 𝜸 z ) ∼  [(<label>0</label></formula><formula xml:id="formula_2">𝝁 z ) , ( 𝚺 𝜸 𝜌𝚺 1∕2 𝜸 (𝚺 1∕2 z ) T 𝜌𝚺 1∕2 z (𝚺 1∕2 𝜸 ) T 𝚺 z )] ,<label>(3)</label></formula><p>where 𝜌𝚺 1∕2 𝜸 (𝚺 1∕2 z ) T = 𝚺 𝜸 z , 𝚺 z 𝜸 = 𝚺 T 𝜸 z , and 𝜌 ∈ [-1, 1]. The matrix roots 𝚺 1∕2 𝜸 and 𝚺 1∕2 z satisfy 𝚺 𝜸 = 𝚺 1∕2 𝜸 (𝚺 1∕2 𝜸 ) T and 𝚺 z = 𝚺 1∕2 z (𝚺 1∕2 z</p><p>) T , and can be derived from a Cholesky decomposition or an eigenvalue decomposition. The covariance structure is constructed such that Corr(𝛾 m , Z m ) = 𝜌, for all m = 1, … , M.</p><p>The conditional distribution of 𝜸 given z is a Gaussian distribution with mean and covariance</p><formula xml:id="formula_3">𝝁 𝜸|z = 0 + 𝚺 𝜸 z 𝚺 -1 z (z -𝝁 z ),<label>(4)</label></formula><formula xml:id="formula_4">𝚺 𝜸|z = 𝚺 𝜸 -𝚺 𝜸 z 𝚺 -1 z 𝚺 z 𝜸 (<label>5</label></formula><formula xml:id="formula_5">) leading to 𝜸|z ∼  (𝝁 𝜸|z , 𝚺 𝜸|z ) and z ∼  (𝝁 z , 𝚺 z ).<label>(6)</label></formula><p>If 𝜌 = 0, then 𝜸|z ∼  (0, 𝚺 𝜸 ), that is, we get the typically used prior in continuously indexed spatial models, which does not account for spatial confounding. We refer to a prior that assumes 𝜌 = 0 as the base prior, and the model associated with it as the base model. The more general case with 𝜌 ∈ [-1, 1] in (6) is denoted here a multivariate Gaussian random field (MGRF) prior, and the model associated with it is a MGRF model. The MGRF prior structure is illustrated graphically in Figure <ref type="figure" target="#fig_0">1</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2">GMRF reformulation</head><p>GMRFs are multivariate Gaussian distributions satisfying conditional independence assumptions, that is, they have a sparse precision matrix, Q 𝜸 = 𝚺 -1 𝜸 . While GMRFs are less attractive than GRFs from a theoretical viewpoint, the sparseness of the precision matrix, and potentially also of the corresponding Cholesky factorization, makes GMRFs attractive from a computational viewpoint. <ref type="bibr" target="#b23">Rue and Tjelmeland (2002)</ref> demonstrated empirically that GMRFs can closely approximate most of the commonly used covariance functions in geostatistics and proposed using them as computational replacements for GRFs for computational reasons. The stochastic partial differential equation (SPDE) approach <ref type="bibr" target="#b15">(Lindgren et al., 2011)</ref> exploits this empirical equivalence and obtains a model that benefits from both the computational benefits of the GMRF and a well-defined continuous GRF counterpart.</p><p>Recently, the nearest neighbors Gaussian process (NNGP) model <ref type="bibr" target="#b2">(Datta et al., 2016)</ref> has been presented as a computational competitor for the SPDE-approach. However, while NNGPs benefit from the construction of a sparse Cholesky factorization of the precision matrix (and thus a GMRF specification), they do not have a well-defined continuous counterpart. As a consequence, the interpretability of the resulting model, for example, in terms of concepts such as spatial scale, is hindered and the model is dependent on the order in which the observations are included in the model, which in turn can lead to large discrepancies between the original covariance and the NNGP covariance <ref type="bibr" target="#b14">(Lindgren et al., 2022)</ref>. In contrast, for full Cholesky factorization such as in the SPDE-approach, the ordering of the nodes only affects the sparsity of the computed factorization <ref type="bibr" target="#b14">(Lindgren et al., 2022;</ref><ref type="bibr" target="#b22">Rue &amp; Held, 2005)</ref>.</p><p>All spatial models in this article use the SPDE-approach <ref type="bibr" target="#b15">(Lindgren et al., 2011)</ref>. In this approach, a GRF 𝛾(s) (similarly for z(s)) is expanded into a piecewise linear basis through</p><formula xml:id="formula_6">𝛾(s) = M ∑ m=1 𝜓 m (s)𝛾 m ,<label>(7)</label></formula><p>where the joint distribution of the weight vector 𝜸 = (𝛾 1 , … , 𝛾 M ) T are normally distributed weights 𝜸 with mean zero and sparse precision matrix Q 𝜸 such that 𝜸 ∼ N(0, Q -1 𝜸 ), that is, the GMRF approximation to the GRF. Each basis function 𝜓 m (⋅) is piecewise linear. Note that at this point 𝜸 gains a new meaning, specifically as the GMRF approximation of the GRF 𝛾(s) via (7), that is, omitting s no longer represents a simplification of notation.</p><p>The sparse precision matrix Q 𝜸 will typically reduce the cost of factorizations-such as the Cholesky decomposition-to O(n 3∕2 ) in spatial models, instead of O(n 3 ) for GRFs with dense covariance matrices. Moreover, the Cholesky decomposition of the precision Q 𝜸 inherits its sparse structure in the SPDE-approach <ref type="bibr" target="#b22">(Rue &amp; Held, 2005)</ref>. Thus, in this article, we assume 𝚺 1∕2 𝜸 (similarly for 𝚺 1∕2 z ) represents the Cholesky decomposition of 𝚺 𝜸 . This allows us to exploit the sparsity of the Cholesky factor to reduce the computational complexity of the resulting prior structure.</p><p>In the SPDE-approach, the precision of the resulting GMRF depends on 𝜏 𝜸 &gt; 0, a precision parameter, 𝜅 𝜸 &gt; 0, a parameter related to the spatial range, and 𝜈 𝜸 &gt; 0 which is a smoothness parameter. Throughout this article, we assume  ⊆ R 2 . The marginal variance 𝜎 2 𝜸 of the GRF can be derived from the parameters 𝜏 𝜸 and 𝜅 𝜸 , via</p><formula xml:id="formula_7">𝜎 2 𝜸 = Γ(𝜈 𝜸 ) Γ(𝛼 𝜸 )4𝜋𝜅 2𝜈 𝜸 𝜸 𝜏 2 𝜸 .</formula><p>Furthermore, by defining the range as the distance at which the spatial correlation falls to 0.05, the range parameter r 𝛾 can be written as</p><formula xml:id="formula_8">r 𝜸 = √ 8𝜈 𝜸 𝜅 𝜸 .</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2.1">Reformulation I</head><p>For positive definite Q 𝜸 , there is a unique Cholesky factor L 𝜸 such that L 𝜸 is a lower triangular matrix with L 𝜸(ii) &gt; 0 ∀i and Q 𝜸 = L 𝜸 L T 𝜸 . By exploiting the Markov graph structure of the GMRF, the Cholesky factor of the precision matrix can be guaranteed to be sparse <ref type="bibr" target="#b22">(Rue &amp; Held, 2005)</ref>. The same logic applies to z and we can rewrite (4) and ( <ref type="formula" target="#formula_4">5</ref>) such that</p><formula xml:id="formula_9">𝝁 𝜸|z = 0 + 𝜌 L -T 𝜸 L T z (z -𝝁 Z ),<label>(8)</label></formula><formula xml:id="formula_10">Q 𝜸|z = 𝚺 -1 𝜸|z = 1 1 -𝜌 2 Q 𝜸 , (<label>9</label></formula><formula xml:id="formula_11">)</formula><p>as derived in detail in Supplement A.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2.2">Reformulation II</head><p>Reformulation I of the first and second order structure of the prior takes advantage of the sparse structure of Q 𝜸 and Q z , and it can lead to a considerable decrease in the computational cost of factorizations. However, to guarantee positive definiteness, we need to avoid boundary cases |𝜌| ≈ 1.</p><p>To address this, one can consider the unconstrained GMRF, 𝜸 ∼  (0, Q -1 𝜸 ), and then compute</p><formula xml:id="formula_12">𝜸 * = 𝜸 + 𝜌 L -T 𝜸 L T z (z -𝜸 z ), where 𝜸 z ∼  (𝝁 z , 𝚺 z ).</formula><p>The resulting 𝜸 * has the correct conditional distribution (see Supplement B). This procedure is similar to "conditioning by kriging" in <ref type="bibr" target="#b22">Rue and Held (2005)</ref> and it essentially removes from the linear predictor the part of the spatial effect that is correlated with the covariate of interest.</p><p>In comparison to reformulation I, this reformulation requires the sampling of one additional parameter, 𝜸 z , of size M. This can increase the computational costs associated with MCMC, as 𝜸 z is sampled every iteration.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3">Prior for 𝝆</head><p>Estimating the correlation between z and 𝜸 is a complex task, namely because 𝜸 is an unobservable random effect. In this article, we estimate 𝜌 within the Bayesian hierarchical model presented in more detail in Section 4, and set a PC-prior for 𝜌.</p><p>The concept of a PC-prior was first developed by <ref type="bibr" target="#b25">Simpson et al. (2017)</ref> and an in-depth introduction can be found there. In short, as the name penalized complexity indicates, this prior invokes the principle of parsimony, for which a simpler base model should be preferred until there is enough support for a more complex model. The prior density decays at a constant decay-rate as a function of a measure of the increased complexity between the more flexible model and the base model. The resulting prior allows for user-defined scaling: an upper bound for the parameter of interest can be defined, which describes what is considered as "tail event" and what is the weight put on this event. Hence, the user can describe how informative the resulting PC-prior is. <ref type="bibr" target="#b25">Simpson et al. (2017)</ref> developed a PC-prior for correlation parameters. Here, we consider a base model with 𝜌 0 = 0, that is, a base model that assumes no spatial confounding between fixed effects and spatial random effects. Let -1 c-1 &lt; 𝜌 &lt; 1 with c ≥ 2. <ref type="bibr" target="#b25">Simpson et al. (2017)</ref> show that the PC-prior for 𝜌 has density</p><formula xml:id="formula_13">p(𝜌) = c -1 2 ( 1 1 -𝜌 - 1 1 + (c -1)𝜌 ) 𝜆 √ -lR(𝜌) exp(-𝜆 √ -lR(𝜌)),</formula><p>where lR(𝜌) = log(R(𝜌)) and R(𝜌) = (1 + (c -1)𝜌)(1 -𝜌) c-1 . The decay-rate 𝜆 can be chosen by sampling PC-priors from various values of 𝜆 and choosing a 𝜆 satisfying</p><formula xml:id="formula_14">Prob(|𝜌| &gt; U) = a. (<label>10</label></formula><formula xml:id="formula_15">)</formula><p>The resulting PC-prior is shown in Figure <ref type="figure">2</ref>, for c = 2 and different values of U and a. As it can be observed, the prior can be made less informative by increasing U or a, that is, by reducing shrinkage toward the base model. For different values of c, the left boundary for the correlation can be shifted toward zero, resulting in an asymmetric prior distribution for 𝜌. However, throughout this article, we assume there is no information concerning the type of correlation between the unobservable spatial random field and the covariate. Thus, we only consider the case c = 2. Moreover, we set a = 0.05 and simply change U to get the desired prior density. We refer to the resulting PC-prior as (U).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.4">Full hierarchical model</head><p>In what follows, we present the full hierarchical structures of the models for reformulations I and II, respectively. The priors on 𝜃 𝜏 𝜸 , 𝜃 𝜏 z , 𝜃 𝜅 𝜸 and 𝜃 𝜅 z for  = [0, 1] × [0, 1] are chosen such that the spatial range and marginal variance vary uniformly in the intervals [0.01, 1] and [0.01, 5], respectively, as this should cover all the variability of the considered (scaled) responses. For 𝜎 2 𝜀 , we specify an inverse-gamma distribution (c = 0.001, d = 0.001). Cases c = d, with both values approaching zero, are widely used as a weakly informative choice for 𝜎 2 𝜀 (see section 4.4 of <ref type="bibr" target="#b5">Fahrmeir et al., 2013)</ref>. Recall that 𝛾(s) = ∑ M m=1 𝜓 m (s)𝛾 m and z(s) = ∑ M m=1 𝜓 m (s)z m . Moreover, 𝜽 z = (𝜃 𝜏 z , 𝜃 𝜅 z ) T and 𝜽 𝜸 = (𝜃 𝜏 𝜸 , 𝜃 𝜅 𝜸 ) T . The hierarchical structure for B = 1 and reformulation I in Section 2.2.1 is</p><formula xml:id="formula_16">y(s i ) = 𝜂(s i ) + 𝜀 i = 𝛽 0 + z(s i ) T 𝜷 + 𝛾(s i ) + 𝜀 i with 𝜸|𝜽 z , 𝜽 𝜸 , 𝜇 z ∼  (𝝁 𝜸|z , Q 𝜸|z (𝜽 z , 𝜽 𝜸 ) -1 ), 𝛽 0 ∼  (𝜇 𝛽 0 , 𝜎 2 𝛽 0 ), 𝜷 ∼  (𝝁 𝜷 , diag(𝝈 2 𝜷 )), 𝜺|𝜎 2 𝜀 ∼  (0, 𝜎 2 𝜀 I), 𝜎 2 𝜀 ∼ (0.001, 0.001), 𝜃 𝜏 𝜸 , 𝜃 𝜏 z ∼  (-10, 0), 𝜃 𝜅 𝜸 , 𝜃 𝜅 z ∼  (1, 5), 𝜌 ∼  (U, 0.05), 𝜇 z ∼  (𝜇 𝜇 z , 𝜎 2 𝜇 z ),</formula><p>while the hierarchical structure for B = 1 and reformulation II in Section 2.2.2 is</p><formula xml:id="formula_17">y(s i ) = 𝜂(s i ) + 𝜀 i = 𝛽 0 + z(s i ) T 𝜷 + 𝛾 * (s i ) + 𝜀 i = 𝛽 0 + z(s i ) T 𝜷 + M ∑ m=1 𝜓 m (s i )𝛾 * m + 𝜀 i with 𝜸 * = 𝜸 + 𝜌 L -T 𝜸 L T z (z -𝜸 z ), 𝜸|𝜽 𝜸 ∼ N(0, Q 𝜸 (𝜽 𝜸 ) -1 ), 𝛽 0 ∼  (𝜇 𝛽 0 , 𝜎 2 𝛽 0 ), 𝜷 ∼  (𝝁 𝜷 , diag(𝝈 2 𝜷 )), 𝜺|𝜎 2 𝜀 ∼  (0, 𝜎 2 𝜀 I), 𝜎 2 𝜀 ∼ (0.001, 0.001), 𝜃 𝜏 𝜸 , 𝜃 𝜏 z ∼  (-10, 0), 𝜃 𝜅 𝜸 , 𝜃 𝜅 z ∼  (1, 5), 𝜌 ∼ (U, 0.05), 𝜇 z ∼  (𝜇 𝜇 z , 𝜎 2 𝜇 z ), 𝜸 z |𝜽 z , 𝜇 z ∼ N(𝜇 z 1 M , Q z (𝜽 z ) -1 ).</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">SPATIAL CONFOUNDING IN MULTIPLE COVARIATES</head><p>In many situations, we are interested in accounting for multiple spatially varying risk factors and, consequently, we need to tell apart spatial variation in multiple elements of z obs (s) and the spatial effect 𝛾(s). In the spatial confounding literature, the case of multiple spatially confounded covariates in not well explored, and the usual recommendation is to extend the single-covariate strategy to all spatial covariates included in the model <ref type="bibr" target="#b4">(Dupont et al., 2021;</ref><ref type="bibr" target="#b26">Thaden &amp; Kneib, 2018)</ref>. This can lead the resulting model to be quite complex and, potentially, hard to estimate. The prior structure in Section 2 exploits the sparsity of precision matrices of GMRFs for computational efficiency purposes. In this section, we develop a novel prior structure for the case of multiple spatially confounded covariates that explores an additional source of sparsity. Namely, we investigate the efficacy of an approach based on the preprocessing of the matrix of spatial varying covariates z = (z 1 , … , z b , … , z B ) T using principal component analysis (PCA; <ref type="bibr" target="#b0">Abdi &amp; Williams, 2010;</ref><ref type="bibr" target="#b19">Pearson, 1901)</ref>.</p><p>Thinking in terms of GMRFs, consider that the model includes B spatially varying covariates z 1 , … , z b , … , z B and that we need to disentangle the spatial variation between these and 𝜸. Moreover, for now, ignore potential collinearity between the different covariates. If we follow Section 2, the most direct way to disentangle spatial variation in 𝜸 and z 1 , … , z b , … , z B is to model the joint (B + 1)-variate spatial distribution of (𝜸, z 1 , … , z b , … , z B ) T in the prior for 𝜸. Depending on how large B is, this strategy could imply a great computational burden, as well as the estimation of B(B+1) 2 correlation parameters.</p><p>The PCA methodology reduces the dimensionality of multidimensional datasets for analysis purposes. This methodology allows us to represent the data in a new coordinate system in which basis vectors follow the direction of greatest variation in the data. Consider the eigendecomposition of z T z utilized in PCA. We choose the first B * (largest) eigenvalues 𝜆 1 , … , 𝜆 B * and their respective eigenvectors, such that</p><formula xml:id="formula_18">∑ B * b=1 𝜆 b ∑ B b=1 𝜆 b &gt; 𝜓,<label>(11)</label></formula><p>where 𝜓 ∈ (0, 1) is the required threshold (typically, 𝜓 = 0.95). We denote the vector of variables resulting from PCA by w = (w 1 , … , w b * , … , w B * ) T . The model follows</p><formula xml:id="formula_19">y(s i ) = 𝛽 0 + z(s i ) T 𝜷 + 𝛾(s i ) + 𝜀 i but now the spatial effect has the prior 𝜸|w ∼  (𝝁 𝜸|w , 𝚺 𝜸|w ) that follows ⎛ ⎜ ⎜ ⎜ ⎜ ⎜ ⎝ 𝜸 w 1 … w B * ⎞ ⎟ ⎟ ⎟ ⎟ ⎟ ⎠ ∼  ⎡ ⎢ ⎢ ⎢ ⎢ ⎢ ⎣ ⎛ ⎜ ⎜ ⎜ ⎜ ⎜ ⎝ 0 𝜇 w 1 I … 𝜇 w B * I ⎞ ⎟ ⎟ ⎟ ⎟ ⎟ ⎠ , ⎛ ⎜ ⎜ ⎜ ⎜ ⎜ ⎝ 𝚺 𝜸 𝜌 1 𝚺 1∕2 𝜸 (𝚺 1∕2 w 1 ) T … 𝜌 B * 𝚺 1∕2 𝜸 (𝚺 1∕2 w B * ) T 𝜌 1 𝚺 1∕2 w 1 (𝚺 1∕2 𝜸 ) T 𝚺 w 1 … 0 … … … … 𝜌 B * 𝚺 1∕2 𝜸 (𝚺 1∕2 w B * ) T 0 … 𝚺 w B * ⎞ ⎟ ⎟ ⎟ ⎟ ⎟ ⎠ ⎤ ⎥ ⎥ ⎥ ⎥ ⎥ ⎦ .</formula><p>Besides dimensionality reduction, choosing the B * largest eigenvalues has an intuitive spatial interpretation. Spatial confounding typically biases regression coefficients when z has a larger spatial scale than 𝜸 <ref type="bibr" target="#b1">(Adin et al., 2021;</ref><ref type="bibr" target="#b17">Paciorek, 2010;</ref><ref type="bibr" target="#b18">Page et al., 2017)</ref>, since when the spatial effect operates on a smaller scale than the covariate, it is likely to explain the data better than the covariate. Also from a spectral analysis perspective, "unconfoundness" is typically associated with high-frequencies (small scale) of the covariate <ref type="bibr" target="#b9">(Guan et al., 2020;</ref><ref type="bibr" target="#b10">Hefley et al., 2017)</ref>. By choosing the largest eigenvalues in the PCA of the (scaled) z, we can extract the large scale behavior associated with the covariate vector. This is illustrated in Figure <ref type="figure">3</ref> which shows w b * arising from the PCA-analysis of 20 GRF covariates z 1 , … , z 20 with decreasing spatial range. We observe that the first eigenvalues, that is, the largest, are associated with larger spatial scales.</p><p>Our strategy does not correct for correlation between the covariates. Nonetheless, if the covariates in (z 1 , … , z B ) T are correlated among themselves, the user can choose common solutions against multicollinearity in linear regression models, for example, by omitting some of the affected covariates or constructing a single combined and easily interpretable covariate from the covariates in question. Another possibility is to use PCA also in this case <ref type="bibr" target="#b5">(Fahrmeir et al., 2013)</ref>.</p><p>The full hierarchical structure in the multiple covariates case is close to the structure in Section 2.4 and can be found in the Supplement C. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">POSTERIOR EVALUATION</head><p>To perform posterior estimation for the full vector of model parameters 𝝑, we develop a fully Bayesian approach using MCMC, and separate 𝝑 into smaller blocks. Of particular relevance is the separation between variables for which we know the corresponding (full conditional) posterior distributions, and those for which the posterior distribution is not available. We will use a Gibbs sampler <ref type="bibr" target="#b7">(Gelfand, 2000)</ref> for the former and derive the corresponding posterior distributions in Section 4.1. For the latter, we use Metropolis Hastings (MH, <ref type="bibr" target="#b16">Metropolis et al., 1953)</ref> steps, which are explained in more detail in Section 4.2. Section 4.3 summarizes the final structure of the sampler.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1">Posterior distributions for Gibbs sampler</head><p>The priors for 𝛽 0 , 𝜷, 𝜸, 𝜎 2 𝜀 , 𝜇 z , and additionally 𝜸 z in reformulation II, are conjugate priors such that Gibbs steps are possible. For all parameters that have normal distributed priors, we can use the properties of the product of two normal densities to derive their posterior distribution (see supplement B of <ref type="bibr" target="#b5">Fahrmeir et al., 2013)</ref>. In what follows, we start by describing the posterior distributions that are identical for both reformulation I and reformulation II, from Sections 2.2.1 and 2.2.2, respectively. Subsequently, we derive the posteriors for the remaining parameters.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1.1">Posterior distributions identical for reformulations I and II</head><p>Let z be matrix z with first column 1 M . Consider the (B + 1) × (B + 1) matrices A = 1 𝜎 2 z𝝍 T 𝝍 zT and B = diag</p><formula xml:id="formula_20">( 𝜎 2 𝛽 0 , 𝚺 2 𝜷 T ) -1 ,</formula><p>where diag denotes a diagonal matrix. Moreover, consider the (B + 1)-dimensional vectors a = z𝝍 T (𝝍 zT z𝝍 T ) -1 (y -𝝍𝜸), and b = (𝜇 𝛽 0 , 𝝁 T 𝜷 ) T , where y = (y(s 1 ), … , y(s n )) T . Then,</p><formula xml:id="formula_21">(𝛽 0 , 𝜷 T ) T |⋅ ∼  ( (A + B) -1 (Aa + Bb), (A + B) -1 ) . (<label>12</label></formula><formula xml:id="formula_22">)</formula><p>Consider the single covariate case and Section 2.4. The posterior for 𝜇 z |⋅ follows the same structure as ( <ref type="formula" target="#formula_21">12</ref>), but we instead have the scalars</p><formula xml:id="formula_23">A = 1 T M Q Z 1 M , B = 1 𝜎 2 𝜇 z</formula><p>, and the M-size vectors a = 1 T M I M z and b = 𝜇 𝜇 z , with z replaced by w in the multiple covariates case.</p><p>In the case of 𝜎 2 𝜀 , the prior is inverse-gamma distributed, which combined with the normal distributed response leads to a posterior distribution (see p. <ref type="formula">229 of Fahrmeir et al. (2013)</ref>)</p><formula xml:id="formula_24">𝜎 2 𝜀 |⋅ ∼  ( 0.001 + n 2 , 0.001 + 1 2 (y -𝜼) T (y -𝜼)</formula><p>) ,</p><p>where 𝜼 = (𝜂(s 1 ), … , 𝜂(s n )) T and, according to Section 2.4 and Supplement C.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1.2">Posterior distributions not identical for reformulations I and II</head><p>In reformulation I, 𝜸|⋅ once again follows the structure in ( <ref type="formula" target="#formula_21">12</ref>), but with M × M matrices A = 1 𝜎 2 𝝍 T 𝝍 and B = Q -1 𝜸|z and M-vectors a = 𝝍 T (𝝍𝝍 T ) -1 (y -𝛽 0 1 n )z T 𝜷 and b = 𝝁 𝜸|z . In the multiple covariates case, B = Q -1 𝜸|w and b = 𝝁 𝜸|w . In reformulation II, 𝜸|⋅ is sampled according to M × M matrices A = 1 𝜎 2 𝝍 T 𝝍 and B = Q -1 𝜸 and M-sized vectors a = 𝝍 T </p><formula xml:id="formula_25">(𝝍𝝍 T ) -1 (y -𝛽 0 1 n ) -z T 𝜷 -𝜌 L -T 𝜸 L T z (z -𝜸 z ) and b = 0. In the multiple covariates case, a = 𝝍 T (𝝍𝝍 T ) -1 (y -𝛽 0 1 n ) - z T 𝜷 -𝜌 L -T 𝜸 L T w (w -𝜸 w ). Finally, in reformulation II, 𝜸 z |⋅ is sampled according to the M × M matrices A = (𝜌 L -T 𝜸 L T z ) T Q 𝜸 𝜌 L -T 𝜸 L T z , B = Q z , a = z -(𝜌 L -T</formula><p>𝜸 L T z ) -1 𝜸 and b = 𝜇 z 1 K , with all z and 𝜸 z replaced by w and 𝜸 w , respectively, in the multiple covariates case.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2">Posterior estimation for MH steps</head><p>Since parameters 𝜽 𝜸 , 𝜽 z , and 𝜌 * are highly correlated, we generally sample them in one block in a Metropolis-Hastings (MH) step using the robust adaptive MH method from <ref type="bibr" target="#b27">Vihola (2012)</ref> with Student t-distributed proposal densities. This algorithm estimates the shape of the target distribution and simultaneously coerces the acceptance rate. Here, we use the typically desired acceptance rate of 23.4% for multidimensional settings <ref type="bibr" target="#b21">(Roberts et al., 1997)</ref>.</p><p>However, in the multiple covariates case, 𝜌 * is updated separately as the block update led to updates that were negligible on practical terms. In this cases, for 𝜌 * , we use RAM with the typical acceptance rate of 44% for unidimensional settings <ref type="bibr" target="#b21">(Roberts et al., 1997)</ref>.</p><p>The t-distributed proposal densities might lead to invalid proposals for 𝜌. Consequently, in our MCMC sampler 𝜌 is reparameterized using the general Fisher's z-transformation <ref type="bibr" target="#b6">(Fisher, 1958</ref>) such that</p><formula xml:id="formula_26">𝜌 = exp(𝜌 * ) -1 exp(𝜌 * ) + 1 and 𝜌 * = log ( 1 + 𝜌 1 -𝜌 ) .</formula><p>We use the change of variable theorem to correct the full conditional of 𝜌 for this reparameterization (see theorem B.1 on supplement B.1 of <ref type="bibr" target="#b5">Fahrmeir et al., 2013)</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.3">Sampler</head><p>With a focus in the one covariate case, the final MCMC scheme is outlined in Algorithm 1. It follows similarly for the multiple covariates case.</p><p>Algorithm 1. Outline of the MCMC sampler for the one covariate case Data: Starting values 𝝑 0 . Number of iterations T. t = 0 while t&lt;T do Generate move from p(𝜇 z |⋅) Perform MH step for 𝜽 z (In reformulation II, generate move from p(𝜸 z |⋅) Generate move from p(𝜎 2 𝜀 |⋅) Generate move from p((𝛽 0 , 𝜷 T ) T |⋅) Perform MH step for {𝜽 𝜸 , 𝜌} Generate move from p(𝜸|⋅) t += 1 end</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5">SIMULATION STUDY</head><p>In the introduction to this article, we positioned our methodology close to the goal of evaluating risk factors in spatial regression models. In this context, we introduced model equation ( <ref type="formula" target="#formula_0">2</ref>), for which spatial confounding is a major concern since, in general, one will not be able to tell apart spatial variation in the observed risk factors z obs (s) and the remaining spatial variation 𝛾(s) without further structural model assumptions. Ultimately, we wish to obtain more realistic approximations of the underlying data generating process that enable meaningful interpretation of the coefficients 𝜷 obs associated with the (observed) risk factors (without delving into causality aspects). Following Sections 2 and 3, we can now evaluate how well the priors we developed perform with respect to this goal. Thus, the aim of this simulation section is two-fold. First, we want to understand the sources and consequences of spatial confounding in spatial models. Second, we want to investigate to which extent the priors developed in Sections 2 and 3 reduce the bias of regression coefficients when spatial confounding is present. For this, we conduct three simulation studies: (1) a proof of concept simulation where the data generating process exactly matches with our model assumptions, (2) a simulation study in the univariate case where we explicitly construct spatial confounding via an unobserved risk factor, (3) a simulation study in the multiple covariate case where the multiple covariates follow our model assumptions but we use the PCA-based dimension reduction to correct for spatial confounding. These simulation scenarios correspond to Sections 5.1,5.2, and 5.3, respectively.</p><p>In the data analysis model (DAM), we compare four different specifications of ( <ref type="formula" target="#formula_0">2</ref>): (i) a nonspatial model (NS), that is, one that excludes 𝛾(s), (ii) a spatial model with the base prior, that is, not correcting for spatial confounding, (iii) restricted spatial regression (RSR), and (iv) a spatial model with our novel prior structure. We sample 𝛾(s) for RSR using conditioning kriging (see Supplement D). All 𝛾(s) are estimated using the SPDE-approach. The two-</p><formula xml:id="formula_27">dimensional domain considered is  = [0, 1] × [0, 1].</formula><p>In all studies, we report the bias of regression coefficients and the posterior mean of 𝜌 for simulation study 1 is provided in Supplement E. The results for each scenario are based on N = 50 replicates. Inference is based on 10,000 MCMC samples with burn-in of 5000 and thinning of 5 in simulation study 1 and 3, and on 25,000 MCMC with burn-in of 10,000 and thinning of 15 in simulation study 2.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.1">Simulation study 1: Proof of concept</head><p>In simulation study 1, we provide a proof of concept, by investigating the performance of the MGRF prior when the data-generating model (DGM) and data-analysis model (DAM) are the same. This proof of concept also provides insights on the sources of spatial confounding in DGMs based on GRFs. We assume there is only one observed risk factor z obs (s), and test how well the prior structure in Section 2 can tell apart the spatial variation in z obs (s) and the remaining unobserved spatial variation in the response.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.1.1">Data generation model</head><p>Consider Equation ( <ref type="formula" target="#formula_0">2</ref>), where we assume y(s) is spatially varying with two sources of spatial variability: z obs (s) and 𝛾(s). We further assume that only one spatial risk factor z obs (s) can be observed and the remaining unobserved spatial variability in y(s) -represented 𝛾(s) -is unobserved. Unobserved and observed spatial risk factors may be correlated, making it hard to tell apart their spatial variability. This has been shown to be problematic when the spatial range of the observed risk factors is larger than the unobserved counterpart, since it leads to spatial confounding bias in 𝛽 obs <ref type="bibr" target="#b17">(Paciorek, 2010;</ref><ref type="bibr" target="#b18">Page et al., 2017)</ref>. Consequently, besides their correlation, the spatial range of z obs (s) and 𝛾(s) is fundamental when trying to tell apart spatial variation in these, in order to achieve a meaningful interpretation of 𝛽 obs .</p><p>The data are generated additively based on (i) an observed spatial risk factor z obs (s), and (ii) unobserved spatial risk factors summarized in 𝛾(s) such that</p><formula xml:id="formula_28">y(s i ) = -1.5 + 1 × z obs (s i ) T + 𝛾(s i ) + 𝜀 i ,</formula><p>where the 𝜀 i 's are i.i.d. and follow 𝜀 i ∼ N(0, 𝜎 2 𝜀 ) with 𝜎 2 𝜀 = 0.1. Moreover, z obs (s) and 𝛾(s) are GRFs generated using the SPDE-approach with mean zero and marginal variance and smoothness equal to one, that is, 𝜎 2 z obs = 𝜎 2 𝜸 = 1 and 𝜈 2 z obs = 𝜈 2 𝜸 = 1, respectively. We consider nine different pairs of spatial ranges where r 𝜸 , r z obs ∈ {0.1, 0.5, 0.9}. Parameters z obs (s) and 𝛾(s) are correlated and have correlation parameter 𝜌 (see Equation ( <ref type="formula" target="#formula_2">3</ref>)). We consider five different correlation values, corresponding to five different scenarios: (1 In what follows, we refrain from presenting the results for Scenarios 4 and 5, since the behavior for the negative correlations is identical to that of the positive correlations (just with opposite sign for the bias and, thus, adds no additional information).</p><formula xml:id="formula_29">) 𝜌 = 0; (2) 𝜌 = 0.3; (3) 𝜌 = 0.7; (4) 𝜌 = -0.3; (5) 𝜌 = -0.7. Moreover, we consider sample sizes n ∈ {200, 1000}. r =0.1 r =0.5 r =0.9 r Z obs =0.1 r Z obs =0.5 r Z obs =0.9 n=200 n=1000 n=200 n=1000 n=200 n=1000</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.1.2">Prior elicitation</head><p>We use the priors 𝜇 z obs ∼  (0, 0.1 2 ) and (𝛽 0 , 𝛽 obs ) T ∼  (0, diag(100 4 , 100 2 )), where 𝛽 0 is the model's intercept. The values of U in the shape of the PC-prior (see Equation ( <ref type="formula" target="#formula_14">10</ref>)) vary between scenarios, and represent a trade-off between the accuracy of the posterior mean of 𝛽 obs over 50 replications and the dispersion of these posterior means. Concretely, we set U high and reduce it in case we get high dispersion for the posterior mean of 𝛽 obs .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.1.3">Results</head><p>In Figure <ref type="figure">4</ref>, our prior prevents overfitting by keeping the results close to those of the base model, except in scenarios where this reduces the bias of 𝛽 obs . In Figure <ref type="figure">5</ref>, where z obs and 𝜸 are not independent, spatial confounding leads to especially biased regression coefficients when r z obs ≥ r 𝜸 . These results are in line with <ref type="bibr" target="#b17">Paciorek (2010)</ref> and <ref type="bibr" target="#b18">Page et al. (2017)</ref>, and they make sense because if the spatial effect operates on a smaller scale than the covariate, it is likely to explain the data better than the covariate, and thus lead to confounding between the two. When r 𝜸 = r z obs , as expected, spatial variability cannot be told apart, as both z obs and 𝜸 have the same spatial structure. When r z obs &gt; r 𝜸 , our prior performs considerably better than the competitors. Moreover, there is a tendency to overestimate 𝛽 obs for 𝜌 &gt; 0 (and to underestimate 𝛽 obs for 𝜌 &lt; 0) and the bias increases for higher (absolute) values of 𝜌. Finally, we can observe a bias/uncertainty trade-off in several range combinations, such that bias reduction might be coupled with increased uncertainty. All in all, our novel prior either performs better or similarly well to the competitors in terms of the bias of the posterior mean of 𝛽 obs . All spatial models reach similar values of the continuous ranked probability score (CRPS) and the CRPS for the NS model is noticeably higher (see Supplement F). A brief report on the efficiency of the MCMC sampler for RSR and our novel prior is provided in Supplement D.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.2">Simulation study 2: One single observed risk factor</head><p>In simulation study 2, we consider a different DGM in which the unobserved risk factor 𝛾(s) is composed of a spatially structured variable which affects both the observed risk factor z obs (s) and the response y(s) linearly, as well an additional independent spatial process 𝜁(s) that represents the remaining spatial dependence structure in the response. This is inspired by the simulation study in <ref type="bibr" target="#b4">Dupont et al. (2021)</ref> and follows closely the standard set-up of an omitted variable bias problem. The DAM remains the same as in simulation study 1. An additional scenario that does not include 𝜁(s) (based on <ref type="bibr" target="#b26">Thaden &amp; Kneib, 2018)</ref> is presented in Supplement G.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.2.1">Data generation model</head><p>The data are generated additively based on (i) an observed spatial risk factor z obs (s), and (ii) unobserved spatial risk factors summarized in 𝛾(s). The unobserved risk factor affects both the observed risk factor and the response linearly such that</p><formula xml:id="formula_30">y(s i ) = -1.5 + 1 × z obs (s i ) T + 𝛾(s i ) + 𝜀 i , z obs (s i ) = 1 × x(s i ) + 𝜀 z i , 𝛾(s i ) = 1 × x(s i ) + 1 × 𝜁(s i ),</formula><p>where x(s i ) = s 2 1,i + s 2 2,i for s i = (s 1,i , s 2,i ) T and 𝜁(s) is a GRF generated using the SPDE-approach with mean zero, marginal variance and smoothness equal to one and range equal to 0.5, that is, 𝜎 2 𝜻 = 1, 𝜈 2 𝜻 = 1, and r 𝜻 = 0.5. The variables x(s) and 𝜁(s) are independent. The 𝜀 z i 's and 𝜀 i 's are i.i.d. and follow 𝜀 i ∼ N(0, 𝜎 2 𝜀 ) and 𝜀 z i ∼ N(0, 𝜎 2 z ) with 𝜎 2 z = 0.1, and 𝜎 2 𝜀 = 0.5. The variance parameter 𝜎 z is relatively small such that the model matrix for the spatial model has nearly collinear columns and 𝜎 𝜀 is relatively large to encourage smoothing <ref type="bibr" target="#b4">(Dupont et al., 2021;</ref><ref type="bibr" target="#b26">Thaden &amp; Kneib, 2018)</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.2.2">Prior elicitation</head><p>The choice of priors is identical to Section 5.1.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.2.3">Results</head><p>The results in Figure <ref type="figure">6</ref> show that the MGRF model performs better than all the remaining models. Namely, for n = 1000 it is able to reach a bias of zero. This demonstrates the flexibility of the prior structure, beyond the proof of concept in Section 5.1. The results are equally positive for the additional simulation study in Supplement G. All spatial models reach similar CRPS and the CRPS of the NS model is noticeably higher (see Supplement F).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.3">Simulation study 3: Multiple risk factors</head><p>In simulation study 3, we assume that multiple risk factors are observed and test the prior structure suggested in Section 3 in terms of the bias of the resulting coefficients 𝜷 obs . The DAM follows the model from Section 3 and, consequently, the DGM and DAM are different.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.3.1">Data generation model</head><p>The data is based on: (1) two observed spatial risk factor z obs 1 (s) and z obs 2 (s), and (2) an unobserved spatial risk factor 𝛾(s) such that y(s) = -1.</p><p>5 + 1 × z obs 1 (s) -0.5 × z obs 2 (s) + 𝛾(s) + 𝜀, where 𝜎 2 𝜀 = 0.1 and z obs 1 (s), z obs 2 (s), and 𝛾(s) are GRFs generated using the SPDE-approach with mean zero and marginal variance and smoothness equal to one, that is, 𝜎 2 z obs 1 = 𝜎 2 z obs 2 = 𝜎 2 𝜸 = 1 and 𝜈 2 z obs 1 = 𝜈 2 z obs 2 = 𝜈 2 𝜸 = 1. When generating the data, we consider nine pairs of spatial ranges where r 𝜸 , r 2 z obs ∈ {0.1, 0.5, 0.9} and r<ref type="foot" target="#foot_1">foot_1</ref> z obs = 0.5. Covariates z obs 1 (s) 1.0 0.5 0.0 0.5 1.0 1.5 n=200 n=1000 bias of obs non spatial base RSR MGRF F I G U R E 6 Bias of posterior mean of 𝛽 obs for the four models considered in Scenario 2, and based on 50 replicates. The red line indicates bias of zero and z obs 2 (s) are independent, z obs 1 (s) and 𝛾(s) are correlated and have correlation parameter 𝜌 1 (corresponding to 𝜌 in Equation ( <ref type="formula" target="#formula_2">3</ref>)), and z obs 2 (s) and 𝛾(s) are correlated and have correlation parameter 𝜌 2 . We consider two scenarios: (1) (𝜌 1 , 𝜌 2 ) = (0.5, 0.2); (2) (𝜌 1 , 𝜌 2 ) = (-0.5, 0.2). Moreover, n ∈ {200, 1000}. We use a threshold 𝜓 = 0.95 in the PCA (see Equation ( <ref type="formula" target="#formula_18">11</ref>)).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.3.2">Prior elicitation</head><p>The choice of U follows the same strategy as in Section 5.1. We additionally consider the priors 𝜇 * z ∼  (0, 0.1 2 ) and (𝛽 0 , 𝛽 obs 1 , 𝛽 obs 2 ) T ∼  (0, diag(100 4 , 100 2 , 100 2 )).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.3.3">Results</head><p>The results are shown in Figures <ref type="figure">7</ref> and <ref type="figure">8</ref>, corresponding to Scenarios 1 and 2, respectively. The benefits of using RSR in reducing the bias of the coefficients associated with (observed) risks factors becomes clearer in the multiple covariates case. In Scenario 1, RSR never performs worse than the NS or the base models. When r 𝜸 = 0.9, RSR outperforms the latter two. Nonetheless, MGRF outperforms the competitors for almost all range combinations. Thus, although MGRF requires more user-defined input compared to RSR, it can lead to larger reductions in bias. While RSR is a good and stable indicator of the direction of the bias, MGRF is more successful in (further) reducing this bias.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6">APPLICATION TO MONTHLY PRECIPITATION IN GERMANY</head><p>In this section, we analyze average monthly precipitation in Germany using open-access data from the German Meteorological Institute (Deutscher Wetterdienst, DWD) 1 . The website also contains detailed information on elevation and climatic variation at the 280 DWD weather stations, which we can use as covariates in our models. We study the month of October 2015 as this example clearly demonstrates the effects our prior can have on the posterior distribution of 𝜷 obs . </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.1">Model</head><p>We consider model (2), with y(s i ) being the standardized amount of precipitation in milliliters at weather station s i ∈ , where  represents Germany. The covariate z 1 (s i ) is the standardized elevation in meters and z 2 (s i ) is the standardized average monthly minimum temperature in degrees Celsius. We standardize all variables because the effects of different marginal variances of the GRFs was not analyzed in Section 5. We use the priors (𝛽 0 , 𝛽 obs 1 , 𝛽 obs 2 ) T ∼  (0, diag(100 4 , 100 2 , 100 2 )) and 𝜇 z ∼  (0, 1 2 ). We test values of U ∈ {0.3, 0.5, 0.7} and choose the lowest value of U for which the results for the posterior distribution of 𝛽 obs 1 and 𝛽 obs 2 seem to stabilize. The remaining priors are the ones referred to in Section 3.</p><p>We test four models with different specifications for 𝛾(s), as done in the simulation studies from Section 5. Concretely: (i) 𝛾(s) is excluded from the model, that is, NS, (ii) 𝛾(s) has a base prior, (iii) 𝛾(s) has our novel MGRF prior, (iv) 𝛾(s) is the </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.2">Results</head><p>Although linearity is a strong assumption, one would generally expect a positive association between elevation and monthly precipitation (𝛽 obs 1 &gt; 0) and a negative association between minimum temperature and monthly precipitation (𝛽 obs 2 &lt; 0). Table <ref type="table">1</ref> shows the posterior summaries for 𝛽 obs 1 and 𝛽 obs 2 and it clearly demonstrates the discrepancies in the posterior distribution of 𝛽 obs 1 and 𝛽 obs 2 for different models. For NS, the association between precipitation and elevation 1099095x, 2022, 5, Downloaded from <ref type="url" target="https://onlinelibrary.wiley.com/doi/10.1002/env.2727">https://onlinelibrary.wiley.com/doi/10.1002/env.2727</ref> by University Of Glasgow, Wiley Online Library on [25/09/2023]. See the Terms and Conditions (<ref type="url" target="https://onlinelibrary.wiley.com/terms-and-conditions">https://onlinelibrary.wiley.com/terms-and-conditions</ref>) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>F I G U R E 1</head><label>1</label><figDesc>Visual representation of the prior structure. Squares represent observable variables and circles represent nonobservables z ∼  (𝝁 z , 𝚺 z ).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>F</head><figDesc>I G U R E 2Prior densities for 𝜌 using a PC-prior with 𝜌 0 = 0, c = 2 and different values for U and a</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>F</head><figDesc>I G U R E 3The PCA variables w 1 , w 2 , w 5 , and w 19 , associated with eigenvalues index 1, 2, 5, and 19</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><figDesc>Bias of posterior mean of 𝛽 obs for the four models considered in Scenario 1, and based on 50 replicates. The red line indicates bias of zero</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><figDesc>Bias of posterior mean of 𝛽 obs for the four models considered in Scenario 2 and 3, and based on 50 replicates. The red line indicates bias of zero</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><figDesc>Bias of posterior mean of 𝛽 obs 1 (top) and 𝛽 obs 2 (bottom) for the four models considered in Scenario 1, and based on 50 replicates. The red line indicates bias of zero. The bias of 𝛽 obs 1 and 𝛽 obs 2 should be analyzed together, for each spatial range combination</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><figDesc>1099095x, 2022, 5, Downloaded from https://onlinelibrary.wiley.com/doi/10.1002/env.2727 by University Of Glasgow, Wiley Online Library on [25/09/2023]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License r Bias of posterior mean of 𝛽 obs spatial effect not in the span of the fixed effects, that is, RSR. We use reformulation II for sampling the GRFs. Inference is based on 60,000 MCMC samples with burn-in of 30,000 and thinning of 10.</figDesc></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" xml:id="foot_0"><p>1099095x, 2022, 5, Downloaded from https://onlinelibrary.wiley.com/doi/10.1002/env.2727 by University Of Glasgow, Wiley Online Library on [25/09/2023]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="1" xml:id="foot_1"><p>https://www.dwd.de. 1099095x,</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" xml:id="foot_2"><p>2022, 5, Downloaded from https://onlinelibrary.wiley.com/doi/10.1002/env.2727 by University Of Glasgow, Wiley Online Library on [25/09/2023]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="1" xml:id="foot_3"><p>(top) and 𝛽 obs</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="2" xml:id="foot_4"><p>(bottom) for the four models considered in Scenario 2, and based on 50 replicates. The red line indicates bias of zero</p></note>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div><head>ACKNOWLEDGMENT</head><p>The authors gratefully acknowledge the <rs type="funder">Deutsche Forschungsgemeinschaft</rs> for funding the project within the <rs type="programName">Research Training Group 2300</rs>.</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_HW5Tze5">
+					<orgName type="program" subtype="full">Research Training Group 2300</orgName>
+				</org>
+			</listOrg>
+
+			<div type="availability">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>DATA AVAILABILITY STATEMENT</head><p>The data that support the findings of this study are openly available in Open Data Server at <ref type="url" target="https://opendata.dwd.de">https://opendata.dwd.de</ref>.</p></div>
+			</div>
+
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>TA B L E 1 Mean and equal-tailed 95% credible interval (CI) for the posterior of 𝛽 obs 1 and 𝛽 obs 2 in the five models considered 𝜷 obs 1 (elevation) 𝜷 obs 2 (temperature) Model Mean 95% CI Mean 95% CI NS 0.024 [-0.024, 0.071] -0.381 [-0.429, -0.332] Base model 0.641 [0.493, 0.802] -0.035 [-0.140, 0.066] RSR 0.023 [-0.04, 0.088] -0.170 [-0.228, -0.013] MGRF 0.165 [0.068, 0.258] -0.143 [-0.202, -0.086]</p><p>is very small and the 95% credible intervals (CI) covers zero. For temperature, we get the expected negative association and the CI does not cover zero. When using the base model, the results are quite different: elevation has the expected positive association and the CI does not cover zero, while temperature has a small effect and the CI covers zero. When using RSR, similarly to NS, we get an association between elevation and precipitation that is small and the CI covers zero, and temperature has the expected association and the CI does not cover zero. The similarity of the behavior of NS and RSR in terms of the estimated 𝛽 obs 1 and 𝛽 obs 2 is in-line with recent literature <ref type="bibr" target="#b1">(Adin et al., 2021;</ref><ref type="bibr" target="#b13">Khan &amp; Calder, 2020)</ref>.</p><p>By using our prior, we go further into the expected direction of the association between the two covariates and monthly precipitation: none of the CIs cover zero and both coefficients show the expected association. As a matter of example, for our prior the interpretation would be that a standard deviation increase in the minimum temperature is associated with, on average, a 0.143 standard deviation decrease in monthly precipitation. The posterior mean of the correlation parameter is -0.266 and the associated 95% CI is [-0.392, -0.147]. Thus, similar to the simulation studies, the RSR seems to pull the coefficients in the direction of the expected association, but the MGRF seems to go further. This indicates that our prior can outperform RSR.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="7">DISCUSSION</head><p>In spatial statistics, spatial confounding refers to the phenomenon where spatially varying covariates that model the mean of a response are correlated with the spatial random field that models spatial correlations. We use the Bayesian framework to develop a prior structure that allows to deal with spatial confounding in continuously indexed spatial models. The MGRF prior exploits sparsity in two ways: (i) by using sparse precision matrices of GMRFs within the SPDE-approach, and (ii) by introducing a light parameterization in the case of multiple covariates that accounts for the correlation between a reduced-dimension covariate matrix w and the spatial random effect. Our prior can serve a building block in various types of spatial regression models and, in particular, it can be extended to different response distributions, by using an appropriate link function.</p><p>In a simulation study, we investigate the sources of spatial confounding with a particular focus on the spatial range. Future simulation studies should also address the effect of different marginal variances. In both the proof-of-concept and the simulation studies in which DGM and DAM differ, our prior outperforms the competitors in the majority of scenarios and, at worst, it performs equally well.</p><p>In an application on monthly precipitation data in Germany, we explore the effect of using our prior on the estimated regression coefficients of average monthly temperature and elevation. This application gives evidence that regression coefficients can be biased if we do not account for spatial confounding and that our prior pulls coefficients toward the expected direction of association.</p><p>Future research steps might follow two directions: (i) the model developed is used as a testing tool, or (ii) the model stays in its current format as standalone estimation method for spatial models. In the former, the prior is used to test for the presence of spatial confounding. Then, one could additionally use posterior evidence on the distance to the base model to decide on the presence of spatial confounding.</p><p>In future work, since we estimate potentially multiple correlation parameters in the multiple covariates case, one might investigate a hierarchical PC-prior structure that induces more shrinkage. Finally, one should reflect on how to additionally address correlation between spatial covariates.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>SUPPORTING INFORMATION Additional supporting information may be found online in the Supporting Information section at the end of this article.</head><p>How to cite this article: Marques, I., <ref type="bibr">Kneib, T., &amp; Klein, N. (2022)</ref>. Mitigating spatial confounding by explicitly correlating Gaussian random fields. Environmetrics, 33(5), e2727. <ref type="url" target="https://doi.org/10.1002/env.2727">https://doi.org/10.1002/env.2727</ref> </p></div>			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Principal component analysis</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>E S Abdi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">J</forename><surname>Williams</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Wiley Interdisciplinary Reviews: Computational Statistics</title>
+		<imprint>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="433" to="459" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Alleviating confounding in spatio-temporal areal models with an application on crimes against women in India</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Adin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Goicoa</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">S</forename><surname>Hodges</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">M</forename><surname>Schnell</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">D</forename><surname>Ugarte</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistical Modelling</title>
+		<imprint>
+			<date type="published" when="2021">2021. 1471082X211015452</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Hierarchical nearest-neighbor Gaussian process models for large geostatistical datasets</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Datta</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Banerjee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">O</forename><surname>Finley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">111</biblScope>
+			<biblScope unit="issue">514</biblScope>
+			<biblScope unit="page" from="800" to="812" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Addressing geographic confounding through spatial propensity scores: A study of racial disparities in diabetes</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">L</forename><surname>Davis</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Neelon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">J</forename><surname>Nietert</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">J</forename><surname>Hunt</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Burgette</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">B</forename><surname>Lawson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">E</forename><surname>Egede</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistical Methods in Medical Research</title>
+		<imprint>
+			<biblScope unit="volume">28</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="734" to="748" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Spatial+: A novel approach to spatial confounding</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>Dupont</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">N</forename><surname>Wood</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Augustin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometrics</title>
+		<imprint>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<monogr>
+		<title/>
+		<author>
+			<persName><forename type="first">L</forename><surname>Fahrmeir</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Kneib</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Lang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Marx</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2013">2013</date>
+			<publisher>Springer</publisher>
+		</imprint>
+	</monogr>
+	<note>Regression</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<monogr>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">A</forename><surname>Fisher</surname></persName>
+		</author>
+		<title level="m">Statistical methods for research workers. Biological Monographs and Manuals</title>
+		<meeting><address><addrLine>London</addrLine></address></meeting>
+		<imprint>
+			<publisher>Oliver and Boyd</publisher>
+			<date type="published" when="1958">1958</date>
+		</imprint>
+	</monogr>
+	<note>th ed.</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Gibbs sampling</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">95</biblScope>
+			<biblScope unit="issue">452</biblScope>
+			<biblScope unit="page" from="1300" to="1304" />
+			<date type="published" when="2000">2000</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<monogr>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">H</forename><surname>Greene</surname></persName>
+		</author>
+		<title level="m">Econometric Analysis</title>
+		<imprint>
+			<publisher>Macmillan</publisher>
+			<date type="published" when="1990">1990</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Restricted spatial regression in practice: Geostatistical models, confounding, and robustness under model misspecification</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Guan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">L</forename><surname>Page</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">J</forename><surname>Reich</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Ventrucci</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Yang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">M</forename><surname>Hanks</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">M</forename><surname>Schliep</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">B</forename><surname>Hooten</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">A</forename><surname>Hoeting</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:2012.11767</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Environmetrics</title>
+		<imprint>
+			<biblScope unit="volume">26</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="243" to="254" />
+			<date type="published" when="2015">2020. 2015</date>
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+	<note>A spectral adjustment for spatial confounding</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">The Bayesian group lasso for confounded spatial data</title>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">J</forename><surname>Hefley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">B</forename><surname>Hooten</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">M</forename><surname>Hanks</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">E</forename><surname>Russell</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">P</forename><surname>Walsh</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Agricultural, Biological and Environmental Statistics</title>
+		<imprint>
+			<biblScope unit="volume">22</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="42" to="59" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Adding spatially-correlated errors can mess up the fixed effect you love</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">S</forename><surname>Hodges</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">J</forename><surname>Reich</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The American Statistician</title>
+		<imprint>
+			<biblScope unit="volume">64</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="325" to="334" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Dimension reduction and alleviation of confounding for spatial generalized linear mixed models</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Hughes</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Haran</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society: Series B (Statistical Methodology)</title>
+		<imprint>
+			<biblScope unit="volume">75</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="139" to="159" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Restricted spatial regression methods: Implications for inference</title>
+		<author>
+			<persName><forename type="first">K</forename><surname>Khan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">A</forename><surname>Calder</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">117</biblScope>
+			<biblScope unit="issue">537</biblScope>
+			<biblScope unit="page" from="482" to="494" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<author>
+			<persName><forename type="first">F</forename><surname>Lindgren</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Bolin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Rue</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">The SPDE approach for Gaussian and non-Gaussian fields: 10years and still running</title>
+		<imprint>
+			<date type="published" when="2022">2022</date>
+			<biblScope unit="page">100599</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">An explicit link between Gaussian fields and Gaussian Markov random fields: The stochastic partial differential equation approach</title>
+		<author>
+			<persName><forename type="first">F</forename><surname>Lindgren</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Rue</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Lindström</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society: Series B (Statistical Methodology)</title>
+		<imprint>
+			<biblScope unit="volume">73</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="423" to="498" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Equation of state calculations by fast computing machines</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Metropolis</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">W</forename><surname>Rosenbluth</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">N</forename><surname>Rosenbluth</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">H</forename><surname>Teller</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Teller</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Journal of Chemical Physics</title>
+		<imprint>
+			<biblScope unit="volume">21</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1087" to="1092" />
+			<date type="published" when="1953">1953</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">The importance of scale for spatial-confounding bias and precision of spatial regression estimators</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">J</forename><surname>Paciorek</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistical Science</title>
+		<imprint>
+			<biblScope unit="volume">25</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="107" to="125" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Estimation and prediction in the presence of spatial confounding for spatial linear models</title>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">L</forename><surname>Page</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>He</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Sun</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Scandinavian Journal of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">44</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="780" to="797" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">On lines and planes of closest fit to systems of points in space</title>
+		<author>
+			<persName><forename type="first">K</forename><surname>Pearson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The London, Edinburgh, and Dublin Philosophical Magazine and Journal of Science</title>
+		<imprint>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="issue">11</biblScope>
+			<biblScope unit="page" from="559" to="572" />
+			<date type="published" when="1901">1901</date>
+		</imprint>
+	</monogr>
+	<note>LIII</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Effects of residual smoothing on the posterior of the fixed effects in disease-mapping models</title>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">J</forename><surname>Reich</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">S</forename><surname>Hodges</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Zadnik</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometrics</title>
+		<imprint>
+			<biblScope unit="volume">62</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="1197" to="1206" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Weak convergence and optimal scaling of random walk metropolis algorithms</title>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">O</forename><surname>Roberts</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Gelman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">R</forename><surname>Gilks</surname></persName>
+		</author>
+		<idno type="DOI">10.1214/aoap/1034625254</idno>
+		<ptr target="https://doi.org/10.1214/aoap/1034625254" />
+	</analytic>
+	<monogr>
+		<title level="j">The Annals of Applied Probability</title>
+		<imprint>
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="110" to="120" />
+			<date type="published" when="1997">1997</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<monogr>
+		<author>
+			<persName><forename type="first">H</forename><surname>Rue</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Held</surname></persName>
+		</author>
+		<title level="m">Gaussian Markov random fields: Theory and applications</title>
+		<imprint>
+			<publisher>Chapman &amp; Hall/CRC Press</publisher>
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Fitting Gaussian Markov random fields to Gaussian fields</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Rue</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Tjelmeland</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/1467-9469.00058</idno>
+		<ptr target="https://doi.org/10.1111/1467-9469.00058" />
+	</analytic>
+	<monogr>
+		<title level="j">Scandinavian Journal of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">29</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="31" to="49" />
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Mitigating unobserved spatial confounding when estimating the effect of supermarket access on cardiovascular disease deaths</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">M</forename><surname>Schnell</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Papadogeorgou</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Annals of Applied Statistics</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="2069" to="2095" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Penalising model component complexity: A principled, practical approach to constructing priors</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Simpson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Rue</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Riebler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">G</forename><surname>Martins</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">H</forename><surname>Sørbye</surname></persName>
+		</author>
+		<idno type="DOI">10.1214/16-sts576</idno>
+		<ptr target="https://doi.org/10.1214/16-sts576" />
+	</analytic>
+	<monogr>
+		<title level="j">Statistical Science</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1" to="28" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Structural equation models for dealing with spatial confounding</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Thaden</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Kneib</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The American Statistician</title>
+		<imprint>
+			<biblScope unit="volume">72</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="239" to="252" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">Online Library for rules of use; OA articles are governed by the applicable Creative Commons License Wooldridge</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Vihola</surname></persName>
+		</author>
+		<idno type="DOI">10.1002/env.2727by</idno>
+		<idno>25/09/2023</idno>
+		<ptr target="https://onlinelibrary.wiley.com/terms-and-conditions)onWiley" />
+	</analytic>
+	<monogr>
+		<title level="m">See the Terms and Conditions</title>
+		<imprint>
+			<date type="published" when="2012">2012. 1099095x, 2022. 2015</date>
+			<biblScope unit="volume">22</biblScope>
+			<biblScope unit="page" from="997" to="1008" />
+		</imprint>
+		<respStmt>
+			<orgName>University Of Glasgow, Wiley Online Library</orgName>
+		</respStmt>
+	</monogr>
+	<note>Robust adaptive Metropolis algorithm with coerced acceptance rate J. M. Introductory econometrics: A modern approach. Cengage Learning</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">On deconfounding spatial confounding in linear models</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">L</forename><surname>Zimmerman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename><surname>Ver Hoef</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The American Statistician</title>
+		<imprint>
+			<biblScope unit="page" from="1" to="9" />
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

@@ -1,0 +1,914 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Pseudo maximum likelihood estimation of spatial autoregressive models with increasing dimension Article (Published version) (Refereed)</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability  status="unknown">
+					<licence/>
+				</availability>
+				<date type="published" when="2017-08-17">August 17, 2017</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">Abhimanyu</forename><surname>Gupta</surname></persName>
+							<email>a.gupta@essex.ac.uk.</email>
+						</author>
+						<author>
+							<persName><forename type="first">Peter</forename><forename type="middle">M</forename><surname>Robinson</surname></persName>
+							<email>p.m.robinson@lse.ac.uk</email>
+						</author>
+						<author>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Economics</orgName>
+								<orgName type="institution">University of Essex</orgName>
+								<address>
+									<country key="GB">UK</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<affiliation key="aff1">
+								<orgName type="department">Department of Economics London School of Economics</orgName>
+								<address>
+									<country key="GB">UK</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Pseudo maximum likelihood estimation of spatial autoregressive models with increasing dimension Article (Published version) (Refereed)</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2017-08-17">August 17, 2017</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">F648036C095BBE669BAE6346108E9261</idno>
+					<idno type="DOI">10.1016/j.jeconom.2017.05.019</idno>
+					<note type="submission">Received date : 23 October 2015 Revised date : 26 April 2017 Accepted date : 30 May 2017</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-28T15:58+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>C21, C31, C36 Spatial autoregression</term>
+					<term>increasingly many parameters</term>
+					<term>consistency</term>
+					<term>asymptotic normality</term>
+					<term>pseudo Gaussian maximum likelihood</term>
+					<term>finite sample performance</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Pseudo maximum likelihood estimates are developed for higher-order spatial autoregressive models with increasingly many parameters, including models with spatial lags in the dependent variables both with and without a linear or nonlinear regression component, and regression models with spatial autoregressive disturbances. Consistency and asymptotic normality of the estimates are established. Monte Carlo experiments examine finite-sample behaviour.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>Spatial autoregressive (SAR) models, introduced by <ref type="bibr" target="#b14">Cliff and Ord (1973)</ref>, can describe spatial dependence parsimoniously even when data are irregularly-spaced or when economic (not necessarily geographic) distances between units are known, and information on locations is unavailable.</p><p>They have been widely used in modelling economic and geographic data. The first-order SAR model, which involves a single weight matrix, consisting of (inverse) distances, and a single correlation parameter, has been the focus of much research. Greater flexibility, at the cost of less parsimony, is afforded by higher-order SAR models, which incorporate two or more weight matrices and corresponding parameters. These have been studied in both theoretical and applied research. <ref type="bibr" target="#b11">Brandsma and Ketellapper (1979)</ref> introduced a second-order model, and discussed its estimation. <ref type="bibr" target="#b7">Blommestein (1983</ref><ref type="bibr" target="#b8">Blommestein ( , 1985))</ref>, <ref type="bibr">Blommestein and</ref><ref type="bibr">Koper (1992, 1997)</ref>, <ref type="bibr" target="#b3">Anselin and Smirnov (1996)</ref>, <ref type="bibr" target="#b31">LeSage and Pace (2011)</ref>, <ref type="bibr" target="#b16">Elhorst, Lacombe and Piras (2012)</ref> and others explored various issues in the specification and estimation of higher order SAR models, the latter two references listing a number of others. A recent purely empirical study is in <ref type="bibr" target="#b26">Kolympiris, Kalaitzandonakes, and Miller (2011)</ref>. A book length exposition can be found in <ref type="bibr" target="#b1">Anselin (1988)</ref>.</p><p>In the present paper we investigate large sample statistical inference on higher order SAR models, in which the number of parameters is allowed to increase slowly with sample size, denoted n, a type of setting previously studied by <ref type="bibr" target="#b17">Gupta and Robinson (2015)</ref>. From this perspective we find it convenient to consider four specifications that have somewhat different theoretical as well as practical implications. For an n × 1 vector y n of observations and an integer p n ≥ 1, possibly regarded as increasing as n increases, let W in , i = 1, . . . , p n , be n × n known weight matrices whose elements are inverse economic distances, let λ 0n = (λ 01 , . . . , λ 0pn ) , the prime denoting transposition, be a vector of unknown parameters, and let u be an n × 1 vector of independent, zero-mean, homoscedastic unobservable random variables. The basic p n th-order SAR model, denoted SAR(p n ) , is</p><formula xml:id="formula_0">y n = pn i=1 λ 0i W in y n + u.</formula><p>(1.1) Let l n be a n × 1 vector of ones and let τ 0 be an unknown scalar. The SAR(p n ) with intercept is</p><formula xml:id="formula_1">y n = pn i=1 λ 0i W in y n + τ 0 l n + u. (1.2)</formula><p>For given integers k n ≥ 1 (possibly regarded as increasing with n) and fixed q ≥ 1 let β 0n be an unknown k n × 1 vector, let δ 0 be a known or unknown q × 1 vector and let X n (δ 0 ) be an n × k n matrix of functions of δ 0 and of explanatory variables, with reference to the latter suppressed.</p><p>The SAR(p n ) with regressors is</p><formula xml:id="formula_2">y n = pn i=1 λ 0i W in y n + X n (δ 0 ) β 0n + u. (1.3)</formula><p>Finally, for an n × 1 vector v n of unobservable random variables, the regression with SAR(p n ) errors is</p><formula xml:id="formula_3">y n = X n (δ 0 ) β 0n + v n , v n = pn i=1 λ 0i W in v n + u.</formula><p>(1.4)</p><p>These models correspond to versions of p n th-order autoregressive time series models, where competing approaches to introducing both autocorrelation and explanatory variables are mirrored by (1.3) and (1.4).</p><p>When τ 0 is known (1.2) nests (1.1) (which is sometimes referred to as 'pure SAR'), while (1.2) is nested in both (1.3) and (1.4) when X n (δ 0 ) contains a subvector l n , although estimation methods differ. Indeed (1.1) and (1.2) are not consistently estimable by least squares or instrumental variables, unlike (1.3) and (1.4). In most spatial autoregression literature, SAR(1)</p><p>versions of these models have been studied, and previous higher-order SAR literature has almost exclusively assumed that p n and k n are fixed. In the the bulk of the literature on (1.3) and</p><p>(1.4) the regression component is linear, formally covered by regarding δ 0 as known. However, (1.3) and (1.4) allow for nonlinear regression, which features widely in statistics (cf. eg <ref type="bibr" target="#b21">Jennrich (1969)</ref>) and econometrics but apparently not in the SAR literature, even though <ref type="bibr" target="#b42">Xu and Lee (2015)</ref> have studied a SAR model with a nonlinear transformation of the dependent variable.</p><p>For example, the elements of X n (δ 0 ) may be parametric Box-Cox, arcsinh or other nonlinear transformations of basic explanatory variables. The separation of β 0n from δ 0 follows much of the nonlinear regression literature in expressing the likely presence of an unknown scaling vector.</p><p>The n-subscripting in X n (δ 0 ) allows it to depend on spatial lags of explanatory variables, which entail weight matrices. The model (1.4) may be included in (1.3) by replacing X n (δ 0 ) by a function of both δ 0 and λ 0n , but (1.4) is of sufficient practical importance to warrant separate consideration.</p><p>Interest centres on statistical inference on λ 0n , β 0n and, when it is unknown, δ 0 . Consider what is known or anticipated from the literature that regards p n and k n as fixed. In (1.1) and (1.2), despite the linearity in parameters, least squares estimates are well known to be inconsistent, for typical W in , which differ from the lower triangular ones which deliver consistency in the autoregressive time series models formally covered; however, for (1.1) <ref type="bibr" target="#b24">Kelejian and Prucha (1999)</ref> established consistency of a generalized method of moments estimate. For the same reason consistency of least squares estimates of all parameters in (1.3) is problematic, though from <ref type="bibr" target="#b28">Lee (2002)</ref> (who assumed p n = 1 and linear regression) we may expect consistency to be achieved under certain asymptotic conditions on the W in . Under milder such conditions, again when the regression is linear, use of instrumental variables, when available, can produce closed form consistent estimates in (1.3), see eg <ref type="bibr" target="#b23">Kelejian and Prucha (1998)</ref>; for nonlinear regression one expects to be able to extend, eg, <ref type="bibr" target="#b0">Amemiya (1974)</ref>. As under many other relaxations of Gauss-Markov conditions, least squares estimates of β 0n in the first equation of (1.4) (or nonlinear least squares estimates of β 0n and δ 0 ) are expected to be consistent, though those of λ 0n based on residuals inconsistent; see eg <ref type="bibr" target="#b22">Kelejian and Prucha (1997)</ref>. When estimates are consistent, one expects them to satisfy a central limit theorem under additional conditions. The models (1.1)-(1.4) are somewhat idealised, some of the literature considering ones that are more general.</p><p>In 'SARAR' versions of (1.1), (1.2) or (1.3), u is replaced by v n , defined as in (1.4) but with p n possibly replaced by some other order r n , say. However after transformation they are still essentially covered by (1.1)-(1.3), albeit offering more parsimony, having SAR order p n r n with coefficients depending on only p n +r n unknowns. In a SARAR version of (1.3), <ref type="bibr" target="#b30">Lee and Liu (2010)</ref> established asymptotic theory for generalized method of moments estimates, as did <ref type="bibr">Badinger and</ref><ref type="bibr">Egger (2011, 2013)</ref>, allowing respectively for error heteroscedasticity and panel structure. Spatial ARMA models are not covered in (1.1)-(1.4); in this setting <ref type="bibr" target="#b19">Huang (1984)</ref> and <ref type="bibr" target="#b2">Anselin (2001)</ref> respectively discussed maximum likelihood estimation and developed Lagrange multiplier tests to determine model order.</p><p>A single type of estimate which can be expected to deliver consistency, and asymptotic normality, in (1.1)-(1.4), and without recourse to instrumental variables, is the Gaussian pseudomaximum likelihood estimate (PMLE). This maximizes what would be the likelihood were u</p><p>Gaussian, and as well as enjoying the classical asymptotic properties of maximum likelihood, is consistent and asymptotically normal under more general conditions on u, though in some settings the limiting covariance matrix can be affected. <ref type="bibr" target="#b11">Brandsma and Ketellapper (1979)</ref> discussed Gaussian maximum likelihood estimation in the SAR(2) version of (1.1), describing, without rigorous proofs, asymptotic statistical properties, see also <ref type="bibr" target="#b19">Huang (1984)</ref>. These properties were established for the PMLE by <ref type="bibr" target="#b29">Lee (2004)</ref> in case of SAR(1) versions of (1.1)-(1.3) with linear regression in the latter model. The PMLE is asymptotically efficient when u is Gaussian, though otherwise more efficient estimates have been justified in fixed parameter dimension SAR models, see <ref type="bibr" target="#b30">Lee and Liu (2010)</ref> and <ref type="bibr" target="#b38">Robinson (2010)</ref>. Note that our allowance for nonlinear regression does not greatly impact on methods and theory for the PMLE, which is in any case only implicitly defined. One well-known aspect of the PMLE is the need to invert an n × n matrix in the estimation. On the other hand, a general defence of the PMLE is its asymptotic efficiency properties in the Gaussian case, the fact that consistency and the same limit distribution holds under more general conditions than Gaussianity, and the relatively simple and easy-to-compute form of the limiting covariance matrix estimate following the point estimation.</p><p>In practice the specification of p n , and of k n , may be influenced by the amount of data n available, as is the case with other multiparameter statistical models. A larger data set affords the possibility of achieving reasonably precise inference on a richer model, which may reflect a degree of model uncertainty. Correspondingly, in a number of other multiparameter models, asymptotic statistical theory has been developed with the number of parameters increasing slowly with sample size, cf. <ref type="bibr" target="#b20">Huber (1973)</ref>, <ref type="bibr" target="#b6">Berk (1974)</ref>, <ref type="bibr" target="#b39">Sargan (1975)</ref>, <ref type="bibr" target="#b36">Robinson (1979)</ref>, <ref type="bibr" target="#b33">Portnoy (1984</ref><ref type="bibr" target="#b34">Portnoy ( , 1985))</ref>, <ref type="bibr" target="#b37">Robinson (2003)</ref>. <ref type="bibr" target="#b17">Gupta and Robinson (2015)</ref> have argued that regarding p n as increasing with n is natural in SAR models with some kinds of weight matrix, and have established asymptotic theory for least squares and instrumental variables estimates of (1.3) in the linear regression case. A popular alternative approach to models with a large number of parameters is to apply the LASSO, or a similar estimate based on a penalized objective function.</p><p>This method is especially useful in cases where p n + k n ≥ n.</p><p>The present paper establishes consistency and asymptotic normality for the PMLE in the models (1.1)-(1.4) with p n and k n allowed to increase slowly with n. Asymptotic theory for implicitly-defined extremum estimates, requiring an initial consistency proof, is unusual in the literature on increasing parameter dimension with sample size, especially so when combined with nonlinear regression. Our proof of consistency of the PMLE is rather delicate, in particular where both numerator and denominator terms increase with k n (see <ref type="bibr">(A.8)</ref> in the appendix), while we also need the volume of the admissible autoregressive parameter space to remain bounded as p n diverges. Our results lead to rules of statistical inference which are also valid when p n and k n are regarded as fixed, and to some extent provide a novel contribution in this setting also. In particular we know of no asymptotic theory for the PMLE in the models (1.1)-(1.4) with fixed p n &gt; 1 and k n . We keep the dimension q of δ 0 fixed as otherwise the regression would effectively be nonparametric.</p><p>The following section covers models (1.1) and (1.2), with (1.3) and (1.4) covered in Sections 3 and 4, respectively. Section 5 contains a Monte Carlo study of finite sample performance. Proofs are included in two Appendices and an additional online supplementary appendix.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">SAR with and without intercept</head><p>We can rewrite (1.1) as</p><formula xml:id="formula_4">S n y n = u (2.1)</formula><p>where</p><formula xml:id="formula_5">S n = I n - pn i=1 λ 0i W in .</formula><p>The notation S n follows a convention we adopt for evaluation of objects at true parameters: A(α 0 ) ≡ A for any matrix, vector or scalar A and any true parameter α 0 . In the sequel we suppress reference to n for individual parameters to simplify notation. We now introduce some basic assumptions.</p><p>Assumption 1. u = (u 1 , . . . , u n ) has independently distributed elements with zero mean, finite variance σ 2 0 and finite third and fourth moments µ 3 and µ 4 respectively.</p><p>Assumption 2. For i = 1, . . . , p n , the diagonal elements of each W in are zero and the offdiagonal elements of W in are uniformly O h -1 n , where h n is a positive sequence which is bounded away from zero and which may be bounded or divergent, with n/h n → ∞ as n → ∞ in the latter case.</p><p>It is possible to employ different h in for each of the W in , some bounded and some divergent. Definition For i = 1, . . . , p n , W in are said to have 'single nonzero diagonal block' structure if, for some set of m i × m i matrices V in such that pn i=1 m i = n, W in has V in as the ith diagonal block and zeros elsewhere.</p><p>Let c, C denote throughout generic positive constants, arbitrarily small and large, respectively.</p><p>Assumption 3. S n is non-singular and</p><formula xml:id="formula_6">S -1 n + max i=1,...,pn W in ≤ C, (2.2)</formula><p>for all sufficiently large n.</p><p>The first part of this assumption ensures that (2.1) can be solved for y n , asymptotically. The restriction on S -1 n limits spatial correlation because the covariance matrix of y n is σ 2 0 S -1 n S -1 n , while the restrictions on the W in are satisfied if, for each i, the elements of W in decline fast enough with n. A sufficient condition for the non-singularity of</p><formula xml:id="formula_7">S n is pn i=1 λ 0i W in &lt; 1.</formula><p>(2.3)</p><p>Depending on the structure of W in more primitive sufficient conditions can be given for (2.3).</p><p>Denote by λ = (λ 1 , . . . , λ pn ) and σ 2 any admissible values of λ 0n and σ 2 0 and let a 1 = s i=1 |a i | for any s-dimensional vector a. In the 'single nonzero diagonal block' case we have</p><formula xml:id="formula_8">pn i=1 λ 0i W in ≤ max i=1,...,pn (|λ 0i | V in )</formula><p>, in which case one could take the parameter space Λ n for λ to be such that max i=1,...,pn</p><formula xml:id="formula_9">|λ i | &lt; 1, (2.4) and take normalized V in such that V in = 1. For more general W in we have pn i=1 λ 0i W in ≤ max i=1,...,pn W in pn i=1 |λ 0i |,</formula><p>and then we may choose Λ n such that λ 1 &lt; 1, (2.5) and normalize the W in such that W in ≡ 1. In any case, for the identification of the λ i some normalization of the W in is necessary, so this operation is essentially costless. A similar discussion applies after Assumption 12 below, with row-sum norm used instead. Define the negative Gaussian log-likelihood function as log (2πσ 2</p><formula xml:id="formula_10">) -2n -1 log |S n (λ)| + σ 2 n -1 y n S n (λ) S n (λ) y n , (2.6) for nonsingular S n (λ) = I n - pn i=1 λ i W in . For given λ, (2.6) is minimised with respect to σ 2 by σ2 n (λ) = n -1 y n S n (λ) S n (λ) y n .</formula><p>(2.7)</p><p>Define the PMLEs of λ 0n , σ 2 0 as λn = arg min λ∈Λn Q n (λ) , σ2 n ≡ σ2 n λn respectively, where</p><formula xml:id="formula_11">Q n (λ) = log σ2 n (λ) + n -1 log S -1 n (λ) S -1 n (λ) ,<label>(</label></formula><p>2.8) with Λ n satisfying Assumption 4. Λ n is a subset of R pn such that, for some fixed ε ∈ (0, 1), -ε ≤ λ i ≤ 1ε, for i = 1, . . . , p n when the W in have 'single nonzero diagonal block' structure and λ 1 ≤ 1ε if not. Assumption 4 reflects the necessity in our proof that the volume of Λ n remain bounded as n → ∞, and the likelihood that the λ 0i are non-negative, but could be replaced by others. The construction of a compact parameter space requires some care when dimension can increase. The usual Cartesian product of closed and bounded intervals that forms a compact parameter space in the fixed dimension setting will not, in general, yield a region with bounded volume when dimension increases. The Associate Editor handling our paper has pointed out that by analogy with results shown in other settings (see eg Pötscher and Prucha (1997) pp. 29-31 and references therein, and Kuersteiner and Prucha (2015)), the compactness requirement of Assumption 4 might be relaxed and the arbitrary choice of ε avoided by, more naturally, choosing Λ n as (2.4) in the 'single nonzero diagonal block' case, and as (2.5) otherwise. The only drawback to optimizing over an open set would appear to be that λn might sometimes not exist. On the other hand</p><p>with compact Λ n , if λn falls on its boundary it is likely that shrinking ε would change λn . This may suggest that n is too small for asymptotics to be relevant, and/or the parameter space has been chosen too small or the model is misspecified. Typically there will be no option to collect further data, while employing an alternative method of estimation in the hope that the outcome will lie within the boundary seems an over-reaction, especially as one can choose ε so small that shrinking it would not affect λn to any desired number of decimal places, or indeed make any statistically significant difference. Our use of λ 1 ≤ 1ε, or indeed (2.5), in non-'single nonzero diagonal block' cases is nevertheless still unsatisfactory because, with the restriction on the W in , it is a crude sufficient condition for (2.3), compared to the precise conditions for stationarity of autoregressive time series in terms of the locations of zeros of the autoregressive polynomial.</p><p>Further work to relax Assumption 4 in our increasing parameter dimension setting would be desirable.</p><p>Note that though we treat the W in as known, in reality the scaling of distances is arbitrary and different scalings are used in the literature. Some scaling, such as W in = 1, is necessary in order to identify the λ 0i and correspondingly specify a suitable Λ n . We could replace each W in by cW in for c ∈ (0, ∞) and Λ n by c -1 Λ n , but for identification we must choose one scaling and one parameter space.</p><p>Assumption 5. λ 0n ∈ Λ n , for all sufficiently large n.</p><p>Denote</p><formula xml:id="formula_12">σ 2 n (λ) = n -1 σ 2 0 tr S -1 n S n (λ) S n (λ) S -1 n .</formula><p>(2.9) Assumption 6. For λ ∈ Λ n and all sufficiently large n, c ≤ σ 2 n (λ) ≤ C. σ 2 n (λ) is nonnegative by inspection and finite by Assumptions 3 and 4. For a generic matrix A define A F = {tr(A A)} 1 2 and introduce Assumption 7. For any η &gt; 0,</p><formula xml:id="formula_13">lim n→∞ inf λ∈N λ n (η) n -1 T n (λ) 2 F / |T n (λ)| 2/n &gt; 1, (2.10)</formula><p>where</p><formula xml:id="formula_14">T n (λ) = S n (λ)S -1 n , N λ n (η) = Λ n \ N λ n (η) , N λ n (η) = {λ : λ -λ 0n &lt; η} ∩ Λ n .</formula><p>The ratio in (2.10) is guaranteed ≥ 1 due to the inequality between arithmetic and geometric means. Assumption 7 is an identification condition related to the uniqueness of the covariance matrix of y n , introduced in <ref type="bibr" target="#b15">Delgado and Robinson (2015)</ref> who discussed it and compared it to the identification condition employed by <ref type="bibr" target="#b29">Lee (2004)</ref> in his asymptotic theory.</p><p>Theorem 2.1. Let (1.1) and Assumptions 1-7 hold, and p n be allowed to diverge as n → ∞.</p><formula xml:id="formula_15">Then λn -λ 0n p -→ 0, as n → ∞.</formula><p>Theorem 2.2. Let (1.1) and Assumptions 1-7 hold, and p n be allowed to diverge as n → ∞ such that p 2 n /nh n → 0. Then σ2 nσ 2 0 = o p (1) , as n → ∞.</p><p>Multimodality can be a potential problem with implicitly defined extremum estimates, see eg <ref type="bibr" target="#b41">Warnes and Ripley (1987)</ref> in a rather different spatial context. It is plausible that the likelihood of it could increase with increasing p n or decreasing n, or perhaps with 'increasing nonlinearity'.</p><p>However on the one hand one could get multimodality when p = 1, and on the other, normal multiple linear regression is always unimodal if k n &lt; n. Certainly the smaller the gap between n and p n the flatter we might expect the objective function to be, but this a local rather than global issue. The problem does not necessarily go away with large n, as even if the objective function is asymptotically uniquely optimised asymptotic sub-optimal modes are not ruled out.</p><p>For p = 1 <ref type="bibr" target="#b18">Hillier and Martellosio (2013)</ref> are able to establish unimodality if W 1n has real eigenvalues (amongst other conditions), although their approach relies on an explicit analysis of the second derivative of the likelihood function and seems difficult to extend when p &gt; 1. One way to mitigate the problem is by searching over a sufficiently fine grid before any iteration, though the larger p n is the more expensive this is.</p><p>To establish asymptotic normality, we denote by H n λ, σ 2 the second derivative matrix of (2.6) and define it in (A.18) in Appendix A. Writing P 1n (λ), P 2n (λ) for the p n × p n matrices with (i, j)-th element given by tr</p><formula xml:id="formula_16">(G jn (λ)G in (λ)), tr G jn (λ)G in (λ) , respectively, with G in (λ) = W in S -1 n (λ) for i = 1, . . . , p n , we deduce (details in Appendix A) that Ξ n = E (H n ) = 2n -1 (P 1n + P 2n ) .</formula><p>(2.11) Write F n for the n × p n matrix with (i, j)-th element c ii,jn , where c pq,in is the (p, q)-th element of G in + G in , and define Ω n = µ 4 -3σ 4 0 σ -4 0 n -1 F n F n . The covariance matrix of the first derivative of (2.6) is n -1 (2Ξ n + Ω n ). The following assumption is standard: Assumption 8. λ 0n is in the interior of Λ n , for all sufficiently large n.</p><p>If h n diverges with n, we need to account for the correct normalisation that will yield a central limit theorem as follows:</p><formula xml:id="formula_17">Assumption 9. h n → ∞ as n → ∞. lim n→∞ ζ (h n Ξ n ) &lt; ∞ and lim n→∞ ζ (h n Ξ n ) &gt; 0. Assumption 10. h n is bounded as n → ∞. lim n→∞ ζ Ξ -1 n Ω n Ξ -1 n &lt; ∞, lim n→∞ ζ 2Ξ -1 n + Ξ -1 n Ω n Ξ -1 n &gt; 0 and lim n→∞ ζ (Ξ n ) &gt; 0.</formula><p>The rank conditions here strongly restrict the W in in higher-order SAR models, even with fixed p n . Such problems are transparently avoided with weight matrices having 'single nonzero diagonal block' structure. <ref type="bibr" target="#b8">Blommestein (1985)</ref> discusses the possibility of 'circularity' when W in represent orders of contiguity, causing rank condition failure. By way of an illustration, W 1n</p><p>could assign 1 to an element if the relevant units share a common boundary, W 2n could assign 1 to an element if the relevant units do not share a boundary with each other but have a common neighbour, and so on. In this case, there is a risk of high-order W in 'circling' back to W 1n .</p><p>Assumption 11. For some χ &gt; 0,</p><formula xml:id="formula_18">E |u i | 4+χ ≤ C, i = 1, . . . , n.</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>For any s</head><formula xml:id="formula_19">× q matrix A = [a ij ] define A R = max i=1,...,s q j=1 |a ij |, the maximum absolute row-sum norm.</formula><p>Assumption 12. S n is non-singular and</p><formula xml:id="formula_20">S -1 n R + S -1 n R + max i=1,...,pn ( W in R + W in R ) ≤ C,<label>(2.12)</label></formula><p>for all sufficiently large n.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>This strengthens Assumption 3 due to the inequality A</head><formula xml:id="formula_21">2 ≤ A R A R .</formula><p>Denote throughout by Ψ n a matrix of constants with full and fixed row rank, and columns equal in number to the parameters for which a central limit theorem is being established. Our next theorem covers the unbounded h n case, establishing asymptotic normality of a fixed number of linear combinations of λnλ 0n .</p><p>Theorem 2.3. Let (1.1) and Assumptions 1, 2, 4, 6-9, 11 and 12 hold, h n → ∞ as n → ∞, p n be allowed to diverge as n → ∞ such that</p><formula xml:id="formula_22">p 5 n nh n + p n h n + p 4 n h 2 n n + p 2+ 8 χ n h 1+ 4 χ n n → 0 as n → ∞.</formula><p>(2.13)</p><formula xml:id="formula_23">Then n 1 2 h 1 2 n p 1 2 n Ψ n λn -λ 0n d -→ N (0, ∆ 1 ) , as n → ∞,</formula><p>where</p><formula xml:id="formula_24">∆ 1 = 2 lim n→∞ p -1 n Ψ n (h n Ξ n ) -1 Ψ n .</formula><p>First, note that χ &gt; 4 implies that the last term on the LHS of (2.13) is dominated by</p><formula xml:id="formula_25">the third one. If G jn G in = 0 and G jn G in = 0 for i = j</formula><p>, as with 'single nonzero diagonal block' weight matrices, then any finite-dimensional subset of estimates will be asymptotically distributed as independent normal random variables with mean zero and variances</p><formula xml:id="formula_26">lim n→∞ (h n /n) tr G 2 in + G in G in -1 .</formula><p>If p n is fixed then the restrictions on p n in (2.13) are redundant. In this case the same proof, considering a single linear combination, implies</p><formula xml:id="formula_27">n 1 2 /h 1 2 n λn -λ 0 d → N 0, 2 lim n→∞ (h n Ξ n ) -1</formula><p>, by the Cramer-Wold device. We may derive similar results for fixed parameter spaces from the subsequent central limit theorems in this section. The following theorem takes h n to be bounded, complementing Theorem 2.3.</p><p>Theorem 2.4. Let (1.1) and Assumptions 1, 2, 4, 6-8, 10-12 hold, and p n be allowed to diverge</p><formula xml:id="formula_28">as n → ∞ such that p 5 n n + p 2+ 8 χ n n → 0, as n → ∞. (2.14) Then n 1 2 p 1 2 n Ψ n λn -λ 0n d -→ N (0, ∆ 2 ) , as n → ∞, where ∆ 2 = lim n→∞ p -1 n Ψ n 2Ξ -1 n + Ξ -1 n Ω n Ξ -1 n Ψ n .</formula><p>The parameter growth restrictions may be simplified if moment conditions are strengthened. For instance when χ ≥ 8/3 in Assumption 11, (2.14) only requires p 5 n /n → 0. Covariance matrix estimation for Theorems 2.3 and 2.4 can be based on H n λ, σ 2 n and Ω n λ, σ 2 n evaluated at λn , σ2 n and empirical moments.</p><p>We now turn from model (1.1) to the slightly more general (1.2). For any admissible λ, τ and</p><formula xml:id="formula_29">σ 2 and nonsingular S n (λ) the negative Gaussian pseudo log-likelihood function is log (2πσ 2 ) - 2n -1 log |S n (λ)| + nσ 2 -1 S n (λ) y n -l n τ 2 , which for given λ is minimised with respect to τ and σ 2 by τn (λ) = n -1 l n S n (λ) y n and σ2 n (λ) = n -1 y n S n (λ) M ln S n (λ) y n ,</formula><p>where we write M A = I n -A(A A) -1 A for any n×s matrix A of rank s, with I n denoting the n×n identity matrix. The</p><formula xml:id="formula_30">PMLE of λ 0 is λn = arg min λ∈Λn Q n (λ) , where Q n (λ) = log σ2 n (λ) + n -1 log S -1 n (λ) S -1 n (λ) ,</formula><p>and the PMLEs of τ 0 and σ 2 0 are τn = τn λn and σ2 n = σ2 n λn respectively. The first and second derivatives evaluated at λ 0n , τ 0 , σ 2 0 are written ξ I n and H I n respectively. Both now include derivatives with respect to τ , and explicit expressions can be obtained by taking X n = l n in (1.3).</p><p>The covariance matrix of the first derivative of the likelihood function is n -1 2Ξ I n + Ω I n , with Ξ I n = E H I n . A feature of this model noted by <ref type="bibr" target="#b29">Lee (2004)</ref> is potential multicollinearity. For example, if the W in are row-normalised (with non-negative elements) then</p><formula xml:id="formula_31">W in l n = l n , so that G in l n τ 0 = τ 0 l n (1 - pn i=1 λ 0i )</formula><p>-1 for each i. It follows that M ln G in l n τ 0 = 0 for every i and multicollinearity ensues. Indeed when h n diverges and <ref type="bibr" target="#b29">Lee (2004)</ref> for justification when p n ≡ 1, extension to divergent p n being obvious). While consistency as established in the following section is preserved as long as Assumption 7 continues to hold (τ 0 is identified if λ 0n is identified), the central limit theorem entails a different norming.</p><formula xml:id="formula_32">p n = o (h n ), Ξ I n = o(1), as n → ∞, implying that ζ Ξ I n = o(1) also (see</formula><p>Theorem 2.5. Let (1.2) and Assumptions 1-7 hold, and p n be allowed to diverge as n → ∞.</p><formula xml:id="formula_33">Then λ n , τn -(λ 0n , τ 0 ) p -→ 0, as n → ∞.</formula><p>Theorem 2.6. Let (1.2) hold with h n → ∞ as n → ∞. Let Assumptions 1, 2, 4, 6-8, 11 and 12</p><formula xml:id="formula_34">hold, ζ Ξ I n → 0 as n → ∞, lim n→∞ ζ h n Ξ I n -1 h n Ω I n h n Ξ I n -1 &lt; ∞, lim n→∞ ζ h n Ξ I n &gt; 0, lim n→∞ ζ 2 h n Ξ I n -1 + h n Ξ I n -1 h n Ω I n h n Ξ I n -1</formula><p>&gt; 0, and p n be allowed to diverge as</p><formula xml:id="formula_35">n → ∞ such that p 5 n nh n + p 4 n h 2 n n + p 2+ 8 χ n h 1+ 4 χ n n → 0, as n → ∞. (2.15) Then n 1 2 h 1 2 n p 1 2 n Ψ n λ n , τn -(λ 0n , τ 0 ) d -→ N (0, ∆ 3 ) , as n → ∞,</formula><p>where</p><formula xml:id="formula_36">∆ 3 = lim n→∞ p -1 n Ψ n 2 h n Ξ I n -1 + h n Ξ I n -1 h n Ω I n h n Ξ I n -1 Ψ n .</formula><p>If either multicollinearity does not arise or if h n is bounded the asymptotic distribution of the PMLE for the parameters of (1.2) is covered under the theorems of the following section.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">SAR with regressors</head><p>We now consider (1.3). Let X n (δ) have i-th row x in (δ) = (x i1n (δ) , . . . , x iknn (δ)), for known functions x ijn (δ), j = 1, . . . , k n , and unknown vector δ = (δ 1 , . . . , δ q ) . When δ 0 is known the regression is linear. A nonlinear example with</p><formula xml:id="formula_37">k n = q = 1 is the Box-Cox choice x in (δ) = z δ in -1 /δ</formula><p>for a positive explanatory variable z in . Generally, the vector β 0n is distinguished from δ 0 , playing a similar scaling role as in a linear model (and unlike δ 0 , β 0n need not be assumed an element of a prescribed compact set, cf <ref type="bibr" target="#b35">Robinson (1972)</ref>). Recall also that q is assumed fixed as n increases.</p><p>With X n ≡ X n (δ 0 ) we have S n y n = X n β 0n + u and, denoting by θ = (λ , β , δ ) any admissible values of θ 0n = (λ 0n , β 0n , δ 0 ) , redefine the negative Gaussian pseudo log-likelihood function as</p><formula xml:id="formula_38">log (2πσ 2 ) -2n -1 log |S n (λ)| + σ -2 n -1 S n (λ) y n -X n (δ) β 2 , (3.1)</formula><p>for nonsingular S n (λ). For given γ = (λ , δ ) , (3.1) is minimised with respect to β and σ 2 by</p><formula xml:id="formula_39">βn (γ) = (X n (δ) X n (δ)) -1 X n (δ) S n (λ) y n , (3.2) σ2 n (γ) = n -1 y n S n (λ) M n (δ)S n (λ) y n , (3.3) with M n (δ) = I n -X n (δ) (X n (δ)X n (δ)) -1 X n (δ). The PMLE of γ 0 is γn = arg min γ∈Γn Q n (γ),</formula><p>where we have redefined</p><formula xml:id="formula_40">Q n (γ) = log σ2 n (γ) + n -1 log S -1 n (λ) S -1 n (λ) , (3.4) Γ n = Λ n × D</formula><p>, with D a compact subset of R q and δn ≡ δ. The PMLEs of β 0n and σ 2 0 are defined as βn (γ n ) ≡ βn and σ2 n (γ n ) ≡ σ2 n respectively.</p><p>Assumption 13. δ 0 ∈ D.</p><p>Assumption 14. x ijn (δ) are uniformly bounded constants, i = 1, . . . , n, j = 1, . . . , k n , δ ∈ D, and</p><formula xml:id="formula_41">lim n→∞ n -1 sup δ∈D ζ (X n (δ)X n (δ)) &gt; 0, as n → ∞.</formula><p>(3.5)</p><p>(3.5) is an asymptotic non-multicollinearity condition.</p><p>Assumption 15. The x ijn (δ) are uniformly continuous on D: that is, for any ε &gt; 0 and any</p><formula xml:id="formula_42">δ * ∈ D, there exists ρ &gt; 0 such that lim n→∞ max 1≤i≤n,1≤j≤kn sup δ-δ * &lt;ρ; δ∈D |x ijn (δ) -x ijn (δ * )| &lt; ε.</formula><p>Assumption 16. When δ 0 is unknown,</p><formula xml:id="formula_43">β 0n ∼ k 1/2 n as n → ∞,<label>(3.6)</label></formula><p>and for any η &gt; 0,</p><formula xml:id="formula_44">lim n→∞ inf (λ , δ ) ∈ Λn×N δ n (η) n -1 β 0n X n T n (λ)M n (δ) T n (λ)X n β 0n / β 0n 2 &gt; 0. (3.7)</formula><p>We deal in this paper with the relatively challenging case when β 0n is unbounded, and control over this is provided by (3.6). The proof with finitely many, but at least one, nonzero β 0n elements would be simpler. We could rewrite (3.7) as</p><formula xml:id="formula_45">lim n→∞ inf (λ , β , δ ) ∈ Λn×R kn ×N δ n (η) n -1 X n (δ) β -T n (λ)X n β 0n 2 / β 0n 2 &gt; 0, (3.8)</formula><p>which is analogous to the identification condition for the nonlinear regression model y n = X n (δ) β 0n + u (take λ = λ 0n ) with a parametric linear factor in <ref type="bibr" target="#b35">Robinson (1972)</ref>, and (3.8) may be easier to comprehend than (3.7). A sufficient condition is: for any η &gt; 0</p><formula xml:id="formula_46">lim n→∞ inf (λ , δ ) ∈ Λn×N δ n (η) n -1 ζ (X n T n (λ)M n (δ) T n (λ)X n ) &gt; 0.</formula><p>(3.9)</p><p>Theorem 3.1. Let (1.3) and Assumptions 1-7, 13-16 hold, and p n , k n be allowed to diverge as n → ∞ such that k n n -→ 0, as n → ∞.</p><p>(3.10)</p><formula xml:id="formula_47">Then θn -θ 0n p -→ 0, as n → ∞.</formula><p>As discussed after Theorem 2.1 the same proof holds when p n and k n remain fixed, and the restriction on k n in (3.10) becomes redundant. The conditions of the theorem can be compared to those in <ref type="bibr" target="#b17">Gupta and Robinson (2015)</ref>. The requirement of finite fourth moments for u i is not imposed by them for consistency of the IV and OLS estimates, where second moments suffice.</p><p>On the other hand, the only restriction imposed on h n here is that it be bounded away from zero uniformly in n. For &gt; 0, define N δ ( ) = {δ : δδ 0 &lt; }.</p><p>Assumption 17. For some &gt; 0, ∂x ijn (δ) /∂δ l exist and are uniformly bounded in absolute value for all δ ∈ N δ ( ) ∩ D, i = 1 . . . , n, j = 1, . . . , k n , l = 1, . . . , q. As n → ∞,</p><formula xml:id="formula_48">lim n→∞ n -1 ζ (X n X n ) &lt; ∞.</formula><p>This assumption implies sup δ∈N δ ( )∩D ∂x ijn (δ) /∂δ &lt; C.</p><p>Theorem 3.2. Let (1.3) and Assumptions 1-7, 13-17 hold, and p n , k n be allowed to diverge as</p><formula xml:id="formula_49">n → ∞ such that p n k 4 n (p n + k n ) /n → 0 as n → ∞. Then σ2 n -σ 2 0 = o p (1) , as n → ∞.</formula><p>If δ 0 is known (i.e. the regression is linear), the sufficient rate can be improved to p 2 n k 3 n /n → 0 as n → ∞.</p><p>Assumption 18. For some &gt; 0, ∂ 2 x ijn (δ) /∂δ l1 ∂δ l2 and ∂ 3 x ijn (δ) /∂δ l1 ∂δ l2 ∂δ l3 exist and are uniformly bounded in absolute value for all δ ∈ N δ ( ) ∩ D, i = 1, . . . , n, j = 1, . . . , k n ,</p><formula xml:id="formula_50">l 1 , l 2 , l 3 = 1, . . . , q. As n → ∞, lim n→∞ n -1 max l=1,,...,q ζ {(∂X n /∂δ l ) (∂X n /∂δ l )} &lt; ∞, (3.11) lim n→∞ n -1 max l1,l2=1,,...,q ζ ∂ 2 X n /∂δ l1 ∂δ l2 ∂ 2 X n /∂δ l1 ∂δ l2 &lt; ∞.</formula><p>(3.12) Together (3.11) and (3.12) imply n -</p><formula xml:id="formula_51">1 2 ∂X n /∂δ l1 , ∂ 2 X n /∂δ l1 ∂δ l2 = O(1), uniformly in l 1 , l 2 = 1 . . . , q.</formula><p>Let Π n (θ) be the n × q matrix with i-th column (∂X n (δ)/∂δ i ) β, where the matrix is differ-entiated element-by-element. Redefine H n to be the second derivative matrix of (3.1), so</p><formula xml:id="formula_52">Ξ n = E (H n ) = 2σ -2 0 n -1    σ 2 0 (P 1n + P 2n ) + A n A n A n X n A n Π n * X n X n X n Π n * * Π n Π n    ,<label>(3.13)</label></formula><p>where A n = [a 1n , . . . , a pnn ] with a jn = G jn X n β 0n . Assumption 14 implies a ijn = O (k n ), uniformly in i = 1, . . . , n, j = 1, . . . , p n , where a ijn is the (i, j)-th element of A n . More details on derivatives are in Appendix A, where their components are used in the proofs of the central limit theorems stated below. Define</p><formula xml:id="formula_53">L n = n -1 [A n , X n , Π n ] [A n , X n , Π n ] , which equals σ 2 0 2 Ξ n -σ 2 0    P 1n + P 2n 0 0 0 0 0 0 0 0    . Assumption 19. lim n→∞ ζ (L n ) &gt; 0 and lim n→∞ ζ (L n ) &lt; ∞.</formula><p>Theorem 3.3. Let h n → ∞ as n → ∞, (1.3) and Assumptions 1, 2, 4, 6-8, 12, 14-19 hold, δ 0 be in the interior of D, and p n , k n be allowed to diverge as n → ∞ such that</p><formula xml:id="formula_54">p 2 n k 6 n n (p n + k n ) + p 3 n k 2 n h 2 n -→ 0, as n → ∞. (3.14) Then n 1 2 (p n + k n ) 1 2 Ψ n θn -θ 0n d -→ N (0, ∆ 4 ) , as n → ∞,</formula><p>where</p><formula xml:id="formula_55">∆ 4 = σ 2 0 lim n→∞ (p n + k n ) -1 Ψ n L -1 n Ψ n .</formula><p>The matrix</p><formula xml:id="formula_56">n -1 W 1n y n , . . . , W pnn y n , X n δ , Π n θn W 1n y n , . . . , W pnn y n , X n δ , Π n θn</formula><p>and σ2 n can replace L n and σ 2 0 respectively to obtain a consistent estimate of ∆ 4 . When p n and k n are fixed we obtain n</p><formula xml:id="formula_57">1 2 θn -θ 0 d -→ N 0, σ 2 0 lim n→∞ L -1 n via the Cramér-Wold device,</formula><p>as discussed after Theorem 2.3. Similar comments apply after the other central limit theorems presented subsequently both in this section and the next one. If h n is bounded as n → ∞ a more complicated analysis is required because the information equality does not hold asymptotically.</p><p>Define</p><formula xml:id="formula_58">Ω n = σ -4 0 n -1    2µ 3 (F n A n + A n F n ) + µ 4 -3σ 4 0 F n F n 2µ 3 F n X n 2µ 3 F n Π n * 0 0 * * 0    .</formula><p>(3.15)</p><p>Again n -1 (2Ξ n + Ω n ) is the covariance matrix of the first derivative of (3.1). The asymptotic distribution relies on the following non-multicollinearity and boundedness condition:</p><formula xml:id="formula_59">Assumption 20. lim n→∞ ζ Ξ -1 n Ω n Ξ -1 n &lt; ∞, lim n→∞ ζ 2Ξ -1 n + Ξ -1 n Ω n Ξ -1 n &gt; 0 and lim n→∞ ζ (Ξ n ) &gt; 0.</formula><p>Theorem 3.4. Let h n be bounded as n → ∞, (1.3) and Assumptions 1, 2, 4, 6-8, 11, 12, 14-18, 20 hold, δ 0 be in the interior of D, and p n , k n be allowed to diverge as n → ∞ such that</p><formula xml:id="formula_60">p 2 n k 4 n n p 3 n + k 3 n + p n k 2 n + (p n k n ) 2+ 8 χ n -→ 0, as n → ∞. (3.16) Then n 1 2 (p n + k n ) 1 2 Ψ n θn -θ 0n d -→ N (0, ∆ 5 ) , as n → ∞,</formula><p>where</p><formula xml:id="formula_61">∆ 5 = lim n→∞ (p n + k n ) -1 Ψ n 2Ξ -1 n + Ξ -1 n Ω n Ξ -1 n Ψ n .</formula><p>It may be shown that if χ ≥ 8/3 then p 5 n k 7 n /n = o(1) suffices for (3.16) to hold while if χ ≥ 8/5 and p n is fixed then k 7 n /n → 0 is sufficient. For linear regression, i.e. when δ 0 is known, <ref type="bibr" target="#b17">Gupta and Robinson (2015)</ref> show that the asymptotic covariance matrix of a fixed number of linear combinations of IV estimates is given by</p><formula xml:id="formula_62">∆ IV = σ 2 0 lim n→∞ (p n + k n ) -1 n -1 Ψ n [A n , X n ] P ([Z n , X n ]) [A n , X n ] -1 Ψ n ,</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>where P(A) =</head><p>A(A A) -1 A for a matrix A with full column rank. On the other hand, when u in (1.3) is normally distributed, Ω n = 0 and ∆ 5 = 2 lim n→∞ (p n + k n ) -1 Ψ n Ξ -1 n Ψ n , where Ξ n in (3.13) now no longer contains the blocks with Π n . Straightforward calculations show that</p><formula xml:id="formula_63">lim n→∞ (p n + k n ) -1 Ψ n 2 -1 Ξ n -[A n , X n ] P ([Z n , X n ]) [A n , X n ] Ψ n equals σ 2 0 lim n→∞ (p n + k n ) -1 n -1 Ψ n σ 2 0 (P 1n + P 2n ) 0 0 0 + [A n , X n ] M [Zn,Xn] [A n , X n ] Ψ n ,</formula><p>which is the sum of two nonnegative definite matrices, implying that ∆ IV ≥ ∆ 5 .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">Regression with SAR errors</head><p>We can write (1.4) as</p><formula xml:id="formula_64">S n (λ 0 ) y n = X n (γ 0 ) β 0 + u, (4.1)</formula><p>where with some abuse of notation X n (γ) = S n (λ) X n (δ) . Thus consider Q n (γ) defined as before but with</p><formula xml:id="formula_65">σ 2 n (γ) = n -1 y n S n (λ) M n (γ) S n (λ) y n , M n (γ) = I n -X n (γ) (X n (γ) X n (γ)) -1 X n (γ) .</formula><p>Write X n = X n (γ 0 ) and introduce Assumption 21. When δ 0 is unknown, (3.6) holds and for any η &gt; 0</p><formula xml:id="formula_66">lim n→∞ inf (λ ,δ )∈Λn×N δ n (η) n -1 β 0n X n T n (λ)M n (γ) T n (λ)X n β 0n / β 0n 2 &gt; 0.</formula><p>Theorem 4.1. Let (1.4) and Assumptions 1-7, 13-15 and 21 hold, and p n , k n be allowed to diverge as n → ∞ such that k n n -→ 0, as n → ∞.</p><p>(4.2)</p><formula xml:id="formula_67">Then θn -θ 0n p -→ 0, as n → ∞.</formula><p>Under similar regularity conditions as in the previous section we may obtain the asymptotic distribution of θn = λ n , β n . We provide the derivatives of the redefined (3.1) in Appendix A, from which</p><formula xml:id="formula_68">Ξ n = 2σ -2 0 n -1    σ 2 0 (P 1n + P 2n ) 0 0 * X n S n S n X n X n S n Π n * * Π n Π n    , (4.3)</formula><p>which is block diagonal between λ and (β , δ ) and, notably, the top left block can have spectral norm going to zero when h n → ∞ because it is identical to (2.11), which entailed a different norming in Theorems 2.3 and 2.6.</p><p>Assumption 22. For some &gt; 0, ∂x ijn (γ) /∂γ l exist and are uniformly bounded in absolute value for all γ ∈ N γ ( ) ∩ Γ, i = 1 . . . , n, j = 1, . . . , k n , l = 1, . . . , p n + q. As n → ∞,</p><formula xml:id="formula_69">lim n→∞ n -1 ζ (X n X n ) &lt; ∞.</formula><p>Assumption 23. For some &gt; 0, ∂ 2 x ijn (γ) /∂γ l1 ∂γ l2 and ∂ 3 x ijn (γ) /∂γ l1 ∂γ l2 ∂γ l3 exist and are uniformly bounded in absolute value for all γ ∈ N γ ( ) ∩ D, i = 1, . . . , n, j = 1, . . . , k n ,</p><formula xml:id="formula_70">l 1 , l 2 , l 3 = 1, . . . , p n + q. As n → ∞, lim n→∞ n -1 max l=1,,...,pn+q ζ {(∂X n /∂γ l ) (∂X n /∂γ l )} &lt; ∞, (4.4) lim n→∞ n -1 max l1,l2=1,,...,pn+q ζ ∂ 2 X n /∂γ l1 ∂γ l2 ∂ 2 X n /∂γ l1 ∂γ l2 &lt; ∞.</formula><p>(4.5)</p><p>In the two central limit theorems stated below, identification conditions are taken to hold for the changed definitions of Ξ n and Ω n in this section. These definitions are described in Appendix</p><p>A, but a feature of the next theorem is the differential norming that implies a slower rate of convergence for λn as compared to β n , δ n . Define Φ n = diag [h n I pn , I kn , I q ] and write</p><formula xml:id="formula_71">B Φ n = Φ 1 2 n B n Φ 1 2</formula><p>n for a generic matrix B n .</p><p>Theorem 4.2. Let h n → ∞ as n → ∞, (1.4) and Assumptions 1, 2, 4, 6-8, 11, 12, 14, 15 and 21-23 hold, δ 0 be in the interior of D,</p><formula xml:id="formula_72">lim n→∞ ζ Ξ Φ-1 n Ω Φ n Ξ Φ-1 n &lt; ∞, lim n→∞ ζ Ξ Φ n &gt; 0, lim n→∞ ζ 2Ξ Φ-1 n + Ξ Φ-1 n Ω Φ n Ξ Φ-1 n</formula><p>&gt; 0, and (2.13), (3.14) hold if p n , k n are allowed to diverge as n → ∞. Then</p><formula xml:id="formula_73">n 1 2 (p n + k n ) 1 2 Ψ n Φ -1 2 n θn -θ 0n d -→ N (0, ∆ 6 ) , as n → ∞,</formula><p>where</p><formula xml:id="formula_74">∆ 6 = lim n→∞ (p n + k n ) -1 Ψ n 2Ξ Φ-1 n + Ξ Φ-1 n Ω Φ n Ξ Φ-1 n Ψ n .</formula><p>Theorem 4.3. Let h n be bounded as n → ∞, (1.4) and Assumptions 1, 2, 4, 6-8, 11, 12, 14, 15 and 20-23 hold, δ 0 be in interior of D, and (3.16) hold if p n , k n are allowed to diverge as n → ∞.</p><formula xml:id="formula_75">Then n 1 2 (p n + k n ) 1 2 Ψ n θn -θ 0n d -→ N (0, ∆ 7 ) , as n → ∞,</formula><p>where</p><formula xml:id="formula_76">∆ 7 = lim n→∞ (p n + k n ) -1 Ψ n 2Ξ -1 n + Ξ -1 n Ω n Ξ -1 n Ψ n .</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5">Finite-sample performance</head><p>In this section we study the finite-sample properties of the estimates considered above in a Monte Carlo study, in two distinct settings considered earlier eg in <ref type="bibr" target="#b17">Gupta and Robinson (2015)</ref>.</p><p>In the first setting, we consider <ref type="bibr" target="#b12">Case (1991</ref><ref type="bibr" target="#b13">Case ( , 1992))</ref>, where weight matrices take the 'single nonzero diagonal block' specification</p><formula xml:id="formula_77">W f kn = diag   0, . . . , V m k-th diagonal block , . . . , 0    , k = 1, . . . , p, (5.1)</formula><p>with V m = (m -1) -1 (l m l m -I m ). In the second setting the weight matrices are</p><formula xml:id="formula_78">W c kn = ( W * kn ) -1 W * kn ,<label>(5.2)</label></formula><p>with W * kn the symmetric circulant matrix with first row elements given by</p><formula xml:id="formula_79">w * 1j,kn = 0 if j = 1 or j = k + 2, . . . , n -k; 1 if j = 2, . . . , k + 1 or j = n -k + 1, . . . , n. (5.3) Thus W c</formula><p>kn is also a symmetric circulant matrix with first row elements given by w * 1j,kn /2k. In both experiments we took p = 2, 4, 6. We first analyse the pure and intercept SAR cases. y n was generated using (1.1) or (1.2) in each of the 1000 replications. We chose λ 01 = 0.7, λ 02 = 0.8, λ 03 = 0.5, λ 04 = 0.8, λ 05 = 0.4 and λ 06 = 0.3, when using W f kn while the values chosen when using W c kn were λ 01 = 0.1, λ 02 = 0.2, λ 03 = 0.2, λ 04 = 0.1, λ 05 = 0.1 and λ 06 = 0.2 (because a sufficient condition for S -1 n to exist in this case is λ 1 &lt; 1). One set of u i was generated as independent draws from N (0, 1) (here PMLE is MLE), and another set as independent draws</p><formula xml:id="formula_80">u ∼ N (0, I n ) n<label>108</label></formula><p>216 432 p Bias MSE Bias MSE Bias MSE W c kn 2 0.0169 0.0267 0.0036 0.0138 0.0017 0.0069 4 0.0464 0.1300 0.0592 0.0861 0.0181 0.0404 6 0.0449 0.2325 0.1068 0.2298 0.0284 0.1058 s 12 24 36 W f kn 2 0.0396 0.0132 0.0177 0.0040 0.0114 0.0023 4 0.1047 0.0710 0.0453 0.0198 0.0288 0.0105 6 0.2017 0.1982 0.0962 0.0703 0.0593 0.0352 u ∼ t 6 n 108 216 432 p Bias MSE Bias MSE Bias MSE W c kn 2 0.0141 0.0274 0.0026 0.0135 0.0012 0.0069 4 0.0501 0.1277 0.0499 0.0880 0.0121 0.0364 6 0.0350 0.2296 0.0917 0.2189 0.0356 0.1099 s 12 24 36 W f kn 2 0.0343 0.0114 0.0178 0.0040 0.0108 0.0023 4 0.0991 0.0685 0.0441 0.0180 0.0262 0.0093 6 0.2001 0.2014 0.0923 0.0661 0.0574 0.0336 Table 5.1: Monte Carlo (average) absolute bias and (average) MSE for PMLE, model (1.1) from t 6 (σ 2 0 = 3/2), having thicker tails. Tables 5.1 and 5.2 display Monte Carlo (absolute) bias and MSE for (1.1) and (1.2) respectively, with τ 0 = 1. Table 5.2 considers only W c kn , the inclusion of an intercept not being possible with W f kn (cf Kelejian, Prucha, and Yuzefovich ( <ref type="formula">2006</ref>)). Averages (averaging over bias and MSE for λ 0i , i = 1, . . . , p) are reported for the spatial parameter estimates to conserve space. We report results for m = 16 (m = 8, 24 were also simulated) only when using W f kn , and also take the number of districts s (implying n = 16s, and more generally n = ms) to grow faster than p. Indeed Theorems 2.3 and 2.4 indicate that when m is either bounded or divergent the PMLE is s 1 2 /p 1 2 -consistent for the farmer-district setting, and in any case p 2+ 8 χ m 4 χ /s + p 4 m/s → 0 as p, m, s → ∞ is necessary for (2.13) to hold asymptotically. We take s = 12, 24, 36, and this implies the need to combine spatial weight matrices by imposing the same spatial parameter for some blocks. When p = 2 we combine into two groups with six blocks, twelve blocks and eighteen blocks each when s = 12, 24, 36, respectively. When p = 4 (respectively p = 6) we combine into four groups (respectively six groups) with three, six and nine blocks each (respectively two, four and six blocks each). When using W c kn we take n = 108, 216, 432. In Table <ref type="table">5</ref>.1, bias and MSE decline with sample size for both MLE and PMLE of (1.1), using u ∼ N (0, I n ) n 108 216 432 p Bias MSE Bias MSE Bias MSE 2 λ 0.0275 0.0277 0.0088 0.0141 0.0043 0.0069 τ 0.0386 0.0420 0.0181 0.0192 0.0079 0.0092 4 λ 0.0445 0.1327 0.0607 0.0844 0.0177 0.0404 τ 0.4455 1.7600 0.4286 1.5636 0.1772 0.6106 6 λ 0.0356 0.2187 0.0856 0.2115 0.0272 0.1030 τ 1.3373 7.0599 1.4352 5.7450 0.5206 2.0209 u ∼ t 6 p Bias MSE Bias MSE Bias MSE 2 λ 0.0253 0.0286 0.0080 0.0137 0.0027 0.0069 τ 0.0384 0.0468 0.0207 0.0225 0.0093 0.0107 4 λ 0.0433 0.1270 0.0511 0.0865 0.0099 0.0350 τ 0.3932 1.5885 0.3694 1.3702 0.0952 0.3675 6 λ 0.0370 0.2233 0.0715 0.1998 0.0271 0.1044 τ 1.3176 7.3067 1.5214 6.1180 0.5600 2.1321 Table 5.2: Monte Carlo absolute bias and MSE for PMLE, model (1.2), with W c kn only. either W c kn or W f kn , although with the former the decline in bias is not necessarily monotonic. Generally biases for W f</p><p>kn exceed those for W c kn but MSEs and thus variances tend to be smaller. Table <ref type="table">5</ref>.2 indicates a similar, non-monotonic, pattern of reduction for (1.2). However the bias and MSE for τn can be very high for large p, eg for p = 6 they are unacceptable even when n = 432.</p><p>Tables 5.3 and 5.4 similarly display Monte Carlo size and power for (1.1) and (1.2) respectively, with nominal size 5%. Power was computed using the false null hypothesis λ i , τ = 0.5, for each i. With W c kn in (1.1), size approaches the nominal value non-monotonically with n, but with (1.2) the behaviour is rather more erratic. For p = 2 the oversizing is moderate, but dramatically worsens for p = 4, 6. However in each case it gets closer to the nominal size as n increases, although not necessarily monotonically. On the contrary, with W f kn there is considerable undersizing. Larger values of s give little indication of an approach to the nominal 5%. The sizes are better for larger p, the best results arising when p = 6. The behaviour is similar across N (0, 1) or t 6 disturbances. On the other hand power increases monotonically in each of the various settings, and would be much higher for the p = 4, 6 cases if not for λ 03 = 0.5 (true under the false null), which effectively caps power at around 83%.</p><p>When generating y n using (1.3), we set k n = 2 and β 01 = 1, β 02 = 0.7. In X n we took</p><formula xml:id="formula_81">x i1n (δ) = (z δ</formula><p>i1 -1)/δ and x i2n (δ) = z i2 , with (z i1 , z i2 ) ∼ U (0, 5) (generated independently of each other), i = 1, . . . , n, with 1000 replications, and δ 0 = 0.7. With W f kn equal blocks of size m were used, while three different m were chosen for each p: 48, 96 and 144. We also simulated a model with x i1n (δ) = e δzi1 and x i2n (δ) = z i2 and found similar results.</p><p>u ∼ N (0, I n ) n 108 216 432 p Size Power Size Power Size Power W c kn 2 0.0475 0.5800 0.0460 0.7935 0.0400 0.9470 4 0.0660 0.2715 0.0998 0.4047 0.0760 0.5830 6 0.0335 0.1860 0.1197 0.3043 0.1027 0.4040 s 12 24 36 W f kn 2 0.0085 0.5835 0.0060 0.7805 0.0060 0.8855 4 0.0103 0.3520 0.0083 0.4925 0.0073 0.5867 6 0.0300 0.2035 0.0242 0.2807 0.0215 0.3422 u ∼ t 6 n 108 216 432 p Size Power Size Power Size Power W c kn 2 0.0560 0.5695 0.0425 0.7970 0.0490 0.9480 4 0.0583 0.2745 0.0985 0.4233 0.0660 0.5775 6 0.0313 0.1818 0.1148 0.3062 0.1078 0.4085 s 12 24 36 W f kn 2 0.0090 0.5910 0.0060 0.7755 0.0070 0.8770 4 0.0123 0.3602 0.0067 0.4080 0.0070 0.5900 6 0.0303 0.2087 0.0230 0.2855 0.0237 0.3480 Table 5.3: Monte Carlo average size and average power for PMLE, model (1.1)</p><p>We now discuss the results for θn in Tables 5.5 and 5.6, which report Monte Carlo bias and MSE for u ∼ N (0, I n ) and u ∼ t 6 respectively. It is interesting to note that for W f kn increasing m mostly improves the estimates of the spatial parameters, for fixed p. However, <ref type="bibr" target="#b29">Lee (2004)</ref> showed that the PMLE is inconsistent if p = 1 when m alone increases, while simulations conducted by <ref type="bibr" target="#b18">Hillier and Martellosio (2013)</ref> also suggest convergence to a nondegenerate distribution. Similar results will undoubtedly apply if p &gt; 1, but fixed, and m alone increases. On the other hand, the block-diagonality of W f kn implies that the number of observations available to estimate the λ 0i increase one-to-one with m. Generally bias and MSE improve with n, as expected. For W c kn the results are as expected. Bias and MSE reduce with larger n and smaller p, and also with larger n for fixed p, and seem acceptable.</p><p>Tables 5.7 and 5.8 report Monte Carlo size and power for u ∼ N (0, I n ) and u ∼ t 6 respectively. Now power is calculated using the incorrect null hypothesis θ i = 0.6, for each i. Under normality, sizes when using W f kn are always between 4.3% and 8.2% but those for W c kn range from 2.35% to 7.1%. When the disturbances are non-normal matters are similar, although there are instances (p = 2, 6) of severe undersizing for λ 0i with W c kn that persists for all values of n. On the other hand, the power tends to increase (but not always monotonically) with large n and small p for</p><formula xml:id="formula_82">u ∼ N (0, I n ) n 108<label>216</label></formula><p>432 p Size Power Size Power Size Power 2 λ 0.0275 0.5950 0.0088 0.8055 0.0043 0.9505 τ 0.0750 0.8460 0.0560 0.9920 0.0570 1.0000 4 λ 0.0445 0.2742 0.0607 0.4072 0.0177 0.5837 τ 0.2630 0.7070 0.2000 0.9320 0.1260 1.0000 6 λ 0.0356 0.1817 0.0856 0.2982 0.0272 0.4038 τ 0.4050 0.4960 0.5330 0.7830 0.2960 0.9110 u ∼ t 6 p Size Power Size Power Size Power 2 λ 0.0253 0.5885 0.0080 0.8090 0.0027 0.9540 τ 0.0540 0.7950 0.0630 0.9720 0.0610 1.0000 4 λ 0.0433 0.2785 0.0511 0.4265 0.0099 0.5825 τ 0.2360 0.6210 0.1840 0.9100 0.0890 0.9920 6 λ 0.0370 0.1778 0.0715 0.2968 0.0271 0.4060 τ 0.4090 0.4820 0.5540 0.7680 0.2970 0.9920 Table 5.4: Monte Carlo size and power for PMLE, model (1.2), with W c kn only.</p><p>W c kn but large m, p, for W f kn , due to the increase in n afforded by increasing p. Power for δ 0 tends to be low across the board, in part because its true value is 0.7 and the postulated value is 0.6. This factor doubtless also plays a role in the lower power for β 02 generally as compared to that for β 01 .</p><p>Finally, Table <ref type="table">5</ref>.9 compares θn with the IV estimate of <ref type="bibr" target="#b17">Gupta and Robinson (2015)</ref> (denoted θn ) when W c kn are employed, x i1n (δ) = z i1 also (i.e. linear regressive SAR) and (z i1 , z i2 ) ∼ U (0, 1) to match their design. We consider u generated from both N (0, I n ) and t 6 distributions. We report relative average MSE (RAMSE) separately for the autoregression and regression components, defining these as average MSE( λn )/average MSE( λn ) and average MSE( βn )/average MSE( βn ), using the instruments {W c jn z i1 , W c jn z i2 }, j = 1, . . . , p. The PMLE does very well in general. The IV estimates outperform the PMLE for the regression coefficients β 01 and β 02 in 4 out of 6 cases when p = 6, but fare much worse for the spatial parameters in all cases. Experiments in which the u were generated from a χ 2 6 -6 (this having σ 2 0 = 12, and also being non-symmetric) distribution followed the same pattern.</p><p>It is particularly interesting to note that the PMLE outperforms the IV estimate by such a large margin even when the disturbances are non-normal. A possible explanation for this is that the IV estimate relies on instruments derived from a power series expansion of S -1 n , and the estimates are sensitive to the strength of these instruments. Table 5.8: Monte Carlo size and power for PMLE (u ∼ t 6 ), model (1.3) with x i1n (δ) = (z δ i1 -1)/δ. n 108 216 432 108 216 432 p u ∼ N (0, I n ) u ∼ t 6 2 λ 0.0472 0.0488 0.0507 0.0362 0.0287 0.0284 β 0.5212 0.5554 0.6202 0.4931 0.5028 0.5649 4 λ 0.0339 0.0413 0.0399 0.0239 0.0231 0.0233 β 0.4152 0.4706 0.5404 0.4630 0.4022 0.4357 6 λ 0.0353 0.0683 0.0601 0.0300 0.0536 0.0382 β 0.8069 3.5825 1.5249 0.9315 3.4552 1.3950 Table 5.9: Monte Carlo RAMSE between PMLE and IV with W c kn , (z i1 , z i2 ) ∼ U (0, 1). using (3.3) and writing r(λ</p><formula xml:id="formula_83">) = n -1 T (λ) 2 F / |T (λ)| 2/n . From (A.1) σ 2 (γ) = n -1 S -1 (Xβ 0 + u) S (λ)M (δ) S(λ)S -1 (Xβ 0 + u) = c (γ) + d (γ) + e (γ) ,<label>where</label></formula><formula xml:id="formula_84">c (γ) = n -1 β 0 X T (λ)M (δ) T (λ)Xβ 0 , d (γ) = n -1 σ 2 0 tr (T (λ)M (δ) T (λ)) , e (γ) = n -1 tr T (λ)M (δ) T (λ) uu -σ 2 0 I + 2n -1 β 0 X T (λ)M (δ) T (λ)u. Then log σ 2 (γ) σ 2 (λ) = log σ 2 (γ) (c (γ) + d (γ)) + log c (γ) + d (γ) σ 2 (λ) = log 1 + e (γ) c (γ) + d (γ) + log 1 + c (γ) -f (γ) σ 2 (λ) ,<label>where</label></formula><formula xml:id="formula_85">f (γ) = n -1 σ 2 0 tr (T (λ) (I -M (δ)) T (λ)) .</formula><p>Then from (A.2) and a standard kind of argument for proving consistency of implicitly defined extremum estimates</p><formula xml:id="formula_86">P γ -γ 0 ∈ N γ (η) = P inf γ∈ N γ (η) Q (γ) -Q ≤ 0 ≤ P log 1 + sup γ∈ N γ (η) e (γ) c (γ) + d (γ) + log σ 2 /σ 2 0 ≥ inf γ∈ N γ (η) log 1 + c (γ) -f (γ) σ 2 (λ) + log r(λ) , where N γ (η) = Γ\N γ (η) , N γ (η) = {γ : γ -γ 0 &lt; η; γ ∈ Γ} . From Assumptions 1 and 16 it follows that σ 2 /σ 2 0 p → 1, so using log (1 + x) = x + o (x) as x → 0 it suffices to show that as n → ∞ sup γ∈ N γ n (η) e (γ) c (γ) + d (γ) p -→ 0, (A.3) sup γ∈ N γ n (η) f (γ) σ 2 (λ) -→ 0, (A.4) lim n→∞ inf γ∈ N γ n (η) c (γ) σ 2 (λ) + log r(λ) &gt; 0. (A.5) Now N γ (η) ⊆ Λ × N δ (η/2) ∪ N λ (η/2) × D , so inf γ∈ N γ (η) c (γ) σ 2 (λ) + log r(λ) ≥ min inf Λ×N δ (η/2) c (γ) σ 2 (λ) , inf N λ (η/2) log r(λ) ≥ min inf Λ×N δ (η/2) c (γ) C , inf N λ (η/2) log r(λ) ,</formula><p>from Assumption 6, whence Assumptions 7 and 16 imply (A.5). Again using Assumption 6, uniformly in γ, f (γ</p><formula xml:id="formula_87">) /σ 2 (λ) ≤ |f (γ)| /c and |f (γ)| ≤ Ctr T (λ)X (δ) (X (δ) X (δ)) -1 X (δ) T (λ) /n = O tr (X (δ) X (δ)) /n 2 = O (k/n)</formula><p>uniformly, by Assumption 14, to check (A.4).</p><p>Finally consider (A.3). We first prove pointwise convergence. For any fixed γ ∈ N γ (η) and</p><formula xml:id="formula_88">large enough n, c (γ) ≥ c β 0 2 from Assumption 16, d (γ) ≥ c because n -1 σ 2 0 tr (T (λ)T (λ)) ≥ c and tr (T (λ) (I -M (δ)) T (λ)) = O (k/n). Thus e (γ) / (c (γ) + d (γ)) = O p (|e (γ)|) , where e (γ)</formula><p>has mean 0 and variance</p><formula xml:id="formula_89">O T (λ)M (δ) T (λ)/n 2 F + n i=1 (t i (λ)M (δ) t i (λ)/n) 2 + β 0 X T (λ)M (δ) T (λ)/n 2 ,</formula><p>where t i (λ) is the ith column of T (λ). Since M (δ) = 1 and Assumptions 4 and 12 imply (we give a bound for the general case, that the same bound holds for the 'single nonzero diagonal block' case is simple to check) </p><formula xml:id="formula_90">T (λ) ≤ C S(λ) ≤ C max i=1,...,p W i λ 1 = O(1), (A.6) the first component is O T (λ)/n 2 F = O n -1 . The second one is O n i=1 t i (λ) 2 /n 2 = O T (λ)/n 2 F = O n -1 likewise. The final component is O Xβ 0 /n 2 = O β 0 2 /n = O (k/n) ,</formula><formula xml:id="formula_91">λ-λ * 1 &lt;ε× δ-δ * &lt;ε e (γ) c (γ) + d (γ) - e (γ * ) c (γ * ) + d (γ * ) p -→ 0. Write e (γ) c (γ) + d (γ) - e (γ * ) c (γ * ) + d (γ * ) = e (γ) -e (γ * ) c (γ) + d (γ) + e (γ * ) c (γ * ) -c (γ) + d (γ * ) -d (γ) (c (γ) + d (γ)) (c (γ * ) + d (γ * ))</formula><p>whence, denoting the two components of e (γ) by e 1 (γ) , e 1 (γ) , the left side is bounded in absolute value by</p><formula xml:id="formula_92">|e 1 (γ) -e 1 (γ * )| d (γ) + |e 2 (γ) -e 2 (γ * )| c (γ) + |e (γ * )| c (γ) c (γ * ) |c (γ * ) -c (γ)| + |e (γ * )| d (γ) d (γ * ) |d (γ * ) -d (γ)| . (A.7) We prove that sup λ-λ * 1 &lt;ε× δ-δ * &lt;ε |e 2 (γ) -e 2 (γ * )| c (γ) p -→ 0. (A.8)</formula><p>This part of the proof is relatively delicate due to both numerator and denominator increasing with k. The proof for the first term in (A.7) does not involve this feature and uses other arguments in the proof of (A.8). For the third term in (A.7),</p><formula xml:id="formula_93">|e (γ * )| c (γ) c (γ * ) |c (γ * ) -c (γ)| ≤ |e (γ * )| c (γ * ) 1 + c (γ * ) c (γ) p -→ 0 uniformly on λ -λ * 1 &lt; ε× δ -δ * &lt; ε, from the pointwise convergence of e (γ) / (c (γ) + d (γ))</formula><p>and the fact that numerator and denominator of c (γ * ) /c (γ) are uniformly of the same order of magnitude, namely k, the result for the numerator being straightforward and that for the denominator a consequence of Assumption 16. The fourth term in (A.7) is uniformly o p (1) by similar arguments.</p><p>To prove (A.8), note that</p><formula xml:id="formula_94">e 2 (γ) -e 2 (γ * ) = 2n -1 β 0 (X (δ) T (λ)M (δ) T (λ)) -X (δ * ) T (λ * )M (δ * ) T (λ * )) u, which can be written 2n -1 β 0 (X (δ) -X (δ * )) T (λ)M (δ) T (λ) +X (δ * ) (T (λ)M (δ) T (λ) -T (λ * )M (δ * ) T (λ * ))} u. (A.9)</formula><p>The first of the two terms in braces has spectral norm bounded by X (δ) -X (δ * ) T (λ) 2 , and by Assumption 15,</p><formula xml:id="formula_95">X (δ) -X (δ * ) 2 ≤ n i=1 k j=1 (x ij (δ) -x ij (δ * )) 2 = O knε 2 , (A.10)</formula><p>for sufficiently small δδ * .</p><p>Thus due to u = O p n 1/2 , it follows that 2n</p><formula xml:id="formula_96">-1 β 0 (X (δ) -X (δ * )) T (λ)M (δ) T (λ) u is uniformly O p β 0 k 1/2 ε . Looking at the second term in braces in (A.9), write T (λ)M (δ) T (λ)- T (λ * )M (δ * ) T (λ * ) as (T (λ) -T (λ * )) M (δ) T (λ) + T (λ * ) (M (δ * ) -M (δ)) T (λ) + T (λ * )M (δ * ) (T (λ) -T (λ * )) ,</formula><p>whose spectral norm is bounded by</p><formula xml:id="formula_97">T (λ) -T (λ * ) ( T (λ) + T (λ * ) ) + T (λ * ) M (δ * ) -M (δ) T (λ) = O ( T (λ) -T (λ * ) + M (δ * ) -M (δ) ) . (A.11) Now T (λ) -T (λ * ) ≤ p i=1 |λ i -λ * i | W i S -1 ≤ C max i=1,...,p W i λ -λ * 1 ≤ Cε (A.12) uniformly on λ -λ * 1 &lt; ε × δ -δ * &lt; ε. Representing M (δ * ) -M (δ)</formula><p>as a sum of terms each with factor X (δ) -X (δ * ) , or its transpose, with bounds for these typified by Proof of Theorem 3.2. In supplementary material.</p><formula xml:id="formula_98">n -1 X (δ) -X (δ * ) (X (δ) X (δ) /n) -1 X (δ) , where X (δ) ≤ Cn 1/2 , we deduce M (δ * ) -M (δ) = O n -1/2 X (δ) -X (δ * ) = O k 1/2 ε ,<label>from</label></formula><p>Proof of Theorem 3.3. Let ξ λ, σ 2 denote the first derivative vector of (3.1), evaluated at λ, σ 2 . Defining R y (θ) = Rλ + X(δ)βy, the derivative of (3.1) at any admissible θ, σ</p><formula xml:id="formula_99">2 is ξ θ, σ 2 = ϕ (θ, σ 2 ), 2σ -2 n -1 R y (θ) X(δ), 2σ -2 n -1 R y (θ) Π (θ) , (A.13) where ϕ θ, σ 2 = 2σ -2 n -1 σ 2 trG 1 (λ) + y W 1 R y (θ) , . . . , σ 2 trG p (λ) + y W p R y (θ) . (A.14) Noting that R y = -u, denoting C i = G i + G i and φ = σ -2 0 n -1 σ 2 0 trC 1 -u C 1 u, . . . , σ 2 0 trC p -u C p u , (A.15) so ξ = (φ , 0, 0) -2σ -2 0 t -2σ -2 0 ℓ, (A.16) with t = n -1 [A, X, 0] u, ℓ = n -1 [0, 0, Π] u. (A.17)</formula><p>Note that ϕ and φ are not identical, hence the different notations. Denote by K 1 (θ) and K 2 (θ) the k × q and q × q matrices with i-th column (∂X (δ)/∂δ i ) R y (θ) and (i, j)-th element R y (θ) ∂ 2 X(δ)/∂δ i ∂δ j β, respectively. The matrix of second derivatives of (3.1) at any admissible point in the parameter space, denoted H θ, σ 2 , is</p><formula xml:id="formula_100">2σ -2 n -1    σ 2 P 1 (λ) + R R R X (δ) R Π (θ) * X (δ) X (δ) X (δ)Π (θ) + K 1 (θ) * * Π (θ) Π (θ) + K 2 (θ)    , (A.18)</formula><p>whence (2.11) and (3.13) follow.</p><p>For any non-null fixed-dimensional vector of constants α, we can use ξ = 0 and the mean value theorem to write</p><formula xml:id="formula_101">να Ψ θ -θ 0 = -να Ψ H-1 ξ,</formula><p>for some θ such that θθ 0 ≤ θθ 0 , where θ may be different across rows of H-1 . The RHS equals</p><formula xml:id="formula_102">4 i=1 Υ i -να ΨL -1 (t + ℓ) with Υ 1 = 2σ -2 0 να Ψ H-1 ∆H H -1 (t + ℓ) , Υ 2 = 2σ -2 0 να ΨΞ -1 (H -Ξ) H -1 (t + ℓ) , Υ 3 = να ΨL -1 σ 2 0 Ξ/2 -L σ 2 0 Ξ/2 -1 (t + ℓ) , Υ 4 = -να Ψ H-1 φ.</formula><p>We will demonstrate that Υ i = o p (1), i = 1, 2, 3, 4. First, E ℓ 2 = σ 2 0 n -2 n r=1 π r 2 , where π r is the r-th column of Π . Now</p><formula xml:id="formula_103">π r 2 = q i=1 {β 0 (∂x r (δ 0 ) /∂δ i )} 2 ≤ β 0 2 q i=1 k l=1 (∂x rl (δ 0 ) /∂δ i ) 2 ≤ Ck 2 ,</formula><p>by Assumption 17. Thus ℓ = O p n -1 2 k , (A.19) by Markov's inequality. By Lemma B.1 we have</p><formula xml:id="formula_104">|Υ 1 | ≤ 2σ -2 0 ν α Ψ H-1 ∆H H -1 ( t + ℓ ) ,</formula><p>where the second factor in norms is O (p + k)</p><p>1 2 , the third and fifth are bounded for sufficiently large n by Lemma B.3 (i), the fourth is O p ∆H = O p max p 2 k/n 1 2 h, p 1 2 k 5 2 /n 1 2 , pk 2 /n 1 2 by Lemma B.1 (i) and the last is O p p 1 2 k/n 1 2 (because t = O p 1 2 k/n 1 2 by (A.13) of Gupta (A.29) is bounded by a constant times max i j&lt;i</p><formula xml:id="formula_105">d 2 ij 1+ χ 4 /n χ 4 Ψ α 2+ χ 2 . (A.32)</formula><p>Now, writing e i for the n-dimensional vector with unity in the i-th position and zeros elsewhere, we can write</p><formula xml:id="formula_106">n j=1 d 2 ij = e i D 2 e i ≤ D 2 which is bounded by p j=1 α Ψζ j C j 2 ≤ Cp 2 max j C j 2 max j ζ j 2 Ψ α 2 ≤ C Ξ -1 2 p 2 Ψ α 2 = Cp 2 Ψ α 2 ζ (Ξ) -2 ≤ Cp 2 Ψ α 2 , (A.33)</formula><p>using Assumption 20. Also, we can use (A.33) to bound We now show <ref type="bibr">(A.27)</ref></p><formula xml:id="formula_107">|d ii | ≤   n j=1 d 2 ij   1 2 ≤ Cp Ψ α</formula><formula xml:id="formula_108">. Write n i=1 E w 2 i | u j , j &lt; i -1 = 4 (f 1 + f 2 + f 3 ) with f 1 = σ -2 0 n -1 ς -2 i j k (j,k&lt;i,j =k) d ij d ik u j u k , f 2 = σ -2 0 n -1 ς -2 i j&lt;i d 2 ij u 2 j -σ 2 0 and f 3 = σ -4 0 n -1 ς -2 i σ 2 0 m i + µ 3 d ii j&lt;i d ij u j .</formula><p>All sums and maxima are taken over 1 to n unless otherwise stated. f 1 has zero mean and variance bounded by n -2 ς -4 times C h,i,j,k (j,k&lt;i,h) <ref type="bibr">(A.36)</ref> by (A.33) and because, for each i = 1, . . . , n, , which is negligible by (3.16). Next, f 2 has zero mean and variance bounded by which is negligible by (3.16). Finally f 3 has zero mean and variance bounded by n -2 ς -4 times </p><formula xml:id="formula_109">|d ij d ik d hj d hk | ≤ C h,i,j,k |d ij d ik | d 2 hj + d 2 hk ≤ C max i k |d ik | max j i |d ij | i,j d 2 ij = C D 2 R D 2 F ≤ C Ψ α 4 np 4 ,</formula><formula xml:id="formula_110">n j=1 d 2 ij 1 2 ≤ n j=1 |d ij | ≤ D R ≤ Cp Ψ α</formula><formula xml:id="formula_111">n -2 ς -4 times C i,h j&lt;i,h d 2 ij d 2 hj ≤ C i,h,j d 2 ij d 2 hj ≤ C max j h d 2 hj D 2 F ≤ C Ψ α 4 np 4 ,<label>(A.37</label></formula><formula xml:id="formula_112">C i σ 2 0 m i + µ 3 d ii 2 j&lt;i d 2 ij ≤ C max i m 2 i + max i d 2 ii D 2 F ≤ C   max i m 2 i + max i j d 2 ij   D 2 F = O Ψ α 4 k 2 + 1</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>B Technical Lemmas</head><p>All proofs are contained in the supplementary appendix.</p><p>Lemma B.1. (i) Under the conditions of Theorem 3.3 or 3.4,</p><formula xml:id="formula_113">∆H = O p n -1 2 p 1 2 k h -1 p 3 2 + k 3 2 + p 1 2 k .</formula><p>(ii) Under the conditions of Theorem 2.3, 2.4 or 2.6,</p><formula xml:id="formula_114">h ∆H = O p n -1 2 h -1 2 p 2 + n -1 2 h 1 2 p , or, equivalently, ∆H = O p n -1 2 h -3 2 p 2 + n -1 2 h -1 2 p .</formula><p>The same bounds hold if we replace ∆H by ∆H , where θθ 0 ≤ θθ 0 .</p><p>Lemma B.2. Suppose that Assumptions 1-14 hold. Then for SAR with regressors.</p><p>(ii) Lσ 2 0 Ξ/2 = O (p/h) .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Lemma B.3. Let Assumptions 1-19 hold.</head><p>(i) If (3.14) holds, then</p><formula xml:id="formula_115">Ĥ-1 = O p H -1 = O p Ξ -1 = O p ζ(L) -1 = O p (1), Ĥ = O p ( H ) = O p ( Ξ ) = O p ζ(L) = O p (1).</formula><p>If h is bounded and Assumption 20 holds together with (3.16), then</p><formula xml:id="formula_116">Ĥ-1 = O p H -1 = O p ζ(Ξ) -1 = O p (1), Ĥ = O p ( H ) = O p ζ(Ξ) = O p (1) . (ii) If lim n→∞ ζ(hΞ) &gt; 0 and (2.13) holds, then h Ĥ -1 = O p (hH) -1 = O p ζ (hΞ) -1 = O p (1). (iii) If h is bounded, lim n→∞ ζ(Ξ) &gt; 0 and (2.14) holds , then Ĥ-1 = O p H -1 = O p ζ (Ξ) -1 = O p (1).</formula><p>The same bounds hold if we replace Ĥ by H , where θθ 0 ≤ θθ 0 .</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><figDesc>However we maintain Assumption 2 for notational simplicity. For any rectangular matrix A, we define A = ζ (A A) 1 2 , where ζ(B) (respectively ζ(B)) is the largest (smallest) eigenvalue of a square, symmetric matrix B.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><figDesc>Monte Carlo absolute bias and MSE for MLE (u ∼ N (0, I n )), model (1.3) with x i1n (δ) = (z δ i1 -1)/δ. 0.0728 0.0165 0.0308 0.0080 0.0145 β 1 0.0229 0.0366 0.0143 0.0171 0.0067 0.0074 β 2 0.0059 0.0066 0.0018 0.0030 0.0013 0.0014 6 λ 0.0140 0.1371 0.0112 0.0743 0.0046 0.0390 δ 0.0261 0.0748 0.0159 0.0308 0.0083 0.0147 β 1 0.0283 0.0371 0.0169 0.0173 0.0081 0.0074 β 2 0.0237 0.0097 0.0102 0.0119 0.0082 β 1 0.0024 0.0127 0.0018 0.0055 0.0037 0.0040 β 2 0.0130 0.0027 0.0045 0.0013 0.0061 0.0009 Table5.6: Monte Carlo absolute bias and MSE for PMLE (u ∼ t 6 ), model (1.3) with x i1n (δ0.0600 0.0520 0.0920 0.0460 0.1230 β 1 0.0620 0.7210 0.0520 0.9120 0.0380 0.9980 β 2 0.0500 0.3130 0.0430 0.5580 0.0520 0.8440 6 λ 0.0235 0.3148 0.0273 0.4598 0.0263 0.6620 δ 0.0710 0.0570 0.0480 0.1020 0.0440 0.1230 β 1 0.0640 0.7170 0.0510 0.9130 0.0390 0.9980 β 2 0.1180 0.0570 0.1810 0.0530 0.2830 β 1 0.0480 0.9810 0.0560 1.0000 0.0560 1.0000 β 2 0.0700 0.7490 0.0430 0.9530 0.0590 0.9870 Table 5.7: Monte Carlo size and power for MLE (u ∼ N (0, I n )), model (1.3) with x i1n (δ</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><figDesc>from (3.6). Thus pointwise convergence is established.To complete the proof of (A.3) we employ an equicontinuity argument. For arbitrary ε &gt; 0 and finitely many γ * = (λ * , δ * ) , the neighbourhoods λλ * 1 &lt; ε × δδ * &lt; ε form a sub-cover of the compact Γ = Λ × D in the product topology formed from the sum of • 1 and• distances. It remains to prove that sup</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><figDesc>(A.10). Thus from (A.12),(A.11)  has the same bound, so arguing much as before the contribution from the second term in braces in (A.9) is O β 0 k 1/2 ε . Thus (A.9)=O p β 0 k 1/2 ε , and since Assumption 16 implies that as n → ∞, c (γ) ≥ c β 0 2 uniformly andβ 0 -1 = O k -1/2 , the left side of (A.8) is O p β 0 -1 k 1/2 ε = O p (ε), whence (A.8) follows from arbitrariness of ε, and the proof is completed.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>αα</head><figDesc>33) and(A.34)  imply that (A.30) and (A.32) are both O p 2+ χ 2Ψζ j |a ij | + p+k j=p+1 Ψζ j |x ij | = O (k (p + 1) Ψ α ) ,(A.35) using Assumptions 14, 20. Then (A.31) is O p p 2+ χ 2 k 2+ χ 2 /n χ 4 , which is negligible by (3.16). Hence (A.28) is proved.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>by</head><figDesc>Assumption 3. (A.23) and (A.36), together with Markov's inequality, imply that f 1 = O p p 2 /n 1 2</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><figDesc>) by(A.33).(A.23) and (A.37), together with Markov's inequality, imply that f 2 = O p p 2 /n 1 2</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><figDesc>np 4 , (A.38) by (A.33) and (A.35). (A.23) and (A.38), together with Markov's inequality, imply that f 3 = O p p 2 k/n 1 2 , which is negligible by (3.16). The asymptotic covariance matrix exists, and is positive definite, by Assumption 20. Proofs of Theorems 4.1, 4.2 and 4.3 . In supplementary material.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8"><figDesc>regressors and divergent h and H -Ξ = O p pk/n 1 2</figDesc></figure>
+		</body>
+		<back>
+
+			
+			<div type="acknowledgement">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Acknowledgements</head><p>We are grateful to an associate editor and three anonymous referees for constructive comments that led to an improved paper.</p></div>
+			</div>
+
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Appendices A Proofs of theorems</head><p>Proof of Theorem 2.1. This is omitted as it can be deduced from the proof of Theorem 3.1 below, ignoring components of formulae and steps that are not relevant.</p><p>Proof of Theorem 2.2. In supplementary material.</p><p>We drop n subscripts in the appendices. The following inequalities will be useful: A ≤ A F ,</p><formula xml:id="formula_117">A 2 ≤ A R A R , AB F ≤ A F B . In the sequel write ν = n 1 2 /a 1 2</formula><p>, where a is the number of columns in Ψ. Thus in Section 2, a = p or p + 1, in Section 3, a = p + k + q and in Section 4, a = p + k. Further, for any matrix, vector E θ, σ 2 , Ẽ denotes evaluation at a generic estimate θ , σ2 and ∆E = Ẽ -E. We can express (1.3) as with X = 0. The proofs of Theorems 3.3 and 3.4 should be read before the next two proofs, which are in any case in the supplementary appendix. We introduce them at this point to follow the order of the paper.</p><formula xml:id="formula_118">y = Rλ 0 + Xβ 0 + u with R = [W 1 y, . . . , W p y]. Because Assumption 3 implies y = S -1 Xβ 0 + S -1 u, (A.1) we have R = A + B, with B = [G 1n u, . . . , G pnn u],</formula><p>Proof of Theorem 2.3. In supplementary material.</p><p>Proof of Theorem 2.4. In supplementary material.</p><p>Proof of Theorem 2.5. This is omitted for the same reason as Theorem 2.1's proof.</p><p>Proof of Theorem 2.6. This is similar to the proof of Theorem 2.3 and therefore omitted.</p><p>Proof of Theorem 3.1. The property ββ 0 p → 0 follows using arguments below, the closed form expression (see (3.2)) for β as a function of γ, and the property γγ 0 p → 0, so we focus on proving the latter. From (3.4), (A.1)</p><formula xml:id="formula_119">Q (γ) -Q = log σ 2 (γ) /σ 2 -n -1 log |T (λ)T (λ)| = log σ 2 (γ) /σ 2 (λ) -log σ 2 /σ 2 0 + log r(λ), (A.2)</formula><p>where <ref type="formula">and Robinson (2015)</ref></p><formula xml:id="formula_120">σ 2 (λ) = n -1 σ 2 0 T (λ) 2 F , σ 2 = σ 2 (γ 0 ) = n -1 u M u,</formula><formula xml:id="formula_121">), so Υ 1 = O p max p 5 2 k 2 /n 1 2 h, pk 7 2 /n 1 2 , p 3 2 k 3 /n 1 2</formula><p>, which is negligible by (3.14), noting that p</p><formula xml:id="formula_122">5 2 k 2 /n 1 2 h = p 3 2 k/h pk/n 1 2 . Similarly Υ 2 = O p p 3 2 k 2 /n<label>1</label></formula><p>2 which is negligible by (3.14) and Lemma B.2 (i), and Υ 3 = O p p 3 2 k/h by Lemma B.2 (ii), which is negligible by (3.14). Finally, E φ 2 = p i=1 var n -1 u C i u = O (p/nh) , (shown like (B.23) in the supplementary appendix) so that φ = O p n -1 2 h -1 2 p 1 2 , (A.20) by Chebyshev's inequality. So Υ 4 has modulus bounded by ν Ψ H-1 φ times a constant, where the second factor is O (p + k) 1 2</p><p>, the third is bounded for sufficiently large n by Lemma B.3 (i) and the last is</p><formula xml:id="formula_123">O p p 1 2 /n 1 2 h 1 2 . Thus Υ 4 = O p p 1 2 /h 1 2</formula><p>which is negligible by (3.14).</p><p>Then we only need to find the asymptotic distribution of να ΨL -1 (t + ℓ). The theorem now follows by a standard Lindeberg central limit theorem argument. The asymptotic covariance matrix exists, and is positive definite, by Assumption 19. The proof of the consistency of its estimate is omitted.</p><p>Proof of Theorem 3.4. Here we redefine R y (λ) = Rλy and obtain ξ = φ. Also H λ, σ 2 = 2n -1 P 1 (λ) + 2σ -2 n -1 R R, whence the formulae for H and Ξ follow. Then proceeding as in the proof of Theorem 3.3, we can write</p><formula xml:id="formula_124">να Ψ θ -θ 0 = να Ψ H-1 -Ξ -1 ξ -να ΨΞ -1 ξ.<label>(</label></formula><p>A.21) Lemma B.3 (i) indicates that the first term on the RHS of (A.21) is bounded in modulus by a constant times</p><formula xml:id="formula_125">ν Ψ ( t + ℓ + φ ) ∆H + H -Ξ = O p n 1 2 max p 1 2 k/n 1 2 , p 1 2 /n 1 2 h 1 2 max p 2 k/n 1 2 h, p 1 2 k 5 2 /n 1 2 , pk 2 /n 1 2 , pk/n 1 2</formula><p>, by (A.19), (A.20) and Lemma B.1 (i). This is negligible by (3.16). Thus we establish the asymptotic distribution of the second term on the RHS of (A.21), which has zero mean and variance a -1 Ψ 2Ξ -1 + Ξ -1 ΩΞ -1 Ψ . Hence we consider the asymptotic normality of</p><formula xml:id="formula_126">-n 1 2 α ΨΞ -1 ξ {α Ψ (2Ξ -1 + Ξ -1 ΩΞ -1 ) Ψ α} 1 2 , (A.22)</formula><p>where α is any fixed-dimensional vector of constants. Write</p><formula xml:id="formula_127">ς = α Ψ 2Ξ -1 + Ξ -1 ΩΞ -1 Ψ α 1 2</formula><p>for the denominator of (A.22). Then</p><formula xml:id="formula_128">ς ≥ Ψ α ζ 2Ξ -1 + Ξ -1 ΩΞ -1 1 2 ≥ c Ψ α (A.23)</formula><p>by Assumption 20. The numerator of (A.22) can be written as</p><formula xml:id="formula_129">-2σ -2 0 n -1 2 m u -σ -2 0 n -1 2 u Du + n -1 2 trD (A.24)</formula><p>where D = p j=1 α Ψζ j C j , m = p j=1 α Ψζ j a j + p+k j=p+1 α Ψζ j χ j-p , with ζ j and χ j denoting the j-th columns of Ξ -1 and X respectively. We also denote by d ij and m i the (i, j)-th and i-th elements of D and m respectively. Using (A.24), we can write (A.22) as -n i=1 w i , with</p><formula xml:id="formula_130">w i = σ -2 0 n -1 2 ς -1 u 2 i -σ 2 0 d ii + 2σ -2 0 n -1 2 ς -1 u i j&lt;i u j d ij + 2σ -2 0 n -1 2 ς -1 m i u i . (A.25)</formula><p>{w i , i = 1, . . . , n, n ≥ 1} forms a martingale difference sequence by Assumption 14, so Theorem 2 of <ref type="bibr" target="#b40">Scott (1973)</ref> implies</p><formula xml:id="formula_131">n i=1 w i d -→ N (0, 1) if n i=1 E w 2 i 1 (w i ≥ ) p -→ 0, for all &gt; 0, (A.26) n i=1 E w 2 i | u j , j &lt; i p -→ 1. (A.27)</formula><p>To show (A.26) we can check the sufficient Lyapunov condition </p><formula xml:id="formula_132">n i=1 |d ii | 2+ χ 2 n 1+ χ 4 Ψ α 2+ χ 2 + n i=1 E j&lt;i u j d ij 2+ χ 2 n 1+ χ 4 Ψ α 2+ χ 2 + n i=1 |m i | 2+ χ 2 n 1+ χ 4 Ψ α 2+ χ 2 . (A.29)</formula><p>The first term in (A.29) is bounded by</p><formula xml:id="formula_133">max i |d ii | 2+ χ 2 /n χ 4 Ψ α 2+ χ 2 , (A.30)</formula><p>while the third term is bounded by</p><formula xml:id="formula_134">max i |m i | 2+ χ 2 /n χ 4 Ψ α 2+ χ 2 . (A.31)</formula><p>By the Burkholder, von Bahr/Esseen and elementary ℓ p -norm inequalities, the second term in</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_9"><figDesc>and for (1.1) the reduced form (A.1) holds</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_10"><figDesc>c r inequality, (11) and (A.23) indicate that the left side is bounded by a constant times</figDesc></figure>
+			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">The non-linear two-stage least-squares estimator</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Amemiya</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">82</biblScope>
+			<biblScope unit="page" from="105" to="110" />
+			<date type="published" when="1974">1974</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<monogr>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+		<title level="m">Spatial Econometrics: Methods and Models</title>
+		<meeting><address><addrLine>Dordrecht</addrLine></address></meeting>
+		<imprint>
+			<publisher>Kluwer Academic Publishers</publisher>
+			<date type="published" when="1988">1988</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Rao&apos;s score test in spatial econometrics</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Statistical Planning and Inference</title>
+		<imprint>
+			<biblScope unit="volume">97</biblScope>
+			<biblScope unit="page" from="113" to="139" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Efficient algorithms for constructing proper higher order spatial lag operators</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">O</forename><surname>Smirnov</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Regional Science</title>
+		<imprint>
+			<biblScope unit="volume">36</biblScope>
+			<biblScope unit="page" from="67" to="89" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Estimation of higher-order spatial autoregressive cross-section models with heteroscedastic disturbances</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Badinger</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Egger</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Papers in Regional Science</title>
+		<imprint>
+			<biblScope unit="volume">90</biblScope>
+			<biblScope unit="page" from="213" to="236" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Estimation and testing of higher-order spatial autoregressive panel data error component models</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Badinger</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Egger</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Geographical Systems</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="page" from="453" to="489" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Consistent autoregressive spectral estimates</title>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">N</forename><surname>Berk</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Annals of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="page" from="489" to="502" />
+			<date type="published" when="1974">1974</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Specification and estimation of spatial econometric models: A discussion of alternative strategies for spatial economic modelling</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">J</forename><surname>Blommestein</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">13</biblScope>
+			<biblScope unit="page" from="251" to="270" />
+			<date type="published" when="1983">1983</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Elimination of circular routes in spatial dynamic regression equations</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">J</forename><surname>Blommestein</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="page" from="121" to="130" />
+			<date type="published" when="1985">1985</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Recursive algorithms for the elimination of redundant paths in spatial lag operators</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">J</forename><surname>Blommestein</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">A M</forename><surname>Koper</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Regional Science</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="page" from="91" to="111" />
+			<date type="published" when="1992">1992</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">The influence of sample size on the degree of redundancy in spatial lag operators</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">J</forename><surname>Blommestein</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">A M</forename><surname>Koper</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">82</biblScope>
+			<biblScope unit="page" from="317" to="333" />
+			<date type="published" when="1997">1997</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">A biparametric approach to spatial autocorrelation</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Brandsma</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">H</forename><surname>Ketellapper</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environment and Planning</title>
+		<imprint>
+			<biblScope unit="volume">11</biblScope>
+			<biblScope unit="page" from="51" to="58" />
+			<date type="published" when="1979">1979</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Spatial patterns in household demand</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">C</forename><surname>Case</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">59</biblScope>
+			<biblScope unit="page" from="953" to="965" />
+			<date type="published" when="1991">1991</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Neighborhood influence and technological change</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">C</forename><surname>Case</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">22</biblScope>
+			<biblScope unit="page" from="491" to="508" />
+			<date type="published" when="1992">1992</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<monogr>
+		<title/>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">D</forename><surname>Cliff</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">K</forename><surname>Ord</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1973">1973</date>
+			<publisher>Spatial Autocorrelation. Pion</publisher>
+			<pubPlace>London</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Non-nested testing of spatial correlation</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">A</forename><surname>Delgado</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">M</forename><surname>Robinson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">187</biblScope>
+			<biblScope unit="page" from="385" to="401" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">On model specification and parameter space definitions in higher order spatial econometric models</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Elhorst</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">J</forename><surname>Lacombe</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Piras</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">42</biblScope>
+			<biblScope unit="page" from="211" to="220" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Inference on higher-order spatial autoregressive models with increasingly many parameters</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Gupta</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">M</forename><surname>Robinson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">186</biblScope>
+			<biblScope unit="page" from="19" to="31" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<monogr>
+		<title level="m" type="main">Properties of the maximum likelihood estimator in spatial autoregressive models</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Hillier</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Martellosio</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2013">2013</date>
+			<publisher>CeMMap Working Paper</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">The autoregressive moving average model for spatial analysis</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">S</forename><surname>Huang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Australian Journal of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">26</biblScope>
+			<biblScope unit="page" from="169" to="178" />
+			<date type="published" when="1984">1984</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Robust regression: asymptotics, conjectures and Monte Carlo</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">J</forename><surname>Huber</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Annals of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="page" from="799" to="821" />
+			<date type="published" when="1973">1973</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Asymptotic properties of non-linear least squares estimators</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">I</forename><surname>Jennrich</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Annals of Mathematical Statistics</title>
+		<imprint>
+			<biblScope unit="volume">40</biblScope>
+			<biblScope unit="page" from="633" to="643" />
+			<date type="published" when="1969">1969</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Estimation of spatial regression models with autoregressive errors by two-stage least squares procedures: a serious problem</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Regional Science Review</title>
+		<imprint>
+			<biblScope unit="volume">20</biblScope>
+			<biblScope unit="page" from="103" to="111" />
+			<date type="published" when="1997">1997</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">A generalized spatial two-stage least squares procedure for estimating a spatial autoregressive model with autoregressive disturbances</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Journal of Real Estate Finance and Economics</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="page" from="99" to="121" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">A generalized moments estimator for the autoregressive parameter in a spatial model</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Economic Review</title>
+		<imprint>
+			<biblScope unit="volume">40</biblScope>
+			<biblScope unit="page" from="509" to="533" />
+			<date type="published" when="1999">1999</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Estimation problems in models with spatial weighting matrices which have blocks of equal elements</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><forename type="middle">A</forename><surname>Yuzefovich</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Regional Science</title>
+		<imprint>
+			<biblScope unit="volume">46</biblScope>
+			<biblScope unit="page" from="507" to="515" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Spatial collocation and venture capital in the US biotechnology industry</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Kolympiris</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Kalaitzandonakes</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Miller</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Research Policy</title>
+		<imprint>
+			<biblScope unit="volume">40</biblScope>
+			<biblScope unit="page" from="1188" to="1199" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<monogr>
+		<title level="m" type="main">Dynamic spatial panel models : networks, common shocks, and sequential exogeneity</title>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">M</forename><surname>Kuersteiner</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+	<note>CESifo working paper 5445</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Consistency and efficiency of least squares estimation for mixed regressive, spatial autoregressive models</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometric Theory</title>
+		<imprint>
+			<biblScope unit="volume">18</biblScope>
+			<biblScope unit="page" from="252" to="277" />
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">Asymptotic distributions of quasi-maximum likelihood estimators for spatial autoregressive models</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">72</biblScope>
+			<biblScope unit="page" from="1899" to="1925" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Efficient GMM estimation of high order spatial autoregressive models with autoregressive disturbances</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Liu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometric Theory</title>
+		<imprint>
+			<biblScope unit="volume">26</biblScope>
+			<biblScope unit="page" from="187" to="230" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">Pitfalls in higher order model extensions of basic spatial regression methodology</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Lesage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">K</forename><surname>Pace</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Review of Regional Studies</title>
+		<imprint>
+			<biblScope unit="volume">41</biblScope>
+			<biblScope unit="page" from="13" to="26" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<monogr>
+		<title level="m" type="main">Dynamic Nonlinear Econometric Models</title>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">M</forename><surname>Pötscher</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1997">1997</date>
+			<publisher>Springer-Verlag</publisher>
+			<pubPlace>Berlin Heidelberg</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">Asymptotic behavior of M -estimators of p regression parameters when p 2 /n is large</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Portnoy</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">I. Consistency. The Annals of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">12</biblScope>
+			<biblScope unit="page" from="1298" to="1309" />
+			<date type="published" when="1984">1984</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<analytic>
+		<title level="a" type="main">Asymptotic behavior of M -estimators of p regression parameters when p 2 /n is large; II. Normal approximation</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Portnoy</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Annals of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">13</biblScope>
+			<biblScope unit="page" from="1403" to="1417" />
+			<date type="published" when="1985">1985</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<analytic>
+		<title level="a" type="main">Non-linear regression for multiple time-series</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">M</forename><surname>Robinson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Applied Probability</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="page" from="758" to="768" />
+			<date type="published" when="1972">1972</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<analytic>
+		<title level="a" type="main">Distributed lag approximation to linear time-invariant systems</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">M</forename><surname>Robinson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Annals of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="page" from="507" to="515" />
+			<date type="published" when="1979">1979</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<analytic>
+		<title level="a" type="main">Denis Sargan: some perspectives</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">M</forename><surname>Robinson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometric Theory</title>
+		<imprint>
+			<biblScope unit="volume">19</biblScope>
+			<biblScope unit="page" from="481" to="494" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<analytic>
+		<title level="a" type="main">The efficient estimation of the semiparametric spatial autoregressive model</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">M</forename><surname>Robinson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">157</biblScope>
+			<biblScope unit="page" from="6" to="17" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<analytic>
+		<title level="a" type="main">Asymptotic theory and large models</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">D</forename><surname>Sargan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Economic Review</title>
+		<imprint>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="page" from="75" to="91" />
+			<date type="published" when="1975">1975</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b40">
+	<analytic>
+		<title level="a" type="main">Central limit theorems for martingales and for processes with stationary increments using a Skorokhod representation approach</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">J</forename><surname>Scott</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Advances in Applied Probability</title>
+		<imprint>
+			<biblScope unit="volume">5</biblScope>
+			<biblScope unit="page" from="119" to="137" />
+			<date type="published" when="1973">1973</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b41">
+	<analytic>
+		<title level="a" type="main">Problems with likelihood estimation of covariance functions of spatial Gaussian processes</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">J</forename><surname>Warnes</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">D</forename><surname>Ripley</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometrika</title>
+		<imprint>
+			<biblScope unit="volume">74</biblScope>
+			<biblScope unit="page" from="640" to="642" />
+			<date type="published" when="1987">1987</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b42">
+	<analytic>
+		<title level="a" type="main">A spatial autoregressive model with a nonlinear transformation of the dependent variable</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Xu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">186</biblScope>
+			<biblScope unit="page" from="1" to="18" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

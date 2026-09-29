@@ -1,0 +1,791 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Estimation of spatial autoregressive models with measurement error for large data sets</title>
+				<funder ref="#_z7CtJFX">
+					<orgName type="full">unknown</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">Comput</forename><surname>Stat</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution" key="instit1">National Institute for Applied Statistics Research Australia</orgName>
+								<orgName type="institution" key="instit2">University of Wollongong</orgName>
+								<address>
+									<postCode>2522</postCode>
+									<settlement>Wollongong</settlement>
+									<region>NSW</region>
+									<country key="AU">Australia</country>
+								</address>
+							</affiliation>
+						</author>
+						<author role="corresp">
+							<persName><forename type="first">Thomas</forename><surname>Suesse</surname></persName>
+							<email>tsuesse@uow.edu.au</email>
+							<affiliation key="aff0">
+								<orgName type="institution" key="instit1">National Institute for Applied Statistics Research Australia</orgName>
+								<orgName type="institution" key="instit2">University of Wollongong</orgName>
+								<address>
+									<postCode>2522</postCode>
+									<settlement>Wollongong</settlement>
+									<region>NSW</region>
+									<country key="AU">Australia</country>
+								</address>
+							</affiliation>
+							<affiliation key="aff0">
+								<orgName type="institution" key="instit1">National Institute for Applied Statistics Research Australia</orgName>
+								<orgName type="institution" key="instit2">University of Wollongong</orgName>
+								<address>
+									<postCode>2522</postCode>
+									<settlement>Wollongong</settlement>
+									<region>NSW</region>
+									<country key="AU">Australia</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Estimation of spatial autoregressive models with measurement error for large data sets</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<idno type="MD5">4426F78FF7998E71EF896AD3D5995BF8</idno>
+					<idno type="DOI">10.1007/s00180-017-0774-7</idno>
+					<note type="submission">Received: 7 October 2016 / Accepted: 29 October 2017</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-29T10:20+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>SAR model</term>
+					<term>REML</term>
+					<term>ML</term>
+					<term>Cholesky factorisation</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Maximum likelihood (ML) estimation of spatial autoregressive models for large spatial data sets is well established by making use of the commonly sparse nature of the contiguity matrix on which spatial dependence is built. Adding a measurement error that naturally separates the spatial process from the measurement error process are not well established in the literature, however, and ML estimation of such models to large data sets is challenging. Recently a reduced rank approach was suggested which re-expresses and approximates such a model as a spatial random effects model (SRE) in order to achieve fast fitting of large data sets by fitting the corresponding SRE. In this paper we propose a fast and exact method to accomplish ML estimation and restricted ML estimation of complexity of O(n 3/2 ) operations when the contiguity matrix is based on a local neighbourhood. The methods are illustrated using the well known data set on house prices in Lucas County in Ohio.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>Simultaneous autoregressive (SAR) models and the larger class of spatial econometric models are popular regression models which take the spatial dependence of units into account <ref type="bibr" target="#b20">(Lesage and Pace 2009)</ref>. There are two main SAR models, one where the spatial dependence is directly incorporated into the equation for the response variable, here referred to as the spatial lag model (SLM), and a model where the spatial dependence is incorporated into the error term, the spatial error model (SEM). Another popular model approach is the so-called conditional autoregressive (CAR) model, see <ref type="bibr" target="#b9">Cressie (1993)</ref> for details.</p><p>Maximum likelihood (ML) estimation of the SLM and the SEM is well known and has been studied by <ref type="bibr" target="#b24">Ord (1975)</ref> using the eigenvalues of the contiguity matrix W which avoids the repeated calculation of the determinant in the optimisation process. Many software packages, such as the R package spdep <ref type="bibr" target="#b3">(Bivand 2017)</ref>, use these methods to achieve ML estimation. For large data sets and sparse contiguity matrices, the calculation of eigenvalues is often avoided and the repeated calculation of the determinant is preferred, because in this case the repeated calculation of the determinant is usually much quicker than the calculation of the eigenvalues.</p><p>There are many extensions of these SAR models, for example a model including spatially lagged covariates, the so-called SLX model, the spatial Durbin model (SDM) and the spatial Durbin error model (SDEM). For an overview of various spatial econometric models and extensions, see for example <ref type="bibr" target="#b20">Lesage and Pace (2009)</ref>, Halleck <ref type="bibr" target="#b15">Vega and Elhorst (2015)</ref>, <ref type="bibr" target="#b4">Bivand and Piras (2015)</ref> and <ref type="bibr" target="#b20">LeSage et al. (2017)</ref>.</p><p>Often variables are measured with different types of errors, often referred to as measurement error. For example when observed covariates contain such a measurement error, then the fixed effects estimates referring to the covariate without measurement error are biased <ref type="bibr" target="#b17">(Huque et al. 2014)</ref>. Random effects could be considered as another type of error. They can account for unobserved variables, but also for errors referring to different levels of a data set, for example levels of a geographically hierarchical data set. For instance when houses are nested within districts, then the lowest level refers to houses and the higher level refers to districts, and the resulting model is a typical multi-level model. <ref type="bibr" target="#b8">Corrado and Fingleton (2012)</ref> and <ref type="bibr" target="#b11">Dong et al. (2015)</ref> consider SAR models with added random effects to account for different types of data sets, such as grouped data, multilevel data and spatial panel data.</p><p>In this paper SLMs and SEMs are considered with an added measurement error but restricted to the lowest level, that is it is assumed that the true spatial process y i of unit i is unobserved and that the observed response z i has some measurement error, i.e. z i = y i + i with i ∼ N (0, σ 2 ). In the following the phrase measurement error refers to this situation. Most classical spatial econometric models do not distinguish between the measurement error i and the error of the spatial process y i . Spatial autoregressive models with an added measurement error term are not very common in the spatial econometric literature, although several authors have considered such models.</p><p>For example, <ref type="bibr" target="#b1">Besag et al. (1991)</ref> considered a Poisson conditional autoregressive (CAR) model with measurement error using a Bayesian framework for estimation and <ref type="bibr" target="#b18">Kang et al. (2009)</ref> a Gaussian CAR model with measurement errors using a pseudo-ML estimation approach. Another popular approximate Bayesian estimation method is the integrated nested Laplace approximation (INLA) method <ref type="bibr" target="#b26">(Rue et al. 2009;</ref><ref type="bibr">Bivand et al. 2015;</ref><ref type="bibr" target="#b13">Gomez-Rubio et al. 2017)</ref> implemented in the R package INLA, which currently provides the option to fit a CAR and a SLM with measurement error.</p><p>ML estimation of a SEM with measurement error has been considered recently by <ref type="bibr" target="#b7">Burden et al. (2015)</ref>. Because the corresponding log-likelihood is complicated, the authors used a reduced rank approach to allow estimation to be based on estimation of a spatial random effects (SRE) model <ref type="bibr">(Cressie and Johannesson 2008)</ref>, a flexible approach commonly used to model non-stationary covariance functions. This approach transforms the model into an SRE model and proceeds by fitting this SRE model, which is of order O(n) operations when n is the number of units. While estimation of SRE models is fast, the pre-processing is relatively slow and is based on some approximations, yielding approximate ML estimates only, see "Appendix B" for some details and an illustration.</p><p>In this paper, we propose an exact ML approach that is fast, without costly preprocessing as the reduced rank approach, and also does not rely on any approximations. We also propose a restricted maximum likelihood (REML) estimation method in order to obtain less biased variance parameter estimates. Our main focus in this paper is on computationally efficient exact ML/REML estimation of model parameters and not on prediction. When prediction is the main focus, see <ref type="bibr" target="#b14">Goulard et al. (2017)</ref> for outof-sample and in-sample prediction of a classical SLM.</p><p>Section 2 introduces the two classical SAR models and the two extensions with measurement error. In Sect. 3, ML estimation of these extended models is discussed and various solutions are proposed, including the implementation of REML and the efficient calculation of standard errors. In Sect. 4, a small scale simulation study is conducted to compare the effectiveness of the methods and to allow comparison of REML and ML in terms of bias and coverage. Section 5 illustrates the models on a well known large data set on house prices with sample size n = 25,357 indicating that the measurement error models are potentially a more useful class of models compared to classical SAR models for this data set. In Sect. 6, we also provide a comparison in terms of computation time by comparing the times of the actual proposed ML/REML algorithms of this paper applied to some simulated data sets with the pre-processing needed for the reduced rank approach. It is also established that for sparse contiguity matrices based on a local neigbourhood the proposed methods are usually of order O(n 3/2 ) operations, confirmed in an empirical study.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">Models</head><p>Let y = (y 1 , . . . , y n ) be the n-vector of the response variable referring to n spatial locations s 1 , . . . , s n , X be the n × p design matrix containing the explanatory variables and W be the n × n contiguity matrix where W i j represents spatial closeness of two units i and j, by definition W ii = 0. Common methods to form W are first order contiguity relations and nearest neighbours, see <ref type="bibr" target="#b24">Ord (1975)</ref> or <ref type="bibr" target="#b25">Pace and Barry (1997)</ref> for more details. Often W is sparse in the sense that many W i j entries are zero.</p><p>The SLM can be written in vector form as</p><formula xml:id="formula_0">y = ρWy + Xβ + e,<label>(1)</label></formula><p>and the SEM as</p><formula xml:id="formula_1">y = Xβ + v, v = ρWv + e,<label>(2)</label></formula><p>Table 1 Expressions for μ, V, log |V| and r Mr with r = y -μ, r y = Ay -Xβ with A = I -ρW for SLM and SEM SLM SEM</p><formula xml:id="formula_2">μ A -1 Xβ Xβ = σ 2 V σ 2 (A A) -1 σ 2 (A A) -1 V (A A) -1 (A A) -1 M = V -1 A A A A log |M| 2 log |A| 2 log |A| r Mr r y r y (Ar) Ar Table 2 Expressions for μ, , V and M for SLM-M and SEM-M SLM-M SEM-M μ A -1 Xβ Xβ = ωV ω(I + θ(A A) -1 ) ω( I + θ(A A) -1 ) V I + θ(A A) -1 I + θ(A A) -1 M = V -1 (I + θ(A A) -1 ) -1 (I + θ(A A) -1 ) -1</formula><p>where e ∼ N (0, σ 2 y I n ) and I n is the identity matrix of size n. The parameter vector β = (β 1 , . . . , β p ) contains the fixed effects parameters and ρ is the spatial dependence or autocorrelation parameter. Both models imply that y is multivariate normal with mean μ and (co)variance matrix , as specified in Table <ref type="table">1</ref>. To obtain a valid covariance matrix for the SLM and the SEM, it is required that ρ / ∈ { 1 λ (1) , . . . , 1 λ (n) }, where λ (1) ≤ • • • ≤ λ (n) are the ordered n eigenvalues of the matrix W <ref type="bibr" target="#b21">(Li et al. 2012)</ref>. When W is row-or column-normalised (rows or columns sum to 1), as is common in practice, then λ (i) ≤ 1 and ρ is typically restricted to λ -1 (1) &lt; ρ &lt; 1 for which always exists. When λ -1 (1) &lt; -1, then a further common restriction is -1 &lt; ρ &lt; 1 to avoid ρ parameters less than -1 and difficulties with interpretations.</p><p>Suppose that y is the underlying spatial process and that z has been observed with some measurement errors i contained in the vector = ( 1 , . . . , n ) with ∼ N (0, σ 2 I), i.e. z = y + .</p><p>The corresponding SLM and SEM with an added measurement error process are abbreviated in the following by SLM-M and SEM-M respectively. For notational convenience let ω = σ 2 and θ = σ 2 y /σ 2 , then the quantities describing the multivariate normal distribution implied by the SLM-M and SEM-M can be summarised as in Table <ref type="table">2</ref>. The restrictions on the ρ parameter are the same as for the SLM/SEM, because the covariance matrix for the SLM-M/SEM-M is the sum of the covariance matrix of a SLM/SEM and ωI. Under the restrictions the sum of two positive definite matrices yields another positive definite matrix.</p><p>The log-likelihood L expressed in terms of M(θ, ρ), r = y -μ(β, ρ) and ω has the following form</p><formula xml:id="formula_3">L := log f (y; ω, θ, ρ, β) = - n 2 log(2π) - n 2 log(ω) + 1 2 log |M| - 1 2ω r Mr. (3)</formula><p>Maximum likelihood estimation proceeds with maximising L and is discussed next in more detail.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">Estimation</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1">Maximum likelihood estimation</head><p>First let us focus on the SEM-M and the three computationally complicated terms, two of them appear in (3): (i) log |M|, (ii) r Mr and (iii) X MX. The need of the term (iii) is not immediately apparent, but as we will see later it is used for the concentrated log-likelihood and for the REML method. These three terms are computationally demanding as the calculation requires the full inverse of the n × n matrix A A, supposedly leading <ref type="bibr" target="#b7">Burden et al. (2015)</ref> to consider an approximate approach to avoid this calculation. We re-express the term (ii) as r Mr = r (I</p><formula xml:id="formula_4">+ θ(A A) -1 ) -1 r = (Ar) (A ) -1 (I + θ A -1 (A ) -1 ) -1 A -1 Ar = r A A(I + θ A -1 (A ) -1 )A -1 r A = r A AA + θ I -1 r A ,</formula><p>where r A = Ar. The final expression is much simpler computationally, as it only contains one inverse and not two, see Table <ref type="table">2</ref> and the expression for M. We also established above that A(I + θ(A A) -1 )A = AA + θ I, hence</p><formula xml:id="formula_5">|A| × |I + θ(A A) -1 | × |A| = |AA + θ I|<label>and</label></formula><formula xml:id="formula_6">|I + θ(A A) -1 | = |AA + θ I|/|A| 2 = |AA + θ I|/|AA |.</formula><p>Thus the term (i) can be expressed as</p><formula xml:id="formula_7">log |M| = -log |I + θ(A A) -1 | = -log |AA + θ I| + log |AA |.<label>(4)</label></formula><p>Lastly the term (iii) is written as</p><formula xml:id="formula_8">X MX = (AX) (AA + θ I) -1 AX = X A (AA + θ I) -1 X A , with X A = AX.</formula><p>In all these terms, a matrix inverse is still present, however the full inverse never has to be computed, which will be demonstrated shortly. For known θ and ρ, the ML estimates for β and ω have closed form (can be derived by differentiating L and setting to zero):</p><formula xml:id="formula_9">β = (X MX) -1 X My, ω = ωML = 1 n r Mr.</formula><p>Plugging these estimates into the log-likelihood reduces the parameter space to two parameters (ρ and θ ) and the log-likelihood is then called concentrated log-likelihood.</p><p>For example this method is used to fit classical SLM and SEM effectively <ref type="bibr" target="#b3">(Bivand 2017)</ref>, in this case the concentrated log-likelihood only depends on the single parameter ρ.</p><p>Consider the Cholesky decomposition of the symmetric matrix AA</p><formula xml:id="formula_10">AA = L AA (L AA ) ,</formula><p>where L B is a lower triangular matrix, the Cholesky factor of the matrix B.</p><p>Note that obtaining a Cholesky decomposition of AA +θ I can be obtained from the Cholesky decomposition of AA , usually with less computational effort compared to calculating the Cholesky decomposition directly. For example the R package Matrix (Bates and Maechler 2017) allows such updating of the Cholesky decomposition and is used to fit standard SAR models in the package spdep (Bivand 2017), see also <ref type="bibr" target="#b5">Bivand et al. (2013)</ref> for more details. This means L AA +θI is easily obtainable from L AA for any value of θ . Both L AA +θI and L AA can also be used to calculate log |M|, see (4), as the determinant of a matrix is easily obtainable by multiplying the diagonal elements of the Cholesky factor and squaring the result. Let c = (L AA +θI ) -1 y A and C = (L AA +θI ) -1 X A . We notice two important aspects here, firstly calculating the inverse of a Cholesky factor is computationally much easier than the inverse of a non-triangular matrix. Second, even this is not required, because we need to solve essentially a problem like Ax = b with known matrix A and known vector b for unknown x. Obtaining this x is computationally much simpler, as we do not need to obtain an n × n matrix. In our case, we need to solve for c (vector) and the n × p matrix C ( p &lt;&lt; n). Re-writing r Mr = y My -2y MXβ + β X MXβ and using X MX = C C, X My = C c and y My = c c gives r Mr = c c -2c C β + β C C β = c cc C β with β = (C C) -1 C c.</p><p>Finally the concentrated log-likelihood L has the form</p><formula xml:id="formula_11">L c (θ, ρ) = c- n 2 log( ω(ρ, θ))- 1 2 log |A(ρ)A(ρ) +θ I|+ 1 2 log |A(ρ)A(ρ) |, (<label>5</label></formula><formula xml:id="formula_12">)</formula><p>where c = -n log 2π 2 -n 2 is a constant. All expressions depend on ρ and θ and the concentrated log-likelihood can be maximized with standard optimization routines, for example, using the general purpose maximisation routine optim() in R, which will be used for fitting the models in this paper.</p><p>Let us now consider ML estimation of the SLM. Compared to the SEM, most terms of the log-likelihood remain the same, except that r =</p><formula xml:id="formula_13">Y -A -1 Xβ, meaning that the term r A = Ar = Ay -Xβ is different. Also, the term X is replaced by X = A -1 X implying that X A = A X = X.</formula><p>Apart from these small differences, all other expressions remain the same and ML estimation is based on the concentrated log-likelihood.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2">Restricted maximum likelihood</head><p>The ML method does not take into account the degrees of freedom that are involved in estimating the fixed effects generally leading to biased variance components. REML accounts for these degrees of freedom by applying the ML method to a linear transformation Ky chosen so that KX = 0 and rank(K) = np, where p is the number of columns of the design matrix X which determines the mean μ = Xβ. A requirement for REML is that the distribution of Ky does not depend on the parameters governing the mean. A choice for K is the projection matrix P = I -X(X X) -1 X , see for example <ref type="bibr" target="#b28">Verbyla (1990)</ref>.</p><p>For the SEM, μ = Xβ and K = P. For the SLM, since μ = (A(ρ) -1 X)β, a natural choice would be to use P with X replaced by X = A -1 X, but the distribution of the transformation depends on the 'fixed effect' parameter ρ governing not only the (co)variance matrix but also the mean. Therefore strictly speaking REML cannot be applied to the SLM. Nevertheless, we still apply this REML procedure termed 'Pseudo-REML' (PREML) for the SLM. In a similar context when fitting linear models with nested errors for probability linked data such a PREML procedure has been applied by <ref type="bibr" target="#b27">Samart and Chambers (2014)</ref>. It was shown in an empirical study that the PREML method performs well and leads to improved estimation of variance parameters. <ref type="bibr" target="#b22">Lindstrom and Bates (1988)</ref> simplified REML estimation by adding -1 2 log | X -1 X| to L and maximised the expression. The term simplifies to</p><formula xml:id="formula_14">- 1 2 log | X -1 X| = - 1 2 log | X M X| + p 2 log ω. (<label>6</label></formula><formula xml:id="formula_15">)</formula><p>When we apply REML and PREML, then these two terms on the right hand side of ( <ref type="formula" target="#formula_14">6</ref>) are added to L and the sum is maximised. As we use the concentrated log-likelihood, for REML the estimator for ω changes to</p><formula xml:id="formula_16">ωR = ωREML = 1 n -p r Mr</formula><p>and the concentrated restricted log-likelihood has the form</p><formula xml:id="formula_17">L(θ, ρ) R = c - n -p 2 log( ωR ) - 1 2 log |AA + 1 2 θ I| + 1 2 log |AA | - 1 2 log |C C|.<label>(7)</label></formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.3">Standard errors</head><p>To obtain standard errors for the parameters of interest β, ρ, σ 2 y and σ 2 (original parameterisation is considered, as these parameters are of main interest) the standard procedure requires the calculation of either the expected or the observed information matrix. Both can be obtained by first calculating second derivatives of the log-likelihood. Let us start with the SEM. As</p><formula xml:id="formula_18">∂ L ∂β = - 1 σ 2 X Mr<label>(8)</label></formula><p>and</p><formula xml:id="formula_19">E(r) = 0, it follows that E - ∂ 2 L ∂β∂σ 2 = 0 E - ∂ 2 L ∂β∂σ 2 y = 0 E - ∂ 2 L ∂β∂ρ = 0, meaning that β is asymptotically independent from ζ with ζ = (ρ, σ 2 , σ 2 y ) . Using E - ∂ 2 L ∂β∂β = 1 σ 2 X MX, it follows that σ 2 Cov( β) = (X MX) -1 = (C C) -1 and Cov( ζ ) = E - ∂ 2 L ∂ζ ∂ζ -1 .</formula><p>Cov( β) is a by-product from the ML/REML estimation.</p><p>The other terms needed for Cov( ζ ) can be dealt with as follows. From</p><formula xml:id="formula_20">- ∂ L ∂σ 2 = n 2 1 σ 2 - 1 2(σ 2 ) 2 r Mr (<label>9</label></formula><formula xml:id="formula_21">)</formula><p>follows that</p><formula xml:id="formula_22">E - ∂ 2 L ∂(σ 2 ) 2 = E - n 2(σ 2 ) 2 + 1 (σ 2 ) 3 r Mr = -n + 2n 2 1 (σ 2 ) 2</formula><p>with n = np for REML and n = n for ML. For the other terms</p><formula xml:id="formula_23">- ∂ 2 L ∂σ 2 ∂ρ = ∂ ∂ρ n 2 1 σ 2 - 1 2(σ 2 ) 2 r Mr = - 1 2(σ 2 ) 2 r ∂M ∂ρ r (<label>10</label></formula><formula xml:id="formula_24">) - ∂ 2 L ∂σ 2 ∂σ 2 y = ∂ ∂σ 2 y n 2 1 σ 2 - 1 2(σ 2 ) 2 r Mr = - 1 2(σ 2 ) 2 r ∂M ∂σ 2 y r (<label>11</label></formula><formula xml:id="formula_25">)</formula><p>we suggest using numerical differentiation instead of calculating the expectation of the exact derivative. The same is suggested for</p><formula xml:id="formula_26">-∂ 2 L ∂ρ 2 , -∂ 2 L ∂(σ 2 y ) 2 and -∂ 2 L ∂ρ∂(σ 2</formula><p>y ) 2 in order to avoid the calculation of the inverse of n × n matrices such as AA + θ I for large n.</p><p>For the SLM, it is slightly more complicated, because r depends on ρ meaning that E -</p><formula xml:id="formula_27">∂ 2 L ∂β∂ρ = 0 and E -∂ 2 L ∂(σ 2 ) 2 = -n+2n 2 1 (σ 2 ) 2 .</formula><p>Consider the slightly different formula for the SLM</p><formula xml:id="formula_28">∂ L ∂β = - 1 σ 2 (A -1 X) Mr,</formula><p>compared to ( <ref type="formula" target="#formula_18">8</ref>), and formula ( <ref type="formula" target="#formula_20">9</ref>), which has the same form for the SLM as for the SEM. We again suggest using numerical differentiation of these terms to obtain the second derivatives, i.e. the elements of the observed information matrices. These suggested information matrices are hybrid information matrices in the sense that they contain elements of the observed and the expected information matrix. These choices are based on computational aspects only to accommodate calculations for large data sets. The quality of these hybrid choices is investigated in a simulation study in the next section.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">Simulation study</head><p>We conduct an empirical simulation study for both models, the SEM-M and SLM-M. The parameters are set to σ 2 y = 1, σ 2 = 2, β 0 = 1 (intercept) and β 1 = 5 (slope). The spatial dependence parameter is set to ρ = -0.5, 0.1, 0.5, 0.9 in order to investigate the effect of negative and positive (low, medium and large) spatial correlation on the estimation. The covariate associated with β 1 is sampled from N (0, 1). We use the contiguity matrix from the Corrected Boston Housing Data provided by the R package spdep (Bivand 2017), which was collected by <ref type="bibr" target="#b16">Harrison and Rubinfeld (1978)</ref>. It contains n = 506 units, a size that makes the simulation study feasible.</p><p>Empirical mean estimates for parameters of the SLM are found in Table <ref type="table">3</ref> and the empirical coverage of the model parameters of 95% Wald-type confidence intervals are found in Table <ref type="table" target="#tab_0">4</ref>. The "Appendix A" shows the results for the SEM-M in Tables 7, 8, 9, and 10.</p><p>Identifiability problems of the measurement error process have been mentioned by <ref type="bibr" target="#b18">Kang et al. (2009)</ref> for the CAR model. A similar identifiability problem exists for the SEM-M, in particular for small to medium ρ. For example for ρ = 0.5, approximately 20% of the 10,000 simulated data sets have σ 2 ≈ 0 that leads to inflated values of σ 2 y . When removing these 20%, the results of the empirical means presented in Table <ref type="table" target="#tab_4">8</ref> Table 3 Empirical mean of ρ, σ 2 y , σ 2 and β estimates over 10,000 simulations for the SLM-M model with n = 506, σ 2 y = 1, σ 2 = 2 and β 0 = 1 and β 1 = 5 ρ = -0.50 ρ = 0.10 ρ = 0.50 ρ = 0.90 show a much smaller bias for ρ = 0.5 and ρ = 0.9 and the results of Table <ref type="table" target="#tab_6">10</ref> show improved coverages for ρ = 0.5 and ρ = 0.9. In conclusion, the methods seem to perform as expected, but they also show that separation/identification of the two processes is not always easy, particularly for small ρ. Clearly for ρ = 0, σ 2 and σ 2 y are not identifiable and only the sum σ 2 + σ 2 y can be estimated. In our simulation study, the effect of n was not investigated. It is expected that smaller n would lead to bigger identifiability issues, whereas larger n is expected to lessen the problem, as statistical accuracy is generally improved by increased n.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5">Example</head><p>The Lucas County (Ohio, USA) house price data consist of n = 25,357 observations of single family homes sold in the period 1993-1998. A full description is available in the Spatial Econometrics toolbox for Matlab, see <ref type="url" target="http://www.spatial-econometrics.com/html/jplv7.zip">http://www.spatial-econometrics.  com/html/jplv7.zip</ref>. The data set is part of the R package spdep <ref type="bibr" target="#b3">(Bivand 2017)</ref>. The data have been used by <ref type="bibr" target="#b2">Bivand (2010)</ref> to compare several types of software to fit spatial regression models and he used log house price (log( price)) as the response variable and the explanatory variables: powers of age (age, age 2 and age 3 ), log lot size in square feet (log(lotsi ze)), number of rooms (r ooms), the logarithm of the total living area in square feet (LT A), number of beds and an indicator for each of the years <ref type="bibr">1993-1998 (syear)</ref>. We also use the same row-normalised sparse contiguity matrix W as used by <ref type="bibr" target="#b2">Bivand (2010)</ref>. For fitting the various models, we use a single core of a high performance cluster with CPU Type: Intel Xeon E5-2620 v2 -2.10GHz.</p><p>Table <ref type="table" target="#tab_1">5</ref> shows the ML estimates and the time needed for the SLM, SEM, SLM-M, and SEM-M for the house price data set. The R package spdep <ref type="bibr" target="#b3">(Bivand 2017</ref>) only provides ML estimates for the SLM and the SEM and therefore the table does not show REML but ML estimates for SLM-M and SEM-M for comparison purposes. Due to the large n, the difference in estimates between ML and REML is minimal. Both the SLM-M and SEM-M took longer than their counterparts without measurement error process. The reason why the SEM and SLM took far less time is that the underlying optimisation problem is one-dimensional (the concentrated log-likelihood depends only on ρ) and such problems can be solved quickly without numerical differentiations. In fact the package spdep uses the R function optimise() which is very fast for such onedimensional optimisation problems. REML and ML for SEM-M and SLM-M require solving a two-dimensional optimisation problem. We apply numerical differentiation which in turn needs many more evaluations of the log-likelihood, leading to increased calculation times. Table <ref type="table" target="#tab_1">5</ref> also shows the number of evaluations of the log-likelihood. For the SEM-M, 145 such evaluations were needed and for the SLM-M 86 and this explains the increased time needed for fitting. For comparison purposes, our experience with fitting SEM and SLM using optimise() and using our own R code showed that only about 10-20 function evaluations are needed, explaining the 3.4 s for the SLM and 7.0 s for the SEM of the package spdep. For comparison purposes we also fitted the SLM-M with the R package INLA. The model fitting took approximately 209 s on the same computing machine, however this time includes the calculation of some summary statistics and marginal distributions. It appears the proposed ML algorithm is faster than the current implementation of the approximate Bayesian method.</p><p>The results are also interesting application-wise. When comparing the SLM and SEM using the log-likelihood, the results suggest that the SLM is the better model with L = -7670.36. However, when a measurement error term is added to the model, then the SEM-M is the best model with L = -6212.70. The underlying spatial process has a high spatial correlation with ρ = 0.9867 and a small variation of σ 2 y = 0.0004. The measurement error variance is σ 2 = 0.0685. The estimated ρ is close to one, however as long as ρ = 1 the covariance matrix is defined, in fact also any value of <ref type="bibr" target="#b21">(Li et al. 2012)</ref>. A possible explanation is that house prices are strongly determined by the local standard which depends on such explanatory variables as the number of bedrooms. For example, for a four bedroom house the area based (local) house price with similar features, which is set by the local market conditions, is almost fixed with hardly any variation and known by all local real estate agents. The actual selling price, however, varies from the market price depending on the buyer and the vendor (subject-specific variation) and this is captured by the measurement error. For example, some vendors need an urgent sale while others can afford waiting to obtain a potentially higher price.</p><formula xml:id="formula_29">ρ &gt; 1 = λ -1 (n) is possible as long as ρ = λ -1 (i)</formula><p>Figure <ref type="figure" target="#fig_0">1</ref> shows the surface of the log-likelihood for the SEM-M for -10 ≤ log(θ ) ≤ 10 and -1 &lt; ρ &lt; 1 (left), and for -8 ≤ log(θ ) ≤ -2 and 0.95 &lt; ρ &lt; 1  (right). It shows a smooth surface and the ML estimate (log( θ) = -5.166 and ρ = 0.9866).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6">Complexity comparisons</head><p>The calculation of eigenvalues is known to be computationally demanding. While complexity of matrix multiplication, inversion, the calculation of the determinant, the calculation of all eigenvalues and the Cholesky decomposition are all approximately O(n 3 ); for certain operations some optimal methods can do better. For example matrix multiplications can be achieved in O(n 2.38 ) operations <ref type="bibr" target="#b29">(Villard and Thome 2002)</ref>.</p><p>In practice sparse matrices, such as W for the house data set, allow much faster calculation, in particular this applies to the Cholesky decomposition and matrix multiplications. While the Cholesky decomposition requires n 3 /3 arithmetic operations for dense matrices, the complexity of the Cholesky decomposition is usually reduced to O(n) for temporal, O(n 3/2 ) for spatial and O(n 2 ) for spatio-temporal Gaussian Markov random fields (GMRF) <ref type="bibr">(Rue and Held 2005, Ch.</ref> 2), for which a Cholesky factor has to be calculated for the sparse precision matrix Q = -1 . These time savings due to the sparseness of matrices usually apply to a much lesser extent to the spectral decomposition and matrix inversions. This explains why the proposed method (avoiding spectral decomposition and inversion of n × n matrices) is 'fast' for the house data set in the previous section.</p><p>Consider a regular grid of size √ n × √ n comprising n units. On this grid only the local neighbourhood is considered, such that two units are neighbours if W i j &gt; 0 and otherwise W i j = 0. This is sometimes called the W neighbourhood. Based on a result by <ref type="bibr">George and Liu (1981, Ch. 8</ref>) for a nested dissection ordering algorithm, <ref type="bibr" target="#b26">Rue and Held (2005)</ref> established that the Cholesky factorisation of a precision matrix Q of a GMRF based on a local neighbourhood of a regular √ n × √ n grid has a complexity of order O(n 3/2 ) operations and that the Cholesky factor has at most O(n log n) non-zero entries. The result by <ref type="bibr">George and Liu (1981, Ch. 8</ref>) also showed that any ordering algorithm requires at least O(n 3/2 ) operations and that the Cholesky factor has at least O(n log n) non-zero elements, establishing the optimal asymptotic bounds for the numeric operations and memory. Our proposed algorithm requires the calculation of the Cholesky factorisation of AA , see Sect. 3.1, or equivalently of the precision matrix Q of a standard SAR model</p><formula xml:id="formula_30">Q = ω -1 I -ρ(W + W ) + ρ 2 WW = ω -1 AA</formula><p>with contiguity matrix W (for a standard SAR model Q = ω -1 A A with contiguity matrix W).</p><p>In general Q is less sparse than W. <ref type="bibr" target="#b23">Mukherjee et al. (2014)</ref> referred to the neighbourhood of a SAR model as the G neighbourhood where two units i and j are neighbours, when i and j are W-neighbours (referring to the term W + W in the matrix Q), or if they have a common neighbour k (referring to the term WW in matrix Q). When the W-neighbourhood is defined by centered (2 p + 1) × (2 p + 1) squares on a regular lattice, all G neighbourhoods are centered (4 p + 1) × (4 p + 1) squares <ref type="bibr" target="#b23">(Mukherjee et al. 2014)</ref>, see for example Fig. <ref type="figure" target="#fig_0">1</ref> with p = 1. We conclude that the Cholesky factorisation of Q is still of order O(n 3/2 ), because the G-neighbourhood still constitutes a local neighbourhood.</p><p>For illustration purposes, let us consider two types of adjacency matrices, where in both cases the 8 nearest neighbours are considered ( p = 1), see Fig. <ref type="figure" target="#fig_1">2</ref>. In case (i) all n units are observed and in case (ii) only a 10% sample is available, meaning that the number of neighbours per unit within the 10% sample is usually smaller than 8. For the house data set, not all house prices are observed and the average number of observed neighbours is around 3-4 (&lt; 8) for each observed unit. The setting in case (ii) also results in approximately 3-4 neighbours in average.</p><p>Various modern Cholesky methods for sparse matrices are implemented in many modern computer packages, for example the R package Matrix <ref type="bibr" target="#b0">(Bates and Maechler 2017)</ref> and Matlab. To verify practically the complexities, we generate for a range of values of 100 ≤ n ≤ 1,000,000 the W matrices and perform the operations required for our approach: the calculation of AA (denoted by AAt), the Cholesky decomposition of AA (denoted by Cholesky using the R command Cholesky), the updated Cholesky decomposition of AA when θ I with θ = 2 is added (using the R command update, denoted by Cholesky update). For completeness, we also added the main operations needed for the pre-processing of the reduced rank approach, see "Appendix B": the calculation of the matrix B from X and W (B), all eigenvalues and vectors of B (EIGEN B), the 25 largest absolute eigenvalues of B (EIGEN B 25) using the R interface of the ARPACK <ref type="bibr" target="#b19">(Lehoucq et al. 2015)</ref> software and the calculation of C (C). The matrix X is a dense random n × 10 matrix with entries from N (0, 1), representing a matrix of covariates.</p><p>For all of the sparse matrix operations the R package Matrix was used, unless otherwise stated. To verify results across platforms the Cholesky factorisation (as the most computationally demanding operation) has also been calculated using the Matlab routine "chol" for comparison purposes (denoted by Matlab chol). As this Matlab command usually does not apply an ordering algorithm we applied beforehand the Matlab routine "amd" performing the approximate minimum degree algorithm <ref type="bibr" target="#b10">(Davis 2006)</ref>, which is also used by default by the R routine Cholesky. This combination of chol and amd is denoted by "Matlab chol amd".</p><p>The results of the median times in seconds of up to 5 runs of some selected operations can be found in Fig. <ref type="figure" target="#fig_2">3</ref> for scenarios (i) and (ii). The calculation of all eigenvalues was limited to n = 20,000 and of all other operations to n = 1,000,000 as the time and the amount of memory exceeded feasible figures for larger values of n.</p><p>From these plots, the approximate complexities were determined by assuming that the time needed for each operation has the form TIME = b × n a + c × n = O(n a ) with a ≥ 1. The term c × n was added because some operations, like the ordering algorithms, are usually of order O(n). In practice the computation times differ for each run on a computer and an error term has to be accounted for. To obtain the parameters and in particular the coefficient of interest a, the method of weighted least squares with weights TIME -1 was applied to account for an increasing variance of the error term for increasing n.</p><p>For case (i) the results for n &lt; 2000 were omitted for the estimation of a, as only from log 10 (n) ≈ 3.3 the curves have the shape of a line (the value a is approximately indicated by the slope of the line). Similarly for case (ii) only times for n &gt; 20,000 were considered. The results of the coefficient a are found in Table <ref type="table" target="#tab_2">6</ref>. They indicate that the operations proposed in this paper needed for fitting the SLM-M and SEM-M are at most O(n 3/2 ) confirming the theoretical result by <ref type="bibr">George and Liu (1981, Ch. 8)</ref> and the general experiences for spatial data by <ref type="bibr" target="#b26">Rue and Held (2005)</ref>. For case (ii), the complexity appears even lower, closer to O(n) than to O(n 3/2 ).</p><p>Interestingly the Matlab chol routine only appears to have complexity O(n 2 ), which is similar to using the R command chol without showing these latter results. For the methods Cholesky, update and Matlab chol amd the approximate minimal degree (amd) algorithm <ref type="bibr" target="#b10">(Davis 2006</ref>) is used, reducing the operations of the Cholesky factorisation and explaining the reduced complexity of these methods. The O(n 2 ) operations for the Matlab chol routine and the R command chol can be explained by not applying such an ordering algorithm and is outlined next. For band matrices with bandwidth p, <ref type="bibr">Rue and Held (2005, Ch.</ref> 2) showed that the Cholesky factorisation only requires O(np 2 ) operations. For a √ n × √ n grid the units can be ordered to have bandwidth p = √ n and O(np 2 ) = O(n 2 ) applies (Rue and Held 2005, Ch. 2). For our set-up, the units are already ordered such that W is already a band matrix with bandwidth p = √ n, and so WW and AA are band matrices with bandwidth 2 p = 2 √ n still leading to O(n 2 ). Notice it can be shown that WW is a band matrix with bandwidth 2 p if W is a band matrix with bandwidth p. The complexity for case (ii) appears lower because the bandwidth due to sampling appears less than √ n. For the reduced rank approach, EIGEN B 25 is around O(n 2.9 ) for type (i) and O(n 2.1 ) for type (ii), and the complexity for matrix B is around O(n 2.5 ). Overall the complexity for the reduced rank approach appears to be O(n 2 ) or higher, as the operation with the highest complexity determines the overall complexity of the approach. O(n 2 ) is also intuitively anticipated, because obtaining a fixed number of eigenvalues from the set of n eigenvalues should reduce complexity by factor n from approximately O(n 3 ) to O(n 2 ). For a similar problem, when solving AX = B for X with fixed n × n matrices A and B, generally O(n 3 ) operations apply (special case is the calculation of the inverse of A, i.e. X = A -1 when B = I), whereas when solving Ax = b for a vector x with fixed n × n matrix A and vector b usually O(n 2 ) operations apply.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="7">Conclusion</head><p>We have provided fast ML and REML estimation methods for both SLM and SEM with an added measurement error term by re-expressing computationally complicated terms to ones that are computationally feasible for large data sets. From standard results of the Cholesky factorisation applied to matrices that have the form of spatial contiguity matrices, it can be concluded that our proposed exact (RE)ML method has an approximate complexity of O(n 3/2 ) operations, whereas the pre-processing of the reduced rank approach is at least O(n 2 ) based on numerical results. The proposed approach also appears to be faster than a popular approximate Bayesian approach, namely INLA. Popular model selection methods, such as Akaike information criterion, are likelihood based. The complexity of the proposed fitting approach is around O(n 3/2 ), hence the complexity of a model selection method for a finite number of models using such a likelihood based method for estimation will also be of the same complexity. For non-likelihood based methods a more thorough investigation could be considered.</p><p>In this paper we assume that the errors of the spatial process are homoscedastic, i.e. e ∼ N (0, σ 2 I). Often this assumption is violated and heteroscedasticity has to be accounted for, i.e. e ∼ N (0, σ 2 V) with usually diagonal matrix V with known/fixed elements. Here we did not consider this explicitly, however accounting for it is relatively simple, as it only requires changing the matrices/vectors y, X and <ref type="bibr" target="#b7">Burden et al. (2015)</ref>, and then by proceeding with estimation as outlined in the present paper based on y,  </p><formula xml:id="formula_31">W to y = V -1/2 y, X = V -1/2 X and W = V -1/2 WV 1/2 , see</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>B. Reduced rank approach</head><p>To fit the SEM-M, <ref type="bibr" target="#b7">Burden et al. (2015)</ref> considered a reduced rank approach that relies on a spectral decomposition. Once this has been accomplished the computational complexity is reduced to that of a SRE model. The spectral decomposition of the matrix see formula (22) in Burden et al. ( <ref type="formula">2015</ref>), is computationally intensive. The matrix P is the projection matrix defined in Sect. 3.2. The matrix U contains the eigenvectors of B and is a diagonal matrix with the eigenvalues of B on its diagonal. Notice that the matrix B is a first order approximation of the (co)variance matrix that is obtained from applying REML, ignoring second order terms. The decomposition can be written as</p><formula xml:id="formula_32">B = P W + W P 2 = U U,<label>(12)</label></formula><formula xml:id="formula_33">B = U 1 1 U 1 + U 2 2 U 2 ,</formula><p>where now 1 contains the largest r absolute eigenvalues and 2 the remaining nr , and where U j is the corresponding matrix containing the eigenvectors. The authors suggested then to use U 1 1 U 1 as an approximation to B and used this approximation to base estimation of the SEM-M on estimation of SREs. We use the house data set with n = 25,357, see Sect. 5, to illustrate the preprocessing times of the reduced rank approach. Instead of calculating all or a large number of eigenvalues we used Matlab and the R interface of the ARPACK software <ref type="bibr" target="#b19">(Lehoucq et al. 2015)</ref> to calculate only the largest absolute r = 25 eigenvalues and corresponding eigenvectors. We would expect this process to take only a fraction of the time compared to calculating all n = 25,357 eigenvalues, presented in Fig. <ref type="figure" target="#fig_3">4</ref>, which took 1 h and 36 minutes (min) using Matlab. However this process of calculating 25 eigenvalues took 54 min 40 s (s) with Matlab (using command 'eigs' and option 'largest magnitude') and 54 min 32 s with ARPACK (also option 'largest magnitude'), approximately two thirds of the time even though only ≈ 1/1000 (25/25,357) of the eigenvalues and vectors were calculated. Also the matrix B requires storage. In fact 4.9 GB of memory is required with R indicating that the calculation of B is limited by the available hardware. The objects of the proposed approach of this paper do not require much memory, for example W or the Cholesky decomposition of AA only require a couple of (up to 6) Megabytes.</p><p>The 54 min serves as a very optimistic lower bound for the time needed to fit this data set with the reduced rank approach. The SRE also has to be fitted, meaning that the total calculation time will clearly exceed this value. Figure <ref type="figure" target="#fig_3">4</ref> in <ref type="bibr" target="#b7">Burden et al. (2015)</ref> demonstrates the effect of choosing different values of r ≤ 100 on ρ, showing the approximate nature of the method for various values of r .</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Fig. 1</head><label>1</label><figDesc>Fig. 1 Surface of the negative Log-Likelihood for SEM-M in terms of ρ and log(θ ): large resolution (left) and small resolution near the MLE (right), MLE indicated by "X"</figDesc><graphic coords="13,53.40,56.57,331.72,164.56" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Fig. 2</head><label>2</label><figDesc>Fig. 2 8 (left) nearest and 24 (right) nearest neighbours (N) of a point (O) in a regular lattice</figDesc><graphic coords="14,53.41,56.29,331.68,130.80" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Fig. 3</head><label>3</label><figDesc>Fig. 3 Time needed of various matrix operations in log 10 (time) in seconds for case (i) (top) and case (ii) (bottom) versus log 10 (n)</figDesc><graphic coords="16,91.38,56.78,255.16,365.32" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Fig. 4</head><label>4</label><figDesc>Fig. 4 Boxplot showing the distribution of the eigenvalues of B for the house data set</figDesc><graphic coords="20,105.90,56.42,226.80,91.68" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 4</head><label>4</label><figDesc>Coverage of Wald-type CI for ρ, σ 2 y , σ 2 and β estimates over 10,000 simulations for the SLM-M model with n = 506, σ 2 y = 1, σ 2 = 2 and β 0 = 1 and β 1 = 5</figDesc><table><row><cell></cell><cell>M L</cell><cell>PREML</cell><cell>ML</cell><cell>PREML</cell><cell>ML</cell><cell>PREML</cell><cell>ML</cell><cell>PREML</cell></row><row><cell>ρ</cell><cell>-0.499</cell><cell>-0.500</cell><cell>0.101</cell><cell>0.100</cell><cell>0.500</cell><cell>0.499</cell><cell>0.900</cell><cell>0.899</cell></row><row><cell>σ 2 y</cell><cell>1.013</cell><cell>0.999</cell><cell>1.124</cell><cell>1.203</cell><cell>0.962</cell><cell>0.995</cell><cell>0.976</cell><cell>0.995</cell></row><row><cell>σ 2</cell><cell>1.971</cell><cell>1.997</cell><cell>1.858</cell><cell>1.790</cell><cell>2.026</cell><cell>2.002</cell><cell>2.016</cell><cell>2.004</cell></row><row><cell>β 0</cell><cell>1.001</cell><cell>1.001</cell><cell>1.000</cell><cell>1.001</cell><cell>1.001</cell><cell>1.003</cell><cell>1.005</cell><cell>1.007</cell></row><row><cell>β 1</cell><cell>5.000</cell><cell>5.000</cell><cell>4.999</cell><cell>5.000</cell><cell>5.000</cell><cell>5.001</cell><cell>5.002</cell><cell>5.004</cell></row><row><cell></cell><cell cols="2">ρ = -0.50</cell><cell>ρ = 0.10</cell><cell></cell><cell>ρ = 0.50</cell><cell></cell><cell cols="2">ρ = 0.90</cell></row><row><cell></cell><cell>ML</cell><cell>PREML</cell><cell>ML</cell><cell>PREML</cell><cell>ML</cell><cell>PREML</cell><cell></cell><cell></cell></row><row><cell>ρ</cell><cell>0.912</cell><cell>0.913</cell><cell>0.952</cell><cell>0.952</cell><cell>0.946</cell><cell>0.947</cell><cell>0.943</cell><cell>0.945</cell></row><row><cell>σ 2 y</cell><cell>0.942</cell><cell>0.943</cell><cell>0.960</cell><cell>0.956</cell><cell>0.928</cell><cell>0.938</cell><cell>0.922</cell><cell>0.937</cell></row><row><cell>σ 2</cell><cell>0.943</cell><cell>0.946</cell><cell>0.959</cell><cell>0.956</cell><cell>0.945</cell><cell>0.947</cell><cell>0.946</cell><cell>0.947</cell></row><row><cell>β 0</cell><cell>0.940</cell><cell>0.941</cell><cell>0.950</cell><cell>0.952</cell><cell>0.947</cell><cell>0.949</cell><cell>0.946</cell><cell>0.947</cell></row><row><cell>β 1</cell><cell>0.916</cell><cell>0.916</cell><cell>0.946</cell><cell>0.946</cell><cell>0.949</cell><cell>0.949</cell><cell>0.950</cell><cell>0.950</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 5</head><label>5</label><figDesc>Estimates (est.), standard errors (s.e.), log-likelihood and computation times in seconds (s) for the models: SLM, SEM, SLM-M and SEM-M including the number</figDesc><table><row><cell></cell><cell>SEM-M</cell><cell>estimates (standard error)</cell><cell>5.2586 (0.0718)</cell><cell>0.6988 (0.0196)</cell><cell>-1.7546 (0.0103)</cell><cell>0.6350 (0.0178)</cell><cell>0.1457 (0.0046)</cell><cell>0.0056 (0.0029)</cell><cell>0.6038 (0.0101)</cell><cell>0.0164 (0.0043)</cell><cell>0.0365 (0.0067)</cell><cell>0.0799 (0.0066)</cell><cell>0.0962 (0.0064)</cell><cell>0.1413 (0.0063)</cell><cell>0.1937 (0.0064)</cell><cell>0.9866 (0.0002)</cell><cell>0.0004 (0.0001)</cell><cell>0.0685 (0.0007)</cell><cell>-6212.70</cell><cell>38.7 s (calls: 145)</cell><cell>56.9 s (calls: 213)</cell></row><row><cell></cell><cell>SLM-M</cell><cell>estimates (standard error)</cell><cell>-0.1111 (0.0542)</cell><cell>0.9586 (0.0442)</cell><cell>-1.5832 (0.0825)</cell><cell>0.3711 (0.0444)</cell><cell>0.0415 (0.0024)</cell><cell>-0.0051 (0.0027)</cell><cell>0.4463 (0.0097)</cell><cell>0.0129 (0.0040)</cell><cell>0.0358 (0.0066)</cell><cell>0.0711 (0.0065)</cell><cell>0.0865 (0.0063)</cell><cell>0.1193 (0.0062)</cell><cell>0.1678 (0.0064)</cell><cell>0.6719 (0.0057)</cell><cell>0.0401 (0.0013)</cell><cell>0.0418 (0.0011)</cell><cell>-7324.06</cell><cell>20.6 s (calls: 86)</cell><cell>38.5 s (calls: 162)</cell></row><row><cell></cell><cell></cell><cell>(standard error)</cell><cell>(0.0782)</cell><cell>(0.0822)</cell><cell>(0.1373)</cell><cell>(0.0688)</cell><cell>(0.0048)</cell><cell>(0.0030)</cell><cell>(0.0108)</cell><cell>(0.0045)</cell><cell>(0.0071)</cell><cell>(0.0070)</cell><cell>(0.0067)</cell><cell>(0.0067)</cell><cell>(0.0068)</cell><cell>(0.0047)</cell><cell>-</cell><cell>-</cell><cell></cell><cell></cell><cell></cell></row><row><cell></cell><cell>SEM</cell><cell>estimates</cell><cell>4.6765</cell><cell>1.0798</cell><cell>-2.5742</cell><cell>0.9521</cell><cell>0.1938</cell><cell>0.0044</cell><cell>0.6254</cell><cell>0.0173</cell><cell>0.0405</cell><cell>0.0832</cell><cell>0.1033</cell><cell>0.1474</cell><cell>0.1955</cell><cell>0.6194</cell><cell>0.1004</cell><cell>0.0000</cell><cell>-9180.46</cell><cell>-</cell><cell>7.0 s</cell></row><row><cell>of calls/evaluations of the log-likelihood L</cell><cell>Variables SLM</cell><cell>(standard error) estimates</cell><cell>Intercept (0.0523) 0.2583</cell><cell>age (0.0564) 1.3085</cell><cell>age 2 (0.1022) -2.3213</cell><cell>age 3 (0.0552) 0.6549</cell><cell>log(lotsi ze) (0.0031) 0.0730</cell><cell>rooms --0.0025</cell><cell>log(T L A) (0.0059) 0.5778</cell><cell>beds -0.0156</cell><cell>syear1994 (0.0073) 0.0445</cell><cell>syear1995 (0.0071) 0.0861</cell><cell>syear1996 (0.0070) 0.1059</cell><cell>syear1997 (0.0069) 0.1473</cell><cell>syear1998 (0.0071) 0.2007</cell><cell>ρ (0.0037) 0.5228</cell><cell>σ 2 y -0.0948</cell><cell>σ 2 -0.0000</cell><cell>Log-Likelihood -7670.36</cell><cell>Time fitting -</cell><cell>incl. s.e. 3.4 s</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2"><head>Table 6</head><label>6</label><figDesc>Approximate complexities of various operations of order O(n a ).</figDesc><table><row><cell></cell><cell>Method</cell><cell>Case (i)</cell><cell>Case (ii)</cell></row><row><cell>Cholesky, Cholesky update, Matlab chol, Matlab chol amd, C</cell><cell>Cholesky Cholesky update</cell><cell>1.699 1.638</cell><cell>1.072 1.012</cell></row><row><cell>and AAt needed for the proposed</cell><cell>Matlab chol</cell><cell>1.956</cell><cell>-</cell></row><row><cell>algorithm and the methods B, EIGEN B and EIGEN B 25 for the reduced rank approach</cell><cell>Matlab chol amd C</cell><cell>1.470 1.332</cell><cell>-1.134</cell></row><row><cell></cell><cell>AAt</cell><cell>1.128</cell><cell>1.001</cell></row><row><cell></cell><cell>B</cell><cell>2.511</cell><cell>2.536</cell></row><row><cell></cell><cell>EIGEN B</cell><cell>2.877</cell><cell>3.405</cell></row><row><cell></cell><cell>EIGEN B 25</cell><cell>2.951</cell><cell>2.096</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_3"><head>Table 7</head><label>7</label><figDesc>Empirical mean of ρ, σ 2 y , σ 2 and β estimates over 10,000 simulations for the SEM-M model with n = 506, σ 2 y = 1, σ 2 = 2 and β 0 = 1 and β 1 = 5</figDesc><table><row><cell></cell><cell>ρ = -0.50</cell><cell></cell><cell>ρ = 0.10</cell><cell></cell><cell>ρ = 0.50</cell><cell></cell><cell>ρ = 0.90</cell><cell></cell></row><row><cell></cell><cell>ML</cell><cell>REML</cell><cell>ML</cell><cell>REML</cell><cell>ML</cell><cell>REML</cell><cell></cell><cell></cell></row><row><cell>ρ</cell><cell>-0.466</cell><cell>-0.475</cell><cell>0.106</cell><cell>0.135</cell><cell>0.472</cell><cell>0.494</cell><cell>0.890</cell><cell>0.895</cell></row><row><cell>σ 2 y</cell><cell>1.610</cell><cell>1.553</cell><cell>1.537</cell><cell>1.488</cell><cell>1.501</cell><cell>1.430</cell><cell>1.069</cell><cell>1.041</cell></row><row><cell>σ 2</cell><cell>1.390</cell><cell>1.457</cell><cell>1.421</cell><cell>1.478</cell><cell>1.511</cell><cell>1.583</cell><cell>1.943</cell><cell>1.970</cell></row><row><cell>β 0</cell><cell>1.001</cell><cell>1.001</cell><cell>1.001</cell><cell>1.001</cell><cell>1.001</cell><cell>1.001</cell><cell>1.002</cell><cell>1.002</cell></row><row><cell>β 1</cell><cell>5.000</cell><cell>5.000</cell><cell>5.000</cell><cell>5.000</cell><cell>5.000</cell><cell>5.000</cell><cell>5.000</cell><cell>5.000</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_4"><head>Table 8</head><label>8</label><figDesc>Empirical mean of ρ, σ 2 y , σ 2 and β estimates over 10,000 simulations excluding those for which σ 2 = 0 for the SEM-M model with n = 506, σ y = 1, σ 2 = 2 and β 0 = 1 and β 1 = 5</figDesc><table><row><cell></cell><cell>ρ = -0.50</cell><cell></cell><cell>ρ = 0.10</cell><cell></cell><cell>ρ = 0.50</cell><cell></cell><cell>ρ = 0.90</cell><cell></cell></row><row><cell></cell><cell>ML</cell><cell>REML</cell><cell>ML</cell><cell>REML</cell><cell>ML</cell><cell>REML</cell><cell></cell><cell></cell></row><row><cell>ρ</cell><cell>-0.571</cell><cell>-0.583</cell><cell>0.131</cell><cell>0.169</cell><cell>0.542</cell><cell>0.569</cell><cell>0.890</cell><cell>0.895</cell></row><row><cell>σ 2 y</cell><cell>1.069</cell><cell>0.996</cell><cell>0.948</cell><cell>0.885</cell><cell>1.046</cell><cell>0.960</cell><cell>1.069</cell><cell>1.041</cell></row><row><cell>σ 2</cell><cell>1.898</cell><cell>1.982</cell><cell>2.004</cell><cell>2.074</cell><cell>1.936</cell><cell>2.021</cell><cell>1.943</cell><cell>1.970</cell></row><row><cell>β 0</cell><cell>1.001</cell><cell>1.001</cell><cell>1.001</cell><cell>1.001</cell><cell>1.001</cell><cell>1.001</cell><cell>1.002</cell><cell>1.002</cell></row><row><cell>β 1</cell><cell>5.001</cell><cell>5.001</cell><cell>5.000</cell><cell>5.000</cell><cell>5.000</cell><cell>5.000</cell><cell>5.000</cell><cell>5.000</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_5"><head>Table 9</head><label>9</label><figDesc>Coverage of Wald-type CI for ρ, σ 2 y , σ 2 and β estimates over 10,000 simulations for the SEM-M model with n = 506, σ 2 y = 1, σ 2 = 2 and β 0 = 1 and β 1 = 5</figDesc><table><row><cell></cell><cell>ρ = -0.50</cell><cell></cell><cell>ρ = 0.10</cell><cell></cell><cell>ρ = 0.50</cell><cell></cell><cell>ρ = 0.90</cell><cell></cell></row><row><cell></cell><cell>ML</cell><cell>REML</cell><cell>ML</cell><cell>REML</cell><cell>ML</cell><cell>REML</cell><cell></cell><cell></cell></row><row><cell>ρ</cell><cell>0.677</cell><cell>0.691</cell><cell>0.781</cell><cell>0.767</cell><cell>0.762</cell><cell>0.754</cell><cell>0.956</cell><cell>0.948</cell></row><row><cell>σ 2 y</cell><cell>0.761</cell><cell>0.764</cell><cell>0.679</cell><cell>0.657</cell><cell>0.783</cell><cell>0.767</cell><cell>0.946</cell><cell>0.937</cell></row><row><cell>σ 2</cell><cell>0.823</cell><cell>0.825</cell><cell>0.705</cell><cell>0.684</cell><cell>0.820</cell><cell>0.806</cell><cell>0.951</cell><cell>0.951</cell></row><row><cell>β 0</cell><cell>0.946</cell><cell>0.947</cell><cell>0.950</cell><cell>0.953</cell><cell>0.945</cell><cell>0.949</cell><cell>0.927</cell><cell>0.935</cell></row><row><cell>β 1</cell><cell>0.945</cell><cell>0.945</cell><cell>0.945</cell><cell>0.945</cell><cell>0.946</cell><cell>0.946</cell><cell>0.949</cell><cell>0.949</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_6"><head>Table 10</head><label>10</label><figDesc>Coverage of Wald-type CI for ρ, σ 2 y , σ 2 and β estimates over 10,000 simulations excluding those for which σ 2 = 0 for the SEM-M model with n = 506, σ 2 y = 1, σ 2 = 2 and β 0 = 1 and β 1 = 5</figDesc><table><row><cell></cell><cell>ρ = -0.50</cell><cell></cell><cell>ρ = 0.10</cell><cell></cell><cell>ρ = 0.50</cell><cell></cell><cell>ρ = 0.90</cell><cell></cell></row><row><cell></cell><cell>ML</cell><cell>REML</cell><cell>ML</cell><cell>REML</cell><cell>ML</cell><cell>REML</cell><cell></cell><cell></cell></row><row><cell>ρ</cell><cell>0.873</cell><cell>0.855</cell><cell>0.773</cell><cell>0.732</cell><cell>0.898</cell><cell>0.867</cell><cell>0.956</cell><cell>0.948</cell></row><row><cell>σ 2 y</cell><cell>0.842</cell><cell>0.826</cell><cell>0.677</cell><cell>0.630</cell><cell>0.830</cell><cell>0.807</cell><cell>0.946</cell><cell>0.937</cell></row><row><cell>σ 2</cell><cell>0.914</cell><cell>0.899</cell><cell>0.715</cell><cell>0.667</cell><cell>0.873</cell><cell>0.851</cell><cell>0.951</cell><cell>0.951</cell></row><row><cell>β 0</cell><cell>0.949</cell><cell>0.950</cell><cell>0.951</cell><cell>0.955</cell><cell>0.949</cell><cell>0.954</cell><cell>0.927</cell><cell>0.935</cell></row><row><cell>β 1</cell><cell>0.945</cell><cell>0.946</cell><cell>0.944</cell><cell>0.944</cell><cell>0.946</cell><cell>0.946</cell><cell>0.949</cell><cell>0.949</cell></row></table></figure>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div><head>Acknowledgements</head><p>We would like to thank <rs type="person">Dr. Sandy Burden</rs> and <rs type="person">Distinguished Prof. Noel Cressie</rs> for posing the computational problem. We also appreciate the help from <rs type="person">Clint Shumack</rs> for helping with and NIASRA for using the high performance cluster for the empirical studies in this paper. The author wishes to gratefully acknowledge the help of <rs type="person">Dr. Madeleine Strong Cincotta</rs> in the final language editing of this paper. We would also like to thank the referees for their helpful comments that greatly improved the manuscript.</p></div>
+<div><head>A. Simulation results for the SEM-M</head><p>See Tables <ref type="table">7</ref>, <ref type="table">8</ref>, 9, and <rs type="grantNumber">10</rs>.</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_z7CtJFX">
+					<idno type="grant-number">10</idno>
+				</org>
+			</listOrg>
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>X and W. This transformation can also be easily seen by left-multiplying (1) and (2) with V -1/2 , as this implies homoscedastic errors of y = V -1/2 y. <ref type="bibr">Lesage and Pace (2009, p. 39)</ref> point out that for lagged models, as the SLM, the focus should rather be on impacts than on coefficients. To obtain distributions of some summary measures of impact, various methods are proposed by the authors, for example sampling the parameters from the asymptotic multivariate normal distribution of the ML estimates to obtain for each set a value of the impact measures. An alternative frequentist method would be to apply parametric bootstrap that would not rely naively on asymptotic normality for small sample sizes. The proposed computationally efficient method in this paper enables using parametric bootstrap, as for each bootstrap sample the parameter estimates have to be found quickly to make parametric bootstrap feasible.</p><p>Notice the spatial Durbin error model (SDEM) and the spatial Durbin model (SDM) contain the additional term WXθ compared to the SEM and SLM (Halleck <ref type="bibr" target="#b15">Vega and Elhorst 2015)</ref>. The SDM can be re-written as a SLM and the SDEM as a SEM by considering WX as a new covariate and θ as a new fixed effects parameter. In this sense, the present paper provides also computational efficient methods to fit those models with measurement error.</p><p>Future research aims at considering ML/REML estimation for other spatial econometric models with an added measurement error, such as spatial panel models for spatio-temporal data.</p><p>R code to fit the SEM and SLM with measurement error is available from the author's homepage <ref type="url" target="http://www.uow.edu.au/~tsuesse/">http://www.uow.edu.au/~tsuesse/</ref>.</p></div>			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<monogr>
+		<title level="m" type="main">Matrix: sparse and dense matrix classes and methods</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Bates</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Maechler</surname></persName>
+		</author>
+		<ptr target="http://CRAN.R-project.org/package=Matrix" />
+		<imprint>
+			<date type="published" when="2017-11-06">2017. 6 Nov 2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Bayesian image restoration, with two applications in spatial statistics</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Besag</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>York</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Molli</forename><forename type="middle">A</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ann Inst Stat Math</title>
+		<imprint>
+			<biblScope unit="volume">43</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1" to="20" />
+			<date type="published" when="1991">1991</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Comparing estimation methods for spatial econometrics techniques using R</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Bivand</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Department of Economics, Norwegian School of Economics and Business Administration</title>
+		<imprint>
+			<date type="published" when="2010">2010</date>
+			<biblScope unit="volume">26</biblScope>
+			<biblScope unit="page">2010</biblScope>
+		</imprint>
+	</monogr>
+	<note type="report_type">Report</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<monogr>
+		<author>
+			<persName><forename type="first">R</forename><surname>Bivand</surname></persName>
+		</author>
+		<ptr target="http://CRAN.R-project.org/package=spdep" />
+		<title level="m">spdep: spatial dependence: weighting schemes, statistics and models</title>
+		<imprint>
+			<date type="published" when="2017-11-06">2017. 6 Nov 2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Comparing implementations of estimation methods for spatial econometrics</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Bivand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Piras</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Stat Softw</title>
+		<imprint>
+			<biblScope unit="volume">63</biblScope>
+			<biblScope unit="issue">18</biblScope>
+			<biblScope unit="page" from="1" to="36" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Computing the Jacobian in Gaussian spatial autoregressive models: an illustrated comparison of available methods</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Bivand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Hauke</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Kossowski</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geogr Anal</title>
+		<imprint>
+			<biblScope unit="volume">45</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="150" to="179" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Spatial data analysis with R-INLA with some extensions</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Bivand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Gómez-Rubio</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Rue</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Stat Softw</title>
+		<imprint>
+			<biblScope unit="volume">63</biblScope>
+			<biblScope unit="issue">20</biblScope>
+			<biblScope unit="page" from="1" to="31" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">The SAR model for very large datasets: a reduced rank approach</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Burden</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Cressie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">G</forename><surname>Steel</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">3</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="317" to="338" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Where is the economics in spatial econometrics?</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Corrado</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Fingleton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Reg Sci</title>
+		<imprint>
+			<biblScope unit="volume">52</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="210" to="239" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Fixed rank kriging for very large spatial data sets</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Cressie</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J R Stat Soc Ser B (Stat Methodol)</title>
+		<imprint>
+			<biblScope unit="volume">70</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="209" to="226" />
+			<date type="published" when="1993">1993. 2008</date>
+			<publisher>Wiley</publisher>
+			<pubPlace>New York Cressie N, Johannesson G</pubPlace>
+		</imprint>
+	</monogr>
+	<note>Statistics for spatial data</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<monogr>
+		<title level="m" type="main">Direct methods for sparse linear systems</title>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">A</forename><surname>Davis</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2006">2006</date>
+			<biblScope unit="volume">2</biblScope>
+			<pubPlace>SIAM, Philadelphia</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Multilevel modelling with spatial interaction effects with application to an emerging land market in Beijing</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Dong</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Harris</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Jones</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">PLoS ONE</title>
+		<imprint>
+			<biblScope unit="volume">10</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1" to="18" />
+			<date type="published" when="2015">2015</date>
+			<pubPlace>China</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<monogr>
+		<title level="m" type="main">Computer solution of large sparse positive definite Systems. Prentice-Hall series in computational mathematics</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>George</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">W</forename><surname>Liu</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1981">1981</date>
+			<publisher>Prentice-Hall</publisher>
+			<pubPlace>Upper Saddle River</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<monogr>
+		<title level="m" type="main">Estimating spatial econometrics models with integrated nested Laplace approximation</title>
+		<author>
+			<persName><forename type="first">V</forename><surname>Gomez-Rubio</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">S</forename><surname>Bivand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Rue</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:1703.01273</idno>
+		<imprint>
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">About predictions in spatial autoregressive models: optimal and almost optimal strategies</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Goulard</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Laurent</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Thomas-Agnan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Spat Econ Anal</title>
+		<imprint>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="304" to="325" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">The SLX model</title>
+		<author>
+			<persName><forename type="first">Halleck</forename><surname>Vega</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Elhorst</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Reg Sci</title>
+		<imprint>
+			<biblScope unit="volume">55</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="339" to="363" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Hedonic housing prices and the demand for clean air</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Harrison</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">L</forename><surname>Rubinfeld</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Environ Econ Manag</title>
+		<imprint>
+			<biblScope unit="volume">5</biblScope>
+			<biblScope unit="page" from="81" to="102" />
+			<date type="published" when="1978">1978</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">On the impact of covariate measurement error on spatial regression modelling</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">H</forename><surname>Huque</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">D</forename><surname>Bondell</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Ryan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environmetrics</title>
+		<imprint>
+			<biblScope unit="volume">25</biblScope>
+			<biblScope unit="issue">8</biblScope>
+			<biblScope unit="page" from="560" to="570" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Statistical analysis of small-area data based on independence, spatial, non-hierarchical, and hierarchical models</title>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">L</forename><surname>Kang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Cressie</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Comput Stat Data Anal</title>
+		<imprint>
+			<biblScope unit="volume">53</biblScope>
+			<biblScope unit="issue">8</biblScope>
+			<biblScope unit="page" from="3016" to="3032" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<monogr>
+		<author>
+			<persName><forename type="first">R</forename><surname>Lehoucq</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Maschhoff</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Sorensen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Yang</surname></persName>
+		</author>
+		<ptr target="http://www.caam.rice.edu/software/ARPACK/" />
+		<title level="m">ARPACK library for calculating eigenvectors of sparse matrices</title>
+		<imprint>
+			<date type="published" when="2015-11-06">2015. 6 Nov 2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">A Bayesian heterogeneous coefficients spatial autoregressive panel data model of retail fuel duopoly pricing</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Lesage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R ;</forename><surname>Pace</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">&amp;</forename><surname>Chapman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">/</forename><surname>Hall</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Boca</forename><surname>Crc</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Raton Lesage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Vance</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><forename type="middle">Y</forename><surname>Chih</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Reg Sci Urb Econ</title>
+		<imprint>
+			<biblScope unit="volume">62</biblScope>
+			<biblScope unit="page" from="46" to="55" />
+			<date type="published" when="2009">2009. 2017</date>
+		</imprint>
+	</monogr>
+	<note>Introduction to spatial econometrics</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">One-step estimation of spatial dependence parameters: properties and extensions of the APLE statistic</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">A</forename><surname>Calder</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Cressie</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Multivar Anal</title>
+		<imprint>
+			<biblScope unit="volume">105</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="68" to="84" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Newton-Raphson and EM algorithms for linear mixed-effects models for repeated-measures data</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">J</forename><surname>Lindstrom</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">M</forename><surname>Bates</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Am Stat Assoc</title>
+		<imprint>
+			<biblScope unit="volume">83</biblScope>
+			<biblScope unit="issue">404</biblScope>
+			<biblScope unit="page" from="1014" to="1022" />
+			<date type="published" when="1988">1988</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Spatially varying SAR models and Bayesian inference for high-resolution lattice data</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Mukherjee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">S</forename><surname>Kasibhatla</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>West</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ann Inst Stat Math</title>
+		<imprint>
+			<biblScope unit="volume">66</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="473" to="494" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Estimation methods for models of spatial interaction</title>
+		<author>
+			<persName><forename type="first">K</forename><surname>Ord</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Am Stat Assoc</title>
+		<imprint>
+			<biblScope unit="volume">70</biblScope>
+			<biblScope unit="issue">349</biblScope>
+			<biblScope unit="page" from="120" to="126" />
+			<date type="published" when="1975">1975</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Fast CARs</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Pace</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Barry</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Stat Comput Simul</title>
+		<imprint>
+			<biblScope unit="volume">59</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="123" to="147" />
+			<date type="published" when="1997">1997</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Approximate Bayesian inference for latent Gaussian models by using integrated nested Laplace approximations</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Rue</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Held</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Gaussian Markov random fields: theory and applications</title>
+		<meeting><address><addrLine>Boca Raton Rue H, Martino S, Chopin</addrLine></address></meeting>
+		<imprint>
+			<publisher>CRC Press</publisher>
+			<date type="published" when="2005">2005. 2009</date>
+			<biblScope unit="volume">71</biblScope>
+			<biblScope unit="page" from="319" to="392" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">Linear regression with nested errors using probability-linked data</title>
+		<author>
+			<persName><forename type="first">K</forename><surname>Samart</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Chambers</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Aust N Z J Stat</title>
+		<imprint>
+			<biblScope unit="volume">56</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="27" to="46" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">A conditional derivation of residual maximum likelihood</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">P</forename><surname>Verbyla</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Aust J Stat</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="227" to="230" />
+			<date type="published" when="1990">1990</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">Computation of the inverse and determinant of a matrix</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Villard</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Thome</surname></persName>
+		</author>
+		<ptr target="http://algo.inria.fr/seminars/" />
+	</analytic>
+	<monogr>
+		<title level="j">Algorithms seminar</title>
+		<imprint>
+			<biblScope unit="page" from="29" to="32" />
+			<date type="published" when="2001">2002. 2001-2002. 6 Nov 2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

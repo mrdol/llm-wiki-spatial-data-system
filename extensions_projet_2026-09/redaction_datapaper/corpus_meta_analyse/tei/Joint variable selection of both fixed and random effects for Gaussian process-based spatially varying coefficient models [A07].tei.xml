@@ -1,0 +1,1249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Joint variable selection of both fixed and random effects for Gaussian process-based spatially varying coefficient models</title>
+				<funder ref="#_VShQmX5">
+					<orgName type="full">Swiss Agency for Innovation</orgName>
+				</funder>
+				<funder ref="#_GsZQR2Z">
+					<orgName type="full">Swiss National Science Foundation</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability  status="unknown">
+					<licence/>
+				</availability>
+				<date type="published" when="2022-07-27">27 Jul 2022.</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author role="corresp">
+							<persName><forename type="first">Jakob</forename><forename type="middle">A</forename><surname>Dambon</surname></persName>
+							<email>jakob.dambon@math.uzh.ch</email>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Mathematics</orgName>
+								<orgName type="institution">University of Zurich</orgName>
+								<address>
+									<settlement>Zurich</settlement>
+									<country>Switzerland;</country>
+								</address>
+							</affiliation>
+							<affiliation key="aff1">
+								<orgName type="department">Institute of Financial Services Zug</orgName>
+								<orgName type="institution">Lucerne University of Applied Sciences and Arts</orgName>
+								<address>
+									<settlement>Rotkreuz</settlement>
+									<country>Switzerland;</country>
+								</address>
+							</affiliation>
+							<affiliation key="aff2">
+								<orgName type="institution">Swiss Re Management Ltd</orgName>
+								<address>
+									<settlement>Zurich</settlement>
+									<country>Switzerland;</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Fabio</forename><surname>Sigrist</surname></persName>
+							<idno type="ORCID">0000-0001-5855-2017</idno>
+							<affiliation key="aff1">
+								<orgName type="department">Institute of Financial Services Zug</orgName>
+								<orgName type="institution">Lucerne University of Applied Sciences and Arts</orgName>
+								<address>
+									<settlement>Rotkreuz</settlement>
+									<country>Switzerland;</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Reinhard</forename><surname>Furrer</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Mathematics</orgName>
+								<orgName type="institution">University of Zurich</orgName>
+								<address>
+									<settlement>Zurich</settlement>
+									<country>Switzerland;</country>
+								</address>
+							</affiliation>
+							<affiliation key="aff3">
+								<orgName type="department">Institute of Computational Science</orgName>
+								<orgName type="institution">University of Zurich</orgName>
+								<address>
+									<settlement>Zurich</settlement>
+									<country key="CH">Switzerland</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Joint variable selection of both fixed and random effects for Gaussian process-based spatially varying coefficient models</title>
+					</analytic>
+					<monogr>
+						<idno type="ISSN">Print</idno>
+						<imprint>
+							<date type="published" when="2022-07-27">27 Jul 2022.</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">6121F38A2AD7E2EBFE1839C6468482C2</idno>
+					<idno type="DOI">10.1080/13658816.2022.2097684</idno>
+					<note type="submission">Received 8 March 2021 Accepted 30 June 2022</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-15T13:59+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>Adaptive LASSO</term>
+					<term>Bayesian optimization</term>
+					<term>coordinate descent algorithm</term>
+					<term>modelbased optimization</term>
+					<term>penalized maximum likelihood estimation</term>
+					<term>spatial statistics</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Spatially varying coefficient (SVC) models are a type of regression models for spatial data where covariate effects vary over space. If there are several covariates, a natural question is which covariates have a spatially varying effect and which not. We present a new variable selection approach for Gaussian process-based SVC models. It relies on a penalized maximum likelihood estimation and allows joint variable selection both with respect to fixed effects and Gaussian process random effects. We validate our approach in a simulation study as well as a real world data set. In the simulation study, the penalized maximum likelihood estimation correctly identifies zero fixed and random effects, while the penaltyinduced bias of non-zero estimates is negligible. In the real data application, our proposed penalized maximum likelihood estimation yields sparser SVC models and achieves a smaller information criterion than classical maximum likelihood estimation. In a crossvalidation study applied on the real data, we show that our proposed penalized maximum likelihood estimation consistently yields the sparsest SVC models while achieving similar predictive performance compared to other SVC modeling methodologies.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">Introduction</head><p>Improved and inexpensive measuring devices lead to a substantial increase of spatial point data sets, where each observation is associated with (geographic) information on the observation location, say, a pair of latitude and longitude coordinates. Usually, these data sets not only consist of a large number of observations, but also include several covariates. Spatially varying coefficient (SVC) models are a type of regression models which offer a high degree of flexibility as well as interpretability for spatial data. In contrast to classical geostatistical models (see <ref type="bibr" target="#b6">Cressie 2011</ref> for an overview), they allow a covariate's marginal effect, i.e., the corresponding coefficient, to vary over space. Prominent, existing methodologies for SVC modeling are Bayesian SVC processes by <ref type="bibr" target="#b17">Gelfand et al. (2003)</ref> and geographically weighted regression (GWR, <ref type="bibr" target="#b3">Brunsdon et al. 1998</ref><ref type="bibr" target="#b12">, Fotheringham et al. 2002)</ref>. Fields of application for SVC models are broad and include crime rates modeling <ref type="bibr" target="#b48">(Wheeler and Waller 2009)</ref>, ecological data <ref type="bibr" target="#b11">(Finley 2011)</ref>, air temperature modeling <ref type="bibr" target="#b26">(Kim et al. 2021)</ref> or real estate price prediction <ref type="bibr" target="#b17">(Gelfand et al. 2003</ref><ref type="bibr" target="#b45">, Wheeler et al. 2014)</ref>. When modeling such data with SVC models, the large number of potential coefficients leads to the question: Which of the given covariates do indeed have a non-zero spatially varying coefficients? The motivation behind a viable variable selection approach of SVC models is two-fold. First, possible multicollineartiy between the covariates make the interpretation of regression models difficult and the parameter estimation unstable <ref type="bibr">(Wheeler and</ref><ref type="bibr" target="#b47">Tiefelsdorf 2005, Wheeler and</ref><ref type="bibr" target="#b46">Calder 2007)</ref>. Second, SVC models offer a high degree of flexibility which can lead to over-fitting to the data and ultimately results in worse out-of-sample predictive performance. Therefore, variable selection is an integral part of SVC modeling. While the literature on variable selection in general is extensive, it is very limited for SVC models.</p><p>Variable selection for SVC models is usually done locally or globally over space. For instance, <ref type="bibr" target="#b38">Smith and Fahrmeir (2007)</ref> introduce a local selection procedure for SVC models on lattice data. <ref type="bibr" target="#b35">Reich et al. (2010)</ref> proposed a Bayesian method that selects SVC globally, i.e., the coefficient enters the model equation either for all locations or for none. Boehm <ref type="bibr" target="#b1">Vock et al. (2015)</ref> present a simultaneous local and global variable selection.</p><p>As for GWR, <ref type="bibr" target="#b13">Fotheringham et al. (2013)</ref> and <ref type="bibr">Lu et al. (2014a)</ref> propose a step-wise information criterion-based variable selection. Joint variable shrinkage and selection algorithms like ridge regression, the least absolute shrinkage and selection operator <ref type="bibr">(LASSO, Tibshirani 1996)</ref> or the elastic net <ref type="bibr" target="#b51">(Zou and Hastie 2005)</ref> have been proposed specifically for GWR, too <ref type="bibr" target="#b43">(Wheeler 2007</ref><ref type="bibr" target="#b44">, 2009</ref><ref type="bibr" target="#b40">, Vidaurre et al. 2012</ref><ref type="bibr" target="#b28">, Li and Lam 2018)</ref>. Finally, <ref type="bibr" target="#b33">Mei et al. (2016)</ref> introduce a bootstrap approach to globally test for constant coefficients in GWR models.</p><p>Concerning frequentist Gaussian process (GP)-based geostatistical models, existing variable selection methods which we list in the following are exclusively for the fixed effects parts. <ref type="bibr" target="#b21">Huang and Chen (2007)</ref> proposed a selection method between smoothing splines with deterministic spatial structure and kriging which is GP-based. The method relies on generalized degrees of freedom <ref type="bibr" target="#b49">(Ye 1998</ref>) to assess the models. Another variable selection for the fixed effects was proposed by <ref type="bibr" target="#b42">Wang and Zhu (2009)</ref>. Using penalized least squares, variable selection under a variety of penalty functions is conducted. In particular, the penalty function smoothly clipped absolute deviation suggested by <ref type="bibr" target="#b10">Fan and Li (2001)</ref> and used in the simulation study performs best for variable selection in spatial models. However, the error term of the spatial models is defined as strong mixing and in all of the numerical examples the sample size is very limited. <ref type="bibr" target="#b5">Chu et al. (2011)</ref> provide theoretical results for variable selection in a GP-based geostatistical model using a penalized maximum likelihood. Since maximum likelihood estimation is computationally expensive, <ref type="bibr" target="#b5">Chu et al. (2011)</ref> also give results for variable selection under covariance tapering <ref type="bibr" target="#b16">(Furrer et al. 2006)</ref>. Their penalized maximum likelihood estimation procedurewith and without covariance taperingis a one-step sparse estimation and therefore differs from <ref type="bibr" target="#b10">Fan and Li (2001)</ref>.</p><p>The penalty function of choice in <ref type="bibr" target="#b5">Chu et al. (2011)</ref> is the smoothly clipped absolute deviation, too.</p><p>In <ref type="bibr">Dambon et al. (2021a)</ref> a novel type of SVC models, so called GP-based SVC models, as well as a corresponding maximum likelihood estimation approach is presented. The GP-based SVC model can be applied to model and predict spatial data in a similar fashion to the above mentioned other methodologies. So far, GP-based SVC models have been applied on real estate data in order to obtain interpretable models for real estate price predictions and to study spatially varying relationships <ref type="bibr">(Dambon et al. 2021a</ref><ref type="bibr" target="#b7">(Dambon et al. , 2022))</ref>. In a comparison with GWR both in a simulation study and a real estate data application, it has been shown that GP-based SVC models have better predictive performance <ref type="bibr">(Dambon et al. 2021a)</ref>. Furthermore, the novel SVC model defines and estimates a single model in contrast to the GWR-based, location-specific model. Thus, the model and parameter interpretation of the GP-based SVC model is simpler. A disadvantage of the GP-based SVC model is that though the corresponding maximum likelihood approach has been specifically designed to allow large data analyses, the computational cost is still higher than GWR-based modeling.</p><p>Like with other SVC models, we assume that multicollinearity or over-fitting may hinder the GP-based SVC model to reach its full potential either with respect to predictive performance or model interpretability. In this article, we present a global variable selection methodology for GP-based SVC models that complements the already existing maximum likelihood approach. So far, such a variable selection methodology is missing. The rest of the article is structured as follows. We introduce GP-based SVC models in Section 2. In Section 3, we propose our implementation of the selection problem. Numeric results of a simulation study are given in Section 4. In Section 5, we present a real data application and assess the predictive performance of our proposed methodology in a cross-validation. In Section 6, we conclude.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.">Variable Selection for GP-based SVC models</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1.">GP-based SVC models</head><p>Let n be the number of observations, let p be the number of covariates x ðjÞ 2 R n , j ¼ 1, . . . , p, for a fixed effect, and let q be the number of covariates w ðkÞ 2 R n , k ¼ 1, . . . , q, with random coefficients, i.e., SVCs. The fixed and random effects covariates do not necessarily need to be identical. Each observation i is associated with an observation location s i in domain D &amp; R d , d ! 1: Furthermore, let y 2 R n be the vector of observed responses and e$N n ð0 n , s 2 I nÂn Þ the error term (also called nugget). Here, N n denotes an n dimensional multivariate normal distribution, where its mean vector 0 n is an n dimensional vector with only 0 entries and its covariance matrix s 2 I nÂn : We denote the n Â n dimensional identity matrix by I nÂn : Without loss of generality, we assume the random coefficients to have zero-mean and define a GP-based SVC model as</p><formula xml:id="formula_0">y i ¼ X p j¼1 l j x ðjÞ i þ X q k¼1 g k ðs i Þw ðkÞ i þ e i :<label>(1)</label></formula><p>Note that the spatial structure of each SVC is described by a zero-mean GP g k ðÁÞ$GPð0, cðÁ, Á; h k ÞÞ: This model assumption covers a broad variety of coefficients.</p><p>For special interest coefficients such as sign preserving SVCs or spatially clustered coefficients we refer to <ref type="bibr" target="#b26">Kim et al. (2021)</ref> and <ref type="bibr" target="#b30">Li and Sang (2019)</ref>, respectively.</p><p>In particular, we assume that each GP g k ðÁÞ is defined by a covariance function c with range parameter q k and variance r 2 k : Hence, each SVC is parameterized by the covariance parameters h k ¼ ðq k , r 2 k Þ and potentially a mean effect l j in the case when x ðjÞ ¼ w ðkÞ : We assume additional parameters like the smoothness of the covariance function c to be known and that we can write</p><formula xml:id="formula_1">cðs l , s m ; h k Þ ¼ r 2 k r jjs l Às m jj A q k ,<label>(2)</label></formula><p>where r : 0, 1Þ ! ½0, 1 ½ is a correlation function, jj Á jj A is an anisotropic geometric norm defined by a positive-definite matrix A 2 R dÂd <ref type="bibr">(Wackernagel 1995, Schmidt and</ref><ref type="bibr" target="#b37">Guttorp 2020)</ref>. Note that Equation (2) covers most of commonly used covariance functions such as the Mat ern class or the generalized Wendland class. For instance, the Mat ern covariance function is of the form of Equation (2) with correlation function</p><formula xml:id="formula_2">rðuÞ ¼ 2 1À CðÞ ffiffiffiffiffi ffi 2 p u À Á K ffiffiffiffiffi ffi 2 p u À Á ,<label>(3)</label></formula><p>where m 2 R þ is the smoothness parameter, CðÁÞ is the Gamma function, u ¼ jjs l Às m jj A =q is a scaled anisotropic distance, and K m is the modified Bessel function of the second kind and order . For m ¼ 1=2, Equation (3) reduces to the exponential function rðuÞ ¼ exp ðÀuÞ and the corresponding covariance function is therefore given by cðs l , s m ; q, r 2 Þ ¼ r 2 exp ðÀjjs l Às m jj A =qÞ: Finally, we assume mutual prior independence between the SVCs g k ðÁÞ as well as the nugget e: For the observed data, the GPs g k ðÁÞ reduce to finite dimensional normal distributions with covariance matrices R k defined as ðR k Þ l, m ¼ cðs l , s m ; h k Þ: Thus, we have g k ðsÞ$N n ð0 n , R k Þ and under the assumption of mutual prior independence the joint effect is given by gðsÞ$N nq ð0 nq , R g Þ with R g ¼ diagðR 1 , . . . , R q Þ 2 R nqÂnq , ie, R g is a block diagonal matrix. We denote two data matrices as X and W, where we have X 2 R nÂp such that the jth column is equal to x ðjÞ and W ¼ ðdiagðw ð1Þ Þ, . . . , diagðw ðqÞ ÞÞ 2 R nÂnq , where diagðaÞ denotes a diagonal matrix containing with its diagonal entries defined by a vector a: Let l ¼ ðl 1 , . . . , l p Þ &gt; and h ¼ ðq 1 , r 2 1 , . . . , q q , r 2 q , s 2 Þ &gt; be the unknown vectors of fixed effects and covariance parameters. Then the GP-based SVC model is given by</p><formula xml:id="formula_3">y ¼ Xl þ WgðsÞ þ e<label>(4)</label></formula><p>and is parametrized by</p><formula xml:id="formula_4">x ¼ ðl &gt; , h &gt; Þ &gt; 2 X:</formula><p>That is, the parameter of interest x consists of the mean effects l and the covariance parameters h: Similarly, the corresponding parameter space X is the product of the respective parameter spaces R p and</p><formula xml:id="formula_5">H ¼ ðR &gt;0 Â R !0 Þ q Â R &gt;0 , ie, X ¼ R p Â H: The response variable Y follows a multivari- ate normal distribution Y$N n ðXl, R Y ðhÞÞ with covariance matrix R Y ðhÞ ¼ X q k¼1 w ðkÞ w ðkÞ&gt; ð Þ R k þ s 2 I nÂn ,<label>(5)</label></formula><p>where denotes the Hadamard (or element-wise) product of two matrices. Furthermore, the log-likelihood is defined as</p><formula xml:id="formula_6">'ðxÞ ¼ À 1 2 n log ð2pÞ þ log detR Y ðhÞ þ y À Xl ð Þ &gt; R Y ðhÞ À1 y À Xl ð Þ :<label>(6)</label></formula><p>Dambon et al. (2021a) provide a computationally efficient maximum likelihood approach to estimate x by maximizing (6), which we denote as xðMLEÞ ¼ argmax x2X 'ðxÞ: We denote the respective mean effects and covariance parameter estimates as lðMLEÞ and ĥðMLEÞ: Once the parameter has been estimated, one can spatially predict the GPs using the empirical best linear unbiased predictor. That is, for new locations s 0 ¼ ðs 0 1 , . . . , s 0 n 0 Þ the spatial predictions of the joint normal distribution gðs 0 Þ are given by the conditional distribution gðs 0 ÞjY ¼ y: In particular, we have ĝðs 0 Þ ¼ Rg 0 Y RÀ1 Y ðy À XlðMLEÞÞ with cross-covariance matrix Rg 0 Y ¼ Covðg 0 , YÞ and covariance matrix RY : Both matrices are defined by the maximum likelihood estimated covariance parameters ĥðMLEÞ: For further details concerning the estimation and prediction, please refer to <ref type="bibr">Dambon et al. (2021a)</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2.">Penalized likelihood</head><p>We introduce a penalized likelihood that will induce global variable selection for the GP-based SVC model (4). Related to this, we say that for l j 6 ¼ 0 an effect of x ðjÞ and for g k ðsÞ 6 ¼ 0 n an effect of w ðkÞ on the response is given. Note that variable selection for the random coefficients corresponds to choosing between r 2 k &gt;0 and r 2 k ¼ 0: For the special case that x ðjÞ ¼ w ðjÞ for some j, there are three possible cases for each covariate to enter a model ( <ref type="formula">Reich et al. 2010):</ref>1. The jth covariate is associated with a non-zero-mean SVC, i.e., there exist a nonzero fixed effect and a random coefficient. 2. There only exists a fixed effect l j 6 ¼ 0 for the jth covariate, but g j ðsÞ is identical to 0. 3. The jth covariate enters the model solely through the zero-mean SVC, i.e., l j ¼ 0 and g j ðsÞ not identical to 0.</p><p>The parameters within x that we penalize are therefore l j and r 2 k : Given some penalty function pðj Á jÞ, we define p k ðj Á jÞ ¼ kpðj Á jÞ, where k acts as a shrinkage parameter. We augment the likelihood function ( <ref type="formula" target="#formula_6">6</ref>) with penalties for the mean and variance parameters. In general, each of the parameters l j and r 2 k have their corresponding shrinkage parameter k j &gt;0 and k pþk &gt;0, respectively, yielding the penalized log-likelihood:</p><formula xml:id="formula_7">p'ðxÞ ¼ 'ðxÞÀn X p j¼1 p k j ðjl j jÞÀn X q k¼1 p k pþk ðjr 2 k jÞ: (<label>7</label></formula><formula xml:id="formula_8">)</formula><p>For a given set of shrinkage parameters k j , 1 j p þ q, we maximize the penalized likelihood function to obtain a penalized maximum likelihood estimate:</p><formula xml:id="formula_9">xðPMLEÞ ¼ argmax x2X p'ðxÞ:<label>(8)</label></formula><p>Note the similarity to <ref type="bibr" target="#b2">Bondell et al. (2010)</ref> and <ref type="bibr" target="#b23">Ibrahim et al. (2011)</ref> who present a joint variable selection by individually penalizing the fixed and random effects in linear mixed effects models. <ref type="bibr">M€ uller et al. (2013)</ref> give an overview of such selection and shrinkage methods.</p><p>Finally, one usually assumes the penalty function to be singular at the origin and non-concave on ð0, 1Þ to ensure that xðPMLEÞ has favorable properties such as sparsity, continuity and unbiasedness <ref type="bibr" target="#b10">(Fan and Li 2001)</ref>. From now on, we will consider the L 1 penalty function, i.e., pðj Á jÞ ¼ j Á j <ref type="bibr" target="#b39">(Tibshirani 1996)</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.">Penalized likelihood optimization and choice of shrinkage parameter</head><p>In this section, we show how to find the maximizer of the penalized log-likelihood and how we choose the tuning parameters k j .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1.">Optimization of penalized likelihood</head><p>In the following, we show how a maximizer of the penalized log-likelihood Equation ( <ref type="formula" target="#formula_7">7</ref>) can be found for given k j . This is equivalent to minimizing the negative penalized log-likelihood. We propose a (block) coordinate descent which cyclically optimizes over the mean parameters l and covariance parameters h, ie,</p><formula xml:id="formula_10">l ðtþ1Þ ¼ argmin l2R p Àp'ðljh ðtÞ Þ h i , (<label>9</label></formula><formula xml:id="formula_11">) h ðtþ1Þ ¼ argmin h2H Àp'ðhjl ðtþ1Þ Þ h i , (<label>10</label></formula><formula xml:id="formula_12">)</formula><p>for t ! 0: The initial values are given by the maximum likelihood estimate h ð0Þ ¼ ĥðMLEÞ: Algorithm 1 summarizes this block approach. In the following, we show how the component-wise minimizations Equations ( <ref type="formula" target="#formula_10">9</ref>) and ( <ref type="formula" target="#formula_11">10</ref>) are realized. Data: shrinkage parameters k j , convergence threshold d, maximum likelihood estimate ĥðMLEÞ, objective function p'ðÁÞ Result: xðPMLEÞ 1 Initialize t 0, h ð0Þ ĥðMLEÞ, l ð0Þ lðMLEÞ, x ð0Þ xðMLEÞ; 2 repeat 3 l ðtþ1Þ argmin l2R p Àp'ðljh ðtÞ Þ h i ; 4 h ðtþ1Þ argmin h2H Àp'ðhjl ðtþ1Þ Þ Â Ã ; 5 x ðtþ1Þ ðl ðtþ1Þ&gt; , h ðtþ1Þ&gt; Þ &gt; ; 6 t t þ 1; 7 until jjx ðtÞ Àx ðtÀ1Þ jj 1 =jjx ðtÀ1Þ jj 1 &lt;d; 8 xðPMLEÞ x ðtÞ ;</p><p>Algorithm 1: General coordinate descent algorithm for penalized likelihood.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1.1.">Optimization over mean parameters</head><p>We fix the covariance parameters h ðtÞ for some t ! 0: The optimization step for the mean parameter (line 3, Algorithm 1) simplifies to</p><formula xml:id="formula_13">l ðtþ1Þ ¼ argmin l2R p À'ðljh ðtÞ Þ þ n X p j¼1 k j jl j j " # ¼ argmin l2R p 1 2 yÀXl ð Þ &gt; R Y ðh ðtÞ Þ À1 y À Xl ð Þþ n X p j¼1 k j jl j j " # :</formula><p>We note that the first term is a generalized least square estimate for a linear model with Y$N n ðXl, R Y ðh ðtÞ ÞÞ: Using the Cholesky decomposition L of R Y ðh ðtÞ Þ and a simple variable transformation ỹ ¼ L À1 y and X ¼ L À1 X, the objective function simplifies to</p><formula xml:id="formula_14">l ðtÞ ¼ argmin l2R p 1 2n kỹ À Xlk 2 2 þ X p j¼1 k j jl j j " # :</formula><p>We note that this objective function coincides with a LASSO for a classical linear regression model <ref type="bibr" target="#b39">(Tibshirani 1996)</ref> with individual shrinkage parameters per coefficient.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1.2.">Optimization over covariance parameters</head><p>We optimize over the covariance parameters h with fixed mean parameter l ðtþ1Þ (c.f. Algorithm 1, line 4). We rearrange this optimization problem writing h ðtþ1Þ ¼ argmin h2H f ðhÞ with the following objective function:</p><formula xml:id="formula_15">f ðhÞ ¼ À' ðl ðtÞ&gt; , h &gt; Þ &gt; þ n X q k¼1 k pþk jr 2 k j:<label>(11)</label></formula><p>We use numeric optimization to obtain h ðtþ1Þ : In particular, we use a quasi Newton method <ref type="bibr" target="#b4">(Byrd et al. 1995)</ref> for the numeric optimization. Note that for a j 2 f1, . . . , qg with r 2 j ¼ 0, the corresponding range q j is not identifiable and might induce nonconvergence issues. The following proposition ensures that in case described above the optimization is well behaved.</p><p>Proposition 3.1. Let r be a correlation function for a GP-based SVC model as given above. Assume that the derivative of r exists and is bounded, i.e., drðuÞ du &lt;C for some constant C ! 0. Let B j ¼ fh 2 H : r 2 j ¼ 0g for j 2 f1, . . . , kg. Then the objective function f defined in (11) fulfills</p><formula xml:id="formula_16">@ @q j f ðb j Þ ¼ 0,</formula><p>for all b j 2 B j and j 2 f1, . . . , kg:</p><p>Proof. The proof is given in the Appendix A.1.</p><p>w</p><p>The additional assumption drðuÞ du &lt;C is quite weak and fulfilled by most of covariance functions used for modeling GP. The partial derivative with respect to q j is 0 and therefore the approximation of the gradient function for q j yields values very close or identically to 0. Therefore, in the case of r 2 j ¼ 0, the numeric optimization will stop making any adjustments along the q j direction.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2.">Choice of shrinkage parameters</head><p>We use the adaptive LASSO <ref type="bibr" target="#b50">(Zou 2006</ref>) for the parameters k j given by</p><formula xml:id="formula_17">k j ¼ k l jl j ðMLEÞj , k pþk ¼ k h jr 2 k ðMLEÞj , (<label>12</label></formula><formula xml:id="formula_18">)</formula><p>where we use the maximum likelihood estimates lj ðMLEÞ and r2 k ðMLEÞ to weight the shrinkage parameters ðk l , k h Þ 2 K ¼ ðR &gt;0 Þ 2 : These two parameters account for the differences between the mean and variance parameters. This leaves us with the task to find a sensible choice of shrinkage parameters k ¼ ðk l , k h Þ 2 K: We choose these parameters by minimizing an information criterion which combines the goodness of fit and model complexity, i.e., information criterion ¼ goodness of fit þ model complexity:</p><p>An alternative approach that is computationally more expensive is to use cross-validation. To emphasize the dependency on k, we introduce the short hand notation xk for denoting the penalized maximum likelihood estimate of x for a given k: The corresponding mean parameters and variances are given by lk and r2 k , respectively. We use a Bayesian information criterion (BIC) which is given by</p><formula xml:id="formula_19">BICðkÞ ¼ À2'ð xk Þ þ log ðnÞ jjl k jj 0 þ jjr 2 k jj 0 À Á ,<label>(13)</label></formula><p>where jj Á jj 0 is the count of non-zero entries. That is, the model complexity is captured via the number of non-zero fixed effects and non-constant random coefficients. Of course, there exist various information criteria like, for instance, the corrected Akaike information criterion (AIC, see M€ uller et al. 2013, for an overview). In our empirical experience the BIC performs best with respect to variable selection which is in line with <ref type="bibr" target="#b36">Schelldorfer et al. (2011)</ref>.</p><p>Our goal is to find a minimizer k, ie, kBIC ¼ argmin k2K BICðkÞ: A single evaluation of BICðkÞ is computationally expensive, which is why we want the number of evaluations as low as possible. To this end, we use model-based optimization (also known as Bayesian optimization, <ref type="bibr" target="#b24">Jones 2001</ref><ref type="bibr" target="#b27">, Koch et al. 2012</ref><ref type="bibr" target="#b20">, Horn and Bischl 2016)</ref>. For our objective function BICðkÞ, we initialize the optimization by drawing a Latin square sample of size n init from K which we define as fk ð1Þ , . . . , k ðn init Þ g &amp; K: Then we compute n ðiÞ ¼ BICðk ðiÞ Þ to obtain the tuples ðn ðiÞ , k ðiÞ Þ: Now we can fit a surrogate model to the tuples. In our case, we assume a kriging model defined as a GP with a Mat ern covariance function of smoothness m ¼ 3=2, c.f. Equation (3). That is, given the observed tuples, we have NðkÞ$N ðlðkÞ, ŝ2 ðkÞÞ as our surrogate model. An infill criterion is used to find the next, most promising k ðn init þ1Þ : We use the expected improvement infill criterion which is derived from the current surrogate model NðkÞ: For a given k this information criterion is defined by</p><formula xml:id="formula_20">EIðkÞ ¼ E N maxfn min À NðkÞ, 0g ð Þ ,<label>(14)</label></formula><p>where n min denotes the current BIC minimum. In the case of a GP-based surrogate model, the expected improvement infill criterion ( <ref type="formula" target="#formula_20">14</ref>) can be expressed analytically. A separate optimization of ( <ref type="formula" target="#formula_20">14</ref>) returns the best parameter k ðn init þ1Þ according to the infill criteria and then the BIC is calculated. The tuple ðn ðn init þ1Þ , k ðn init þ1Þ Þ is added to the existing tuples and surrogate model is updated. This procedure is repeated n iter times.</p><p>Finally, the minimizer of the BIC from the set fk ðiÞ :</p><formula xml:id="formula_21">i ¼ 1, . . . , n init þ n iter g is returned.</formula><p>For more details regarding model-based optimization refer to <ref type="bibr" target="#b0">Bischl et al. (2017)</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.3.">Software implementation</head><p>The described penalized maximum likelihood approach is implemented in the R package varycoef <ref type="bibr">(Dambon et al. 2021b)</ref>. It contains the discussed model-based optimization which is implemented using the R package mlrMBO <ref type="bibr" target="#b0">(Bischl et al. 2017)</ref> as well as a grid search to find the best shrinkage parameters. Furthermore, the varycoef package implements our proposed optimization of the penalized likelihood using a coordinate descent. The optimization over the mean parameters is executed using a classical adaptive LASSO with the R package glmnet <ref type="bibr" target="#b14">(Friedman et al. 2010)</ref>. For the optimization over the covariance parameters, we use the quasi Newton method 'L-BFGS-B' <ref type="bibr" target="#b4">(Byrd et al. 1995)</ref> which is available in a parallel version in the R package optimParallel (Gerber and Furrer 2019).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.">Simulation</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1.">Setup</head><p>We simulate N ¼ 100 data sets consisting of n ¼ 15 2 ¼ 225 samples with observation locations s i , i ¼ 1, . . . , n, from a 15 Â 15 perturbed grid, c.f. Appendix A.2 and Furrer et al. (2016), <ref type="bibr">Dambon et al. (2021a)</ref>. As in <ref type="bibr" target="#b39">Tibshirani (1996)</ref> and his suggested simulation setup, which has been assumed (eg <ref type="bibr" target="#b10">Fan and Li 2001)</ref> or adapted (eg <ref type="bibr">Li and</ref><ref type="bibr">Liang 2008, Ibrahim et al. 2011)</ref> in other simulation studies for variable selection, we use p ¼ q ¼ 8 covariates which are sampled from a multivariate zero-mean normal distribution such that the covariance between x ðjÞ and x ðkÞ is c jjÀkj with c ¼ 0:5: For each simulation run, we sample the covariates x ðjÞ which are both associated with a fixed and random effect. Let X and W be the corresponding data matrices as defined above. Concerning the fixed effects parameters, we assume</p><formula xml:id="formula_22">l ¼ ð3, 1:5, 0, 0, 2, 0, 1, 0Þ &gt; , (<label>15</label></formula><formula xml:id="formula_23">)</formula><p>in order to obtain a balanced design in the sense that for each possible combination of zero and non-zero parameters of both the fixed and random effects there are two cases. Let g k ðsÞ$N n ð0 n , R k Þ for k ¼ 1, . . . , q be the GP-based SVCs defined by an exponential covariance function with corresponding parameters provided in Table <ref type="table" target="#tab_0">1</ref>.</p><p>For k 2 f2, 4, 7, 8g the respective variance r 2 k is zero and therefore the respective true SVCs g k ðsÞ are constant zero. Hence, the true model contains two of each covariates with a non-zero-mean SVC (k ¼ 1, 5), constant non-zero-mean effects (k ¼ 2, 7), zeromean SVC (k ¼ 3, 6) and without any effect (k ¼ 4, 8). Adding a sampled nugget effect e$N n ð0 n , s 2 I nÂn Þ with nugget variance s 2 ¼ 0:1 and independent of the GPs we can compute the response y:</p><p>We compare methodologies for estimating the SVC model, c.f. (4), or the oracle SVC model</p><formula xml:id="formula_24">y ¼ Xðl 1 , l 2 , 0, 0, l 5 , 0, l 7 , 0Þ &gt; þ X k2f1, 3, 5, 6g g k ðsÞ x ðkÞ þ e: (<label>16</label></formula><formula xml:id="formula_25">)</formula><p>The latter one is called the oracle model as it assumes the true data generating covariates to be known and excludes all other parameters from their respective estimation. As a reference, we will use two classical maximum likelihood approaches without any shrinkage or variable selection to estimate Equations ( <ref type="formula" target="#formula_3">4</ref>) and ( <ref type="formula" target="#formula_24">16</ref>) labeled MLE and Oracle, respectively. The third methodology is our novel penalized maximum likelihood approach which estimates (4) and we denote it by PMLE: For the coordinate descent algorithm, we set a relative convergence threshold of d ¼ 10 À6 and a maximum of T max ¼ 20 iterations. Note that this upper limit on the number of iterations was never attained in our simulations. Furthermore, the range of shrinkage parameters was set to ð10 À6 , 1Þ, ie, k ¼ ðk l , k h Þ &gt; 2 ð10 À6 , 1Þ Â ð10 À6 , 1Þ: Finally, the shrinkage parameters kBIC are estimated by model-based optimization using n init ¼ 10 initial evaluations and n iter ¼ 10 iteration steps. The infill criterion is the previously defined expected improvement given in Equation ( <ref type="formula" target="#formula_20">14</ref>). The shrinkage parameter ranges as well as the number of initial evaluations and iteration steps was chosen such that we obtain reasonable results under a feasible time and computational resource constraint. The methods PMLE, MLE and Oracle are implemented using varycoef <ref type="bibr">(Dambon et al. 2021b)</ref>. Further details are given in Appendix A.3.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2.">Results</head><p>First, we check the convergence properties of the coordinate descent over all simulations. This is depicted in Figure <ref type="figure" target="#fig_0">1</ref>. Facet (a) shows a histogram of the number of evaluated iterations T, where the median over all iterations was 4. This shows that the coordinate descent algorithm converges quickly. Second, the estimated shrinkage parameters are depicted in Figure <ref type="figure" target="#fig_0">1</ref> <ref type="bibr">(b)</ref>. We observe that there exist two regimes with respect to k h : The borders of the shrinkage parameter space used in the model-based optimization are depicted darkgreen. There are some estimates very close to the border. Upon closer inspection of actual parameter estimates (see below) we could not find any substantial difference between parameter estimates obtained by kBIC close to the boundary compared to all other kBIC : The ranges of zero variance GP are not identifiable which we denote by '-'. To ease readability, parameters identical to 0 are given by a sole zero, i.e., not by '0.000'.</p><p>Second, we turn to the actual parameter estimates. They are depicted in Figure <ref type="figure">2</ref> and grouped by variances, ranges and means. The true values are indicated by red lines. Furthermore, the number of zero estimates is given, if there are any. As one can see, the PMLE returns sparse estimates in the fixed effects as well as the variances. We can clearly observe that for all methods, the estimation of the mean parameters is much more precise compared to the covariance parameters. However, the maximum likelihood estimation is not able to return mean parameters identical to zero. For the variances, we observe that both the MLE and PMLE are capable of obtaining sparse estimates. Here, the additional penalization of the variances manifests itself in the higher number of zero estimates. On average, we observe an increase of 21.5 correctly zero estimated variance parameters. The penalty has a minor downside as there are some zero estimates, where the true variance is unequal zero. In that case, the nugget compensates for unattributed variation by the covariates which manifests itself in large variance estimates, c.f. outliers of box plot for estimated nugget variance, Figure <ref type="figure">2</ref>.</p><p>Finally, we summarize the results of the simulation study in Table <ref type="table" target="#tab_1">2</ref>. For each simulation and methodology m, we compute the relative model error which is defined as</p><formula xml:id="formula_26">RMEðmÞ ¼ jjyÀŷðmÞjj 1 jjy À y Á 1 n jj 1 :</formula><p>The median relative model error is provided in Table <ref type="table" target="#tab_1">2</ref> and is smallest for MLE: This comes at no surprise given the high degree of flexibility of an SVC model. It shows that some kind of variable selection is desirable in order to counter over-fitting. The median relative model error for PMLE is similar to the one of Oracle: It is not identical as the parameter estimates cannot fully mimic the behavior of the oracle. This is summarized in the second part of Table <ref type="table" target="#tab_1">2</ref>, where the number of estimated zero parameters are given both within the mean effects of l and the random effects of h:</p><p>The average number of correctly identified zero parameter and incorrectly identified zero parameters over all simulations is provided. PMLE introduces sparse estimates for the fixed effects while there are no incorrectly identified zero parameters in the fixed effects. Furthermore, PMLE substantially increases the number of correctly identified zero parameters estimates for the random effects by 35% compared to MLE: Meanwhile, the number of incorrectly identified zero parameters remains on a very low level. It is also worth mentioning that both the maximum likelihood and penalized maximum likelihood estimation do not incorrectly estimate any mean parameter as zero. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.3.">Discussion</head><p>In this section, we summarize our results of the simulation study. Our first focus is the selection of covariance parameters, where the overall performance is not on par with ones of the mean parameters. However, this comes at no surprise as covariance parameters are known to be more difficult to estimate than mean parameters. Furthermore, we can observe a familiar behavior from variable selection of classical linear models. Increasing the sparsity of the model, i.e., having none or only a few SVC, will increase the variance of the nugget effect. Overall, our newly suggested penalized maximum likelihood estimation correctly identifies covariates with no effect in over 90% of the fixed and 83% of the random effects. This is notable considering the only drawback is that less than 3% of covariates were incorrectly estimated to have no effect.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.">Application</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.1.">Data</head><p>As an application, we consider the Dublin Voter data set. It consists of the voter turnout in the 2002 General Elections and 8 other demographic covariates for n ¼ 322 electoral divisions in the Greater Dublin area (Ireland), see Figure <ref type="figure" target="#fig_1">3</ref>. All nine variables are given in percentages and we provide an overview in Table <ref type="table" target="#tab_2">3</ref>. The data set was first studied by <ref type="bibr" target="#b25">Kavanagh (2004)</ref> and is available in the R package GWmodel. The corresponding articles by <ref type="bibr" target="#b19">Gollini et al. (2015)</ref> and <ref type="bibr">Lu et al. (2014b)</ref> showcase analyses of this data set using the GWR framework. In particular, a GWR-based selection using a corrected AIC <ref type="bibr" target="#b22">(Hurvich et al. 1998</ref>) is conducted. The goal of this section is to apply our proposed penalized maximum likelihood estimation on the Dublin Voter data set, compare the results to linear model-based LASSO and GWR-based selections andin a final stepto assess the predictive performance using cross-validation.</p><p>As one can see in Table <ref type="table" target="#tab_2">3</ref>, the summary statistics of the variables vary a lot, which can be an issue in numeric optimization. Therefore, without loss of generality and interpretability, we standardize the data by subtracting the empirical mean and scaling by the empirical standard deviation. We annotate the standardized variables by a prefix 'Z'. Furthermore, the observation locations represent the electoral divisions as depicted in Figure <ref type="figure" target="#fig_1">3</ref> and are provided as Easting and Northing in meters. We transform them to kilometers to ensure computational stability while staying interpretable with respect to the range parameter.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.2.">Models and methodologies</head><p>We use two models in our comparison. The first one is a simple linear model</p><formula xml:id="formula_27">y i ¼ Z:GenEl2004 i ¼ l 2 Z:DiffAdd i þ l 3 Z:LARent i þ l 4 Z:SC1 i þ l 5 Z:Unempl i þ l 6 Z:LowEduc i þ l 7 Z:Age18 24 i þ l 8 Z:Age25 44 i þ l 9 Z:Age45 64 i þ e i ,</formula><p>where we apply the adaptive LASSO for variable selection. Since we use the standardized covariate Z:GenEl2004 as our response, we do not expect an intercept in the model. The coefficients are denoted as l j in accordance with our previous notation, i.e., these are only mean effects, and ALASSO denotes the adaptive LASSO used to estimate the mean effects. It is implemented using the R package glmnet <ref type="bibr" target="#b14">(Friedman et al. 2010)</ref>, where the corresponding adaptive weights are given by an ordinary least squares estimate and the shrinkage parameter is estimated by cross-validation.</p><p>The second model is a full SVC model including an intercept:</p><formula xml:id="formula_28">y i ¼ Z:GenEl2004 i ¼ b 1 ðs i Þ þ b 2 ðs i ÞZ:DiffAdd i þ b 3 ðs i ÞZ:LARent i þ b 4 ðs i ÞZ:SC1 i þ b 5 ðs i ÞZ:Unempl i þ b 6 ðs i ÞZ:LowEduc i þ b 7 ðs i ÞZ:Age18 24 i þ b 8 ðs i ÞZ:Age25 44 i þ b 9 ðs i ÞZ:Age45 64 i þ e i :</formula><p>The SVCs have yet to be specified according to the method being used to estimate the model, but generally, they do contain mean effects, i.e., the they are not centered around zero. As for the intercept, we expect a zero-mean effect. However, there might be some spatially local structures that can be captured using a SVC. In the case of the GP-based SVC model as given in (1), the b j ðs i Þ can simply be partitioned into the mean effect l j and the random effect g j ðs i Þ: We estimate the GPbased SVC model by maximum likelihood and penalized maximum likelihood estimation. The results of both procedures are again labeled MLE and PMLE, respectively, and implemented using varycoef. For GWR, b j ðs i Þ is defined as the generalized least square estimate where observations are geographically weighted. As a kernel to weight the observations based on their distances, we are using an exponential function. The kernel relies on an adaptive bandwidth that is selected using a corrected AIC <ref type="bibr" target="#b22">(Hurvich et al. 1998</ref>). The method is described in <ref type="bibr">Lu et al. (2014a)</ref> and implemented in R package GWmodel. The results are labeled as GWR:</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.3.">Results</head><p>In this section, we present the results for all model-based approaches, i.e., ALASSO, MLE and PMLE, as not all comparison measures of GWR are defined. In terms of variable selection, we provide the estimated shrinkage parameters, number of non-zero estimates of the mean and the variances, the log-likelihood ' and the BIC in Table <ref type="table" target="#tab_4">4</ref>. As one can see, the ALASSO gives a sparse model with only three out of eight selected fixed effects. As expected, MLE does not provide any sparse fixed effects but selects only six of the potentially nine random effects. With PMLE we obtain a sparser model. Over all, the smallest BIC is achieved by PMLE followed by MLE and ALASSO:</p><p>In Table <ref type="table" target="#tab_3">5</ref>, the estimated parameters are provided. For the fixed effects, we observe that PMLE results in zero estimates for the intercept and Z.LowEduc. These fixed effects are only a subset of what ALASSO estimated to be zero. In the covariance effects, we observe an interesting behavior. We note that MLE gives zero estimates for one third of the SVCs' variances even without penalization. This coincides with previous results from the simulation study. As expected, the non-zero variance covariates of PMLE are a subset of the ones of MLE: Further details on the coordinate descent algorithm for PMLE are given in Appendix A.4.</p><p>Overall, the penalized maximum likelihood approach results in less zero fixed effects compared to the adaptive LASSO. There is only one variable which does not enter the model at all, namely, Z.LowEduc, and only one other that does have a zero-mean effect, namely, the intercept. However, the linear model does not take the spatial structures into account. Considering the spatial structure apparently triggers the inclusion of additional fixed effects. The model gains complexity but we have to consider that this might be necessary in order to account for the spatial structures within the data. Therefore, SVC model selection remains a trade-off between model complexity and goodness of fit which we will address in the following section using cross-validation.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.4.">Cross-validation</head><p>In the last section we examined the goodness of fit combined with model complexity as well as parameter estimation. We now turn to predictive performance. Here, we expect that due to high degree of flexibility of full SVC models, methods without any kind of variable selection could result in over-fitting on the training data in connection with biased spatial extrapolation on the prediction data set.</p><p>To examine this, we conduct a classical 10-fold cross-validation. That is, we randomly divide the Dublin Voter data set into 10 folds of size 32 or 33, i.e., each observation i falls into one of the following disjoint sets S 1 , . . . , S 10 : [ 10 i¼1 S i ¼ f1, . . . , 322g: For each i ¼ 1, . . . , 10, the variable selection and model fitting of all four methods m 2 fALASSO, GWR, MLE, PMLEg is conducted on the union of nine sets with set S i left out for validation. We report the out-of-sample rooted mean squared errors (RMSE) on S i for each method m denoted RMSE i ðmÞ: This procedure is repeated for each i. The results are visualized in Figure <ref type="figure" target="#fig_2">4</ref> and <ref type="figure">Table 6</ref>. We use '-' for not available values. To ease readability, estimates identical to 0 are given by a sole zero, i.e., not by '0.000'. Range estimates, where the corresponding variance was estimated to be equal to zero, are given in italic font as they cannot be interpreted. First, we observe that the size of the bubbles, i.e., RMSE i ðmÞ, varies more between different folds than between different methods. To analyze the differences in predictive performance, we provide the mean and standard deviation per method in Table <ref type="table" target="#tab_5">6</ref>. While the predictive performance of the estimated SVC models are similar, ALASSO falls behind.</p><p>Second, we address the number of selected fixed and random effects. Upon closer inspection of Figure <ref type="figure" target="#fig_2">4</ref>, we see notable variations of the number of selected fixed and random effects over different folds for all methods but ALASSO: We attribute this to the relatively small sample size. As already observed in Section 5.3, the number of selected mean effects is higher for selection methods PMLE and GWR on full SVC models than ALASSO on a linear model. Furthermore, we note that PMLE consistently selects the smallest number of random effects in SVC models.</p><p>Overall, we observe that with decreasing number of selected fixed and random effects, the predictive performance as measured with the out-of-sample RMSE decreases as well. In this particular application, our proposed penalized maximum  </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.">Conclusion</head><p>We present a novel methodology to efficiently select covariates in GP-based SVC models. We propose to perform variable selection for both fixed effects and SVCs by, respectively, penalizing the fixed regression coefficients and the variance of the spatial random coefficients using L 1 penalties. Furthermore, we show how optimization of the resulting objective function can be done using a coordinate descent algorithm. The latter can be done efficiently by relying on existing efficient methodology for the fixed effects part and by parallelizing the optimization procedure. Compared to the unpenalized MLE, a potential drawback is a longer computation time due to the shrinkage parameter optimization.</p><p>In a simulation study, we show that our method is capable of spatial variance component as well as fixed effect selection. One direct consequence of variable selection is the prevention of over-fitting. We observe that the relative model errors of penalized maximum likelihood estimated SVC models are similar to the errors of the oracle, whereas the maximum likelihood estimated SVC models' low relative model error indicate over-fitting. In the real data application, we find that our novel method achieves the lowest BIC among the considered approaches. In the cross-validation, the penalized maximum likelihood estimation consistently yields the smallest number of selected random effects, while having a similar predictive performance as the unpenalized maximum likelihood estimation and GWR.</p><p>Our novel variable selection methodology has been implemented specifically with SVC models in mind. However, with some adaptions, one can apply it to generalized linear models that fit in our underlying model assumptions. Further future work on our penalized maximum likelihood estimation can include individual weighting of fixed and random effects via the BIC. One could add weights to the specific model complexity penalization as, usually, the addition of another fixed effect to an SVC model is not equal to adding another random effect in terms of, say, computational work load or model complexity.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Appendix A</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A.1. Proofs</head><p>Proof of Proposition 3.1. Let U A 2 R nÂn be the distance matrix under some anisotropic geometric norm defined by a positive-definite matrix A 2 R dÂd , ie, ðU A Þ lm ¼ u lm ¼ jjs l Às m jj A : Let r : R !0 ! 0, 1 ½ be a correlation function whereby rðU A Þ we denote the component-wise evaluation, i.e., ðrðU A ÞÞ lm ¼ rðu lm Þ: We have:</p><formula xml:id="formula_29">o oq j R Y ðhÞ ¼ o oq j X q k¼1 w ðkÞ w ðkÞ&gt; ð Þ R k þ s 2 I nÂn ! ¼ w ðkÞ w ðkÞ&gt; ð Þ o oq j R j ¼ ¼ w ðkÞ w ðkÞ&gt; ð Þ r 2 j dr du U A q j À U A q 2 j :</formula><p>With drðuÞ du &lt;C, we have o oq j R Y ðb j Þ ¼ 0 nÂn and recall that R Y ðb j Þ is well-defined and invertible. With the identities ð log detMÞ 0 ¼ trðM À1 M 0 Þ and ðM À1 Þ 0 ¼ ÀM À1 M 0 M À1 for some quadratic matrix M, we obtain</p><formula xml:id="formula_30">o oq j f h ð Þ ¼ tr R Y ðhÞ À1 o oq j R Y h ð Þ þðyÀXl ðtþ1Þ Þ &gt; ÀR Y ðhÞ À1 o oq j R Y h ð Þ R Y ðhÞ À1 y À Xl ðtþ1Þ À Á and therefore o oq j f ðb j Þ ¼ 0: w A.2. Perturbed grid</formula><p>A perturbed grid is used to sample the observation locations. It consists of 15 Â 15 sampling domains arranged as a regular grid. Each sampling domain is a square surrounded by a thin margin. We sample an observation location uniformly from each square in the sampling domains. The true effect of the SVC is then sampled from an GP at corresponding observation locations. In Figure <ref type="figure" target="#fig_3">A1</ref> such an example is provided. This is repeated for all N ¼ 100 simulation runs.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A.3. Numeric optimization</head><p>We provide further details for the numeric optimization. In all maximum likelihood and penalized maximum likelihood methods, we use the R package optimParallel <ref type="bibr" target="#b18">(Gerber and Furrer 2019)</ref>. In the simulation study, recall that we are on a m Â m perturbed grid, where we have m ¼ 15 observations along one side. Here, we set r 2 k ! 0, q k ! ð3mÞ À1 and s 2 ! 10 À4 as lower bounds. The lower bounds in the case of the ranges are motivated by the effective range of an exponential GP. It is 3q, where q is the corresponding range of the GP. Since the smallest distances between neighbors on a perturbed grid are 1=m on average, it is not feasible to model GPs with ranges smaller than a third of that. This prevents individual SVCs to take on the role of a nugget effect.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A.4. Coordinate descent iterations</head><p>We briefly discuss the coordinate descent in PMLE from Sections 5.2 and 5.3. For the two covariates Z.DiffAdd and Z.SC1, we give the covariance parameters for respective SVCs at individual steps t in the coordinate descent in Figure <ref type="figure" target="#fig_4">A2</ref>. We have chosen these two covariates as both their variances have the largest absolute difference between the initial and final values. Additionally, one of the variances shrunk to 0 where the other did not. In total, we have T ¼ 7 iterations of the coordinate descent algorithm and the individual covariance parameters ðq ðtÞ k , r 2 k ðtÞ Þ for t ¼ 0, . . . , T and k ¼ 2, 4 are given by the blue dots with annotated iteration step t. Note that for both covariates the covariance parameters of the last three, respectively, five iteration steps are (almost) identical. The lower bound of the variance is indicated by the dark green line. Figure <ref type="figure" target="#fig_4">A2</ref> clearly visualizes the effect of adding the penalties on the variance parameters as both optimization trajectories primarily evolve along the variance axis first, before the range is adjusted further on. For q ðtÞ 4 , t ! 3, we see that no further adjustments are made beside the fact that q 4 is unidentifiable under r 2 4 ¼ 0 (Proposition 3.1). </p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure 1 .</head><label>1</label><figDesc>Figure 1. The coordinate descent with (a) the number of iterations steps T and (b) the modelbased optimization estimated k under the BIC.</figDesc><graphic coords="12,63.61,52.95,365.95,183.12" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Figure 3 .</head><label>3</label><figDesc>Figure 3. Voter turnout in the 2002 General Elections per electoral division. The black dots represent the observation locations per electoral division used in our analysis. They are provided in the data set, too.</figDesc><graphic coords="15,126.60,52.95,239.98,340.27" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Figure 4 .</head><label>4</label><figDesc>Figure 4. Bubble plot visualizing the results of the cross-validation. The location of the bubbles corresponds to number of fixed and random effects selected by model. Note that the locations are slightly jittered to ensure overlapping methods are still visible. The size of the bubbles corresponds to RMSE i ðmÞ per fold i and method m.</figDesc><graphic coords="18,63.61,52.95,365.95,210.22" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Figure A1 .</head><label>A1</label><figDesc>Figure A1. Perturbed grid of size 15 Â 15 within the unit square (black border). The gray squares indicate the sampling domain. The colored points are the observation locations with corresponding value of the SVC, i.e., gðsÞ:</figDesc><graphic coords="24,63.61,52.95,365.95,365.95" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Figure A2 .</head><label>A2</label><figDesc>Figure A2. Covariance parameters trajectories of two SVCs for covariates Z.DiffAdd and Z.SC1 in coordinate descent.</figDesc><graphic coords="25,63.61,52.95,365.95,225.58" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><graphic coords="13,63.61,52.95,365.95,302.51" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1 .</head><label>1</label><figDesc>True GP parametrization for simulation study.</figDesc><table><row><cell></cell><cell></cell><cell></cell><cell cols="3">True GP covariance parameters, k ¼</cell><cell></cell><cell></cell><cell></cell></row><row><cell>Parameters</cell><cell>1</cell><cell>2</cell><cell>3</cell><cell>4</cell><cell>5</cell><cell>6</cell><cell>7</cell><cell>8</cell></row><row><cell>Variance r 2 k Range q k</cell><cell>0.200 0.200</cell><cell>0 -</cell><cell>0.250 0.100</cell><cell>0 -</cell><cell>0.250 0.075</cell><cell>0.200 0.100</cell><cell>0 -</cell><cell>0 -</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 2 .</head><label>2</label><figDesc>Median</figDesc><table><row><cell>Method</cell><cell></cell><cell>Fixed effects</cell><cell></cell><cell>Random effects</cell><cell></cell></row><row><cell>m</cell><cell>MRME</cell><cell>C</cell><cell>IC</cell><cell>C</cell><cell>IC</cell></row><row><cell>PMLE</cell><cell>0.039</cell><cell>3.63</cell><cell>0.00</cell><cell>3.34</cell><cell>0.11</cell></row><row><cell>MLE</cell><cell>0.020</cell><cell>0.00</cell><cell>0.00</cell><cell>2.48</cell><cell>0.01</cell></row><row><cell>Oracle</cell><cell>0.032</cell><cell>4.00</cell><cell>0.00</cell><cell>4.00</cell><cell>0.03</cell></row></table><note><p>relative model error (MRME) and average number of correctly (C) and incorrectly (IC) estimated zero parameters, divided into fixed effects and random effects, i.e., the SVCs. Figure 2. Parameter estimates as box plots and, if any, number of zero estimates. Simulation setup: N ¼ 100 simulation runs, n ¼ 225 observations on a perturbed 15 Â 15 grid. The true values are illustrated by horizontal lines, c.f. (15) and</p><p>Table 1.</p></note></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2"><head>Table 3 .</head><label>3</label><figDesc>Description and summary statistics of Dublin Voter data.The descriptions are taken from the package GWmodel. The summary statistics include the minimum, mean, standard deviation (SD) and maximum of all 322 electoral divisions (ED). Note that due to an naming error the response of interest is called GenEl2004, although it actually refers to the 2002 GE.</figDesc><table><row><cell></cell><cell>Description</cell><cell></cell><cell cols="2">Summary statistics [in %]</cell><cell></cell></row><row><cell>Variable</cell><cell>Percentage of population in each ED …</cell><cell>Min.</cell><cell>Mean</cell><cell>SD</cell><cell>Max.</cell></row><row><cell>DiffAdd</cell><cell>… who are one-year migrants</cell><cell>1.90</cell><cell>9.86</cell><cell>6.13</cell><cell>34.74</cell></row><row><cell>LARent</cell><cell>… who are local authority renters</cell><cell>0.00</cell><cell>15.17</cell><cell>24.69</cell><cell>100.00</cell></row><row><cell>SC1</cell><cell>… who are social class one (high)</cell><cell>0.22</cell><cell>8.05</cell><cell>6.14</cell><cell>25.63</cell></row><row><cell>Unempl</cell><cell>… who are unemployed</cell><cell>1.26</cell><cell>7.56</cell><cell>5.28</cell><cell>31.14</cell></row><row><cell>LowEduc</cell><cell>… who are with little formal education</cell><cell>0.00</cell><cell>0.49</cell><cell>0.73</cell><cell>9.24</cell></row><row><cell>Age18_24</cell><cell>… who are age group</cell><cell>0.14</cell><cell>13.43</cell><cell>6.06</cell><cell>56.55</cell></row><row><cell>Age25_44</cell><cell>… who are age group</cell><cell>17.63</cell><cell>31.65</cell><cell>6.74</cell><cell>56.40</cell></row><row><cell>Age45_64</cell><cell>… who are age group</cell><cell>7.12</cell><cell>20.87</cell><cell>5.12</cell><cell>34.01</cell></row><row><cell>GenEl2004</cell><cell>… who voted in 2002 General Elections</cell><cell>27.98</cell><cell>55.61</cell><cell>8.71</cell><cell>72.91</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_3"><head>Table 5 .</head><label>5</label><figDesc>Parameter estimates of model-based approaches.</figDesc><table><row><cell></cell><cell></cell><cell></cell><cell>Mean lj</cell><cell></cell><cell cols="2">Range qk</cell><cell cols="2">Variance r2 k</cell></row><row><cell>Variable</cell><cell>j, k</cell><cell>ALASSO</cell><cell>MLE</cell><cell>PMLE</cell><cell>MLE</cell><cell>PMLE</cell><cell>MLE</cell><cell>PMLE</cell></row><row><cell>Intercept</cell><cell>1</cell><cell>-</cell><cell>-0.019</cell><cell>0</cell><cell>2.708</cell><cell>2.708</cell><cell>0.103</cell><cell>0.104</cell></row><row><cell>Z.DiffAdd</cell><cell>2</cell><cell>0</cell><cell>-0.085</cell><cell>-0.048</cell><cell>1.681</cell><cell>1.686</cell><cell>0.074</cell><cell>0.081</cell></row><row><cell>Z.LARent</cell><cell>3</cell><cell>-0.192</cell><cell>-0.233</cell><cell>-0.222</cell><cell>3.786</cell><cell>3.786</cell><cell>0</cell><cell>0</cell></row><row><cell>Z.SC1</cell><cell>4</cell><cell>0</cell><cell>0.160</cell><cell>0.120</cell><cell>4.663</cell><cell>4.663</cell><cell>0.006</cell><cell>0</cell></row><row><cell>Z.Unempl</cell><cell>5</cell><cell>-0.450</cell><cell>-0.503</cell><cell>-0.509</cell><cell>3.316</cell><cell>3.316</cell><cell>0.019</cell><cell>0.018</cell></row><row><cell>Z.LowEduc</cell><cell>6</cell><cell>0</cell><cell>0.001</cell><cell>0</cell><cell>3.280</cell><cell>3.280</cell><cell>0</cell><cell>0</cell></row><row><cell>Z.Age18_24</cell><cell>7</cell><cell>0</cell><cell>-0.072</cell><cell>-0.058</cell><cell>3.829</cell><cell>3.829</cell><cell>0</cell><cell>0</cell></row><row><cell>Z.Age25_44</cell><cell>8</cell><cell>-0.179</cell><cell>-0.245</cell><cell>-0.225</cell><cell>3.246</cell><cell>3.247</cell><cell>0.056</cell><cell>0.059</cell></row><row><cell>Z.Age45_64</cell><cell>9</cell><cell>0</cell><cell>-0.107</cell><cell>-0.072</cell><cell>6.288</cell><cell>6.288</cell><cell>0.028</cell><cell>0.030</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_4"><head>Table 4 .</head><label>4</label><figDesc>Overview of estimated shrinkage parameters (Shrink. Par.), model complexity (MC), goodness of fit (GoF) in terms of the log-likelihood ' and combined Bayesian information criterion (BIC) of all model-based approaches.</figDesc><table><row><cell></cell><cell></cell><cell>Shrink. Par.</cell><cell>MC</cell><cell></cell><cell></cell><cell></cell></row><row><cell>Method</cell><cell>kl</cell><cell>kh</cell><cell>jjljj 0</cell><cell>jjr 2 jj 0</cell><cell>GoF</cell><cell>BIC</cell></row><row><cell>ALASSO</cell><cell>0.72</cell><cell>-</cell><cell>3</cell><cell>-</cell><cell>-309.4</cell><cell>636.2</cell></row><row><cell>MLE PMLE</cell><cell>-0.13</cell><cell>-4:3 Â 10 À6</cell><cell>9 7</cell><cell>6 5</cell><cell>-264.0 -264.3</cell><cell>614.7 563.3</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_5"><head>Table 6 .</head><label>6</label><figDesc>Mean and standard deviation (SD) of out-of-sample RMSE per method aggregated over all folds.</figDesc><table><row><cell>RMSE</cell></row></table></figure>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div><head>Acknowledgment</head><p>JD sincerely thanks <rs type="person">Lucas Kook</rs> for the valuable exchange and help with respect to the modelbased optimization implementation. We would like to thank the anonymous reviewers for their valuable comments which improved the quality of this manuscript.</p></div>
+			</div>
+			<div type="funding">
+<div><head>Funding</head><p>JD and FS gratefully acknowledge the support of the <rs type="funder">Swiss Agency for Innovation</rs> (innosuisse project number <rs type="grantNumber">28408.1 PFES-ES</rs>). RF gratefully acknowledges the support of the <rs type="funder">Swiss National Science Foundation</rs> (<rs type="grantName">SNSF grant</rs> <rs type="grantNumber">175529</rs>).</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_VShQmX5">
+					<idno type="grant-number">28408.1 PFES-ES</idno>
+				</org>
+				<org type="funding" xml:id="_GsZQR2Z">
+					<idno type="grant-number">175529</idno>
+					<orgName type="grant-name">SNSF grant</orgName>
+				</org>
+			</listOrg>
+
+			<div type="availability">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Data and codes availability statement</head><p>The codes for the simulation and application are available online under <ref type="url" target="https://doi.org/10.6084/m9.figshare.16680610">https://doi.org/10.6084/  m9.figshare.16680610</ref>. The data used in the application are given in the R package GWmodel (Lu et al. 2014b<ref type="bibr" target="#b19">, Gollini et al. 2015)</ref>. The new method is implemented in the R package varycoef (Dambon et al. 2021b).</p></div>
+			</div>
+
+
+			<div type="conflict">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Disclosure statement</head><p>No potential conflict of interest was reported by the author(s).</p></div>
+			</div>
+
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Notes on contributors</head><p>Jakob A. Dambon is a Data Scientist at Swiss Re and Lecturer at the Lucerne University of Applied Sciences and Arts. His research interests include spatial statistics and accompanying statistical software, in particular for spatially varying coefficient models.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Fabio Sigrist is a Professor at the Lucerne University of Applied Sciences and Arts and his research interests include machine learning, spatial statistics and financial econometrics.</head><p>Reinhard Furrer is a Professor at the University of Zurich and his research interest include spatial and spatio-temporal statistics as well as accompanying statistical software for large data analysis.</p></div>			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<monogr>
+		<title level="m" type="main">mlrMBO: a modular framework for model-based optimization of expensive black-box functions</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Bischl</surname></persName>
+		</author>
+		<ptr target="http://arxiv.org/abs/1703.03373" />
+		<imprint>
+			<date type="published" when="2017-01">2017. Jan 2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Spatial variable selection methods for investigating acute health effects of fine particulate matter components</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Boehm Vock</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometrics</title>
+		<imprint>
+			<biblScope unit="volume">71</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="167" to="177" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Joint variable selection for fixed and random effects in linear mixed-effects models</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">D</forename><surname>Bondell</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Krishna</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">K</forename><surname>Ghosh</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometrics</title>
+		<imprint>
+			<biblScope unit="volume">66</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="1069" to="1077" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society: Series D (the Statistician)</title>
+		<imprint>
+			<biblScope unit="volume">47</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="431" to="443" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">A limited memory algorithm for bound constrained optimization</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">H</forename><surname>Byrd</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">SIAM Journal on Scientific Computing</title>
+		<imprint>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="1190" to="1208" />
+			<date type="published" when="1995">1995</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Penalized maximum likelihood estimation and variable selection in geostatistics</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Chu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Zhu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Wang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Annals of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">39</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="2607" to="2625" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<monogr>
+		<title level="m" type="main">Statistics for spatio-temporal data. Wiley series in probability and statistics</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Cressie</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2011">2011</date>
+			<publisher>Wiley</publisher>
+			<pubPlace>Hoboken, NJ</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Examining the vintage effect in hedonic pricing using spatially varying coefficients models: a case study of single-family houses in the Canton of Zurich</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">A</forename><surname>Dambon</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Swiss Journal of Economics and Statistics</title>
+		<imprint>
+			<biblScope unit="volume">158</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page">2</biblScope>
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">2021a. Maximum likelihood estimation of spatially varying coefficient models for large data with an application to real estate price prediction</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">A</forename><surname>Dambon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Sigrist</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Furrer</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Spatial Statistics</title>
+		<imprint>
+			<biblScope unit="page">100470</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<monogr>
+		<title level="m" type="main">2021b. varycoef: an R package for Gaussian processbased spatially varying coefficient models</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">A</forename><surname>Dambon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Sigrist</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Furrer</surname></persName>
+		</author>
+		<ptr target="https://arxiv.org/abs/2106.02364" />
+		<imprint>
+			<date type="published" when="2021-06">Jun 2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Variable selection via nonconcave penalized likelihood and its oracle properties</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Fan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Li</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">96</biblScope>
+			<biblScope unit="issue">456</biblScope>
+			<biblScope unit="page" from="1348" to="1360" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Comparing spatially-varying coefficients models for analysis of ecological data with non-stationary and anisotropic residual dependence</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">O</forename><surname>Finley</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Methods in Ecology and Evolution</title>
+		<imprint>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="143" to="154" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<monogr>
+		<title level="m" type="main">Geographically weighted regression: the analysis of spatially varying relationships</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2002">2002</date>
+			<publisher>Wiley</publisher>
+			<pubPlace>Chichester</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">The demographic impacts of the Irish famine: towards a greater geographical understanding</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">H</forename><surname>Kelly</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Transactions of the Institute of British Geographers</title>
+		<imprint>
+			<biblScope unit="volume">38</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="221" to="237" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Regularization paths for generalized linear models via coordinate descent</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Friedman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Hastie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Tibshirani</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Statistical Software</title>
+		<imprint>
+			<biblScope unit="volume">33</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1" to="22" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Asymptotic properties of multivariate tapering for estimation and prediction</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Furrer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Bachoc</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Du</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Multivariate Analysis</title>
+		<imprint>
+			<biblScope unit="volume">149</biblScope>
+			<biblScope unit="page" from="177" to="191" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Covariance tapering for interpolation of large spatial datasets</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Furrer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">G</forename><surname>Genton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">W</forename><surname>Nychka</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Computational and Graphical Statistics</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="502" to="523" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Spatial modeling with spatially varying coefficient processes</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">98</biblScope>
+			<biblScope unit="issue">462</biblScope>
+			<biblScope unit="page" from="387" to="396" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">optimParallel: an R package providing a parallel version of the L-BFGS-B optimization method</title>
+		<author>
+			<persName><forename type="first">F</forename><surname>Gerber</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Furrer</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The R Journal</title>
+		<imprint>
+			<biblScope unit="volume">11</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="352" to="358" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">GWmodel: an R package for exploring spatial heterogeneity using geographically weighted models</title>
+		<author>
+			<persName><forename type="first">I</forename><surname>Gollini</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Statistical Software</title>
+		<imprint>
+			<biblScope unit="volume">63</biblScope>
+			<biblScope unit="issue">17</biblScope>
+			<biblScope unit="page" from="1" to="50" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Multi-objective parameter configuration of machine learning algorithms using model-based optimization</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Horn</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Bischl</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">IEEE symposium series on computational intelligence (SSCI)</title>
+		<meeting><address><addrLine>Athens, Greece</addrLine></address></meeting>
+		<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2016">2016. 2016</date>
+			<biblScope unit="page" from="1" to="8" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Optimal geostatistical model selection</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">C</forename><surname>Huang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">S</forename><surname>Chen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">102</biblScope>
+			<biblScope unit="issue">479</biblScope>
+			<biblScope unit="page" from="1009" to="1024" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Smoothing parameter selection in nonparametric regression using an improved Akaike information criterion</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">M</forename><surname>Hurvich</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">S</forename><surname>Simonoff</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">L</forename><surname>Tsai</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society: Series B (Statistical Methodology)</title>
+		<imprint>
+			<biblScope unit="volume">60</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="271" to="293" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Fixed and random effects selection in mixed effects models</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">G</forename><surname>Ibrahim</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometrics</title>
+		<imprint>
+			<biblScope unit="volume">67</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="495" to="503" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">A taxonomy of global optimization methods based on response surfaces</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">R</forename><surname>Jones</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Global Optimization</title>
+		<imprint>
+			<biblScope unit="volume">21</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="345" to="383" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Turnout or turned off? Electoral participation in Dublin in the 21st century</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Kavanagh</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Irish Urban Studies</title>
+		<imprint>
+			<biblScope unit="volume">3</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="1" to="22" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Spatially varying coefficient models with sign preservation of the coefficient functions</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Kim</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Zhou</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Agricultural, Biological and Environmental Statistics</title>
+		<imprint>
+			<biblScope unit="volume">26</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="367" to="386" />
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">Tuning and evolution of support vector kernels</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Koch</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Evolutionary Intelligence</title>
+		<imprint>
+			<biblScope unit="volume">5</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="153" to="170" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Geographically weighted elastic net: a variable-selection and modeling method under the spatially nonstationary condition</title>
+		<author>
+			<persName><forename type="first">K</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">S N</forename><surname>Lam</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of the American Association of Geographers</title>
+		<imprint>
+			<biblScope unit="volume">108</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1582" to="1600" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">Variable selection in semiparametric regression modeling</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Liang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">36</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="261" to="286" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Spatial homogeneity pursuit of regression coefficients for large datasets</title>
+		<author>
+			<persName><forename type="first">F</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Sang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">114</biblScope>
+			<biblScope unit="issue">527</biblScope>
+			<biblScope unit="page" from="1050" to="1062" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">Geographically weighted regression with a non-Euclidean distance metric: a case study using hedonic house price data</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Lu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Geographical Information Science</title>
+		<imprint>
+			<biblScope unit="volume">28</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="660" to="681" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">The GWmodel R package: further topics for exploring spatial heterogeneity using geographically weighted models</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Lu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geo-Spatial Information Science</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="85" to="101" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">A bootstrap test for constant coefficients in geographically weighted regression models</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">L</forename><surname>Mei</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Xu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Wang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Geographical Information Science</title>
+		<imprint>
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="issue">8</biblScope>
+			<biblScope unit="page" from="1622" to="1643" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<analytic>
+		<title level="a" type="main">Model selection in linear mixed models</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>M€ Uller</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">L</forename><surname>Scealy</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">H</forename><surname>Welsh</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistical Science</title>
+		<imprint>
+			<biblScope unit="volume">28</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="135" to="167" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<analytic>
+		<title level="a" type="main">Bayesian variable selection for multivariate spatially varying coefficient regression</title>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">J</forename><surname>Reich</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometrics</title>
+		<imprint>
+			<biblScope unit="volume">66</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="772" to="782" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<analytic>
+		<title level="a" type="main">Estimation for high-dimensional linear mixed-effects models using &apos; 1 -penalization</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Schelldorfer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>B€ Uhlmann</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Van De Geer</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Scandinavian Journal of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">38</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="197" to="214" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<analytic>
+		<title level="a" type="main">Flexible spatial covariance functions</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">M</forename><surname>Schmidt</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Guttorp</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Spatial Statistics</title>
+		<imprint>
+			<biblScope unit="volume">37</biblScope>
+			<biblScope unit="page">100416</biblScope>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<analytic>
+		<title level="a" type="main">Spatial Bayesian variable selection with application to functional magnetic resonance imaging</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Smith</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Fahrmeir</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">102</biblScope>
+			<biblScope unit="issue">478</biblScope>
+			<biblScope unit="page" from="417" to="431" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<analytic>
+		<title level="a" type="main">Regression shrinkage and selection via the lasso</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Tibshirani</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society: Series B (Methodological))</title>
+		<imprint>
+			<biblScope unit="volume">58</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="267" to="288" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b40">
+	<analytic>
+		<title level="a" type="main">Lazy lasso for local regression</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Vidaurre</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Bielza</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Larrañaga</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Computational Statistics</title>
+		<imprint>
+			<biblScope unit="volume">27</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="531" to="550" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b41">
+	<monogr>
+		<title level="m" type="main">Anisotropy</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Wackernagel</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1995">1995</date>
+			<publisher>Springer</publisher>
+			<biblScope unit="page" from="46" to="49" />
+			<pubPlace>Berlin</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b42">
+	<analytic>
+		<title level="a" type="main">Variable selection in spatial regression via penalized least squares</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Zhu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Canadian Journal of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">37</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="607" to="624" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b43">
+	<analytic>
+		<title level="a" type="main">Diagnostic tools and a remedial method for collinearity in geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">C</forename><surname>Wheeler</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environment and Planning A: Economy and Space</title>
+		<imprint>
+			<biblScope unit="volume">39</biblScope>
+			<biblScope unit="issue">10</biblScope>
+			<biblScope unit="page" from="2464" to="2481" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b44">
+	<analytic>
+		<title level="a" type="main">Simultaneous coefficient penalization and model selection in geographically weighted regression: the geographically weighted lasso</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">C</forename><surname>Wheeler</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environment and Planning A: Economy and Space</title>
+		<imprint>
+			<biblScope unit="volume">41</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="722" to="742" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b45">
+	<analytic>
+		<title level="a" type="main">A Bayesian approach to hedonic price analysis</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">C</forename><surname>Wheeler</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Papers in Regional Science</title>
+		<imprint>
+			<biblScope unit="volume">93</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="663" to="683" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b46">
+	<analytic>
+		<title level="a" type="main">An assessment of coefficient accuracy in linear regression models with spatially varying coefficients</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">C</forename><surname>Wheeler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">A</forename><surname>Calder</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Geographical Systems</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="145" to="166" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b47">
+	<analytic>
+		<title level="a" type="main">Multicollinearity and correlation among local regression coefficients in geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">C</forename><surname>Wheeler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Tiefelsdorf</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Geographical Systems</title>
+		<imprint>
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="161" to="187" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b48">
+	<analytic>
+		<title level="a" type="main">Comparing spatially varying coefficient models: a case study examining violent crime rates and their relationships to alcohol outlets and illegal drug arrests</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">C</forename><surname>Wheeler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">A</forename><surname>Waller</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Geographical Systems</title>
+		<imprint>
+			<biblScope unit="volume">11</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1" to="22" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b49">
+	<analytic>
+		<title level="a" type="main">On measuring and correcting the effects of data mining and model selection</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Ye</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">93</biblScope>
+			<biblScope unit="issue">441</biblScope>
+			<biblScope unit="page" from="120" to="131" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b50">
+	<analytic>
+		<title level="a" type="main">The adaptive lasso and its oracle properties</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Zou</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">101</biblScope>
+			<biblScope unit="issue">476</biblScope>
+			<biblScope unit="page" from="1418" to="1429" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b51">
+	<analytic>
+		<title level="a" type="main">Regularization and variable selection via the elastic net</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Zou</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Hastie</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society: Series B (Statistical Methodology)</title>
+		<imprint>
+			<biblScope unit="volume">67</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="301" to="320" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

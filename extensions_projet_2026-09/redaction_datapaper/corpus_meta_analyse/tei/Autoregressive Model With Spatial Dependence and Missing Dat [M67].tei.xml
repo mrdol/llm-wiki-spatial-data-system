@@ -1,0 +1,501 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Autoregressive Model with Spatial Dependence and Missing Data</title>
+				<funder ref="#_sCPVfe9">
+					<orgName type="full">Beijing Municipal Social Science Foundation</orgName>
+				</funder>
+				<funder>
+					<orgName type="full">Fundamental Research Funds for the Central Universities</orgName>
+				</funder>
+				<funder>
+					<orgName type="full">China&apos;s National Key Research Special Program</orgName>
+				</funder>
+				<funder>
+					<orgName type="full">Center for Applied Statistics of Renmin University of China</orgName>
+				</funder>
+				<funder>
+					<orgName type="full">Renmin University of China</orgName>
+				</funder>
+				<funder ref="#_M6jBeTE #_BNt3C9P #_fKr7kHn #_TRpz8We #_KvFU7ra #_JW8EkbQ">
+					<orgName type="full">National Natural Science Foundation of China</orgName>
+				</funder>
+				<funder ref="#_9JUhPsp">
+					<orgName type="full">Research Funds of Renmin University of China</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">Jing</forename><surname>Zhou</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution">Renmin University of China</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Jin</forename><surname>Liu</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="institution">Nankai University</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Feifei</forename><surname>Wang</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution">Renmin University of China</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Hansheng</forename><surname>Wang</surname></persName>
+							<affiliation key="aff2">
+								<orgName type="institution">Peking University † Zhou&apos;</orgName>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Autoregressive Model with Spatial Dependence and Missing Data</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<idno type="MD5">83A3F4A7F9C036C4FA5862579F3EC6CE</idno>
+					<idno type="DOI">10.1080/07350015.2020.1766471</idno>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-29T10:20+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>Missing Data</term>
+					<term>Spatial-temporal Dependence, Spatial Error Model</term>
+					<term>Weighted Least Squares Estimator</term>
+					<term>Weighted Maximum Likelihood Estimator</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>We study herein an autoregressive model with spatially correlated error terms and missing data. A logistic regression model with completely observed covariates is used to model the missingness mechanism. An autoregressive model is used to accommodate time series dependence, and a spatial error model is used to capture spatial dependence. To estimate the model, a weighted least squares estimator (WLSE) is developed for the temporal component, and a weighted maximum likelihood estimator (WMLE) is developed for the spatial component. The asymptotic properties for both estimators are investigated. The finite sample performance is assessed through extensive simulation studies. A real data example about Beijing's PM 2.5 level data is illustrated.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">INTRODUCTION</head><p>A c c e p t e d M a n u s c r i p t Time series data with spatial dependence are common in practice. Consider, for example, the PM2.5 air quality data released by the Beijing Municipal Environmental Monitoring Center. The PM2.5 readings are collected at different monitoring sites and different time points in Beijing. This is a dataset of profound importance for public health. Statistical modeling in this regard is challenging because two types of dependencies are involved, namely, time series dependence and spatial dependence. In addition, due to some practical reasons, a significant portion of the data could be missing, which makes the situation even more complicated.</p><p>It is noteworthy that even with complete data, determining how to statistically model data with both time series and spatial dependencies can be difficult. To accommodate time series dependence, various time series models have been developed, including autoregressive (AR) models, moving average models <ref type="bibr" target="#b1">(Brockwell and Davis, 1991;</ref><ref type="bibr" target="#b6">Hamilton, 1994;</ref><ref type="bibr" target="#b4">Fuller, 1996)</ref> and others. To accommodate spatial dependence, various spatial models have been developed, including spatial autoregressive models <ref type="bibr" target="#b11">(Ord, 1975;</ref><ref type="bibr" target="#b0">Anselin, 1980;</ref><ref type="bibr">Lee et al., 2010)</ref>, spatial error models (LeSage and Pace, 2009) and others. However, to simultaneously consider both types of dependencies remains a challenging problem. In this regard, various dynamic panel data models have been proposed. For example, a spatial dynamic panel data (SDPD) model with fixed individual effects was proposed by <ref type="bibr" target="#b16">Yu et al. (2008)</ref>. <ref type="bibr" target="#b9">Lee and Yu (2014)</ref> extended that model and proposed a SDPD model with both individual and time effects. <ref type="bibr" target="#b7">Lee and Yu (2010)</ref> developed spatial autoregressive panel data models with fixed individual effects and spatial autoregressive disturbances. <ref type="bibr" target="#b13">Su and Yang (2015)</ref> proposed dynamic panel data models with spatial errors. Recently, <ref type="bibr" target="#b15">Yang (2018)</ref> developed SDPD models with spatial errors for short panels. More discussions can be found in the above studies and references therein. In addition, <ref type="bibr" target="#b3">Dou et al. (2016)</ref> and <ref type="bibr" target="#b5">Gao et al. (2019)</ref> developed spatiotemporal models with unknown coefficients as well as diagonal or banded matrices. It is noteworthy that all of the above models were developed for complete data.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A c c e p t e d M a n u s c r i p t</head><p>In this work, we propose a novel autoregressive model but with spatially correlated errors. Specifically, a standard autoregressive model is used to model the temporal effect. By doing so, each time series can be fitted separately in a parallel manner. The competitive advantage could be significant if the number of time series is large. To capture spatial dependence, the time series errors from different locations are allowed to be spatially dependent. The dependency is modeled by the widely used spatial autoregressive model. In the case of complete data, the model can be fitted by a quasi-maximum likelihood method <ref type="bibr" target="#b16">(Yu et al., 2008)</ref>. However, establishing an approach to conduct parameter estimation in the presence of missing data is challenging. To fill this theoretical gap, a new method needs to be developed.</p><p>To solve this problem, we first need a probabilistic model to reflect the missingness mechanism. To this end, a standard logistic regression model is used. In theory, this model can be replaced by any parametric regression model with a binary response. The covariate used in the logistic regression is assumed to be completely observed. By doing so, we implicitly adopt the missing at random (MAR) assumption. In addition, two other popularly used assumptions are missing completely at random (MCAR) and nonignorable missing (NM). See <ref type="bibr" target="#b12">Rubin (1976)</ref> for a more detailed discussion. In our case, the MAR assumption implies that conditional on the observed covariates, whether the response is missing or not is independent of the response itself.</p><p>Under the MAR assumption, a weighted least squares estimator (WLSE) is proposed to estimate the autoregressive dependence. In addition, a weighted maximum likelihood estimator (WMLE) is developed to estimate the spatial dependence. Both estimators are shown to be consistent and asymptotically normal. Extensive simulation studies are presented to demonstrate their finite sample performance. Last, a real data example based on Beijing's PM2.5 level data is demonstrated.</p><p>The rest of the article is organized as follows. Section 2 introduces the model and methodology. The weighted least squares estimator and weighted maximum likelihood estimator are developed. In Section 3, the asymptotic A c c e p t e d M a n u s c r i p t properties of the proposed estimators are presented. Extensive numerical studies and a real data example are given in Section 4. Finally, we conclude the paper with a brief discussion in Section 5. All detailed techniques are relegated to the appendix.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">MODEL AND METHODOLOGY</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1">Model Setup</head><p>Let 1 it Y  be a continuous response collected from the ith ( 1 iN  ) region at time point t ( 1 tT  ). For a given i, { : 1 } it Y t T  constitutes a time series.</p><p>To model this time series dependence, the following autoregressive model is considered:</p><p>(</p><p>,</p><formula xml:id="formula_1">it i i t it YY    (2.1)</formula><p>where αi is the autocorrelation coefficient characterizing region i's temporal dependence, and it  is the error term. In addition, to guarantee the stationarity of the time series, we assume m a</p><p>x | | 1 ii   for some positive constant δ. It is noted that the intercept is omitted for simplicity, which implies that the {} it Y values need to be centralized before the formal data analysis. Next, define 1 ( , , ) t t N t   . Assume t has a spatially dependent structure, which is characterized by the following spatial error model (SEM)</p><p>(see <ref type="bibr" target="#b11">Ord, 1975;</ref><ref type="bibr" target="#b0">Anselin, 1980;</ref><ref type="bibr" target="#b10">LeSage and Pace, 2009;</ref><ref type="bibr">Lee et al., 2010)</ref>:</p><p>, t t t W   (2.2) where 1   is the spatial autoregressive parameter satisfying | | 1   (Carlin et al., 2014), and 1 ( , , ) N t t N t  is the residual vector with a mean of 0 and covariance matrix 2 NN I   </p><p>. Here, I stands for an N × N identity matrix.</p><p>In addition, we assume that</p><p>4 () it E</p><p> and that t is independent and identically distributed over time t. The weight matrix W is the row-normalized adjacency matrix. One typical adjacency matrix is defined as</p><p>() NN ij Aa   , where aij = 1 if region i is bordered by region j, and aij = 0 otherwise. Then, A c c e p t e d M a n u s c r i p t () NN ij Ww   is defined as / ij ij i w a d  , where 1 N i ij j da    is the total number of regions that border i. By (2.2), we know that 1 () tt IW    . As a result, t follows a distribution with a mean of 0 and covariance matrix 2 1 1 ( ) ( ) ( ) t ij I W I W             . Define as the σ-field generated by { ( , ) : 1 ,1 } it it Y X i N t T     . To cope with the missing data problem, define a binary indicator {0 ,1} it Z  such that e x p ( ) ( 1 | ) , 1 e x p ( ) it it it it X P Z p X       (2.3) where Zit = 1 indicates that Yit is observed, and Zit = 0 indicates that Yit is missing. Accordingly, the Zit values are conditionally independent with each other on . The random variable ,1 , ( , , ) p it it it p X X X  are p-dimensional covariates with no missing value, and 1 ( , , ) p p     is the associated regression coefficient vector. Conditional on , the Zit values are assumed to be mutually independent. 2.2 Least Squares Estimation of Temporal Dependence We first consider how to estimate the AR model (2.1) in the presence of missing data. A straightforward solution would be to consider the "complete data" only. Complete data refer to those that are completely observed pairs ( 1 ) ( , ) it i t YY  . Accordingly, the least squares objective function can be constructed as 2 1 ( 1 ) ( 1 ) 2 ( ) ( ) T i it i t it i i t t Q Z Z Y Y      . The corresponding least squares estimator (LSE) is given by the following: 21 ( 1 ) ( 1 ) ( 1 ) ( 1 ) 22 ˆ. { } { } TT L S E i it i t it i t it i t i t tt Z Z Y Y Z Z Y          One can verify that 2 1 ( 1 ) ( 1 ) 2 { ( ) | } ( ) T i it i t it i i t t E Q p p Y Y      , which suggests that different weights (e.g., ( 1 ) , it i t pp  ) are expected for different sample pairs ( A c c e p t e d M a n u s c r i p t ( 1 ) , it i t YY  ). In other words, each sample pair is no longer treated equally in the estimation process. This might make ˆL S E i  less efficient. To fix this problem, we propose the following weighted least squares type of objective function as 12 2 ( 1 ) ( 1 ) ( 1 ) 2 ( ) ( ) ( ) ( ) . T i it i t it i t it i i t t Q p p Z Z Y Y         This leads to the following weighted least squares estimator (WLSE) as follows: 2 ( 1 ) ( 1 ) ( 1 ) ( 1 ) 1 22 ( 1 ) ( 1 ) . { } { } TT it i t it i t it i t i t W L S E i tt it i t it i t Z Z Y Y Z Z Y p p p p           The WLSE is an infeasible estimator because its computation involves the unknown parameter β and thus pit values. To address the unknown parameter, we replace β in W L S E i  by its maximum likelihood estimator  . This leads to the following feasible WLSE as follows: 2 ( 1 ) ( 1 ) ( 1 ) ( 1 ) 1 22 ( 1 ) ( 1 ) ˆ. ˆˆˆ{ } { } TT it i t it i t it i t i t W L S E i tt it i t it i t Z Z Y Y Z Z Y p p p p           Here, ˆê x p ( ) / {1 e x p ( )} it it it p X X   , and  is defined as ˆa rg m a x ( )    , where 12 ( ) lo g {1 e x p ( ) } . [] NT it it it it Z X X         2.3 Maximum Likelihood Estimation of Spatial Dependence We next consider how to estimate spatial dependence in the model (2.2) in the presence of missing data. In this case, complete data refer to the completely observed residual pairs ( , ) it jt  . To this end, a log maximum likelihood objective function for 2 ( , )     omitting some constants can be constructed as follows: 22 00 ( 1 ) ( 1 ) 2</p><formula xml:id="formula_2">2 1 , 1 1 ( 1) ( ) ( , ) lo g ( ) lo g ( ) 22 1 ( ), 2 || TN it i t jt j t it jt ij t i j T N T Z Z Z Z w                     A c c e p t e d M a n u s c r i p t where ( ) ( )( ) I W I W       </formula><p>, and</p><p>() ij w  is the (i, j)th element in the matrix ()   . Similarly, one can verify the following equation:</p><formula xml:id="formula_3">22 0 2 ( 1 ) ( 1 ) ( 1 ) 2 21 1 ( 1) { ( , ) | } lo g ( ) lo g ( ) 22 1 ( ) ( ) . 2 || {} TN it i t jt j t it jt ij it i t it ii t i j i T N T E p p p p w p p w                         It should be noted that ( 1 ) it it i i t YY   </formula><p>. Therefore, the expected weight for</p><formula xml:id="formula_4">it jt  is ( 1 ) ( 1 ) it i t jt j t p p p p  .</formula><p>As a result, each residual pair is no longer treated equally in the estimation process, which leads to a less efficient estimator. To fix the problem, we propose the following weighted log-likelihood type of objective function:</p><formula xml:id="formula_5">22 11 2 1 ( 1) 1 ( ) ( , ) lo g ( ) lo g ( ) ( ), 2 2 2 || T N T f              (2.4)</formula><p>where () f  is given by the following:</p><formula xml:id="formula_6">( 1 ) ( 1 ) ( 1 ) 2 21 ( 1 ) ( 1 ) ( 1 ) 1 1 1 22 2 ( ) ( ) ( ) ( ) d ia g ( ( ) ) d ia g ( )<label>(</label></formula><p>) , {} { } { } TN it i t jt j t it i t it jt ij it ii t i j i it i t jt j t it i t TT t t t t t t t t t t tt T t t t t Z Z Z Z Z Z f w w p p p p p p A</p><formula xml:id="formula_7">                                     ( 1 ) d ia g { } NN t it i t pp    , (<label>1</label></formula><formula xml:id="formula_8">) d i a g { } NN t it i t ZZ   </formula><p>, and</p><formula xml:id="formula_9">1 1 1 ( ) { ( ) d ia g ( ( ))} d ia g ( ( )) t t t t t t t A              .</formula><p>To optimize (2.4), we first derive the maximum likelihood estimator</p><p>of 2  by letting its first-order derivative equal 0, which leads to 21 { ( 1)} ( ) N T f    . We then replace 2  by 2  in (2.4) and obtain a profiled log-likelihood function as follows (omitting some constants): * 1 2 1 ( 1) ( ) lo g ( ) lo g ( ) . 22 | | { } T t t t t T N T A          (2.5) A c c e p t e d M a n u s c r i p t This leads to the weighted maximum likelihood estimator (WMLE) as * 1 a r g m a x ( ) W M L E    . The WMLE is an infeasible estimator since its computation allows unknown parameters αi and β. To fix this problem, we replace αi with ˆW L S E i  and β with  . As a result, we can obtain the estimated t and ˆ() t A  by replacing it  and it p with ( 1 ) ˆŴ L S E it it i i t YY    and ˆit p , respectively. In this way, we can obtain a feasible weighted log-likelihood objective function as follows: 22 22 2 2 1 ( 1) 1 ( ) ( , ) lo g ( ) lo g ( ) ( ) , 2 2 2 || T tt t t T N T A                (2.6) where 1 1 1 ˆ( ) { ( ) d ia g ( ( ) ) } d ia g ( ( ) ) , t t t t t t t A              and 1 ˆ( , , ) t t N t  </p><p>. Similar to (2.5), we can obtain a feasible profiled loglikelihood function as follows:</p><formula xml:id="formula_10">* 2 2 1 ( 1) ( ) lo g ( ) lo g ( ) . 22 | | { } T tt t t T N T A          (2.7)</formula><p>This leads to a feasible estimator</p><formula xml:id="formula_11">* 2 ˆa r g m a x ( ) W M L E    .</formula><p>Remark. An estimator that is likely more efficient for the temporal dependence 1 ( , , ) N N     can be obtained when the spatial dependence is given.</p><p>Specifically, the quantity in (2.4) can be rewritten as follows:</p><formula xml:id="formula_12">* 2 2 3 11 2 2 1 ( 1) ( , , ) lo g ( ) lo g ( ) 22 1 d ia g ( ) ( ) d ia g ( ) , 2 || { } { } T t t t t t t T N T A                    (2.8)</formula><p>which is a function of ρ,</p><p>2  and α. Here, 1 ( , , ) N t t N t YY  . By temporarily fixing ρ and 2  and optimizing * 3 with respect to α, this leads to another estimated α as  as follows: 1 1 1 1 22 d ia g ( ) ( ) d ia g ( ) d ia g ( ) ( ) . { } { } TT t t t t t t tt AA           A c c e p t e d M a n u s c r i p t The unreported simulation studies show that  has basically the same efficiency as the proposed ˆW L S E  . The reason might be because the quantity in () t A  of (2.8) can be split into two parts according to whether i = j or not. For the part with ij  , it requires that Zit, ( 1 ) it Z  , Zjt and ( 1 ) jt Z  are all nonmissing.</p><p>This is a particularly difficult condition to satisfy in the context of missing data.</p><p>However, the part with i = j only requires that Zit and ( 1 ) it Z  are nonmissing, which happens to be the proposed estimator (e.g.,</p><formula xml:id="formula_13">ˆW L S E </formula><p>). For simplicity, we focus on the asymptotic properties for the proposed</p><formula xml:id="formula_14">ˆW L S E </formula><p>estimator.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">THEORETICAL RESULTS</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1">Technical Conditions</head><p>Let ()   and ()   be the first-and second-order of ()   , i.e.,</p><formula xml:id="formula_15">( ) ( ) / ( ) 2 d d W W W W            , 22 ( ) ( ) / 2 d d W W        . Denote<label>(</label></formula><p>) ( ) / tt A d A d     , and 22 ( ) ( ) / tt A d A d     . To investigate the asymptotic properties of the proposed estimators of αi (i.e., infeasible and feasible WLSEs), and ρ (i.e., infeasible and feasible WMLEs), we consider the following technical conditions. (C1) (MISSING RATE) Assume the expectation 2 2 2 1 1 1 ( 1 ) ( 1 ) () i i t it it i t E Y p p    </p><p>exists. There also exists a positive matrix</p><formula xml:id="formula_16">1 1 1 2 2 1 2 2 ( , ; , )       such that 1 1 2 2 1 11 1 2 1 4 1 1 2 2 1 4 1 22 2 1 1 2 1 1 2 2 1 lim ( 4 ) 2 tr ( ) ( ) tr ( ) ( ) ( 4 ) tr ( ) ( ) lim ( 4 ) 2 tr ( ) ( ) tr { ( ) ( ) } ( 4 ) lim ( 4 ) tr ( ) ( ) ( 4 ) 2 tr ( [ { } ] { } ) {} ( [ { } ] ) { } [ { tt N tt N t N N E A A N N E A A N N E A                                                   2 11 ( ) ( ) ( ) tr ( ) ( ) tr ( ) ( ) } { } { } ] t tt A AA              A c c e p t e d M a n u s c r i p t (<label>C2</label></formula><p>) (WEIGHT MATRIX) There exists a positive matrix 1 1 1 2 2 1 2 2 ( , ; , )       such that 1 1 2 11 lim ( 2 ) tr ( ) ( ) [{ } ] N N        , 41 22 ( 2 )    , and 2 1 1 1 2 2 1 lim ( 2 ) tr{ ( ) ( ) } N N             . (C3) (DIVERGING SPEED) For some finite positive constant c &gt; 0, assume 1 / (1) c N T O   . As N  , T also goes to infinity, but at a faster speed. These conditions are commonly used in the literature. Specifically, Condition (C1) provides the restrictions of the missing rate. It is worth noting that the missing rate should not be too large. Furthermore, when there are no missing observations, these conditions hold because they will reduce to the traditional conditions for the time series and spatial autoregressive model. Condition (C2) puts the constraint on the weight matrix. A similar condition was also used by Sun and Wang (2019). It should be noted that 22  is an extension of 22  . When there is no missingness, () t A  is equal to ()   , and then 22  becomes 22  . Condition (C3) is a special case of / TN  . It assumes that T should be diverging faster than N. Otherwise, the uniform convergence rate of ˆi  would be too slow. Accordingly, unnecessary bias can be produced for the global parameter  .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2">Asymptotic Results</head><p>With the help of the above conditions, we then have the following theorems.</p><p>We first present the asymptotic theories for the infeasible and feasible WLSEs of αi.</p><p>Theorem 1.</p><p>Assume conditions (C1)-(C3). For any 1 i  , as</p><p>T  , we have 2 1 4 0 , , ( ) ( ) i W L S E i i i d Y TN     A c c e p t e d M a n u s c r i p t Theorem 2. Assume conditions (C1)-(C3). For any 1 i  , as T  , we have 2 1 4 ˆ0 , , ( ) ( ) i W L S E i i i d Y TN     where 2 2 2 / (1 ) i Y ii i     , and 2 ii  is the i-th diagonal element of Σ. The proof of Theorem 1 and 2 are given in Appendices B and C, respectively. According to these two theorems, we can draw the conclusion that both the infeasible estimator W L S E i  and the feasible estimator ˆW L S E i  are consistent and asymptotically normal. As one can see, the theoretical results given in Theorems 1-2 hold as long as T goes to infinity, having nothing to do with N. This result is not surprising because Theorems 1-2 are established based on model (2.1) and (2.3) from the given individual i only. Next, we investigate the asymptotic properties for the infeasible and feasible estimators of the spatial dependence of ρ. To perform this, we further define 22 ( , )     . Theorem 3 presents the property of the infeasible WMLE of θ. Theorem 3. Assume conditions (C1)-(C3) hold. As m in { , } NT  , we have 11 0 , , ( ) ( ) W M L E d N T N        where Δ and Λ are defined as in conditions (C1) and (C2), respectively. The proof of this theorem is given in Appendix D; it suggests that the infeasible W M L E  is consistent and asymptotically normal when some conditions hold. A two-step estimation procedure is used to estimate the covariance. We assume t and ( , )  are given and use the sample versions of Λ and Δ. For example, 11  can be estimated by 1 1 2 2 1 1 2 1 11 2 ˆ{ 4 ( 1) } 2 tr ( ) ( ) tr ( ) ( ) ( 4 ) tr ( ) ( ) ( [ { } ] { } ) { } T tt t N T A A N                       . In the first step, we estimate heterogeneous dynamic (temporal) effects αi. Then, the spatial effect ρ is estimated in the second step, which requires the A c c e p t e d M a n u s c r i p t order of ŝ u p ( ) i i   . Thus, we assume 1 / (1) c N T O   . Similar to W M L E  , the asymptotic property for the feasible ˆW M L E  is given in Theorem 4. Theorem 4. Assume conditions (C1)-(C3) hold. As m in { , } NT  , we have 11 ˆ0 , . ( ) ( ) W M L E d N T N        The proof of this theorem is shown in Appendix E. For the estimation of the covariance matrix, we use the estimated  and ˆW L S E i  , and ( 1 ) ˆŴ L S E it it i i t YY   </p><p>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">NUMERICAL STUDIES</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1">Simulation Models</head><p>To assess the finite sample performance of the proposed methods, we present several simulation studies. For a given network size N, the network adjacency matrix</p><formula xml:id="formula_17">() ij Aa </formula><p>is simulated as follows. We first generate N independent and identically distributed random variables according to an exponential distribution with a mean of 10. Denote these variables by Ui with</p><formula xml:id="formula_18">1 iN </formula><p>. For each node i, we randomly select a sample size of [] T  . We then redefine 0 , it i t T YY   , where 00 1, , t T T T   </p><p>. This leads to the final sequence of</p><formula xml:id="formula_19">{ : 1 ,1 } it Y i N t T     .</formula><p>We next consider two missing mechanism cases, i.e., MCAR and MAR.</p><p>According to model (2.3), for each node i, Yit is set to be nonmissing with the probability of pit. For illustration, we consider here one covariate</p><formula xml:id="formula_20">1 it X  .</formula><p>Then, the nonmissing probability is set to be</p><formula xml:id="formula_21">0 1 0 1 { e x p ( )} / {1 e x p ( )} it it XX       </formula><p>, where β0 is a tuning parameter controlling the missing rate, and β1 is the corresponding coefficient. We consider two different values of β0, i.e., 0 1   and 0.5, which results in a missing rate of approximately 25% and 35% on average, respectively. In the MCAR case, the covariate Xit is simulated from a standard normal distribution.</p><p>In the MAR case, we set</p><formula xml:id="formula_22">( 1 ) it it i t it X Y Y e  </formula><p>, where eit is generated from a standard normal distribution. Finally, for each experiment, β1 is set to be 0.1.</p><p>For a reliable evaluation, each experiment is randomly replicated M = 1000 times.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2">Performance of Least Squares Estimation</head><p>According to Theorems 1 and 2, we know that both the infeasible and feasible WLSEs are T -consistent and asymptotically normal. To investigate the asymptotic performance of these estimators, we consider here various time spans (i.e.,</p><formula xml:id="formula_23">2 0 0 , 5 0 0 ,1 0 0 0 , 2 0 0 0 T </formula><p>). In addition, different network sizes are considered (i.e., N = 100, 200, 400). Let</p><formula xml:id="formula_24">( )<label>( ) ( ) ( ) ( ) ˆˆˆ( ) ( , , )</label></formula><formula xml:id="formula_25">m m L S E m W L S E m W L S E m k i i i      </formula><p>be the estimators obtained in the mth replication. We employ the following two measures to gauge the performance of the proposed method. First, for a given parameter θk with 13 k  , the rootmean-square error is evaluated by</p><formula xml:id="formula_26">1 ( ) 2 1 / 2 1 R M S E { ( ) } M m k k k m M      . Second, for 13 k  , a 95% confidence interval is constructed for θk as A c c e p t e d M a n u s c r i p t<label>( ) ( ) ( ) ( ) ( ) 0 .</label></formula><p>9 7 5 0 .9 7 5 ˆĈ I ( S E , S E ) mm m m m kk k k k zz     , where SE m k is the computed standard error according to the asymptotic covariance in Theorem 1 and Theorem 2 by plugging in the resulting estimators, respectively, and z  is the αth quantile of a standard normal distribution. Consequently, the empirical coverage probability (ECP) is computed as 1 ( ) 1 E C P ( C I ) M m k k k m MI      , where ( •) I is the indicator function. For a given sample size T, we compute the average values of R M S E k and E C P k across different i. Simulation results are presented in Table 1 and Table 2. Table 1 displays the results for the MCAR case. We can see (i.e., N = 100) that the average RMSE value decreases as the sample size T increases for all three estimators. Moreover, the empirical coverage probability for W L S E i  and ˆW L S E i  remains stable around the nominal level of 95%. Another interesting finding is that with a lower missing rate, the average RMSE is smaller. The pattern is nearly the same across different settings of N. Table 2 presents the results for the MAR case. From the table, we can see that the traditional OLS estimator no longer works, whereas both WLSEs work well. The RMSE value for W L S E i  and ˆW L S E i  decreases as the sample size T increases. Furthermore, the empirical coverage probability remains around the nominal level of 95%. All of the results corroborate the theoretical results in Theorems 1 and 2.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.3">Performance of Maximum Likelihood Estimation</head><p>Theorem 3 and 4 show that both the infeasible and feasible WMLEs for parameter ρ are NT -consistent and asymptotically normal. To verify the asymptotic performance of these estimators, we consider different network sizes (N = 100, 200 and 500) and different time spans (T = 100, 200 and 500).</p><p>Similar to the least squares estimators of αi, we also use the RMSE and ECP to evaluate the performance of the proposed estimators of ρ. Detailed simulation results are summarized in Table <ref type="table" target="#tab_1">3</ref> and 4, from which we can draw the following conclusions. First, in the MCAR case presented in Table 3, we A c c e p t e d M a n u s c r i p t find that both the infeasible and feasible WMLEs are consistent because their RMSE values decrease toward 0 as N  and T  . Second, the empirical coverage probabilities are fairly close to their nominal level 95%, which suggests that the estimated standard errors (i.e., SE ) are well approximated. Third, quantitatively similar results are obtained for the MAR case shown in Table 4, which implies the two estimators also work well in the MAR missingness mechanism. All of these findings confirm that the proposed estimators W M L E  and ˆW M L E  are indeed consistent and asymptotically normal. 4.4 A Real Data Example As our last example, we present here a real data study based on Beijing PM2.5 levels. The original data were generously donated by Professor Songxi Chen from Peking University. The dataset can be found at the UC Irvine Machine Learning Repository (<ref type="url" target="http://archive.ics.uci.edu/ml/index.php">http://archive.ics.uci.edu/ml/index.php</ref>). It contains hourly PM2.5 readings collected from 11 different state-owned monitoring sets.</p><p>For illustration purposes, we use the data from one particular month, which leads to a total of T = 744 hourly recordings for each of the N = 11 monitoring sites.</p><p>For this example, the response Yit is the standardized PM2.5 reading collected from the ith location (i.e., one state-owned monitoring site) and the tth time point (i.e., one particular hour in a day). Due to some unknown practical reasons, the collected PM2.5 data are often missing for some sites. For a given time point t, we define this time point to be "complete" if all Yit values are observed for every 1 iN  . We then find that the percentage of the complete time points is as low as 89%. For the remaining 11% of the time points, a standard spatial autoregression model cannot be estimated due to incompleteness.</p><p>To capture the spatial dependence, two different types of adjacency matrices are constructed. The first is a binary adjacency matrix. In this case, we define aij = 1 if the geographical distance of the two monitoring sites (i.e., ij   ) is less than 10 kilometers. Otherwise, we define aij = 0. The second adjacency A c c e p t e d M a n u <ref type="url" target="http://archive.ics.uci.edu/ml/index.php">s</ref> c r i p t matrix is a value-based adjacency matrix. In this case, we define aij to be the straight-line distance between two sites. In this case aijs are positive continuous variables and thus are no longer binary. Before the formal analysis, both adjacency matrices are row normalized.</p><p>To study the missingness mechanism, the following three covariates are considered. They are temperature (degree Celsius), pressure (hPa) and wind speed (m/s). The logistic regression results show that the coefficients for the above three covariates are -0.06, -0.05 and 0.29, respectively. All of them are statistically significant at the 1% level. This result suggests that all three meteorological indicators have significant influence on the missingness of PM2.5. With the help of this logistic regression model, we are able to compute the spatial autocorrelation estimate. We find that the estimated spatial correlation coefficients are given by 0.441 and 0.509 for the two different adjacency matrices. The estimated standard errors are 0.010 and 0.013, respectively. This result suggests that the estimated spatial correlation coefficients are statistically significant at the 1% level for both cases. Thus, the spatial dynamics of the PM2.5 readings from different monitoring sites can be statistically measured.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5">CONCLUSION</head><p>In this article, we develop a novel estimation method to analyze missing To conclude this article, we discuss here several interesting topics for future study. First, the proposed AR(1) effect can be generalized to an AR(p) effect to characterize a more sufficient temporal dynamic dependence. The associated theoretical results can be inferred from the current theorems.</p><p>However, the practical efficiency would be reduced because of the substantially decreased sample size. Therefore, determining how to improve the estimation efficiency would be an interesting and important research problem for a separate study in the future. Second, the cross-sectional relationships between different individuals could be considered in the future.</p><p>Third, the missingness mechanism can be easily extended to a new mechanism with heterogeneous β coefficients for better flexibility, which requires further research. Finally, the imputation techniques based on our proposed estimators can also be developed.</p><p>A c c e p t e d M a n u s c r i p t   </p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><figDesc>than Ui. Denote these selected samples by i . Define aij = 1 if i j  and aij = 0 otherwise. Last, let aii = 0 for every 1 iN  . This leads to the adjacency matrix A. Subsequently, . According to the model setup, once W is simulated, it is fixed across all time points. Next, for a given time point t, the spatial error term t is generated according to the simulated spatial error term, the Yit sequence can be generated as follows. We first set 0 0 i Y  for 1, 2 , , iN  . Then, we generate Yit sequentially according to model (2.1) for 0 1, , t T T  , where αi is stimulated from a A c c e p t e d M a n u s c r i p tuniform distribution between 0.2 and 0.7, and T0 is a prespecified integer. For example, in this work, we assume 0 1000</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><figDesc>response issues in a dynamic spatial error model. The proposed method makes use of the information from temporal dependence, spatial dependence and exogenous regression covariates. To capture the temporal dependence, we apply an AR(1) process with varied autocorrelation coefficients. The spatial dependence is characterized implementing the widely used spatial error model (SEM). A logistic regression model with exogenous covariates is used to reflect the missing mechanism. The weighted least squares estimator (WLSE) for temporal dependence and the weighted maximum likelihood estimator (WMLE) for spatial dependence are proposed for parameter estimation in the presence of missing data. Compared with traditional estimators, the newly proposed WLSE and WMLE are more efficient. The A c c e p t e d M a n u s c r i p t associated consistency and asymptotic normality of these two estimators are also established. Finally, the performance of the WLSE and WMLE are demonstrated by both simulation studies and a real data example.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 2</head><label>2</label><figDesc>Simulation results for the MAR case with a missing rate of 25% (</figDesc><table><row><cell>0   ) and 35% ( 0 0 .5 1  </cell><cell>). The RMSE values (</cell><cell></cell><cell cols="2">10</cell><cell></cell><cell>2</cell><cell>) are reported for every</cell></row><row><cell cols="4">estimator. The CP (in %) for the infeasible WLSE (</cell><cell cols="2"></cell><cell cols="2">W L S i</cell><cell>) and feasible WLSE (</cell></row><row><cell>ˆW L S i</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 3</head><label>3</label><figDesc>Simulation results for the MCAR case with a missing rate of 25% (</figDesc><table><row><cell cols="6">0   ) and 35% ( 0 0 .5 1  </cell><cell cols="2">). The RMSE values (</cell><cell></cell><cell>10</cell><cell></cell><cell>2</cell><cell>) are reported for every</cell></row><row><cell cols="8">estimator. The CP (in %) for the infeasible WMLE (</cell><cell></cell><cell>WML</cell><cell>) and feasible WMLE (</cell></row><row><cell>ˆWML </cell><cell cols="6">) are given in parentheses.</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell>0   0 .1,</cell><cell cols="2">1</cell><cell>0   0 .1,</cell><cell>0 .5</cell></row><row><cell cols="2">N T</cell><cell></cell><cell>WML</cell><cell>ˆWML </cell><cell></cell><cell></cell><cell>WML</cell><cell>ˆWML </cell></row><row><cell cols="8">100 100 3.97(94.2) 4.00(94.1) 5.31(95.1) 5.34(94.2)</cell></row><row><cell></cell><cell cols="7">200 2.71(94.7) 2.71(95.0) 3.63(95.2) 3.64(95.0)</cell></row><row><cell cols="8">500 1.83(94.0) 1.83(93.8) 2.50(93.7) 2.51(94.1) 200 100 2.72(94.3) 2.69(94.6) 3.79(94.0) 3.79(93.8) 200 1.86(95.0) 1.89(95.3) 2.55(95.3) 2.54(95.0) 500 1.27(94.8) 1.24(93.9) 1.72(94.6) 1.70(94.8) 500 100 1.75(94.3) 1.70(94.5) 2.41(93.9) 2.41(94.4) 200 1.17(95.2) 1.20(94.9) 1.64(94.6) 1.63(94.9) M a n u s c r i p t</cell></row><row><cell cols="8">500 0.79(94.3) 0.79(94.5) 1.09(95.1) 1.09(94.9) A c c e p t e d</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2"><head>Table 4</head><label>4</label><figDesc>Simulation results for the MAR case with a missing rate of 25% (</figDesc><table><row><cell cols="6">0   ) and 35% ( 0 0 .5 1  </cell><cell cols="2">). The RMSE values (</cell><cell></cell><cell>10</cell><cell></cell><cell>2</cell><cell>) are reported for every</cell></row><row><cell cols="8">estimator. The CP (in %) for the infeasible WMLE (</cell><cell></cell><cell>WML</cell><cell>) and feasible WMLE (</cell></row><row><cell>ˆWML </cell><cell cols="6">) are given in parentheses.</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell>0   0 .1,</cell><cell cols="2">1</cell><cell>0   0 .1,</cell><cell>0 .5</cell></row><row><cell cols="2">N T</cell><cell></cell><cell>WML</cell><cell>ˆWML </cell><cell></cell><cell></cell><cell>WML</cell><cell>ˆWML </cell></row><row><cell cols="8">100 100 3.91(92.7) 3.92(92.9) 5.26(93.3) 5.24(93.3)</cell></row><row><cell></cell><cell cols="7">200 2.67(93.6) 2.64(93.7) 3.61(93.4) 3.58(93.8)</cell></row><row><cell cols="8">500 1.77(92.3) 1.77(92.3) 2.42(93.4) 2.41(92.1) 200 100 2.62(93.7) 2.61(94.0) 3.64(93.6) 3.61(94.1) 200 1.83(94.4) 1.82(95.0) 2.47(93.6) 2.44(94.6) 500 1.21(94.7) 1.20(94.5) 1.66(94.6) 1.65(94.9) 500 100 1.68(93.7) 1.67(93.7) 2.29(94.1) 2.27(93.9) 200 1.12(95.2) 1.12(94.5) 1.60(94.4) 1.59(94.4) M a n u s c r i p t</cell></row><row><cell cols="8">500 0.81(92.1) 0.81(93.0) 1.07(94.1) 1.07(94.2) A c c e p t e d</cell></row></table></figure>
+		</body>
+		<back>
+
+			<div type="funding">
+<div><p>s research is supported by the <rs type="funder">National Natural Science Foundation of China</rs> (No. <rs type="grantNumber">71702185</rs>, No. <rs type="grantNumber">71873137</rs>, No. <rs type="grantNumber">11971504</rs>), the <rs type="funder">Beijing Municipal Social Science Foundation</rs> (No. <rs type="grantNumber">19GLC052</rs>), the fund for building world-class universities (disciplines) of <rs type="funder">Renmin University of China</rs> and the <rs type="funder">Center for Applied Statistics of Renmin University of China</rs>. <rs type="person">Feifei Wang</rs>'s research is supported by the <rs type="funder">Fundamental Research Funds for the Central Universities</rs> and the <rs type="funder">Research Funds of Renmin University of China</rs> (No. <rs type="grantNumber">18XNLG02</rs>). <rs type="person">Hansheng Wang</rs>'s research is partially supported by the <rs type="funder">National Natural Science Foundation of China</rs> (No. <rs type="grantNumber">71532001</rs>, No. <rs type="grantNumber">11525101</rs>, No. <rs type="grantNumber">71332006</rs>), and <rs type="funder">China's National Key Research Special Program</rs> (No.</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_M6jBeTE">
+					<idno type="grant-number">71702185</idno>
+				</org>
+				<org type="funding" xml:id="_BNt3C9P">
+					<idno type="grant-number">71873137</idno>
+				</org>
+				<org type="funding" xml:id="_fKr7kHn">
+					<idno type="grant-number">11971504</idno>
+				</org>
+				<org type="funding" xml:id="_sCPVfe9">
+					<idno type="grant-number">19GLC052</idno>
+				</org>
+				<org type="funding" xml:id="_9JUhPsp">
+					<idno type="grant-number">18XNLG02</idno>
+				</org>
+				<org type="funding" xml:id="_TRpz8We">
+					<idno type="grant-number">71532001</idno>
+				</org>
+				<org type="funding" xml:id="_KvFU7ra">
+					<idno type="grant-number">11525101</idno>
+				</org>
+				<org type="funding" xml:id="_JW8EkbQ">
+					<idno type="grant-number">71332006</idno>
+				</org>
+			</listOrg>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Estimation methods for spatial autoregressive structures</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science Dissertation and Monograph Series</title>
+		<imprint>
+			<biblScope unit="volume">8</biblScope>
+			<date type="published" when="1980">1980</date>
+			<pubPlace>Ithaca, NY</pubPlace>
+		</imprint>
+		<respStmt>
+			<orgName>Cornell University</orgName>
+		</respStmt>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<author>
+			<persName><forename type="first">P</forename><surname>Brockwell</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Davis</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Time Series: Theory and Methods</title>
+		<title level="s">Springer Series in Statistics</title>
+		<meeting><address><addrLine>Berlin, New York</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="1991">1991</date>
+		</imprint>
+	</monogr>
+	<note>second ed.</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<monogr>
+		<title level="m" type="main">Hierarchical modeling and analysis for spatial data</title>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">P</forename><surname>Carlin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Banerjee</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2014">2014</date>
+			<publisher>Chapman and Hall/CRC</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Generalized yule-walker estimation for spatio-temporal models with unknown diagonal coefficients</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Dou</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">L</forename><surname>Parrella</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Yao</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">194</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="369" to="382" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<monogr>
+		<title level="m" type="main">Introduction to statistical time series</title>
+		<author>
+			<persName><forename type="first">W</forename><surname>Fuller</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1996">1996</date>
+			<publisher>John Wiley and Sons</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Banded spatio-temporal autoregressions</title>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Gao</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Ma</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Yao</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">208</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="211" to="230" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<monogr>
+		<author>
+			<persName><forename type="first">J</forename><surname>Hamilton</surname></persName>
+		</author>
+		<title level="m">Time Series Analysis</title>
+		<meeting><address><addrLine>Princeton, NJ</addrLine></address></meeting>
+		<imprint>
+			<publisher>Princeton University Press</publisher>
+			<date type="published" when="1994">1994</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Estimation of spatial autoregressive panel data models with fixed effects</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">154</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="165" to="185" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Specification and estimation of social interaction models with network structures</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><surname>-F</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Lin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Econometrics Journal</title>
+		<imprint>
+			<biblScope unit="volume">13</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="145" to="176" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Efficient gmm estimation of spatial dynamic panel data models with fixed effects</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">180</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="174" to="197" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<monogr>
+		<title level="m" type="main">Introduction to spatial econometrics</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Lesage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Pace</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2009">2009</date>
+			<publisher>Chapman &amp; Hall/CRC</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Estimation methods for models of spatial interaction</title>
+		<author>
+			<persName><forename type="first">K</forename><surname>Ord</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">70</biblScope>
+			<biblScope unit="issue">349</biblScope>
+			<biblScope unit="page" from="120" to="126" />
+			<date type="published" when="1975">1975</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Inference and missing data</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">B</forename><surname>Rubin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometrika</title>
+		<imprint>
+			<biblScope unit="volume">63</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="581" to="592" />
+			<date type="published" when="1976">1976</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Qml estimation of dynamic panel data models with spatial errors</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Su</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Yang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">185</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="230" to="258" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Network imputation for a spatial autoregression model with incomplete data</title>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Sun</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Wang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistica Sinica</title>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Unified m-estimation of fixed-effects spatial dynamic models with short panels</title>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Yang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">205</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="423" to="447" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Quasi-maximum likelihood estimators for spatial dynamic panel data with fixed effects when both n and t are large</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">E</forename><surname>Jong</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Lee</forename><surname>Robert</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Lungfei</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">146</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="118" to="134" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+	<note>500 5.36 5.36(94.7) 5.36(94.7) 6.30 6.31(94.6) 6.31(94.7) 1000 3.76 3.77(94.9) 3.77(94.9) 4.43 4.43(94.8) 4.43(94.9) 2000 2.66 2.66(94.9) 2.66(94.9) 3.12 3.13(95.1) 3.13(95.2</note>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

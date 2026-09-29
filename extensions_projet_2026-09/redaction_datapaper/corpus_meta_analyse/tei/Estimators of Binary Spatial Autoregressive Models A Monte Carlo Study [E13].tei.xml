@@ -1,0 +1,1236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Estimators of Binary Spatial Autoregressive Models: A Monte Carlo Study</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability  status="unknown">
+					<licence/>
+				</availability>
+				<date type="published" when="2018-11-01">November 1, 2018</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">Raffaella</forename><surname>Calabrese</surname></persName>
+							<email>raffaella.calabrese1@unimib.it</email>
+							<affiliation key="aff0">
+								<orgName type="institution" key="instit1">University of Milano-Bicocca</orgName>
+								<orgName type="institution" key="instit2">University College Dublin</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Johan</forename><forename type="middle">A</forename><surname>Elkink</surname></persName>
+							<email>jos.elkink@ucd.ie</email>
+							<affiliation key="aff0">
+								<orgName type="institution" key="instit1">University of Milano-Bicocca</orgName>
+								<orgName type="institution" key="instit2">University College Dublin</orgName>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Estimators of Binary Spatial Autoregressive Models: A Monte Carlo Study</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2018-11-01">November 1, 2018</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">5FF1A51A8601EA94E154AFD29ACCABB2</idno>
+					<idno type="arXiv">arXiv:1302.3414v1[stat.ME]</idno>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-17T13:17+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The goal of this paper is to provide a cohesive description and a critical comparison of the main estimators proposed in the literature for spatial binary choice models. The properties of such estimators are investigated using a theoretical and simulation study. To the authors' knowledge, this is the first paper that provides a comprehensive Monte Carlo study of the estimators' properties. This simulation study shows that the Gibbs estimator <ref type="bibr" target="#b37">(LeSage, 2000)</ref> performs best for low spatial autocorrelation, while the Recursive Importance Sampler <ref type="bibr" target="#b10">(Beron and Vijverberg, 2004)</ref> performs best for high spatial autocorrelation. The same results are obtained by increasing the sample size. Finally, the linearized General Method of Moments estimator <ref type="bibr" target="#b35">(Klier and McMillen, 2008)</ref> is the fastest algorithm that provides accurate estimates for low spatial autocorrelation and large sample size.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>In applied work in economics and political science, there is increased attention to the importance of spatial or network interdependence between observations. Not only does this violate the assumption of independence underlying many econometric methodologies for crosssectional data, there is also growing interest in estimating the strength of the interdependence itself. While the econometric literature on linear regression models with spatial interdependence is well established, in particular since the publication of <ref type="bibr" target="#b3">Anselin (1988)</ref>'s seminal work, the literature on regression models with binary dependent variables and spatial interdependence is still relatively limited.</p><p>Many applications with such models can be considered -including the contagion of currency crises <ref type="bibr" target="#b45">(Novo, 2003)</ref>, firm-level decision-making on locations <ref type="bibr" target="#b6">(Autant-Bernard, 2006)</ref>, ecological studies of spatial distributions of plants <ref type="bibr" target="#b18">(Collingham et al., 2000)</ref>, studies in policy diffusions of flat taxes <ref type="bibr" target="#b7">(Baturo and Gray, 2009)</ref>, anti-smoking laws <ref type="bibr" target="#b49">(Shipan and Volden, 2006)</ref> or pension privatization <ref type="bibr">(Weyland, 2007)</ref> -across academic disciplines such as economics, political science, sociology, ecology, planning, or even neurology.</p><p>Proximity in this context can be interpreted in a broad manner. Whether one defines proximity in a physical or in a cultural or interaction sense, or in a manner that encompasses large distances or the entire space (all units affect all other units), the estimation challenges discussed in this article still hold. <ref type="foot" target="#foot_0">1</ref> The conclusions can thus be directly applied to social network analysis as well as spatial econometric analysis. <ref type="bibr">Anselin (2002, 255)</ref> refers to this perspective as the object view or this type of data as lattice data. The alternative, a geostatistics perspective, where we observe only specific monitoring sites and space is seen as a continuous space or a point pattern <ref type="bibr" target="#b11">(Bivand, 1998)</ref>, leads to an entirely different econometric framework and will not be discussed in his article.</p><p>Spatial econometric models raise new difficulties that cannot be dealt with by standard econometric models. Estimation problems arise due to the dependence across observations, in that we must adjust the estimation procedures for the loss of information associated with dependent observations. Indeed, in the presence of spatial dependence, standard logit or probit estimation procedures, which assume independence, result in inconsistent and inefficient estimates <ref type="bibr" target="#b41">(McMillen, 1992)</ref>. In particular, <ref type="bibr" target="#b41">McMillen (1992)</ref> notes that both the spatially dependent error model and the spatial lag model imply heteroskedastic disturbances, which cause the parameter estimates to be inconsistent. For these reasons econometricians began to pay more attention to spatial dependence problems in the last two decades and some important advances have been made in both theoretical and empirical studies <ref type="bibr" target="#b5">(Anselin, Florax and Rey, 2004)</ref>.</p><p>The aim of this article is to compare the main estimators proposed in the literature for estimating the spatial autocorrelation parameter in binary choice models. On the one hand, this goal is achieved by analysing the theoretical characteristics of the main estimators for spatial models for binary response data. This topic has been in part developed by <ref type="bibr" target="#b24">Fleming (2004)</ref> but we consider also the recent literature. Moreover, our paper is focused only on binary choice models, instead <ref type="bibr" target="#b24">Fleming (2004)</ref> has considered discrete choice models. On the other hand, the most innovative aspect of this work is the comparison of the above-mentioned estimators by Monte Carlo simulations. To our knowledge, this is the first work that performs Monte Carlo simulations on the main estimators of the spatial autocorrelation parameter for binary response data. The importance and the necessity of this analysis is strongly suggested by <ref type="bibr" target="#b24">Fleming (2004)</ref>.</p><p>Currently, the most used methodologies available to estimating spatial regression models are five. <ref type="bibr" target="#b41">McMillen (1992)</ref> proposes an EM algorithm based estimation procedure. In particular, <ref type="bibr" target="#b41">McMillen (1992)</ref> replaces the latent continuous variable with its expected value and then applies the maximum likelihood method <ref type="bibr" target="#b46">(Ord, 1975)</ref>. Similarly to <ref type="bibr" target="#b41">McMillen (1992)</ref>, <ref type="bibr" target="#b37">LeSage (2000)</ref> also replaces the latent continuous variable with its expected value, solving thereafter a spatial continuous model using the Gibbs sampling approach. Following the work of <ref type="bibr" target="#b53">Vijverberg (1997)</ref> on the simulation from a multivariate normal distribution, <ref type="bibr" target="#b10">Beron and Vijverberg (2004)</ref> suggests to apply the recursive importance sampling (RIS) to the maximum likelihood method, since the likelihood function is a multivariate normal distribution. <ref type="bibr" target="#b47">Pinkse and Slade (1998)</ref> develop a model based on the generalised method of moments (GMM). <ref type="bibr" target="#b35">Klier and McMillen (2008)</ref> linearize <ref type="bibr" target="#b47">Pinkse and Slade (1998)</ref>'s model around a convenient starting point.</p><p>The present paper is organized as follows. The next section reviews the widely used specifications of the binary choice models with spatial dependence. In section 3 we analyse and compare the main methodologies proposed in the literature to estimate the spatial autocorre-lation parameter in binary response models. In section 4 we compare the properties of these estimators by Monte Carlo simulations. The last section concludes.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">Spatial binary choice models</head><p>A widely used representation of a regression model for an observed dichotomous response Y i is the latent response model <ref type="bibr">(Verbeek, 2008, p.180)</ref> with dependent variable the continuous variable Y * i , whereby</p><formula xml:id="formula_0">Y i = 1, Y * i &gt; 0 0, otherwise,<label>(1)</label></formula><p>with i = 1, 2, . . . , n. A linear model is specified for this latent response, so the model specification is</p><formula xml:id="formula_1">Y * = ρWY * + Xβ + d (2) d = λ Sd + ,</formula><p>where Y * is a continuous random vector, X represents an n × k matrix of explanatory variables, the error term can follow a multivariate normal distribution in a probit model or a multivariate logistic distribution in a logit model. W and S are spatial lag and spatial error weights matrices, respectively, ρ and λ the associated scalar parameters. We highlight that only the latent variable can be used for the spatial lag, since both the models Y * = ρWY + Xβ + and Y = ρWY + Xβ + are infeasible <ref type="bibr" target="#b4">(Anselin, 2002;</ref><ref type="bibr" target="#b10">Beron and Vijverberg, 2004;</ref><ref type="bibr" target="#b35">Klier and McMillen, 2008)</ref>.</p><p>Evidence of the absence of a consolidated literature is given by the different denominations of the models -we follow LeSage (2000)'s notation. From the general model (2) two models are derived. Setting S = 0 produces a spatial lag model, which we will refer to as the Binary Spatial AutoRegressive model (BSAR):</p><formula xml:id="formula_2">Y * = (I -ρW) -1 (Xβ + ) = (I -ρW) -1 Xβ + e,<label>(3)</label></formula><p>where e = (I -ρW) -1 .</p><p>Letting W = 0 results in a regression model with spatial autocorrelation in the disturbances, a spatial error model which we label the Binary Spatial Error Model (BSEM):</p><formula xml:id="formula_4">Y * = Xβ + (I -λ S) -1 = Xβ + u, where u = (I -λ S) -1 .</formula><p>The two models are based on different assumptions about the causes of the spatial dependence. <ref type="foot" target="#foot_1">2</ref> The spatial lag relates to an explicit spillover effect where one agent copies behavior from neighboring agents. It also relates to a theoretical model where the behavior is dependent on shared resources between different agents. The spatial error model concerns different causal relationships. For example, a typical issue that leads to spatial correlation in the errors is a mismatch between the spatial delineation of the measurement and the empirical presence of the variable of interest. For example, when studying the presence of a particular natural resource in particular countries, the geographical zones in which this resource is present do not usually match exactly with the country borders. A measurement of the presence of these resources in countries is thus necessarily spatially correlated, but as a nuisance rather than in a theoretically interesting sense. Another common cause of spatial autocorrelation in the errors is an omitted variable that is itself spatially correlated. In terms of estimation, the two types of autocorrelation are often difficult to distinguish <ref type="bibr">(Brueckner, 2003, 184-185)</ref>. The different theoretical mechanisms are of course not mutually exclusive and a spatial model that incorporates both a spatial lag and spatial residuals is perfectly reasonable.</p><p>In this paper we are primarily interested in estimating diffusion effects, and thus our focus is on the estimation of the spatial autocorrelation parameter ρ. For this reason, in this work we only analyse models with spatial lags (BSAR) and leave spatial errors (BSEM) aside.</p><p>The contiguity or weight matrix W is defined by</p><formula xml:id="formula_5">w i j =</formula><p>1 if the i-th and j-th observations are contiguous; 0 if i = j or the i-th and j-th observations are not continguous, so it is a square matrix of order n and its main diagonal elements equal to zero. Contiguity can refer to geographical and alternative vicinity. The use of the weight matrix W implies that the spatial sites form a countable lattice <ref type="bibr" target="#b36">(Lee, 2004)</ref>, but part of the literature considers a continuous spatial index <ref type="bibr" target="#b19">(Conley, 1999)</ref>. Because of the potential of heteroscedasticity due to the variation in the number of neighbors for different observations, W is commonly normalized as follows w i j /(∑ j w i j ) for i, j = 1, 2, . . . , n. This means that the normalized matrix W is generally asymmetric, while the original weight matrix W is often symmetric. <ref type="foot" target="#foot_2">3</ref> Although this is the common approach, there are various other ways of defining and normalizing W <ref type="bibr" target="#b51">(Tiefelsdorf, 2000;</ref><ref type="bibr" target="#b4">Anselin, 2002)</ref>. Since the aim of this paper is the comparison of the main methodologies to estimate the spatial autocorrelation parameter ρ, we consider for all of them the normalized matrix W. <ref type="foot" target="#foot_3">4</ref>For binary dependent variables, the most used models are the logistic and the probit models <ref type="bibr" target="#b40">(McCullagh and Nelder, 1989)</ref>. In the next section we analyse and compare the main estimators of the autocorrelation parameter in both spatial probit <ref type="bibr" target="#b10">(Beron and Vijverberg, 2004;</ref><ref type="bibr" target="#b37">LeSage, 2000;</ref><ref type="bibr" target="#b41">McMillen, 1992)</ref> and logit <ref type="bibr" target="#b35">(Klier and McMillen, 2008)</ref> models. <ref type="foot" target="#foot_4">5</ref>3 Estimators for binary spatial autoregressive models</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1">Expectation-Maximization algorithm</head><p>The Expectation-Maximization (EM) algorithm is designed for cases where the data is incomplete, for example due to missing values <ref type="bibr" target="#b22">(Dempster, Laird and Rubin, 1977)</ref>. Since the probit model can be viewed as a latent response model, and this latent variable is similarly unobserved, <ref type="bibr" target="#b41">McMillen (1992)</ref> proposes to apply the EM algorithm to the probit model with spatially lagged dependent variables and spatial error autocorrelation. In particular, the latent unobserved observations y * i are replaced by estimated values. Given estimates of the values y * i , the EM algorithm proceeds to estimate the other parameters in the model using the maximum likelihood method.</p><p>In the EM algorithm the assumption of homogeneity for the disturbances is introduced. This means that the error term can follow the n-dimensional multivariate normal distribution ∼ N n (0, σ 2 I) in a probit model. The variance of the error term is indeed</p><formula xml:id="formula_6">var(e) = var (I -ρW) -1 = σ 2 (I -ρW) (I -ρW) -1 .<label>(5)</label></formula><formula xml:id="formula_7">Let D = diag(σ e )<label>(6)</label></formula><p>be the diagonal matrix with diagonal elements σ e that represent the root square of the diagonal elements in the matrix (5) and</p><formula xml:id="formula_8">q = D -1 (I -ρW) -1 Xβ.<label>(7)</label></formula><p>Since β and σ 2 ε cannot both be estimated in probit models, McMillen (1992) assumes σ 2 ε = 1. In the E-step, the observed dependent variable is replaced by the expectation of the latent variable Y * conditional on the observed dependent variable Y, making use of generalized residuals <ref type="bibr" target="#b20">(Cox and Snell, 1968;</ref><ref type="bibr" target="#b17">Chesher and Irish, 1987)</ref>. To compute this expectation in the first iteration, the starting values of the parameters β and ρ are used, in subsequent iterations, the estimated parameters. By computing the conditional expectation of equation ( <ref type="formula" target="#formula_2">3</ref>), in the E-step the following result is used</p><formula xml:id="formula_9">E[Y * /Y = y] = (I -ρW) -1 Xβ + D φ n (q) [y -Φ n (q)] Φ n (q) [1 -Φ n (q)] ,<label>(8)</label></formula><p>where φ n (•) and Φ n (•) denote respectively the n-dimensional multivariate probability density and cumulative distribution functions of a standard normal.</p><p>Subsequently, setting σ 2 = 1 in the M-step, new estimates are obtained by maximizing the log-likelihood function</p><formula xml:id="formula_10">k - 1 2 [(I -ρW)y * -Xβ] [(I -ρW)y * -Xβ] + n ∑ i=1 ln(1 -ρω i ),</formula><p>where ω i are the eigenvalues of W. ∏ n i=1 (1ρω i ) is a computationally efficient approximation of the determinant |I -ρW| <ref type="bibr" target="#b46">(Ord, 1975)</ref>. This process is repeated until convergence. <ref type="foot" target="#foot_5">6</ref>The main advantage of this methodology is that it avoids to compute an n-dimensional integral. The cost is that the E-step requires the calculation of the inverse of the matrix (I -ρW). Although this can be made slightly more efficient by using the eigenvalues of W to approximate the inverse, it still slows down the algorithm considerably. In addition to the computational burden in the implementation of the algorithm, the main drawback of this proposal is the covariance matrix estimate of dimensions n × n. By considering the spatial probit model as a non-linear weighted least squares model, <ref type="bibr" target="#b41">McMillen (1992)</ref> obtains biased but consistent estimates of the covariance matrix. For this reason <ref type="bibr">McMillen (1995a)</ref> explores computationally simpler alternatives to the methods in <ref type="bibr" target="#b41">McMillen (1992)</ref>, expressing the belief that the methods proposed in <ref type="bibr" target="#b41">McMillen (1992)</ref> are impractical for large sample sizes. Another problem with McMillen (1992)'s approach is the need to specify a functional form for the nonconstant variance over space <ref type="bibr" target="#b37">(LeSage, 2000)</ref>. In larger models a practitioner would need to devote considerable effort to testing the functional form and variables involved in the model for the variance of the noise elements ε i . Finally, the EM approach cannot provide an estimate of precision for the spatial autoregressive parameter ρ.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2">Gibbs sampling</head><p>The Gibbs sampler is a particular Markov Chain Monte Carlo (MCMC) introduced by <ref type="bibr" target="#b28">Geman and Geman (1984)</ref> in the context of image restoration. When a direct specification of a joint distribution is not feasible, the Gibbs sampling procedure specifies the complete conditional distributions for all parameters in the model and proceeds to sample from these distributions to collect a large set of parameter draws. During sampling, a conditional distribution for the latent observations y * i conditional on all other parameters in the model is considered. <ref type="foot" target="#foot_6">7</ref> This distribution is used to produce a random draw for all y * i in the probit model. The conditional distribution for the latent variables takes the form of a normal distribution centered on the predicted value truncated at the left at 0 if y i = 1 and at the right at 1 if y i = 0.</p><p>The Bayesian Gibbs sampler approach to estimating spatial discrete choice models (both BSAR and BSEM models) is proposed by <ref type="bibr" target="#b37">LeSage (2000)</ref> and is an extension of the Gibbs sampling method suggested by <ref type="bibr" target="#b28">Geman and Geman (1984)</ref>. <ref type="foot" target="#foot_7">8</ref> This method exhibits a similarity to the EM algorithm, where the latent unobserved observations on the dependent variable y * i are replaced by estimated values. The Bayesian approach is different in the way it formulates the likelihood function and the estimates of the unobserved latent variable. The Gibbs estimator remedies the two limitations of McMillen (1992)'s EM estimator, its slow convergence and its bias in the estimation of standard errors.</p><p>It is important to underline that <ref type="bibr" target="#b37">LeSage (2000)</ref> relaxes the assumption of homogeneity for the disturbances used in BSAR and BSEM models. This means that the error term can follow a multivariate normal distribution ∼ N n (0, σ 2 V) in a probit model, where V = diag(v 1 , v 2 , . . . , v n ) and v i with i = 1, 2, . . . , n are the variance parameters to be estimated. <ref type="bibr" target="#b31">Greene (2003)</ref> points out that accounting for heteroskedasticity is important for probit models because the estimates are inconsistent in the presence of nonconstant disturbance variances.</p><p>In order to assign the priors of a BSAR model, <ref type="bibr" target="#b37">LeSage (2000)</ref> assumes that the priors are independent</p><formula xml:id="formula_11">π(ρ, β, σ , V) = π(ρ)π(β)π(σ )π(V),</formula><p>where</p><formula xml:id="formula_12">π(ρ) ∝ constant π v -1 i /q χ 2 (q) q i = 1, 2, .., n π(σ 2 ) ∝ 1 σ .</formula><p>The parameter q controls the amount of dispersion in v i , with small values of q producing leptokurtic distributions and large values imposing homoskedasticity. <ref type="foot" target="#foot_8">9</ref> We summarize LeSage (2000)'s algorithm by the following steps:<ref type="foot" target="#foot_9">foot_9</ref> 1. Initial values for the parameters ρ 0 , β 0 , σ 0 , V 0 are considered. The residuals 0 are computed by substituting these values in equation ( <ref type="formula" target="#formula_2">3</ref>). Using a random draw from χ 2 (n) the following value is determined:</p><formula xml:id="formula_13">σ 2 1 = 0 V 0 0 χ 2 (n) . 2. Given the values ρ 0 , V 0 , σ 1 , the parameter β 1 is drawn from the multivariate normal f (β 1 /ρ 0 , V 0 , σ 1 ) ∼ N n (X V -1 0 X) -1 X V -1 0 (I -ρW)y * , σ 2 1 (X V -1 0 X) -1 .</formula><p>3. By drawing an n-vector of random χ 2 (q + 1) and by using ρ 0 , β 1 , and σ 1 , the values v i with i = 1, 2, . . . , n are computed with</p><formula xml:id="formula_14">v i = σ -2 1 ε 2 i1 + q χ 2 (q + 1)</formula><p>.</p><p>4. By knowing the values β 1 , σ 1 , V 1 , the metropolis sampling algorithm <ref type="bibr" target="#b34">(Hastings, 1970)</ref> is applied to determine ρ 1 . The conditional posterior for ρ given</p><formula xml:id="formula_15">β 1 , σ 1 , V 1 is f (ρ 0 /β 1 , σ 1 , V 1 ) ∝ |I -ρW|exp - 1 2σ 2 1 V -1 1 1 .<label>(9)</label></formula><p>Let the value ρ * = ρ 0 + cZ be generated, where Z is a draw from a standard normal distribution and c is a known constant. <ref type="foot" target="#foot_10">11</ref> The acceptance probability p = min{1, f (ρ * ) f (ρ 0 ) }, where f (•) is defined in equation ( <ref type="formula" target="#formula_15">9</ref>). A value m is drawn from a continuous uniform distribution with support [0, 1]. If m &lt; p, the next draw from the density function ( <ref type="formula" target="#formula_15">9</ref>) is given by ρ 1 = ρ * , otherwise the draw is taken to be the current value ρ 1 = ρ 0 .</p><p>5. The values of the latent dependent variable y * are sampled from the multivariate truncated normal distribution Y * ∼ N T n ((Iρ 1 W) -1 Xβ 1 , Λ), where Λ is the diagonal matrix whose elements are the elements of the main diagonal of the matrix</p><formula xml:id="formula_16">(I -ρ 1 W) -1 [(I -ρ 1 W) -1 ] .</formula><p>The normal distribution is truncated at the left at 0 if Y = 1 and truncated at the right at 0 if Y = 0 <ref type="bibr" target="#b0">(Albert and Chib, 1993)</ref>. <ref type="bibr" target="#b37">LeSage (2000)</ref>'s approach overcomes the problems in estimating the standard error in the EM algorithm since parameter standard errors are derived from the posterior parameter distributions. The first advantage of the Bayesian strategy is to be able to derive the condition distribution of each parameter, and thus compute different moments of the distribution. The second advantage is its flexibility to account for the heteroskedasticity in the error terms. <ref type="bibr" target="#b10">Beron and Vijverberg (2004)</ref> propose a recursive importance sampling (RIS) estimator to evaluate directly the n-dimensional integral in both the BSAR and the BSEM models. The RISnormal simulator is identical to what is sometimes called the Geweke-Hajivassiliou-Keane (GHK) simulator <ref type="bibr" target="#b13">(Borsch-Supan and Hajivassiliou, 1993)</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.3">Recursive Importance Sampling</head><p>Define Z as an n × n matrix with</p><formula xml:id="formula_17">z i j = 1 -2y i if i = j 0 otherwise,</formula><p>for i, j = 1, 2, . . . , n. This means that Z is a diagonal matrix that satisfies the equation ZZ = I n . By defining t = Ze, we obtain that</p><formula xml:id="formula_18">Var(t) = ZVar(e)Z ≡ Σ ρ ,</formula><p>where Var(e) is provided by equation ( <ref type="formula" target="#formula_6">5</ref>). By this notation the observed vector y defined in (1) leads to an upper limit on t: t &lt; -Z(I -ρW) -1 Xβ, which means that we can write the log-likelihood function as</p><formula xml:id="formula_19">ln L = ln Φ n -Z(I -ρW) -1 Xβ; 0, Σ ρ ≡ ln Φ n T ; 0, Σ ρ ,<label>(10)</label></formula><p>where Φ n [j; µ, Ω] is a n-dimensional normal cumulative distribution function with mean vector µ and variance-covariance matrix Ω.</p><p>In order to evaluate the probability in equation ( <ref type="formula" target="#formula_19">10</ref>), <ref type="bibr" target="#b10">Beron and Vijverberg (2004)</ref> propose to apply the RIS simulator, developed in detail by <ref type="bibr" target="#b53">Vijverberg (1997)</ref>. Let A be an upper triangular matrix such that A A = Σ -1 ρ and let η = At. Whether Σ ρ is standardized or not, the vector η is i.i.d. standard normal. By defining the matrix B = A -1 , B results an upper triangular matrix with b j j &gt; 0 ∀ j and Bη = t.</p><p>Given the upper bound {Bη = t} &lt; T, we can apply the following iterative procedure:</p><formula xml:id="formula_20">η n &lt; b -1 nn T n ≡ η n0 η j &lt; b -1 j j T j - n ∑ i= j+1 b ji η i ≡ η j0 (T j , η j+1 , . . . , η n ) ≡ η j0 .<label>(11)</label></formula><p>Let g(η j ) be a probability density function with support the whole real axis and let G(•) be the associated cumulative distribution function. By denoting</p><formula xml:id="formula_21">g c (η j ) = g(η j ) G(η j0 )</formula><p>for η j ≤ η j0 , we can compute the following probability:</p><formula xml:id="formula_22">p = P{t &lt; T} = T -∞ φ (t; 0, Ω)dt = η n0 -∞ . . . η 1,0 -∞ n ∏ j=1 φ (η j )dη 1 . . . dη n = η n0 -∞ φ (η n ) g c (η n ) η n-1,0 -∞ φ (η n-1 ) g c (η n-1 ) . . . η 2,0 -∞ φ (η 2 ) g c (η 2 ) Φ(η 10 )g c (η 2 )dη 2 . . . g c (η n )dη n .<label>(12)</label></formula><p>The RIS simulator is implemented by drawing a large number R of random vector η satisfying the condition η j ≤ η j0 for j = 1, 2, . . . , n from the density function g(•). <ref type="foot" target="#foot_11">12</ref> There are different suitable density functions used to define g(•) <ref type="bibr" target="#b53">(Vijverberg, 1997)</ref>. <ref type="bibr" target="#b54">Vijverberg (1999)</ref> shows that the RIS-normal simulator is often preferred. For this reason we choose the normal density function in the following Monte Carlo simulations and, in particular, we apply the antithetical sampling strategy suggested by <ref type="bibr" target="#b53">Vijverberg (1997)</ref> for simulating from a multivariate normal distribution.</p><p>The recursive nature of the RIS simulator is due to the fact that the bounds in equation ( <ref type="formula" target="#formula_20">11</ref>) are backwards determined. For every drawing r of the random vector η, given η n0 , the values ηn,r and ηn-1,0,r are calculated using equation (11) by using ηn,r in the place of η n . This process is repeating until η1,0,r is computed. Then for the RIS-normal simulator the simulated value for p, defined in equation ( <ref type="formula" target="#formula_22">12</ref>), is</p><formula xml:id="formula_23">p = 1 R R ∑ r=1 n ∏ j=1 Φ[ η j,0,r ] ,</formula><p>where Φ(•) is the cumulative distribution function of the one dimensional standard normal random variable.</p><p>Based on the Monte Carlo study that <ref type="bibr" target="#b10">Beron and Vijverberg (2004)</ref> performed the RIS simulator can provide accurate estimates for spatial binary choice models. Moreover, this approach is attractive since it is the only one that directly evaluates the n-dimensional probit likelihood function. This means that only this methodology allows for the use of the Likelihood Ratio test. Because of these advantages <ref type="bibr" target="#b9">Beron, Murdoch and Vijverberg (2003)</ref> and <ref type="bibr" target="#b45">Novo (2003)</ref> apply the RIS simulator.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.4">Generalized Method of Moments</head><p>This section describes a spatially dependent binary choice methodology that considers the problem as a weighted non-linear version of the linear probability <ref type="bibr" target="#b1">(Amemiya, 1985;</ref><ref type="bibr" target="#b30">Greene, 2002;</ref><ref type="bibr" target="#b39">Maddala, 1983)</ref> with a variance-covariance matrix that can be estimated with a Generalized Method of Moments (GMM) estimator <ref type="bibr" target="#b33">(Hansen, 1982)</ref>. <ref type="bibr" target="#b47">Pinkse and Slade (1998)</ref> derive the GMM moment equations from the likelihood function. <ref type="bibr" target="#b35">Klier and McMillen (2008)</ref> propose a linearized version of the GMM suggested by <ref type="bibr" target="#b47">Pinkse and Slade (1998)</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.4.1">Pinkse and Slade's estimator</head><p>While <ref type="bibr" target="#b47">Pinkse and Slade (1998)</ref> suggest to apply the GMM to a BSEM model, for achieving the aim of this article we present their estimator for a BSAR model. Similar to <ref type="bibr" target="#b41">McMillen (1992)</ref>, Pinkse and Slade (1998) consider the generalized residuals<ref type="foot" target="#foot_12">foot_12</ref> ẽ(θ</p><formula xml:id="formula_24">) = D -1 E[e/y, θ] = φ n [q(θ)] {y -Φ n [q(θ)]} Φ n [q(θ)] {1 -Φ n [q(θ)]} ,<label>(13)</label></formula><p>where θ = (β , ρ) is the parameter vector and D and q are defined in equations ( <ref type="formula" target="#formula_7">6</ref>) and ( <ref type="formula" target="#formula_8">7</ref>), respectively. By applying the GMM the parameter vector θ is estimated by</p><formula xml:id="formula_25">θ = arg min θ∈Θ ẽ (θ)ZMZ ẽ(θ), (<label>14</label></formula><formula xml:id="formula_26">)</formula><p>where ẽ is defined in equation ( <ref type="formula" target="#formula_24">13</ref>), Z is a matrix of instruments,<ref type="foot" target="#foot_13">foot_13</ref> M is a positive definite matrix<ref type="foot" target="#foot_14">foot_14</ref> and Θ is the parametric space. Pinkse and Slade (1998) provide the asymptotic variance of their estimator for a BSEM model and develop also the hypothesis test for spatial error correlation. Their approach overcomes the problems of evaluating a high order integral and the n by n determinants in the Maximum Likelihood method. The main disadvantage of this approach is that it requires the n × n matrix (I -ρW) -1 to be inverted in each iteration. Furthermore, since Pinkse and Slade (1998) apply the GMM method, their estimator is less efficient than the ML estimators. <ref type="bibr" target="#b35">Klier and McMillen (2008)</ref> linearize Pinkse and Slade (1998)'s model around a convenient starting point for a BSAR logit model. In particular, in equation ( <ref type="formula" target="#formula_25">14</ref>), <ref type="bibr" target="#b35">Klier and McMillen (2008)</ref> let M = (Z Z) -1 , so the objective function for the GMM estimator is <ref type="bibr" target="#b35">Klier and McMillen (2008)</ref> apply a nonlinear two-stage least squares method. In order to analyse <ref type="bibr" target="#b35">Klier and McMillen (2008)</ref>'s methodology we define</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.4.2">Klier and McMillen's estimator</head><formula xml:id="formula_27">θ = arg min θ∈Θ ẽ (θ)Z(Z Z) -1 Z ẽ(θ), hence</formula><formula xml:id="formula_28">P = P{Y = 1/θ} = exp[q(θ)] 1 + exp[q(θ)] .<label>(15)</label></formula><p>where q(θ) is defined in equation ( <ref type="formula" target="#formula_8">7</ref>). <ref type="bibr" target="#b35">Klier and McMillen (2008)</ref>'s iterative procedure has the following steps:</p><p>1. assume initial values for the parameter vector θ 0 = (β 0 , ρ 0 ) ; 2. compute e 0 defined in equation (4); 3. compute the gradient terms</p><formula xml:id="formula_29">G βi = ∂ P i ∂ β = Pi (1 -Pi )t i G ρi = ∂ P i ∂ ρ = Pi (1 -Pi ) h i - q i σ 2 ei Υ ii ,<label>(16)</label></formula><p>where t i is the i-th row vector of the matrix T = D -1 (I-ρW) -1 X, h i is the i-th element of the vector h = (I -ρW) -1 Wq, q i is the i-th element of the vector q defined in equation ( <ref type="formula" target="#formula_8">7</ref>) and ϒ ii is the i-th element of the diagonal of the matrix Υ = (I -ρW)</p><p>-1 W(I -ρW) -1 (I -ρW) -1 .<ref type="foot" target="#foot_15">foot_15</ref> 4. regress the gradient terms G β and G ρ on Z and compute the predicted values Ĝβ and Ĝρ ; 5. regress e 0 + G β β0 on Ĝβ and Ĝρ . The coefficients obtained from this regression are the estimated values of β and ρ.</p><p>The main advantage of this approach is that it is not iterative and does not require the n × n matrix (I -ρW) -1 to be inverted in each iteration, unlike Pinkse and Slade (1998)'s estimator. This characteristic leads to a computationally significantly faster estimator. The main disadvantage of this estimator is that it provides accurate estimates of ρ only as long as ρ is small. Furthermore, linearized approach cannot provide an estimate of precision for the spatial autoregressive parameter ρ. Finally, since <ref type="bibr" target="#b35">Klier and McMillen (2008)</ref> propose a linearization around the starting point, a restriction for the parameter ρ to the interval [-1,1] cannot be introduced by using their method.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">Monte Carlo simulations</head><p>In order to make up for the lack of simulation studies for BSAR models <ref type="bibr" target="#b24">(Fleming, 2004)</ref>, in this section we compare the properties of these five estimators by Monte Carlo simulations. The set up of the simulations is primarily based on the literature on policy and regime diffusion (e.g. <ref type="bibr" target="#b29">Gleditsch and Ward, 2006;</ref><ref type="bibr" target="#b7">Baturo and Gray, 2009)</ref> and on broad similarity with simulations as published in accompaniment of the proposals of estimators discussed in this paper (e.g. <ref type="bibr">McMillen, 1995b;</ref><ref type="bibr" target="#b10">Beron and Vijverberg, 2004;</ref><ref type="bibr" target="#b35">Klier and McMillen, 2008)</ref>. In order to understand how the properties of these estimators vary according to the number of observations, we consider two different sample sizes: n = 50 and n = 500. The first sample size is set because it resembles the number of states in the US, which is a typical application area for studies in policy diffusion (e.g., <ref type="bibr" target="#b44">Mooney, 2001;</ref><ref type="bibr" target="#b55">Volden, 2006;</ref><ref type="bibr" target="#b38">LeSage and Parent, 2007)</ref>. The larger sample size is added to be able to see the results when the sample size increases.</p><p>In our Monte Carlo analysis we generate 1,000 replications. <ref type="foot" target="#foot_16">17</ref> For generating the data sets <ref type="foot" target="#foot_17">18</ref>we consider one covariate X drawn from a normal distribution N(2, 4) with expected value 2 and standard deviation 4. <ref type="foot" target="#foot_18">19</ref> Based on equation (3), the residuals vector is generated from a multivariate normal distribution N n ( 0, I) and the parameter vector is β = [4, -2] . In order to generate W, we apply the method suggested by <ref type="bibr">Beron and Vijverberg (2004, p. 179</ref>) by using d = 0.21 for n = 50 and d = 0.06 for n = 500. To analyse how the characteristics of the estimators change according to the level of autocorrelation, we consider four different values (0; 0.1; 0.45; 0.8) of the parameter ρ, such that the last three values are equidistant. <ref type="foot" target="#foot_19">20</ref> For the maximization procedure in the EM, RIS, and Pinkse and Slade (1998) estimators, we use the optim() function in R with a maximum number of iterations of 1,000. Finally, analogously to <ref type="bibr" target="#b37">LeSage (2000)</ref> and <ref type="bibr" target="#b10">Beron and Vijverberg (2004)</ref> we consider a maximum number of loops equal to 1,000 for the RIS and EM algorithms, and 3,000 for the Gibbs estimator.</p><p>In the following tables we report the mean of the bias and the standard deviation of the estimators (in round brackets) computed on 1,000 sets. The data is generated based on a probit model. Since <ref type="bibr" target="#b35">Klier and McMillen (2008)</ref> have proposed their estimator for the logit model, we rescale their parameter estimates to allow for comparison. Because the variance of the logistic distribution is π 2 /3, we report the estimates β0 √ 3/π and β1 √ 3/π for the linearized GMM estimator. <ref type="foot" target="#foot_20">21</ref>The primary focus of this paper is on the estimation of the level of spatial autocorrelation in a binary spatial autoregressive model specification. Since we have the study of the diffusion of policies and regimes in mind, the level of diffusion is typically of key interest. The autocorrelation in the residuals is thus not treated as a mere nuisance, but as a structural factor of substantive interest. Figure <ref type="figure" target="#fig_0">1</ref> provides the distribution of the bias ofthe estimators of the spatial autocorrelation parameter ρ in the BSAR model described in equation (3). <ref type="foot" target="#foot_21">22</ref> Table <ref type="table" target="#tab_0">1</ref> provides the mean and standard deviation of the bias of the above-mentioned estimators.. It is clear from Figure <ref type="figure" target="#fig_0">1</ref> that the performance of the estimators varies depending on the level of autocorrelation in the data, with particularly large differences between estimators under high levels of autocorrelation. As can be seen in Table <ref type="table" target="#tab_0">1</ref>, in the absence of spatial autocorrelation (ρ = 0), the Gibbs and the EM estimators are the best estimators of ρ in terms of both the distortion and the dispersion. The linearized GMM estimator also does particularly well, which is unsurprising, since ρ = 0 is the value used as the starting point for the linearization. When looking at the distribution as a whole, however, it is clear that while this estimator performs generally well, there are clear outliers among the estimates. The RIS estimator shows the worst performance and it tends to underestimate ρ for both small (n = 50) and large (n = 500) samples, with in particular some negative outliers. The Pinkse and Slade (1998) estimator, on the other hand, tends to overestimate ρ in this scenario.</p><p>When the level of spatial autocorrelation is positive but still limited (ρ = 0.1), the EM and Gibbs estimators still show good performance, even if the differences with the other estimators are less considerable in comparison with the scenario without spatial autocorrelation. Both the EM and the Gibbs estimators tend to underestimate the spatial autocorrelation parameter.</p><p>As can be expected, the linearized GMM estimator is still performing well this close to the linearization point of ρ = 0. The main disadvantage of this estimator is that it is not possible to put a reasonable constraint on ρ, such that occasional estimates are obtained outside the [-1, 1] interval, visible in Figure <ref type="figure" target="#fig_0">1</ref>. The RIS estimator is also prone to the occasional outlier in its estimate of the level of autocorrelation. It is striking that all estimators, with the exception of GMM with n = 50, tend to underestimate ρ, often by over 50% of the true parameter value, when the sample size is low. The next scenario contains significant levels of autocorrelation, with ρ = 0.45. Under this level of autocorrelation, the RIS estimator starts to perform relatively well compared to the other estimators. While the absolute mean bias is the lowest, the variation is still relatively high, however, and the plot clearly shows the presence of some outliers. For the EM and the Gibbs estimators, the bias is significantly larger than for ρ = 0.1 and for the linearized GMM, a clear increase in the dispersion is visible in Figure <ref type="figure" target="#fig_0">1</ref>, although this is compensated by a reduction in extreme outliers. The distribution of the bias of the GMM estimator now shows a clear tendency to underestimate the amount of autocorrelation, with a tight distribution under n = 500, but with some outliers.</p><formula xml:id="formula_30">ρ = 0 ρ = 0.1 ρ = 0.45 ρ = 0.8 H H H H H H ρ n<label>50</label></formula><p>For high spatial autocorrelation (ρ = 0.8), the RIS estimator shows the best performance. The linearized GMM now clearly suffers from the large distance from the starting point of the linearization -the extrapolation from ρ = 0 to ρ = 0.8 leads to significant overestimation of the level of autocorrelation. The plot also shows that the estimator clearly suffers from the lack of a constraint on ρ. The GMM estimator shows rather significant underestimation of ρ, as well as a high level of variance. Furthermore, under this scenario, the simulations suggest asymptotically biased in mean results for the GMM and the linearized GMM estimators, with the mean bias increasing for the larger sample size. <ref type="foot" target="#foot_22">23</ref> Following the trend already visible when moderately increasing ρ, the EM estimator clearly shows greater mean bias under this scenario, while for Gibbs, the results are similar to ρ = 0.45.</p><p>Even with primary focus on the level of autocorrelation, the estimates of the effects of other independent variables can of course not be ignored. Table <ref type="table" target="#tab_1">2</ref> provides the mean and the standard deviation of the estimates of β 1 , the parameter for independent variable X. The differences in estimate accuracy between the estimators vary more dramatically than for ρ, with the Gibbs estimator clearly outperforming all other estimators under all conditions and the estimator proposed by <ref type="bibr" target="#b47">Pinkse and Slade (1998)</ref> clearly providing the worst results for both the</p><formula xml:id="formula_31">ρ = 0 ρ = 0.1 ρ = 0.45 ρ = 0.8 H H H H H H H β1 n<label>50</label></formula><p>500 50 500 50 500 50 500 EM -59.23 -0.12 -43.12 -0.02 -5.52 1.03 1.42 1.69 (507.24) (0.34) (356.69) (0.33) (56.98) (0.11) (3.64) (0.03) Gibbs -0.95 -0.07 -0.86 -0.05 -0.63 0.09 0.30 0.79 (1.12) (0.28) (1.09) (0.29) (1.02) (0.24) (0.70) (0.19) RIS -8.05 0.01 -5.86 0.02 -6.86 0.13 -4.13 1.12 (19.89) (0.38) (13.06) (0.40) (18.59) (0.43) (12.62) (0.49) GMM -5035.95 -695.99 -4194.69 -576.70 -4777.75 -17864.07 -2818.31 -80663.45 (28279.94) (6344.00) (23060.63) (5841.52) (15011.28) (250693.49) (11646.26) (336721.33) GMM (lin) -64.15 -0.04 -41.08 0.07 -8.32 1.13 1.25 1.70 (424.80) (1.65) (175.62) (1.93) (95.09) (0.49) (6.82) (0.05) bias and the dispersion. Under absence of spatial autocorrelation (ρ = 0) and for n = 50, the Gibbs estimator generates the least average bias on β1 , with RIS, linearized GMM, and EM also performing well as long as the sample size is sufficiently large. Under n = 50, the Gibbs estimator underestimates β 1 by about 50% on average of the value of β 1 and the other estimators well beyond that. The difference between the smaller and the larger sample sizes is more pronounced than for the estimates of ρ. The GMM estimator is the only estimator that is still significantly biased when the sample size is reasonably large. All estimators tend to underestimate β 1 .</p><p>Under limited autocorrelation (ρ = 0.1), the order of accuracy of the estimators remains more or less the same, with still only Gibbs performing the best under the small sample size and performing the well under the large sample size. The RIS performs similar to EM, Gibbs and GMMlin for large sample size. The GMM estimator shows the worst performance. Increasing the autocorrelation to ρ = 0.45, the results for the Gibbs, the RIS and the GMM estimators are very similar to ρ = 0.1, but the EM and the linearized GMM estimators show lower mean biases under small sample size.</p><p>For the estimation of ρ, we saw significant difference between the moderate and the high levels of autocorrelation -to what extent is this the case for the slope coefficients? Similar to the estimates of ρ, the GMM estimator of <ref type="bibr" target="#b47">Pinkse and Slade (1998)</ref> starts to show very significant distortion and dispersion when the autocorrelation is high and, furthermore, shows a significant increase in the mean bias when the sample size increases. The linearized version of this estimator also reflects this increasing mean bias with sample size for high autocorrelation, but nevertheless performs remarkably well, with an average bias of approximately 50 to 75% of β 1 , underestimating the magnitude of the negative effect of X. The Gibbs estimator outperforms all other estimators both with small and large sample sizes, followed by the RIS, the EM and the linearized GMM estimators as long as sample size is large. It should be noted that for all estimators, the bias is relatively large, which is an overestimate of the magnitude by slightly over 10%.</p><p>Usually of least concern to applied researchers, but relevant for accurate prediction, is the estimate of the intercept of the model, in this case β 0 . Table <ref type="table" target="#tab_2">3</ref> provides the simulation results for this parameter of the model. Not unsurprisingly, the results are closely in line with those for β 1 . Indeed, the mean of the bias of β 0 is roughly the bias in Table <ref type="table" target="#tab_1">2</ref> multiplied by a factor -2. Relative to the size of β , the bias is thus the same on average. Similarly, the standard deviation of the bias is multiplied by a factor 2, with the exception of the GMM estimator under higher levels of autocorrelation, where the dispersion under larger sample size is similar to that for β 1 . The same relative results for the different estimators are therefore obtained.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5">Conclusion</head><p>In this paper we provide a comprehensive overview of estimators for spatial autoregressive models with binary dependent variables. These models are of particular interest to various applications in economics, political science, and related disciplines, where the outcome might be a policy, a decision, a transition, or otherwise binary outcome. Applications can also be imagined in the field of bioinformatics or neuroscience, although sample sizes tend to be magnitudes larger than those studied here. Many of these outcomes are interdependent through either spatial contiguity or any other form of proximity, including social networks or economic linkages,</p><formula xml:id="formula_32">ρ = 0 ρ = 0.1 ρ = 0.45 ρ = 0.8 H H H H H H H<label>β0</label></formula><p>n 50 500 50 500 50 500 50 500 EM 121.85 0.24 85.58 0.05 12.52 -2.06 -3.02 -3.39 (1120.25) (0.70) (689.86) (0.69) (127.40) (0.23) (11.82) (0.11) Gibbs 1.92 0.13 1.72 0.09 1.25 -0.19 -0.62 -1.58 (2.44) (0.59) (2.34) (0.60) (2.21) (0.50) (1.68) (0.39) RIS 15.59 -0.01 11.62 -0.04 13.41 -0.26 8.14 -2.29 (38.42) (0.80) (26.16) (0.82) (36.16) (0.87) (25.25) (1.03) GMM 10553.11 1497.72 8927.67 1215.51 9761.46 21968.93 5390.80 48233.04 (57014.77) (13763.26) (46734.98) (12202.29) (30576.23) (293214.42) (26072.56) (214363.69) GMM (lin) 122.91 0.09 81.80 -0.13 17.71 -2.26 -2.72 -3.41 (725.66) (3.30) (340.99) (3.88) (202.43) (1.01) (22.23) (0.22) and ignoring the inherent spatial structure of the data generates inconsistent and inefficient estimates <ref type="bibr" target="#b41">(McMillen, 1992)</ref>. Furthermore, in many applications the researcher is explicitly concerned with estimating the level of interdependence -it is indeed this concern that is of primary interest in our discussion and simulation study. This paper compares five estimators introduced to date for this specific type of model. An extensive simulation study compares the performance of these five estimators under conditions of relatively small sample sizes and varying levels of spatial autocorrelation. When taking both the estimation of the extend of spatial autocorrelation and the coefficients on the other explanatory variables into account, the Gibbs estimator <ref type="bibr" target="#b37">(LeSage, 2000)</ref> clearly outperforms the other estimators. When the sample size increases, the difference between the different estimators becomes smaller. When focusing specifically on the spatial autoregressive component alone, the Gibbs estimator <ref type="bibr" target="#b37">(LeSage, 2000)</ref> performs best for low spatial autocorrelation, while the Recursive Importance Sampler <ref type="bibr" target="#b10">(Beron and Vijverberg, 2004)</ref> performs best for high spatial autocorrelation. The linearized GMM estimator <ref type="bibr" target="#b35">(Klier and McMillen, 2008)</ref> is an interesting option when the sample size is large and the autocorrelation relatively low, in particular due to its high computational speed.</p><p>Weyland, Kurt. 2007. Bounded rationality and policy diffusion: Social sector reform in Latin America. Princeton: Princeton University Press.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Appendix: Derivative for the linearization of the GMM BSAR model</head><p>The gradient (16) of interest to the linearization proposed in <ref type="bibr" target="#b35">Klier and McMillen (2008)</ref> is the derivative of the logistic link function to the spatial autoregressive parameter ρ:</p><formula xml:id="formula_33">G ρi = ∂ P i ∂ ρ = ∂ ∂ ρ [1 + exp (q i )] -1 = ∂ ∂ ρ 1 + exp -Ψ -1 x i β σ ei -1 ,</formula><p>where Ψ = (I -ρW) and q as in equation ( <ref type="formula" target="#formula_8">7</ref>). We derive the following gradient</p><formula xml:id="formula_34">G ρi = P i (1 -P i ) h i + q i σ ei ∂ σ ei ∂ ρ ,</formula><p>where h is defined in equation ( <ref type="formula" target="#formula_29">16</ref>) and</p><formula xml:id="formula_35">∂ σ ei ∂ ρ = ∂ ∂ ρ (Ψ Ψ) -1 1 2 = - 1 2σ ei (Ψ Ψ) -1 (Ψ + Ψ )W(Ψ Ψ) -1 .<label>(17)</label></formula><p>If Ψ is symmetric, equation (17) simplifies to:</p><formula xml:id="formula_36">∂ σ ei ∂ ρ = - 1 σ ei Ψ -1 WΨ -1 Ψ -1 ,</formula><p>which leads to equation ( <ref type="formula" target="#formula_29">16</ref>).</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure 1 :</head><label>1</label><figDesc>Figure1: The distribution of the bias of the estimators of the autocorrelation parameter ρ obtained from Monte Carlo simulations on 1,000 samples. Numbers represent minimum and maximum values of the bias.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1 :</head><label>1</label><figDesc>The mean bias and the standard deviation (between parentheses) of the estimators of the autocorrelation parameter ρ obtained from Monte Carlo simulations on 1,000 samples.</figDesc><table><row><cell></cell><cell>500</cell><cell>50</cell><cell>500</cell><cell>50</cell><cell>500</cell><cell>50</cell><cell>500</cell></row><row><cell>EM</cell><cell cols="7">-0.002 -0.002 -0.038 -0.016 -0.148 -0.104 -0.311 -0.272 (0.108) (0.034) (0.108) (0.030) (0.107) (0.022) (0.098) (0.023)</cell></row><row><cell>Gibbs</cell><cell cols="7">-0.017 -0.003 -0.050 -0.023 -0.114 -0.058 -0.140 -0.104 (0.108) (0.032) (0.109) (0.030) (0.120) (0.028) (0.117) (0.030)</cell></row><row><cell>RIS</cell><cell cols="7">-0.051 -0.002 -0.044 -0.003 -0.027 0.003 -0.015 -0.005 (0.235) (0.056) (0.219) (0.053) (0.158) (0.034) (0.093) (0.039)</cell></row><row><cell>GMM</cell><cell cols="7">0.019 -0.001 -0.049 -0.001 -0.243 -0.097 -0.547 -0.775 (0.165) (0.055) (0.173) (0.060) (0.228) (0.245) (0.336) (0.458)</cell></row><row><cell>GMM (lin)</cell><cell cols="7">0.011 -0.001 -0.037 -0.001 -0.075 0.080 (0.149) (0.043) (0.166) (0.044) (0.232) (0.072) (0.528) (0.205) 0.028 0.468</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 2 :</head><label>2</label><figDesc>The mean bias and the standard deviation (between parentheses) of the estimators of the parameter</figDesc><table><row><cell>β 1 obtained from Monte Carlo simulations</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2"><head>Table 3 :</head><label>3</label><figDesc>The mean bias and the standard deviation (between parentheses) of the estimators of the parameter</figDesc><table><row><cell>β 0 obtained from Monte Carlo simulations</cell></row></table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="1" xml:id="foot_0"><p>The complications with the interpretations of the observed effects increase, however, since factors that affect the similarity are also likely to have an effect on the linkages between the units. See<ref type="bibr" target="#b48">Shalizi and Thomas (2010)</ref> for a discussion of the inherent confounding of homophily and contagion mechanisms.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="2" xml:id="foot_1"><p>For a clear interpretation of the spatial lag and spatial error models, see<ref type="bibr" target="#b16">Case (1992)</ref>.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="3" xml:id="foot_2"><p><ref type="bibr" target="#b45">Novo (2003)</ref> considers an asymmetric non-normalized W.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="4" xml:id="foot_3"><p>When the normalized contiguity matrix W is considered, to ensure the invertibility of the matrix (I -ρW) in the maximum likelihood method,<ref type="bibr" target="#b2">Anselin (1982)</ref> proves that 1/ω min &lt; ρ &lt; 1 where ω min is the minimum eigenvalue of the contiguity matrix W.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="5" xml:id="foot_4"><p>There are a number of related estimators that, for various reasons, will not be included in the discussion and Monte Carlo analyses. These estimators are related, but make assumptions about the data that are beyond the scope of this paper. For the spatial random effects probit<ref type="bibr" target="#b15">(Case, 1991</ref><ref type="bibr" target="#b16">(Case, , 1992))</ref>, when W is constrained to be block-diagonal, in other words, when the focus is on membership of a particular geographic region or cluster of units rather than some kind of proximity measure, the spatial model can be substantially simplified<ref type="bibr" target="#b15">(Case, 1991</ref><ref type="bibr" target="#b16">(Case, , 1992))</ref>. The logistic auto-logistic<ref type="bibr" target="#b32">(Gumpertz, Graham and Ristaino, 1997;</ref><ref type="bibr" target="#b8">Bee and Espa, 2008)</ref> applies to data on a regular grid, which is not applicable in the type of diffusion studies we have in mind in this paper.<ref type="bibr" target="#b23">Dubin (1995)</ref>'s spatial logit model is a straightforward diffusion model that avoids most complications of spatial models by using the temporally lagged, realized dependent variable to create the spatial lag.<ref type="bibr" target="#b41">McMillen (1992</ref>McMillen ( ,  1995b)'s heteroscedastic probit using weighted least squares applies to the spatial error model, but not the spatial autoregressive model we discuss in this paper.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="6" xml:id="foot_5"><p>To obtain a ρ estimate in the interval (-1,1), we apply the one-to-one transformation ρ = -1 + 2Φ 1 (ρ * ), making use of the invariance of maximum likelihood estimators(Davidson and MacKinnon, 1993, p. 253-255).</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="7" xml:id="foot_6"><p><ref type="bibr" target="#b27">Gelfand and Smith (1990)</ref> demonstrate that Gibbs sampling from the sequence of complete conditional distributions for all parameters in the model produces a set of estimates that converges in the limit to the true posterior distribution of the parameters.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="8" xml:id="foot_7"><p><ref type="bibr" target="#b12">Bolduc, Fortin and Gordon (1997)</ref> take a similar approach for the closely related spatial ordinal probit model.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="9" xml:id="foot_8"><p>q = 7 produces estimates similar to logit and use of a large value, e.g. q=100, produces estimates similar to those from probit.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="10" xml:id="foot_9"><p>We follow<ref type="bibr" target="#b50">Thomas (2007)</ref>'s implementation of LeSage (2000)'s methodology, which follows the suggestion byFleming (2004, p. 159)  to transform the latent variable into one that is distibuted independently by using the Cholesky root of the inverted error covariance matrices (cf. matrix A in the RIS estimator below).</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="11" xml:id="foot_10"><p>For the Monte Carlo simulations in this article we set c = 0.1.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="12" xml:id="foot_11"><p>For the Monte Carlo simulations we use R = 1000.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="13" xml:id="foot_12"><p>Unlike<ref type="bibr" target="#b17">Chesher and Irish (1987)</ref> and<ref type="bibr" target="#b20">Cox and Snell (1968)</ref> (see also eq. (8)),<ref type="bibr" target="#b47">Pinkse and Slade (1998)</ref> define the generalized residuals as D -1 E[e/y, e, ρ] and not E[e/y, e, ρ].</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="14" xml:id="foot_13"><p>In the Monte Carlo simulations we consider Z = 1 + X + WX + W 2 X + W 3 X.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="15" xml:id="foot_14"><p><ref type="bibr" target="#b47">Pinkse and Slade (1998)</ref> consider M equal to the identity matrix M = I n in their empirical application and we follow this suggestion in the Monte Carlo simulations.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="16" xml:id="foot_15"><p>The derivative in equation (16) assumes that (I -ρW) is a symmetric matrix, which is not guaranteed. For example, when W is standardized, this is not the case. See the appendix for this derivative without assuming a symmetric matrix. The revised derivative in the appendix does not affect the estimator or the Monte Carlo results when the convenient starting point at ρ = 0 is used, as in<ref type="bibr" target="#b35">Klier and McMillen (2008)</ref>.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="17" xml:id="foot_16"><p>The same number of replications is considered by<ref type="bibr" target="#b25">Flores-Lagunes and Schnier (2005)</ref>;<ref type="bibr" target="#b26">Franzese and Hays (2007)</ref>;<ref type="bibr" target="#b35">Klier and McMillen (2008)</ref>.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="18" xml:id="foot_17"><p>We use the R package rlecuyer for the parallel generation of random numbers.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="19" xml:id="foot_18"><p>FollowingMcMillen (1995b), we prefer to consider a standard deviation of X substantially higher than σ .</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="20" xml:id="foot_19"><p><ref type="bibr" target="#b2">Anselin (1982)</ref>,<ref type="bibr" target="#b10">Beron and Vijverberg (2004)</ref> and<ref type="bibr" target="#b35">Klier and McMillen (2008)</ref> consider similar values.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="21" xml:id="foot_20"><p>The spatial coefficient ρ is not affected by the scaling.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="22" xml:id="foot_21"><p>These plots are generated using the violin function in the lattice package in R, which in turn makes use of the built-in density function for the computation of smoothed kernel density estimates. Default settings are used.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="23" xml:id="foot_22"><p>When the observations are "strongly spatially dependent"(Pinkse and Slade, 1998, p. 134, fn. 12), even the consistency is not guaranteed.</p></note>
+		</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Bayesian analysis of binary and polychotomous response data</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">H</forename><surname>Albert</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Chib</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<date type="published" when="1993">1993</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<monogr>
+		<title level="m" type="main">Advanced econometrics</title>
+		<author>
+			<persName><forename type="first">Takeshi</forename><surname>Amemiya</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1985">1985</date>
+			<publisher>Harvard University Press</publisher>
+			<pubPlace>Cambridge</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">A note on small sample properties of estimators in a first-order spatial autoregressive model</title>
+		<author>
+			<persName><forename type="first">Luc</forename><surname>Anselin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environment and Planning</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1023" to="1030" />
+			<date type="published" when="1982">1982</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<monogr>
+		<author>
+			<persName><forename type="first">Luc</forename><surname>Anselin</surname></persName>
+		</author>
+		<title level="m">Spatial econometrics: methods and models</title>
+		<meeting><address><addrLine>Dordrecht</addrLine></address></meeting>
+		<imprint>
+			<publisher>Kluwer Academic Publishers</publisher>
+			<date type="published" when="1988">1988</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Under the hood. Issues in the specification and interpretation of spatial regression models</title>
+		<author>
+			<persName><forename type="first">Luc</forename><surname>Anselin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Agricultural Economics</title>
+		<imprint>
+			<biblScope unit="volume">27</biblScope>
+			<biblScope unit="page" from="247" to="267" />
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Econometrics for Spatial Models: Recent Advances</title>
+		<author>
+			<persName><surname>Anselin</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Luc</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">G M</forename><surname>Raymond</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Sergio</forename><forename type="middle">J</forename><surname>Florax</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Rey</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Advances in Spatial econometrics</title>
+		<editor>
+			<persName><forename type="first">Luc</forename><surname>Anselin</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">J</forename><forename type="middle">G M</forename><surname>Raymond</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">Sergio</forename><forename type="middle">J</forename><surname>Florax</surname></persName>
+		</editor>
+		<editor>
+			<persName><surname>Rey</surname></persName>
+		</editor>
+		<meeting><address><addrLine>Berlin</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2004">2004</date>
+			<biblScope unit="page" from="1" to="28" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Where do firms choose to locate their R&amp;D? A spatial conditional logit analysis on French data</title>
+		<author>
+			<persName><forename type="first">Corinne</forename><surname>Autant-Bernard</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">European Planning Studies</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="issue">9</biblScope>
+			<biblScope unit="page" from="1187" to="1208" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Flatliners: Ideology and rational learning in the adoption of the flat tax</title>
+		<author>
+			<persName><forename type="first">Alexander</forename><surname>Baturo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Julia</forename><surname>Gray</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">European Journal of Political Research</title>
+		<imprint>
+			<biblScope unit="volume">48</biblScope>
+			<biblScope unit="page" from="130" to="159" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">A Monte Carlo EM algorithm for the estimation of a logistic auto-logistic model with missing data</title>
+		<author>
+			<persName><forename type="first">Marco</forename><surname>Bee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Giuseppe</forename><surname>Espa</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Letters in Spatial and Resource Sciences</title>
+		<imprint>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="page" from="45" to="54" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Why cooperate? Public goods, economic power, and the Montreal protocol</title>
+		<author>
+			<persName><forename type="first">Kurt</forename><forename type="middle">J</forename><surname>Beron</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>James</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Murdoch</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">M</forename><surname>Wim</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Vijverberg</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Review of Economics and Statistics</title>
+		<imprint>
+			<biblScope unit="volume">85</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="286" to="297" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Probit in a spatial context: a Monte Carlo analysis</title>
+		<author>
+			<persName><forename type="first">Kurt</forename><forename type="middle">J</forename><surname>Beron</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">M</forename><surname>Wim</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Vijverberg</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Advances in spatial econometrics. Methodology, tools and applications</title>
+		<editor>
+			<persName><forename type="first">Luc</forename><surname>Anselin</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">J</forename><forename type="middle">G M</forename><surname>Raymond</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">Sergio</forename><forename type="middle">J</forename><surname>Florax</surname></persName>
+		</editor>
+		<editor>
+			<persName><surname>Rey</surname></persName>
+		</editor>
+		<meeting><address><addrLine>Berlin</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2004">2004</date>
+			<biblScope unit="page" from="169" to="195" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">A review of spatial statistical techniques for location studies</title>
+		<author>
+			<persName><forename type="first">Roger</forename><surname>Bivand</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">CEPR symposium on New Issues in Trade and Location (2277)</title>
+		<meeting><address><addrLine>Lund, Sweden</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="1998-08-30">1998. 28-30 August, 1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Multinomial probit estimation of spatially interdependent choices: an empirical comparison of two new techniques</title>
+		<author>
+			<persName><forename type="first">Denis</forename><surname>Bolduc</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Fortin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Gordon</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Regional Science Review</title>
+		<imprint>
+			<biblScope unit="volume">20</biblScope>
+			<biblScope unit="issue">1/2</biblScope>
+			<biblScope unit="page" from="77" to="101" />
+			<date type="published" when="1997">1997</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Smooth Unbiased Multivariate Probability Simulators for Maximum Likelihood Estimation of Limited Dependent Variable Models</title>
+		<author>
+			<persName><forename type="first">Alex</forename><surname>Borsch-Supan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Vassili</forename><forename type="middle">A</forename><surname>Hajivassiliou</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">58</biblScope>
+			<biblScope unit="page" from="347" to="368" />
+			<date type="published" when="1993">1993</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Strategic interaction among governments: an overview of empirical studies</title>
+		<author>
+			<persName><forename type="first">Jan</forename><forename type="middle">K</forename><surname>Brueckner</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Regional Science Review</title>
+		<imprint>
+			<biblScope unit="volume">26</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="175" to="188" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Spatial patterns in household demand</title>
+		<author>
+			<persName><forename type="first">Anne</forename><forename type="middle">C</forename><surname>Case</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">59</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="953" to="965" />
+			<date type="published" when="1991">1991</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Neighborhood influence and technological change</title>
+		<author>
+			<persName><forename type="first">Anne</forename><forename type="middle">C</forename><surname>Case</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">22</biblScope>
+			<biblScope unit="page" from="491" to="508" />
+			<date type="published" when="1992">1992</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Residual analysis in the grouped and censored normal linear model</title>
+		<author>
+			<persName><forename type="first">Andrew</forename><surname>Chesher</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Margaret</forename><surname>Irish</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="page" from="33" to="61" />
+			<date type="published" when="1987">1987</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Predicting the spatial distribution of non-indigenous riparian weeds: Issues of spatial scale and extent</title>
+		<author>
+			<persName><forename type="first">Yvonne</forename><forename type="middle">C</forename><surname>Collingham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Richard</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Brian</forename><surname>Wadsworth</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Philip</forename><forename type="middle">E</forename><surname>Huntley</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Hulme</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Applied Ecology</title>
+		<imprint>
+			<biblScope unit="volume">37</biblScope>
+			<biblScope unit="page" from="13" to="27" />
+			<date type="published" when="2000">2000</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">GMM Estimation with Cross Sectional Dependence</title>
+		<author>
+			<persName><forename type="first">Timothy</forename><surname>Conley</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Gy</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of econometrics</title>
+		<imprint>
+			<biblScope unit="volume">92</biblScope>
+			<biblScope unit="page" from="1" to="45" />
+			<date type="published" when="1999">1999</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">A general definition of residuals</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">R</forename><surname>Cox</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">J</forename><surname>Snell</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society B</title>
+		<imprint>
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="248" to="275" />
+			<date type="published" when="1968">1968</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<monogr>
+		<title level="m" type="main">Estimation and inference in econometrics</title>
+		<author>
+			<persName><forename type="first">Russell</forename><surname>Davidson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">James</forename><forename type="middle">G</forename><surname>Mackinnon</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1993">1993</date>
+			<publisher>Oxford University Press</publisher>
+			<pubPlace>Oxford</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Maximum likelihood from incomplete data via the EM algorithm</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">P</forename><surname>Dempster</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">M</forename><surname>Laird</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">B</forename><surname>Rubin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society. Series B (Methodological)</title>
+		<imprint>
+			<biblScope unit="volume">39</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1" to="38" />
+			<date type="published" when="1977">1977</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Estimating logit models with spatial dependence</title>
+		<author>
+			<persName><forename type="first">Robin</forename><surname>Dubin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">New directions in spatial econometrics</title>
+		<editor>
+			<persName><forename type="first">Luc</forename><surname>Anselin</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">J</forename><forename type="middle">G M</forename><surname>Raymond</surname></persName>
+		</editor>
+		<editor>
+			<persName><surname>Florax</surname></persName>
+		</editor>
+		<meeting><address><addrLine>Berlin</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer Verlag</publisher>
+			<date type="published" when="1995">1995</date>
+			<biblScope unit="page" from="229" to="242" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Techniques for estimating spatially dependent discrete choice models</title>
+		<author>
+			<persName><forename type="first">Mark</forename><forename type="middle">M</forename><surname>Fleming</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Advances in spatial econometrics. Methodology, tools and applications</title>
+		<editor>
+			<persName><forename type="first">Luc</forename><surname>Anselin</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">J</forename><forename type="middle">G M</forename><surname>Raymond</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">Sergio</forename><forename type="middle">J</forename><surname>Florax</surname></persName>
+		</editor>
+		<editor>
+			<persName><surname>Rey</surname></persName>
+		</editor>
+		<meeting><address><addrLine>Berlin</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2004">2004</date>
+			<biblScope unit="page" from="145" to="167" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<monogr>
+		<title level="m" type="main">Estimation of sample selection models with spatial dependence</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Flores-Lagunes</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">E</forename><surname>Schnier</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2005">2005</date>
+		</imprint>
+		<respStmt>
+			<orgName>University of Arizona</orgName>
+		</respStmt>
+	</monogr>
+	<note>Working paper</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Spatial econometric models of cross-sectional interdependence in political science panel and time-series-cross-section data</title>
+		<author>
+			<persName><forename type="first">Robert</forename><forename type="middle">J</forename><surname>Franzese</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Jude</forename><forename type="middle">C</forename><surname>Hays</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Political Analysis</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="140" to="164" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">Sampling-based Approaches to Calculating Marginal Densities</title>
+		<author>
+			<persName><forename type="first">Allan</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><forename type="middle">M</forename><surname>Adrian</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Smith</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of American Statitical Association</title>
+		<imprint>
+			<biblScope unit="volume">85</biblScope>
+			<biblScope unit="page" from="398" to="409" />
+			<date type="published" when="1990">1990</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Stochastic relaxation, Gibbs distributions and the Bayesian restoration of images</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Geman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Geman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Transactions on Pattern Analysis and Machine Intelligence</title>
+		<imprint>
+			<biblScope unit="volume">12</biblScope>
+			<biblScope unit="page" from="609" to="628" />
+			<date type="published" when="1984">1984</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">Diffusion and the international context of democratization</title>
+		<author>
+			<persName><forename type="first">Kristian</forename><forename type="middle">S</forename><surname>Gleditsch</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Michael</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Ward</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Organization</title>
+		<imprint>
+			<biblScope unit="volume">60</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="911" to="933" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<monogr>
+		<author>
+			<persName><forename type="first">William</forename><forename type="middle">H</forename><surname>Greene</surname></persName>
+		</author>
+		<title level="m">Econometric Analysis</title>
+		<meeting><address><addrLine>London</addrLine></address></meeting>
+		<imprint>
+			<publisher>Prentice Hall</publisher>
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<monogr>
+		<author>
+			<persName><forename type="first">William</forename><forename type="middle">H</forename><surname>Greene</surname></persName>
+		</author>
+		<title level="m">Econometric Analysis. 5th ed. Upper Saddle River</title>
+		<imprint>
+			<publisher>Prentice Hall</publisher>
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">Autologistic model of spatial pattern of phytophthora epidemic in bell pepper: effects of soil variables on disease presence</title>
+		<author>
+			<persName><forename type="first">Marcia</forename><forename type="middle">L</forename><surname>Gumpertz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Jonathan</forename><forename type="middle">M</forename><surname>Graham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Jean</forename><forename type="middle">B</forename><surname>Ristaino</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Agricultural, Biological, and Environmental Statistics</title>
+		<imprint>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="131" to="156" />
+			<date type="published" when="1997">1997</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">Large sample properties of generalized method of moments estimators</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">P</forename><surname>Hansen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">50</biblScope>
+			<biblScope unit="page" from="1029" to="1054" />
+			<date type="published" when="1982">1982</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<analytic>
+		<title level="a" type="main">Monte Carlo sampling methods using Markov chains and their applications</title>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">K</forename><surname>Hastings</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometrika</title>
+		<imprint>
+			<biblScope unit="volume">57</biblScope>
+			<biblScope unit="page" from="97" to="109" />
+			<date type="published" when="1970">1970</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<analytic>
+		<title level="a" type="main">Clustering of auto supplier plants in the United States: generalized method of moments spatial logit for large samples</title>
+		<author>
+			<persName><forename type="first">Thomas</forename><surname>Klier</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Daniel</forename><forename type="middle">P</forename><surname>Mcmillen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Business &amp; Economic Statistics</title>
+		<imprint>
+			<biblScope unit="volume">26</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="460" to="471" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<analytic>
+		<title level="a" type="main">Asymtotic Distribution of Quasi-maximum Likelihood Estimators for Spatial Autoregressive Models</title>
+		<author>
+			<persName><forename type="first">Lung</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Fei</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">72</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1899" to="1925" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<analytic>
+		<title level="a" type="main">Bayesian estimation of limited dependent variable spatial autoregressive models</title>
+		<author>
+			<persName><forename type="first">James</forename><forename type="middle">P</forename><surname>Lesage</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="19" to="35" />
+			<date type="published" when="2000">2000</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<analytic>
+		<title level="a" type="main">Bayesian Model Averaging for Spatial Econometric Models</title>
+		<author>
+			<persName><forename type="first">James</forename><forename type="middle">P</forename><surname>Lesage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Olivier</forename><surname>Parent</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">39</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="241" to="267" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<monogr>
+		<title level="m" type="main">Limited-dependent and qualitative variables in econometrics</title>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">S</forename><surname>Maddala</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1983">1983</date>
+			<publisher>Cambridge University Press</publisher>
+			<pubPlace>New York</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b40">
+	<monogr>
+		<title/>
+		<author>
+			<persName><forename type="first">P</forename><surname>Mccullagh</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">A</forename><surname>Nelder</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1989">1989</date>
+			<publisher>Chapman and Hall</publisher>
+			<pubPlace>New York</pubPlace>
+		</imprint>
+	</monogr>
+	<note>Generalized Linear Models. 2nd ed</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b41">
+	<analytic>
+		<title level="a" type="main">Probit with spatial autocorrelation</title>
+		<author>
+			<persName><forename type="first">Daniel</forename><forename type="middle">P</forename><surname>Mcmillen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Regional Science</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="335" to="348" />
+			<date type="published" when="1992">1992</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b42">
+	<analytic>
+		<title level="a" type="main">Selection bias in spatial econometric models</title>
+		<author>
+			<persName><forename type="first">Daniel</forename><forename type="middle">P</forename><surname>Mcmillen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Regional Science</title>
+		<imprint>
+			<biblScope unit="volume">35</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="417" to="436" />
+			<date type="published" when="1995">1995</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b43">
+	<analytic>
+		<title level="a" type="main">Spatial effects in probit models: a Monte Carlo investigation</title>
+		<author>
+			<persName><forename type="first">Daniel</forename><forename type="middle">P</forename><surname>Mcmillen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">New directions in spatial econometrics</title>
+		<editor>
+			<persName><forename type="first">Luc</forename><surname>Anselin</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">J</forename><forename type="middle">G M</forename><surname>Raymond</surname></persName>
+		</editor>
+		<editor>
+			<persName><surname>Florax</surname></persName>
+		</editor>
+		<meeting><address><addrLine>Berlin</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer Verlag</publisher>
+			<date type="published" when="1995">1995</date>
+			<biblScope unit="page" from="189" to="228" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b44">
+	<analytic>
+		<title level="a" type="main">Modeling regional effects on state policy diffusion</title>
+		<author>
+			<persName><forename type="first">Christopher</forename><forename type="middle">Z</forename><surname>Mooney</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Political Research Quarterly</title>
+		<imprint>
+			<biblScope unit="issue">54</biblScope>
+			<biblScope unit="page" from="103" to="124" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b45">
+	<monogr>
+		<author>
+			<persName><surname>Novo</surname></persName>
+		</author>
+		<ptr target="http://EconPapers.repec.org/RePEc:ptu:wpaper:w" />
+		<title level="m">Contagious Currency Crisis: A Spatial Probit Approach. Working papers Banco de Portugal, Economics and Research Department</title>
+		<imprint>
+			<date type="published" when="2003">2003. 200305</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b46">
+	<analytic>
+		<title level="a" type="main">Estimation Methods for Models of Spatial Interaction</title>
+		<author>
+			<persName><forename type="first">John</forename><surname>Ord</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">70</biblScope>
+			<biblScope unit="page" from="1200" to="1226" />
+			<date type="published" when="1975">1975</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b47">
+	<analytic>
+		<title level="a" type="main">Contracting in space: an application of spatial statistics to discrete-choice models</title>
+		<author>
+			<persName><forename type="first">Joris</forename><surname>Pinkse</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Margaret</forename><forename type="middle">E</forename><surname>Slade</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">85</biblScope>
+			<biblScope unit="page" from="125" to="154" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b48">
+	<monogr>
+		<title level="m" type="main">Homophily and contagion are generically confounded in observational social network studies</title>
+		<author>
+			<persName><forename type="first">Cosma</forename><surname>Shalizi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Andrew</forename><forename type="middle">C</forename><surname>Rohilla</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Thomas</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:1004.4704v3</idno>
+		<imprint>
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b49">
+	<analytic>
+		<title level="a" type="main">Bottom-up federalism: The diffusion of antismoking policies from U.S. cities to states</title>
+		<author>
+			<persName><forename type="first">Charles</forename><forename type="middle">R</forename><surname>Shipan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Craig</forename><surname>Volden</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">American Journal of Political Science</title>
+		<imprint>
+			<biblScope unit="volume">50</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b50">
+	<analytic>
+		<title level="a" type="main">A primer for Bayesian spatial probits, with an application to deforestation in Madagascar</title>
+		<author>
+			<persName><forename type="first">Timothy</forename><forename type="middle">S</forename><surname>Thomas</surname></persName>
+		</author>
+		<ptr target="http://www.timthomas.net" />
+	</analytic>
+	<monogr>
+		<title level="m">Companion Paper for the World Bank Policy Research Report on Forests, Environment, and Livelihoods</title>
+		<imprint>
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b51">
+	<analytic>
+		<title level="a" type="main">Modeling Spatial Processes: The Identification and Analysis of Spatial Relationships in Regression Residuals by Means of Moran&apos;s I</title>
+		<author>
+			<persName><forename type="first">Michael</forename><surname>Tiefelsdorf</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="s">Lecture notes in earth sciences Berlin</title>
+		<imprint>
+			<biblScope unit="volume">87</biblScope>
+			<date type="published" when="2000">2000</date>
+			<publisher>Springer Verlag</publisher>
+			<pubPlace>Berlin Heidelber</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b52">
+	<monogr>
+		<author>
+			<persName><forename type="first">Marno</forename><surname>Verbeek</surname></persName>
+		</author>
+		<title level="m">A guide to modern econometrics</title>
+		<meeting><address><addrLine>Chichester</addrLine></address></meeting>
+		<imprint>
+			<publisher>John Wiley &amp; Sons</publisher>
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b53">
+	<analytic>
+		<title level="a" type="main">Monte Carlo evaluations of multivariate normal probabilities</title>
+		<author>
+			<persName><forename type="first">Wim</forename><forename type="middle">P M</forename><surname>Vijverberg</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">76</biblScope>
+			<biblScope unit="page" from="281" to="307" />
+			<date type="published" when="1997">1997</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b54">
+	<monogr>
+		<title level="m" type="main">Rectangular and Wedse-Shape Multivariate Normal Probabilities</title>
+		<author>
+			<persName><forename type="first">Wim</forename><forename type="middle">P M</forename><surname>Vijverberg</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1999">1999</date>
+			<publisher>School of Social Sceinces</publisher>
+		</imprint>
+		<respStmt>
+			<orgName>University of Texas at Dallas</orgName>
+		</respStmt>
+	</monogr>
+	<note type="report_type">Working Paper</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b55">
+	<analytic>
+		<title level="a" type="main">States as policy laboratories: Emulating success in the children&apos;s health insurance program</title>
+		<author>
+			<persName><forename type="first">Craig</forename><surname>Volden</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">American Journal of Political Science</title>
+		<imprint>
+			<biblScope unit="volume">50</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="294" to="312" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

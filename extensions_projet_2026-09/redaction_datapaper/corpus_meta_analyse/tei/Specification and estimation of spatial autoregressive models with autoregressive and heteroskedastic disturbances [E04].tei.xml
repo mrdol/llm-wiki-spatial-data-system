@@ -1,0 +1,1225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Specification and estimation of spatial autoregressive models with autoregressive and heteroskedastic disturbances</title>
+				<funder ref="#_fVHHs5b">
+					<orgName type="full">National Science Foundation</orgName>
+				</funder>
+				<funder ref="#_7JhFqmJ #_GvYe8wT">
+					<orgName type="full">National Institute of Health</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability  status="unknown">
+					<licence/>
+				</availability>
+				<date type="published" when="2009-10-30">30 October 2009</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">Harry</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Economics</orgName>
+								<orgName type="institution">University of Maryland</orgName>
+								<address>
+									<postCode>20742</postCode>
+									<settlement>College Park</settlement>
+									<region>MD</region>
+									<country key="US">United States</country>
+								</address>
+							</affiliation>
+						</author>
+						<author role="corresp">
+							<persName><forename type="first">Ingmar</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+							<email>prucha@econ.umd.edu</email>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Economics</orgName>
+								<orgName type="institution">University of Maryland</orgName>
+								<address>
+									<postCode>20742</postCode>
+									<settlement>College Park</settlement>
+									<region>MD</region>
+									<country key="US">United States</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">C21</forename><surname>C31</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Economics</orgName>
+								<orgName type="institution">University of Maryland</orgName>
+								<address>
+									<postCode>20742</postCode>
+									<settlement>College Park</settlement>
+									<region>MD</region>
+									<country key="US">United States</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Specification and estimation of spatial autoregressive models with autoregressive and heteroskedastic disturbances</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2009-10-30">30 October 2009</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">91EC2B2AA78483664CA27C4D086C8E16</idno>
+					<idno type="DOI">10.1016/j.jeconom.2009.10.025</idno>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-17T13:17+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>Spatial dependence Heteroskedasticity Cliff-Ord model Two-stage least squares Generalized moments estimation Asymptotics</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>This study develops a methodology of inference for a widely used Cliff-Ord type spatial model containing spatial lags in the dependent variable, exogenous variables, and the disturbance terms, while allowing for unknown heteroskedasticity in the innovations. We first generalize the GMM estimator suggested in Kelejian and Prucha (1998, 1999)  for the spatial autoregressive parameter in the disturbance process. We also define IV estimators for the regression parameters of the model and give results concerning the joint asymptotic distribution of those estimators and the GMM estimator. Much of the theory is kept general to cover a wide range of settings.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">Introduction</head><p>In recent years the economics literature has seen an increasing number of theoretical and applied econometric studies involving spatial issues. 1 While this increase in interest in spatial models in economics is relatively recent, spatial models have a long history in the regional science and geography literature. 2 One of the most widely referenced model of spatial interactions is one that was put forth by <ref type="bibr">Cliff and</ref><ref type="bibr">Ord (1973, 1981)</ref>. This model is a variant of the model considered by <ref type="bibr" target="#b53">Whittle (1954)</ref>. In its simplest (and original) form the model only considers spatial spillovers in the dependent variable, and specifies the endogenous variable corresponding to a cross sectional unit in terms of a weighted average of endogenous variables corresponding to other cross sectional units, plus a disturbance term. This model is typically referred to as a spatial autoregressive model, the weighted average is typically referred to as a spatial lag, the corresponding parameter as the autoregressive parameter, and the matrix containing the weights as the spatial weights matrix. A generalized version of this model also allows for the dependent variable to depend on a set of exogenous variables and spatial lags thereof. A further generalization allows for the disturbances to be generated by a spatial autoregressive process. Consistent with the terminology developed by <ref type="bibr" target="#b2">Anselin and Florax (1995)</ref> we refer to the combined model as a spatial autoregressive model with autoregressive disturbances of order (1, 1), for short SARAR(1, 1). We note that this model is fairly general in that it allows for spatial spillovers in the endogenous variables, exogenous variables and disturbances.</p><p>Somewhat surprisingly, even though the SARAR(1, 1) model has been a modeling tool for many years, until recently there has been a lack of formal results concerning estimation methods for this model. One method that has been employed to estimate this model is the (quasi) maximum likelihood (ML) procedure, where the likelihood function corresponds to the normal distribution. Formal results concerning the asymptotic properties of the ML estimator have been established only recently in an important contribution by <ref type="bibr" target="#b40">Lee (2004)</ref>. Given that the likelihood function involves the determinant of a matrix whose dimensions depend on the sample size and an unknown parameter, there can be significant difficulties in the practical computation of this estimator especially if the sample size is large, as it might be if the spatial units relate to counties, single family houses, etc. In part because of this <ref type="bibr" target="#b30">Kelejian and Prucha (1999)</ref> introduced a generalized moments (GM) estimator for the autoregressive parameter of the disturbance process that is simple to compute and remains computationally feasible even for large sample sizes. In <ref type="bibr" target="#b29">Kelejian and Prucha (1998)</ref> we used that GM estimator to introduce a generalized spatial two stage least squares estimator (GS2SLS) for the regression parameters of the spatial SARAR(1, 1) model that is again simple to compute, and demonstrated its consistency and asymptotic normality. 3  All of the above estimators for the SARAR(1, 1) model were introduced and their asymptotic properties were derived under the assumption that the innovations in the disturbance process are homoskedastic. The lack of an estimation theory that allows for heteroskedasticity, and the lack of corresponding joint hypothesis tests for the presence of spatial dependencies in the endogenous variables, exogenous variables and/or disturbances, is a serious shortcoming. Spatial units are often heterogeneous in important characteristics, e.g., size, and hence the homoskedasticity assumption may not hold in many situations (conditionally and unconditionally). It is readily seen that if the innovations are heteroskedastic, the ML estimator considered in <ref type="bibr" target="#b40">Lee (2004)</ref> is inconsistent, and the asymptotic distribution given in <ref type="bibr" target="#b29">Kelejian and Prucha (1998)</ref> for the GS2SLS estimator is not appropriate. One important goal of this study is therefore to develop a methodology of inference for the SARAR(1, 1) model that allows for heteroskedastic innovations. In developing this theory we will adopt a modular approach such that much of the theory not only applies to the SARAR(1, 1) model, but can also be utilized in different settings in future research.</p><p>In more detail, in this paper we introduce a new class of GM estimators for the autoregressive parameter of a spatially autoregressive disturbance process that allows for heteroskedastic innovations. Our GM estimators are again computationally simple even in large samples. We determine their consistency; unlike in our earlier paper we also determine, under reasonably general conditions, their asymptotic distribution. Loosely speaking, in deriving those results we essentially only maintain that the disturbances are n 1/2 -consistently estimated (where n is the sample size) and that the estimator of the model parameters employed in estimating the disturbances is asymptotically linear in the innovations. As a result the methodology developed in this paper covers a wide range of (linear and nonlinear) models and estimators, in addition to the SARAR(1, 1) model and estimators specific for that model. We furthermore derive results concerning the joint distribution of the GM estimators and estimators of the regression parameters to facilitate joint tests. While the results are presented for the case of two step estimation procedures where the spatial autoregressive parameter and the regression parameters are estimated in separate steps, the analysis can be readily adapted to one step procedures where all parameters are estimated in a single (but numerically more involved) step.</p><p>The general theory is then applied to develop inference methodology for the SARAR(1, 1) model. In particular, we use the GM estimator in constructing a GS2SLS estimator for the regression parameters of the SARAR(1, 1) model and demonstrate the consistency and asymptotic normality of this estimator. We also provide results concerning the joint distribution of the GM estimator and the GS2SLS estimator, which permits, among other things, testing the joint hypothesis of the absence of spatial spillovers stemming from the endogenous variables, exogenous variables or disturbances.</p><p>3 The formulation of the GS2SLS estimator is based on an approximation of the ideal instruments. Recently <ref type="bibr" target="#b39">Lee (2003)</ref> and <ref type="bibr">Kelejian et al. (2004)</ref> extended the analysis to include the use of ideal instruments. <ref type="bibr" target="#b22">Das et al. (2003)</ref> analyzed the small sample properties of the GS2SLS (as well as those of other estimators). They find that in many situations the loss of efficiency due to the approximation of the ideal instruments is minor.</p><p>Another concern with the existing literature on Cliff-Ord type models, including in the above cited literature on the SARAR(1, 1) models, is the specification of the parameter space for spatial autoregressive parameters. In virtually all of the literature it is assumed that the parameter space for autoregressive parameters is the interval (-1, 1), or a subset thereof. One may conjecture that this traditional specification of the parameter space received its motivation from the time series literature. However, as discussed in detail below, choosing the interval (-1, 1) as the parameter space for the autoregressive parameter of a spatial model is not natural in the sense that the spatial autoregressive parameter always appears in those models in product form with the spatial weights matrix. Hence equivalent model formulations are obtained by applying an (arbitrary) scale factor to the autoregressive parameter and its inverse to the weights matrix. Of course, applying a scale factor to the autoregressive parameter leads to a corresponding re-scaling of its parameter space. In this paper we therefore allow for a more general specification of the parameter space. Even if a scale factor is used that results in the parameter space being the interval (-1, 1), this scale factor and correspondingly the autoregressive parameter will then typically depend on the sample size. In contrast to the existing literature we thus allow for the parameters to depend on the sample size. Our discussion of the parameter space and possible normalizations of the spatial weights matrix also points out potential pitfalls with the frequently used approach of row-normalizing the spatial weights matrix.</p><p>The paper is organized as follows: The generalized SARAR(1, 1) model is specified and interpreted in Section 2. This section also contains a discussion of the parameter space of the autoregressive parameter. In Section 3 we define and establish the large sample properties of our suggested GM estimators for the autoregressive parameter of a spatially autoregressive disturbance process. In this section we also provide results concerning the joint large sample distribution of the GM estimators and a wide class of estimator of the regression parameters. We also develop HAC type estimators for the large sample variance-covariance matrix of the suggested estimators. Section 4 contains results relating to the suggested instrumental variable estimators of the regression parameters of the SARAR(1, 1) model and their joint large sample distribution with GM estimators. Concluding remarks are given in the Section 5. Technical details are relegated to the Appendices.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>It proves helpful to introduce the following notation: Let A n</head><p>with n ∈ N be some matrix; we then denote the (i, j)-th element of A n as a ij,n . Similarly, if v n is a vector, then v i,n denotes the i-th element of v n . An analogous convention is adopted for matrices and vectors that do not depend on the index n, in which case the index n is suppressed on the elements. If A n is a square matrix, then A -1 n denotes the inverse of A n . If A n is singular, then A -1 n should be interpreted as the generalized inverse of A n . At times it will also be helpful to denote the generalized inverse more explicitly as A + n . With a i.,n and a .i,n we denote the i-th row and column of A n , respectively, and with a i. n and a .i n those of A -1 n . If A n is a square symmetric nonnegative matrix, then A 1/2 n denotes the unique symmetric and nonnegative square root of</p><formula xml:id="formula_0">A n . If A n is nonsingular, then A -1/2 n denotes (A -1 n ) 1/2 .</formula><p>Further, we say the row and column sums of the (sequence of) matrices A n are bounded uniformly in absolute value if there exists a constant c A &lt; ∞ (that does not dependent of n) such that max 1≤i≤n n j=1 |a ij,n | ≤ c A and max 1≤j≤n n i=1</p><p>|a ij,n | ≤ c A for all n ∈ N holds. As a point of interest, we note that the above condition is identical to the condition that the sequences of the maximum column sum matrix norms and maximum row sum matrix norms of A n are bounded; cp. <ref type="bibr">Horn and Johnson (1985, pp. 294-5)</ref>.</p><p>For definiteness, let A be some vector or matrix, then A = [Tr(A A)] 1/2 . We note that this norm is submultiplicative, i.e., AB ≤ A B .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.">Model</head><p>In this section we specify the generalized SARAR(1, 1) model and discuss the underlying assumptions.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1.">Specification</head><p>Suppose a cross section of n spatial units is observed, and the interactions between those spatial units can be described by the following model:</p><formula xml:id="formula_1">y n = X n β n + λ n W n y n + u n = Z n δ n + u n (1)</formula><p>and</p><formula xml:id="formula_2">u n = ρ n M n u n + ε n , (2)</formula><p>with Z n = [X n , W n y] and δ n = β n , λ n . Here y n denotes the n × 1 vector of observations of the dependent variable, X n denotes the n × k matrix of non-stochastic (exogenous) regressors, W n and M n are n × n non-stochastic matrices, u n denotes the n × 1 vector of regression disturbances, ε n is an n × 1 vector of innovations, λ n and ρ n are unknown scalar parameters, and β n is a k × 1 vector of unknown parameters. The matrices W n and M n are typically referred to as spatial weight matrices, and λ n and ρ n are typically called spatial autoregressive parameters. The analysis allows for W n = M n , which will frequently be the case in applications. All quantities are allowed to depend on the sample size.</p><p>The vectors y n = W n y n and u n = M n u n are typically referred to as spatial lags of y n and u n , respectively. We note that all quantities are allowed to depend on the sample size and so some of the exogenous regressors may be spatial lags of exogenous variables. Thus the model is fairly general in that it allows for spatial spillovers in the endogenous variables, exogenous variables and disturbances.</p><p>The spatial weight matrices and the autoregressive parameters are assumed to satisfy the following assumption.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Assumption 1. (a) All diagonal elements of W n and M</head><formula xml:id="formula_3">n are zero. (b) λ n ∈ (-a λ n , a λ n ), ρ n ∈ (-a ρ n , a ρ n ) with 0 &lt; a λ n , a λ n ≤ a λ &lt; ∞ and 0 &lt; a ρ n , a ρ n ≤ a ρ &lt; ∞. (c)</formula><p>The matrices I n -λW n and I n -ρM n are nonsingular for all λ ∈ (-a λ n , a λ n ), and ρ ∈ (-a ρ n , a ρ n ).</p><p>Assumption 1(a) is clearly a normalization rule. Assumption 1(b) concerning the parameter space of λ n and ρ n will be discussed in the next subsection. Assumption 1 (c) ensures that y n and u n are uniquely defined by ( <ref type="formula" target="#formula_78">1</ref>) and ( <ref type="formula">2</ref>) as</p><formula xml:id="formula_4">y n = (I n -λ n W n ) -1 X n β n + (I n -λ n W n ) -1 u n ,<label>(3)</label></formula><formula xml:id="formula_5">u n = (I n -ρ n M n ) -1 ε n .</formula><p>As remarked in Section 1, spatial units are often heterogeneous in important characteristics, e.g., size. For that reason it is important to develop an estimation theory that allows for the innovations to be heteroskedastic. Therefore, we maintain the following set of assumptions with respect to the innovations.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Assumption 2. The innovations {ε</head><formula xml:id="formula_6">i,n : 1 ≤ i ≤ n, n ≥ 1} satisfy Eε i,n = 0, E(ε 2 i,n ) = σ 2 i,n with 0 &lt; a σ ≤ σ 2 i,n ≤ a σ &lt; ∞, and sup 1≤i≤n,n≥1 E ε i,n</formula><p>4+η &lt; ∞ for some η &gt; 0. Furthermore, for each n ≥ 1 the random variables ε 1,n , . . . , ε n,n are totally independent.</p><p>The above assumption also allows for the innovations to depend on the sample size n, i.e., to form triangular arrays. We note that even if the innovations do not depend on n, the elements of y n and u n would still depend on n in light of (3) since the elements of the inverse matrices involved would generally depend on n. We maintain the following assumption concerning the spatial weight matrices.</p><p>Assumption 3. The row and column sums of the matrices W n , M n , (I n -λ n W n ) -1 and (I n -ρ n M n ) -1 are bounded uniformly in absolute value.</p><p>Given (3), Assumption 2 implies that Eu n = 0, and that the VC matrix of u n is given by</p><formula xml:id="formula_7">Eu n u n = (I n -ρ n M n ) -1 n I n -ρ n M n -1</formula><p>where n = diag(σ 2 i,n ). This specification allows for fairly general patterns of autocorrelation and heteroskedasticity of the disturbances. It is readily seen that the row and column sums of products of matrices, whose row and column sums are bounded uniformly in absolute value, are again uniformly bounded in absolute value; see, e.g., <ref type="bibr">Kelejian and Prucha (2004, Remark A.1)</ref>.</p><p>Because of this, Assumptions 2 and 3 imply that the row and column sums of the variance-covariance (VC) matrix of u n (and similarly those of y n ) are uniformly bounded in absolute value, thus limiting the degree of correlation between, respectively, the elements of u n (and of y n ). That is, making an analogy to the time series literature, these assumptions ensure that the disturbance process and the process for the dependent variable exhibit a ''fading'' memory. 4</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2.">Parameter space for an autoregressive parameter</head><p>Assumption 1(b) defines the parameter space for the autoregressive parameters. In discussing this assumption we focus on W n and λ n . (An analogous discussion applies to M n and ρ n .) In the existing literature relating to Cliff-Ord models the parameter space for the autoregressive parameter is typically taken to be the interval (-1, 1) and the autoregressive parameter is assumed not to depend on the sample size. However, in applications it is typically found that for un-normalized spatial weight matrices, I n -λW n is singular for some values of λ ∈ (-1, 1). To avoid this situation, many applied researchers normalize each row of their spatial weight matrices in such a way that I n -λW n is non-singular for all λ ∈ (-1, 1). We now discuss the implications of various normalizations of the spatial weight matrix.</p><p>Suppose c n denotes a scalar normalization factor. Clearly, this normalization factor may depend on the sample size. For example, some of our results below relate to the case in which c n corresponds to the maximal row or column sum of the absolute values of the elements of W n . Given such a normalizing factor, an equivalent</p><formula xml:id="formula_8">specification of model (1) for y n is obtained if λ n W n is replaced by λ * n W * n where λ * n = c n λ n and W * n = W n /c n .</formula><p>It is important to observe that even if λ n and its corresponding parameter space do not depend on n, λ * n and its implied parameter space will depend on the sample size as a result of the normalization of the spatial weight matrix. 5 It is for this reason that we allow in Assumption 1 for the elements of the spatial weight matrices, and the autoregressive parameters and the corresponding parameter spaces to depend on n. Of course, Assumption 1 also covers the case where the true data generating process corresponds to a model where autoregressive parameters do not depend on n.</p><p>Assumption 1 defines the parameter space for λ n as an interval around zero such that I n -λW n is nonsingular for values λ in that interval. The following trivial lemma gives bounds for that interval.</p><p>4 Of course, the extent of correlation is limited in virtually all large sample analysis; see, e.g., Amemiya (1985, ch. 3, 4) and Pötscher and Prucha (1997, ch. 5, 6). 5 The parameter space for λ * n is given by (-c n a λ n , c n a λ n ).</p><p>Lemma 1. Let τ n denote the spectral radius of W n ; i.e., τ n = max ν 1,n , . . . , ν n,n where ν 1,n , . . . , ν n,n denote the eigenvalues of W n . Then I n -λW n is nonsingular for all values of λ in the interval (-1/τ n , 1/τ n ). 6  Clearly, if we select (-1/τ n , 1/τ n ) as the parameter space for λ n , then all eigenvalues of λ n W n are less than one in absolute value. Thus if we interpret (1) as an equilibrium relationship, then this choice of the parameter space rules out unstable Nash equilibria. Of course, we obtain an equivalent specification of the model if instead of working with W n we work with the normalized weights matrix W * n = W n /τ n and select the interval (-1, 1) as the parameter space for λ * n = λ n τ n . Assumption 1 is sufficiently general to cover both cases.</p><p>For large sample sizes the computation of the eigenvalues on W n is difficult. The following lemma gives boundaries, which are simple to compute, for a (sub)set of values of λ for which</p><formula xml:id="formula_9">I n -λW n is nonsingular. Lemma 2. Let τ * n = min max 1≤i≤n n j=1 w ij,n , max 1≤j≤n n i=1 w ij,n .</formula><p>Then τ n ≤ τ * n and consequently I n -λW n is nonsingular for all values of λ in the interval (-1/τ * n , 1/τ * n ). The above lemma suggests (-1/τ * n , 1/τ * n ) as an alternative (although somewhat more restrictive) specification of the parameter space. Of course, we obtain an equivalent model specification if we normalize the spatial weight matrix by τ * n and if we choose (-1, 1) as the parameter space for the autoregressive parameter. Since the spectral radius is bound by any matrix norm, other norms in place of the maximum absolute row and column sum norms can be used, but τ * n is especially easy to compute.</p><p>Rather than to normalize W n by τ n or τ * n , in much of the empirical literature the spatial weight matrices are normalized such that each row sums to unity. The motivation for this normalization is that if W n is row-normalized then I n -λW n is nonsingular for all values of λ in the interval (-1, 1); this can be readily confirmed via Lemma 2. However, this normalization is quite different than those described above in that in rownormalizing a matrix one does not use a single normalization factor, but rather a different factor for the elements of each row. Therefore, in general, there exists no corresponding re-scaling factor for the autoregressive parameter that would lead to a specification that is equivalent to that corresponding to the unnormalized weight matrix. Consequently, unless theoretical issues suggest a row-normalized weight matrix, this approach will in general lead to a misspecified model.</p><p>The above discussion provides the motivation for our specification that the autoregressive parameters may depend on n. Furthermore, since some of the regressors may be spatial lags, we allow all of the model parameters to depend on the sample size.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.">GM estimator for the autoregressive parameter ρ n</head><p>In the following we introduce a class of GM estimators for ρ n that can be easily computed, and prove their consistency and asymptotic normality under a set of general assumptions. We note that the discussion in this section only maintains model (2) for the disturbances u n , but not necessarily (1) for y n . Thus the results 6 In some of the spatial literature the following closely related claim can be found: I n -λW n is nonsingular for all values of λ in the interval (1/ν n,min , 1/ν n,max ), where ν n,min and ν n,max denote the smallest and largest eigenvalue of W n , respectively. This claim is correct for the case in which all eigenvalues of W n are real and ν n,min &lt; 0 and ν n,max &gt; 0. Since, e.g., the eigenvalues of W n need not be real, this claim does not hold in general.</p><p>will also be useful in other settings such as cases where y n is determined by a nonlinear model; see, e.g. <ref type="bibr">Kelejian and Prucha (2001, p. 228)</ref>. The estimators put forth below generalize the GM estimator for ρ n introduced in <ref type="bibr" target="#b30">Kelejian and Prucha (1999)</ref>. In contrast to that earlier paper we now allow for heteroskedastic innovations ε i,n , and optimal weighting of the moment conditions. We also do not confine the parameter space for ρ n to be the interval (-1, 1), and allow ρ n to depend on n. In our earlier paper we only demonstrated the consistency of the estimator. In the following we also derive the asymptotic distribution of the considered estimators.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1.">Definition of the GM estimator for ρ n</head><p>In the following let u n denote some predictor of u n . Furthermore, for notational convenience let u n = M n u n and</p><formula xml:id="formula_10">u n = M n u n = M 2 n u n , and correspondingly, u n = M n u n , and u n = M 2 n u n . Similarly, let ε n = M n ε n .</formula><p>It is readily seen that under Assumptions 1 and 2 we have the following moment conditions:</p><formula xml:id="formula_11">n -1 Eε n ε n = n -1 Tr M n diag n i=1 (Eε 2 i,n ) M n ,<label>(4)</label></formula><formula xml:id="formula_12">n -1 Eε n ε n = 0.</formula><p>It proves convenient to rewrite these conditions as</p><formula xml:id="formula_13">n -1 E ε n A 1,n ε n ε n A 2,n ε n = 0 (<label>5</label></formula><formula xml:id="formula_14">)</formula><p>with</p><formula xml:id="formula_15">A 1,n = M n M n -diag n i=1 (m .i,n m .i,n ), A 2,n = M n .</formula><p>Under Assumptions 1 and 3 it is readily seen that the diagonal elements of A 1,n and A 2,n are zero and that the row and column sums of A 1,n and A 2,n are bounded uniformly in absolute value; see, e.g., Remark A.1 in <ref type="bibr">Kelejian and Prucha (2004)</ref>.</p><p>Our GM estimators for ρ n are based on these moments. Specifically, note that in the light of ( <ref type="formula">2</ref></p><formula xml:id="formula_16">) ε n = (I n -ρ n M n )u n = u n -ρ n u n and so ε n = u n -ρ n u n .</formula><p>Substituting these expressions into (4) or (5) yields the following two equation system:</p><formula xml:id="formula_17">γ n -n α n = 0 (6)</formula><p>where α n = [ρ n , ρ 2 n ] and the elements of n = γ rs,n r,s=1,2 and γ n = γ 1,n , γ 2,n are given by</p><formula xml:id="formula_18">γ 11,n = 2n -1 E u n u n -Tr M n diag n i=1 (u i,n u i,n ) M n = 2n -1 Eu n M n A 1,n u n ,<label>(7)</label></formula><formula xml:id="formula_19">γ 12,n = -n -1 E u n u n + Tr M n diag n i=1 (u 2 i,n ) M n = -n -1 Eu n M n A 1,n M n u n , γ 21,n = n -1 E(u n u n + u n u n ) = n -1 Eu n M n (A 2,n + A 2,n )u n , γ 22,n = -n -1 Eu n u n = -n -1 Eu n M n A 2,n M n u n , γ 1,n = n -1 E u n u n -Tr M n diag n i=1 (u 2 i,n ) M n = n -1 Eu n A 1,n u n , γ 2,n = n -1 Eu n u n = n -1 Eu n A 2,n u n .</formula><p>Now let n = γ rs,n r,s=1,2 and γ n = γ 1,n , γ 2,n denote corresponding estimators for the elements of n and γ n , which are obtained from the above expressions for the elements of n and γ n by suppressing the expectations operator, and replacing the disturbances u n , u n , and u n by their predictors u n , u n , and u n , respectively. Then, the empirical analog of the relationship in ( <ref type="formula">6</ref>) is</p><formula xml:id="formula_20">γ n -n α n = υ n ,<label>(8)</label></formula><p>where υ n can be viewed as a vector of regression residuals. Our GM estimators of ρ n , say ρ n , are now defined as weighted nonlinear least squares estimators based on (8). That is, let Υ n be a 2 × 2 symmetric positive semidefinite (moments) weighting matrix;</p><formula xml:id="formula_21">then ρ n is defined as ρ n = ρ n ( Υ n ) = argmin ρ∈[-a ρ ,a ρ ] γ n -n ρ ρ 2 Υ n γ n -n ρ ρ 2 . (<label>9</label></formula><formula xml:id="formula_22">)</formula><p>We note that the objective function for ρ n remains well defined even for values of ρ n for which I n -ρ n M n is singular, which allows us to take the optimization space for ρ n to be any compact interval that contains the true parameter space. For computational efficiency it is best to use the formulae for the elements of n and γ n corresponding to the first expression on the r.h.s. of ( <ref type="formula" target="#formula_18">7</ref>)</p><p>and to compute u n and u n recursively as u n = M n u n and u n = M n u n . In this fashion one can avoid the computation of M 2 n , i.e., the computation of the product of two n × n matrices.</p><p>We now relate the above estimator for the autoregressive parameter to the GM estimator introduced in <ref type="bibr" target="#b30">Kelejian and Prucha (1999)</ref>. Under homoskedasticity, σ 2 = σ 2 i,n and so</p><formula xml:id="formula_23">E[n -1 ε n ε n ] = σ 2 , E[n -1 ε n ε n ] = σ 2 n -1 Tr M n M n , and E[n -1 ε n ε n ] = 0.</formula><p>These three moment conditions underlie the GM estimator suggested in <ref type="bibr" target="#b30">Kelejian and Prucha (1999)</ref>. Substituting the first of these moment conditions into the second yields</p><formula xml:id="formula_24">E 1 n ε n ε n = E[n -1 ε n ε n ]n -1 Tr M n M n , (<label>10</label></formula><formula xml:id="formula_25">) E 1 n ε n ε n = 0,</formula><p>which is clearly a special case of (4) under homoskedasticity. It is not difficult to see that the GM estimator suggested in our previous paper can be viewed as being based on the two moment conditions in (10) with Υ n = diag(υ n , 1) and</p><formula xml:id="formula_26">υ n = 1/ 1 + n -1 Tr M n M n 2 . 7</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2.">Consistency of the GM estimator for ρ n</head><p>To establish consistency of ρ n we postulate the following additional assumptions.</p><p>Assumption 4. Let u i,n denote the i-th element of u n . We then assume that</p><formula xml:id="formula_27">u i,n -u i,n = d i.,n n</formula><p>where d i.,n and n are 1×p and p×1 dimensional random vectors. Let d ij,n be the j-th element of d i.,n . Then, we assume that for some δ &gt; 0 E d ij,n 2+δ ≤ c d &lt; ∞ where c d does not depend on n, and that n 1/2 n = O p (1). </p><formula xml:id="formula_28">then A 1,n = M n M n -n -1 Tr M n M n I n and A 2,n = M n . 8 That is, λ min ( n n ) ≥ λ γ &gt; 0 where λ γ does not depend on n. More specifically, in general Γ n depends on M n , ρ n , σ 2 1,n , . . . σ 2 n,n . Denoting this</formula><p>the smallest eigenvalues of Υ n are uniformly bounded away from zero.</p><p>Assumption 4 implies n -1 n i=1 d i.,n 2+δ = O p (1), which was maintained in <ref type="bibr" target="#b30">Kelejian and Prucha (1999)</ref>, and so is slightly stronger than their assumption. Assumption 4 should be satisfied for typical linear spatial models where u i is based on n 1/2consistent estimators of regression coefficients, d i.,n denotes the i-th row of the regressor matrix, and n denotes the difference between the parameter estimator and the true parameter values.</p><p>In the next section we will actually demonstrate that Assumption 4 holds for the estimated residuals of model (1) based on an instrumental variable procedure. Assumption 4 should also be satisfied for typical non-linear models provided the response function is differentiable in the parameters, and the derivatives are (uniformly over the parameter space) bounded by some random variable with bounded 2 + δ moments; compare <ref type="bibr" target="#b30">Kelejian and Prucha (1999)</ref>.</p><p>Assumption 5 ensures that the smallest eigenvalue of n Υ n n is uniformly bounded away from zero and will be sufficient to permit us to demonstrate that ρ n is identifiably unique w.r.t. the nonstochastic analog of the objective function of the GM estimator. This analog is given by the function in curly brackets on the r.h.s. of ( <ref type="formula" target="#formula_21">9</ref>) with γ n , n and Υ n replaced by γ n , n and Υ n . Under homoskedasticity and Υ n = Υ n specified as at the end of the previous subsection this assumption is in essence equivalent to Assumption 5 in <ref type="bibr" target="#b30">Kelejian and Prucha (1999)</ref>.</p><p>Clearly Assumption 5 requires n to be nonsingular, or equivalently that tr</p><formula xml:id="formula_29">M n A 1,n M n S u,n , tr M n A 2,n M n S u,n is linearly in- dependent of tr M n (A 1,n + A 1,n )S u,n , tr M n (A 2,n + A 2,n )S u,n , which is readily seen by observing that Eu n M n A i,n M n u n = tr M n A i,n M n S u,n and n -1 Eu n M n (A i,n + A i,n )u n = tr(M n (A i,n + A i,n )S u,n ) where S u,n = (I n -ρ n M n ) -1 n (I n -ρ n M n ) -1 . It is not</formula><p>difficult to see that this linear independence condition is an analog to the identification conditions postulated in <ref type="bibr" target="#b42">Lee (2007b)</ref>, Assumption 5(b), relating to quadratic forms under homoskedasticity. We note that while Assumption 5 should be satisfied in many settings, it does not cover situations where all elements of the spatial weights matrix converge to zero uniformly as n → ∞see <ref type="bibr" target="#b40">Lee (2004)</ref> -since in this case the elements of n would tend to zero. On the other hand, Assumption 5 does not generally rule out settings where M n is row normalized, there is an increasing number of nonzero elements in each row, and the row sums of the absolute values of the non-normalized elements are uniformly bounded.</p><p>The vector of derivatives (multiplied by minus one) of the moment conditions (6) w.r.t. ρ n is given by J n = n [1, 2ρ n ] . As expected, the limiting distribution of the GM estimator ρ n will be seen to depend on the inverse of J n Υ n J n . Assumption 5 also ensures that J n Υ n J n is nonsingular.</p><p>Because of the equivalence of matrix norms it follows from Assumption 5 that the elements of Υ n and Υ -1 n are O(1).</p><p>We can now give our basic consistency result for ρ n .</p><p>Theorem 1. Let ρ n = ρ n ( Υ n ) denote the GM estimator defined by (9). Then, provided the optimization space contains the parameter space, and given Assumptions 1-5,</p><formula xml:id="formula_30">ρ n -ρ n p → 0 as n → ∞. dependence as Γ n = Γ n (M n , ρ n , σ 2 1,n , . . . σ 2 n,n ) the assumption should be understood as to postulate that inf n λ min Γ n (M n , ρ n , σ 2 1,n , . . . , σ 2 n,n ) Γ n (M n , ρ n , σ 2 1,n , . . . , σ 2 n,n ) &gt; 0.</formula><p>In this sense the assumption allows for λ γ to depend on the sequence of spatial weights matrices M n , and on the true values of the autoregressive parameters ρ n and variances.</p><p>Clearly the conditions of the theorem regarding Υ n and Υ n are satisfied for Υ n = Υ n = I 2 . In this case the estimator reduces to the nonlinear least squares estimator based on (8). This estimator can, e.g., be used to obtain initial consistent estimates of the autoregressive parameter. Choices of Υ n that lead to an efficient GM estimator for ρ n (but require some consistent initial estimate of ρ n ) will be discussed below in conjunction with the asymptotic normality result.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.3.">Asymptotic distribution of the GM estimator for ρ n</head><p>Let D n = [d 1.,n , . . . , d n.,n ] where d i.,n is defined in Assumption 4 so that u n -u n = D n n . To establish the asymptotic normality of ρ n we need some additional assumptions.</p><p>Assumption 6. For any n×n real matrix A n whose row and column sums are bounded uniformly in absolute value</p><formula xml:id="formula_31">n -1 D n A n u n -n -1 ED n A n u n = o p (</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>1).</head><p>A sufficient condition for Assumption 6 is, e.g., that the columns of D n are of the form π n + n ε n , where the elements of π n are bounded in absolute value and the row and column sums of n are uniformly bounded in absolute value; see Lemma C.2. This will indeed be the case in many applications. In the next section we will verify that this assumption holds for the model given by ( <ref type="formula" target="#formula_78">1</ref>) and ( <ref type="formula">2</ref>), and where D n equals the (negative of the) design matrix Z n .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Assumption 7.</head><p>Let n be as defined in Assumption 4. Then</p><formula xml:id="formula_32">n 1/2 n = n -1/2 T n ε n + o p (1),</formula><p>where T n is a n × p dimensional real nonstochastic matrix whose elements are uniformly bounded in absolute value.</p><p>As remarked above, typically n denotes the difference between the parameter estimator and the true parameter values. Assumption 7 will be satisfied by many estimators. In the next section we verify that this assumption indeed holds for the considered instrumental variable estimators for the parameters of model ( <ref type="formula" target="#formula_78">1</ref>).</p><p>It may be helpful to provide some insight concerning the variance of the limiting distribution of the GM estimator n 1/2 ( ρ nρ n ) given below. To that effect we note that an inspection of the derivation of this limiting distribution in Appendix C shows that it depends on the limiting distribution of the (properly normalized) vector of quadratic forms</p><formula xml:id="formula_33">v n = n -1/2    1 2 ε n (A 1,n + A 1,n )ε n + a 1,n ε n 1 2 ε n (A 2,n + A 2,n )ε n + a 2,n ε n    (<label>11</label></formula><formula xml:id="formula_34">)</formula><p>where for r = 1, 2 the n × n matrices A r,n are defined in (5), and where the n × 1 vectors a r,n are defined as</p><formula xml:id="formula_35">a r,n = T n α r,n<label>(12)</label></formula><p>with</p><formula xml:id="formula_36">α r,n = n -1 E D n I n -ρ n M n (A r,n + A r,n ) (I n -ρ n M n ) u n .</formula><p>From ( <ref type="formula" target="#formula_33">11</ref>) and ( <ref type="formula" target="#formula_35">12</ref>) we see that, in general, the limiting distribution of n 1/2 ( ρ n -ρ n ) will depend on the limiting distribution of n 1/2 n via the matrix T n , unless α r,n = 0. Clearly, if D n is not stochastic, then α r,n = 0. Within the the context of model (1) and with D n equal to the (negative of the) design matrix Z n this would be the case if the model does not contain a spatial lag of the endogenous variable.</p><p>Observing further that the diagonal elements of the matrices A r,n are zero it follows from Lemma A.1 that the VC matrix of the vector of quadratic forms in (11) is given by n = (ψ rs,n ) where for r, s = 1, 2 ψ rs,n = (2n) -1 tr A r,n + A r,n n A s,n + A s,n n + n -1 a r,n n a s,n .</p><p>(13)</p><p>We now have the following result concerning the asymptotic distribution of ρ n . We note that the theorem does not assume convergence of the matrices involved.</p><p>Theorem 2 (Asymptotic Normality). Let ρ n be the weighted nonlinear least squares estimators defined by (9). Then, provided the optimization space contains the parameter space, given Assumptions 1-7, and given that λ min ( n ) ≥ c * Ψ &gt; 0, we have</p><formula xml:id="formula_37">n 1/2 ( ρ n -ρ n ) = (J n Υ n J n ) -1 J n Υ n 1/2 n ξ n + o p (1) (<label>14</label></formula><formula xml:id="formula_38">)</formula><p>where</p><formula xml:id="formula_39">J n = n 1 2ρ n ,<label>(15)</label></formula><formula xml:id="formula_40">ξ n = -1/2 n v n d → N(0, I 2 ). Furthermore n 1/2 ( ρ n -ρ n ) = O p (1) and ρ n (Υ n ) = (J n Υ n J n ) -1 J n Υ n n Υ n J n (J n Υ n J n ) -1 ≥ const &gt; 0. (<label>16</label></formula><formula xml:id="formula_41">)</formula><p>The above theorem implies that the difference between the cumulative distribution function of n 1/2 ( ρ n -ρ n ) and that of N 0, ρ n converges pointwise to zero, which justifies the use of the latter distribution as an approximation of the former. 9</p><p>Remark 1.</p><formula xml:id="formula_42">Clearly ρ n ( -1 n ) = (J n -1 n J n ) -1 and ρ n (Υ n ) - ρ n ( -1 n ) is positive semi-definite.</formula><p>Thus choosing Υ n as a consistent estimator for -1 n leads to an efficient GM estimator. Such a consistent estimator will be developed in the next subsection. As discussed in the proof of the above theorem, the elements of n are uniformly bounded in absolute value and hence</p><formula xml:id="formula_43">λ max ( n ) ≤ c * * Ψ for some c * * Ψ &lt; ∞. Since by assumption also 0 &lt; c * Ψ ≤ λ min ( n )</formula><p>it follows that the conditions on the eigenvalues of Υ n postulated in Assumption 5 are automatically satisfied by -1 n We note that n is, in general, only identical to the VC matrix of the moment vector in (5) if a r,n = 0. The terms involving a r,n reflect the fact that the GM estimator is based on estimators of the disturbances u n and not on the true disturbances. As noted above, J n equals the vector of derivatives (multiplied by minus one) of the moment conditions (6) w.r.t. ρ n , and thus ρ n (Υ n ) has the usual structure, except that here n is not identical to the VC matrix of the moment vector.</p><p>Remark 2. From ( <ref type="formula" target="#formula_33">11</ref>), ( <ref type="formula" target="#formula_35">12</ref>), ( <ref type="formula" target="#formula_37">14</ref>) and ( <ref type="formula" target="#formula_39">15</ref>) we see that n 1/2 ( ρ nρ n ) depends linearly on a vector of linear quadratic forms in the innovations ε n plus a term of order o p (1). This result is helpful in establishing the joint distribution of ρ n with that of estimators of some of the other model parameters of interest. In particular, it may be of interest to derive the joint limiting distribution of n 1/2 n and n 1/2 ( ρ n -ρ n ). By Assumption 7, n 1/2 n is asymptotically linear in ε n and hence the joint limiting distribution can be readily derived using the CLT for linear quadratic forms given in Appendix A. We will illustrate this below within the context of IV estimators for model (1).</p><p>We next introduce a consistent estimator for ρ n . For this purpose let</p><formula xml:id="formula_44">J n = n 1 2 ρ n (<label>17</label></formula><formula xml:id="formula_45">)</formula><p>9 This follows from Corollary F4 in <ref type="bibr" target="#b46">Pötscher and Prucha (1997)</ref>. Compare also the discussion on pp. 86-87 in that reference.</p><p>where n is defined above by (7) and the discussion after that equation. We next define a HAC type estimator for n whose elements are defined by (13). For this purpose let</p><formula xml:id="formula_46">n = diag i=1,...,n ( ε 2 i,n ) with ε n = (I n -ρ n M n ) u n .</formula><p>We furthermore need to specify an estimator for a r,n = T n α r,n . The matrix T n introduced in Assumption 7 will in many applications be of the form</p><formula xml:id="formula_47">T n = F n P n with F n = H n or F n = I n -ρ n M n -1 H n ,<label>(18)</label></formula><p>where H n is a real nonstochastic n × p * matrix of instruments, and P n is a real nonstochastic p * ×p matrix, with p as in Assumption 7. In Section 4 we will consider instrumental variable estimators for the parameters of model ( <ref type="formula" target="#formula_78">1</ref>) and ( <ref type="formula">2</ref>). In that section we will see that if n corresponds to these instrumental variable estimators, then the matrix T n will indeed have the above structure, and where P n can be estimated consistently by some estimator P n . We now define our estimator for T n as 10</p><formula xml:id="formula_48">T n = F n P n with F n = H n or F n = I n -ρ n M n + H n .<label>(19)</label></formula><p>In light of ( <ref type="formula" target="#formula_35">12</ref>) it now seems natural to estimate a r,n by</p><formula xml:id="formula_49">a r,n = T n α r,n<label>(20)</label></formula><p>with</p><formula xml:id="formula_50">α r,n = n -1 D n I n -ρ n M n (A r,n + A r,n ) (I n -ρ n M n ) u n .</formula><p>Given the above we now introduce the following HAC type</p><formula xml:id="formula_51">estimator n = ( ψ rs,n ) where for r, s = 1, 2 ψ rs,n = (2n) -1 tr A r,n + A r,n n A s,n + A s,n n + n -1 a r,n n a s,n .<label>(21)</label></formula><p>Furthermore, based on n we define the following estimator for ρ n :</p><formula xml:id="formula_52">ρ n = ( J n Υ n J n ) + J n Υ n n Υ n J n ( J n Υ n J n ) + . (<label>22</label></formula><formula xml:id="formula_53">)</formula><p>The next theorem establishes the consistency of n and ρ n .</p><p>Theorem 3 (VC Matrix Estimation). Suppose all of the assumptions of Theorem 2, apart from Assumption 5, hold and that additionally all of the fourth moments of the elements of D n are uniformly bounded.</p><p>Suppose furthermore that (a) that the elements of the nonstochastic matrices H n are uniformly bounded in absolute value, (b) sup n |ρ n | &lt;</p><p>1 and the row and column sums of M n are bounded uniformly in absolute value by, respectively, one and some finite constant (possibly after a renormalization of the weights matrix and parameter space as discussed in Section 2.2), and (c) P n -P n = o p (1) with P n = O(1).</p><formula xml:id="formula_54">Then n -n = o p (1), -1 n --1 n = o p (1).</formula><p>If furthermore Assumption 5 holds, then also</p><formula xml:id="formula_55">ρ n -ρ n = o p (1).</formula><p>The hypothesis of zero spatial correlation in the disturbances, i.e., H 0 : ρ n = 0, can now be tested in terms of N 0, ρ n .</p><p>Remark 3. We note that the above theorem also holds if ρ n is replaced by any other estimator ρ n with n 1/2 ( ρ n -ρ n ) = O p (1).</p><p>In case F n = H n condition (b) can be dropped. The consistency result for -1 n verifies that this estimator for -1 n can indeed be used in the formulation of an efficient GM estimator, as discussed after Theorem 2. 10 The reason for using the generalized inverse is that ρ n defined by ( <ref type="formula" target="#formula_21">9</ref>) is not forced to lie in the parameter space, and thus I n -ρ n M n may be singular (where the probability of this event goes to zero as the sample size increases).</p><p>Remark 4. The modules underlying the derivation of Theorems 2 and 3 can be readily extended to cover a wider class of estimators. A crucial underlying ingredient is the CLT for vectors of linear quadratic forms given in Appendix A, which was used to establish the limiting distribution of the vector of linear quadratic forms (11); that CLT is based on <ref type="bibr" target="#b31">Kelejian and Prucha (2001)</ref>. We emphasize that while in (5) we consider two moment conditions, all of the above results generalize trivially to the case where the GM estimator for ρ n corresponds to m moment conditions</p><formula xml:id="formula_56">n -1 E[Eε n A 1,n ε n , . . . , ε n A m,n ε n ] = 0, (<label>23</label></formula><formula xml:id="formula_57">)</formula><p>where the diagonal elements of A r,n are zero and the row and column sums of A r,n are bounded uniformly in absolute value. The focus of this paper is on two-step estimation procedures, which is motivated by their computational simplicity, generality of the first step (where residuals may come from nonlinear models) and, since at least under homoskedasticity, Monte Carlo experiments suggest that very little efficiency is lost, see, e.g., <ref type="bibr" target="#b22">Das et al. (2003)</ref>. Given instruments H n , one-step GMM estimators for all parameters, i.e., ρ n , λ n , β n , of the SARAR(1, 1) model could be defined by augmenting those moment conditions (23) by the conditions</p><formula xml:id="formula_58">n -1 EH n ε n = n -1 E[h .1,n ε n , . . . , h .p * ,n ε n ] = 0 (24) with ε n = (I n -ρ n M n )(y n -X n β n -λ n W n y n ).</formula><p>The limiting distribution of the stacked moment vector follows immediately from the CLT for vectors of linear quadratic forms. Theorem 3 establishes consistent estimation of the VC matrix of the vector of (normalized) linear quadratic forms (11). Estimation of the VC matrix of the vector of (normalized) linear quadratic forms corresponding to the stacked moment conditions ( <ref type="formula" target="#formula_56">23</ref>) and ( <ref type="formula">24</ref>), is analogous. In fact, in this case estimation simplifies in that the components of the vector are either quadratic or linear, and the elements of the linear terms h r,n are observed. 11   </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.4.">Joint asymptotic distribution of GM estimator for ρ n and estimators of other model parameters</head><p>In the following we discuss how the above results can be extended to obtain the joint asymptotic distribution of the GM estimator for ρ n and of other estimators that are asymptotically linear in the innovations ε n , i.e., that are of the form considered in Assumption 7. As remarked above, the IV estimators for the regression parameters of model ( <ref type="formula" target="#formula_78">1</ref>) and (2) considered in the next section will be of this form. Based on the joint distribution it will then be possible to test a joint hypothesis concerning ρ n and other model parameters.</p><p>In the following we will give results concerning the joint asymptotic distribution of ρ n -ρ n and n as considered in Assumptions 4 and 7 in conjunction with the estimation of the disturbances u n . Clearly, in general it will be of interest to have the available results not only concerning the joint asymptotic distribution of ρ n -ρ n and n , but also concerning other estimators, say, * n that are of the general form considered in Assumption 7. To avoid having to introduce further notation we give our result in terms of ρ n -ρ n and n , but then comment on what changes would be needed in the formulae to accommodate other estimators * n in place of n . The discussion assumes that T n = F n P n and T n = F n P n as defined in the previous subsection.</p><p>11 Several months after completing this paper we became aware of a paper by Lin and Lee (forthcoming) that considers an SAR(1) model with unknown heteroskedasticity. That paper is complementary to this one, with a focus and extensive discussion of one-step estimation procedures for that model among other things. That paper does not discuss specification issues regarding the parameter space of the autoregressive parameters, which are considered in this paper.</p><p>In light of the above discussion we expect that the joint limiting distribution of n 1/2 ( ρ n -ρ n ) and n 1/2 n will depend on the limiting distribution of n -1/2 F n ε n , v n . Observing again that the diagonal elements of the matrices A r,n are zero it follows from Lemma A.1 that the VC matrix of this vector of linear and linear quadratic form is given by</p><formula xml:id="formula_59">•,n = ∆∆,n ∆ρ,n ∆ρ,n n (<label>25</label></formula><formula xml:id="formula_60">)</formula><p>with ∆∆,n = n -1 F n n F n , ∆ρ,n = n -1 F n n a 1,n , a 2,n and where n is defined by ( <ref type="formula">13</ref>). We shall also employ the following estimator for •,n :</p><formula xml:id="formula_61">•,n = ∆∆,n ∆ρ,n ∆ρ,n n (<label>26</label></formula><formula xml:id="formula_62">)</formula><p>with ∆∆,n = n -1 F n n F n , ∆ρ,n = n -1 F n n a 1,n , a 2,n and where n is defined by ( <ref type="formula" target="#formula_51">21</ref>). We now have the following result concerning the joint limiting</p><formula xml:id="formula_63">distribution of n 1/2 ( ρ n -ρ n ) and n 1/2 n .</formula><p>Theorem 4. Suppose all of the assumptions of Theorem 3 hold, and</p><formula xml:id="formula_64">λ min ( •,n ) ≥ c * Ψ • &gt; 0. Then n 1/2 n n 1/2 ( ρ n -ρ n ) = P n 0 0 (J n Υ n J n ) -1 J n Υ n 1/2 •,n ξ •,n + o p (1), (27) ξ •,n = -1/2 •,n n -1/2 F n ε n , v n d → N(0, I p * +2 ).</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Furthermore let</head><p>•,n =</p><formula xml:id="formula_65">P n 0 0 (J n Υ n J n ) -1 J n Υ n •,n P n 0 0 Υ n J n (J n Υ n J n ) -1 , (<label>28</label></formula><formula xml:id="formula_66">)</formula><p>•,n =</p><formula xml:id="formula_67">P n 0 0 ( J n Υ n J n ) + J n Υ n •,n P n 0 0 Υ n J n ( J n Υ n J n ) + (<label>29</label></formula><formula xml:id="formula_68">)</formula><p>then •,n -•,n = o p (1), •,n -•,n = o p (1), and •,n = O(1),</p><p>•,n = O(1).</p><p>The above theorem implies that the difference between the joint cumulative distribution function of n 1/2 n , ( ρ n -ρ n ) and that of N 0, •,n converges pointwise to zero, which justifies the use of the latter distribution as an approximation of the former. The theorem also states that •,n is a consistent estimator for •,n .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Remark 5.</head><p>The above result generalizes readily to cases where we are interested in the joint distribution between ρ n -ρ n and some other estimator, say, * n , where</p><formula xml:id="formula_69">n 1/2 * n = n -1/2 T * n ε n + o p (1), T * n = F * n P *</formula><p>n and T n = F * n P * n , assuming that analogous assumptions are maintained for this estimator. In particular, the results remain valid, but with</p><formula xml:id="formula_70">∆∆,n = n -1 F * n n F * n , ∆ρ,n = n -1 F * n n a 1,n , a 2,n , ∆∆,n = n -1 F * n n F * n , ∆ρ,n = n -1 F * n n a 1,n</formula><p>, a 2,n , and P n , P n replaced by P * n , P * n .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.">Instrumental variable estimator for δ n</head><p>As remarked, the consistency and asymptotic normality results developed in an important paper by <ref type="bibr" target="#b40">Lee (2004)</ref> for the quasi-ML estimator for the SARAR(1, 1) model defined by (1) and (2) under the assumption of homoskedastic innovations do not carry over to the case where the innovations are heteroskedastic. In fact, under heteroskedasticity the limiting objective function of the quasi-ML estimator would generally not be maximized at the true parameter values, and therefore the quasi-ML estimator would be inconsistent. Also, the asymptotic normality results developed by <ref type="bibr" target="#b29">Kelejian and Prucha (1998)</ref>, <ref type="bibr">Kelejian et al. (2004)</ref> and <ref type="bibr" target="#b39">Lee (2003)</ref> for instrumental variable (IV) estimators of the SARAR(1, 1) model do not carry over to the case where the innovations are heteroskedastic. In the following we provide results concerning the asymptotic distribution of IV estimators allowing the innovations to be heteroskedastic. More specifically, we will show that the considered IV estimators satisfy certain conditions such that their asymptotic distribution can be readily obtained via Theorem 4. We also allow for a more general definition of the parameter space of the spatial autoregressive parameters to avoid certain pitfalls discussed in Section 2.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1.">Instruments</head><p>It is evident from (3) that in general W n y n will be correlated with the disturbances u n , which motivates the use of IV estimation procedures. We maintain the following assumptions w.r.t. the n×k regressor matrices X n , and the n × p * instrument matrices H n .</p><p>Assumption 8. The regressor matrices X n have full column rank (for n large enough). Furthermore, the elements of the matrices X n are uniformly bounded in absolute value.</p><p>Assumption 9. The instrument matrices H n have full column rank p * ≥ k+1 (for all n large enough). Furthermore, the elements of the matrices H n are uniformly bounded in absolute value. Additionally H n is assumed to, at least, contain the linearly independent columns of (X n , M n X n ).</p><p>Assumption 10. The instruments H n furthermore satisfy:</p><p>(a) Q HH = lim n→∞ n -1 H n H n is finite, and nonsingular. (b) Q HZ = p lim n→∞ n -1 H n Z n and Q HMZ = p lim n→∞ n -1 H n M n Z n are finite and have full column rank. Furthermore, let</p><formula xml:id="formula_71">Q HZ * (ρ n ) = Q HZ -ρ n Q HMZ , then the smallest eigenvalue of Q HZ * (ρ n )Q -1 HH Q HZ * (ρ n ) is bounded away from zero uniformly in n. (c) Q H ΣH = lim n→∞ n -1 H n n H n is finite and nonsingular.</formula><p>The above assumptions are similar to those maintained in <ref type="bibr">Kelejian and</ref><ref type="bibr">Prucha (1998, 2004)</ref>, and <ref type="bibr" target="#b39">Lee (2003)</ref>, and so a discussion which is quite similar to those given in these papers also applies here. Regarding the specification of the instruments H n observe first that</p><formula xml:id="formula_72">E(W n y n ) = W n (I n -λ n W n ) -1 X n β n = ∞ i=0 λ i n W i+1 n X n β n (30)</formula><p>provided that the characteristic roots of λ n W n are less than one in absolute value; compare Lemmas 1 and 2 concerning the choice of the parameter space for λ n . The instrument matrices H n will be used to instrument <ref type="formula">30</ref>), to take H n to be a subset of the linearly independent columns of</p><formula xml:id="formula_73">Z n = (X n , W n y n ) and M n Z n = (M n X n , M n W n y n ) in terms of their predicted values from a least squares regression on H n , i.e., Z n = P H n Z n and M n Z n = P H n M n Z n with P H n = H n (H n H n ) -1 H n . Towards approximating the ideal instruments E(Z n ) = (X n , W n E(y n )) and E(M n Z n ) = (M n X n , M n W n E(y n )) it seems reasonable, in light of (</formula><formula xml:id="formula_74">(X n , W n X n , W 2 n X n , . . . , W q n X n , M n X n , M n W n X n , . . . , M n W q n X n ) (<label>31</label></formula><formula xml:id="formula_75">)</formula><p>where q is a pre-selected finite constant. <ref type="foot" target="#foot_0">12</ref> We note that if H n is selected as in ( <ref type="formula" target="#formula_74">31</ref>) it follows from Assumptions 3 and 8 that its elements will be bounded in absolute value as postulated in Assumption 9. Assumption 9 ensures that X n and M n X n are instrumented by themselves. Finally we note that the assumption that H n has full column rank could be relaxed at the expense of working with generalized inverses.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2.">Definition, consistency and asymptotic normality</head><p>Towards estimating the model ( <ref type="formula" target="#formula_78">1</ref>) and ( <ref type="formula">2</ref>) we propose a three step procedure. In the first step the model is estimated by two stage least squares (2SLS) using the instruments H n . In the second step the autoregressive parameter, ρ n , is estimated using the generalized moments estimation approach from Section 3 based on the 2SLS residuals obtained via the first step. In the third step, the regression model in (1) is re-estimated by 2SLS after transforming the model via a Cochrane-Orcutt-type transformation to account for the spatial correlation.</p><p>More specifically, the first step 2SLS estimator is defined as:</p><formula xml:id="formula_76">δ n = ( Z n Z n ) -1 Z n y n ,<label>(32)</label></formula><p>where</p><formula xml:id="formula_77">Z n = P H n Z n = (X n , W n y n ) and W n y n = P H n W n y n .</formula><p>In the second step we estimate ρ n by the GM procedure defined by ( <ref type="formula" target="#formula_21">9</ref>) based on the 2SLS residuals u n = y n -Z n δ n . We denote the GM estimator again as ρ n .</p><p>The next lemma shows that various assumptions maintained in Section 3 w.r.t. the estimator of the regression parameters and estimated residuals are automatically satisfied by the 2SLS estimator δ n and the corresponding residuals.</p><p>Lemma 3. Suppose Assumptions 1-3 and 8-10 hold, and sup n β n &lt; ∞. Let D n = -Z n , then the fourth moments of the elements of D n are uniformly bounded, Assumption 6 holds, and:</p><formula xml:id="formula_78">(a) n 1/2 ( δ n -δ n ) = n -1/2 T n ε n + o p (<label>1</label></formula><p>) with T n = F n P n and where</p><formula xml:id="formula_79">P n = Q -1 HH Q HZ [Q HZ Q -1 HH Q HZ ] -1 , F n = I n -ρ n M n -1 H n . (b) n -1/2 T n ε n = O p (1).</formula><p>(c) P n = O p (1) and P n -P n = o p (1) for</p><formula xml:id="formula_80">P n = (n -1 H n H n ) -1 (n -1 H n Z n ) × [(n -1 Z n H n )(n -1 H n H n ) -1 (n -1 H n Z n )] -1 .</formula><p>The condition sup n β n &lt; ∞ is trivially satisfied if β n = β. Of course, parts (a) and (b) together imply that δ n is n 1/2 -consistent for δ n .</p><p>Clearly u n = u n + D n n with D n = -Z n and n = δ n -δ n .</p><p>Lemma 3 shows that in essence under Assumptions 1-3 and 8-10 the 2SLS residuals automatically satisfy the conditions postulated in Assumptions 4, 6 and 7 with D n = -Z n , n = δ n -δ n and T n as specified in the lemma. Consequently the results concerning consistency and asymptotic normality of the GM estimator for ρ n in Theorems 1 and 2 apply in particular to the GM estimator ρ n based on 2SLS residuals. Lemma 3 also establishes that the fourth moments of the elements of D n = -Z n are uniformly bounded. The lemma also gives an explicit expression for P n and P n and verifies the conditions postulated w.r.t. to those matrices in Theorems 3 and 4. Hence the results of those two theorems also cover the GM estimator ρ n and the 2SLS estimator δ n . In particular, Theorem 4 gives the joint limiting distribution of n 1/2 ( ρ n -ρ n ) and n 1/2 n = n 1/2 ( δ n -δ n ) where D n = -Z n , the matrices P n , F n , P n are as in Lemma 3, and F n = I n -ρ n M n + H n . 13  We now turn to the third step. Applying a Cochrane-Orcutttype transformation to (1) yields</p><formula xml:id="formula_81">y n * (ρ n ) = Z n * (ρ n )δ n + ε n , (<label>33</label></formula><formula xml:id="formula_82">)</formula><p>13 An alternative estimation approach is to use a HAC procedure to estimate the variance covariance matrix of the 2SLS estimator. Such an approach was considered in <ref type="bibr" target="#b45">Pinkse et al. (2002)</ref> and <ref type="bibr">Kelejian and Prucha (2007a)</ref>. While such an approach is more robust, it does not yield a simple testing strategy for a joint test of spatial dependencies in the endogenous, exogenous and disturbances.</p><p>where y n * (ρ n ) = y n -ρ n M n y n and Z n * (ρ n ) = Z n -ρ n M n Z n . Our estimator δ n for δ n in this third step is now defined as the 2SLS procedure applied to the transformed model (33) after replacing ρ n by ρ n . That is,</p><formula xml:id="formula_83">δ n = [ Z n * ( ρ n ) Z n * ( ρ n )] -1 Z n * ( ρ n ) y n * ( ρ n ) (34)</formula><p>where</p><formula xml:id="formula_84">Z n * ( ρ n ) = P H n Z n * ( ρ n ).</formula><p>To express the dependence of δ n on ρ n we also write δ n = δ n ( ρ n ).</p><p>The next lemma shows again that various assumptions maintained in Section 3 w.r.t. the estimator of the regression parameters and estimated residuals are automatically satisfied by the generalized spatial 2SLS estimator δ n and corresponding residuals.</p><p>Lemma 4. Suppose the assumptions of Lemma 3, and let δ n ( ρ n ) be as defined by (34), where ρ n is any n 1/2 -consistent estimator for ρ n (such as the GM estimator ρ n based on 2SLS residuals). Then</p><formula xml:id="formula_85">(a) n 1/2 [ δ n ( ρ n ) -δ n ] = n -1/2 T * n ε n + o p (1) with T * n = F * n P *</formula><p>n and where</p><formula xml:id="formula_86">P * n = Q -1 HH Q HZ * (ρ n )[Q HZ * (ρ n )Q -1 HH Q HZ * (ρ n )] -1 F * n = H n . (b) n -1/2 T * n ε n = O p (1). (c) P * n = O p (1) and P * n -P * n = o p (1) for P * n = (n -1 H n H n ) -1 (n -1 H n Z n * ( ρ n )) × (n -1 Z n * ( ρ n )H n )(n -1 H n H n ) -1 (n -1 H n Z n * ( ρ n )) -1 .</formula><p>Frequently we will be interested in the joint distribution of the generalized spatial 2SLS estimator δ n ( ρn ) and the GM estimator ρ n . In light of Lemmas 3 and 4 the limiting distribution</p><formula xml:id="formula_87">of n 1/2 ( δ n -δ n ) , ( ρ n -ρ n ) now follows immediately from</formula><p>Theorem 4 and Remark 5 after that theorem, with</p><formula xml:id="formula_88">* n = δ n -δ n .</formula><p>The asymptotic variance covariance matrix and its corresponding estimator are given by ( <ref type="formula" target="#formula_65">28</ref>) and ( <ref type="formula" target="#formula_67">29</ref>) with modifications as described in Remark 5 and D n = -Z n . The expressions for the matrices P n , F n , P n are as in Lemma 3, and</p><formula xml:id="formula_89">F n = I n -ρ n M n + H n .</formula><p>The expressions for the matrices P * n , F * n , P * n are as in Lemma 4, and F * n = H n . The joint distribution can then be used to test in particular the joint hypothesis H 0 : λ n = ρ n = 0 in the usual manner.</p><p>Finally, consider the estimated residuals corresponding to δ n , i.e., u</p><formula xml:id="formula_90">* n = y n -Z n δ n = u n + D n * n .</formula><p>Clearly, in light of Lemma 4 we could use those residuals to define a corresponding GM estimator based on those residuals, and a discussion analogous to that after Lemma 3 would also apply applies here. Of course, further iterative procedures are possible, and their asymptotic properties would again be covered by the asymptotic theory developed above. Remark 6. The estimation theory of Section 3 was developed under a set of fairly general assumptions. The results given in this section are illustrative as to how Assumptions 4, 6 and 7 can be implied for the 2SLS and GS2SLS estimator of the SARAR(1, 1) model from the more primitive Assumptions 8-10.</p><p>The assumption that X n is nonstochastic rules out the presence of endogenous regressors (apart from the spatial lag W n y n ). Now suppose that X n = X n , Y n and correspondingly D n = -Z n = -X n , Y n , W n y n , where X n satisfies Assumptions 8-10, with X n replaced by X n (including in the formulation of the instruments), and where Y n is a matrix of endogenous variables. Then given the fourth moments of the elements of D n are uniformly bounded, and Assumption 6 holds, parts (a), (b) and (c) of Lemmas 3 and 4 still hold but with Z n = P H n Z n = X n , P H n Y n , P H n W n y n and</p><formula xml:id="formula_91">Z n * ( ρ n ) = P H n Z n * ( ρ n ) = (I n -ρ n M n ) X n , P H n (I n -ρ n M n ) Y n , P H n (I n -ρ n M n ) W n y n .</formula><p>In specifying a full system of equations analogous to <ref type="bibr">Kelejian and Prucha (2004)</ref> one could furthermore develop more primitive conditions that ensure the moment condition for the elements of D n as well as Assumption 6.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.">Some Monte Carlo results</head><p>In order to obtain some insights relating to the small sample properties of our suggested estimators, as well as the quasi-maximum likelihood estimator, we undertook a limited Monte Carlo study. Because of space constraints we do not report the details of that study here; however, those details can be found in <ref type="bibr">Kelejian and Prucha (2007b)</ref>. In essence the results of that Monte Carlo study were quite consistent with the theoretical results presented above. Specifically, in our considered cases with heteroskedastic innovations the generalized spatial 2SLS/GM estimators had very little bias even in small samples. In contrast, the ML estimators were significantly biased. Furthermore, the ML biases did not decline with the sample size. We also note that the rejection rates of tests corresponding to the generalized spatial 2SLS/GM estimators were close to the nominal value of 0.05, suggesting that the derived large sample distribution and the estimators of the asymptotic variance covariance matrix determined above provide indeed useful small sample appoximations. On the other hand, rejection rates for the ML estimators exibited serious biases ranging from 0.176 to 1.000.</p><p>In the cases we considered with homoskedastic innovations both the generalized spatial 2SLS/GM estimators and ML estimators showed very little bias. In addition, the loss of efficiency of the generalized spatial 2SLS/GM estimators relative to the ML estimators was generally modest.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.">Summary and suggestions for further research</head><p>In this paper we introduce a new class of GM estimators for the autoregressive parameter of a spatially autoregressive disturbance process allowing for innovations with unknown heteroskedasticity. The estimation theory for the GM estimators is developed in a modular fashion under a fairly general set of assumptions, and should cover many (linear and nonlinear) models. The general theory is then utilized to establish the consistency and asymptotic normality of IV estimators for the regression parameters for an important class of spatial models, frequently referred to as SARAR(1, 1) models. The paper provides results concerning the joint asymptotic distribution of the GM estimator for the autoregressive parameter of the disturbance process and IV estimators for the model regression parameters. Among other things, the results allow for a joint test that the autoregressive parameters corresponding to the spatial lags of the dependent variable and disturbance term are both zero We also provide a discussion of the specification of the parameter space for SARAR(1, 1) models. We demonstrate that a computationally simple re-scaling of the weights matrix leads to an equivalent model containing a (re-scaled) autoregressive parameter which has a user-friendly parameter space. Unfortunately, previous studies in the literature have often re-scaled their weights matrix in such a way that the ''before and after'' scaled models are not equivalent.</p><p>One suggestion for further research is to extend the results to panel data. A further suggestion for future research would be a comprehensive Monte Carlo study which focuses on the small sample properties of the considered estimators. Such a study may also consider comparisons with the quasi-ML estimator (specified under homoskedasticity).</p><p>We maintain the following assumptions:</p><p>Assumption A.1. The real valued random variables of the array {ξ i,n : 1 ≤ i ≤ n, n ≥ 1} satisfy Eξ i,n = 0. Furthermore, for each n ≥ 1 the random variables ξ 1,n , . . . , ξ n,n are totally independent.</p><p>Assumption A.2. For r = 1, . . . , m the elements of the array of real numbers {a ij,r,n : 1 ≤ i, j ≤ n, n ≥ 1} satisfy a ij,r,n = a ji,r,n and sup 1≤j≤n,n≥1 n i=1 a ij,r,n &lt; ∞. The elements of the array of real numbers {a i,r,n :</p><formula xml:id="formula_92">1 ≤ i ≤ n, n ≥ 1} satisfy sup n n -1 n i=1 a i,r,n 2+η 1 &lt; ∞ for some η 1 &gt; 0. Assumption A.3. For r = 1, . . . , m one of the following two conditions holds: (a) sup 1≤i≤n,n≥1 E ξ i,n 2+η 2 &lt; ∞ for some η 2 &gt; 0 and a ii,r,n = 0. (b) sup 1≤i≤n,n≥1 E ξ i,n 4+η 2 &lt; ∞ for some η 2 &gt; 0 (but possibly a ii,r,n = 0).</formula><p>Let µ Q r,n and σ Q rs,n denote the mean of Q r,n and the covariance between Q r,n and Q s,n , respectively, for r, s = 1, . . . , m. Then it follows immediately from Lemma A.1 that under Assumptions A.1 and A.3</p><formula xml:id="formula_93">µ Q r,n = n i=1 a ii,r,n σ 2 i,n , σ Q rs,n = 2 n i=1 n j=1 a ij,r,n a ij,s,n σ 2 i,n σ 2 j,n + n i=1 a i,r,n a i,s,n σ 2 i,n + n i=1 a ii,r,n a ii,s,n µ (4) i,n -3σ 4 i,n + n i=1 (a i,r,n a ii,s,n + a i,s,n a ii,r,n )µ (<label>3</label></formula><formula xml:id="formula_94">) i,n</formula><p>where</p><formula xml:id="formula_95">σ 2 i,n = Eξ 2 i,n , µ (<label>3</label></formula><formula xml:id="formula_96">) i,n = Eξ 3 i,n and µ (<label>4</label></formula><formula xml:id="formula_97">) i,n = Eξ 4 i,n .</formula><p>In case Assumption A.3(a) holds, the mean of Q r,n is zero and the last two terms drop out from the expression for the variance.</p><p>In the following we give a CLT for the m × 1 vector of linear quadratic forms</p><formula xml:id="formula_98">V n = Q 1,n , . . . , Q m,n . Let µ V n = EV n = [µ Q 1,n , . . . , µ Q m,n ] and Σ V n = [σ Q rs,n ] r,s=1,..,m</formula><p>denote the mean and VC matrix of V n , respectively. We then have the following theorem.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Theorem A.1. Suppose Assumptions A.1-A.3 hold and n</head><formula xml:id="formula_99">-1 λ min (Σ V n ) ≥ c for some c &gt; 0. Let Σ V n = 1/2 V n 1/2 V n , then -1/2 V n (V n -µ V n ) d → N(0, I m ).</formula><p>Remark A.2. Since the diagonal elements of a positive definite matrix are greater than or equal to the smallest eigenvalue of that</p><formula xml:id="formula_100">matrix it follows that n -1 λ min ( V n ) ≥ c implies that n -1 σ Q n,ii ≥ c.</formula><p>Therefore this assumption automatically implies the assumption maintained in Theorem 1 of <ref type="bibr" target="#b31">Kelejian and Prucha (2001)</ref> w.r.t. the variance of a linear quadratic form for each of the linear quadratic forms Q r,n . Of course, the theorem remains valid, if all assumptions are assumed to hold for n &gt; n 0 where n 0 is finite. Proof of Theorem A.1. Let α be some arbitrary m × 1 vector with α = 1, let</p><formula xml:id="formula_101">π n = (π 1,n , . . . , π m,n ) = n 1/2 α -1/2 V n ,</formula><p>and define</p><formula xml:id="formula_102">Q n = n 1/2 α -1/2 V n V n = m r=1 π r,n ξ n A r,n ξ n + m r=1 π r,n a r,n ξ n = ξ n C n ξ n + d n ξ n , where C n = m r=1 π r,n A r,n and d n = m r=1 π r,n a r,n . Observe that µ Q n = EQ n = n 1/2 α Σ -1/2 V n µ V n = m r=1 π r,n µ Q r,n , σ 2 Q n = var(Q n ) = nα -1/2 V n V n -1/2 V n α = n.</formula><p>To prove the theorem, using the Cramer Wold device, it suffices to show that</p><formula xml:id="formula_103">α -1/2 V n (V n -µ V ,n ) = Q n -µ Q n σ Q n d → N(0, 1). (A.1)</formula><p>To show that (A.1) holds we verify that ξ n and C n and d n satisfy the conditions of Theorem 1 in <ref type="bibr" target="#b31">Kelejian and Prucha (2001)</ref>.</p><p>Assumptions A.1 and A.3 are identical to Assumptions 1 and 3 in <ref type="bibr" target="#b31">Kelejian and Prucha (2001)</ref>. Furthermore, n -1 σ 2 Q n = 1. Thus it suffices to verify that Assumption 2 in <ref type="bibr" target="#b31">Kelejian and Prucha (2001)</ref> holds for the elements of C n and d n .</p><p>Clearly λ max (n -1 <ref type="bibr">Dhrymes (1978, p. 470)</ref> the matrices n -1</p><formula xml:id="formula_104">V n ) = 1/λ min (n -1 V n ) ≤ 1/c. By Proposition 43 in</formula><formula xml:id="formula_105">V n = n -1/2 V n -1/2 V n and n -1/2 V n -1/2 V n</formula><p>have the same characteristic roots. Thus</p><formula xml:id="formula_106">π n 2 = α (n -1/2 V n -1/2 V n )α ≤ λ max (n -1/2 V n -1/2 V n ) α 2 = λ max (n -1 V n ) ≤ 1/c &lt; ∞, and hence π r,n ≤ c π where c π = 1/ √ c. Observe that c ij,n = m r=1 π r,n a ij,r,n ≤ c π m r=1 a ij,r,n and hence sup 1≤j≤n,n≥1 n i=1 c ij,n ≤ c π m r=1 sup 1≤j≤n,n≥1 n i=1 a ij,r,n &lt; ∞ in light of Assumption A.</formula><p>2. This shows that the elements of C n satisfy Assumption 2 in <ref type="bibr" target="#b31">Kelejian and Prucha (2001)</ref>.</p><p>Next observe that</p><formula xml:id="formula_107">d i,n 2+η 1 ≤ m r=1 π r,n a i,r,n 2+η 1 ≤ c 2+η 1 π m r=1 a i,r,n 2+η 1 ≤ c 2+η 1 π m 2+η 1 m r=1 a i,r,n 2+η 1</formula><p>and hence</p><formula xml:id="formula_108">sup n n -1 n i=1 d i,n 2+η 1 ≤ c 2+η 1 π m 2+η 1 m r=1 sup n n -1 n i=1 a i,r,n 2+η 1 &lt; ∞</formula><p>in light of Assumption A.2. Therefore the elements of d n satisfy Assumption 2 in <ref type="bibr" target="#b31">Kelejian and Prucha (2001)</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Appendix B. Proofs for Section 2</head><p>Proof of Lemma 1. Clearly I n -λW n is non-singular for λ = 0. For λ = 0 we have det(</p><formula xml:id="formula_109">I n -λW n ) = (-λ) n det(W n -λ -1 I n ).</formula><p>Consequently I n -λW n is non-singular for values of λ -1 ∈ {ν 1,n , . . . , ν n,n }. In particular, I n -λW n is non-singular for λ -1 &gt; τ n . Rewriting this last inequality as |λ| &lt; τ -1 n completes the proof.</p><p>Proof of Lemma 2. As an immediate consequence of Geršgorin's Theorem -see, e.g., <ref type="bibr">Horn and Johnson (1985, pp. 344-346)</ref> -we have τ n = max{ ν 1,n , . . . , ν n,n } ≤ τ * n . The claim now follows from Lemma 1. </p><formula xml:id="formula_110">= c q-1 A np i=1 a ij,n a ij,n /c A q-1 ≤ c q-1 A np i=1 a ij,n ≤ c q A .</formula><p>In this appendix we shall make use of several lemmata. Because of space constraints we do not provide explicit proofs for these lemmata. However, explicit proofs are given in the underlying working paper, <ref type="bibr">Kelejian and Prucha (2007b)</ref>, which can be obtained from the authors.</p><p>Lemma C.1. Suppose the row and column sums of the real nonstochastic n × n matrices A n are uniformly bounded in absolute value. Let u n be defined by (2) and let u n denote a predictor for u n . Suppose Assumptions 1-4 hold then: <ref type="formula" target="#formula_78">1</ref>), s = 1, . . . , p, where d .s,n denotes the s-th column of D n , and</p><formula xml:id="formula_111">(a) n -1 E u n A n u n = O(1), var(n -1 u n A n u n ) = o(1) and n -1 u n A n u n -n -1 Eu n A n u n = o p (1). (b) n -1 E d .s,n A n u n = O(</formula><formula xml:id="formula_112">n -1 D n A n u n -n -1 ED n A n u n = o p (1). (c) If furthermore Assumption 6 holds, then n -1/2 u n A n u n = n -1/2 u n A n u n + α n n 1/2 n + o p (1) with α n = n -1 ED n (A n +A n )u n . (Of course, in light of (b) we have α n = O(1) and n -1 D n (A n + A n ) u n -α n = o p (</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>1).)</head><p>Proof. A proof of the lemma is given in <ref type="bibr">Kelejian and Prucha (2007b)</ref>.</p><p>Proof of Theorem 1. The existence and measurability of ρ n is assured by, e.g., Lemma 3.4 in <ref type="bibr" target="#b46">Pötscher and Prucha (1997)</ref>. The objective function of the weighted nonlinear least squares estimator and its corresponding non-stochastic counterpart are given by, respectively,</p><formula xml:id="formula_113">R n (ω, ρ) = n (ρ, ρ 2 ) -γ n Υ n n (ρ, ρ 2 ) -γ n R n (ρ) = n (ρ, ρ 2 ) -γ n Υ n n (ρ, ρ 2 ) -γ n .</formula><p>To prove the consistency of ρ n we show that the conditions of, e.g., Lemma 3.1 in <ref type="bibr" target="#b46">Pötscher and Prucha (1997)</ref> are satisfied for the problem at hand. We first show that ρ n is an identifiably unique sequence of minimizers of R n . Observe that R n (ρ) ≥ 0 and that R n (ρ n ) = 0. From ( <ref type="formula">6</ref>) we have γ n = n [ρ n , ρ 2 n ] . Utilizing Assumption 5 we then get</p><formula xml:id="formula_114">R n (ρ) -R n (ρ n ) = R n (ρ) = ρ -ρ n , ρ 2 -ρ 2 n n Υ n n ρ -ρ n , ρ 2 -ρ 2 n ≥ λ min (Υ n )λ min ( n n ) ρ -ρ n , ρ 2 -ρ 2 n ρ -ρ n , ρ 2 -ρ 2 n ≥ λ * [ρ -ρ n ] 2</formula><p>for some λ * &gt; 0. Hence for every ε &gt; 0 and n we have:</p><formula xml:id="formula_115">inf {ρ∈[-a ρ ,a ρ ]: ρ-ρ n ≥ε} [R n (ρ) -R n (ρ n )] ≥ inf {ρ∈[-a ρ ,a ρ ]: ρ-ρ n ≥ε} λ 2 * [ρ -ρ n ] 2 = λ * ε 2 &gt; 0, which proves that ρ n is identifiably unique. Next let n = [ n , -γ n ] and n = [ n , -γ n ], then R n (ω, ρ) -R n (ρ) = ρ, ρ 2 , 1 n Υ n n -n Υ n n ρ, ρ 2 , 1 ≤ n Υ n n -n Υ n n ρ, ρ 2 , 1 2 ≤ n Υ n n -n Υ n n [1 + (a ρ ) 2 + (a ρ ) 4</formula><p>].</p><p>As is readily seen from the respective second expressions on the r.h.s. of ( <ref type="formula" target="#formula_18">7</ref>), the elements of n and n are all of the form n -1 Eu n A n u n and n -1 u n A n u n where the row and column sums of A n are bounded uniformly in absolute value. It now follows immediately from Lemma C.1 that nn p → 0, and that the elements of n and n are, respectively, O p (1) and O(1). The analogous properties are seen to hold for the elements of Υ n and Υ n in light of Assumption 5. Given this it follows from the above inequality that R n (ω, ρ) -R n (ρ) converges to zero uniformly over the optimization space [-a ρ , a ρ ], i.e.,</p><formula xml:id="formula_116">sup ρ∈[-a ρ ,a ρ ] R n (ω, ρ) -R n (ρ) ≤ n Υ n n -n Υ n n [1 + (a ρ ) 2 + (a ρ ) 4 ] p → 0 as n → ∞.</formula><p>The consistency of ρ n now follows directly from Lemma 3.1 in <ref type="bibr" target="#b46">Pötscher and Prucha (1997)</ref>.</p><p>We make use of the following lemma.</p><p>Lemma C.2. Let u n be defined by (2) and let D n = [d 1.,n , . . . , d n.,n ] , where d i.,n is defined in Assumption 4. Suppose Assumptions 1-3 hold, and suppose furthermore that the columns of D n are of the form π n + n ε n , where the elements of π n are bounded in absolute value and the row and column sums of n are uniformly bounded in absolute value. Then (a) Ed 4 ij,n ≤ const &lt; ∞, and thus the moment condition in Assumption 4 is automatically implied, and (b) Assumption 6 is automatically implied.</p><p>Proof. A proof of the lemma is given in <ref type="bibr">Kelejian and Prucha (2007b)</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Proof of Theorem 2.</head><p>Define</p><formula xml:id="formula_117">q n (ρ n , n ) = γ n -n ρ n ρ 2 n = n -1 u n C 1,n u n n -1 u n C 2,n u n (C.1) with C r,n = (1/2) I n -ρ n M n (A r,n + A r,n ) (I n -ρ n M n ),</formula><p>and where the matrices A r,n are defined by (5), r = 1, 2. The second equality in (C.1) is seen to hold in light of the discussion surrounding Eqs. (4)-( <ref type="formula" target="#formula_21">9</ref>). For later use we observe that the rows and column sums of C r,n are uniformly bounded in absolute value; see, e.g., Remark A.1 in <ref type="bibr">Kelejian and Prucha (2004)</ref>.</p><p>We have shown in Theorem 1 that the GM estimator ρ n defined in (9) is consistent. Apart on a set whose probability tends to zero the estimator satisfies the following first order condition</p><formula xml:id="formula_118">q n ( ρ n , n ) Υ n ∂q n ( ρ n , n ) ∂ρ = 0.</formula><p>Substituting the mean value theorem expression</p><formula xml:id="formula_119">q n ( ρ n , n ) = q n (ρ n , n ) + ∂q n (ρ n , n ) ∂ρ ( ρ n -ρ n )</formula><p>into the first order condition yields</p><formula xml:id="formula_120">∂q n ( ρ n , n ) ∂ρ Υ n ∂q n (ρ n , n ) ∂ρ n 1/2 ( ρ n -ρ n ) = - ∂q n ( ρ n , n ) ∂ρ Υ n n 1/2 q n (ρ n , n ) (C.2)</formula><p>where ρ n is some in-between value. Observe that</p><formula xml:id="formula_121">∂q n (ρ, n ) ∂ρ = -n 1 2ρ (C.3)</formula><p>and consider the nonnegative scalars</p><formula xml:id="formula_122">n = ∂q n ( ρ n , n ) ∂ρ Υ n ∂q n (ρ n , n ) ∂ρ = 1 2 ρ n n Υ n n 1 2ρ n , (C.4) n = 1 2ρ n n Υ n n 1 2ρ n .</formula><p>In proving Theorem 1 we have demonstrated that nn p → 0 and that the elements of n and n are O p (1) and O(1), respectively. By Assumption 5 we have Υ n -Υ n = o p (1) and also that the elements of Υ n and Υ n are O p (1) and O(1), respectively. Since ρ n and ρ n are consistent and bounded in absolute value, clearly nn p → 0 (C.5) as n → ∞, and furthermore n = O p (1) and n = O(1). In</p><formula xml:id="formula_123">particular n ≤ λ * * Ξ where λ * * Ξ is some finite constant. In light of Assumption 5 we have n ≥ λ min (Υ n )λ min ( n n )(1 + 4ρ 2 n ) ≥ λ * Ξ for some λ * Ξ &gt; 0. Hence 0 &lt; -1 n ≤ 1/λ * Ξ &lt;</formula><p>∞, and thus we also have -1 n = O(1). Let + n denote the generalized inverse of n . It then follows as a special case of Lemma F1 in <ref type="bibr" target="#b46">Pötscher and Prucha (1997)</ref> that n is nonsingular eventually with probability tending to one, that + n = O p (1), and that</p><formula xml:id="formula_124">+ n --1 n p → 0 (C.6) as n → ∞.</formula><p>Premultiplying (C.2) by + n and rearranging terms yields</p><formula xml:id="formula_125">n 1/2 ( ρ n -ρ n ) = 1 - + n n n 1/2 ( ρ n -ρ n ) - + n ∂q n ( ρ n , n ) ∂ρ Υ n n 1/2 q n (ρ n , n ).</formula><p>In light of the above discussion the the first term on the r.h.s. is zero on ω-sets of probability tending to one. This yields</p><formula xml:id="formula_126">n 1/2 ( ρ n -ρ n ) = - + n ∂q n ( ρ n , n ) ∂ρ Υ n n 1/2 q n (ρ n , n ) + o p (1). (C.7)</formula><p>Observe that</p><formula xml:id="formula_127">+ n ∂q n ( ρ n , n ) ∂ρ Υ n --1 n 1 2ρ n n Υ n = o p (1). (C.8)</formula><p>In light of (C.1) and Lemma C.1 the elements of n</p><formula xml:id="formula_128">1/2 q n (ρ n , n ) can be expressed as (r = 1, 2) n -1/2 u n C r,n u n = n -1/2 u n C r,n u n + α r,n n 1/2 n + o p (<label>1</label></formula><formula xml:id="formula_129">)</formula><p>where α r,n = 2n -1 ED n C r,n u n .</p><p>Furthermore, the lemma implies that the elements of α r,n are uniformly bounded in absolute value. Utilizing u n = (I n -ρ n M n ) -1 ε n and Assumption 7 we have</p><formula xml:id="formula_130">n 1/2 q n (ρ n , n ) = n -1/2    1 2 ε n (A 1,n + A 1,n )ε n + a 1,n ε n 1 2 ε n (A 2,n + A 2,n )ε n + a 2,n ε n    + o p (1) (C.9)</formula><p>where a r,n = T n α r,n , r = 1, 2. Observe that the elements of a r,n are uniformly bounded in absolute value. As discussed before Theorem 2 in the text, the VC matrix of the vector of quadratic forms on the r.h.s. of (C.9) is given by n where the elements of that matrix are given in (13). These elements can be written more explicitly as</p><formula xml:id="formula_131">ψ rs,n = 1 2n n i=1 n j=1 (a ij,r,n + a ji,r,n )(a ij,s,n + a ji,s,n )σ 2 i,n σ 2 j,n + 1 n n i=1</formula><p>a i,r,n a i,s,n σ 2 i,n .</p><p>(C.10)</p><p>By assumption λ min ( n ) ≥ const &gt; 0. Since the matrices A r,n , the vectors a r,n , and the innovations ε n satisfy all of the remaining assumptions of the central limit theorem for vectors of linear quadratic forms given above as Theorem A.1 it follows that</p><formula xml:id="formula_132">ξ n = --1/2 n n -1/2    1 2 ε n (A 1,n + A 1,n )ε n + a 1,n ε n 1 2 ε n (A 2,n + A 2,n )ε n + a 2,n ε n    d → N(0, I 2 ).</formula><p>(C.11)</p><p>Since the row and column sums of the matrices A r,n are uniformly bounded in absolute value, and since the elements of a r,n and the variances are uniformly bounded by finite constants it is readily seen from (C.10) that the elements of n , and hence those of 1/2 n are uniformly bounded. It now follows from (C.7), (C.8) and (C.11) that</p><formula xml:id="formula_133">n 1/2 ( ρ n -ρ n ) = -1 n 1 2ρ n n Υ n 1/2 n ξ n + o p (1). (C.12)</formula><p>Observing that n = J n Υ n J n , where J n = n [1, 2ρ n ] , this establishes ( <ref type="formula" target="#formula_37">14</ref>). Since all of the nonstochastic terms on the r.h.s. of (C.12) are O(1) it follows that n</p><formula xml:id="formula_134">1/2 ( ρ n -ρ n ) = O p (1). Next recall that 0 &lt; λ * Ξ ≤ n ≤ λ * * Ξ &lt; ∞. Hence -1 n J n Υ n n Υ n J n -1 n ≥ λ min ( n ) [λ min (Υ n )] 2 λ min ( n n ) × (1 + 4ρ 2 n )/(λ * * Ξ ) 2 ≥ const &gt; 0.</formula><p>This establishes the last claim of the theorem.</p><p>A part of proving Theorem 3 will be to show that Ψ n -Ψ n = o p (1). Observe that the elements can be written as ψ rs,n = ψ * rs,n + ψ * * rs,n , and ψ rs,n = ψ * rs,n + ψ * * rs,n (C.13) with</p><formula xml:id="formula_135">ψ * rs,n = (2n) -1 n i=1 n j=1 a ij,n ε 2 i,n ε 2 j,n , ψ * rs,n = (2n) -1 n i=1 n j=1 a ij,n σ 2 i,n σ 2 j,n , ψ * * rs,n = n -1 α r,n P n F n n F n P n α s,n , ψ * * rs,n = n -1 α r,n P n F n n F n P n α s,n , (C.14)</formula><p>where a ij,n = (a ij,r,n + a ji,r,n )(a ij,s,n + a ji,s,n ).</p><p>The next two lemmata will be used to show that ψ * rs,n -ψ * rs,n = o p (1). Proof. A proof of the lemma is given in <ref type="bibr">Kelejian and Prucha (2007b)</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Lemma C.3. Suppose Assumptions</head><formula xml:id="formula_136">1-3 hold. Let Λ n = n -1 (σ 2 n ) A n σ 2 n and Λ n = n -1 (ε 2 n ) A n ε 2 n with σ 2 n = (σ 2 1,n , . . . , σ 2 n,n ) and ε 2 n = (ε 2 1,n , . . . , ε 2 n,n ) ,</formula><p>Lemma C.4. Suppose Assumptions 1-4 hold. Let ε n = (I n -ρ n M n ) u n , and let ε n = (I n -ρ n M n ) u n with u n = u n + D n n and D n = [d 1.,n , . . . , d n.,n ] , and where ρ n can be any estimator that satisfies n</p><formula xml:id="formula_137">1/2 ( ρ n -ρ n ) = O p (1). Define Λ n = n -1 ( ε 2 n ) A n ( ε 2 n ), Λ n = n -1 (ε 2 n ) A n ε 2 n with ε 2 n = ( ε 2 1,n , . . . , ε 2 n,n ) , ε 2 n = (ε 2 1,n , . . . , ε 2 n,n</formula><p>) , and where the n × n matrices A n are real nonstochastic and symmetric. Suppose further that the diagonal elements of the matrices A n are zero and that their row and column sums are uniformly bounded in absolute value, and that Ed 4 ij,n ≤ K d &lt; ∞. Then, Λ n -Λ n p → 0 as n → ∞, and Λ n = O p (1).</p><p>Proof. A proof of the lemma is given in <ref type="bibr">Kelejian and Prucha (2007b)</ref>.</p><p>The next two lemmata will be used to show that ψ * * rs,n -ψ * * rs,n = o p (1), where ψ * * rs,n and ψ * * rs,n are defined in (C.13) and (C.14).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Lemma C.5. Suppose Assumptions</head><formula xml:id="formula_138">1-4 hold. Let ε n = (I n -ρ n M n ) u n , and let ε n = (I n -ρ n M n ) u n with u n = u n + D n n and D n = [d 1.,n , . . . , d n.</formula><p>,n ] , and where ρ n can be any estimator that satisfies ρ n -ρ n = o p (1). Let a n and b n be n × 1 vectors whose elements are uniformly bounded in absolute value by c &lt; ∞ and let n = diag i=1,...,n (σ 2 i ) and n = diag i=1,...,n ( ε 2 i,n ). Then:</p><formula xml:id="formula_139">(a) n -1 a n n b n -n -1 a n n b n = o p (1) and n -1 a n n b n = O(1). (b) There exist random variables ς n that do not depend on a n and b n such that n -1 a n n b n -n -1 a n n b n ≤ K (c)(1 + ς n )</formula><p>with ς n = o p (1) and where K (c) &lt; ∞ is a constant that depends monotonically on c (as well as on some other bounds maintained in the assumptions).</p><p>Proof. A proof of the lemma is given in <ref type="bibr">Kelejian and Prucha (2007b)</ref>.</p><p>Lemma C.6. Suppose Assumptions 1-4 hold. Furthermore assume that sup n |ρ n | &lt; 1, and the row sums and column sums of M n are bounded uniformly in absolute value by, respectively, one and some finite constant. Let ε n = (I n -ρ n M n ) u n , and let ε n = (I n -ρ n M n ) u n with u n = u n + D n n and D n = [d 1.,n , . . . , d n.,n ] , and where ρ n can be any estimator that satisfies ρ n -ρ n = o p (1). Let</p><formula xml:id="formula_140">F n = F n = H n or F n = (I n -ρ n M n ) -1 H n and F n = (I n -ρ n M n ) + H n ,</formula><p>where H n is an n×p * matrix whose elements are uniformly bounded in absolute value, let n = diag i=1,...,n (σ 2 i ) and n = diag i=1,...,n ( ε 2 i,n ), then n -1 F n n F n -n -1 F n n F n = o p (1) and n -1 F n n F n = O(1). 14   Proof. A proof of the lemma is given in <ref type="bibr">Kelejian and Prucha (2007b)</ref>.</p><p>Proof of Theorem 3. We first demonstrate that Ψ n -Ψ n = o p (1), utilizing the expressions for the elements of Ψ n and Ψ n in (C.13) and (C.14). Observe that under the maintained assumption the row and column sums of the absolute elements of the matrices A r,n and A s,n are uniformly bounded, and thus clearly are those of the matrices A n = (a ij,n ) with a ij,n = (a ij,r,n + a ji,r,n )(a ij,s,n + a ji,s,n ). It then follows directly from Lemmas C.3 and C.4 that ψ * rs,n -ψ * rs,n = o p (1), ψ * rs,n = O(1) and ψ * rs,n = O p (1).</p><p>14 We would like to thank Benedikt Pötscher for very helpful comments on parts of the proof of this lemma.</p><p>Observing that the row and column sums of I n -ρ n M n (A r,n + A r,n ) (I n -ρ n M n ) are bounded uniformly in absolute value it follows from Lemma C.1 that α r,n -α r,n = o p (1), α r,n = O(1) and hence α r,n = O p (1). By assumption P n -P n = o p (1), P n = O(1), and hence P n = O p (1). Observe that by Lemma C.6 we have n -1 F n n F n -n -1 F n n F n = o p (1), n -1 F n n F n = O(1), and hence n -1 F n n F n = O p (1). Thus ψ * * rs,n -ψ * * rs,n = o p (1), ψ * * rs,n = O(1), and ψ * * rs,n = O p (1). Hence nn = o p (1), n = O(1) and n = O p (1).</p><p>By Assumption 5 we have Υ n -Υ n = o p (1), Υ n = O(1) and thus Υ n = O p (1). Let n = J n Υ n J n and n = J n Υ n J n , then, as demonstrated in the proof of Theorem 2, J n = O p (1), J n = O(1), + n = O p (1) and -1 n = O p (1), and furthermore J n -J n p → 0 and</p><formula xml:id="formula_141">+ n --1 n p → 0 as n → ∞.</formula><p>(There is a slight difference in the definition of n here and in the proof of Theorem 2, which does not affect the claim.) Given the above results it is now obvious that </p><formula xml:id="formula_142">λ min ( •,n ) ≥ c * Ψ • &gt; 0.</formula><p>In proving Theorem 2 we verified that the innovations ε n and the elements of a r,n and A r,n appearing in v n all satisfy the conditions of the central limit theorem. Since the row and column sums of I n -ρ n M n -1 and the elements of H n are uniformly bounded in absolute value it follows that the elements of F n are also uniformly bounded in absolute value. Thus all conditions of Theorem A.1 are satisfied, which verifies the claim.</p><p>In proving Theorems 2 and 3 we have shown that nn = o p (1), n = O(1) and thus n = O p (1). By analogous argumentation it is readily seen that the other sub-matrices of •,n and •,n have the same properties, and thus •,n -•,n = o p (1) and •,n = O(1). By assumption P n -P n = o p (1), P n = O(1) and thus P n = O p (1), and furthermore Υ n -Υ n = o p (1), Υ n = O(1) and thus Υ n = O p (1). In proving Theorem 2 we have verified that J n -J n p → 0, J n = O(1) and J n = O p (1), and furthermore that (</p><formula xml:id="formula_143">J n Υ n J n ) + -(J n Υ n J n ) -1 = o p (1), ( J n Υ n J n ) + = O p (<label>1</label></formula><p>) and (J n Υ n J n ) -1 = O(1). The claim that •,n -•,n (Υ n ) = o p (1) and •,n = O(1) is now obvious.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Appendix D. Proofs for Section 4</head><p>Proof of Lemma 3. Utilizing (3) it follows from Assumptions 3 and 8 and sup n β n &lt; ∞ that all columns of Z n = [X n , W n y n ] are of the form ϑ n = π n + n ε n , where the elements of the n × 1 vector π n are bounded in absolute value and the row and column sums of the n × n matrix n are uniformly bounded in absolute value by some finite constant; compare, e.g., Remark A.1 in <ref type="bibr">Kelejian and Prucha (2004)</ref>. The claims that the fourth moments of D n = -Z n are uniformly bounded by a finite constant, and that Assumption 6 holds, now follows directly from Lemma C.2.</p><p>Clearly</p><formula xml:id="formula_144">n 1/2 ( δ n -δ n ) = P n n -1/2 F n ε n</formula><p>where P n is defined in the lemma and</p><formula xml:id="formula_145">F n = I n -ρ n M n -1 H n .</formula><p>Given Assumption 10 clearly P n = P n + o p (1) and P n = O(1), with P n defined in the lemma. Since by Assumption 3 the row and column sums of (I n -ρ n M n ) -1 are uniformly bounded in absolute value, and since by Assumption 9 the elements of H n are uniformly bounded in absolute value, it follows that the elements of F n are uniformly bounded in absolute value. By Assumption 2, E(ε n ) = 0 and its diagonal VC matrix, n , has uniformly bounded elements.</p><p>Therefore, En -1/2 F n ε n = 0 and the elements of VC (n -1/2 F n ε n ) = n -1 F n n F n are also uniformly bounded in absolute value. Thus, by Chebyshev's inequality n -1/2 F n ε n = O p (1), and consequently n 1/2 ( δ n -δ n ) = P n n -1/2 F n ε n + o p (1) and P n n -1/2 F n ε n = O p (1). This completes the proof recalling that T n = F n P n .</p><p>Proof of Lemma 4. Note from ( <ref type="formula" target="#formula_78">1</ref>) and (2) that</p><formula xml:id="formula_146">y n * ( ρn ) = Z n * ( ρn )δ n + ε n -( ρn -ρ n )M n u n</formula><p>and hence</p><formula xml:id="formula_147">n 1/2 [ δ n ( ρn ) -δ n ] = n -1 Z n * ( ρn )Z n * ( ρn ) -1 n -1/2 Z n * ( ρn ) ε n -( ρn -ρ n )M n u n = P * n n -1/2 F * n ε n -( ρn -ρ n )n -1/2 F * * n ε n ,</formula><p>where P * n is defined in the lemma, and with F * n = H n and F * * n = I n -ρ n M n -1 M n H n . In light of Assumption 10, and since ρn is n 1/2 -consistent, it follows that</p><formula xml:id="formula_148">n -1 Z n * ( ρn )Z n * ( ρn ) -Q HZ * (ρ n )Q -1 HH Q HZ * (ρ n ) = o p (1). Since by Assumption 10 we have Q HZ * (ρ n )Q -1 HH Q HZ * (ρ n ) = O(1) and [Q HZ * (ρ n )Q -1 HH Q HZ * (ρ n )] -1 = O(1) it follows that [n -1 Z n * ( ρn )Z n * ( ρn )] -1 -[Q HZ * (ρ n )Q -1 HH Q HZ * (ρ n )] -1 = o p (1);</formula><p>compare, e.g., <ref type="bibr" target="#b46">Pötscher and Prucha (1997)</ref>, Lemma F1. In light of this it follows further that P * n -P * n = o p (1) and P * n = O(1), with P * n defined in the lemma. By argumentation analogous to that in the proof of Lemma 3 it is readily seen that n -1/2 F * n ε n = O p (1)</p><formula xml:id="formula_149">and n -1/2 F * * n ε n = O p (1). Consequently n 1/2 [ δ n ( ρn ) -δ n ] = P * n n -1/2 F * n ε n + o p (1) and P * n n -1/2 F * n ε n = O p (<label>1</label></formula><p>), observing again that ρn -ρ n = o p (1). This completes the proof recalling that</p><formula xml:id="formula_150">T * n = F * n P * n .</formula></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><figDesc>0304-4076/$ -see front matter © 2009 Elsevier B.V. All rights reserved. doi:10.1016/j.jeconom.2009.10.025</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Assumption 5 .</head><label>5</label><figDesc>(a) The smallest eigenvalue of n n is uniformly bounded away from zero. 8 (b) Υ n -Υ n = o p (1), where Υ n are 2 × 2 non-stochastic symmetric positive definite matrices. (c) The largest eigenvalues of Υ n are bounded uniformly from above, and 7 If we rewrite the moment conditions in (10) in the form corresponding to (5),</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><figDesc>Suppose the row and column sums of the np × np matrices A n = (a ij,n ) are bounded uniformly in absolute value by some finite constants c A , then np i=1 a ij,n q ≤ c q A for q &gt; 1. This result is trivially seen to hold since np i=1 a ij,n q</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><figDesc>and where the n × n matrices A n are real nonstochastic and symmetric. Suppose further that the diagonal elements of the matrices A n are zero and that their row and column sums are uniformly bounded in absolute value. Then EΛ n = Λ n = O(1) and var(Λ n ) = o(1), and hence Λ n -Λ n p → 0 as n → ∞, and Λ n = O p (1).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><figDesc>ρ n -ρ n = o p (1). Proof of Theorem 4. We concentrate again on the caseF n = I n -ρ n M n -1 H n . The first line in (27) is seen to hold in light of Assumption 7 and Theorem 2. We next verify that ξ •,n d → N(0, I p * +2 ) utilizing the central limit theorem for vectors of linear quadratic forms given above as Theorem A.1. By assumption</figDesc></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="12" xml:id="foot_0"><p>InKelejian et al. (2004), who considered the case of homoskedastic innovations, the instruments were determined more generally by taking q as a function of the sample size n, i.e., q n , such that q n → ∞ as n → ∞. Their Monte Carlo results suggest that q = 2 may be sufficient for many applications.</p></note>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div><head>Acknowledgements</head><p>Our thanks for very helpful discussions and suggestions are owed to <rs type="person">Irani Arraiz</rs>, <rs type="person">Badi Baltagi</rs>, <rs type="person">Peter Egger</rs>, <rs type="person">David Drukker</rs>,  <rs type="person">Benedikt Pötscher</rs>, and <rs type="person">Paulo Rodrigues</rs>, and  to seminar participants at <rs type="institution">Pennsylvania State University</rs>, <rs type="institution">Singapore Management University, ADRES Conference on Networks of Innovations and Spatial Analysis of Knowledge Diffusion in Saint-Etienne, Texas A&amp;M University, SUNY Albany, University of Innsbruck, Syracuse University and Kansas University</rs>. Also, we gratefully acknowledge financial support from the <rs type="funder">National Science Foundation</rs> through grant <rs type="grantNumber">SES-0001780</rs> and the <rs type="funder">National Institute of Health</rs> through the <rs type="grantName">SBIR grant</rs> <rs type="grantNumber">R43 AG027622</rs> and <rs type="grantNumber">R44 AG027622</rs>.</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_fVHHs5b">
+					<idno type="grant-number">SES-0001780</idno>
+				</org>
+				<org type="funding" xml:id="_7JhFqmJ">
+					<idno type="grant-number">R43 AG027622</idno>
+					<orgName type="grant-name">SBIR grant</orgName>
+				</org>
+				<org type="funding" xml:id="_GvYe8wT">
+					<idno type="grant-number">R44 AG027622</idno>
+				</org>
+			</listOrg>
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Appendix A. CLT for vectors of linear quadratic forms</head><p>In the following we state, for the convenience of the reader, a central limit theorem (CLT) for vectors of linear quadratic forms with heteroskedastic innovations. This CLT is based on a CLT given in <ref type="bibr" target="#b31">Kelejian and Prucha (2001)</ref> for the scalar case. We first state a lemma that collects useful results on the mean and VC matrix between (and as a special case the variance of) linear quadratic forms. </p><formula xml:id="formula_151">Lemma A.1. Let ζ = (ζ 1 , . . . , ζ n ) be</formula><formula xml:id="formula_152">* = S b. Furthermore let η = (η 1 , . . . , η n ) = S -1 ζ.</formula><p>Then assuming that the elements of η are independently distributed with zero mean, unit variance, and finite third and fourth moments E(η</p><formula xml:id="formula_153">3 i ) = µ (3) η i and E(η 4 i ) = µ (4) η i we have E(ζ Aζ + a ζ) = tr(A * ) = tr(A ), cov(ζ Aζ + a ζ, ζ Bζ + b ζ) = 2tr(A B ) + a b + n i=1 a ii, * b ii, * µ (4) η i -3 + n i=1 (a i, * b ii, * + b i, * a ii, * )µ (3) η i .</formula><p>Remark A.1. The above expression for the covariance exploits the independence of the elements of η. A convenient way to obtain these expressions is to re-write the linear quadratic form as a sum of martingale differences as, e.g., in <ref type="bibr">Kelejian and Prucha (2001, Appendix A)</ref>. If the diagonal elements of A * and B * are zero the last two terms drop out from the expression for the covariance, and so one need only assume the existence of second moments. The last two terms also drop out from the expression for the covariance in the case where ζ -or equivalently η -is normally distributed, since in this case µ (3) η i = 0 and µ (4) η i = 3. Of course, the variance of a linear quadratic form is obtained as the special case where A = B and a = b. Obviously, in case A and B are not symmetric the above formulae apply with A and B replaced by (A+A )/2 and (B+B )/2.</p><p>Consider the linear quadratic forms (r = 1, . . . , m) Q r,n = ξ n A r,n ξ n + a r,n ξ n where ξ n = (ξ 1,n , . . . , ξ n,n ) is an n × 1 random vector, A r,n = (a ij,r,n ) i,j=1,...,n is an n × n nonstochastic real matrix, and a r,n = (a 1,r,n , . . . , a n,r,n ) is an n × 1 nonstochastic real vector.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><figDesc>a random vector with zero mean and positive definite variance covariance matrix , let A = (a ij ) and B = (b ij ) be n×n nonstochastic symmetric matrices, and let a and b be n×1 nonstochastic vectors. Consider the decomposition = SS , let A * = (a ij, * ) = S AS and B * = (b ij, * ) = S BS, and let a * = S a and let b</figDesc></figure>
+			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<monogr>
+		<title level="m" type="main">Advanced Econometrics</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Amemiya</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1985">1985</date>
+			<publisher>Harvard University Press</publisher>
+			<pubPlace>Cambridge</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<monogr>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+		<title level="m">Spatial Econometrics: Methods and Models</title>
+		<meeting><address><addrLine>Boston</addrLine></address></meeting>
+		<imprint>
+			<publisher>Kluwer Academic Publishers</publisher>
+			<date type="published" when="1988">1988</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<monogr>
+		<title level="m" type="main">New Directions in Spatial Econometrics</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Florax</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1995">1995</date>
+			<publisher>Springer</publisher>
+			<pubPlace>London</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">R&amp;D spillovers and the geography of innovation and production</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">B</forename><surname>Audretsch</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">P</forename><surname>Feldmann</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">American Economic Review</title>
+		<imprint>
+			<biblScope unit="volume">86</biblScope>
+			<biblScope unit="page" from="630" to="640" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Estimating models of complex FDI: Are there third-country effects</title>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">H</forename><surname>Baltagi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Egger</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Pfaffermayr</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">140</biblScope>
+			<biblScope unit="page" from="260" to="281" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Prediction in panel data models with spatial correlation</title>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">H</forename><surname>Baltagi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Li</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">New Advances in Spatial Econometrics</title>
+		<editor>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">R</forename><forename type="middle">J G M</forename><surname>Florax</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">S</forename><forename type="middle">J</forename><surname>Rey</surname></persName>
+		</editor>
+		<meeting><address><addrLine>New York</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer Verlag</publisher>
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Double length artificial regressions for testing spatial dependence</title>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">H</forename><surname>Baltagi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Li</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometric Reviews</title>
+		<imprint>
+			<biblScope unit="volume">20</biblScope>
+			<biblScope unit="page" from="31" to="40" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">LM test for functional form and spatial error correlation</title>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">H</forename><surname>Baltagi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Li</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Regional Science Review</title>
+		<imprint>
+			<biblScope unit="volume">24</biblScope>
+			<biblScope unit="page" from="194" to="225" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Testing for serial correlation, spatial autocorrelation and random effects using panel data</title>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">H</forename><surname>Baltagi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">H</forename><surname>Song</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">C</forename><surname>Jung</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Koh</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">140</biblScope>
+			<biblScope unit="page" from="5" to="51" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Testing panel data regression models with spatial error correlation</title>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">H</forename><surname>Baltagi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">H</forename><surname>Song</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Koh</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">117</biblScope>
+			<biblScope unit="page" from="123" to="150" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Finite sample properties of maximum likelihood estimators in spatial models</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Bao</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Ullah</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">137</biblScope>
+			<biblScope unit="page" from="396" to="413" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Applying the generalized-moments estimation approach to spatial problems involving microlevel data</title>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">P</forename><surname>Bell</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">E</forename><surname>Bockstael</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Review of Economics and Statistics</title>
+		<imprint>
+			<biblScope unit="volume">82</biblScope>
+			<biblScope unit="page" from="72" to="82" />
+			<date type="published" when="2000">2000</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Regional econometric and dynamic models</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Bennett</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Hordijk</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Handbook of Regional and Urban Economics</title>
+		<editor>
+			<persName><forename type="first">P</forename><surname>Nijkamp</surname></persName>
+		</editor>
+		<meeting><address><addrLine>Amsterdam</addrLine></address></meeting>
+		<imprint>
+			<publisher>North Holland</publisher>
+			<date type="published" when="1986">1986</date>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="page" from="407" to="441" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Network effects and welfare cultures</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Betrand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">F P</forename><surname>Luttmer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Mullainathan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Quarterly Journal of Economics</title>
+		<imprint>
+			<biblScope unit="volume">115</biblScope>
+			<biblScope unit="page" from="1019" to="1055" />
+			<date type="published" when="2000">2000</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Incumbent behavior: Vote-seeking, tax-setting, and yardstick competition</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Besley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Case</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">American Economic Review</title>
+		<imprint>
+			<biblScope unit="volume">85</biblScope>
+			<biblScope unit="page" from="25" to="45" />
+			<date type="published" when="1995">1995</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Spatial patterns in household demand</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Case</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">59</biblScope>
+			<biblScope unit="page" from="953" to="966" />
+			<date type="published" when="1991">1991</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Budget spillovers and fiscal policy independence: Evidence from the states</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Case</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Hines</surname><genName>Jr</genName></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Rosen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Public Economics</title>
+		<imprint>
+			<biblScope unit="volume">52</biblScope>
+			<biblScope unit="page" from="285" to="307" />
+			<date type="published" when="1993">1993</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<monogr>
+		<title/>
+		<author>
+			<persName><forename type="first">A</forename><surname>Cliff</surname></persName>
+			<affiliation>
+				<orgName type="collaboration">Pion</orgName>
+			</affiliation>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Ord</surname></persName>
+			<affiliation>
+				<orgName type="collaboration">Pion</orgName>
+			</affiliation>
+		</author>
+		<imprint>
+			<date type="published" when="1973">1973</date>
+			<pubPlace>London</pubPlace>
+		</imprint>
+	</monogr>
+	<note>Spatial Autocorrelation</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<monogr>
+		<author>
+			<persName><forename type="first">A</forename><surname>Cliff</surname></persName>
+			<affiliation>
+				<orgName type="collaboration">Pion</orgName>
+			</affiliation>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Ord</surname></persName>
+			<affiliation>
+				<orgName type="collaboration">Pion</orgName>
+			</affiliation>
+		</author>
+		<title level="m">Spatial Processes, Models and Applications</title>
+		<meeting><address><addrLine>London</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="1981">1981</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Public infrastructure investment, interstate spatial spillovers, and manufacturing cost</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Cohen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Morrison</forename><surname>Paul</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">J</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Review of Economic and Statistics</title>
+		<imprint>
+			<biblScope unit="volume">86</biblScope>
+			<biblScope unit="page" from="551" to="560" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">GMM estimation with cross sectional dependence</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Conley</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">92</biblScope>
+			<biblScope unit="page" from="1" to="45" />
+			<date type="published" when="1999">1999</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<monogr>
+		<title level="m" type="main">Statistics of Spatial Data</title>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">A C</forename><surname>Cressie</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1993">1993</date>
+			<publisher>Wiley</publisher>
+			<pubPlace>New York</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Small sample properties of estimators of spatial autoregressive models with autoregressive disturbances</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Das</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Papers in Regional Science</title>
+		<imprint>
+			<biblScope unit="volume">82</biblScope>
+			<biblScope unit="page" from="1" to="26" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<monogr>
+		<title/>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">J</forename><surname>Dhrymes</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1978">1978</date>
+			<publisher>Springer Verlag</publisher>
+			<pubPlace>New York</pubPlace>
+		</imprint>
+	</monogr>
+	<note>Introductory Econometrics</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Consistent covariance matrix estimation with spatially dependent panel data</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Driscoll</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Kraay</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Review of Economics and Statistics LXXX</title>
+		<imprint>
+			<biblScope unit="page" from="549" to="560" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Does peer ability affect student achievement</title>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">A</forename><surname>Hanushek</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">F</forename><surname>Kain</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename><surname>Markman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">G</forename><surname>Rivkin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Applied Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">18</biblScope>
+			<biblScope unit="page" from="527" to="544" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Public sector capital and the productivity puzzle</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Holtz-Eakin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Review of Economics and Statistics</title>
+		<imprint>
+			<biblScope unit="volume">76</biblScope>
+			<biblScope unit="page" from="12" to="21" />
+			<date type="published" when="1994">1994</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<monogr>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">A</forename><surname>Horn</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">R</forename><surname>Johnson</surname></persName>
+		</author>
+		<title level="m">Matrix Analysis</title>
+		<meeting><address><addrLine>Cambridge</addrLine></address></meeting>
+		<imprint>
+			<publisher>Cambridge University Press</publisher>
+			<date type="published" when="1985">1985</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Panel data models with spatially correlated error components, Department of Economics</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Kapoor</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">140</biblScope>
+			<biblScope unit="page" from="97" to="130" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">A generalized spatial two-stage least squares procedure for estimating a spatial autoregressive model with autoregressive disturbances</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Real Estate Finance and Economics</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="page" from="99" to="121" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">A generalized moments estimator for the autoregressive parameter in a spatial model</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Economic Review</title>
+		<imprint>
+			<biblScope unit="volume">40</biblScope>
+			<biblScope unit="page" from="509" to="533" />
+			<date type="published" when="1999">1999</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">On the asymptotic distribution of the Moran I test statistic with applications</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">104</biblScope>
+			<biblScope unit="page" from="219" to="257" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">2SLS and OLS in a spatial autoregressive model with equal spatial weights</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="page" from="691" to="707" />
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">Estimation of simultaneous systems of spatially interrelated cross sectional equations</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">118</biblScope>
+			<biblScope unit="page" from="27" to="50" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<analytic>
+		<title level="a" type="main">HAC estimation in a spatial framework. Department of Economics</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">140</biblScope>
+			<biblScope unit="page" from="131" to="154" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<monogr>
+		<title level="m" type="main">Specification and estimation of spatial autoregressive models with autoregressive and heteroskedastic disturbances</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2007-07">2007. July</date>
+		</imprint>
+		<respStmt>
+			<orgName>Department of Economics, University of Maryland</orgName>
+		</respStmt>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<analytic>
+		<title level="a" type="main">Instrumental variable estimation of a spatial autoregressive model with autoregressive disturbances: Large and small sample results</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Yuzefovich</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Advances in Econometrics: Spatial and Spatiotemporal Econometrics</title>
+		<editor>
+			<persName><forename type="first">J</forename><surname>Lesage</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">K</forename><surname>Pace</surname></persName>
+		</editor>
+		<meeting><address><addrLine>New York</addrLine></address></meeting>
+		<imprint>
+			<publisher>Elsevier</publisher>
+			<date type="published" when="2004">2004</date>
+			<biblScope unit="page" from="163" to="198" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<monogr>
+		<title level="m" type="main">A dynamic panel estimator with both fixed and spatial effects</title>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">M</forename><surname>Korniotis</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2005">2005</date>
+		</imprint>
+		<respStmt>
+			<orgName>Department of Finance, University of Notre Dame</orgName>
+		</respStmt>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<analytic>
+		<title level="a" type="main">Consistency and efficiency of least squares estimation for mixed regressive, spatial autoregressive models</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometric Theory</title>
+		<imprint>
+			<biblScope unit="volume">18</biblScope>
+			<biblScope unit="page" from="252" to="277" />
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<analytic>
+		<title level="a" type="main">Best spatial two-stage least squares estimators for a spatial autoregressive model with autoregressive disturbances</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometric Reviews</title>
+		<imprint>
+			<biblScope unit="volume">22</biblScope>
+			<biblScope unit="page" from="307" to="335" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b40">
+	<analytic>
+		<title level="a" type="main">Asymptotic distributions of maximum likelihood estimators for spatial autoregressive models</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">72</biblScope>
+			<biblScope unit="page" from="1899" to="1925" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b41">
+	<analytic>
+		<title level="a" type="main">The method of elimination and substitution in the GMM estimation of mixed regressive, spatial autoregressive models</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">140</biblScope>
+			<biblScope unit="page" from="155" to="189" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b42">
+	<analytic>
+		<title level="a" type="main">GMM and 2SLS estimation of mixed regressive, spatial autoregressive models</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">137</biblScope>
+			<biblScope unit="page" from="489" to="514" />
+			<date type="published" when="2007">2007b</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b43">
+	<analytic>
+		<title level="a" type="main">GMM estimation of spatial autoregressive models with unknown heteroskedasticity</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Lin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Lee</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.jeconom.2009.10.035</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics, forthcoming</title>
+		<imprint>
+			<date type="published" when="2005">2005</date>
+		</imprint>
+		<respStmt>
+			<orgName>Department of Economics, Ohio State University</orgName>
+		</respStmt>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b44">
+	<analytic>
+		<title level="a" type="main">Contracting in space: An application of spatial statistics to discrete-choice models</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Pinkse</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">E</forename><surname>Slade</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">85</biblScope>
+			<biblScope unit="page" from="125" to="154" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b45">
+	<analytic>
+		<title level="a" type="main">Spatial price competition: A semiparametric approach</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Pinkse</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">E</forename><surname>Slade</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brett</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">70</biblScope>
+			<biblScope unit="page" from="1111" to="1153" />
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b46">
+	<monogr>
+		<title level="m" type="main">Dynamic Nonlinear Econometric Models, Asymptotic Theory</title>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">M</forename><surname>Pötscher</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1997">1997</date>
+			<publisher>Springer Verlag</publisher>
+			<pubPlace>New York</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b47">
+	<analytic>
+		<title level="a" type="main">Nonparametric spectrum estimation for spatial data</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">M</forename><surname>Robinson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Statistical Planning and Inference</title>
+		<imprint>
+			<biblScope unit="volume">137</biblScope>
+			<biblScope unit="page" from="1024" to="1034" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b48">
+	<analytic>
+		<title level="a" type="main">Efficient estimation of the semiparametric spatial autoregressive model. Department of Economics, London School of Economics</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">M</forename><surname>Robinson</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.jeconom.2009.10.031</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics, forthcoming</title>
+		<imprint>
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b49">
+	<analytic>
+		<title level="a" type="main">Peer effects with random assignment: Results of Dartmouth roommates</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Sacredote</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Quarterly Journal of Economics</title>
+		<imprint>
+			<biblScope unit="volume">116</biblScope>
+			<biblScope unit="page" from="681" to="704" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b50">
+	<analytic>
+		<title level="a" type="main">Games the states don&apos;t play: Welfare benefits and the theory of fiscal federalism</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Shroder</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Review of Economics and Statistics</title>
+		<imprint>
+			<biblScope unit="volume">77</biblScope>
+			<biblScope unit="page" from="183" to="191" />
+			<date type="published" when="1995">1995</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b51">
+	<analytic>
+		<title level="a" type="main">QML estimation of dynamic panel data models with spatial errors</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Su</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Yang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">School of Economics and Social Sciences</title>
+		<imprint>
+			<date type="published" when="2007">2007</date>
+			<publisher>Singapore Management University</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b52">
+	<analytic>
+		<title level="a" type="main">Social interactions, local spillovers and unemployment</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Topa</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Review of Economic Studies</title>
+		<imprint>
+			<biblScope unit="volume">68</biblScope>
+			<biblScope unit="page" from="261" to="295" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b53">
+	<analytic>
+		<title level="a" type="main">On stationary processes in the plane</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Whittle</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometrica</title>
+		<imprint>
+			<biblScope unit="volume">41</biblScope>
+			<biblScope unit="page" from="434" to="449" />
+			<date type="published" when="1954">1954</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

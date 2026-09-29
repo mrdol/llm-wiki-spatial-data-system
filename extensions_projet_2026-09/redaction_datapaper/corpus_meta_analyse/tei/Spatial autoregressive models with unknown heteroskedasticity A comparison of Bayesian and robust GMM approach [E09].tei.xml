@@ -1,0 +1,1316 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Spatial autoregressive models with unknown heteroskedasticity: A comparison of Bayesian and robust GMM approach ☆</title>
+				<funder ref="#_5A2s58D #_nbsD2U5">
+					<orgName type="full">National Science Foundation</orgName>
+					<orgName type="abbreviated">NSF</orgName>
+				</funder>
+				<funder>
+					<orgName type="full">City University of New York High Performance Computing Center</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability  status="unknown">
+					<licence/>
+				</availability>
+				<date type="published" when="2014-01-04">4 January 2014</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">Osman</forename><surname>Doğan</surname></persName>
+							<email>odogan@gc.cuny.edu</email>
+						</author>
+						<author>
+							<persName><forename type="first">Süleyman</forename><surname>Taşpınar</surname></persName>
+							<email>staspinar@gc.cuny.edu</email>
+						</author>
+						<author>
+							<affiliation key="aff0">
+								<orgName type="department" key="dep1">Program in Economics</orgName>
+								<orgName type="department" key="dep2">The Graduate School and University Center</orgName>
+								<orgName type="institution">The City University of New York</orgName>
+								<address>
+									<region>New York</region>
+									<country key="US">United States</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<affiliation key="aff1">
+								<orgName type="department">The Graduate Center</orgName>
+								<address>
+									<addrLine>Economics 365 Fifth Avenue NY</addrLine>
+									<postCode>10016-4309</postCode>
+									<region>NY</region>
+									<country key="US">United States</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Spatial autoregressive models with unknown heteroskedasticity: A comparison of Bayesian and robust GMM approach ☆</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2014-01-04">4 January 2014</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">2A13A9F69AFB723FDF699B5183FAD4FA</idno>
+					<idno type="DOI">10.1016/j.regsciurbeco.2013.12.003</idno>
+					<note type="submission">Received 29 August 2013 Received in revised form 9 December 2013 Accepted 20 December 2013</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-17T13:17+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>Spatial autoregressive models Unknown heteroskedasticity</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Most of the estimators suggested for the estimation of spatial autoregressive models are generally inconsistent in the presence of an unknown form of heteroskedasticity in the disturbance term. The estimators formulated from the generalized method of moments (GMM) and the Bayesian Markov Chain Monte Carlo (MCMC) frameworks can be robust to unknown forms of heteroskedasticity. In this study, the finite sample properties of the robust GMM estimator are compared with the estimators based on the Bayesian MCMC approach for the spatial autoregressive models with heteroskedasticity of an unknown form. A Monte Carlo simulation study provides evaluation of the performance of the heteroskedasticity robust estimators. Our results indicate that the MLE and the Bayesian estimators impose relatively greater bias on the spatial autoregressive parameter when there is negative spatial dependence in the model. In terms of finite sample efficiency, the Bayesian estimators perform better than the robust GMM estimator. In addition, two empirical applications are provided to evaluate relative performance of heteroskedasticity robust estimators.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">Introduction</head><p>Most of the estimation methods suggested in the literature are valid under the assumption that the disturbance terms of spatial models are independently and identically distributed (i.i.d.) or i.i.d. normal. However, in many regression applications, heteroskedasticity may well be present. For example, cross-sectional units usually differ in size and some other characteristics, which in turn implies that the disturbance terms in the regression analyses across these cross-sectional units may be heteroskedastic. It may also be present in a random coefficient model, where the parameters of the model are random around fixed values. In this case, heteroskedasticity depends on the exogenous variables of the spatial models. Moreover, in regression analysis, many dependent variables are constructed by data aggregation. In such a case, heteroskedasticity arises from the process of averaging with different numbers of observations when the data is getting aggregated (Griffiths,  2007; Lee, 2010). <ref type="bibr">1</ref> In the present study, we evaluate the performance of various heteroskedasticity robust estimators suggested in the literature for spatial autoregressive models. To this end, we conduct a Monte Carlo study and provide two empirical illustrations to show how these estimators perform in applied research.</p><p>In the presence of heteroskedastic disturbances, the ML and GMM estimators are generally inconsistent. The ML estimator is inconsistent if heteroskedasticity is not incorporated into estimation, because the likelihood function is not maximized at the true parameter values. <ref type="bibr">2</ref> The GMM estimators are also inconsistent since the moment functions are often designed under the assumption that disturbances are i.i.d. (Kelejian and Prucha, 1998, 1999; Liu et al., 2010). Hence, the orthogonality conditions for the moment functions may not be satisfied.</p><p>To handle unknown forms of heteroskedasticity, Kelejian and Prucha (2010) extend their two-step GMM estimation approach by modifying the moment functions for a spatial model that has a spatial lag in the dependent variable and the disturbance term (for short SARAR(1,1)). Badinger and Egger (2011) extend the robust estimation approach in Kelejian and Prucha (2010) to the case of SARAR(p,q) specification. Lin and Lee (2010) suggest a one-step robust GMM estimator for the model with only spatial dependence in the dependent variable (for short SARAR(1,0)). <ref type="bibr">3</ref> In this approach, the parameters of a spatial model are simultaneously estimated by a GMM estimator formulated from the combination of a set of linear and quadratic moment functions (Lee, 2007a, 2007b; Lee and Liu, 2010; Liu et al., 2010).</p><p>The moment functions considered for both two-step and one-step GMM estimators are motivated by the reduced form of the spatial models. For example, the reduced form for the case of SARAR(1,0) indicates that the endogenous spatial lag of the dependent variable is a function of a stochastic and a non-stochastic variable. The linear moment functions are formulated from the non-stochastic part and the quadratic moment functions are formulated for the stochastic part. The two-step GMM approach of Kelejian and Prucha is motivated by computational simplicity as the ML estimation involves significant computational burden for the large samples. Despite the computational advantage, the two step GMM estimator is inefficient relative to the one-step GMM estimators suggested in Lee (2007a, 2007b), Liu et al.  (2010) and Lee and Liu (2010).</p><p>An alternative to ML and GMM/IV estimation methods is the Bayesian estimation method, which has been receiving attention in recent years. Bayesian data analysis is distinctly different from the classical (or frequentist) analysis in its treatment of parameters of the model. In Bayesian econometrics the parameter vector is a random variable, and Bayesian analysts formulate probabilistic statements about the parameters before observing any data. These ex-ante probabilities are called priors and usually take the form of a probability distribution with known moments. This notion of the prior probabilities (or subjective probabilities) is totally absent in classical econometrics where all estimation and inference are based on observed data. In both approaches, the likelihood function has the same functional form and reflects the relation between data and the parameters of interest. In Bayesian approach, the likelihood function is combined with prior functions via Bayes' rule to construct the posterior probability distribution of parameters. The posterior distribution function of the parameter vector contains the information necessary for the estimation and inference.</p><p>The Bayesian approach requires the evaluation of higher dimensional integrals to obtain posterior expectations, marginal likelihoods, and predictive densities. The application of the Bayesian methods to the estimation of spatial models follows the path of the progress that has been made in the context of Bayesian computation techniques. Hepple  (1995b) identifies four phases for the development of Bayesian computation techniques. In the first phase, Bayesian studies involved problems that can be characterized with well known probability distributions such that the characteristics of posterior distributions such as means and covariances can be analytically derived. In the second phase, Bayesian studies focused on techniques through which problems involving multidimensional probability distributions can be reduced to univariate or bivariate integrations. In this phase, numerical techniques for the univariate and bivariate integration were used. In the third phase, Bayesian analysts worked on efficient procedures for higher order integrations. Gauss-Hermite, importance sampling and Monte Carlo integration techniques were used to tackle complicated and high-dimensional problems. In the fourth phase, Markov Chain Monte Carlo (MCMC) simulation techniques were introduced that make the computation of higher dimension problems feasible. The advent of the MCMC approach represents a shift in thinking, where the focus on the question of analytical moment calculation is replaced with a more general question of sampling issues from the posterior distributions (Albert and Chib, 1993; Casella and George,  1992; Chib, 2001). In the Gibbs sampling version of the MCMC approach, the joint posterior distribution is decomposed into conditional posterior distributions through which random draws (or a simulated sample) can be obtained. Inferences such as posterior mean and posterior covariance matrix can be estimated from the simulated sample obtained from the conditional posterior densities.</p><p>The development in Bayesian computation techniques provides a wide range of tools that can be applied to the estimation of spatial models. The early literature on the Bayesian perspective on spatial models uses combinations of tools developed during the period from the first to the third phase. For example, Hepple (1979) analytically derives the joint posterior and marginal posterior distributions of parameters for a spatial model containing a spatial lag in the disturbance term. The posterior moments are calculated through numerical univariate and bivariate integration techniques. Anselin (1982, 1988) considers the Bayesian approach for pure spatial autoregressive and spatial error models. Diffuse priors for parameters of models are suggested and marginal posterior distributions of parameters are analytically derived. The posterior mean of the autoregressive parameter for a pure spatial autoregressive model in Anselin (1982) is estimated with univariate numerical integration. A small Monte Carlo simulation study in Anselin (1982) demonstrates that the Bayesian estimator performs as well as the ML estimator for larger values of the autoregressive parameter and larger samples. <ref type="bibr">4</ref> Hepple (1995a, 1995b) develops Bayesian analyses for major spatial specifications including the SARAR(1,0) model, SARAR(0,1) (or the SEM) model and spatial moving average models (for short SARMA(0,1)). In each case, the joint posterior distributions of the parameters are stated from which the marginal posterior of the spatial autoregressive parameters is analytically derived. The analytical derivation for the marginal posterior distribution of the parameters of the exogenous variables is not available as the spatial autoregressive parameters can not be analytically integrated out from the joint posterior distribution. However, the dimension of joint posterior can be reduced to two dimensions so that bivariate numerical integration techniques can be used for the estimation of the marginal posterior moments. As a result, the estimate of the spatial autoregressive parameters can be obtained through univariate numerical integration, and the estimates of the parameters of the exogenous variables can be obtained through bivariate numerical integration over a grid of pairs of values. <ref type="bibr">5</ref> Hepple (2002, 2003) provides further analytical simplifications such that the moments of the marginal posterior distributions of the exogenous variables in spatial models with only one autoregressive parameter can be obtained through univariate numerical integration. However, for the case of SARAR(1,1) and SARMA(1,1) where there are two spatial autoregressive parameters the calculation of these moments again requires bivariate integration over the parameter space of autoregressive parameters.</p><p>The recent studies use the MCMC approach to estimate spatial models. This approach is more appropriate for cases where marginal posterior distributions are difficult to simplify analytically and to integrate numerically. The MCMC approach is introduced for most types of spatial models in LeSage (1997) and LeSage and Pace (2009). Kakamu and Wago (2008) compare finite sample properties of the Bayesian estimators based on the MCMC approach with that of the ML estimator for the static panel spatial autoregressive model. The Monte Carlo simulation results in Kakamu and Wago (2008) show that the Bayesian estimator is virtually as efficient as the ML estimator.</p><p>In spatial models, the boundaries of the parameter space for spatial autoregressive parameters are known, which facilitate the selection of the proper uninformative priors for these parameters. Thus, in most studies, uniform priors over the parameter space are assigned to spatial autoregressive parameters (as in LeSage and Pace,  2009; Parent and LeSage, 2008; LeSage, 1997; Kakamu and Wago,  2008). Oliveira and Song (2008) consider two versions of Jeffreys' prior, called independence Jeffreys and Jeffreys-rule priors for the spatial autoregressive parameter for the case of SARAR(0,1). Jeffreys priors are uninformative improper priors that are constructed from the information matrix. The appealing aspect of these priors is that they are robust to reparametrization of the model. For the case of SARAR(0,1), Oliveira and  Song (2008) state the marginal posterior density of autoregressive parameter (up to a constant of proportionality) and use the adaptive rejection Metropolis sampling algorithm to simulate random draws. In a Monte Carlo study, they show that the Bayesian inferences based on the independence Jeffreys prior are slightly better than the inferences obtained based on uniform and Jeffreys-rule priors.</p><p>The Bayesian estimators mentioned above are designed for the cases where spatial models have homoskedastic disturbances. The treatment of the unknown form of heteroskedasticity in the Bayesian approach starts by assuming a structure for the unknown covariance matrix of disturbances. First, it is assumed that the covariance matrix can be decomposed into a constant component and a component that varies over observations. Second, a prior density function is assigned to each component so that the joint posterior density of the parameters can be constructed. The most important assumption is that the component that varies over observations is assumed to be i.i.d. with a common prior density function. In this approach, a prior density function for the parameter of the common density function is also specified. In the literature, the priors determined in this way are known as hierarchical priors. This feature of the Bayesian approach allows flexible models through which any distribution for the disturbance term can be approximated with a high degree of accuracy (Koop, 2003). Once the prior density functions are determined, the joint posterior density function can be easily constructed, from which a full set of conditional posterior density functions can be obtained to form an MCMC sampling scheme. The random draws (or the simulated sample) are then used to calculate the relevant moments for the estimation. LeSage (1997) is the first study in which the above outlined hierarchical Bayesian approach of unknown heteroskedasticity is introduced for the spatial autoregressive models. Following Geweke (1993); LeSage (1997) assigns an i.i.d. Chi-square distribution as the prior for the elements of the component of the covariance matrix that is assumed to vary over observations. The sampling for the spatial autoregressive parameter is carried out through the ratio of uniform sampling algorithm. LeSage and Pace (2009) use a Metropolis Hasting algorithm based on a tuned random walk procedure to sample from the conditional posterior density function of autoregressive parameters to form the Metropolis within Gibbs sampling procedure for the whole model. Parent and LeSage (2008) consider the hierarchical Bayesian approach for the estimation of a conditional autoregressive (CAR) spatial model, in which the spatial structured random component of the model is assumed to have an autoregressive process.</p><p>It is of interest to investigate the performance of the aforementioned heteroskedasticity-robust GMM and Bayesian estimators through a Monte Carlo study and applied applications. In this study, we compare the small sample properties of these estimators through a Monte Carlo study. <ref type="bibr">6</ref> In this respect, we make two contributions to the literature. First, this study is the first to compare the mentioned approaches of the unknown heteroskedasticity. <ref type="bibr">7</ref> For the case of SARAR(1,0), the robust estimation methods from both perspectives are outlined. Second, we provide two empirical examples to shed light on the effect of heteroskedasticity on the parameter estimates.</p><p>In the following, Section 2 provides model assumptions that are required for the formal study of the autoregressive spatial models. Sections 3 and 4 build the robust GMM approach and the Bayesian hierarchical approach for the case of SARAR(1,0). Section 5 contains the Monte Carlo experiments we use to provide finite sample properties of the estimators. In Section 6, we provide two empirical illustrations. Section 7 concludes.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.">Model specification and assumptions</head><p>In this study, the following first order SARAR(1,0) specification is considered:</p><formula xml:id="formula_0">Y n ¼ λ 0 W n Y n þ X n β 0 þ ε n ;<label>ð2:1Þ</label></formula><p>where Y n is the n × 1 vector of dependent variable, X n is the n × k matrix of non-stochastic exogenous variables, W n is the n × n spatial weight matrix of known constants with zero diagonal elements, and ε n is the n × 1 vector of disturbances (or innovations). The variable W n Y n is known as the spatial lag of the dependent variable. The spatial effect parameter λ 0 is known as the spatial autoregressive parameter.</p><p>As spatial data are characterized with triangular arrays, the variables in Eq. ( <ref type="formula" target="#formula_0">2</ref>.1) have subscript n. <ref type="bibr">8</ref> Let Θ be the parameter space of the model. In order to distinguish the true parameter vector from other possible values in Θ, the model is stated with the true parameter vector θ 0 = (λ 0 ,β 0 ′)′.</p><p>For the notational simplicity, we denote S n (λ) = (I n -λW n ) and G n (λ) = W n S n -1 (λ). Also, at the true parameter value λ 0 , we de-</p><formula xml:id="formula_1">note S n (λ 0 ) = S n and G n (λ 0 ) = G n . Let Diag(•)</formula><p>be the operator that creates a diagonal matrix from the diagonal elements of the input matrix. Finally, let ∑ n = Diag(σ n1 2 ,…,σ nn 2 ) be n × n diagonal covariance matrix, where</p><formula xml:id="formula_2">σ ni 2 = E(ε ni 2 ), for i = 1,…,n.</formula><p>Next, assumptions that are required for the asymptotic properties of estimators are elaborated and then their interpretations are considered for the case of SARAR(1,0).</p><p>Assumption 1. The elements ε ni of the disturbance term ε n are distributed independently with mean zero and variance σ ni 2 , and E|ε in | v b ∞ for some v N 4 for all n and i.</p><p>This assumption allows independent and heteroskedastic disturbances. The elements of the disturbance term have moments higher than the fourth moment. The existence of moment condition is required for the application of the central limit theorem for the quadratic form given in Kelejian and Prucha (2010) for the GMM estimator. In addition, the variance of quadratic form in ε n exists and is finite when the first four moments are finite. <ref type="bibr">9</ref> Finally, Lyapunov's inequality guarantees that the moment less than ν is also uniformly bounded for all n and i.</p><p>Assumption 2. The spatial weight matrix W n is uniformly bounded in absolute value in row and column sums. Moreover, S n -1 and S n -1 (λ) exist and are uniformly bounded in absolute value in row and column sums for all values of λ in a compact parameter space.</p><p>The uniform boundedness of the terms in Assumptions 1 and 2 is motivated to control spatial autocorrelations in the model at a tractable level (Kelejian and Prucha, 1998). <ref type="bibr">10</ref> Assumption 2 also implies that the model in Eq. (2.1) represents an equilibrium relation for the dependent variable. By this assumption, the reduced form of the model becomes feasible as</p><formula xml:id="formula_3">Y n = S n -1 X n β 0 + S n -1 ε n .</formula><p>Finally, the statement of Assumption 2 is assumed to hold at the true and arbitrary autoregressive parameter vector. The uniform boundedness of S n -1 (λ) is required for the ML estimator, not for the GMM estimator (Liu et al., 2010).</p><p>In the literature, the parameter space for spatial autoregressive parameter λ 0 is restricted to the interval (-1,1), when spatial weight matrices are row normalized. <ref type="bibr">11</ref> The following assumptions are the usual regularity conditions required for the GMM estimator. Throughout this study, the vector of moment functions considered for the GMM estimator is in the form of</p><formula xml:id="formula_4">g(θ 0 ) = (ε n ′P 1n ε n ,…,ε n ′P mn ε n , ε n ′Q n )′.</formula><p>The moment functions involving n × n constant matrices P jn for j = 1,…,m are known as quadratic moment functions. The last moment function Q n ′ε n is the linear moment function, where Q n is an n × k ⁎ with full column rank and with k ⁎ ≥ k + 1. The matrices P jn s and Q n are chosen in such way that orthogonality conditions of population moment functions are not violated. Let P 2n be the class of n × n constant matrices with zero diagonal elements. The quadratic moment functions involving matrices from this class satisfy the orthogonality conditions when disturbance terms satisfy Assumption 1.</p><p>Assumption 4 states regularity conditions for these matrices and the last assumption characterizes the parameter space.</p><p>Assumption 3. The regressors matrix X n is an n × k matrix consisting of uniformly bounded constant elements. It has full column rank of k. Moreover, lim n→∞ 1 n X ′ n X n exists and is nonsingular.</p><p>Assumption 4. Elements of IV matrix Q n are uniformly bounded. P jn ∈ P 2n for j = 1,…,m is uniformly bounded in absolute value in row and column sums.</p><p>Assumption 5. The parameter space Θ is a compact subset of ℝ k + 1 and θ 0 ∈ Int(Θ).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.">Robust GMM estimation of spatial autoregressive models</head><p>In this section, the robust GMM estimator for the case of SARAR(1,0) is reviewed. <ref type="bibr">12</ref> For the case of SARAR(1,0), the reduced form of the model is</p><formula xml:id="formula_5">Y n = S n -1 X n β 0 + S n -1 ε n .</formula><p>Then, the spatial lag of the dependent variable can be expressed as</p><formula xml:id="formula_6">W n Y n = W n S n -1 X n β 0 + W n S n -1 ε n = G n X n β 0 + G n ε n</formula><p>. This result indicates that the endogenous variable W n Y n in a SARAR(1,0) model is a function of a non-stochastic term G n X n β 0 and a stochastic term G n ε n . This decomposition motivates the formation of the moment functions for the GMM estimation. The nonstochastic part is instrumented by Q n = (G n X n β 0 ,X n ), which forms the population moment function Q n ′ε n (Lee, 2003, 2007a). The stochastic part is instrumented by P jn ε n , for j = 1,…,m, where P jn ∈ P 2n . In this case, the moment function is in the form of ε n ′P jn ε n (Lee, 2007b; Lee  and Liu, 2010; Lin and Lee, 2010; Liu et al., 2010).</p><p>Under Assumption 1, the orthogonality condition of moment functions hold as shown below:</p><formula xml:id="formula_7">E Q ′ n ε n ¼ Q ′ n E ε n ð Þ ¼ 0 kþ1 ð Þ Â 1 ; E ε ′ n P jn ε n ¼ E tr ε ′ n P jn ε n ¼ E tr P jn ε n ε ′ n ¼ tr P jn E ε n ε ′ n ¼ tr P jn Σ n ¼ 0;</formula><p>where</p><formula xml:id="formula_8">Σ n = Diag(σ n1 2 ,…,σ nn 2</formula><p>) is the n × n covariance matrix of disturbances. The moment function based on Q n is linear and the one based on P jn is quadratic in ε n . For the selection of the quadratic moment matrices P jn s, the asymptotic efficiency of the GMM estimator is considered. Lee (2007a) shows that when disturbance terms are i.i.d., the best selection of P jn ∈ P 2n is <ref type="formula">and Lee (2010)</ref>suggest that this selection can also be used for the case where disturbance terms satisfy Assumption 1. Consider the following set of moment functions</p><formula xml:id="formula_9">P n * = (G n -Diag(G n )). Lin</formula><formula xml:id="formula_10">g n θ ð Þ ¼ ε ′ n θ ð Þ G n -Diag G n ð Þ ð Þ ε n θ ð Þ G n X n β 0 ; X n ð Þ ′ ε n θ ð Þ ! ; ð3:1Þ where ε n (θ) = S n (λ)Y n -X n β. Let Ω n = E[g n (θ 0 )g n ′(θ 0 )] and Γ n ¼ -E ∂g n θ 0 ð Þ ∂θ ′ ! . Straightforward calculations show that 13 Ω n ¼ tr X v P Ã n P Ã ′ n Σ n þ Σ n P Ã n 0 1Â kþ1 ð Þ 0 kþ1 ð Þ Â 1 Q ′ n Σ n Q n 0 @ 1 A ;<label>ð3:2Þ</label></formula><formula xml:id="formula_11">Γ n ¼ tr Σ n P Ã n þ P Ã ′ n G n 0 1Âk Q ′ n G n X n β 0 Q ′ n X n 0 @ 1 A ;<label>ð3:3Þ</label></formula><p>where Σ n = Diag(σ n1 2 ,…,σ nn 2 ) is again the n × n covariance matrix of disturbances. Then, the robust GMM estimator is defined by</p><formula xml:id="formula_12">θn ¼ λn βn ¼ argmin θ∈Θ g ′ n θ ð Þ Ω-1 n g n θ ð Þ;<label>ð3:4Þ</label></formula><p>where Ωn is a consistent estimate of Ω n . An estimate of Ω n requires estimates of tr Σ n P</p><formula xml:id="formula_13">Ã n P Ã ′ n Σ n þ Σ n P Ã n and Q n ′Σ n Q n . Let Σn ¼ Diag ε2 n1 …; ε2 nn</formula><p>, where εni s are residuals based on a consistent estimator of θ 0 . Among others, a consistent estimator can be a 2SLS estimator based on the instrument matrix (W n 2 X n , W n X n , X n ).</p><p>Under our stated assumptions, it can be shown that the components of Ω n can be consistently estimated by simply replacing Σ n with Σn . The fact that quadratic moment matrices are uniformly bounded in absolute value in row and column sums and the fact that disturbances terms have uniformly bounded fourth moments ensure that</p><formula xml:id="formula_14">1 n tr Σn P Ã n P Ã ′ n Σn þ Σn P Ã n - 1 n tr Σ n P Ã n P Ã ′ n Σ n þ Σ n P Ã n ¼ o p 1 ð Þ. The as- ymptotic argument for the remaining component 1 n Q ′ n Σn Q n - 1 n Q ′ n Σ n Q n ¼ o p 1</formula><p>ð Þ is in line with the argument given by White (1980). 14 Under Assumptions 1-5, Lin and Lee (2010) show that the robust GMM estimator defined in Eq. (3.4) is consistent and asymptotically normally distributed, namely 15</p><formula xml:id="formula_15">ffiffiffi n p θn -θ 0 Þ → d N 0; lim n→∞ 1 n Γ ′ n Ω -1 n Γ n ! -1 :<label>ð3:5Þ</label></formula><p>An estimate of the asymptotic covariance matrix of ffiffiffi n p θn -θ 0 is needed to make asymptotically valid inferences and to construct asymptotically correct confidence regions. Lin and Lee (2010) show <ref type="bibr">11</ref> There are some other formulations for the parameter space of autoregressive parameter, for details see Kelejian and Prucha (2007, 2010), LeSage and Pace (2009) and Elhorst  et al. (2012). <ref type="bibr">12</ref> Lin and Lee (2010) suggest a one-step robust GMM estimator for the case of SARAR(1,0). Doğan and Taşpınar (2013a) extend the one-step robust GMM approach of Lin and Lee (2010) for the case of SARAR(1,1). For a two-step robust GMM estimator for the case of SARAR(1,1), see Kelejian and Prucha (2010). Badinger and Egger (2011) extend the two-step robust estimation of Kelejian and Prucha (2010) to higher order spatial autoregressive models, i.e., SARAR(p,q). <ref type="bibr">13</ref> Lemma 2 in Appendix A can be used to derive Ω n matrices in this section. <ref type="bibr">14</ref> The same argument also holds for Γ n . That is a consistent estimate of Γ n can be obtained by simply replacing Σ n with Σn. <ref type="bibr">15</ref> The identification of the parameters in a GMM framework requires limn→∞ 1 n E g n θ 0 ð Þ ð Þ¼ 0 (Newey and McFadden, 1994). Lin and Lee (2010) investigate this condition and state the identification conditions for the parameters. Here, we simply assume that the parameters are identified.</p><p>that a consistent estimator is</p><formula xml:id="formula_16">1 n Γ′ n Ω-1 n Γn ! -1</formula><p>, which is constructed from a consistent estimator of θ 0 .</p><p>Note that P n * and Q n also involve unknown parameters. In practice, an initial consistent estimator can be used to construct these matrices. For example, an initial estimator can be a GMM estimator based on the moment functions involving P n</p><formula xml:id="formula_17">+ = W n ′W n -Diag(W n ′W n ) and Q n + = (W n 2 X n , W n X n , X n ). 16</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.">Bayesian MCMC estimation of spatial autoregressive models</head><p>The model in Eq. (2.1) under Assumption 1 has an unknown form of heteroskedasticity. For Bayesian estimation, we assume that</p><formula xml:id="formula_18">Σ n = σ 0 2 V n , where V n = Diag(v 1 ,…,v n ) is a diagonal n × n matrix with the diagonal elements v i ¼ σ 2 ni σ 2 0 for i = 1,…,n.</formula><p>This assumption indicates that the heteroskedasticity specification has two components: (i) a constant component σ 0 2</p><p>, and (ii) a component v i that varies over observations. The constant component is an arbitrary term that facilitates the Bayesian analysis. <ref type="bibr">17</ref> In this section, we review the Bayesian MCMC approach for the spatial autoregressive model. Let v = (v 1 ,…,v n )′ be an n × 1 vector. Then, the likelihood function of this model can be written as</p><formula xml:id="formula_19">L Y n jθ; σ 2 ; ν ¼ 2π ð Þ -n 2 σ 2 -n 2 ∏ n i¼1 v -1=2 i S n λ ð Þ j j Âexp - 1 2 S n λ ð ÞY n -X n β ð Þ ′ σ 2 V n -1 S n λ ð ÞY n -X n β ð Þ ) : (<label>ð4:1Þ</label></formula><p>It will be convenient to write the exponent of the above likelihood function in terms of generalized least squares (GLS) quantities. To this end, for a given value of λ, the GLS estimator from the regression</p><formula xml:id="formula_20">S n (λ)Y n = X n β + ε n is e β n ¼ X ′ n V -1 n X n -1 X ′ n V -1 n S n λ ð ÞY n . Let SSE ¼ S n λ ð ÞY n -X n e β n ′ σ 2 V n À Á -1 S n λ ð ÞY n -X n e β n</formula><p>be the weighted residual sum of squares. Then, the exponent of the likelihood function can be written as</p><formula xml:id="formula_21">exp - 1 2 S n λ ð ÞY n -X n β ð Þ ′ σ 2 V n -1 S n λ ð ÞY n -X n β ð Þ &amp; ' ¼ exp - 1 2 SSE þ β-e β n ′ X ′ n σ 2 V n -1 X n β-e β n !) : (<label>ð4:2Þ</label></formula><p>Thus, the likelihood function in Eq. ( <ref type="formula" target="#formula_19">4</ref>.1) can be written in terms of GLS quantities in the following way: Following Geweke (1993) and LeSage and Pace (2009), we assume the following prior distributions for the parameters of SARAR( <ref type="formula" target="#formula_82">1,0</ref> , where U(•) denotes uniform distribution function, and τ is the spectral radius of W n . <ref type="bibr">18</ref> All prior distribution functions are assumed to be independent. The prior distribution of r v i is considered by Geweke (1993). A non-spatial linear regression model with covariance matrix σ 0 2 V n , where v i s are independently and identically distributed, corresponds to a linear regression model with disturbances having a scale mixture of normal distribution (Geweke, 1993; Chib, 2001). In particular, Geweke (1993)  shows that the posterior distribution function of the parameter of a non-spatial linear regression model with</p><formula xml:id="formula_22">L Y n ð jθ; σ 2 ; νÞ ¼ 2π ð Þ -n 2 σ 2 -n 2 ∏ n i¼1 v -1=2 i S n λ ð Þ j j Âexp - 1 2 SSE þ β-e β n ′ X ′ n σ 2 V n -1 X n β-e β n !) : (<label>ð4:3Þ</label></formula><formula xml:id="formula_23">Y ni ∼ N(X ni ′β 0 , σ 0 2 v i ), where r v i ∼ i.i.d. χ 2 (r) for i = 1,…,n is proportional to the posterior distribution function of a non-spatial linear regression model with Y ni ∼ t(X ni ′β 0 , σ 0 2</formula><p>, r), where t(•) denotes the univariate Student-t distribution with mean X ni ′β 0 , variance parameter σ 0 2 , and degrees-offreedom parameter r. <ref type="bibr">19</ref> The prior density functions are given in the following equations. </p><formula xml:id="formula_24">p β ð Þ ¼ 2π ð Þ -k=2 T j j -1=2 exp β-c ð Þ ′ T -1 β-c ð Þ n o ; ð4:4Þ p σ 2 ¼ b a Γ a ð Þ σ 2 -aþ1 ð Þ exp - b σ 2 &amp; ' ; ð4:5Þ p ν ð Þ ¼ r 2 nr=2 Γ r 2 h i -n ∏ n i¼1 v -rþ2 ð Þ =2 i exp - r 2v i &amp; ' ; ð4:6Þ p r ð Þ ¼ 1 k m 1 Γ m ð Þ r m-1 exp - r k n o ; for r N 0; and m; k N 0; ð4:7Þ p λ ð Þ ¼ τ 2 ; if λ∈ - 1 τ ; 1 τ 0 otherwise: 8 &lt; :<label>ð4</label></formula><formula xml:id="formula_25">p ⋆ λ ð Þ ¼ 1 Beta d; d ð Þ 1 þ λ ð Þ d-1 1-λ ð Þ d-1 2 2d-1 ¼ Γ d ð ÞΓ d ð Þ Γ 2d ð Þ 1 þ λ ð Þ d-1 1-λ ð Þ d-1 2 2d-1 ;<label>ð4:9Þ</label></formula><p>where Parent and LeSage (2008) show that when d is close to unity and λ ∈ (-1,1), p ⋆ (λ) produces uninformative prior over the interval (-1,1) such that the end-points get zero prior weight, which is consistent with the parameter space of λ. 21 16 Note that P n + along with W n is considered by Kelejian and Prucha (2010) for a two-step GMM estimation method for a SARAR(1,1) model. <ref type="bibr">17</ref> For the case of non-spatial models, see Koop (2003) and Griffiths (2007). <ref type="bibr">18</ref> Note that the parameter space of autoregressive parameter is</p><formula xml:id="formula_26">Beta(d,d) = ∫ 0 t μ d -1 (1 -μ) d -1 dμ is the standard Beta function.</formula><formula xml:id="formula_27">-1 τ ; 1 τ ð Þ .</formula><p>For a proof, see Kelejian and Prucha (2007). <ref type="bibr">19</ref> Thus, t(X ni ′β 0 , σ 0 2 , r) can be treated as a mixture of normal and chi-square distributions. For the multivariate version, see Liu and Rubin (1995). <ref type="bibr">20</ref> The density of v i a can be obtained from that of r/v i . To this end, for any r, <ref type="bibr">21</ref> Note that, the parameter space of autoregressive parameters is (-1,1), when the weight matrices are row normalized. If weight matrices are not row normalized, then (I n -λ 0 W n ) can be singular for certain values from the interval (-1,1).</p><formula xml:id="formula_28">let X ¼ r vi with density function P X (•). Define Y = r/X = v i , then the derived density function of Y is given by p Y y ð Þ ¼ p X r=y ð ÞÂ dX dY . The straightforward calculation shows that p v i ð Þ ¼ r 2 ½ r=2 Γ r=2 ð Þ ½ -1 v -rþ2 ð Þ 2 i exp -r 2vi n o . Let G(•) denote the gamma distribution function. Note that 1/v i ~χ2 (r)/r. Since χ 2 (r)/r = G(r/2,2/r), we have 1/v i ~G(r/2,2/r) which implies that v i ~IG(r/2,r/2).</formula><p>Let p(β,σ 2 ,v,r,λ|Y n ) be the joint posterior density function of parameters. Bayes' Theorem indicates that the joint posterior density is proportional to the product of the likelihood function and prior densities. Under the assumption that prior distributions of parameters are independent, the joint posterior density can be written as</p><formula xml:id="formula_29">p β; σ 2 ; ν; r; λjY n ∝L Y n ð jθ; σ 2 ; v 1 ; …; v n Þp β ð Þp σ 2 p ν ð Þp r ð Þp λ ð Þ ∝ 2π ð Þ -n 2 σ 2 -n 2 ∏ n i¼1 v -1=2 i S n λ ð Þ j j Âexp - 1 2 SSE þ β-e β n ′ X ′ n σ 2 V n -1 X n β-e β n &amp; ' ÂjTj -1=2 exp β-c ð Þ ′ T -1 β-c ð Þ n o Â σ 2 -aþ1 ð Þ exp - b σ 2 &amp; ' Â r 2 nr=2 Γ r 2 h i -n ∏ n i¼1 v -rþ2 ð Þ =2 i exp - r 2v i &amp; ' Â r m-1 exp - r k n o Â p λ ð Þ:<label>ð4:10Þ</label></formula><p>The MCMC approach requires a full set of conditional posterior density functions of parameters to form an algorithm through which random draws (or simulated sample) can be obtained. The simulated sample obtained from the conditional posterior densities is a Markov chain with the property that its limiting distribution is the joint posterior distribution (Albert and Chib, 1993; Casella and George, 1992; Chib,  2001; Tierney, 1994).</p><p>Conditional on the other parameters of the model, the conditional posterior density of β can be obtained by collecting all terms in Eq. (4.10) that are not multiplicatively separable from components that include β. Let p(β|σ 2 ,v,r,λ,Y n ) be the conditional posterior density function of β. Then,</p><formula xml:id="formula_30">p β ð jσ 2 ; ν; r; λ; Y n Þ∝exp &amp; - 1 2 SSE þ β-e β n ′ X ′ n σ 2 V n -1 X n β-e β n þ β-c ð Þ ′ T -1 β-c ð Þ ' :</formula><p>ð4:11Þ By completion of square (see Lemma 1 in Appendix), the last two terms of the exponent in Eq. (4.11) can be written as</p><formula xml:id="formula_31">β-e β n ′ X ′ n σ 2 V n -1 X n β-e β n þ β-c ð Þ ′ T -1 β-c ð Þ ¼ β-β ⋆ ′ X ′ n σ 2 V n -1 X n þ T -1 β-β ⋆ þ e β n -c -1 X ′ n σ 2 V n -1 X n -1 þ T -1 e β n -c ;<label>ð4:12Þ</label></formula><p>where</p><formula xml:id="formula_32">β ⋆ = (X n ′V n -1 X n + σ 2 T -1 ) -1 (X n ′V n -1 S n (λ)Y n + σ 2 T -1 c). Using</formula><p>Eq. (4.12), the conditional posterior density of β can be written as</p><formula xml:id="formula_33">p β ð jσ 2 ; ν; r; λ; Y n Þ∝exp - 1 2 β-β ⋆ ′ X ′ n σ 2 V n -1 X n þ T -1 β-β ⋆ &amp; ' ;<label>ð4:13Þ</label></formula><p>where the terms that are multiplicatively separable from β are absorbed into the constant of proportionality. The kernel of p(β|σ 2 , ν, r, λ, Y n ) in Eq. (4.14) is proportional to the kernel of a multivariate normal density with mean β ⋆ and covariance (</p><formula xml:id="formula_34">X n ′(σ 2 V n ) -1 X n + T -1 ) -1 . Thus, βjσ 2 ; ν; r; λ; Y n ∼N β ⋆ ; X ′ n σ 2 V n -1 X n þ T -1 -1 :<label>ð4:14Þ</label></formula><p>Now, we return to joint posterior density in Eq. ( <ref type="formula" target="#formula_19">4</ref>.10) to determine the conditional posterior distribution of σ 2 . By collecting all terms in Eq. (4.10) that are not multiplicatively separable from the components that include σ 2 , the conditional posterior density of σ 2 can be obtained as follows:</p><formula xml:id="formula_35">p σ 2 β; ν; r; λ; Y n Þ∝ σ 2 -n 2 Â exp ( - 1 2 SSE þ β-e β n Þ ′ À X ′ n À σ 2 V n Á -1 X n Þ β-e β n ) Â σ 2 -aþ1 ð Þ exp - b σ 2 &amp; ' ∝ σ 2 -n 2 -aþ1 ð Þ exp - 1 σ 2 S n λ ð ÞY n -X n β ð Þ ′ V -1 n S n λ ð ÞY n -X n β ð Þ þ 2b 2 ( ) :<label>ð4:15Þ</label></formula><p>The comparison of the above kernel with that of an inverse gamma density function indicates that the conditional posterior distribution of σ 2 is an inverse gamma distribution with the shape parameter a ⋆ ¼ n 2 þ a and with the scale parameter b</p><formula xml:id="formula_36">⋆ ¼ Sn λ ð ÞYn-Xnβ ð Þ ′ V -1 n Sn λ ð ÞYn-Xnβ ð Þ þ 2b 2 . Thus, σ 2 jβ; ν; r; λ; Y n ∼IG a ⋆ ; b ⋆ :<label>ð4:16Þ</label></formula><p>In the same way, the conditional posterior distribution of v can be obtained by ignoring all terms in the joint posterior density function that are not related to v. Thus,</p><formula xml:id="formula_37">p νjβ; σ 2 ; r; λ; Y n ∝∏ n i¼1 v -1=2 i exp - 1 2 S n λ ð ÞY n -X n β ð Þ ′ σ 2 V n -1 S n λ ð ÞY n -X n β ð Þ &amp; ' Â∏ n i¼1 v -rþ2 ð Þ =2 i exp - r 2v i &amp; ' : ð4:17Þ For notational simplification, let e n = S n (λ)Y n -X n β. Then S n λ ð ÞY n - ð X n βÞ ′ σ 2 V n À Á -1 S n λ ð ÞY n -X n β ð Þ ¼ e ′ n σ 2 V n À Á -1 e n ¼ ∑ n j¼1 e 2 nj σ 2 v j</formula><p>, where e nj is the jth element of e n . Then, Eq. (4.17) can be written as</p><formula xml:id="formula_38">p νjβ; σ 2 ; r; λ; Y n ∝∏ n i¼1 v -1=2 i exp X n j¼1 - e 2 nj 2σ 2 v j 8 &lt; : 9 = ; Â ∏ n i¼1 v -rþ2 ð Þ =2 i exp - r 2v i &amp; ' ∝∏ n i¼1 v -rþ3 ð Þ =2 i exp - e 2 ni 2σ 2 v i - r 2v i ( ) ∝∏ n i¼1 v -rþ3 ð Þ =2 i exp -σ -2 e 2 ni þ r 2v i 8 &lt; : 9 = ; :<label>ð4:18Þ</label></formula><p>The above result shows that the conditional posterior density of each v i can be written as</p><formula xml:id="formula_39">p v i ð jβ; σ 2 ; r; λ; Y n Þ∝v -rþ3 ð Þ =2 i exp -σ -2 e 2 ni þ r 2v i 8 &lt; : 9 = ; ; for i ¼ 1; …; n:<label>ð4:19Þ</label></formula><p>The functional form in the right hand side of Eq. (4.19) does not correspond to any known form of density function. Geweke (1993, p.S26) suggests a method through which the conditional posterior</p><formula xml:id="formula_40">distribution of v i can be determined. Let Ψ ¼ σ -2 e 2 ni þ r À Á v i</formula><p>. Then, the result in Eq. ( <ref type="formula" target="#formula_19">4</ref>.20) implies that the density function of Ψ is proportional to Ψ (r -1)/2 exp{-Ψ/2}, which implies 22</p><formula xml:id="formula_41">σ -2 e 2 ni þ r 2v i β; σ 2 ; r; λ; Y n ∼χ 2 r þ 1 ð Þ; for i ¼ 1; :::; n:<label>ð4:20Þ</label></formula><p>Now, we return to conditional posterior distribution of the hyperparameter r. By collecting all terms that are not multiplicatively separable from the components that include r from joint posterior density yields,</p><formula xml:id="formula_42">p r ð jβ; σ 2 ; ν; λ; Y n Þ∝ r 2 nr=2 r m-1 Γ r 2 h i -n ∏ n i¼1 v -r=2 i exp - r k þ 2v i ð Þ 2kv i &amp; ' :<label>ð4:21Þ</label></formula><p>The above density does not correspond to a standard distribution, therefore a Metropolis Hasting type algorithm can be employed to obtain random draws.</p><p>Finally, the conditional posterior distribution of λ takes the form:</p><formula xml:id="formula_43">p λ ð jβ; σ 2 ; ν; r; Y n ∝jS n λ ð Þjexp - 1 2 S n λ ð ÞY n -X n β ð Þ ′ σ 2 V n -1 S n λ ð ÞY n -X n β ð Þ &amp; ' :<label>ð4:22Þ</label></formula><p>The uniform prior density for λ, which is absorbed in the proportionality constant is used for the result in Eq. (4.22). For the case where prior takes the form suggested by Parent and LeSage (2007), the conditional posterior distribution of λ takes the following form:</p><formula xml:id="formula_44">p λ ð jβ; σ 2 ; ν; r; Y n Þ∝ S n λ ð Þ j j exp - 1 2 S n λ ð ÞY n -X n β ð Þ ′ σ 2 V n -1 S n λ ð ÞY n -X n β ð Þ &amp; ' Â 1 Beta d; d ð Þ 1 þ λ ð Þ d-1 1-λ ð Þ d-1 2 2d-1 :<label>ð4:23Þ</label></formula><p>Both conditional posterior densities in Eqs. (4.22) and (4.23) are not in the form of a known density. Like hyper-parameter r, sampling for λ can be accomplished through the Metropolis-Hasting approach. <ref type="bibr">23</ref> </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1.">Bayesian MCMC computation</head><p>In Bayesian analysis, the joint posterior distribution of parameters embodies all information about the parameters. A cost (loss) function is specified as a criterion for determining an optimal point estimate. Let ζ = (λ,β′,σ 2 ,ν,r)′ be the parameter vector. One of the most popular loss function is the weighted squared error function,</p><formula xml:id="formula_45">C ζ ; ζ ¼ ζ -ζ ′ Q ζ -ζ</formula><p>, where Q is a positive definite matrix. Then, the Bayesian point estimate is defined by</p><formula xml:id="formula_46">ζ ¼ argmin ζ E ζ jY n C ζ ; ζ h i ¼ argmin ζ Z Θ ζ -ζ ′ Q ζ -ζ p ζ ð jY n Þdζ ;<label>ð4:24Þ</label></formula><p>where p(ζ|Y n ) is the posterior density of ζ. The solution of above minimization problem yields</p><formula xml:id="formula_47">ζ ¼ E ζ ð jY n Þ ¼ ∫ Θ ζp ζ ð jY n</formula><p>Þdζ , which is the mean of the posterior distribution of ζ (Koop et al., 2007,  p.34). The closed form solution for ζ from the joint posterior density functions in Eq. (4.10) can not be obtained. In the MCMC approach, a Markov chain is constructed from the conditional posterior distributions so that a large number of a simulated sample of parameters can be obtained. The mean of the simulated sample is then used as an estimate of E(ζ|Y n ) (Casella and George, 1992;  Chib, 2001).</p><p>The previous section shows that the joint posterior densities of spatial autoregressive models can be decomposed into conditional posterior density functions of parameters through which random draws can be obtained. When conditional posterior distributions are known, the Gibbs sampling method can be used to draw from conditional distributions. As the conditional posterior distributions of β, σ 2 and v i are in the form of known distributions, random draws can be easily obtained through the Gibbs sampling method for these parameters. Unfortunately, the conditional posterior distributions of the autoregressive parameter and hyper-parameter r do not correspond to known distributions. The sampling for these parameters can be accomplished through a Metropolis-Hasting algorithm. As a result, the sampling scheme for spatial autoregressive models consists of the combination of the Gibbs sampling and the Metropolis-Hasting algorithm. This whole procedure of sampling is called Metropolis within Gibbs sampling (Geweke and Keane, 2001).</p><p>The Metropolis-Hasting sampling method requires a proposal distribution (or candidate generating distribution) from which the candidate values for the autoregressive parameters can be generated. LeSage and  Pace (2009) and Kakamu and Wago (2008) use a normal distribution as the proposal distribution with a tuned random-walk procedure. <ref type="bibr">24</ref> According to this method, the candidate values for λ new are generated by</p><formula xml:id="formula_48">λ new ¼ λ old þ c Â ϕ; where ϕ∼N 0; 1 ð Þ:<label>ð4:25Þ</label></formula><p>The constant parameter c in Eq. (4.25) is called tuning parameter, which ensures that the sampler moves over the entire conditional posterior distributions of the autoregressive parameters. The increment random variable denoted by ϕ in Eq. (4.25) is symmetric so that the acceptance probability value for the candidate value λ new takes the following form:</p><formula xml:id="formula_49">p λ new ; λ old ¼ min 1; p λ new À β; σ 2 ; ν; r; Y n Þ p λ old À β; σ 2 ; ν; r; Y n Þ ( ) ;</formula><p>The new candidate λ new is accepted with a probability of p(λ new ,λ old ). The tuning parameter or the spread of the candidate generating density affects the behavior of the chain in at least two ways: (i) it affects the acceptance rate of new candidate values through acceptance probability, (ii) it also affects the region where the new candidate values are sampled. To illustrate the role of the tuning parameter, consider a chain that has converged so that the new candidates are sampled around the mode of the marginal posterior densities of autoregressive parameters. If the tuning parameter is chosen to be large to allow the new generated candidates to be far from the current value (or mode), then the new candidates will have low probability of being accepted. In that case, the chain may get stuck at the current value (the candidates will never be accepted). Reducing the tuning parameter will correct this problem. On the other hand, a small tuning parameter value will reduce the chance of getting candidates that are far away from the current value. In this case, it will take longer time for the chain to traverse the support of the density, as a result, low probability regions of the density support will be under-sampled. These two issues raise the question of <ref type="bibr">22</ref> This result can be seen through the derived density function of Ψ. Since dvi dΨ ¼ -</p><formula xml:id="formula_50">σ -2 e 2 ni þr ð Þ Ψ 2 , then p Ψ ð Þ∝ σ -2 e 2 ni þr ð Þ -rþ3 ð Þ =2 Ψ ð Þ -rþ3 ð Þ =2 exp -1 2 σ -2 e 2 ni þ r À Á Ψ σ -2 e 2 ni þr ð Þ n o Â σ -2 e 2 ni þr ð Þ Ψ 2 ∝Ψ r-1 ð Þ =2 exp -Ψ=2 f g . The kernel of p(Ψ) implies Ψ ~χ2 (r + 1</formula><p>). <ref type="bibr">23</ref> The Metropolis-Hasting algorithm is described in Section 4.1. <ref type="bibr">24</ref> Chib (2001) calls this method as random walk M-H chain.</p><p>how to choose the optimal tuning parameter. For our case, the literature has suggested a tuning parameter that can result in approximately 0.5 acceptance rate (Chib, 2001; Chib and Greenberg, 1995). In practice, the tuning parameter c is adjusted in such way that the acceptance rate falls between 40% and 60%. <ref type="bibr">25</ref> LeSage and Pace (2009) consider a more efficient sampling procedure known as the Griddy Gibbs sampler for the autoregressive parameter. This procedure involves a numerical integration technique to calculate the normalizing constant and the related cumulative distribution function (CDF) of the autoregressive parameter. Then, the random draws are taken from the CDF by an inversion approach in each pass through the sampler. In the Monte Carlo study, we compare the performance of this approach with the M-H random walk procedure.</p><p>Finally, the elicitation of the parameters of the prior distributions for β and σ 2 is required. The prior distributions for β can be made relatively diffuse by assigning a large prior variance. This can be accomplished by setting c = 0 and T = I k × 10 5 . The conditional posterior distribution of σ 2 is an inverse Gamma distribution. The analytical results provided for the mean of this distribution indicate that a relatively diffuse prior for σ 2 can be obtained by assigning values of a = 0 and b = 0. 25 In practice, c can be set 0.5 at the initial step. LeSage and Pace (2009) suggest that c′ = c/1.1 for the case where the acceptance rate falls below 40%, and c′ = 1.1 for the case where the acceptance rate rises above 60%. This can be accomplished through a while loop in the algorithm. <ref type="bibr">26</ref> For the case of SARAR(1,0), we show that σ 2 |β, ν, r, λ, Y n ∼ IG(a ⋆ b ⋆ ), which is given in Eq. (4.17). Then, the conditional posterior mean</p><formula xml:id="formula_51">E σ 2 jβ; ν; r; λ; Yn À Á ¼ b ⋆ a ⋆ -1 .</formula><p>The choice of a = 0 and b = 0 eliminates the effect of the prior distribution on the conditional posterior mean.</p><p>For illustration, a single pass through the Metropolis within Gibbs sampling scheme consists of the following steps:</p><p>1. Let ζ <ref type="bibr" target="#b0">(0)</ref> = (λ <ref type="bibr" target="#b0">(0)</ref> ,β′ <ref type="bibr" target="#b0">(0)</ref> ,σ 2 <ref type="bibr" target="#b0">(0)</ref> ,ν <ref type="bibr" target="#b0">(0)</ref> ,r <ref type="bibr" target="#b0">(0)</ref> )′ be the initial parameter values. 2. Update β: Draw β (1) from p(β|λ <ref type="bibr" target="#b0">(0)</ref> ,σ 2 <ref type="bibr" target="#b0">(0)</ref> ,v <ref type="bibr" target="#b0">(0)</ref> ,r <ref type="bibr" target="#b0">(0)</ref> ,Y n ). 3. Update σ 2 : Draw σ 2(1) from p(σ 2 |λ <ref type="bibr" target="#b0">(0)</ref> ,β (1) ,r <ref type="bibr" target="#b0">(0)</ref>  <ref type="bibr" target="#b0">(0)</ref> ) N U, otherwise λ (1) = λ <ref type="bibr" target="#b0">(0)</ref> .</p><formula xml:id="formula_52">,Y n ). 4. Update v: Draw v i (1) from p σ -2 e 2 ni þ r v i jλ 0 ð Þ ; β 1 ð Þ ; σ 2 1 ð Þ ; r 0 ð Þ ; Y n for ; σ 2 1 ð Þ ; r 0 ð Þ ; Y n Þ for i ¼ 1; …; n. 5. Update λ: Calculate λ new = λ (0) + c × ϕ, (a) Calculate p λ new ; λ 0 ð Þ ¼ min 1; p λ new jβ 1 ð Þ ; σ 2 1 ð Þ ; ν 1 ð Þ ; r 0 ð Þ ; Yn p λ 0 jβ 1 ð Þ ; σ 2 1 ð Þ ; ν 1 ð Þ ; r 0 ð Þ ; Yn ( ) , (b) Draw U from Uniform(0,1), (c) Set λ (1) = λ new if p(λ new ,λ</formula><p>The sequence {ζ <ref type="bibr" target="#b0">(0)</ref> ,ζ (1) ,…,ζ (M) } obtained from the Metropolis within Gibbs sampling form a Markov chain whose probability density function converges to the joint posterior density p(ζ|Y n ) as M goes to infinity (Chib, 2001; Tierney, 1994). <ref type="bibr">27</ref> To discard the effect of the initial value ζ <ref type="bibr" target="#b0">(0)</ref> on the chain, iterates from some initial periods are usually excluded from the chain (burn-in repetitions). Let h be a function defined on the parameter space of the model. Under a suitable law of large numbers for Markov chains, it can be shown that</p><formula xml:id="formula_53">M -1 ∑ j = 1 M h(ζ (j) ) → ∫ Θ h(ζ)p(ζ|Y n )dζ as M → ∞. Note</formula><p>that the convergence is established in terms of the simulated sample size M and not in terms of the data sample size n (Chib, 2001;  Geweke and Keane, 2001; Hoogerheide et al., 2009). Thus, posterior moments such as mean and second moment can be easily estimated by taking h(ζ) = ζ and h(ζ) = ζζ′, respectively. The hyper-parameter r is not updated in the above illustrated Metropolis within Gibbs sampling scheme. <ref type="bibr">28</ref> The sampling from the conditional posterior density of the hyper-parameter r can be carried out with an argument similar to the one described above for λ. The hyper-parameter r plays a central role in generating heteroskedasticity robust estimates. In the preceding section, the prior of v i is assumed to be IG(r/2,r/2). Then, the prior mean and variance of v i are respectively given as r r-2 and 2r 2 r 3 -8r 2 þ 20r-16 . The prior variance approaches to zero and the prior mean approaches to 1 as r goes to infinity. This observation implies that v i converges in probability to its mean 1 as r → ∞. Thus, higher values of r are associated with a homoskedastic assumption and lower values imply a heteroskedastic assumption. <ref type="bibr">29</ref> In our Monte Carlo simulation we set r = 5 as the data generating process is assumed to be heteroskedastic.</p><p>The hyper-parameter affects estimates of variance components v i s through the conditional posterior distribution given in Eq. (4.20). Fig. <ref type="figure" target="#fig_2">1</ref> illustrates the effect of this parameter on the posterior mean of v for a sample size of n = 100 for the case of a heteroskedastic SARAR(1,0) specification. For this illustration, the spatial weight matrix W n is based on a small group interaction scenario, where group sizes are random draws from the interval (3,20). <ref type="bibr">30</ref> Fig. <ref type="figure" target="#fig_2">1(a)</ref> shows true group variances and the resulting disturbance terms. The other plots in Fig. <ref type="figure" target="#fig_2">1</ref> picture the effects of various r values on the estimates of variance components v i . Fig. <ref type="figure" target="#fig_2">1(b</ref>) indicates that the estimates are similar for r = 5,6,7. On the other hand, Fig. <ref type="figure" target="#fig_2">1(c</ref>) shows that the r-values bigger than 10 give estimates close to unity, suggesting a homoskedastic assumption. This example indicates that a hyperparameter value near 5 is an optimal choice for the estimation of heteroskedastic models.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.">Monte Carlo experiments</head><p>In the previous sections, we provided analytical results for the estimators. The conditional posterior distribution of the parameters indicates that the Bayesian estimators resemble to the generalized least square (GLS) estimators such that the effect of outliers is downweighted in the estimation. In the robust GMM approach, the sample moment functions are weighted with the inverse of their covariances so that they are made as close as possible to zero. Despite these analytical results, it is difficult to make any general statement about the performance of estimators in finite samples. Hence, to evaluate the finite sample properties of estimators, we resort to a Monte Carlo simulation.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.1.">Design</head><p>In this section, the small sample properties of the ML estimator, the robust GMM estimator and the Bayesian estimator are compared through Monte Carlo simulation experiments. The model is specified as</p><formula xml:id="formula_54">Y n ¼ λ 0 W n Y n þ X n β 0 þ ε n :<label>ð5:1Þ</label></formula><p>There are two regressors and no intercept term such that X n = [x n,1 , x n,2 ] and β 0 = (β 10 ,β 20 )′ = (1,1)′, where x n,1 and x n,2 are n × 1 vectors of variables. We use the date set described in Kelley Pace and Barry  (1997) on the votes cast in the 1980 presidential election across 3107 U.S. counties. We use the normalized version of the income per-capita and the homeownership from this data set for x n,1 and x n,2 , respectively. These variables are normalized by subtracting the corresponding sample averages, and then dividing by the sample standard deviations. The first n observations of these variables are used in the Monte Carlo experiment. The spatial autoregressive parameter λ 0 takes values from the set K = (-0.9,-0.6,-0.3,0,0.3,0.6,0.9) in order to allow for weak and strong spatial interactions.</p><p>The row normalized spatial weight matrices are based on the interaction scenario described in Arraiz et al. (2010) and Drukker et al.  (2013). In this interaction scenario, units are distributed across four quadrants of a space in a such way that the proportions of number of units in the northeast quadrant to the total number of units are allowed to vary by design. It is interesting to see the results for high density and low density cases. In a high density case, the units in the northeast portion are closer to each other. As stated in Arraiz et al. (2010), the location specification of units in this interaction scenario reflects the distribution of the U.S. states over space, where the northeastern portion contains relatively more states. The location of each unit across the space is determined by the xy-coordinates over a square grid. Let m and m be two integers. Then, the units in the northeast quadrant of the space have discrete coordinates satisfying m þ 1 ≤x ≤m and m þ 1≤y≤m, with an increment value of 0.5. For the other quadrants, the location coordinates are integers satisfying 1 ≤ x ≤ m, 1≤y≤m, and 1≤x ≤m, 1 ≤ y ≤ m.</p><p>The distance d ij between any two units i and j, located at (x 1 ,y 1 ) and (x 2 ,y 2 ) is measured by the Euclidean distance given by</p><formula xml:id="formula_55">d ij ¼ x 1 -x 2 ð Þ 2 þ y 1 -y 2 ð Þ 2 h i 1=2<label>:</label></formula><p>27 Theorem 1 of Tierney (1994) and Theorem 2 of Chib (2001) give conditions under which the convergence holds. Theorems 4-5 in Geweke (1993, p.S28-S29) show that these conditions hold for a non-spatial linear regression model. Therefore, it can be shown that these conditions also hold for linear spatial models. <ref type="bibr">28</ref> Following LeSage and Pace (2009), we assume that this parameter is known. In the Monte Carlo design, we set r = 5. <ref type="bibr">29</ref> Geweke (1993) shows that in the case where uninformative priors are assumed, the second moment of joint posterior density exists only if r N 4. For our case, the uninformative priors (uniform distributions) are assumed for the autoregressive parameters, therefore the lowest value that r can take is bigger than 4. LeSage and Pace (2009) suggest a value of r between 2 and 7 as an optimal choice for the estimation of heteroskedastic models. <ref type="bibr">30</ref> The block diagonal weight matrix is row normalized. Members of a group have the same variance. For each group, if the group size is greater than 10, we set the variance equal to the group size; otherwise we set the variance to the square of the inverse of the group size. This setup is similar to the one in Lin and Lee (2010).</p><p>Then, the (i,j) th element of the weight matrix is defined by</p><formula xml:id="formula_56">w ij ¼ 1 if 0≤d ij ≤1; 0 otherwise: &amp;</formula><p>We generate heteroskedasticity by using the number of neighbors a unit has. Let h i be the number of neighbors for unit i. Then, the ith element ε in of the innovation vector is generated in the following way</p><formula xml:id="formula_57">ε ni ¼ σ ni ξ ni ; σ ni ¼ c h i X n j¼1 h j =n; ð5:2Þ</formula><p>where σ ni is the standard error for the i-th observation and ξ ni 's are i.i.d. Normal(0,1). Here, the noise variance in a location is a function of a ratio of neighbors of that location to the average number of neighbors in the model. The idea is that having relatively larger number of neighbors in a neighborhood implies a larger noise variance. The constant c adjusts the signal-noise ratio of the model. For example, c = 10 yields an approximate signal-noise ratio of 0.55. We calculate the signal-noise ratio by the R 2 statistic suggested in Pace et al. (2012):</p><formula xml:id="formula_58">R 2 ¼ 1- E ε ′ n S -1 ′ n S -1 n ε n β ′ 0 X ′ n S -1 ′ S -1 n X n β 0 þ E ε ′ n S -1 ′ n S -1 n ε n ¼ 1- tr S -1 ′ n S -1 n Σ n β ′ 0 X ′ n S -1 ′ S -1 n X n β 0 þ tr S -1 ′ n S -1 n Σ n :<label>ð5:3Þ</label></formula><p>The Monte Carlo experiments are based on the combinations c; m; m ð Þ¼ 10; 5; 15 ð Þ ; 10; 7; 21 ð Þ ; 10; 14; 20 ð Þ ; 10; 20; 28 ð Þ f g , where the first two combinations yield high density cases whereas the last two combinations yield the low density cases in the northeastern portion. <ref type="bibr">31</ref> These combinations produce the corresponding sample sizes of n = {486,974,485,945}.</p><p>In all experiments, the following estimators are considered: (1) the Gaussian maximum likelihood estimator (MLE), (2) the robust generalized method of moment estimator (RGMME) of (3.7), <ref type="bibr">32</ref> (3) the Bayesian MCMC estimator (BE 1 ), where the Griddy Gibbs sampling method is used for λ, and (4) the Bayesian MCMC estimator (BE 2 ), where the random-walk Metropolis Hasting algorithm is used for λ. For each specification, the Monte Carlo experiment is based on 1000 repetitions. For the BEs, we run the MCMC algorithm 6000 times and discard the first 1000 iterations.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.2.">Simulation results</head><p>The simulation results are presented in Appendix B. In each table, the empirical mean (mean), the bias (Bias), the empirical standard error (SD) and the root mean square error (RMSE) of parameter estimates are presented near to each other for easy comparisons.</p><p>Before presenting the simulation results, a couple of points for the MLE should be considered. Theoretically, the MLE of λ 0 is generally inconsistent. The log-likelihood function under the assumption that the disturbance terms are i.i.d. normal(0, σ 0 2 ) is given by</p><formula xml:id="formula_59">ln L n θ; σ 2 ¼ - n 2 ln 2π ð Þ- n 2 ln σ 2 þ ln S n λ ð Þ j j- 1 2σ 2 ε ′ n θ ð Þε n θ ð Þ; ð5:4Þ where ε n (θ) = S n (λ)Y n -X n β.</formula><p>The solution of the first order conditions for β and σ 2 yields the ML estimators βn λ</p><formula xml:id="formula_60">ð Þ ¼ X ′ n X n -1 X ′ n S n λ ð ÞY n and σ2 n λ ð Þ ¼ 1 n ε ′ n λ; βn λ ð Þ ε n λ; βn λ ð Þ , where ε n λ; βn λ ð Þ ¼ S n λ ð Þ Y n -X n βn λ ð Þ.</formula><p>Concentrating out β and σ 2 from the log-likelihood yields</p><formula xml:id="formula_61">ln L n λ ð Þ ¼ - n 2 ln 2π ð Þ- n 2 ln σ 2 n λ ð Þ þ ln S n λ ð Þ j j:<label>ð5:5Þ</label></formula><p>The MLE of λ 0 is the extremum estimator obtained from the maximization of the concentrated log-likelihood function. The necessary condition for the consistency of λn requires plim n→∞ ∂lnLn λ ð Þ ∂λ ¼ 0. <ref type="formula">Lin and Lee   (2010)</ref>show that this condition is not satisfied in the presence of heteroskedastic disturbances. More specifically, the condition is</p><formula xml:id="formula_62">∂lnLn λ ð Þ ∂λ ¼ cov G n;ii ; σ 2 ni À Á σ 2 þ op 1</formula><p>ð Þ, where G n,ii s are diagonal elements of G n and</p><formula xml:id="formula_63">σ 2 ¼ 1 n ∑ n i¼1 σ 2 ni .</formula><p>Hence, the inconsistency of the MLE λn depends on the covariance between the diagonal elements of G n and the variance terms σ ni 2 s. For certain spatial weight matrices, the diagonal elements of G n are the same, implying a zero covariance with the individual variances. For a circular world weight matrix with equal diagonal elements that relate each unit to the units in front and in back, there is no variation in the diagonal element of G n . In this case, the necessary condition is not violated, even if the disturbance terms are heteroskedastic. The inconsistency of λn contaminates the MLE of β 0 , since it is a function of λn . The MLE of β 0 has an asymptotic bias of</p><formula xml:id="formula_64">λ 0 -λn X ′ n X n -1 X ′ G n X n β 0 .</formula><p>33 For our Monte Carlo setup, there is variation in the diagonal elements of G n , so the MLE of λ 0 and β 0 is expected to produce inconsistent estimates. Table <ref type="table" target="#tab_1">3</ref> shows the simulation results for c; m; m; n ð Þ¼ 10; 5; 15; 486 ð Þ . The MLE imposes substantial amount of bias on λ 0 for the case where there is negative strong spatial dependence relative to the case of strong positive spatial dependence. The same pattern shows itself for the BE estimates. The RGMME imposes relatively smaller bias on λ 0 in all cases. In cases where there is a positive spatial dependence, the MLE and BEs underestimate λ 0 , while the RGMME overestimates. In terms of finite sample efficiency measured by RMSE, the BEs of λ 0 are more efficient. Table <ref type="table" target="#tab_1">3</ref> also reports the estimation results for β 10 and β 20 . Theoretically, the bias reported for λ 0 also contaminates the estimates of β 10 and β 20 for the case of the MLE (Lin and Lee, 2010). The results for β 10 and β 20 are consistent with this theoretical prediction. The MLE of β 10 and β 20 has more than 5% bias in many cases. In terms of finite sample efficiency and bias, the BEs are performing better than the RGMME.</p><p>Table <ref type="table">4</ref> reports the estimation results for c; m; m; n ð Þ¼ 10; 7; 21; 974 ð Þ . The MLE results repeat the same pattern for λ 0 , β 10 and β 20 . Again, the BEs impose substantial amount of bias on λ 0 when there is a strong negative spatial dependence. In other cases, both BE 1 and BE 2 impose less than 5% bias on λ 0 . When there is positive spatial dependence, the MLE and the BEs underestimate λ 0 . The RGMME imposes almost no <ref type="bibr">31</ref> For details, see Arraiz et al. (2010). <ref type="bibr">32</ref> For the RGMME, we use two initial estimators: (i) the2SLS estimator formulated from the instrument matrix (W n 2 X n , W n X n , X n ), and (ii) the initial GMM estimator based on</p><formula xml:id="formula_65">Q n = (W n 2 X n , W n X n , X n ) and P n = (W n ′W n -Diag(W n ′W n )). Both initial esti-</formula><p>mators produce similar results, therefore we only report the results based on the initial GMM estimator. <ref type="bibr">33</ref> For an asymptotic argument, see Doğan and Taşpınar (2013a).</p><p>bias on λ 0 in all cases and is slightly more efficient. The finite sample efficiency is higher for all estimators relative to Table <ref type="table" target="#tab_1">3</ref>. For the case of β 10 and β 20 , the estimators report similar results and the BEs are relatively more efficient. Table <ref type="table" target="#tab_2">5</ref> reports the estimation results for c; m; m; n ð Þ¼ 10 ð ; 14; 20; 485Þ. Again, the MLE results repeat the same pattern for λ 0 , β 10 and β 20 . That is, the MLE imposes relatively greater bias on λ 0 when there is a strong negative spatial dependence. The BEs of λ 0 impose less than 5% bias in many cases and are relatively more efficient. For the case of β 10 and β 20 , the BEs are performing better than the RGMME in terms of bias and efficiency in most cases.</p><p>Finally, Table <ref type="table">6</ref> reports the estimation results for c; m; m; n ð Þ¼ 10; 20; 28; 945 ð Þ . Again, the MLE results repeat the same pattern for λ 0 , β 10 and β 20 . The RGMME imposes almost no bias on λ 0 , and it is as efficient as the BEs. Again, both BE 1 and BE 2 report almost identical results and they impose less than 5% bias on λ 0 in many cases. For the case of β 10 and β 20 , although the RGMME imposes relatively smaller bias, it is generally inefficient relative to the BEs.</p><p>Overall, the MLE imposes substantial amount of bias on λ 0 when there is strong negative spatial dependence in the model. The amount of bias does not decrease as the sample size increases. This pattern suggests inconsistency for the MLE. In the case of BEs, the amount of bias is generally greater relative to the RGMME. In terms of efficiency, the BEs are generally more efficient and the BE 1 performs better than the BE 2 .</p><p>In spatial models, the marginal effect calculations for the exogenous variables require a different analysis. For the model in Eq. ( <ref type="formula" target="#formula_54">5</ref>.1), the marginal effects are given by</p><formula xml:id="formula_66">∂Y n ∂x ′ n;k ¼ I n -λ 0 W n ð Þ -1 I n β k0 ; for k ¼ 1; 2:<label>ð5:6Þ</label></formula><p>The marginal effects take the form of n × n matrix (I n -λ 0 W n ) -1 I n β k0 . LeSage and Pace (2009) suggest scalar summary measures for the marginal effects. They label the average of the diagonal elements as the direct effects and the average of either the row sums or the column sums of the non-diagonal elements as the indirect effects. The total effect is the sum of the direct and indirect effects.</p><p>Tables <ref type="table">7</ref> and <ref type="table">8</ref> of Appendix B report the simulation results for the total effects. <ref type="bibr">34</ref> The general pattern from the estimates reported in these tables is that all estimators impose relatively larger bias on the total effect estimates when there is strong positive spatial dependence. Especially, the amount of bias is substantial when λ 0 = 0.9. As the sample size increases, the amount of bias decreases more in the case of RGMME. In terms of bias, the RGMME and the BE 1 perform better than the MLE, and the RGMME is slightly better than the BE 1 . In terms of the finite sample RMSE, the BEs and the MLE perform better than the RGMME and the BE 1 is relatively more efficient.</p><p>In general, the Monte Carlo results show that the RGMME is relatively inefficient when the sample size is 486 and when there exists positive spatial dependence. The efficiency of the RGMME depends on the selection of the moment functions for the estimation. As stated in Section 3, the best selection of the quadratic moment matrices is not available for the case where disturbance terms satisfy Assumption 1. Hence, the best selection of the linear and quadratic moment functions in the presence of heteroskedastic disturbances would provide further efficiency improvement for the RGMME. <ref type="bibr">35</ref> Another related issue is about the calculation of the measure of dispersion of the total effects. In practice, measures of dispersion of the total effects are needed to draw inferences regarding the point estimates. LeSage and Pace (2009) suggest a simulation method for the calculation of the dispersions of total effects, where the parameter estimates and asymptotic covariances of estimators are used. Hence, in this simulation method, the tradeoffs between bias and precisions of estimators may determine the quality of the inference regarding the marginal effect of explanatory variables. <ref type="bibr">36</ref> 6. Empirical illustrations</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.1.">Housing price model</head><p>In the first illustrative application, the Harrison and Rubinfeld  (1978) data set described in Gilley and Kelley Pace (1996) is used to estimate a hedonic housing-price model for a sample of 506 observations of census tracts in the Boston Standard Metropolitan Area in 1970. This data set has been used by many authors to illustrate various econometric techniques, see for example LeSage  (1999) and Baltagi (2008).</p><p>In this application, the median house price is explained by thirteen variables that are described more fully in Table <ref type="table">9</ref> of Appendix C: per-capita crime rate by town, proportion of residential land zoned for lots over 25,000 ft 2 , proportion of non-retail business acres per town, Charles River dummy variable, nitric oxides concentration parts per 10 million, average number of rooms per dwelling, proportion of owner-occupied units built prior to 1940, weighted distance to five Boston employment centers, index of accessibility to radial highways, full-value property tax rate, pupil-teacher ratio by town, proportion of blacks per town, and proportion of lower class per town. <ref type="bibr">37</ref> We construct a contiguity weight matrix following LeSage (1999, p.115). <ref type="bibr">38</ref> The estimation results are given in Table <ref type="table" target="#tab_0">1</ref>. First of all, the null hypothesis of no heteroskedasticity is rejected as indicated by the Breusch-Pagan LM tests and its Koenker version. <ref type="bibr">39</ref> The presence of heteroskedasticity can also be tested from the Bayesian perspective by investigating the posterior mean of variance components. Recall that the Bayesian estimators are based on the assumption that the covariance matrix Σ n can be decomposed as σ 2 V n , where V n = Diag(v 1 ,…,v n ). Thus, the estimates of v i s that deviate substantially from unity indicate the presence of heteroskedasticity. The posterior mean of variance components v i s are presented in Fig. <ref type="figure" target="#fig_3">2</ref>. The estimates of the variance components indicate that the constant variance assumption may not hold for this application.</p><p>The parameter estimates in Table <ref type="table" target="#tab_0">1</ref> are mostly in agreement except for the pollution (denoted by nox) and house age variables. The Bayesian estimator reports a negative insignificant estimate for the pollution variable. <ref type="bibr">40</ref> Both MLE and RGMME report negative significant estimates for the pollution variable, which represents important policy implications for this variable. In the case of house age variable, the Bayesian estimate is negative and significant, while both MLE and RGMME report insignificant positive estimates.  The estimate of the spatial autoregressive parameter λ is 0.4549 for the MLE, 0.4373 for the RGMME and 0.4126 for the BE. For similar sample sizes, our Monte Carlo results in Tables <ref type="table" target="#tab_1">3</ref> and <ref type="table" target="#tab_2">5</ref> show that both the MLE and BE underestimate this parameter, while the RGMME imposes almost no bias. The estimation results for λ from this empirical application are not consistent with the Monte Carlo results.</p><p>The last three columns of Table <ref type="table" target="#tab_0">1</ref> report the total effect estimates of the exogenous variables. Again the important difference is observed for the total effect of the pollution and house age variables. These differences imply important policy implications toward the effect of these variables on house prices. The t-statistics reported for the RGMM total effect estimates are relatively smaller in most cases, which are consistent with the Monte Carlo results of Tables <ref type="table">7</ref> and <ref type="table">8</ref> of Appendix B, where RMSE of the total effect estimates from the RGMME are relatively greater.</p><p>The question that how to choose between estimators for this application should be considered along the specification issues for the housing price model. <ref type="bibr">41</ref>  LeSage (1999) provides evidences that the SARAR(1,0) specification may not be the correct specification for this application. In the presence of mis-specifications, the performance of estimators can change as shown in the next application.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.2.">Dual gravity model</head><p>This second empirical illustration checks for the robustness of some of the results presented in Behrens et al. (2012), which estimates the so-called gravity equation system using techniques borrowed from spatial econometrics. For the analysis bilateral trade flows, the gravity equation system yields convenient regression specifications. Although theoretical ground is simple and powerful, estimation is not straightforward owing to the problem of how to account for the interdependence among trade flows. If one were to implicitly assume that trade flows between any two trading partners are independent from the rest of the world, then including ad hoc regional remoteness indices or origin and destination specific fixed effects into the specification could provide a way to control for interdependence. However, the independence assumption between trade flows lacks theoretical foundation. Behrens et al. (2012) make the observation that structural estimation of gravity equation systems depends on the correct treatment of the unobservable price indices. Their idea is to utilize, instead, some other observed factor that has one-to-one correspondence with unobserved price indices. To do so, they derive a gravity equation from the quantity-based version of the constant elasticity of substitution (CES) model by making the observation that price indices are implicit functions of trade flows. Conveniently, the solution yields an econometric specification that properly accounts for interdependence between trade flows. Estimation can be carried out with spatial econometrics methods which explicitly impose certain structures on spatial dependence over cross sectional units via spatial weight matrices. Moreover, the structural model yields the spatial dependence structure, which allows skipping extensive sensitivity analysis.</p><p>The model consists of n regions, each of which is populated with workers who have inelastic labor supply. Region i is endowed with L i unit of labor, which is the only production factor. Let Z ij ≡ F ij Y i Y j be the GDP-standardized trade flow from region i to region j, where F ij is the value of trade flows from i to j, and Y i and Y j stand for GDP level in i and j, respectively. The CES monopolistic competition model with free entry in Behrens et al. (2012) yields the following expression for the trade flows from region i to j</p><formula xml:id="formula_67">log Z ij ¼ -σlog L ð Þ-σ -1 ð Þ log τ ij - X n k¼1 L k L log τ kj ! -σ log w i ð Þ-σ -1 ð Þ X n k¼1 L k L log Z kj ;<label>ð6:1Þ</label></formula><p>where</p><formula xml:id="formula_68">L i is the population of region i, L ≡ ∑ k = 1 n</formula><p>L k is the total world population, τ ij is the iceberg trade costs of shipping one unit of any variety between region i and j, and σ N 1 denotes the constant elasticity of substitution between any two product varieties. The last term in Eq. ( <ref type="formula" target="#formula_67">6</ref>.1) shows that trade flow between region i and j depends on all the trade flows from other regions k to region j. Since varieties are substitutes, higher flows from other regions k to region j reduce flows from region i to region j. Lower relative trade barriers measured by the deviation of bilateral trade barriers from the population weighted average, which are denoted by</p><formula xml:id="formula_69">log τ ij -∑ n k¼1 L k L log τ kj Þ</formula><p>, increase trade flows from i to j. Also, lower wages in the origin region i improve the competitiveness of region i's firms in market j and thus increase the trade flows from i to j.</p><p>In matrix form Eq. ( <ref type="formula" target="#formula_67">6</ref>.1) can be written as</p><formula xml:id="formula_70">ℤ ¼ -σ ln L ð Þl n 2 -σ -1 ð Þ I n 2 -W À Á τ-σ w-σ-1 ð ÞWℤ;<label>ð6:2Þ</label></formula><p>where ℤ denotes the n 2 × 1 vector of log of GDP-standardized trade flows stacked, l is the n 2 × 1 vector of ones, τ is the n 2 × 1 vector of the log trade costs, w is the n 2 × 1 vector of log origin wages, I n 2 is the n 2 × n 2 identity matrix, and W = (S × D(L)) ⊗ I n is the n 2 × n 2 spatial weight matrix. S is the n × n matrix whose elements are equal to 1 and D(L) denotes the n × n diagonal matrix with kth diagonal term of L k L . <ref type="bibr">42 Behrens et al. (2012)</ref> assume that the iceberg trade costs of shipping one unit of any variety between region i and j relate to distance and border effects by τ ij = d ij γ exp(ξb ij ), where the distance between regions i and j is denoted by d ij , and b ij is a dummy variable taking the value 1 if the trade flows cross an international border and zero otherwise. Taking the logarithm and rewriting it in matrix form yields τ = γd + ξb, where d is the n 2 × 1 vector with elements log(d ij ) and b is the n 2 × 1 vector of dummy variables indicating cross-border flows. Then, e</p><formula xml:id="formula_71">τ ¼ I n 2 -W ð Þ τ ¼ I n 2 -W ð Þγd þ ξb ð Þ¼γ e d þ ξ e b . Substituting back into Eq. (6.2) yields ℤ ¼ β 0 l n 2 þ β 1 e d þ β 2 w þ θ e b þ λWℤ;<label>ð6:3Þ</label></formula><p>where</p><formula xml:id="formula_72">β 0 ≡ -σln(L) b 0 is the constant term, β 1 ≡ -(σ-1)γ b 0</formula><p>is the distance coefficient of deviations from population weighted average <ref type="bibr">41</ref> The specification for the spatial weight matrix should also be considered. We also investigated the performance of estimators for this application through a Monte Carlo study in which we use the data set of this application. We consider two data generating processes: (i) the true data generating process is characterized by the parameter estimates reported by the RGMME, (ii) the true data generating process is based on the parameter estimates reported by the BE. The heteroskedastic disturbances are generated by using posterior mean of v i . The simulation results for both data generating processes are inconsistent with the results reported by the RGMME and BE in Table <ref type="table" target="#tab_0">1</ref>. This result may indicate the presence of a model mis-specification for this application. The results are available upon request.</p><p>distances, β 2 ≡ -σ b 0 is the coefficient of wage at the origin region, θ ≡ -(σ-1)ξ b 0 denotes the coefficient of border effects, and the spatial autoregressive parameter λ ≡ -(σ-1) b 0 captures the strength of the interdependence across trade flows, i.e., a measure of spatial competition. Adding a disturbance term to Eq. ( <ref type="formula" target="#formula_67">6</ref>.3), we obtain the following SARAR(1,0) regression specification</p><formula xml:id="formula_73">ℤ ¼ λWℤ þ Xγ þ ϵ;<label>ð6:4Þ</label></formula><p>where X ¼ l n 2 ; e d; w; e b , γ = (β 0 ,β 1 ,β 2 ,θ)′, and ϵ is the n 2 × 1 column vector of independently distributed disturbance term. <ref type="bibr" target="#b2">43</ref> </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.2.1.">Data and the results</head><p>The data set contains information on bilateral trade flows between 30 U.S. states and 10 Canadian provinces. <ref type="bibr">44</ref> The aggregate manufacturing exports F ij , internal absorption F ii , and regional GDPs Y i are measured in millions of U.S. dollars for the year 1993. The bilateral distances between the states and provinces using the great circle formula applied to the state and province capitals' geographic coordinates: between any two regions i and j</p><formula xml:id="formula_74">d ij ¼ ℝ 0 Â arccos cos ϱ i -ϱ j cos ψ i ð Þcos ψ j þ sin ψ i ð Þsin ψ j ;<label>ð6:5Þ</label></formula><p>where R 0 is the Earth's radius, and ϱ i and ψ i denote region i's longitude and latitude, respectively. We use</p><formula xml:id="formula_75">d ii ¼ 1 3 surf i π 1=2</formula><p>to measure internal trade costs, where surf i refers to region i's surface. <ref type="bibr">45</ref> The regional wages w i are average hourly manufacturing wages for the year 1988 at the state and province level. The regional and provincial population shares are computed from 1988 population figures. <ref type="bibr">46</ref> The reason for choosing 5-year lagged values of regional population and wage values is to control for potential endogeneity. Behrens et al. (2012) successfully replicate the results in Anderson  and van Wincoop (2003) and Feenstra (2004) and show that there remains a significant amount of cross-sectional correlation in the OLS residuals. Therefore, the OLS estimator is inefficient and may be biased. Their OLS estimates confirm that treating trade flows as independent yields puzzling large values for the border coefficient. <ref type="bibr">47</ref> Table <ref type="table">2</ref> presents the ML, the RGMM, and the Bayesian (BE 1 ) estimates for the SARAR(1,0) model. The columns 1-4 indicate that the ML results are similar with the results presented in Behrens et al.  (2012). The Breusch-Pagan LM statistic provides strong evidence for heteroskedasticity in the ML residuals, suggesting inconsistency for the MLE. Fig. <ref type="figure" target="#fig_5">3</ref> shows the plots of the posterior mean of v i s for this application. The substantial deviation of the posterior mean of v i from the unity also indicates the presence of heteroskedasticity in this application.</p><p>The estimated parameter values for the spatial autoregressive parameter λ from all estimators are positive, which is opposite of the</p><p>Table 2 SARAR(1,0) estimation results. log(Z ij ) log(Z ij )(US -US flows × 1.3) ML RGMM BE 1 ML RGMM BE 1</p><p>the border effects in any region may depend on a spatially weighted average of resistance variables and border effects in all the other regions. Hence, they conjecture that error terms may exhibit some form spatial dependence as well and consider two ways of introducing the error terms: (i) as noise in the measurement of trade costs, i.e., τ ij = d ij γ exp(ξb ij + ϵ ij ), where ϵ ij is an i.i.d. normal error term; and (ii) as noise in the measurement of the trade flows, i.e., Z ij real ≡ Z ij obs exp(ϵ ij ). But, the authors assume a first-order spatial moving average process for the error process in an ad hoc manner and specify: u = ϵ-ρW d ϵ, where W d ≡ (W-D(L)⊗I n ) and ρ is the spatial moving average parameter. Then, Eq. ( <ref type="formula" target="#formula_67">6</ref>.3) and the specification for u correspond to the SARMA(1,1) model. <ref type="bibr">44</ref> Available at Robert C. Feenstra's data page: <ref type="url" target="http://cid.econ.ucdavis.edu/)">http://cid.econ.ucdavis.edu/</ref>.</p><p>45 Behrens et al. (2012) also employ two other measures of internal trade costs:</p><p>(i) 1 4 min j d ij À Á , and (ii) 2 3 surfi π ð Þ 1=2 . <ref type="bibr">46</ref> See Behrens et al., 2012, Appendix B) for further details. <ref type="bibr">47</ref> McCallum (1995) finds that the Canadian provinces seem to trade 21.5 to 27 times more with themselves than with US states of equal size and distance.</p><p>predicted sign. The RGMM and ML estimates of the spatial autoregressive parameter are insignificant, whereas the BE estimates are significant. The results are incompatible with the qualitative prediction of the model. Behrens et al. 2012 state that this anomaly stems from the specification adopted for the disturbance terms. There is no assumed process for the disturbance terms in a SARAR(1,0) specification. Behrens et al. (2012) show that when a SARAR(1,1) or a SARMA(1,1) specification is adopted, the estimate of λ turns to be negative and significant as predicted by the underlying theory. The disturbance process is specified as ϵ = ρWϵ + ζ for a SARAR(1,1) model and ϵ = ρWζ + ζ for a SARMA(1,1) model. Here, ζ is n 2 × 1 vector of innovations and ρ is another dependence parameter. In both specifications, the diagonal elements of the covariance matrix of ϵ are not the same, suggesting heteroskedasticity. Hence, when the true data generating process is characterized by a SARAR(1,1) or a SARMA(1,1) model, the regression disturbance terms, i.e., the elements of ϵ, are heteroskedastic even if the elements of innovation vector ζ are homoskedastic. Our results in Table <ref type="table">2</ref> show that estimating the misspecified model SARAR(1,0) instead of SARAR(1,1) or SARMA(1,1), the heteroskedasticity robust estimators do not yield the predicted sign for λ. Hence, the correct specification of the disturbance process plays a vital role for the estimation of the autoregressive parameter for this application.</p><p>Turning to the explanatory variables, we see that all estimators capture the predicted signs. There does not seem to be a significant difference between the estimated coefficients. In addition, the estimated coefficients are almost identical to the ones reported for a SARAR(1,1) and a SARMA(1,1) model in Behrens et al. (2012). This result indicates that the coefficients of explanatory variables remain fairly stable across specifications.</p><p>The bottom lines of Table <ref type="table">2</ref> report the estimated border effects, which are defined as the ratio of trade flows in a world with border to that in a borderless world. Let Z ij be the GDP standardized trade flows in a world with border, and Z ij be the GDP standardized trade flows in a borderless world. From Eq. (6.1), the logarithm of the border effects</p><formula xml:id="formula_76">log B ij À Á ¼ log Z ij Z ij</formula><p>can be written as</p><formula xml:id="formula_77">log B ij ¼ log Z ij Z ij ! ¼ θ b ij - X n k¼1 L k L b kj ! þ λ X n k¼1 L k L log Z kj Z kj ! :<label>ð6:6Þ</label></formula><p>The reduced form of the above equation can be written in vector form as follows</p><formula xml:id="formula_78">B ¼ θ I n 2 -λW À Á -1 b;<label>ð6:7Þ</label></formula><p>where B is the n 2 × 1 vector stacking log</p><formula xml:id="formula_79">Z ij Z ij !</formula><p>, and b is the</p><formula xml:id="formula_80">n 2 × 1 vector with ijth element b ij -∑ n k¼1 L k L b kj Þ</formula><p>. Under the assumption that I n 2 -λW À Á -1 exists, the above equation can be written as B ¼ θ∑ ∞ l¼0 λ l W l b. The special structure of W implies that W l b ¼ 0, for l = 1,2,…. (Behrens et al., 2012). Then, the log of border effects simplifies as</p><formula xml:id="formula_81">log B ij ¼ θðb ij - X n k¼1 L k L b kj Þ ¼ f -θ X k∈US L k L if i ∈CA; j∈CA CA-CA ð Þ ; θ X k∈US L k L ifi∈CA; j∈US CA-US ð Þ ; θ X k∈CA L k L ifi∈US; j∈CA US-CA ð Þ ; -θ X k∈CA L k L ifi∈US; j∈US US-US ð Þ :<label>ð6:8Þ</label></formula><p>Thus, the border effects are decomposed into two components: the trade-boosting intra-national effect denoted by CA-CA and US-US, and the trade reducing international effect denoted by CA-US and US-CA. The trade boosting intra-national effect is defined as the increase in the intra-national trade due to the presence of the borders. The rationale is that the international borders protect domestic firms against the competition of foreign firms and thus create an advantage for the domestic firm. The trade reducing international effect is defined as the effect of the international border on trade flows across countries. The volume of trade flows will be higher in a borderless world than in a world with borders. Finally, the logarithm of total border effects is obtained by combining the trade boosting and reducing effects, which are given by -2ξλ∑ k∈US</p><p>L k L for the Canadian provinces and -2ξλ ∑ k∈CA L k L for the US states.  The estimated border effects for Canadian provinces and US states in Table <ref type="table">2</ref> are similar to those reported by Behrens et al.  (2012) and they range from 6.3 to 9.8 for Canadian provinces and cluster around 1.3 for US states. <ref type="bibr">48</ref> The total border effect for the Canadian provinces is estimated as 6.5670 by the RGMME in the second column. The same column shows that the total border effect of U.S. is 1.2767.</p><p>As a robustness check, columns 4-6 of Table <ref type="table">2</ref> replicates the results when all US state-state trade flows are inflated by a factor of 1.3, because the construction of data set involves scaling of shipping data, which may understate trade flows between US states while making the Canadian intra border effects seem significantly larger than that of US states. <ref type="bibr">49</ref> The estimated parameter coefficients are similar to the ones in columns 1-3. The estimated values of elasticity of substitution however are less than unity contrary to the model's assumption.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="7.">Conclusion</head><p>This study examines the effect of unknown forms of heteroskedasticity on spatial models that have a spatial autoregressive process in the dependent variable. The GMM and Bayesian methodologies have the advantage that the estimator formulated from these estimation frameworks can be robust to an unknown form of heteroskedasticity. In the GMM framework, the unknown heteroskedasticity is incorporated into estimation through the formulation of appropriate moment functions. The quadratic moment functions considered for the estimation are designed in a such way that the orthogonality condition of the moment functions is not violated in the presence of heteroskedastic disturbance terms. In the Bayesian framework, the structure of the heteroskedasticity is assumed to have two components: (i) a constant component and (ii) a component that varies across observations. The important assumption of the Bayesian approach is that the component that varies over observations is assumed to be i.i.d. to facilitate the estimation. The mean of the resulting conditional posterior distribution of the parameters of the exogenous variables indicates that the Bayesian estimator mimics the generalized least squares estimator, where the aberrant observations are automatically down-weighted in the estimation.</p><p>To compare finite sample properties of the heteroskedastiticy robust estimators, a Monte Carlo simulation is designed for the case of SARAR(1,0). The Monte Carlo simulation results show that the MLE of the autoregressive parameter imposes significant bias and the bias amount does not decrease as the sample size increases. The RGMME imposes trivial biases in all cases. The Bayesian estimator is efficient relative to the RGMME, but it imposes relatively larger bias on the autoregressive parameter when there is strong negative spatial dependence. The Monte Carlo results for the estimates of the total effects of exogenous variables show that the RGMME is slightly better than the Bayesian estimator in terms of bias. In terms of finite sample efficiency, the Bayesian estimator is more efficient.</p><p>In the final section, we present two empirical illustrations to show how the heteroskedasticity robust estimators perform in applied research. In the first illustrative application, the Harrison and   Rubinfeld (1978) data set described in Gilley and Kelley Pace  (1996) is used to estimate a hedonic housing-price model for a sample of 506 observations of census tracts in the Boston Standard Metropolitan Area in 1970. The estimation results show that the parameter estimates for the pollution and housing age variables do not agree, which in turn imply important policy implication toward these variables. In the second application, we try to see the effect of ignoring potential heteroskedasticity in a gravity model of bilateral trade flows between Canadian provinces and US states. We replicate some of the results in Behrens et al. (2012). Although the structural model dictates negative cross-sectional correlation among trade flows, the heteroskedasticity robust RGMM and Bayesian estimators do not able to capture it. This result may indicate that the correct specification of the process for the disturbance terms is vital for the estimation of the autoregressive parameter in spatial models.</p><p>Appendix A. Some useful lemmas Lemma 1. Completion of Square Let A and B be positive definite n × n matrices. Define C -1 = A -1 + B -1 and D = A + B. Let x, α and γ be n × 1 vectors. Then, there exists an n × 1 vector μ such that</p><formula xml:id="formula_82">x-α ð Þ ′ A -1 x-α ð Þþ x-γ ð Þ ′ B -1 x-γ ð Þ¼ x-μ ð Þ ′ C -1 x-μ ð Þþ α-γ ð Þ ′ D -1 α-γ ð Þ ;<label>ðA:1Þ</label></formula><p>where μ = C(A -1 α + B -1 γ).</p><p>Proof. See Abadir and Magnus (2005, Exercise 8.15, p. 216). □ Lemma 2. Let A n , B n and C n be n × n matrices with ijth elements respectively denoted by a n,ij , b n,ij and c n,ij . Assume that A n and B n have zero diagonal elements, and C n has uniformly bounded row and column sums in absolute value. Assume that ε n satisfies Assumption 1 with covariance matrix denoted by Σ n = Diag{σ n1 2 ,…,σ nn 2 }. Then,</p><formula xml:id="formula_83">E ε ′ n A n ε n Á ε ′ n B n ε n ¼ X n i¼1 X n j¼1 a n;ij b n;ij þ b n;ji σ 2 ni σ 2 nj ¼ tr Σ n A n B ′ n Σ n þ Σ n B n where Σ n ¼ Diag σ 2 n1 ; …; σ 2 nn : (2) E ε n C n ε ð Þ 2 ¼ X n i¼1 c 2 n;ii E ε 4 ni -3σ 4 ni h i þ À X n i¼1 c n;ii σ 2 ni Þ 2 þ X n i¼1 X n j¼1 c n;ij c n;ij þ c n;ji σ 2 ni σ 2 nj ¼ X n i¼1 c 2 n;ii E ε 4 ni -3σ 4 ni h i þ tr 2 Σ n C n ð Þ þ tr Σ n C n C ′ n Σ n þ Σ n C n Σ n C n ; (3) var ε n C n ε ð Þ¼ X n i¼1 c 2 n;ii E ε 4 ni -3σ 4 ni h i þ X n i¼1 X n j¼1 c n;ij c n;ij þ c n;ji σ 2 ni σ 2 nj ¼ X n i¼1 c 2 n;ii E ε 4 ni -3σ 4 ni h i þ tr Σ n C n C ′ n Σ n þ Σ n C n Σ n C n :<label>(1)</label></formula><p>Proof. See Lin and Lee (2010). □ Table 4 c ¼ 10; m ¼ 7; m ¼ 21; N ¼ 974. λ (Mean)[Bias](Std.)[RMSE] (Mean)[Bias](Std.)[RMSE] (Mean)[Bias](Std.)[RMSE] (Mean)[Bias](Std.)[RMSE] λ ML λ RGMM λ BE1 λ BE2 -0.9 (-0.7196)[0.1804](0.0407)[0.1850] (-0.9032)[-0.0032](0.0675)[0.0676] (-0.7616)[0.1384](0.0377)[0.1434] (-0.7598)[0.1402](0.0377)[0.1452] -0.6 (-0.4653)[0.1347](0.0553)[0.1456] (-0.5985)[0.0015](0.0743)[0.0743] (-0.4864)[0.1136](0.0523)[0.1251] (-0.4849)[0.1151](0.0522)[0.1264] -0.3 (-0.2398)[0.0602](0.0614)[0.0859] (-0.3002)[-0.0002](0.0808)[0.0808] (-0.2506)[0.0494](0.0605)[0.0782] (-0.2492)[0.0508](0.0607)[0.0792] 0.0 (-0.0000)[-0.0000](0.0652)[0.0652] (0.0034)[0.0034](0.0778)[0.0779] (-0.0003)[-0.0003](0.0638)[0.0638] (0.0011)[0.0011](0.0639)[0.0639] 0.3 (0.2604)[-0.0396](0.0589)[0.0710] (0.3016)[0.0016](0.0661)[0.0661] (0.2630)[-0.0370](0.0587)[0.0694] (0.2644)[-0.0356](0.0588)[0.0687] 0.6 (0.5461)[-0.0539](0.0475)[0.0718] (0.5991)[-0.0009](0.0483)[0.0483] (0.5515)[-0.0485](0.0463)[0.0671] (0.5530)[-0.0470](0.0464)[0.0661] 0.9 (0.8721)[-0.0279](0.0248)[0.0373] (0.9050)[0.0050](0.0591)[0.0593] (0.8746)[-0.0254](0.0237)[0.0348] (0.8760)[-0.0240](0.0237)[0.0337] β 10,ML β 10,RGMM β 10;BE1 β 10;BE2 -0.9 (1.0211)[0.0211](1.6046)[1.6047] (1.0610)[0.0610](1.6076)[1.6087] (0.9887)[-0.0113](1.5532)[1.5532] (0.9894)[-0.0106](1.5513)[1.5513] -0.6 (1.0065)[0.0065](1.6063)[1.6063] (1.0030)[0.0030](1.6123)[1.6123] (0.9683)[-0.0317](1.5478)[1.5481] (0.9680)[-0.0320](1.5495)[1.5499] -0.3 (1.0701)[0.0701](1.6015)[1.6030] (1.0658)[0.0658](1.6139)[1.6153] (1.0779)[0.0779](1.5654)[1.5673] (1.0786)[0.0786](1.5674)[1.5694] 0.0 (1.0649)[0.0649](1.6261)[1.6274] (1.0731)[0.0731](1.6267)[1.6284] (1.0809)[0.0809](1.5482)[1.5503] (1.0809)[0.0809](1.5501)[1.5522] 0.3 (0.9337)[-0.0663](1.6115)[1.6128] (0.9535)[-0.0465](1.5974)[1.5981] (0.9377)[-0.0623](1.5471)[1.5483] (0.9398)[-0.0602](1.5444)[1.5456] 0.6 (0.9652)[-0.0348](1.6350)[1.6353] (1.0018)[0.0018](1.6136)[1.6136] (0.9817)[-0.0183](1.5528)[1.5529] (0.9814)[-0.0186](1.5545)[1.5546] 0.9 (0.9027)[-0.0973](1.6747)[1.6775] (0.9567)[-0.0433](1.6404)[1.6409] (0.8988)[-0.1012](1.6249)[1.6281] (0.9012)[-0.0988](1.6229)[1.6259] β 20,ML β 20,RGMM β 20;BE1 β 20;BE2 -0.9 (1.0287)[0.0287](1.6837)[1.6839] (0.9457)[-0.0543](1.6895)[1.6903] (1.0572)[0.0572](1.6210)[1.6220] (1.0568)[0.0568](1.6193)[1.6203] -0.6 (1.0047)[0.0047](1.6904)[1.6904] (0.9909)[-0.0091](1.6999)[1.6999] (1.0455)[0.0455](1.6202)[1.6209] (1.0459)[0.0459](1.6219)[1.6226] -0.3 (0.9319)[-0.0681](1.6776)[1.6789] (0.9311)[-0.0689](1.6916)[1.6930] (0.9224)[-0.0776](1.6304)[1.6323] (0.9216)[-0.0784](1.6325)[1.6344] 0.0 (0.9348)[-0.0652](1.7068)[1.7081] (0.9217)[-0.0783](1.7087)[1.7105] (0.9188)[-0.0812](1.6124)[1.6144] (0.9192)[-0.0808](1.6146)[1.6166] 0.3 (1.0642)[0.0642](1.6934)[1.6946] (1.0330)[0.0330](1.6789)[1.6793] (1.0577)[0.0577](1.6188)[1.6199] (1.0554)[0.0554](1.6158)[1.6168] 0.6 (1.0585)[0.0585](1.7133)[1.7143] (0.9997)[-0.0003](1.6908)[1.6908] (1.0392)[0.0392](1.6154)[1.6159] (1.0389)[0.0389](1.6169)[1.6174] 0.9 (1.1256)[0.1256](1.7475)[1.7520] (1.0394)[0.0394](1.7094)[1.7099] (1.1259)[0.1259](1.6853)[1.6900] (1.1217)[0.1217](1.6828)[1.6872] Table 6 c ¼ 10; m ¼ 20; m ¼ 28; N ¼ 945. λ (Mean)[Bias](Std.)[RMSE] (Mean)[Bias](Std.)[RMSE] (Mean)[Bias](Std.)[RMSE] (Mean)[Bias](Std.)[RMSE] λ ML λ RGMM λ BE1 λ BE2 -0.9 (-0.7963)[0.1037](0.0275)[0.1073] (-0.9006)[-0.0006](0.0371)[0.0371] (-0.8542)[0.0458](0.0202)[0.0500] (-0.8528)[0.0472](0.0201)[0.0513] -0.6 (-0.4706)[0.1294](0.0424)[0.1362] (-0.5961)[0.0039](0.0497)[0.0498] (-0.5348)[0.0652](0.0364)[0.0747] (-0.5334)[0.0666](0.0365)[0.0760] -0.3 (-0.2329)[0.0671](0.0489)[0.0830] (-0.3030)[-0.0030](0.0646)[0.0647] (-0.2671)[0.0329](0.0435)[0.0545] (-0.2656)[0.0344](0.0434)[0.0554] 0.0 (0.0015)[0.0015](0.0587)[0.0587] (0.0022)[0.0022](0.0722)[0.0722] (0.0010)[0.0010](0.0511)[0.0511] (0.0025)[0.0025](0.0512)[0.0512] 0.3 (0.2421)[-0.0579](0.0591)[0.0827] (0.2964)[-0.0036](0.0667)[0.0668] (0.2675)[-0.0325](0.0489)[0.0587] (0.2689)[-0.0311](0.0489)[0.0580] 0.6 (0.5269)[-0.0731](0.0538)[0.0907] (0.6013)[0.0013](0.0527)[0.0527] (0.5602)[-0.0398](0.0420)[0.0579] (0.5616)[-0.0384](0.0420)[0.0569] 0.9 (0.8602)[-0.0398](0.0276)[0.0484] (0.8982)[-0.0018](0.0250)[0.0250] (0.8772)[-0.0228](0.0195)[0.0300] (0.8787)[-0.0213](0.0195)[0.0289] β 10,ML β 10,RGMM β 10;BE1 β 10;BE2 -0.9 (1.1639)[0.1639](1.3388)[1.3488] (1.0210)[0.0210](1.2981)[1.2983] (1.0792)[0.0792](1.2288)[1.2313] (1.0812)[0.0812](1.2293)[1.2320] -0.6 (1.0914)[0.0914](1.3231)[1.3263] (1.0228)[0.0228](1.3082)[1.3084] (1.0501)[0.0501](1.2298)[1.2308] (1.0501)[0.0501](1.2283)[1.2293] -0.3 (1.1016)[0.1016](1.3052)[1.3091] (1.0753)[0.0753](1.3066)[1.3088] (1.0902)[0.0902](1.2222)[1.2255] (1.0919)[0.0919](1.2214)[1.2249] 0.0 (0.9676)[-0.0324](1.2531)[1.2535] (0.9726)[-0.0274](1.2533)[1.2536] (0.9700)[-0.0300](1.2016)[1.2020] (0.9708)[-0.0292](1.2024)[1.2028] 0.3 (1.0165)[0.0165](1.2885)[1.2886] (1.0348)[0.0348](1.2742)[1.2747] (1.0103)[0.0103](1.1888)[1.1888] (1.0089)[0.0089](1.1881)[1.1881] 0.6 (0.9443)[-0.0557](1.2591)[1.2603] (0.9747)[-0.0253](1.2198)[1.2200] (0.9769)[-0.0231](1.1702)[1.1704] (0.9769)[-0.0231](1.1702)[1.1704] 0.9 (0.9342)[-0.0658](1.3342)[1.3358] (1.0016)[0.0016](1.2815)[1.2815] (0.9722)[-0.0278](1.2024)[1.2027] (0.9718)[-0.0282](1.2024)[1.2028] β 20,ML β 20,RGMM β 20;BE1 β 20;BE2 -0.9 (0.9104)[-0.0896](1.4123)[1.4152] (0.9605)[-0.0395](1.3741)[1.3747] (0.9466)[-0.0534](1.2838)[1.2849] (0.9457)[-0.0543](1.2840)[1.2852] -0.6 (0.9490)[-0.0510](1.4096)[1.4106] (0.9742)[-0.0258](1.3957)[1.3960] (0.9702)[-0.0298](1.2991)[1.2994] (0.9706)[-0.0294](1.2974)[1.2977] -0.3 (0.9017)[-0.0983](1.3883)[1.3918] (0.9169)[-0.0831](1.3910)[1.3935] (0.9087)[-0.0913](1.2894)[1.2926] (0.9070)[-0.0930](1.2887)[1.2921] 0.0 (1.0299)[0.0299](1.3247)[1.3251] (1.0210)[0.0210](1.3250)[1.3252] (1.0258)[0.0258](1.2601)[1.2604] (1.0248)[0.0248](1.2612)[1.2614] 0.3 (0.9876)[-0.0124](1.3666)[1.3667] (0.9528)[-0.0472](1.3510)[1.3518] (0.9887)[-0.0113](1.2478)[1.2478] (0.9899)[-0.0101](1.2474)[1.2474] 0.6 (1.0860)[0.0860](1.3324)[1.3351] (1.0149)[0.0149](1.2895)[1.2896] (1.0348)[0.0348](1.2278)[1.2283] (1.0340)[0.0340](1.2278)[1.2282] 0.9 (1.1057)[0.1057](1.4140)[1.4180] (0.9816)[-0.0184](1.3558)[1.3559] (1.0441)[0.0441](1.2568)[1.2576] (1.0427)[0.0427](1.2569)[1.2576] </p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><figDesc>): (i) β ~N(c,T), (ii) σ 2 ~IG(a,b), where IG(a,b) is the inverse gamma density function with the shape parameter a and the scale parameter b, (iii) r v i ∼ i.i.d. χ 2 (r), for i = 1,…,n, where the degrees of freedom parameter r has gamma distribution, namely r ~G(m,k), (iv) λ∼U -</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><figDesc>:8Þ Note that p(v) is the joint prior distribution function of v i for i = 1,…, n. 20 In the formulation of prior density functions, Γ(•) denotes Gamma function defined by Γ(a) = ∫ 0 ∞ μ a -1 e -μ dμ. The uniform prior distribution for the autoregressive parameter in Eq. (4.8) indicates that all values in the interval -, where τ is the spectral radius of W n . Parent and LeSage (2008) introduce an alternative prior distribution function for λ based on Beta function. In this formulation</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Fig. 1 .</head><label>1</label><figDesc>Fig. 1. The effect of hyper-parameter r on the estimates of variance components v i s. (a) Group variances and disturbance terms of true data generating process. (b) Posterior mean of variance components (v i ). (c) Posterior mean of variance components (v i ).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Fig. 2 .</head><label>2</label><figDesc>Fig. 2. Estimates of v i : Housing Price Model.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><figDesc>mean of : US-US flows×1.3</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>Fig. 3 .</head><label>3</label><figDesc>Fig. 3. Posterior mean of variance components v i s: dual gravity model. (a) Posterior mean of v i . (b) Posterior mean of v i : US-US flows × 1:3.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1</head><label>1</label><figDesc>Hedonic Housing-Price.</figDesc><table><row><cell></cell><cell></cell><cell>Parameter estimates</cell><cell></cell><cell></cell><cell>Total effects</cell><cell></cell></row><row><cell>Log(hprice)</cell><cell>ML</cell><cell>RGMM</cell><cell>BE</cell><cell>ML</cell><cell>RGMM</cell><cell>BE</cell></row></table><note><p>Note: The brackets contain t-statistics for the parameter estimates and p-values for the test statistics.</p></note></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 3 c</head><label>3</label><figDesc>¼ 10; m ¼ 5; m ¼ 15; N ¼ 486.</figDesc><table><row><cell>λ</cell><cell>(Mean)[Bias](Std.)[RMSE]</cell><cell>(Mean)[Bias](Std.)[RMSE]</cell><cell>(Mean)[Bias](Std.)[RMSE]</cell><cell>(Mean)[Bias](Std.)[RMSE]</cell></row><row><cell></cell><cell>λ ML</cell><cell>λ RGMM</cell><cell>λ BE1</cell><cell>λ BE2</cell></row><row><cell>-0.9</cell><cell>(-0.7203)[0.1797](0.0551)[0.1879]</cell><cell>(-0.9110)[-0.0110](0.1090)[0.1096]</cell><cell>(-0.7589)[0.1411](0.0523)[0.1505]</cell><cell>(-0.7557)[0.1443](0.0520)[0.1534]</cell></row><row><cell>-0.6</cell><cell>(-0.4613)[0.1387](0.0751)[0.1578]</cell><cell>(-0.5912)[0.0088](0.1025)[0.1028]</cell><cell>(-0.4804)[0.1196](0.0714)[0.1393]</cell><cell>(-0.4784)[0.1216](0.0710)[0.1408]</cell></row><row><cell>-0.3</cell><cell>(-0.2395)[0.0605](0.0838)[0.1033]</cell><cell>(-0.2982)[0.0018](0.1112)[0.1112]</cell><cell>(-0.2477)[0.0523](0.0827)[0.0978]</cell><cell>(-0.2463)[0.0537](0.0827)[0.0986]</cell></row><row><cell>0.0</cell><cell>(-0.0072)[-0.0072](0.0896)[0.0899]</cell><cell>(-0.0031)[-0.0031](0.1086)[0.1086]</cell><cell>(-0.0079)[-0.0079](0.0884)[0.0887]</cell><cell>(-0.0064)[-0.0064](0.0884)[0.0886]</cell></row><row><cell>0.3</cell><cell>(0.2479)[-0.0521](0.0825)[0.0976]</cell><cell>(0.2913)[-0.0087](0.1017)[0.1021]</cell><cell>(0.2501)[-0.0499](0.0806)[0.0948]</cell><cell>(0.2514)[-0.0486](0.0806)[0.0941]</cell></row><row><cell>0.6</cell><cell>(0.5372)[-0.0628](0.0704)[0.0944]</cell><cell>(0.6005)[0.0005](0.1180)[0.1180]</cell><cell>(0.5424)[-0.0576](0.0688)[0.0897]</cell><cell>(0.5437)[-0.0563](0.0688)[0.0889]</cell></row><row><cell>0.9</cell><cell>(0.8674)[-0.0326](0.0358)[0.0484]</cell><cell>(0.9125)[0.0125](0.1052)[0.1059]</cell><cell>(0.8699)[-0.0301](0.0336)[0.0451]</cell><cell>(0.8709)[-0.0291](0.0336)[0.0444]</cell></row><row><cell></cell><cell>β 10,ML</cell><cell>β 10,RGMM</cell><cell>β 10;BE1</cell><cell>β 10;BE2</cell></row><row><cell>-0.9</cell><cell>(0.9261)[-0.0739](1.7065)[1.7081]</cell><cell>(1.1290)[0.1290](1.7011)[1.7060]</cell><cell>(0.9006)[-0.0994](1.5768)[1.5800]</cell><cell>(0.8942)[-0.1058](1.5804)[1.5839]</cell></row><row><cell>-0.6</cell><cell>(0.9745)[-0.0255](1.6667)[1.6669]</cell><cell>(1.0447)[0.0447](1.6786)[1.6792]</cell><cell>(0.9757)[-0.0243](1.5551)[1.5553]</cell><cell>(0.9740)[-0.0260](1.5545)[1.5547]</cell></row><row><cell>-0.3</cell><cell>(1.0712)[0.0712](1.6753)[1.6769]</cell><cell>(1.0948)[0.0948](1.6830)[1.6856]</cell><cell>(1.0632)[0.0632](1.5654)[1.5667]</cell><cell>(1.0637)[0.0637](1.5659)[1.5672]</cell></row><row><cell>0.0</cell><cell>(1.0596)[0.0596](1.7130)[1.7141]</cell><cell>(1.0677)[0.0677](1.7169)[1.7183]</cell><cell>(1.0704)[0.0704](1.6005)[1.6021]</cell><cell>(1.0723)[0.0723](1.6013)[1.6029]</cell></row><row><cell>0.3</cell><cell>(0.9477)[-0.0523](1.7354)[1.7362]</cell><cell>(0.9509)[-0.0491](1.7225)[1.7232]</cell><cell>(0.9514)[-0.0486](1.6123)[1.6130]</cell><cell>(0.9497)[-0.0503](1.6113)[1.6121]</cell></row><row><cell>0.6</cell><cell>(0.9920)[-0.0080](1.7060)[1.7061]</cell><cell>(1.0264)[0.0264](1.6966)[1.6968]</cell><cell>(0.9923)[-0.0077](1.5789)[1.5790]</cell><cell>(0.9935)[-0.0065](1.5772)[1.5772]</cell></row><row><cell>0.9</cell><cell>(1.0623)[0.0623](1.7871)[1.7882]</cell><cell>(1.1268)[0.1268](1.7835)[1.7880]</cell><cell>(1.0401)[0.0401](1.6837)[1.6842]</cell><cell>(1.0431)[0.0431](1.6822)[1.6827]</cell></row><row><cell></cell><cell>β 20,ML</cell><cell>β 20,RGMM</cell><cell>β 20;BE1</cell><cell>β 20;BE2</cell></row><row><cell>-0.9</cell><cell>(1.0875)[0.0875](1.7203)[1.7225]</cell><cell>(0.8462)[-0.1538](1.7133)[1.7202]</cell><cell>(1.1158)[0.1158](1.5641)[1.5684]</cell><cell>(1.1232)[0.1232](1.5687)[1.5735]</cell></row><row><cell>-0.6</cell><cell>(1.0352)[0.0352](1.6866)[1.6869]</cell><cell>(0.9537)[-0.0463](1.7018)[1.7024]</cell><cell>(1.0343)[0.0343](1.5396)[1.5399]</cell><cell>(1.0362)[0.0362](1.5386)[1.5390]</cell></row><row><cell>-0.3</cell><cell>(0.9308)[-0.0692](1.6607)[1.6621]</cell><cell>(0.9034)[-0.0966](1.6671)[1.6699]</cell><cell>(0.9421)[-0.0579](1.5188)[1.5199]</cell><cell>(0.9412)[-0.0588](1.5185)[1.5197]</cell></row><row><cell>0.0</cell><cell>(0.9321)[-0.0679](1.7374)[1.7387]</cell><cell>(0.9199)[-0.0801](1.7400)[1.7419]</cell><cell>(0.9249)[-0.0751](1.5812)[1.5829]</cell><cell>(0.9229)[-0.0771](1.5819)[1.5838]</cell></row><row><cell>0.3</cell><cell>(1.0569)[0.0569](1.7367)[1.7377]</cell><cell>(1.0412)[0.0412](1.7237)[1.7242]</cell><cell>(1.0572)[0.0572](1.5793)[1.5803]</cell><cell>(1.0583)[0.0583](1.5784)[1.5795]</cell></row><row><cell>0.6</cell><cell>(1.0315)[0.0315](1.7241)[1.7244]</cell><cell>(0.9730)[-0.0270](1.7139)[1.7141]</cell><cell>(1.0295)[0.0295](1.5605)[1.5608]</cell><cell>(1.0278)[0.0278](1.5584)[1.5586]</cell></row><row><cell>0.9</cell><cell>(0.9725)[-0.0275](1.8035)[1.8037]</cell><cell>(0.8681)[-0.1319](1.8027)[1.8076]</cell><cell>(0.9973)[-0.0027](1.6606)[1.6606]</cell><cell>(0.9932)[-0.0068](1.6591)[1.6591]</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2"><head>Table 5 c</head><label>5</label><figDesc>¼ 10; m ¼ 14; m ¼ 20; N ¼ 485. (-0.7979)[0.1021](0.0358)[0.1082] (-0.9074)[-0.0074](0.0646)[0.0650] (-0.8521)[0.0479](0.0274)[0.0552] (-0.8503)[0.0497](0.0274)[0.0567] -0.6 (-0.4761)[0.1239](0.0540)[0.1352] (-0.5963)[0.0037](0.0653)[0.0654] (-0.5360)[0.0640](0.0480)[0.0799] (-0.5346)[0.0654](0.0481)[0.0812] -0.3 (-0.2326)[0.0674](0.0697)[0.0969] (-0.2982)[0.0018](0.0906)[0.0906] (-0.2642)[0.0358](0.0625)[0.0720] (-0.2628)[0.0372](0.0625)[0.0728]</figDesc><table><row><cell>λ</cell><cell>(Mean)[Bias](Std.)[RMSE]</cell><cell>(Mean)[Bias](Std.)[RMSE]</cell><cell>(Mean)[Bias](Std.)[RMSE]</cell><cell>(Mean)[Bias](Std.)[RMSE]</cell></row><row><cell></cell><cell>λ ML</cell><cell>λ RGMM</cell><cell>λ BE1</cell><cell>λ BE2</cell></row><row><cell>-0.9</cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>0.0</cell><cell>(-0.0031)[-0.0031](0.0741)[0.0742]</cell><cell>(-0.0020)[-0.0020](0.0921)[0.0921]</cell><cell>(-0.0051)[-0.0051](0.0668)[0.0670]</cell><cell>(-0.0036)[-0.0036](0.0670)[0.0671]</cell></row><row><cell>0.3</cell><cell>(0.2378)[-0.0622](0.0780)[0.0998]</cell><cell>(0.2921)[-0.0079](0.0891)[0.0894]</cell><cell>(0.2623)[-0.0377](0.0663)[0.0762]</cell><cell>(0.2639)[-0.0361](0.0664)[0.0755]</cell></row><row><cell>0.6</cell><cell>(0.5254)[-0.0746](0.0663)[0.0998]</cell><cell>(0.5954)[-0.0046](0.0647)[0.0649]</cell><cell>(0.5564)[-0.0436](0.0526)[0.0683]</cell><cell>(0.5580)[-0.0420](0.0526)[0.0673]</cell></row><row><cell>0.9</cell><cell>(0.8604)[-0.0396](0.0361)[0.0536]</cell><cell>(0.8961)[-0.0039](0.0345)[0.0348]</cell><cell>(0.8746)[-0.0254](0.0267)[0.0368]</cell><cell>(0.8759)[-0.0241](0.0267)[0.0359]</cell></row><row><cell></cell><cell>β 10,ML</cell><cell>β 10,RGMM</cell><cell>β 10;BE1</cell><cell>β 10;BE2</cell></row><row><cell>-0.9</cell><cell>(1.2551)[0.2551](1.9547)[1.9713]</cell><cell>(1.0779)[0.0779](1.9049)[1.9065]</cell><cell>(1.1025)[0.1025](1.6337)[1.6369]</cell><cell>(1.1071)[0.1071](1.6336)[1.6371]</cell></row><row><cell>-0.6</cell><cell>(1.0615)[0.0615](1.8573)[1.8583]</cell><cell>(0.9797)[-0.0203](1.8598)[1.8599]</cell><cell>(1.0142)[0.0142](1.5712)[1.5713]</cell><cell>(1.0140)[0.0140](1.5726)[1.5727]</cell></row><row><cell>-0.3</cell><cell>(0.9810)[-0.0190](1.8731)[1.8731]</cell><cell>(0.9801)[-0.0199](1.8646)[1.8647]</cell><cell>(0.9874)[-0.0126](1.5379)[1.5380]</cell><cell>(0.9858)[-0.0142](1.5400)[1.5401]</cell></row><row><cell>0.0</cell><cell>(1.0196)[0.0196](1.7893)[1.7894]</cell><cell>(1.0574)[0.0574](1.7860)[1.7869]</cell><cell>(1.0121)[0.0121](1.4868)[1.4869]</cell><cell>(1.0119)[0.0119](1.4876)[1.4876]</cell></row><row><cell>0.3</cell><cell>(1.0065)[0.0065](1.9023)[1.9023]</cell><cell>(1.0605)[0.0605](1.8507)[1.8517]</cell><cell>(1.0109)[0.0109](1.5385)[1.5385]</cell><cell>(1.0106)[0.0106](1.5382)[1.5382]</cell></row><row><cell>0.6</cell><cell>(1.0144)[0.0144](1.9185)[1.9185]</cell><cell>(1.0679)[0.0679](1.8391)[1.8404]</cell><cell>(1.0228)[0.0228](1.5285)[1.5286]</cell><cell>(1.0220)[0.0220](1.5265)[1.5267]</cell></row><row><cell>0.9</cell><cell>(0.9293)[-0.0707](1.9317)[1.9330]</cell><cell>(0.9907)[-0.0093](1.8532)[1.8532]</cell><cell>(0.9569)[-0.0431](1.5931)[1.5936]</cell><cell>(0.9586)[-0.0414](1.5892)[1.5898]</cell></row><row><cell></cell><cell>β 20,ML</cell><cell>β 20,RGMM</cell><cell>β 20;BE1</cell><cell>β 20;BE2</cell></row><row><cell>-0.9</cell><cell>(0.8054)[-0.1946](2.0958)[2.1048]</cell><cell>(0.9142)[-0.0858](2.0485)[2.0503]</cell><cell>(0.9299)[-0.0701](1.7327)[1.7341]</cell><cell>(0.9262)[-0.0738](1.7330)[1.7346]</cell></row><row><cell>-0.6</cell><cell>(0.9638)[-0.0362](1.9981)[1.9984]</cell><cell>(1.0154)[0.0154](2.0047)[2.0047]</cell><cell>(0.9977)[-0.0023](1.6740)[1.6740]</cell><cell>(0.9982)[-0.0018](1.6750)[1.6750]</cell></row><row><cell>-0.3</cell><cell>(1.0238)[0.0238](2.0178)[2.0180]</cell><cell>(1.0169)[0.0169](2.0113)[2.0113]</cell><cell>(1.0123)[0.0123](1.6365)[1.6366]</cell><cell>(1.0140)[0.0140](1.6384)[1.6385]</cell></row><row><cell>0.0</cell><cell>(0.9696)[-0.0304](1.9381)[1.9383]</cell><cell>(0.9249)[-0.0751](1.9356)[1.9371]</cell><cell>(0.9782)[-0.0218](1.5848)[1.5849]</cell><cell>(0.9786)[-0.0214](1.5856)[1.5857]</cell></row><row><cell>0.3</cell><cell>(1.0087)[0.0087](2.0577)[2.0577]</cell><cell>(0.9291)[-0.0709](2.0037)[2.0049]</cell><cell>(0.9952)[-0.0048](1.6455)[1.6455]</cell><cell>(0.9948)[-0.0052](1.6449)[1.6449]</cell></row><row><cell>0.6</cell><cell>(1.0320)[0.0320](2.0703)[2.0706]</cell><cell>(0.9267)[-0.0733](1.9850)[1.9864]</cell><cell>(1.0049)[0.0049](1.6295)[1.6295]</cell><cell>(1.0049)[0.0049](1.6274)[1.6274]</cell></row><row><cell>0.9</cell><cell>(1.1401)[0.1401](2.0854)[2.0901]</cell><cell>(1.0059)[0.0059](2.0041)[2.0041]</cell><cell>(1.0850)[0.0850](1.6963)[1.6984]</cell><cell>(1.0811)[0.0811](1.6921)[1.6941]</cell></row></table><note><p>m ¼ 5; m ¼ 15; N ¼ 486 -0.9 (0.4487)[-0.0776](1.0363)[1.0392] (0.5128)[-0.0135](0.9256)[0.9257] (0.4484)[-0.0779](0.9593)[0.9624] -0.6 (0.7363)[0.1113](1.1686)[1.1738] (0.7153)[0.0903](1.0786)[1.0824] (0.7276)[0.1026](1.0744)[1.0792] -0.3 (0.8202)[0.0510](1.4148)[1.4157] (0.8014)[0.0322](1.3711)[1.3715] (0.8060)[0.0368](1.2885)[1.2890]</p></note></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="3" xml:id="foot_0"><p>For a robust 2SLS estimator of the SARAR(1,0) specification, see<ref type="bibr" target="#b8">Anselin (2006)</ref>.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="4" xml:id="foot_1"><p>To the best of our knowledge,<ref type="bibr" target="#b6">Anselin (1982)</ref> is the first study, where small sample properties of the ML estimator are compared with the frequentist properties of the Bayesian estimator in the context of spatial models.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="5" xml:id="foot_2"><p>Note that as the dimension of spatial parameter increases, the dimension of numerical integration rises. For example, for the case of SARAR(1,1) the marginal posterior of autoregressive parameters is two dimensional.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" xml:id="foot_3"><p>O. Doğan, S. Taşpınar / Regional Science and Urban Economics 45 (2014) 1-21</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="6" xml:id="foot_4"><p>To the best of our knowledge, there is no such study in the literature.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="7" xml:id="foot_5"><p>Anselin (1988, p.254)  states promising directions of research and he writes "An assessment of the relative merits of alternative paradigms for the analysis of spatial data, such as parametric analysis vs. nonparametrics, classical probability vs. Bayesian approaches, and exploratory vs. explanatory analysis" as the first direction. The present study is in this first direction as it compares classical probability and Bayesian approaches of the estimation.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="8" xml:id="foot_6"><p>See<ref type="bibr" target="#b34">Kelejian and Prucha (2010)</ref>.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="9" xml:id="foot_7"><p>For the variance of a quadratic form in ε n , see Lemma 2(3).</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="10" xml:id="foot_8"><p>For a definition and some properties of uniform boundedness see<ref type="bibr" target="#b34">Kelejian and Prucha (2010)</ref>.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="34" xml:id="foot_9"><p>The results based on BE 1 are reported. The total effects results of BE 2 are similar and are available upon request.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="35" xml:id="foot_10"><p>The issue of selection of the moment functions in the heteroskedastic case is a potential topic to be explored in the future studies.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="36" xml:id="foot_11"><p>This issue is pointed out by a referee, and we left it for future studies.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="37" xml:id="foot_12"><p>The dependent variable is in log form. Following LeSage (1999), we scale each variable by subtracting the mean and dividing with the standard deviation.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="38" xml:id="foot_13"><p>We use the 'xy2cont' function of Spatial Econometric Toolbox to create the weight matrix, which returns three weight matrices: W 1 , W 2 , and W 3 . Following LeSage (1999, p.115), we use W 2 for this application.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="39" xml:id="foot_14"><p>The LM test is specified based on the square of the crime, rooms, tax rate, and pupil/teacher variables. We examined the relationship between the residuals and the explanatory variables: The scatter plots indicate that the most likely candidates are these variables.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="40" xml:id="foot_15"><p>LeSage (1999, p.117)  also reports an insignificant estimate for this variable. In the case of Charles River dummy variable, spatial model specifications have insignificant estimates. LeSage (1999) states that this locational dummy variable is unnecessary, since the spatial models account explicitly the spatial nature of the data.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="42" xml:id="foot_16"><p>Note that the diagonal elements of W are not zero. The spatial weight matrices are characterized with zero diagonal elements. A zero diagonal weight matrix can be obtained by removing diagonal elements from W. Specifically, define W diag = D(L) ⊗ I n . Then, subtracting (σ-1) diag ℤ from both sides of (6.2) yields the zero diagonal weight matrix W d = (W-W diag ). However, this operation produces a heterogeneous coefficient model. In our application, we only consider the homogeneous coefficient model so that W is assumed to have zerodiagonal elements.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="48" xml:id="foot_17"><p><ref type="bibr" target="#b12">Behrens et al. 2012</ref> report that the border effects cluster respectively around 14.5 and 1.5 for Canadian provinces and US states when spatial dependence structure is ignored.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="49" xml:id="foot_18"><p>When constructing the data set,<ref type="bibr" target="#b5">Anderson and van Wincoop (2003)</ref> employs a scaling scheme to US state-state trade flows taken from the Commodity Flow Survey in order to make it more comparable to the Canada-US flows.</p></note>
+		</body>
+		<back>
+
+			<div type="funding">
+<div><p>This research was supported, in part, by a grant of computer time from the <rs type="funder">City University of New York High Performance Computing Center</rs> under <rs type="funder">NSF</rs> Grants <rs type="grantNumber">CNS-0855217</rs> and <rs type="grantNumber">CNS-0958379</rs>.</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_5A2s58D">
+					<idno type="grant-number">CNS-0855217</idno>
+				</org>
+				<org type="funding" xml:id="_nbsD2U5">
+					<idno type="grant-number">CNS-0958379</idno>
+				</org>
+			</listOrg>
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Appendix C. Variable definitions and summary statistics</head><p>This section contains variable definitions and descriptive statistics for the data sets used in the empirical illustrations.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_3"><head>Table 9</head><label>9</label><figDesc>Hedonic-housing price equation, N = 506.</figDesc><table><row><cell>Variables</cell><cell>Definition</cell><cell>Min</cell><cell>Max</cell><cell>Mean</cell><cell>Std</cell></row><row><cell>Crime</cell><cell>Per capita crime by town</cell><cell>0.0063</cell><cell>88.9762</cell><cell>3.6135</cell><cell>8.6015</cell></row><row><cell>Zoning</cell><cell>Proportion of residential land zoned for lots over 25,000 ft 2</cell><cell>0</cell><cell>100.0000</cell><cell>11.3636</cell><cell>23.3225</cell></row><row><cell>Industry</cell><cell>Proportion of non-retail business acres per town</cell><cell>0.4600</cell><cell>27.7400</cell><cell>11.1368</cell><cell>6.8604</cell></row><row><cell>Charles river</cell><cell>Charles River dummy variable 1 if tract bounds river</cell><cell>0</cell><cell>1</cell><cell>0.0692</cell><cell>0.2540</cell></row><row><cell>Nox</cell><cell>Nitric oxides concentration parts per 10 million</cell><cell>0.3850</cell><cell>0.8710</cell><cell>0.5547</cell><cell>0.1159</cell></row><row><cell>Rooms</cell><cell>Average number of rooms per dwelling</cell><cell>3.5610</cell><cell>8.7800</cell><cell>6.2846</cell><cell>0.7026</cell></row><row><cell>House age</cell><cell>Proportion of owner-occupied units built prior to 1940</cell><cell>2.9000</cell><cell>100</cell><cell>68.5749</cell><cell>28.1489</cell></row><row><cell>Distance</cell><cell>Weighted distances to five Boston employment centers</cell><cell>1.1296</cell><cell>12.1265</cell><cell>3.7950</cell><cell>2.1057</cell></row><row><cell>Access</cell><cell>Index of accessibility to radial highways</cell><cell>1.0000</cell><cell>24.00</cell><cell>9.5494</cell><cell>8.7073</cell></row><row><cell>Tax rate</cell><cell>Full-value property tax rate per $10,000</cell><cell>187.0000</cell><cell>711.0000</cell><cell>408.2372</cell><cell>168.5371</cell></row><row><cell>Pupil/teacher</cell><cell>Pupil-teacher ratio by town</cell><cell>12.6000</cell><cell>22.0000</cell><cell>18.4555</cell><cell>2.1649</cell></row><row><cell>Black pop.</cell><cell>1000(Bk-0.63) 2 where Bk is the proportion of blacks by town</cell><cell>0.3200</cell><cell>396.9000</cell><cell>356.6740</cell><cell>91.2949</cell></row><row><cell>Lower class</cell><cell>Lower status of the population</cell><cell>1.7300</cell><cell>37.9700</cell><cell>12.6531</cell><cell>7.1411</cell></row><row><cell>House price</cell><cell>Median value of owner occupied house price in $1000</cell><cell>5.0000</cell><cell>50.0000</cell><cell>22.5328</cell><cell>9.1971</cell></row><row><cell cols="2">Source: This data set is available in the Kelley Pace's Spatial Statistics Toolbox.</cell><cell></cell><cell></cell><cell></cell><cell></cell></row></table></figure>
+			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title/>
+	</analytic>
+	<monogr>
+		<title level="j">BP LM test</title>
+		<imprint>
+			<biblScope unit="volume">315</biblScope>
+			<biblScope unit="page" from="8548" to="8286" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<monogr>
+		<title level="m" type="main">Note: The brackets contain t-statistics for the parameter estimates and p-values for the test statistics. The BP LM test stands for the Breusch-Pagan Lagrange multiplier test of heteroskedasticity</title>
+		<idno>11.8836</idno>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<monogr>
+		<title level="m" type="main">makes the observation that the multilateral resistance variable</title>
+		<author>
+			<persName><surname>Behrens</surname></persName>
+		</author>
+		<idno>and 0.0 (0</idno>
+		<imprint>
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<monogr>
+		<title level="m" type="main">Matrix algebra. Econometric Exercises</title>
+		<author>
+			<persName><forename type="first">References</forename><surname>Abadir</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Karim</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Jan</forename><forename type="middle">R</forename><surname>Magnus</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2005">2005</date>
+			<publisher>Cambridge University Press</publisher>
+			<pubPlace>New York9780521822893</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Bayesian analysis of binary and polychotomous response data</title>
+		<author>
+			<persName><forename type="first">James</forename><forename type="middle">H</forename><surname>Albert</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Siddhartha</forename><surname>Chib</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Am. Stat. Assoc</title>
+		<idno type="ISSN">01621459</idno>
+		<imprint>
+			<biblScope unit="volume">88</biblScope>
+			<biblScope unit="page" from="669" to="679" />
+			<date type="published" when="1993">1993</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Gravity with gravitas: a solution to the border puzzle</title>
+		<author>
+			<persName><forename type="first">James</forename><forename type="middle">E</forename><surname>Anderson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Eric</forename><surname>Van Wincoop</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Am. Econ. Rev</title>
+		<imprint>
+			<biblScope unit="volume">93</biblScope>
+			<biblScope unit="page" from="170" to="192" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">A note on small sample properties of estimators in a first-order spatial autoregressive model</title>
+		<author>
+			<persName><forename type="first">Luc</forename><surname>Anselin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environ. Plan. A</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="page" from="1023" to="1030" />
+			<date type="published" when="1982">1982</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<monogr>
+		<author>
+			<persName><forename type="first">Luc</forename><surname>Anselin</surname></persName>
+		</author>
+		<title level="m">Spatial Econometrics: Methods and Models</title>
+		<meeting><address><addrLine>New York</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="1988">1988</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<monogr>
+		<author>
+			<persName><forename type="first">Luc</forename><surname>Anselin</surname></persName>
+		</author>
+		<title level="m">Spatial Econometrics</title>
+		<editor>
+			<persName><forename type="first">T</forename><forename type="middle">C</forename><surname>Mills</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">K</forename><surname>Patterson</surname></persName>
+		</editor>
+		<meeting><address><addrLine>Basingstoke</addrLine></address></meeting>
+		<imprint>
+			<publisher>Palgrave Macmillan</publisher>
+			<date type="published" when="2006">2006</date>
+			<biblScope unit="volume">I</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">A spatial Clifford-type model with heteroskedastic innovations: small and large sample results</title>
+		<author>
+			<persName><surname>Arraiz</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Irani</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">David</forename><forename type="middle">M</forename><surname>Drukker</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Harry</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Ingmar</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Reg. Sci</title>
+		<imprint>
+			<biblScope unit="volume">50</biblScope>
+			<biblScope unit="page" from="592" to="614" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Estimation of higher-order spatial autoregressive cross-section models with heteroskedastic disturbances</title>
+		<author>
+			<persName><forename type="first">Harald</forename><surname>Badinger</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Peter</forename><surname>Egger</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Pap. Reg. Sci</title>
+		<idno type="ISSN">1435-5957</idno>
+		<imprint>
+			<biblScope unit="volume">90</biblScope>
+			<biblScope unit="page" from="213" to="235" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<monogr>
+		<author>
+			<persName><forename type="first">Badi</forename><forename type="middle">H</forename><surname>Baltagi</surname></persName>
+		</author>
+		<title level="m">Econometric Analysis of Panel Data</title>
+		<imprint>
+			<publisher>John Wiley &amp; Sons</publisher>
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Dual&apos; gravity: using spatial econometrics to control for multilateral resistance</title>
+		<author>
+			<persName><forename type="first">Kristian</forename><surname>Behrens</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Ertur</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Cem</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Wilfried</forename><surname>Koch</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Appl. Econ</title>
+		<imprint>
+			<biblScope unit="volume">27</biblScope>
+			<biblScope unit="page" from="773" to="794" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Explaining the Gibbs sampler</title>
+		<author>
+			<persName><forename type="first">George</forename><surname>Casella</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Edward</forename><forename type="middle">I</forename><surname>George</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Am. Stat</title>
+		<imprint>
+			<biblScope unit="volume">46</biblScope>
+			<biblScope unit="page" from="167" to="174" />
+			<date type="published" when="1992">1992</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Markov chain Monte Carlo methods: computation and inference</title>
+		<author>
+			<persName><forename type="first">Siddhartha</forename><surname>Chib</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Handbook of Econometrics. Handbook of Econometrics</title>
+		<editor>
+			<persName><forename type="first">J</forename><forename type="middle">J</forename><surname>Heckman</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">E</forename><surname>Leamer</surname></persName>
+		</editor>
+		<imprint>
+			<biblScope unit="volume">5</biblScope>
+			<biblScope unit="page" from="3569" to="3649" />
+			<date type="published" when="2001">2001</date>
+			<publisher>Elsevier</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Understanding the Metropolis-Hastings algorithm</title>
+		<author>
+			<persName><forename type="first">Siddhartha</forename><surname>Chib</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Edward</forename><surname>Greenberg</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Am. Stat</title>
+		<imprint>
+			<biblScope unit="volume">49</biblScope>
+			<biblScope unit="page" from="327" to="335" />
+			<date type="published" when="1995">1995</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<monogr>
+		<title level="m" type="main">GMM estimation of spatial autoregressive models with autoregressive and heteroskedastic disturbances. Working Paper. City University of New York Graduate Center</title>
+		<author>
+			<persName><surname>Doğan</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Osman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Süleyman</forename><surname>Taşpınar</surname></persName>
+		</author>
+		<idno type="DOI">10.2139/ssrn.2227163</idno>
+		<ptr target="http://dx.doi.org/10.2139/ssrn.2227163" />
+		<imprint>
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">GMM estimation of spatial autoregressive models with moving average disturbances</title>
+		<author>
+			<persName><surname>Doğan</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Osman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Süleyman</forename><surname>Taşpınar</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Reg. Sci. Urban Econ</title>
+		<imprint>
+			<biblScope unit="volume">43</biblScope>
+			<biblScope unit="page" from="903" to="926" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">On two-step estimation of a spatial autoregressive model with autoregressive disturbances and endogenous regressors</title>
+		<author>
+			<persName><forename type="first">David</forename><forename type="middle">M</forename><surname>Drukker</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Egger</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Peter</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Ingmar</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econ. Rev</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="page" from="686" to="733" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">On model specification and parameter space definitions in higher order spatial econometric models</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Elhorst</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Paul</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Donald</forename><forename type="middle">J</forename><surname>Lacombe</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Gianfranco</forename><surname>Piras</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Reg. Sci. Urban Econ</title>
+		<imprint>
+			<biblScope unit="volume">42</biblScope>
+			<biblScope unit="issue">1-2</biblScope>
+			<biblScope unit="page" from="211" to="220" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<monogr>
+		<title level="m" type="main">Advanced International Trade</title>
+		<author>
+			<persName><forename type="first">Robert</forename><forename type="middle">C</forename><surname>Feenstra</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2004">2004</date>
+			<publisher>Princeton University Press</publisher>
+			<pubPlace>Princeton, NJ</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Bayesian treatment of the independent student-t linear model</title>
+		<author>
+			<persName><forename type="first">John</forename><surname>Geweke</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Appl. Econ</title>
+		<imprint>
+			<biblScope unit="volume">8</biblScope>
+			<biblScope unit="page" from="19" to="S40" />
+			<date type="published" when="1993">1993</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Chapter 56 computationally intensive methods for integration in econometrics</title>
+		<author>
+			<persName><forename type="first">John</forename><surname>Geweke</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Michael</forename><surname>Keane</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Handbook of Econometrics</title>
+		<editor>
+			<persName><forename type="first">J</forename><forename type="middle">J</forename><surname>Heckman</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">E</forename><surname>Leamer</surname></persName>
+		</editor>
+		<imprint>
+			<biblScope unit="volume">5</biblScope>
+			<biblScope unit="page" from="3463" to="3568" />
+			<date type="published" when="2001">2001</date>
+			<publisher>Elsevier</publisher>
+		</imprint>
+	</monogr>
+	<note>Handbook of econometrics</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">On the Harrison and Rubinfeld data</title>
+		<author>
+			<persName><forename type="first">Otis</forename><forename type="middle">W</forename><surname>Gilley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Kelley Pace</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Environ. Econ. Manag</title>
+		<imprint>
+			<biblScope unit="volume">31</biblScope>
+			<biblScope unit="page" from="403" to="405" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<monogr>
+		<title level="m" type="main">A Companion to Theoretical Econometrics</title>
+		<author>
+			<persName><forename type="first">William</forename><forename type="middle">E</forename><surname>Griffiths</surname></persName>
+		</author>
+		<editor>Baltagi, Badi H.</editor>
+		<imprint>
+			<date type="published" when="2007">2007</date>
+			<publisher>Blackwell Publishing Ltd</publisher>
+			<biblScope unit="page" from="82" to="100" />
+		</imprint>
+	</monogr>
+	<note>Heteroskedasticity</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Hedonic housing prices and the demand for clean air</title>
+		<author>
+			<persName><forename type="first">David</forename><surname>Harrison</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Rubinfeld</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Daniel</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Environ. Econ. Manag</title>
+		<imprint>
+			<biblScope unit="volume">5</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="81" to="102" />
+			<date type="published" when="1978">1978</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<monogr>
+		<title level="m" type="main">Exploratory and Explanatory Statistical Analysis of Spatial Data</title>
+		<author>
+			<persName><forename type="first">Leslie</forename><forename type="middle">W</forename><surname>Hepple</surname></persName>
+		</author>
+		<editor>Bartels, Cornelis P.A., Ketellapper, Ronald H.</editor>
+		<imprint>
+			<date type="published" when="1979">1979</date>
+			<publisher>Martinus Nijhoff Publishing</publisher>
+			<pubPlace>Boston, Massachusetts</pubPlace>
+		</imprint>
+	</monogr>
+	<note>Bayesian analysis of the linear model with spatial dependence</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">Bayesian techniques in spatial and network econometrics: 1. model comparison and posterior odds</title>
+		<author>
+			<persName><forename type="first">Leslie</forename><forename type="middle">W</forename><surname>Hepple</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environ. Plan</title>
+		<imprint>
+			<biblScope unit="volume">27</biblScope>
+			<biblScope unit="page" from="247" to="469" />
+			<date type="published" when="1995">1995</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Bayesian techniques in spatial and network econometrics: 2. computational methods and algorithms</title>
+		<author>
+			<persName><forename type="first">Leslie</forename><forename type="middle">W</forename><surname>Hepple</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environ. Plan</title>
+		<imprint>
+			<biblScope unit="volume">27</biblScope>
+			<biblScope unit="page" from="615" to="644" />
+			<date type="published" when="1995">1995</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">Bayesian and maximum likelihood estimation of the linear model with spatial moving average disturbances. School of Geographical Sciences, University of Bristol</title>
+		<author>
+			<persName><forename type="first">Leslie</forename><forename type="middle">W</forename><surname>Hepple</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Leslie</forename><forename type="middle">W</forename><surname>Hepple</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Hoogerheide</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Lennart</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Van Dijk</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Herman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Rutger</forename><forename type="middle">D</forename><surname>Van Oest</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Handbook of Computational Econometrics</title>
+		<editor>
+			<persName><forename type="first">David</forename><forename type="middle">A</forename><surname>Belsley</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">John</forename><surname>Kontoghiorghes</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">Erricos</forename></persName>
+		</editor>
+		<meeting><address><addrLine>Ltd, Chichester, UK</addrLine></address></meeting>
+		<imprint>
+			<publisher>John Wiley &amp; Sons</publisher>
+			<date type="published" when="2002">2002. 2003. 2009</date>
+			<biblScope unit="page" from="215" to="281" />
+		</imprint>
+		<respStmt>
+			<orgName>University of Bristol, Working Papers Series. University of Bristol, School of Geographical Sciences</orgName>
+		</respStmt>
+	</monogr>
+	<note>Analytical simplifications for marginal distributions in Bayesian spatial econometrics. School of Geographical Sciences Simulation based Bayesian econometric inference: principles and some recent computational advances</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Small-sample properties of panel spatial autoregressive models: comparison of the Bayesian and maximum likelihood methods</title>
+		<author>
+			<persName><forename type="first">Kazuhiko</forename><surname>Kakamu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Hajime</forename><surname>Wago</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Spat. Econ. Anal</title>
+		<imprint>
+			<biblScope unit="volume">3</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="305" to="319" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">A generalized spatial two-stage least squares procedure for estimating a spatial autoregressive model with autoregressive disturbances</title>
+		<author>
+			<persName><forename type="first">Harry</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Ingmar</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Real Estate Financ. Econ</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="page" from="1899" to="1926" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">A generalized moments estimator for the autoregressive parameter in a spatial model</title>
+		<author>
+			<persName><forename type="first">Harry</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Ingmar</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Int. Econ. Rev</title>
+		<imprint>
+			<biblScope unit="volume">40</biblScope>
+			<biblScope unit="page" from="509" to="533" />
+			<date type="published" when="1999">1999</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<monogr>
+		<title level="m" type="main">Specification and Estimation of Spatial Autoregressive Models with Autoregressive and Heteroskedastic Disturbances. Department of Economics</title>
+		<author>
+			<persName><forename type="first">Harry</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Ingmar</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2007-07">2007. July</date>
+		</imprint>
+		<respStmt>
+			<orgName>University of Maryland</orgName>
+		</respStmt>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<analytic>
+		<title level="a" type="main">Specification and estimation of spatial autoregressive models with autoregressive and heteroskedastic disturbances</title>
+		<author>
+			<persName><forename type="first">Harry</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Ingmar</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Econ</title>
+		<imprint>
+			<biblScope unit="volume">157</biblScope>
+			<biblScope unit="page" from="53" to="67" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<analytic>
+		<title level="a" type="main">Quick computation of spatial autoregressive estimators</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Kelley Pace</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Ronald</forename><surname>Barry</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geogr. Anal</title>
+		<imprint>
+			<biblScope unit="volume">290</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="232" to="247" />
+			<date type="published" when="1997">1997</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<monogr>
+		<author>
+			<persName><forename type="first">Gary</forename><forename type="middle">;</forename><surname>Koop</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Bayesian</forename><forename type="middle">Econometrics</forename></persName>
+		</author>
+		<author>
+			<persName><forename type="first">John</forename><surname>Wiley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Sons</forename><surname>Ltd</surname></persName>
+		</author>
+		<author>
+			<persName><surname>West Sussex</surname></persName>
+		</author>
+		<author>
+			<persName><surname>England</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Koop</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Gary</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Dale</forename><forename type="middle">J</forename><surname>Poirier</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Justin</forename><forename type="middle">L</forename><surname>Tobias</surname></persName>
+		</author>
+		<title level="m">Bayesian Econometric Methods</title>
+		<meeting><address><addrLine>New York, USA</addrLine></address></meeting>
+		<imprint>
+			<publisher>Cambridge University Press</publisher>
+			<date type="published" when="2003">2003. 2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<analytic>
+		<title level="a" type="main">Best spatial two-stage least squares estimators for a spatial autoregressive model with autoregressive disturbances</title>
+		<author>
+			<persName><forename type="first">Lung-Fei</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econ. Rev</title>
+		<imprint>
+			<biblScope unit="volume">22</biblScope>
+			<biblScope unit="page" from="307" to="335" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<analytic>
+		<title level="a" type="main">Asymptotic distributions of quasi-maximum likelihood estimators of spatial econometrics models</title>
+		<author>
+			<persName><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">72</biblScope>
+			<biblScope unit="page" from="1899" to="1926" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+	<note>Lung-fei</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<analytic>
+		<title level="a" type="main">Lung-fei, 2007a. GMM and 2SLS estimation of mixed regressive, spatial autoregressive models</title>
+		<author>
+			<persName><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Econ</title>
+		<imprint>
+			<biblScope unit="volume">137</biblScope>
+			<biblScope unit="page" from="489" to="514" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b40">
+	<analytic>
+		<title level="a" type="main">The method of elimination and substitution in the GMM estimation of mixed regressive, spatial autoregressive models</title>
+		<author>
+			<persName><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Econ</title>
+		<imprint>
+			<biblScope unit="volume">140</biblScope>
+			<biblScope unit="page" from="155" to="189" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+	<note>Lung-fei</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b41">
+	<monogr>
+		<title level="m" type="main">Micro-econometrics: Methods of Moments and Limited Dependent Variables</title>
+		<author>
+			<persName><forename type="first">Myoung-Jae</forename><surname>Lee</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2010">2010</date>
+			<publisher>Springer</publisher>
+			<pubPlace>New York, USA</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b42">
+	<analytic>
+		<title level="a" type="main">Efficient GMM estimation of high order spatial autoregressive models with autoregressive disturbances</title>
+		<author>
+			<persName><forename type="first">Lung-Fei</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Xiaodong</forename><surname>Liu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econ. Theory</title>
+		<imprint>
+			<biblScope unit="volume">26</biblScope>
+			<biblScope unit="page" from="187" to="230" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b43">
+	<analytic>
+		<title level="a" type="main">Bayesian estimation of spatial autoregressive models</title>
+		<author>
+			<persName><forename type="first">James</forename><forename type="middle">P</forename><surname>Lesage</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Int. Reg. Sci. Rev</title>
+		<imprint>
+			<biblScope unit="volume">20</biblScope>
+			<biblScope unit="page" from="113" to="129" />
+			<date type="published" when="1997">1997</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b44">
+	<analytic>
+		<title level="a" type="main">Spatial Econometrics</title>
+		<author>
+			<persName><forename type="first">James</forename><forename type="middle">P</forename><surname>Lesage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">James</forename><forename type="middle">P</forename><surname>Lesage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Robert</forename><forename type="middle">K</forename><surname>Pace</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Introduction to Spatial Econometrics Statistics: A Series of Textbooks and Monographs</title>
+		<meeting><address><addrLine>London</addrLine></address></meeting>
+		<imprint>
+			<publisher>Chapman and Hall/CRC</publisher>
+			<date type="published" when="1999">1999. 2009</date>
+		</imprint>
+		<respStmt>
+			<orgName>Regional Research Institute, West Virginia University</orgName>
+		</respStmt>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b45">
+	<analytic>
+		<title level="a" type="main">GMM estimation of spatial autoregressive models with unknown heteroskedasticity</title>
+		<author>
+			<persName><surname>Lin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Lee</forename><surname>Xu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Lung-Fei</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Econ</title>
+		<imprint>
+			<biblScope unit="volume">157</biblScope>
+			<biblScope unit="page" from="34" to="52" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b46">
+	<analytic>
+		<title level="a" type="main">Ml estimation of the t distribution using EM and its extensions, ECM and ECME</title>
+		<author>
+			<persName><forename type="first">Chuanhai</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Donald</forename><forename type="middle">B</forename><surname>Rubin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Stat. Sin</title>
+		<imprint>
+			<biblScope unit="volume">5</biblScope>
+			<biblScope unit="page" from="19" to="39" />
+			<date type="published" when="1995">1995</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b47">
+	<analytic>
+		<title level="a" type="main">An efficient GMM estimator of spatial autoregressive models</title>
+		<author>
+			<persName><forename type="first">Xiaodong</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Lung-Fei</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Christopher</forename><forename type="middle">R</forename><surname>Bollinger</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Econ</title>
+		<imprint>
+			<biblScope unit="volume">159</biblScope>
+			<biblScope unit="page" from="303" to="319" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b48">
+	<analytic>
+		<title level="a" type="main">National borders matter: Canada-U.S. regional trade patterns</title>
+		<author>
+			<persName><forename type="first">John</forename><surname>Mccallum</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Am. Econ. Rev</title>
+		<imprint>
+			<biblScope unit="volume">85</biblScope>
+			<biblScope unit="page" from="615" to="623" />
+			<date type="published" when="1995">1995</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b49">
+	<analytic>
+		<title level="a" type="main">Large sample estimation and hypothesis testing</title>
+		<author>
+			<persName><forename type="first">Whitney</forename><forename type="middle">K</forename><surname>Newey</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Daniel</forename><surname>Mcfadden</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Handb. Econ. IV</title>
+		<imprint>
+			<biblScope unit="page" from="2111" to="2245" />
+			<date type="published" when="1994">1994</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b50">
+	<analytic>
+		<title level="a" type="main">Bayesian analysis of simultaneous autoregressive models</title>
+		<author>
+			<persName><forename type="first">Victor</forename><surname>Oliveira</surname></persName>
+		</author>
+		<author>
+			<persName><surname>De</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Joon</forename><surname>Song</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Jin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">English Sankhyā: The Indian Journal of Statistics, Series B</title>
+		<imprint>
+			<biblScope unit="volume">700</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="323" to="350" />
+			<date type="published" when="2008">2008. 2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b51">
+	<analytic>
+		<title level="a" type="main">Spatial dependence in regressors and its effect on performance of likelihood-based and instrumental variable estimators</title>
+		<author>
+			<persName><forename type="first">Robert</forename><forename type="middle">K</forename><surname>Pace</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">James</forename><forename type="middle">P</forename><surname>Lesage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Shuang</forename><surname>Zhu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Advances in Econometrics</title>
+		<editor>
+			<persName><forename type="first">Daniel</forename><forename type="middle">Millimet</forename><surname>Terrell</surname></persName>
+		</editor>
+		<editor>
+			<persName><surname>Dek</surname></persName>
+		</editor>
+		<imprint>
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="page" from="257" to="295" />
+			<date type="published" when="2012">2012</date>
+			<publisher>Emerald Group Publishing Limited</publisher>
+		</imprint>
+	</monogr>
+	<note>th Anniversary Edition</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b52">
+	<monogr>
+		<title level="m" type="main">Bayesian model averaging for spatial econometric models. University of Cincinnati, Economics Working Papers Series 2007-02</title>
+		<author>
+			<persName><forename type="first">Olivier</forename><surname>Parent</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">James</forename><forename type="middle">P</forename><surname>Lesage</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2007">2007</date>
+		</imprint>
+		<respStmt>
+			<orgName>University of Cincinnati, Department of Economics</orgName>
+		</respStmt>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b53">
+	<analytic>
+		<title level="a" type="main">Using the variance structure of the conditional autoregressive spatial specification to model knowledge spillovers</title>
+		<author>
+			<persName><forename type="first">Olivier</forename><surname>Parent</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">James</forename><forename type="middle">P</forename><surname>Lesage</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Appl. Econ</title>
+		<imprint>
+			<biblScope unit="volume">23</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="235" to="256" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b54">
+	<analytic>
+		<title level="a" type="main">Markov chains for exploring posterior distributions</title>
+		<author>
+			<persName><forename type="first">Luke</forename><surname>Tierney</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ann. Stat</title>
+		<imprint>
+			<biblScope unit="volume">22</biblScope>
+			<biblScope unit="page" from="1701" to="1728" />
+			<date type="published" when="1994">1994</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b55">
+	<analytic>
+		<title level="a" type="main">A heteroskedasticity-consistent covariance matrix estimator a direct test for heteroskedasticity</title>
+		<author>
+			<persName><forename type="first">Halbert</forename><forename type="middle">G</forename><surname>White</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">48</biblScope>
+			<biblScope unit="page" from="817" to="838" />
+			<date type="published" when="1980">1980</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

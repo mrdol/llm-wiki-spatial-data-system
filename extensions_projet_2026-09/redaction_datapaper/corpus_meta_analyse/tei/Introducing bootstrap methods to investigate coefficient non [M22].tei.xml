@@ -1,0 +1,1355 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Introducing bootstrap methods to investigate coefficient non-stationarity in spatial regression models</title>
+				<funder ref="#_25t39nU">
+					<orgName type="full">Strategic Research Cluster</orgName>
+				</funder>
+				<funder ref="#_DwbJcK9">
+					<orgName type="full">UK Biotechnology and Biological Sciences Research Council</orgName>
+				</funder>
+				<funder>
+					<orgName type="full">Science Foundation Ireland</orgName>
+				</funder>
+				<funder ref="#_SfNysSj">
+					<orgName type="full">National Natural Science Foundation of China [NSFC</orgName>
+				</funder>
+				<funder ref="#_Agwgu6N">
+					<orgName type="full">unknown</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability  status="unknown">
+					<licence/>
+				</availability>
+				<date type="published" when="2017-07-29">29 July 2017</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author role="corresp">
+							<persName><forename type="first">Paul</forename><surname>Harris</surname></persName>
+							<email>paul.harris@rothamsted.ac.uk</email>
+							<affiliation key="aff0">
+								<orgName type="institution" key="instit1">Sustainable Agricultural Sciences</orgName>
+								<orgName type="institution" key="instit2">Rothamsted Research</orgName>
+								<orgName type="institution" key="instit3">North Wyke</orgName>
+								<address>
+									<postCode>EX20 2SB</postCode>
+									<settlement>Okehampton Devon</settlement>
+									<country key="GB">UK</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Chris</forename><surname>Brunsdon</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="institution" key="instit1">National Centre for Geocomputation</orgName>
+								<orgName type="institution" key="instit2">Maynooth University</orgName>
+								<address>
+									<settlement>Maynooth</settlement>
+									<country key="IE">Ireland</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Binbin</forename><surname>Lu</surname></persName>
+							<affiliation key="aff2">
+								<orgName type="department">School of Remote Sensing and Information Engineering</orgName>
+								<orgName type="institution">Wuhan University</orgName>
+								<address>
+									<addrLine>129 Luoyu Road</addrLine>
+									<postCode>430079</postCode>
+									<settlement>Wuhan</settlement>
+									<country key="CN">China</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Tomoki</forename><surname>Nakaya</surname></persName>
+							<affiliation key="aff3">
+								<orgName type="department">Department of Geography</orgName>
+								<orgName type="institution">Ritsumeiken University</orgName>
+								<address>
+									<addrLine>56-1 Tojin-kita-machi Kita-ku Kyoto</addrLine>
+									<postCode>603-8577</postCode>
+									<country key="JP">Japan</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Martin</forename><surname>Charlton</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="institution" key="instit1">National Centre for Geocomputation</orgName>
+								<orgName type="institution" key="instit2">Maynooth University</orgName>
+								<address>
+									<settlement>Maynooth</settlement>
+									<country key="IE">Ireland</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Introducing bootstrap methods to investigate coefficient non-stationarity in spatial regression models</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2017-07-29">29 July 2017</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">854514466F55CBE22D7C2E74B667ED81</idno>
+					<idno type="DOI">10.1016/j.spasta.2017.07.006</idno>
+					<note type="submission">Received 29 January 2017 Accepted 24 July 2017</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-28T15:58+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>Geographically weighted regression Spatial regression Hypothesis testing Collinearity GWmodel</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>provides a valuable steer to choosing a suitable regression model for a given spatial process.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>a b s t r a c t</head><p>In this simulation study, parametric bootstrap methods are introduced to test for spatial non-stationarity in the coefficients of regression models. Such a test can be rather simply conducted by comparing a model such as geographically weighted regression (GWR) as an alternative to a standard linear regression, the null hypothesis. In this study however, three spatially autocorrelated regressions are also used as null hypotheses: (i) a simultaneous autoregressive error model; (ii) a moving average error model; and (iii) a simultaneous autoregressive lag model. This expansion of null hypotheses, allows an investigation as to whether the spatial variation in the coefficients obtained using GWR could be attributed to some other spatial process, rather than one depicting non-stationary relationships. The new test is objectively assessed via a simulation experiment that generates data and coefficients with known multivariate spatial properties, all within the spatial setting of the oft-studied Georgia educational attainment data set. By applying the bootstrap test and associated contextual diagnostics to pre-specified, area-based, geographical processes, our study</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">Introduction</head><p>Often when fitting a regression model to spatial data, it is not clear what, if any, spatial effects should be accounted for. Should we focus solely on spatial autocorrelation effects (e.g. <ref type="bibr" target="#b0">Anselin, 1988;</ref><ref type="bibr" target="#b11">Cressie, 1993)</ref> or should we focus solely on spatial heterogeneity effects with respect to data relationships (e.g. <ref type="bibr" target="#b22">Fotheringham et al., 2002)</ref>. Alternatively, should we try to capture both effects (e.g. <ref type="bibr" target="#b28">Haas, 1996;</ref><ref type="bibr">Brunsdon et al., 1998a;</ref><ref type="bibr" target="#b44">Mur et al., 2008;</ref><ref type="bibr" target="#b9">Cho et al., 2010;</ref><ref type="bibr">Harris et al., 2010a;</ref><ref type="bibr" target="#b35">Kim et al., 2010)</ref>, or investigate ways to link (e.g. <ref type="bibr" target="#b26">Griffith, 2003</ref><ref type="bibr" target="#b27">Griffith, , 2008;;</ref><ref type="bibr" target="#b45">Murakami et al., 2017)</ref>, or fuse them together (e.g. <ref type="bibr" target="#b24">Gelfand et al., 2003;</ref><ref type="bibr" target="#b21">Finley, 2011)</ref>, and if so, which are more important? Further, should we ignore both effects altogether, and instead focus on a non-spatial model that is additionally calibrated with key spatial predictor variables, such as the sample coordinates (e.g. <ref type="bibr" target="#b3">Beale et al., 2010)</ref>? Further still, should we consider that we are missing vital predictors and that any observed spatial effects are attributable to this omission (e.g. <ref type="bibr" target="#b12">Cressie and Chan, 1989)</ref>-and as such, focus our attention on capturing these (likely elusive) missing variables? Unfortunately, such questions are almost always difficult to answer with any objectively, and can involve problematic analytical impasses and confounders (e.g. <ref type="bibr" target="#b1">Anselin, 1990)</ref>. For example, how to identify first-from second-order effects (e.g. <ref type="bibr" target="#b2">Armstrong, 1984)</ref>, where relationship heterogeneity is commonly modelled as the former, whist autocorrelation is modelled as the latter effect? These issues are particularly pertinent for spatial data sets, as their collection are rarely part of a statistically-designed experiment-that by definition should negate confounders.</p><p>Given such issues, it is commonplace to ignore them, and instead a regression for spatial data is often chosen following a rather subjective exploratory analysis that is itself pre-defined according to the given research hypothesis and/or sometimes biased towards the particular statistical expertise of the analyst. Thus, our study aim is to provide objectivity to a particular aspect of this model selection process, where we introduce parametric bootstrap methods to test for spatial non-stationarity in the coefficients of regression models. The tests are general and can be used to compare any spatiallyvarying coefficient (SVC) regression as an alternative to any set of constant coefficient regressions (with or without spatial autocorrelation effects). As demonstration, we compare geographically weighted regression (GWR) <ref type="bibr" target="#b4">(Brunsdon et al., 1996</ref><ref type="bibr">(Brunsdon et al., , 1998b) )</ref> as an alternative to the following four null hypotheses: (i) a multiple linear regression model (MLR), (ii) a simultaneous autoregressive error model (ERR); (iii) a moving average error model (SMA); and (iv) a simultaneous autoregressive lag model <ref type="bibr">(LAG)</ref>. This set of null hypotheses, allows an investigation as to whether the spatial variation in the coefficients obtained using GWR could be attributed to some other spatial process (in this case, some autocorrelation effect), rather than one depicting non-stationary relationships.</p><p>To achieve this, a bootstrapping methodology <ref type="bibr" target="#b14">(Efron, 1979</ref><ref type="bibr" target="#b15">(Efron, , 1981</ref><ref type="bibr" target="#b16">(Efron, , 1982) )</ref> is proposed that assesses the variability of the local coefficient estimates found from GWR under the model assumptions for each of the four null hypotheses (i.e. the MLR, ERR, SMA and LAG models). The observed values of coefficient variability are then compared against these as reference distributions. Our bootstrapping methodology complements the bootstrap methods to test for zero coefficients in a mixed GWR model <ref type="bibr" target="#b41">(Mei et al., 2006)</ref> and constant coefficients in a basic GWR model in order to specify a mixed GWR model <ref type="bibr" target="#b42">(Mei et al., 2016)</ref>. Neither studies however, compare GWR with alternative (spatiallyautocorrelated) regressions, as we do here. Our paper is structured as follows. Firstly, the study regressions are formally stated; the concept of bootstrapping is reviewed; and our spatial application of bootstrapping is outlined. Secondly, the described methodology is objectively assessed via a simulation experiment based on cokriging <ref type="bibr" target="#b40">(Matheron, 1970)</ref> that generates data and regression coefficients, each with known multivariate spatial properties, and all within the spatial setting of the Georgia educational attainment data set <ref type="bibr" target="#b22">(Fotheringham et al., 2002;</ref><ref type="bibr" target="#b27">Griffith, 2008)</ref>. We complement and contextualise the bootstrap results with associated diagnostics. Thirdly, we discuss and conclude this research.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.">Methods</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1.">Study regression models</head><p>For the case where there are several predictor variables x n1 , x n2 , . . . , x nm and observations indexed by i = 1, . . . , n, MLR has this form for response variable y i :</p><formula xml:id="formula_0">y i = β 0 + m ∑ j=1 β j x ij + ε i ,<label>(1)</label></formula><p>where the coefficients β j , are commonly estimated by ordinary least squares (OLS). MLR only models stationary relationships between the response and predictor variables. Where these relationships are expected to change across space, MLR can be adapted to form the GWR model as follows:</p><formula xml:id="formula_1">y i = β 0 (u i , v i ) + m ∑ j=1 β j (u i , v i ) x ij + ε i , (2)</formula><p>where (u i , v i ) is the spatial location of the ith observation and β j (u i , v i ) is a realisation of the continuous function β j (u, v) at point i. As with (OLS) MLR, the ε i 's in GWR are random error terms which are independently normally distributed with zero mean and common variance σ 2 . For GWR, a local regression is calibrated at any location i with observations near to i given more influence than observations further away by weighting them according to some kernel weighting function.</p><p>In addition to GWR, there are a number of spatial models in which the y-variable or the error term exhibits spatial autocorrelation, although the regression coefficients remain fixed over space <ref type="bibr" target="#b0">(Anselin, 1988;</ref><ref type="bibr" target="#b49">Schabenberger and Gotway, 2005)</ref>. Among these models is the ERR model:</p><formula xml:id="formula_2">y i = β 0 + m ∑ j=1 β j x ij + γ i where γ i = λ n ∑ j=1 c ij γ j + ε i ⎫ ⎪ ⎪ ⎪ ⎪ ⎬ ⎪ ⎪ ⎪ ⎪ ⎭ , (3)</formula><p>where c ij is the ijth element of a row-normalised connectivity matrix. The parameter λ controls the degree of autocorrelation in the error term γ i . Alternatively, the correlation between the γ i 's could be confined to near neighbours as defined by the connectivity matrix, as in the SMA model:</p><formula xml:id="formula_3">y i = β 0 + m ∑ j=1 β j x ij + γ i where γ i = λ n ∑ j=1 c ij ε j + ε i ⎫ ⎪ ⎪ ⎪ ⎪ ⎬ ⎪ ⎪ ⎪ ⎪ ⎭ . (4)</formula><p>As before, λ governs the degree of spatial association. A further alternative is the LAG model:</p><formula xml:id="formula_4">y i = β 0 + m ∑ j=1 β j x ij + λ n ∑ j=1 c ij y j + ε i . (5)</formula><p>In this case, each y i depends on the neighbouring y-values directly through the connectivity matrix and λ. Although λ plays a qualitatively different role than in the previous models (since it directly connects the predictor variable rather than the error terms), it still governs the degree of autocorrelation.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2.">The parametric bootstrap</head><p>The parametric bootstrap is a statistical technique for estimating characteristics of the sampling distribution of a wide range of test statistics when the underlying data distribution is known. As an introduction, the univariate case is explained. Suppose we have a set of independent, identically distributed observations {x 1 , x 2 , . . . , x n }, which can be written as a column vector x. A general test statistic (such as a median, or interquartile range) is a function of these data, and may be written as S (x). Knowing the probability distribution of the individual x i 's sometimes makes it possible to derive the distribution of S theoretically. For example, when S is the t-statistic and the x i 's are normally distributed. However, in general it is not possible to adopt a theoretical approach. When theory cannot help, one way forward is to use simulation. If we knew the distribution of the x i 's, we could simulate a large number of samples</p><formula xml:id="formula_5">{ x * 1 , x * 2 , . . . , x * n }</formula><p>, where the starred variates are generated randomly, and for each sample compute S * = S (x * ). Repeating this for R random samples gives a set {</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>S *</head><p>1 , S * 2 , . . . , S * R } , and finding descriptive statistics for this set provides approximate information about the sampling distribution of S. For example, the standard error of S may be estimated by the sample standard deviation of</p><formula xml:id="formula_6">{ S * 1 , S * 2 , . . . , S * R } : SE bs = 1 R ∑ i=1...R ( S * i -Ŝ * ) 2 (6)</formula><p>where Ŝ * is the sample mean of {</p><formula xml:id="formula_7">S * 1 , S * 2 , . . . , S * R }</formula><p>. Now, suppose the data x are distributed with a probability distribution function f (x, θ), where θ is a vector of parameters for f , then θ is estimated from the sample using, say, maximum likelihood (ML), giving an estimate θ and then a number of 'pseudo-samples' are drawn by simulating random x * 's from f ( x, θ)</p><p>. From these we build up a series of R simulated S * values, as set out above. The idea is that as n increases, the simulation distribution f ( x, θ) gets closer to the 'true' distribution of the x i 's since θ gets closer to θ and so, asymptotically, the approximation converges to the true distribution. This implies that there are two kinds of error in a bootstrap analysis-firstly we approximate θ with θ, and secondly, we approximate the 'true' sampling distribution of S with a large number (R) of simulated values. The first kind of error is reduced by increasing n, the second by increasing R. Typically, it is easier to increase R (i.e. by running more simulations) than n. However, given the constraints on accuracy that a finite n imposes, there is often a 'diminishing returns' effect when increasing R. For most empirical studies, a value of R = 999 is recommended. However, given the computational burden that this study's simulation experiment imposes, and given that two competing bootstrap tests are evaluated, a value of R = 99 is used here.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Bootstrapping and regression</head><p>In regression, the situation is similar. Assume a model such as (1) holds. The x ij 's are not random as the random variables are the e i 's and by implication the y i 's, as they are a function of these. An MLR therefore considers the statistical distribution of y i conditional on the values of the x ij 's. Each</p><p>y i is independently normally distributed with mean β 0 + ∑ m j=1 β j x ij and standard deviation σ . The approach to the bootstrap here, is then to fix the x ij values and simulate the y i 's in each sample by generating bootstrap y * i values, based on ML estimates of the coefficients { βj } and the standard deviation σ . Although the underlying bootstrap principal here is the same as above, the multivariate and conditional dependence nature of MLR modelling implies two notable practical differences: (i) in a univariate bootstrap the entire data set is simulated, whereas the bootstrap sample of a MLR data set is only simulated in the y i values-the x ij 's are fixed at the actual sample values, so the bootstrap data set is</p><formula xml:id="formula_8">{ x ij , y * i }</formula><p>; and (ii) in a univariate bootstrap, each x i is identically distributed, so ordering does not matter, whereas in MLR, each y i has a different distribution, depending on x ij so if i 1 ̸ = i 2 then y * i1 is independent of y * i2 , but not necessarily identically distributed. As before, provided the distributional parameters are estimated consistently (using ML, say), then asymptotically the bootstrap distribution will approach the true distribution <ref type="bibr" target="#b17">(Efron and Tibshirani, 1986)</ref>.</p><p>Up until now, we have assumed that a given MLR model holds-and is fully specified except for the values of the β i 's and the variance of the y i 's, and also that the motivation for computing S (X, y)</p><p>is to estimate some descriptive statistic related to this model (where X is a matrix composed of the predictor variables and y is the vector of response variables). However, S (X, y) could also be a test statistic to assess the hypothesis that the model holds. Thus, the data model used is treated as a null hypothesis-and the sampling distribution of the test statistic is found by bootstrap simulation.</p><p>Following <ref type="bibr" target="#b13">Davison and Hinkley (1997)</ref>, it is then possible to compute bootstrap-based p-values. If R values of S * were generated, under the null hypothesis the actual value S would be a further sample from the same distribution. This can then be added to the bootstrap sample. For example, for a onetailed test, the significance of S is Pr {S ≥ S * }, which is just:</p><formula xml:id="formula_9">p = # (S * ≥ S) R + 1 .<label>(7)</label></formula><p>Bootstrapping the ERR, SMA and LAG models Bootstrapping the MLR model in (1) has been described. For bootstrapping the ERR model in (3), the residuals (the difference between the predicted and observed y i values) correspond to the estimated γ i values-in vector form γi , where the individual elements of this vector are not independent. However, if λ is known (or at least estimated reliably by a ML estimate, λ), we can express γ in terms of ε-a random vector whose elements are independent:</p><formula xml:id="formula_10">γ = ( I -λC ) -1 ε<label>(8)</label></formula><p>assuming I -λC is invertible, where C is the connectivity matrix. The mean of each ε i is zero, and if an estimate of the standard deviation of the ε i 's, σ can be obtained, one can create bootstrap samples ε * and from these, create simulated residual samples γ * = ( I -λC ) -1 ε * . From these, simulated y vectors, y * can be created by:</p><formula xml:id="formula_11">y * = X β + γ * (9)</formula><p>so that bootstrap data sets (X, y * ) can be generated. In turn, bootstrap samples of test statistics can be simulated. In the simulations, ML estimates for λ and β, and a bias corrected estimate of σ are used. For the SMA model in (4), the assumption of independence of residuals again does not hold. However, a similar approach to the ERR model may be used. As before, assume we have an estimate of λ, then we can express γ in terms of ε-again a random vector with independent, identically normally distributed elements:</p><formula xml:id="formula_12">γ = ( I -λC ) -1 ε. (<label>10</label></formula><formula xml:id="formula_13">)</formula><p>As before, σ can be obtained, and bootstrap samples ε * and γ * = ( I -λC ) -1 ε * are created. From these, simulated y vectors, y * can be created by:</p><formula xml:id="formula_14">y * = X β + γ * (11)</formula><p>to generate (X, y * ) and as usual, bootstrap samples of test statistics are created. As for the ERR model, we again compute ML estimates for λ and β, and a bias corrected estimate of σ . For the LAG model in (5), the ε i 's are independently normally distributed with zero mean and common variance σ 2 . This can be expressed in matrix notation as:</p><formula xml:id="formula_15">y = X β + λCy + ε (12)</formula><p>which may be re-arranged to:</p><formula xml:id="formula_16">y = (I -λC) -1 (Xβ + ε) (13)</formula><p>which provides an approach to the bootstrap simulation, where in this case, ML estimates of λ and β, and a bias corrected estimate of σ are estimated, and bootstrap samples ε * are created from these. This in turn gives bootstrap samples of y:</p><formula xml:id="formula_17">y * = ( I -λC ) -1 ( X β + ε * )<label>(14)</label></formula><p>and as before, these may be used as a basis for bootstrap estimation of standard errors of the parameter estimates, significance tests and so on.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3.">Bootstrap test statistics for coefficient non-stationarity</head><p>For this study, it is intended to create a test statistic for spatial non-stationarity, as characterised for example by the GWR model (2) and to use this to test against a number of null hypotheses with globally-fixed regression coefficients, such as models (1)-( <ref type="formula">5</ref>). In previous work, GWR models have been considered as alternative hypotheses to null models of type (1), but here further null models of type ( <ref type="formula">3</ref>)-( <ref type="formula">5</ref>) are considered, that each have some kind of spatial structure, although the regression coefficients still do not vary spatially. Thus, a key study aim is to check whether the observed spatial variation when calibrating a GWR model could be attributed to the spatial structure contained in the autoregressive models. In this respect, a test statistic is defined with the intention of detecting non-stationarity in regression coefficients. The GWR model assumes that the vector of regression coefficients, β, varies geographically, but that is not the case for any of the null models considered. Therefore, a test statistic measuring spatial variability of regression coefficients is proposed.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A basic test statistic</head><p>One such statistic is the standard deviation of a number of local estimates of a given regression coefficient over a number of distinct sampling points. Here, GWR is used to obtain the local coefficient estimates. If a point has coordinates, (u k , v k ) then the GWR estimate of β (u k , v k ) is given by solving:</p><formula xml:id="formula_18">X T W (u k ,v k ) X β (u k , v k ) = X T W (u k ,v k ) y (<label>15</label></formula><formula xml:id="formula_19">)</formula><p>where W (u k ,v k ) is a diagonal matrix whose diagonal entries are the geographical weighting of each observation for the regression point k. In this study, we specify an adaptive (by distance) bi-square kernel function, so that the ith elements of the diagonal of W (u k ,v k ) is:</p><formula xml:id="formula_20">w ik = ( 1 -(d ik /r k ) 2 ) 2 if d ik ≤ r k w ik = 0 otherwise,<label>(16)</label></formula><p>where d ik is the distance between the location of observation i and (u k , v k ); and r k is a bandwidth parameter controlling the size of the local window used to calibrate β (u k , v k ). In this study, r k is chosen 'automatically' from the data using a corrected AIC approach <ref type="bibr" target="#b22">(Fotheringham et al., 2002)</ref>. Each</p><formula xml:id="formula_21">coefficient β j (u k , v k ) is calibrated for a number of different locations comprising the set L = {(u k , v k )},</formula><p>and the standard deviation of these values gives a test statistic q j for each coefficient:</p><formula xml:id="formula_22">q 2 j = ∑ k=1...L ( β j (u k , v k ) - ⌣ β j ) 2 L (<label>17</label></formula><formula xml:id="formula_23">)</formula><p>where</p><formula xml:id="formula_24">⌣ β j = ∑ k=1...L β j (u k , v k ) L .<label>(18)</label></formula><p>A bootstrap approach, as outlined above, will be used to test a hypothesis of stationarity for each coefficient. Typically, L is simply the set of locations of the observations. Our approach is similar to that used in <ref type="bibr" target="#b4">Brunsdon et al. (1996</ref><ref type="bibr">Brunsdon et al. ( , 1998b) )</ref> and <ref type="bibr" target="#b37">Leung et al. (2000)</ref> for testing for spatial non-stationarity against a MLR null. In <ref type="bibr" target="#b4">Brunsdon et al. (1996</ref><ref type="bibr">Brunsdon et al. ( , 1998b) )</ref> the approach is again simulation-based, but uses a randomisation test in which random permutations of the predictor and response variable list for each individual are assigned to the locations. The bootstrap approach here, differs in that it does not condition on the exact values of the variables observed in the data.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A modified test statistic</head><p>One issue when considering the estimation of coefficients in GWR is that of local collinearity amongst the predictor variables <ref type="bibr" target="#b55">(Wheeler and Tiefelsdorf, 2005;</ref><ref type="bibr" target="#b52">Wheeler, 2007)</ref>. For the global regression case, if there is a high degree of correlation between X variables, then problems calibrating the regression model can follow. In particular, if a pair of predictors are exactly related by a linear equation, say x 1 = ax 2 + b for some a and b, then the determinant of X T X is zero and equations such as (15) in their global form, cannot be solved. A similar problem occurs if any of the predictors are constant, and there is an intercept term. In practice, such exact linear relationships rarely occur, but situations in which they very nearly occur are more frequent. In this case, the above equation may be solved, but in the words of <ref type="bibr" target="#b19">Farrar and Glauber (1967)</ref> 'the elements of ( X T X ) -1 explode'. This issue can be particularly important in GWR, since a near-linear relationship between predictors need only hold in a particular geographical region, rather than in the data set as a whole, to cause such problems.</p><p>In Eq. ( <ref type="formula" target="#formula_22">17</ref>), the q j test statistic for non-stationarity is based on the standard deviation of local coefficient estimates. If some individual local coefficients behave erratically due to say, local collinearity, they could affect the reliability of the test statistic. Thus, we modify q j by working with standard deviations of the local normalised coefficient estimates, which down-weights the effects of any outlying coefficient estimates. That is, estimates of β i (u k , v k ) divided by their estimated standard errors are used instead of just the estimates of β i (u k , v k ), alone. Call this modified statistic q # j , then:</p><formula xml:id="formula_25">( q # j ) 2 = ∑ k=1...L ( β # j (u k , v k ) - ⌣ β # j ) 2 L (<label>19</label></formula><formula xml:id="formula_26">)</formula><p>where</p><formula xml:id="formula_27">β # j (u k , v k ) = β j (u k , v k ) SE ( β j (u k , v k ) )<label>(20)</label></formula><p>and</p><formula xml:id="formula_28">⌣ β # j = ∑ k=1...L β # j (u k , v k ) L (<label>21</label></formula><formula xml:id="formula_29">)</formula><p>where q # j is assumed more robust to the effects of local collinearity than the basic test statistic q j . Observe that local coefficients and local standard errors can vary over space not only for the effects of local collinearity, but for other reasons as well. For example, if we use a fixed bandwidth for the geographical weighting function, the local estimates around the edge of the geographical extent under study are obtained from a relatively small number of samples compared to those located in the centre of the study area, and this can cause unusually high local standard errors. Outlying observations can have a similar effect on the local estimates, where such observations need only be locally-outlying <ref type="bibr">(Harris et al., 2010b)</ref>. For these reasons, the use of q # j is preferred to q j , in general.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Remarks and interpretation</head><p>Thus, each of the four fixed coefficient regressions are calibrated in the usual way and associated bootstrap data sets are generated (where only the response varies, whilst the predictors are always fixed). For each bootstrap data set, GWR estimates of the local coefficients are generated, where the S * values from before, will be one of q j or q # j computed accordingly. The MLR null acts as the benchmark, whilst the other nulls are spatial. As q j or q # j are measures of variability of the local estimates, the tests are easy to interpret. Since each null regression model is a random process, even when coefficients do not vary geographically one would not expect the local coefficient estimates to be identical in different locations. The aim of the bootstrap analysis is to determine how much variability in coefficient estimates one might expect to encounter due to the random variation in a model, and to compare the level of variability in the observed data set against this. In particular, if the null model is geographically fixed in the regression coefficients, but exhibits spatial autocorrelation in either the response variable or the error term, one might expect the degree of variation in local calibrations to be greater. For example, if one of the predictor variables takes on a higher value in a certain region, and autocorrelation in the response values gives rise to a cluster of relatively high levels in the same region, this could lead to a higher local estimate of the regression coefficient associated with the predictor, if the regression window contains this region. This variability should be entirely explained by factors other than geographical variation in regression coefficients. The aim in this study is to test whether the degree of variability in local estimates exceeds the amount expected due to situations such as that described. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.4.">The simulation experiment</head><p>The geostatistical-based simulation experiment generates realisations to exhibit one of three core scenarios: (i) stationary data relationships with random (or independent) error effects, (ii) stationary data relationships with spatially-autocorrelated (or dependent) error effects, and (iii) non-stationary data relationships with random (or independent) error effects. Intuitively, the spatial processes that result should strongly favour: MLR for scenario (i), ERR/SMA/LAG for scenario (ii), and GWR for scenario (iii). The experiment provides useful stochasticity, enabling nuanced differences to each realisation, generated from the same initial specifications. Six spatial processes are specified, two for each scenario, see Table <ref type="table" target="#tab_0">1</ref>.</p><p>As an overview, the experiment generates three predictors, x 1 , x 2 , x 3 , with two levels of collinearity (weak and strong) between x 2 , x 3 only; and then independently, the regression coefficients, β 0 , β 1 , β 2 , β 3 are simulated. The predictor and coefficient realisations are then directly used to generate the response variable y i , and the error data ε i , where 90% or 99.9% of the variation in the response is explained by the mean component of the spatial process. Thus, respective ratios of 90:10 and 99.9:0.01 are specified for the mean to error components of the spatial process. The error itself, is specified as either a random or spatially-autocorrelated process. The resultant response to predictor variable correlations would range from moderately weak to moderately strong.</p><p>The mean to error ratio strongly controls the outcomes of the experiment, where as it tends to 0:100, worthwhile insights on model behaviour reduce. The chosen ratios reflect this tendency. The 99.9:0.01 ratio is used for processes generated with non-stationary relationships, as a nonstationary intercept term is also representative of the errors. This commonality leads to a difficult identification problem, which is further complicated in that a non-stationary intercept tends to reflect autocorrelated errors. With these issues in mind, the random errors generated for these particular processes are relatively small; and clearly, the consideration of autocorrelated error effects would only further complicate. The same ratio of 99.9:0.01 is also used for stationary relationship processes with random errors, whilst for stationary relationship processes with autocorrelated errors, the narrower 90:10 ratio is used.</p><p>For each of the six different processes (SP1 to SP6), 30 data realisations are generated and the bootstrapping methodology applied, together with contextual model fits and diagnostics. Thus 6 × 30 = 180 realisations are generated in total. The steps of the simulation algorithm are such, that many realisations will have common elements. For example, for the first realisations for processes SP1 and SP3 in Table <ref type="table" target="#tab_0">1</ref>, they will share the same predictor data and regression coefficients, but differ in their error and response data; and this type of commonality pervades for all 30 realisations. Realisations are generated to the centroids of the Georgia counties educational attainment data set for the United States. Area-based simulations are considered a realistic improvement to grid-based ones (e.g. <ref type="bibr" target="#b51">Wang et al., 2008</ref>. The Georgia counties are similarly used in the GWR simulation study of <ref type="bibr" target="#b48">Paez et al. (2011)</ref>, where its sample size (n = 159) is considered too small to reliably use GWR. This is not viewed as a concern and instead, presents a critical challenge to the bootstrap tests. Details of the simulation experiment are given in supporting information, section S1.</p><p>Basic and modified bootstrap tests are applied (with R = 99), to each of the 30 data realisations, stemming from each of the six different spatial processes. The bootstrap outputs will only consist of p-values, testing each of the four null hypotheses. Hence for each test statistic, a sequence of p-value distributions is found (each of size 30) and these are summarised with boxplots, where instances of p ≤ 0.05 (as a one-tailed test) would indicate significant coefficient non-stationarity at the 95% level. It is also useful to place in context the bootstrap results, with an existing alternative. In this respect, we find p-values from the permutation test (described before) for significant variation in</p><p>each GWR coefficient, with MLR as the null hypothesis. Here R = 99 random permutations are specified for this test; and the resulting p-value distributions are summarised with boxplots, where instances of p ≤ 0.05 (as also one-tailed) would indicate significant coefficient non-stationarity at the 95% level. Further contextual information is found via various regression diagnostics, for all 180 realisations, where we report: (i) spatial autocorrelation tests for the response and residual data from a MLR fit; (ii) GWR bandwidths for spatial heterogeneity effects; (iii) global design matrix condition numbers (CNs) for collinearity effects; (iv) ranked (corrected) AIC values for relative model fit; (v) coefficient estimation accuracy; and (vi) coefficient estimation confidence interval (ECI) accuracy. These diagnostics are detailed in supporting information, section S2. On a medium specs laptop (Intel R ⃝ core TM i7-4600U CPU @ 2.10 GHz to 2.70 GHz with 16.0 GB using a 64-bit OS), the full simulation experiment took 3 days, 1 h and 30 min to run.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.5.">Local patterns</head><p>Having applied the described bootstrap tests, where some or all of the regression's coefficients are considered non-stationary, it is next useful to map each local coefficient set and determine in which areas they differ significantly from zero, or some other quantity. Since we are assessing a nonstationary hypothesis against several stationary null hypotheses, a test as to whether local regression coefficients differ from the value of the hypothesised global coefficient is appropriate. This is a useful map-based test, as it visually explores the geographical consequences of incorrectly using a stationary model by mapping those places likely to have notably different regression coefficients.</p><p>For example, given a predictor variable shows strong signs of departure from coefficient stationarity, it would be useful to find the sampling distribution of its local coefficient estimate (or a test statistic based on this coefficient) in a number of locations, and measure its deviation from a global coefficient. An approach based on the bootstrap analysis of the null hypotheses here, is now proposed. Essentially, one estimates a local regression coefficient, as in Eq. ( <ref type="formula" target="#formula_18">15</ref>), and then compute its standard error according to:</p><formula xml:id="formula_30">SE h 0 ( β) = diag [ σh 0 ( X T W (u k ,v k ) X ) -1 X T W 2 (u k ,v k ) X ( X T W (u k ,v k ) X ) -1 ]<label>(22)</label></formula><p>where SE h 0 ( β) is a vector of coefficient standard errors based on the null hypothesis; and σh 0 is an estimate of the error term standard deviation for the null model. The local estimate has the global estimate subtracted, and the result is then divided by the standard error from Eq. ( <ref type="formula" target="#formula_30">22</ref>), to obtain a pseudo t-statistic at location (u k , v k ):</p><formula xml:id="formula_31">t j,h 0 (u k , v k ) = β j (u k , v k ) -β j,h 0 SE h 0 ( β j (u k , v k ) )<label>(23)</label></formula><p>where β j,h 0 denotes the global regression coefficient under the hypothesis h 0 . As this statistic is no longer assumed to have a t-distribution, a more appropriate name might be a local Wald statistic after <ref type="bibr" target="#b50">(Wald, 1943)</ref>, which similarly down-weights the effects of extreme-valued local coefficients, as does the modified test statistic, q # j from before. Thus R bootstrap samples can be created, based on one of the four possible null hypotheses, and a number of local coefficient-based pseudo t-statistics can be computed for each bootstrap sample. Thus for each local statistic, a bootstrap p-value is found and these are mapped to identify where the local regression coefficients significantly differ from the global one.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.">Results</head><p>The bootstrap results of the simulation experiment are given in Figs. <ref type="figure" target="#fig_0">1</ref><ref type="figure" target="#fig_1">2</ref><ref type="figure" target="#fig_2">3</ref><ref type="figure" target="#fig_3">4</ref>, where they can be placed in context of: (i) the simulation specifications in Table <ref type="table" target="#tab_0">1</ref> and Table <ref type="table" target="#tab_0">S1</ref> in supporting information, and example realisations in Figures S1 to S3 in supporting information; (ii) the model diagnostic outputs in Figures S4 to S9 in supporting information; and (iii) the example single realisation outputs in Tables <ref type="table">2</ref><ref type="table">3</ref><ref type="table" target="#tab_1">4</ref>and Figs. <ref type="figure" target="#fig_4">5</ref> and <ref type="figure" target="#fig_5">6</ref>, from Section 3.3. Clearly, it is quite a challenge to interpret the diversity of the inputs and outputs created.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1.">All 180 realisations: contextual diagnostics</head><p>A full presentation of the contextual results is given in supporting information (section <ref type="table">S3</ref>), but the following key observations are listed here, together with a critical commentary: i. Autocorrelation tests: For all six processes, significant autocorrelation is always found in the response variable. Significant autocorrelation is also found for the residual data sets from an MLR fit, but only for processes SP3 to SP6. Thus for non-stationary coefficient processes (SP5, SP6), inappropriate MLR fits will directly produce autocorrelated residuals. ii. GWR bandwidths: For random error and stationary coefficient processes (SP1, SP2), bandwidths tend to the maximum of 100%, indicating GWR to be an inappropriate model choice, as would be expected. Bandwidths with an average size of 41.7%, result for autocorrelated error and stationary coefficient processes (SP3, SP4), indicating that GWR will tend to inappropriately suggest spatial pattern in data relationships, when the response and residual data exhibit autocorrelation (as confirmed in (i)). Bandwidths with an average size of 15.9%, result for SP5 and SP6, providing the strongest evidence for choosing GWR. However, as GWR with bandwidth selection through minimum AIC criterion is known to over-fit <ref type="bibr" target="#b34">(Jetz et al., 2005;</ref><ref type="bibr" target="#b48">Paez et al.</ref>, 2011), it is likely that smaller bandwidths have been found than what is ideally required; see also <ref type="bibr" target="#b38">Loader (2004)</ref> for the local regression case. iii. Ranked AIC-based model fits: In general, the model fit via AIC is found to be a poor discriminating diagnostic across the three core process groups. Here GWR can often provide the best fit to SP3 and SP4, while ERR can on occasion provide the best fit to SP5 and SP6. iv. Regression coefficient accuracy: All models under-perform due to predictor variable collinearity, for the processes they are designed to suit (i.e. MLR for SP2; ERR/SMA/LAG for SP4; and GWR for SP6). For GWR, this re-affirms what has been widely reported (e.g. <ref type="bibr" target="#b48">Paez et al., 2011)</ref>, together with remediation strategies to counter it <ref type="bibr" target="#b52">(Wheeler, 2007</ref><ref type="bibr" target="#b53">(Wheeler, , 2009;;</ref><ref type="bibr" target="#b25">Gollini et al., 2015)</ref>.</p><p>Results show however, that collinearity is a generic problem. On average, all models provide similar levels of coefficient estimation accuracy, to SP1 and SP2, which is expected as all study models will tend to the MLR calibration. Similarly, all models provide similar levels of coefficient estimation accuracy to SP3 and SP4. This is because stationary coefficient estimation tends to be robust to spatial effects, whereas coefficient estimation uncertainty commonly is not. GWR does not provide the best results for SP5 and SP6 as ERR and SMA do. It is not unexpected for GWR to perform relatively poorly in this respect, and results do not relay whether or not the GWR coefficient surfaces broadly reflect the actual non-stationary coefficient patterns simulated. This is the remit of GWR after all-that is the spatial exploration of relationship heterogeneity via maps. v. Regression coefficient ECI accuracy: Results are broadly as expected, with each model performing well for the process group, it is designed to suit. Again, GWR can outperform ERR for SP3 and SP4, although it is not designed to do so. For SP5 and SP6, GWR and ERR perform the best, indicating that uncertainties in their coefficient estimation are, in general, accurately accounted for in their coefficient standard errors. Thus for GWR, its relatively poor coefficient estimation accuracy performance is off-set by its relatively strong performance here. Given these results, it is evident that any GWR analysis should include an assessment of coefficient estimation uncertainty, just as that routinely done in any stationary coefficient analysis. Fotheringham and Oshan, 2016 similarly argue for such assessments, but in relation to poor GWR coefficient estimation due to local collinearity.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2.">All 180 realisations: bootstrap test results</head><p>On viewing the p-value boxplots in the top panels of Figs. <ref type="figure" target="#fig_0">1</ref><ref type="figure" target="#fig_1">2</ref><ref type="figure" target="#fig_2">3</ref><ref type="figure" target="#fig_3">4</ref>, for SP1 and SP2, it is clear that all tests (permutation, basic and modified bootstrap) perform as they should do. On average, there is little evidence for coefficient non-stationarity for all nulls and all response to predictor data relationships are correctly viewed as fixed across space. There is also no evidence to indicate that the level of collinearity compromises these results.</p><p>On viewing the p-value boxplots in the middle panels of Figs. <ref type="figure" target="#fig_0">1</ref><ref type="figure" target="#fig_1">2</ref><ref type="figure" target="#fig_2">3</ref><ref type="figure" target="#fig_3">4</ref>, for SP3 and SP4, it is clear that the permutation tests rarely perform as they are expected to do. These tests consistently and erroneously indicate significant coefficient non-stationarity, for its MLR null, for all four coefficients. This is a direct reflection of GWR's tendency to incorrectly find coefficient spatial pattern to these processes, as observed above. For the bootstrap tests (basic and modified), the results are dependent on the null hypothesis, where MLR and LAG nulls rarely perform as expected. Both will tend to erroneously indicate significant coefficient non-stationarity when none is present. This is again considered a direct consequence of GWR erroneously finding pattern to these processes, but now coupled with relatively small variability in the bootstrapped response variable with the MLR and LAG nulls. This has the joint effect that the (false) variability seen in the GWR coefficients is viewed as significant for these nulls. For ERR and SMA nulls, this is not the case and these models tend to provide bootstrapped response variables that have sufficiently large enough variability, for the (same erroneous) level of variability seen in the GWR coefficients to be perfectly acceptable considering a process that is spatially-autocorrelated with stationary relationships. Thus, ERR and SMA nulls are accepted and data relationships are correctly viewed as fixed across space. Again, there is little evidence to indicate that the level of collinearity compromises these results.</p><p>On viewing the p-value boxplots in the bottom panels of Figs. <ref type="figure" target="#fig_0">1</ref><ref type="figure" target="#fig_1">2</ref><ref type="figure" target="#fig_2">3</ref><ref type="figure" target="#fig_3">4</ref>, for SP5 and SP6, it is clear that not all tests work as they are expected to, as they should all tend to low p-values indicating significant coefficient non-stationarity, for all nulls and for all coefficients. Here the permutation tests are consistently in error, possibly a consequence of the relatively low coefficient variability in the generated processes (as deliberately specified by the LMC parameters, see section S1 in supporting information). Conversely for the basic bootstrap test with the same MLR null, all tests perform as they should. However for the same basic bootstrap test with ERR, SMA or LAG nulls, all tests are again consistently in error. For the modified bootstrap tests, results clearly improve where all tests tend to perform correctly for all four (MLR, ERR, SMA and LAG) nulls, except that is for the intercept term with ERR (and possibly, SMA) nulls (i.e. the intercept is the most likely to be incorrectly viewed as stationary). The behaviour for intercept is not surprising given this term will directly reflect poor estimation in any of the three predictor coefficients, and is also likely to relate to the  </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Table 2</head><p>Results for modified bootstrap tests, for a single realisation-one from SP3 to SP6. Actual SD is the standard deviation of the GWR coefficients divided by their standard errors, resulting from the GWR fit to the single realisation. Both SP3 and SP4 use the same coefficient process, with actual correlations between predictors x 2 and x 3 of r = -0.24 for weak collinearity and r = 0.94 for strong collinearity. Both SP5 and SP6 use the same coefficient process, with actual correlations between predictors x 2 and x 3 of r = 0.15 for weak collinearity and r = 0.94 for strong collinearity.</p><formula xml:id="formula_32">β 0 β 1 β 2 β 3 β 0 β 1 β 2 β 3 Weak collinearity (SP3) Strong collinearity (<label>SP4</label></formula><p>) Modified bootstrap test Actual SD 1.955 2.118 2.857 2.666 1.096 1.964 2.159 1.311 MLR 95% 0.861 2.956 2.726 2.328 0.974 2.103 1.073 0.993 MLR p-value 0 0.11 0.03 0.03 0.03 0.07 0 0.02 ERR 95% 2.216 3.066 3.419 3.872 2.055 3.097 2.638 1.999 ERR p-value 0.12 0.52 0.26 0.59 0.58 0.46 0.21 0.52 SMA 95% 2.082 2.802 3.338 3.917 1.632 2.993 2.314 1.911 SMA p-value 0.08 0.37 0.26 0.47 0.53 0.36 0.13 0.38 LAG 95% 1.264 2.962 2.618 2.838 1.066 2.813 1.418 1.147 LAG p-value 0 0.18 0.02 0.07 0.04 0.18 0 0.02 Weak collinearity (SP5) Strong collinearity (SP6) Modified bootstrap test Actual SD 2.866 3.525 9.103 10.688 3.236 2.719 4.909 2.777 MLR 95% 1.019 1.547 2.663 2.450 1.537 1.246 1.492 1.140 MLR p-value 0 0 0 0 0 0 0 0 ERR 95% 3.700 3.827 6.831 7.319 4.231 2.688 3.626 3.002 ERR p-value 0.19 0.13 0 0 0.35 0.04 0 0.13 SMA 95% 2.731 3.050 5.382 6.565 3.448 2.083 3.382 2.575 SMA p-value 0.03 0 0 0 0.14 0 0 0.02 LAG 95% 1.760 3.028 4.737 3.950 2.140 2.588 2.630 2.490 LAG p-value 0 0 0 0 0 0.03 0 0 Table 3 Exploratory diagnostics for a single realisation, one from SP3 to SP6: Moran's I p-values for the response and for the residual from MLR fit; GWR bandwidth and global CN from MLR fit. Spatial process Moran's I for response (p-value) Moran's I for MLR residual (p-value) GWR Bandwidth (%) Global CN SP3 0 0 29.56 10.00 SP4 0 0 37.89 22.48 SP5 0 0 16.98 9.45 SP6 0 0 16.22 34.45</p><p>identification problem discussed before. Collinearity levels have a marginally adverse effect on these tests, although the modified test is in part, designed to deal with such issues. Observe from before, that an inappropriate MLR fit to a non-stationary coefficient processes will directly produce autocorrelated residuals. Thus all unexpected results for the ERR, SMA and LAG nulls need to be viewed in this context.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.3.">Single realisations</head><p>In summary, the permutation test appears to have little to no value, the basic bootstrap test only has value for MLR nulls, whilst the modified bootstrap has value for all four nulls (MLR, ERR, SMA and LAG). To complete this demonstration of the bootstrap methodology, relevant realisation-specific and localised outputs are interrogated. Modified bootstrap test outputs are shown where in each case the 95% points of the bootstrap samples are computed and significance levels are found using Eq. ( <ref type="formula" target="#formula_9">7</ref>) for upper single-tailed hypothesis tests. Contextual diagnostics are given in Tables <ref type="table">3</ref> and <ref type="table" target="#tab_1">4</ref>. Spatial patterns of the simulated (actual) and estimated GWR coefficients are compared, and contextualised by the local bootstrap p-values. Presenting outputs from a single realisation can be limiting given the stochastic nature of the simulation experiment, but as will be seen, the results tend to reflect that already observed for all realisations.</p><p>In the first instance, bootstrap results for example realisations from SP3 and SP4 are presented where all coefficients should be viewed as stationary (Table <ref type="table">2</ref>). Here at the 95% level, evidence for coefficient non-stationarity appears with respect to MLR and (less so for) LAG null hypotheses, for both realisations, and for β 0 , β 2 , β 3 , only. However, given there is no evidence for coefficient nonstationarity for ERR and SMA nulls, it is reasonable to assume that spatial variation in all coefficients should be (correctly) considered a consequence of autocorrelation effects rather than relationship non-stationarity. For all regression terms, the 95% point of the distribution of the test statistic tends to increase in the following model order: MLR, LAG, SMA and ERR. Thus, the degree to which one might expect local coefficients to vary when a regression with fixed coefficients holds, increases in this order. In other words, ERR is the 'best' at addressing any perceived coefficient non-stationarity by the specification of a spatial autocorrelation effect instead. Collinearity levels have not adversely influenced these results. For the same realisations, surfaces are presented for β 1 , β 2 only and the local bootstrap p-values are only found for MLR and ERR nulls. It is evident how GWR can erroneously find pattern in coefficients when none exist (Fig. <ref type="figure" target="#fig_4">5(a)</ref>) and that such behaviour can be exacerbated in the presence of collinearity (Fig. <ref type="figure" target="#fig_4">5(c)</ref>). It is just such spatial patterns that the (unsuspecting) analyst can be most struck with, and without conducting a fuller analysis as that suggested here, can lead to entirely false interpretations. Thus, not only do the global bootstrap results rein in such false perceptions, but the local bootstrap results do so too. In Fig. <ref type="figure" target="#fig_4">5(b)</ref> and <ref type="figure">(d</ref>), localised coefficients that significantly differ from the corresponding global coefficient of the MLR or ERR model are those with p-values &gt; 0.95 or p-values &lt; 0.05, say (i.e. sample units respectively coloured 'dark blue' or 'dark red'). It is evident that such areas decrease on viewing the ERR null in relation to the MLR null, resulting in only a few areas considered to have a non-stationary relationship for the given regression term-areas which incidentally are a direct reflection of the erroneous GWR fit in the first place.</p><p>In the second instance, bootstrap results for example realisations from SP5 and SP6 are presented (Table <ref type="table">2</ref>). Here evidence for coefficient non-stationarity is strong with respect to MLR and LAG null hypotheses, for both realisations, and for all coefficients. Although such evidence is marginally less convincing for ERR and SMA nulls (as remember, non-stationary coefficient processes will tend to have autocorrelated errors), the test results as a whole strongly (and correctly) indicate that all coefficients should indeed be viewed as non-stationary. Again for the same realisations, surfaces are presented for β 1 , β 2 only, and the local bootstrap p-values are only found for MLR and ERR nulls.</p><p>It is now evident how GWR can over-fit (Fig. <ref type="figure" target="#fig_5">6(a)</ref>) and that such behaviour can be exacerbated in the presence of collinearity (Fig. <ref type="figure" target="#fig_5">6(c)</ref>). Again, our fuller analysis helps rein in likely misconceptions about the true nature of relationship non-stationarity, where reassuringly the results of Table <ref type="table">2</ref> do not appear adversely influenced by collinearity. It is clear in Fig. <ref type="figure" target="#fig_5">6(b</ref>) and (d), that although areas of significant coefficient non-stationarity decrease on viewing the ERR null in relation to the MLR null, they do not decrease to the extent that ERR would be favoured over GWR. Finally, note that the bootstrap results are unable to discriminate true coefficient non-stationarity from that due to collinearity, as the modified and local tests are only designed to be robust to such effects. In this respect, it is recommended that a thorough analysis of collinearity is always conducted in practise (e.g. <ref type="bibr" target="#b25">Gollini et al., 2015)</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.">Discussion and concluding remarks</head><p>This study has set out a bootstrap methodology to test for coefficient non-stationarity in a regression model against four models with globally-fixed coefficients-the most basic of these having no spatial component, the others involving spatial autocorrelation effects. In particular, we tested for coefficient non-stationarity for GWR against four nulls: MLR, ERR, SMA and LAG models. The methodology provides three test statistics: (i) a basic test statistic; (ii) a modified test statistic, that is robust to unusual local coefficients and local standard errors; and (iii) a localised test statistic that is similarly robust to that defined in (ii). The methodology was objectively assessed via a simulation experiment and was not assessed in isolation, as it was important to provide contextual analyses. We found the basic bootstrap test statistic to only have value for MLR nulls, whilst the superior, modified bootstrap test statistic was found to have value for all four study nulls-MLR, ERR, SMA and LAG.</p><p>There are however caveats to this research, especially considering that an MLR fit to a nonstationary coefficient process will directly produce autocorrelated residuals, whilst GWR will commonly find spatial pattern in the coefficients when none exists provided the response/error is autocorrelated. Little can be done to address these unwanted (identification) artefacts, where it should also be noted that ERR will on occasion appear a good model choice to a non-stationary coefficient process. Although ensuring a broad range of stationary coefficient null models are used, as done here, is one way of mitigating against these confounders. Study results are also inter-dependent on: (a) the characteristics of the simulated data; (b) the properties and assumptions of the chosen non-stationary coefficient model; and (c) the properties and assumptions of the chosen null models. These caveats and dependencies are considered tolerable given the study's core aim is to introduce the bootstrap methodology and demonstrate its potential.</p><p>The six spatial processes specified were kept as simple as possible, so not to detract from the bootstrap methodology, but to also provide a level of objectivity so that the new methodology could be meaningfully assessed (something not viable in any empirical setting, see section S4 in supporting information). Furthermore, only basic GWR has been studied using a standard calibration procedure (adaptive bi-square kernel with AIC-defined bandwidth), and the results only relate to this use, together with the use of basic null models with standard spatial weights structures. However, as the bootstrap tests are general the next logical steps would be a conduct a regression specification sensitivity analysis for their effects on the bootstrap results, whilst keeping the simulation design the same as that used here.</p><p>The simulation experiment does however have the potential to be highly involved by varying the many parameters of the LMC. This flexibility of design is key to why a second-order effects simulation approach was taken in preference to other, more deterministic approaches found in the literature (e.g. <ref type="bibr" target="#b51">Wang et al., 2008)</ref>. Thus, by extending the simulated experiment to generate a more varied set of spatial processes, say with different mean to error ratios, graded levels of coefficient nonstationarity, different scales of coefficient non-stationarity, different levels of residual autocorrelation, different levels of predictor variable autocorrelation (e.g. <ref type="bibr" target="#b33">Hughes and Haran, 2013)</ref>, different levels of collinearity, the introduction of anomalies-the full spectrum of extended GWR models could be assessed together with nulls that are similarly extended. Many early GWR models spring to mind, for example, robust and heteroskedastic GWR <ref type="bibr" target="#b22">(Fotheringham et al., 2002)</ref>.</p><p>In a similar vein, the Bayesian SVC model of <ref type="bibr" target="#b24">Gelfand et al. (2003)</ref> could be trialled, as this is commonly viewed as a more accurate alternative to GWR <ref type="bibr" target="#b54">(Wheeler and Calder, 2007;</ref><ref type="bibr" target="#b21">Finley, 2011)</ref>. Interestingly, coefficient estimation with the Bayesian SVC model is directly based on a LMC, as are the simulated coefficients generated here. Although a difficulty arises, in that (unlike this study) it is not ideal to assess a statistical model using a simulation experiment that the model itself is based on. Furthermore, as a direct result of using a LMC, the Bayesian SVC model suffers computationally and as such, is not commonly applied. In this respect, a revised eigenvector spatial filtering (ESF) based SVC model <ref type="bibr" target="#b27">(Griffith, 2008)</ref> that provides a variant of the Bayesian SVC model <ref type="bibr" target="#b45">(Murakami et al., 2017)</ref>, holds much promise as it does not suffer computationally.</p><p>Given that basic GWR can over-fit the coefficient processes generated in this study, spatial processes may also exist when GWR is likely to under-fit, respectively giving rise to unduly high and unduly low levels of coefficient variability, which in turn would compromise the validity of the bootstrap tests. Such issues warrant further study and directly relate to bandwidth selection in GWR. Different approaches to bandwidth selection can be investigated via the simulation experiment, such as the robust cross-validation procedure of <ref type="bibr" target="#b18">Farber and Paez (2007)</ref>, the procedure of <ref type="bibr" target="#b9">Cho et al. (2010)</ref> that provides a bandwidth which ensures GWR residuals display random variation, or the dual bandwidths of an anisotropic GWR model <ref type="bibr" target="#b47">(Paez, 2004)</ref>. Scale GWR models should also be considered. For example, mixed GWR where some coefficients are fixed whilst others vary <ref type="bibr" target="#b7">(Brunsdon et al., 1999)</ref> or flexible bandwidth GWR (FB-GWR) where each coefficient varies at its own spatial scale <ref type="bibr" target="#b56">(Yang et al., 2012;</ref><ref type="bibr" target="#b39">Lu et al., 2017)</ref>. For these models, a hierarchical testing strategy could be employed where MLR, basic GWR and mixed GWR are viewed as subsets of FB-GWR-effectively the strategy used in <ref type="bibr" target="#b46">Nakaya et al. (2005)</ref> but with the testing being achieved via a bootstrap approach. FB-GWR counters a problem with most GWR models, in that they assume the same degree of spatial smoothness for each coefficient, which is unrealistic. Here Bayesian SVC and ESF-based SVC models provide comparison to FB-GWR, as they are also not so constrained. Furthermore, mixed GWR with only the intercept term varying, provides a route to better understand the behaviour of this term, with respect to its relationship to other coefficients and to associated first-and second-order identification issues.</p><p>Alternative stationary coefficient nulls can also be considered, such conditional autoregressive nulls, in which the random part of the model is specified in terms of conditional probability distributions <ref type="bibr" target="#b10">(Cliff and Ord, 1973)</ref>. Here, advances on the bootstrap method itself may be useful, such that found in <ref type="bibr" target="#b20">Fingleton and Legallo (2008)</ref>, <ref type="bibr" target="#b36">Lahiri (2010)</ref>, <ref type="bibr" target="#b8">Burridge and Fingleton (2010)</ref>, <ref type="bibr">Monchuk et al. (2011), Han and</ref><ref type="bibr" target="#b29">Lee (2012)</ref>, <ref type="bibr" target="#b32">Herrera et al. (2013)</ref>. Finally moving forward to empirical studies, where the true value of this bootstrap method will be realised, the results from this study (and possible extensions) can help guide the selection of a given SVC model over an associated stationary coefficient null, that suits the properties of the real study data and the analytical questions being posed.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Fig. 1 .</head><label>1</label><figDesc>Fig. 1. All 90 realisations for three spatial processes (SP1, SP3 and SP5): boxplots of permutation test and basic bootstrap test p-values. Plots are shown with p-value thresholds at 0.05, 0.10 and 0.50.</figDesc><graphic coords="10,44.96,63.23,372.15,286.96" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Fig. 2 .</head><label>2</label><figDesc>Fig. 2. All 90 realisations for three spatial processes (SP2, SP4 and SP6): boxplots of permutation test and basic bootstrap test p-values. Plots are shown with p-value thresholds at 0.05, 0.10 and 0.50.</figDesc><graphic coords="11,50.69,63.23,372.16,284.31" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Fig. 3 .</head><label>3</label><figDesc>Fig. 3. All 90 realisations for three spatial processes (SP1, SP3 and SP5): boxplots of permutation test and modified bootstrap test p-values. Plots are shown with p-value thresholds at 0.05, 0.10 and 0.50.</figDesc><graphic coords="12,44.96,63.23,372.23,282.91" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Fig. 4 .</head><label>4</label><figDesc>Fig. 4. All 90 realisations for three spatial processes (SP2, SP4 and SP6): boxplots of permutation test and modified bootstrap test p-values. Plots are shown with p-value thresholds at 0.05, 0.10 and 0.50.</figDesc><graphic coords="13,50.69,63.23,372.26,279.83" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Fig. 5 .</head><label>5</label><figDesc>Fig. 5. Example realisations for SP3 and SP4 with (a, c) actual versus GWR estimated coefficients; and (b, d) local bootstrap pvalues for MLR and ERR null model hypotheses. Results are given for β 1 , β 2 only, and each using the same stationary coefficient process. (For interpretation of the references to colour in this figure legend, the reader is referred to the web version of this article.)</figDesc><graphic coords="14,43.79,65.53,374.45,513.36" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>Fig. 6 .</head><label>6</label><figDesc>Fig. 6. Example realisations for SP5 and SP6 with (a, c) actual versus GWR estimated coefficients; and (b, d) local bootstrap p-values for MLR and ERR null model hypotheses. Results are given for β 1 , β 2 only, and each using the same non-stationary coefficient process. (For interpretation of the references to colour in this figure legend, the reader is referred to the web version of this article.)</figDesc><graphic coords="15,50.24,64.69,373.00,515.04" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1</head><label>1</label><figDesc>Summary of the six spatial processes generated, each with their different spatial characteristics.</figDesc><table><row><cell>Spatial</cell><cell>Intercept</cell><cell>Coefficient</cell><cell>Coefficient</cell><cell>Coefficient</cell><cell>Predictor data</cell><cell>Error term ε i</cell><cell>Mean to</cell></row><row><cell>process</cell><cell>β 0</cell><cell>β 1</cell><cell>β 2</cell><cell>β 3</cell><cell>collinearity for</cell><cell></cell><cell>error ratio</cell></row><row><cell>no.</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell>x 2 , x 3</cell><cell></cell><cell>(%)</cell></row><row><cell>SP1</cell><cell>Stationary</cell><cell>Stationary</cell><cell>Stationary</cell><cell>Stationary</cell><cell>Weak</cell><cell>Random</cell><cell>99.9:0.01</cell></row><row><cell>SP2</cell><cell>Stationary</cell><cell>Stationary</cell><cell>Stationary</cell><cell>Stationary</cell><cell>Strong</cell><cell>Random</cell><cell>99.9:0.01</cell></row><row><cell>SP3</cell><cell>Stationary</cell><cell>Stationary</cell><cell>Stationary</cell><cell>Stationary</cell><cell>Weak</cell><cell cols="2">Autocorrelated 90:10</cell></row><row><cell>SP4</cell><cell>Stationary</cell><cell>Stationary</cell><cell>Stationary</cell><cell>Stationary</cell><cell>Strong</cell><cell cols="2">Autocorrelated 90:10</cell></row><row><cell>SP5</cell><cell>Non-</cell><cell>Non-</cell><cell>Non-</cell><cell>Non-</cell><cell>Weak</cell><cell>Random</cell><cell>99.9:0.01</cell></row><row><cell></cell><cell>stationary</cell><cell>stationary</cell><cell>stationary</cell><cell>stationary</cell><cell></cell><cell></cell><cell></cell></row><row><cell>SP6</cell><cell>Non-</cell><cell>Non-</cell><cell>Non-</cell><cell>Non-</cell><cell>Strong</cell><cell>Random</cell><cell>99.9:0.01</cell></row><row><cell></cell><cell>stationary</cell><cell>stationary</cell><cell>stationary</cell><cell>stationary</cell><cell></cell><cell></cell><cell></cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 4</head><label>4</label><figDesc>Model accuracy diagnostics for a single realisation, one from SP3 to SP6: model AIC, coefficient relRMSE, coefficient G-STAT and coefficient M-ECI-W values.</figDesc><table><row><cell>Spatial process</cell><cell>Statistic</cell><cell>MLR</cell><cell>ERR</cell><cell>SMA</cell><cell>LAG</cell><cell>GWR</cell></row><row><cell></cell><cell>AIC</cell><cell>545.53</cell><cell>523.38</cell><cell>527.61</cell><cell>545.6</cell><cell>521.98</cell></row><row><cell>SP3</cell><cell>relRMSE G-STAT</cell><cell>0.29 0.46</cell><cell>0.19 0.76</cell><cell>0.16 0.78</cell><cell>0.44 0.53</cell><cell>1.21 0.67</cell></row><row><cell></cell><cell>M-ECI-W</cell><cell>0.29</cell><cell>0.58</cell><cell>0.57</cell><cell>0.37</cell><cell>1.16</cell></row><row><cell></cell><cell>AIC</cell><cell>621.91</cell><cell>589.47</cell><cell>596.5</cell><cell>620.91</cell><cell>578.39</cell></row><row><cell>SP4</cell><cell>relRMSE G-STAT</cell><cell>1.02 0.65</cell><cell>0.95 0.63</cell><cell>0.97 0.60</cell><cell>1.10 0.53</cell><cell>1.73 0.50</cell></row><row><cell></cell><cell>M-ECI-W</cell><cell>0.96</cell><cell>1.37</cell><cell>1.21</cell><cell>0.97</cell><cell>2.02</cell></row><row><cell></cell><cell>AIC</cell><cell>556.63</cell><cell>317.54</cell><cell>370.38</cell><cell>539.01</cell><cell>269.51</cell></row><row><cell>SP5</cell><cell>relRMSE G-STAT</cell><cell>0.16 0.41</cell><cell>0.13 0.49</cell><cell>0.13 0.32</cell><cell>0.18 0.29</cell><cell>0.20 0.58</cell></row><row><cell></cell><cell>M-ECI-W</cell><cell>0.55</cell><cell>1.44</cell><cell>0.42</cell><cell>0.47</cell><cell>0.72</cell></row><row><cell></cell><cell>AIC</cell><cell>664.41</cell><cell>382.28</cell><cell>472.78</cell><cell>619.7</cell><cell>318.85</cell></row><row><cell>SP6</cell><cell>relRMSE G-STAT</cell><cell>0.52 -0.12</cell><cell>0.14 0.78</cell><cell>0.22 0.47</cell><cell>0.62 0.16</cell><cell>0.64 0.41</cell></row><row><cell></cell><cell>M-ECI-W</cell><cell>0.64</cell><cell>1.20</cell><cell>0.78</cell><cell>0.49</cell><cell>1.56</cell></row></table></figure>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div><p>Acknowledgements Research presented in this paper was funded by a <rs type="funder">Strategic Research Cluster</rs> grant (<rs type="grantNumber">07/SRC/I1168</rs>) by the <rs type="funder">Science Foundation Ireland</rs> under the National Development Plan. Work was also supported by a <rs type="funder">UK Biotechnology and Biological Sciences Research Council</rs> grant (<rs type="grantNumber">BBSRC BB/J004308/1</rs>). The authors gratefully acknowledge this support. and projects from the <rs type="funder">National Natural Science Foundation of China [NSFC</rs>: <rs type="grantNumber">41401455</rs>; <rs type="grantNumber">NSFC: U1533102</rs>].</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_25t39nU">
+					<idno type="grant-number">07/SRC/I1168</idno>
+				</org>
+				<org type="funding" xml:id="_DwbJcK9">
+					<idno type="grant-number">BBSRC BB/J004308/1</idno>
+				</org>
+				<org type="funding" xml:id="_SfNysSj">
+					<idno type="grant-number">41401455</idno>
+				</org>
+				<org type="funding" xml:id="_Agwgu6N">
+					<idno type="grant-number">NSFC: U1533102</idno>
+				</org>
+			</listOrg>
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Appendix A. Supplementary material</head><p>Supplementary material related to this article can be found online at <ref type="url" target="http://dx.doi.org/10.1016/j.spasta.2017.07.006">http://dx.doi.org/10.1016/j.  spasta.2017.07.006</ref>. This material includes: (i) details of the simulation experiment, (ii) details of the contextual model diagnostics for the simulation experiment, (iii) simulation results for the contextual model diagnostics, (iv) empirical case study and (v) code.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Further reading</head><p><ref type="url" target="http://refhub.elsevier.com/S2211-6753(17)30032-5/sb35">Hurvich, C.M., Simonoff, J.S., Tsai, C-L., 1998. Smoothing parameter selection in nonparametric regression using an improved  Akaike information criterion. J. R. Stat. Soc. Ser. B Stat. Methodol. 60, 271-293</ref>. <ref type="url" target="http://refhub.elsevier.com/S2211-6753(17)30032-5/sb52">Sen, A., Srivastava, M., 1997. Regression Analysis: Theory. Methods, and Applications. Springer, Berlin</ref>.</p></div>			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<monogr>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+		<title level="m">Spatial Econometrics: Methods and Models</title>
+		<meeting><address><addrLine>Dordrecht</addrLine></address></meeting>
+		<imprint>
+			<publisher>Kluwer Academic Publishers</publisher>
+			<date type="published" when="1988">1988</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Spatial dependence and spatial stucture instability in applied regression analysis</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Reg. Sci</title>
+		<imprint>
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="page" from="185" to="207" />
+			<date type="published" when="1990">1990</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Problems with universal kriging</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Armstrong</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Math. Geol</title>
+		<imprint>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="page" from="101" to="108" />
+			<date type="published" when="1984">1984</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Regression analysis of spatial data</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">M</forename><surname>Beale</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">J</forename><surname>Lennon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename><surname>Yearsley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">J</forename><surname>Brewer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Elston</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ecol. Lett</title>
+		<imprint>
+			<biblScope unit="volume">13</biblScope>
+			<biblScope unit="page" from="246" to="264" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Geographically weighted regression: A method for exploring spatial nonstationarity</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">E</forename><surname>Charlton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geogr. Anal</title>
+		<imprint>
+			<biblScope unit="volume">28</biblScope>
+			<biblScope unit="page" from="281" to="298" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Spatial nonstationarity and autoregressive models</title>
+		<imprint>
+			<date type="published" when="1998">1998</date>
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="page" from="957" to="973" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Geographically weighted regression-modelling spatial non-stationarity</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Roy. Statist. Soc. Ser. D (Statist.)</title>
+		<imprint>
+			<biblScope unit="volume">47</biblScope>
+			<biblScope unit="page" from="431" to="443" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Some notes on parametric significance tests for geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Reg. Sci</title>
+		<imprint>
+			<biblScope unit="volume">39</biblScope>
+			<biblScope unit="page" from="497" to="524" />
+			<date type="published" when="1999">1999</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Bootstrap inference in spatial econometrics: the J-test</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Burridge</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Fingleton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Spat. Econ. Anal</title>
+		<imprint>
+			<biblScope unit="volume">5</biblScope>
+			<biblScope unit="page" from="93" to="119" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Geographically weighted regression bandwidth selection and spatial autocorrelation: an empirical example using Chinese agriculture data</title>
+		<author>
+			<persName><forename type="first">S.-H</forename><surname>Cho</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">M</forename><surname>Lambert</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Chen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Appl. Econ. Lett</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="page" from="767" to="772" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<monogr>
+		<title/>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">D</forename><surname>Cliff</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">K</forename><surname>Ord</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1973">1973</date>
+			<publisher>Spatial Autocorrelation. Pion</publisher>
+			<pubPlace>London</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<monogr>
+		<title level="m" type="main">Statistics for Spatial Data</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Cressie</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1993">1993</date>
+			<publisher>John Wiley and Sons</publisher>
+			<pubPlace>New York, USA</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Spatial modeling of regional variables</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Cressie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">H</forename><surname>Chan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Amer. Statist. Assoc</title>
+		<imprint>
+			<biblScope unit="volume">84</biblScope>
+			<biblScope unit="page" from="393" to="401" />
+			<date type="published" when="1989">1989</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<monogr>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">C</forename><surname>Davison</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">V</forename><surname>Hinkley</surname></persName>
+		</author>
+		<title level="m">Bootstrap Methods and their Application</title>
+		<meeting><address><addrLine>Cambridge, UK.</addrLine></address></meeting>
+		<imprint>
+			<publisher>Cambridge University Press</publisher>
+			<date type="published" when="1997">1997</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Bootstrap methods: Another look at the jackknife</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Efron</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ann. Statist</title>
+		<imprint>
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="page" from="1" to="26" />
+			<date type="published" when="1979">1979</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Nonparametric estimates of standard error: the jackknife, the boostrap and other methods</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Efron</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometrika</title>
+		<imprint>
+			<biblScope unit="volume">68</biblScope>
+			<biblScope unit="page" from="589" to="599" />
+			<date type="published" when="1981">1981</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">The Jackknife, the Bootstrap and Other Resampling Plans</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Efron</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Society for Industrial and Applied Mathematics</title>
+		<imprint>
+			<date type="published" when="1982">1982</date>
+			<pubPlace>Philadelphia, Pennsylvannia</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Bootstrap methods for standard errors, confidence intervals, and other measures of statistical accuracy</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Efron</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Tibshirani</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statist. Sci</title>
+		<imprint>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="page" from="54" to="75" />
+			<date type="published" when="1986">1986</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">A systematic investigation of cross-validation in GWR model estimation: empirical analysis and Monte Carlo simulations</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Farber</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Paez</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Geogr. Syst</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="page" from="371" to="396" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Multicollinearity in regression analysis: The problem revisited</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">E</forename><surname>Farrar</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">R</forename><surname>Glauber</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Rev. Econ. Stat</title>
+		<imprint>
+			<biblScope unit="volume">49</biblScope>
+			<biblScope unit="page" from="92" to="107" />
+			<date type="published" when="1967">1967</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Estimating spatial models with endogenous variables, a spatial lag and spatially dependent disturbances: finite sample properties</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Fingleton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Legallo</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Pap. Reg. Sci</title>
+		<imprint>
+			<biblScope unit="volume">87</biblScope>
+			<biblScope unit="page" from="319" to="339" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Comparing spatially-varying coefficient models for analysis of ecological sata with non-stationary and anisotropic residual dependence</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">O</forename><surname>Finley</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ecol. Evol</title>
+		<imprint>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="page" from="143" to="154" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<monogr>
+		<title level="m" type="main">Geographically Weighted Regression: The Analysis of Spatially Varying Relationships</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2002">2002</date>
+			<publisher>Wiley</publisher>
+			<pubPlace>Chichester</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Geographically weighted regression and multicollinearity: dispelling the myth</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">M</forename><surname>Oshan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Geogr. Syst</title>
+		<imprint>
+			<biblScope unit="volume">18</biblScope>
+			<biblScope unit="page" from="303" to="329" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Spatial modeling with spatially varying coefficient processes</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H.-J</forename><surname>Kim</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">F</forename><surname>Sirmans</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Banerjee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Amer. Statist. Assoc</title>
+		<imprint>
+			<biblScope unit="volume">98</biblScope>
+			<biblScope unit="page" from="387" to="396" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">GWmodel: an R package for exploring spatial heterogeneity using geographically weighted models</title>
+		<author>
+			<persName><forename type="first">I</forename><surname>Gollini</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Lu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Harris</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Stat. Softw</title>
+		<imprint>
+			<biblScope unit="volume">63</biblScope>
+			<biblScope unit="page" from="1" to="50" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<monogr>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Griffith</surname></persName>
+		</author>
+		<title level="m">Spatial Autocorrelation and Spatial Filtering: Gaining Understanding Through Theory and Scientific Visualization</title>
+		<meeting><address><addrLine>Berlin</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">Spatial-filtering-based contributions to a critique of geographically weighted regression (GWR)</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Griffith</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environ. Plann. A</title>
+		<imprint>
+			<biblScope unit="volume">40</biblScope>
+			<biblScope unit="page" from="2751" to="2769" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Multivariate spatial prediction in the presence of non-linear trend and covariance nonstationarity</title>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">C</forename><surname>Haas</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environmetrics</title>
+		<imprint>
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="page" from="145" to="165" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">Model selection using J-test for the spatial autoregressive model vs. the matrix exponential spatial model</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Han</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Reg. Sci. Urban Econ</title>
+		<imprint>
+			<biblScope unit="volume">43</biblScope>
+			<biblScope unit="page" from="250" to="271" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">The use of geographically weighted regression for spatial prediction: an evaluation of models using simulated data sets</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Harris</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Crespo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">E</forename><surname>Charlton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Math. Geosci</title>
+		<imprint>
+			<biblScope unit="volume">42</biblScope>
+			<biblScope unit="page" from="657" to="680" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">Robust geographically weighted regression: A technique for quantifying spatial relationships between freshwater acidification critical loads and catchment attributes</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Harris</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Juggins</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ann. Assoc. Am. Geogr</title>
+		<imprint>
+			<biblScope unit="volume">100</biblScope>
+			<biblScope unit="page" from="286" to="306" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">Detecting dependence between spatial processes</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Herrera</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Ruiz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Mur</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Spat. Econ. Anal</title>
+		<imprint>
+			<biblScope unit="volume">8</biblScope>
+			<biblScope unit="page" from="469" to="497" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">Dimension reduction and alleviation of confounding for spatial generalized linear mixed models</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Hughes</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Haran</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. R. Stat. Soc. Ser. B Stat. Methodol</title>
+		<imprint>
+			<biblScope unit="volume">75</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="139" to="159" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<analytic>
+		<title level="a" type="main">Local and global approaches to spatial data analysis in ecology</title>
+		<author>
+			<persName><forename type="first">W</forename><surname>Jetz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Rahbek</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">W</forename><surname>Lichstein</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Global Ecol. Biogeogr</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="page" from="97" to="98" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<analytic>
+		<title level="a" type="main">Measuring the value of air quality: application of the spatial hedonic model</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Kim</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S.-H</forename><surname>Cho</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Lambert</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Roberts</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Air Qual. Atmos. Health</title>
+		<imprint>
+			<biblScope unit="volume">3</biblScope>
+			<biblScope unit="page" from="41" to="51" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<monogr>
+		<title level="m" type="main">Resampling Methods for Dependent Data</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Lahiri</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2010">2010</date>
+			<publisher>Springer</publisher>
+			<pubPlace>Berlin</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<analytic>
+		<title level="a" type="main">Statistical tests for spatial nonstationarity based on the geographically weighted regression model</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Leung</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">L</forename><surname>Mei</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">X</forename><surname>Zhang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environ. Plann. A</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="page" from="9" to="32" />
+			<date type="published" when="2000">2000</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<analytic>
+		<title level="a" type="main">Smoothing: Local Regression Techniques</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Loader</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Center for Applied Statistics and Economics</title>
+		<imprint>
+			<date type="published" when="2004">2004</date>
+			<pubPlace>Berlin</pubPlace>
+		</imprint>
+		<respStmt>
+			<orgName>CASE), Humboldt-Universit</orgName>
+		</respStmt>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<analytic>
+		<title level="a" type="main">Geographically weighted regression with parameter-specific distance metrics</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Lu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Harris</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Int. J. Geogr. Inf. Sci</title>
+		<imprint>
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b40">
+	<monogr>
+		<author>
+			<persName><forename type="first">G</forename><surname>Matheron</surname></persName>
+		</author>
+		<title level="m">La Theorie Des Variables Regionalisees et Ses Applications: Fascicule 5, Fontainebleau, Centre de Grostatistique</title>
+		<meeting><address><addrLine>Paris School of Mines</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="1970">1970</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b41">
+	<analytic>
+		<title level="a" type="main">Testing the importance of the explanatory variables in a mixed geographically weighted regression model</title>
+		<author>
+			<persName><forename type="first">C.-L</forename><surname>Mei</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W.-X</forename><surname>Zhang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environ. Plann. A</title>
+		<imprint>
+			<biblScope unit="volume">38</biblScope>
+			<biblScope unit="page" from="587" to="598" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b42">
+	<analytic>
+		<title level="a" type="main">A bootstrap test for constant coefficients in geographically weighted regression models</title>
+		<author>
+			<persName><forename type="first">C.-L</forename><surname>Mei</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Xu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Wang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Int. J. Geogr. Inf. Sci</title>
+		<imprint>
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="page" from="1622" to="1643" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b43">
+	<analytic>
+		<title level="a" type="main">Inference based on alternative bootstrapping methods in spatial models with an application to county income growth in the United States</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Monchuk</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Hayes</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Miranawski</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Lambert</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Reg. Sci</title>
+		<imprint>
+			<biblScope unit="volume">51</biblScope>
+			<biblScope unit="page" from="880" to="896" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b44">
+	<analytic>
+		<title level="a" type="main">Symptoms of instability in models of spatial dependence</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Mur</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Lopez</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Angelo</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geogr. Anal</title>
+		<imprint>
+			<biblScope unit="volume">40</biblScope>
+			<biblScope unit="page" from="189" to="211" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b45">
+	<analytic>
+		<title level="a" type="main">A Moran coefficient-based mixed effects approach to investigate spatially varying relationships</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Murakami</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Yoshida</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Seya</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Griffith</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Yamagata</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Spat. Stat</title>
+		<imprint>
+			<biblScope unit="volume">19</biblScope>
+			<biblScope unit="page" from="68" to="89" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b46">
+	<analytic>
+		<title level="a" type="main">Geographically weighted Poisson regression for disease association mapping</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Nakaya</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Stat. Med</title>
+		<imprint>
+			<biblScope unit="volume">24</biblScope>
+			<biblScope unit="page" from="2695" to="2717" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b47">
+	<analytic>
+		<title level="a" type="main">Anisotropic variance functions in geographically weighted regression models</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Paez</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geogr. Anal</title>
+		<imprint>
+			<biblScope unit="volume">36</biblScope>
+			<biblScope unit="page" from="299" to="314" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b48">
+	<analytic>
+		<title level="a" type="main">A simulation-based study of geographically weighted regression as a method for investigating spatially varying relationships</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Paez</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Farber</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Wheeler</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environ. Plann. A</title>
+		<imprint>
+			<biblScope unit="volume">43</biblScope>
+			<biblScope unit="page" from="2992" to="3010" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b49">
+	<monogr>
+		<title level="m" type="main">Statistical Methods for Spatial Data Analysis</title>
+		<author>
+			<persName><forename type="first">O</forename><surname>Schabenberger</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">A</forename><surname>Gotway</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2005">2005</date>
+			<publisher>Chapman and Hall/CRC</publisher>
+			<pubPlace>London, UK.</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b50">
+	<analytic>
+		<title level="a" type="main">Tests of statistical hypotheses concerning several parameters when the number of observations is large</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Wald</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Trans. Amer. Math. Soc</title>
+		<imprint>
+			<biblScope unit="volume">54</biblScope>
+			<biblScope unit="page" from="426" to="482" />
+			<date type="published" when="1943">1943</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b51">
+	<analytic>
+		<title level="a" type="main">Local linear estimation of spatially varying coefficient models: an improvement on the geographically weighted regression technique</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">L</forename><surname>Mei</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><forename type="middle">D</forename><surname>Yan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environ. Plann. A</title>
+		<imprint>
+			<biblScope unit="volume">40</biblScope>
+			<biblScope unit="page" from="986" to="1005" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b52">
+	<analytic>
+		<title level="a" type="main">Diagnostic tools and a remedial method for collinearity in geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">C</forename><surname>Wheeler</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environ. Plann. A</title>
+		<imprint>
+			<biblScope unit="volume">39</biblScope>
+			<biblScope unit="page" from="2464" to="2481" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b53">
+	<analytic>
+		<title level="a" type="main">Simultaneous coefficient penalization and model selection in geographically weighted regression: the geographically weighted lasso</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">C</forename><surname>Wheeler</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environ. Plann. A</title>
+		<imprint>
+			<biblScope unit="volume">41</biblScope>
+			<biblScope unit="page" from="722" to="742" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b54">
+	<analytic>
+		<title level="a" type="main">An assessment of coefficient accuracy in linear regression models with spatially varying coefficients</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">C</forename><surname>Wheeler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">A</forename><surname>Calder</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Geogr. Syst</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="page" from="145" to="166" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b55">
+	<analytic>
+		<title level="a" type="main">Multicollinearity and correlation among local regression coefficients in geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Wheeler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Tiefelsdorf</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Geogr. Syst</title>
+		<imprint>
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="page" from="161" to="187" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b56">
+	<analytic>
+		<title level="a" type="main">An extension of geographically weighted regression with flexible bandwidths</title>
+		<author>
+			<persName><forename type="first">W</forename><surname>Yang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Harris</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">GISRUK</title>
+		<imprint>
+			<date type="published" when="2012">2012. 2012</date>
+			<publisher>Lancaster</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

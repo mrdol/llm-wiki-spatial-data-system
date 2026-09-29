@@ -20,7 +20,7 @@ Le mot *benchmark* pourra être réintroduit dans le titre seulement si une couc
 
 ## 2. Background & Summary
 
-**Avancement au 21 septembre 2026 :** les mouvements 1 et 2 sont rédigés dans `BROUILLON_DATAPAPER_V1_2026-09-21.md`. Le mouvement 1 repose désormais sur 66 articles à DGP paramétrique et 67 textes intégraux convertis en TEI ; le mouvement 2 compare les infrastructures générales et les banques hydrologiques. Les mouvements 3 et 6 attendent la récupération différée des jeux empiriques du corpus, puis un snapshot daté de la banque.
+**Avancement au 29 septembre 2026 :** les mouvements 1 et 2 sont rédigés dans `BROUILLON_DATAPAPER_V1_2026-09-21.md`. Le mouvement 1 repose désormais sur 101 articles à DGP paramétrique, tous appariés à un PDF et un TEI ; le mouvement 2 compare les infrastructures générales et les banques hydrologiques. Les mouvements 3 et 6 dépendent du snapshot publiable et de la vérification des droits de redistribution.
 
 ### Mouvement 1 — Déséquilibre entre Monte-Carlo et données réelles
 
@@ -84,7 +84,7 @@ Terminer l'introduction par une phrase présentant Methods, Data Records, Techni
 
 ### 3.1 Petite méta-analyse des pratiques d'évaluation
 
-**Avancement au 21 septembre 2026 :** première rédaction et codage article par article achevés sur 66 articles. Les résultats ont été recalculés et la figure de diversité empirique a été produite. Le double codage indépendant d'un sous-échantillon reste requis avant soumission.
+**Avancement au 29 septembre 2026 :** le codage article par article est achevé sur 101 articles. M13 est inclus car ses trois tailles d'échantillon sont chacune régénérées 20 fois. Les résultats et la figure de diversité empirique ont été recalculés. Le champ `validation_application_reelle` exclut les procédures de validation limitées aux simulations. Le double codage indépendant d'un sous-échantillon reste requis avant soumission.
 
 Décrire la population, la stratégie d'échantillonnage, les critères d'inclusion, la période, les règles de comptage et le double codage. Le protocole du 18 août doit être actualisé sur deux points : inclure explicitement les articles influents demandés et remplacer l'ancienne fenêtre arbitraire post-2015 par une stratégie compatible avec cette sélection, ou présenter deux strates séparées.
 
@@ -218,14 +218,14 @@ Décrire séparément :
 
 ### Priorité A — indispensable
 
-1. **Achevé :** corpus fixé à 66 articles quantitatifs, quatre lignes de traçabilité hors dénominateur et 67 TEI tous reliés à une décision de codage ou de criblage ;
+1. **Achevé le 29 septembre 2026 :** le corpus quantitatif contient 101 articles, dont 79 publiés depuis 2017. Les études sans covariable et les familles de krigeage exclues du périmètre ont été retirées, les PDF et TEI ont été appariés, et les statistiques ont été recalculées à partir de `codage_corpus_complet_2026-09-29.tsv` ;
 2. auditer les licences et la stratégie de redistribution ;
 3. définir ce qui constitue un Data Record de la première version ;
 4. générer les tableaux descriptifs depuis un snapshot gelé ;
 5. constituer une bibliographie maître ;
 6. sélectionner et lire environ vingt data papers comparables.
 7. décider quels résultats S1–S4 sont assez mûrs pour devenir des Data Records ou validations du manuscrit.
-8. avant le snapshot final, rechercher les jeux empiriques employés dans les 67 textes intégraux, les dédupliquer au niveau de la source, vérifier leur présence dans la banque, leur version, leur licence et leur possibilité de redistribution, puis intégrer seulement les ressources dont la provenance est établie.
+8. poursuivre la recherche des jeux empiriques employés dans les 101 articles quantitatifs, les dédupliquer au niveau de la source, vérifier leur présence dans la banque, leur version, leur licence et leur possibilité de redistribution, puis intégrer seulement les ressources dont la provenance est établie.
 
 ### Priorité B — nécessaire avant soumission
 

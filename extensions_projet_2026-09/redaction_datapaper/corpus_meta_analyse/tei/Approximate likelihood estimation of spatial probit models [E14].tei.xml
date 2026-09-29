@@ -1,0 +1,1334 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Approximate likelihood estimation of spatial probit models ☆</title>
+				<funder ref="#_q3vMgxT">
+					<orgName type="full">URBANSIMUL</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability  status="unknown">
+					<licence/>
+				</availability>
+				<date type="published" when="2017-02-20">20 February 2017</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">Davide</forename><surname>Martinetti</surname></persName>
+							<email>davide.martinetti@inra.fr</email>
+							<affiliation key="aff0">
+								<orgName type="institution" key="instit1">ECODEVELOPPEMENT</orgName>
+								<orgName type="institution" key="instit2">INRA</orgName>
+								<address>
+									<postCode>84000</postCode>
+									<settlement>Avignon</settlement>
+									<country key="FR">France</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Ghislain</forename><surname>Geniaux</surname></persName>
+							<email>ghislain.geniaux@inra.fr</email>
+							<affiliation key="aff0">
+								<orgName type="institution" key="instit1">ECODEVELOPPEMENT</orgName>
+								<orgName type="institution" key="instit2">INRA</orgName>
+								<address>
+									<postCode>84000</postCode>
+									<settlement>Avignon</settlement>
+									<country key="FR">France</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Approximate likelihood estimation of spatial probit models ☆</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2017-02-20">20 February 2017</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">AFF248CFF9D68871D945CCDDE3E65838</idno>
+					<idno type="DOI">10.1016/j.regsciurbeco.2017.02.002</idno>
+					<note type="submission">Received 22 January 2016; Received in revised form 2 February 2017; Accepted 10 February 2017 ☆ Davide Martinetti has received the support</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-17T13:17+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>Spatial probit Multivariate normal probabilities Spatial auto-regressive model Spatial error model Spatial discrete choice models</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>A new estimation method for spatial binary probit models is presented. Both spatial auto-regressive (SAR) and spatial error (SEM) models are considered. The proposed estimator relies on the approximation of the likelihood function, that follows a multivariate normal distribution which parameters depend on the spatial structure of the observations. The approximation is inspired by the univariate conditioning procedure proposed by Mendell and Elston, with some modifications to improve accuracy and speed. Very accurate parameter estimations have been achieved in reasonable time for simulated data samples with as much as one million observations. The lessons learned in the Monte Carlo experiment have been applied to a case study on urban sprawl over more than forty thousands plots in Southern France.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">Introduction</head><p>Spatial binary choice models belong to the family of econometrics methods that deals with observations showing some kind of spatial or network dependence. Particularly, spatial binary choice models deals with observations where the dependent variable can only take two separate values, such as the choice of adopting a new farming technology <ref type="bibr" target="#b8">(Case, 1992)</ref>, increasing tax rates in a district <ref type="bibr" target="#b3">(Beron and Vijverberg, 2004)</ref>, reopening of a damaged infrastructure <ref type="bibr" target="#b38">(LeSage et al., 2011)</ref>, the choice of location of suppliers plants <ref type="bibr" target="#b33">(Klier and McMillen, 2008)</ref>, of R &amp; D labs <ref type="bibr" target="#b1">(Autant-Bernard, 2006)</ref>, tree harvesting choice <ref type="bibr" target="#b19">(Fortin et al., 2013)</ref>, defoliation <ref type="bibr" target="#b28">(Heagerty and Lele, 1998)</ref>, deforestation <ref type="bibr" target="#b6">(Brun et al., 2015)</ref>, plants distribution <ref type="bibr" target="#b10">(Collingham et al., 2000)</ref> or land use allocation <ref type="bibr" target="#b7">(Carrión-Flores and Irwin, 2004;</ref><ref type="bibr" target="#b41">McMillen and Soppelsa, 2015;</ref><ref type="bibr" target="#b44">Munroe et al., 2004;</ref><ref type="bibr" target="#b57">Wang et al., 2011;</ref><ref type="bibr" target="#b59">Zhong et al., 2011)</ref>. The ever-increasing availability of large data sets with observable spatial discrete choices raises the question whether existing estimation methods are ready to tackle the challenge of the curse of dimensionality. In fact, contrary to the case of continuous dependent variables with spatial dependence, for which the scientific community has produced an abundant literature, the case of spatial discrete choice models, either binary or multinomial, has received limited attention, mainly due to its complexity <ref type="bibr" target="#b49">(Pinkse and Slade, 2010)</ref>. In this contribution we will treat only the case of spatial binary choice models, that have been recently reviewed in a work of <ref type="bibr" target="#b5">Calabrese and Elkink (2014)</ref>. There, the authors compare through a Monte-Carlo experiment all significant contributions in the field: the expectation-maximization (EM) algorithm by <ref type="bibr" target="#b40">McMillen (1992)</ref>, the Bayesian Gibbs sampler by <ref type="bibr" target="#b36">LeSage (2000)</ref>, the recursive importance sampling (RIS) algorithm by <ref type="bibr" target="#b3">Beron and Vijverberg (2004)</ref>, the generalized method of moments (GMM) by <ref type="bibr" target="#b48">Pinkse and Slade (1998)</ref> and its linearised (linearised GMM) version by <ref type="bibr" target="#b33">Klier and McMillen (2008)</ref>. Also, on the same subject, the unpublished paper of <ref type="bibr" target="#b47">Pace and LeSage (2011)</ref> that uses Geweke-Hajivassiliou-Keene (GHK) approximations of a multivariate normal probability with sparse variance-covariance matrix (GHK and RIS are basically the same). From this review, we observed that only RIS and Gibbs sampler estimators perform reasonably well in terms of accuracy, but they are unfeasible for large samples (n ≫ 1000), while, on the other hand, GMM-type estimators scale well w.r.t. sample size, but their accuracy is really poor, especially when the value of the spatial dependence parameter is high. There is hence a need of new estimation techniques that are capable of handling big sample sizes and that at the same time are reasonably accurate in terms of the parameter estimation.</p><p>For spatial binary models, the two most used specifications are spatial logit <ref type="bibr" target="#b33">(Klier and McMillen, 2008)</ref> and spatial probit <ref type="bibr" target="#b3">(Beron and Vijverberg, 2004;</ref><ref type="bibr" target="#b36">LeSage, 2000;</ref><ref type="bibr" target="#b40">McMillen, 1992;</ref><ref type="bibr" target="#b47">Pace and LeSage, 2011;</ref><ref type="bibr" target="#b48">Pinkse and Slade, 1998;</ref><ref type="bibr" target="#b58">Wang et al., 2013)</ref>. In contrast with the logit specification, that assumes multivariate logistic distribution of the error terms, the probit model, that assumes multivariate normal (MVN) distribution, is particularly attractive for the flexibility of the MVN covariance structure. We hence propose an estimation technique for spatial probit based on the maximisation of the corresponding likelihood function, a prodigious task according to <ref type="bibr" target="#b56">Wang and Kockelman (2009)</ref>. In fact, there exists no closed form expression for computing MVN probabilities, that are eventually expressed as a multiple integral and hence no exact way of computing the likelihood function of the corresponding spatial probit model. Therefore, we are forced to resort to an approximation technique that is inspired by the univariate conditioning approximation method proposed by <ref type="bibr" target="#b42">Mendell and Elston (1974)</ref>, described by <ref type="bibr" target="#b31">Kamakura (1989)</ref> and recently reviewed by <ref type="bibr" target="#b11">Connors et al. (2014)</ref>. We will show in Section 3 that this method allows to compute the log-likelihood of a spatial probit model accurately and rapidly, especially if compared with existing alternatives found in the literature. In Section 3.2, we present two estimation techniques for spatial probit models: one based on full-likelihood maximisation and the other that uses conditional likelihoods. In Section 4 we will then compare the two techniques on a set of simulated Monte Carlo experiments and finally, in Section 5, we will test the performance of the proposed methods on an empirical study on urban sprawl on more than forty thousands parcels of 26 municipalities in Southern France.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.">Spatial binary choice models</head><p>Spatial binary-choice regression models are used to analyse sample data that are associated with specific locations in space and that represent binary outcomes (usually actions or choices). We deal with spatial regression models of the following form (the notations follow LeSage and <ref type="bibr" target="#b37">Pace (2008)</ref>): y y Xβ u u u ϵ ϵ ρW λM σ I 0 = + + , = + , ∼ ( , ), n 2</p><p>where y represents an n × 1 vector of binary dependent variables, X an n k × matrix of independent variables, I n is the identity matrix of size n and β (k × 1 vector), ρ and λ (both scalar in <ref type="bibr">[ -1, 1]</ref>) are parameters to be estimated. The two n×n matrices W and M are known as spatial weight matrices and contain the information on the spatial relationship between observations. Spatial weight matrices are usually constructed as a function of the distance between observations or other contiguity measures (shared borders, shared department, etc.). Typically w = 1 ij (or m = 1 ij ), if observations i and j are contiguous, while w = 0 ij (or m = 0 ij ) otherwise (it follows immediately that both W and M are symmetric and by convention, the diagonal is set to zero). It is common practice to row-standardize the spatial weight matrices, i.e. w w w = /(∑ ) ij ij j ij . The model in Eq. ( <ref type="formula" target="#formula_0">1</ref>) is often referred as spatial autoregressive model with spatial autoregressive disturbances (or SARAR(1, 1)), when both the parameters ρ, a.k.a. spatial lag parameter, and λ, a.k.a. spatial error parameter, are different from zero. If λ = 0, then we will speak of a spatial autoregressive (SAR, or SARAR(1, 0)) model, while if ρ = 0, we will speak of a spatial error model (SEM, or SARAR(0, 1)). The SAR and SEM models are used to explain spatial dependences of different nature. 1 In this work we will focus in particular on spatial autoregressive and spatial error models. In particular, since the disturbances ϵ in Eq. ( <ref type="formula" target="#formula_0">1</ref>) follow a multivariate normal distribution, then we are in the case of a SAR probit or SEM probit specification.</p><p>The SAR probit model can be reformulated from Eq. ( <ref type="formula" target="#formula_0">1</ref>) as</p><formula xml:id="formula_1">y Xβ ϵ I ρW = ( - ) ( + ), n -1<label>(2)</label></formula><p>and hence the variance of the error term v ϵ I ρW = ( -) n -1 can be written</p><formula xml:id="formula_2">as vv Σ E σ I ρW I ρW = ( ′) = (( - ) (( - ) ) ), n n t 2 -1 -1<label>(3)</label></formula><p>where A t denotes matrix transposition. Consistent and efficient estimates of the β and ρ parameters are obtained by maximising the corresponding likelihood function, that takes the form of a multivariate normal probability, namely a n-dimensional integral:</p><formula xml:id="formula_3">⎛ ⎝ ⎜ ⎞ ⎠ ⎟ ∫ ∫ ∫ x A L β ρ Φ Σ π Σ e ( , ) = ( ∈ ) = 1 (2 ) … , x x n n A A A Σ /2 1 2 -1 2 n t 1 2 -1<label>(4)</label></formula><p>where A A a b = { } = ( ,</p><formula xml:id="formula_4">) i i n i i i n ∈{1,…, } ∈{1,…, } and ⎪ ⎪ ⎪ ⎪ ⎧ ⎨ ⎩ ⎧ ⎨ ⎩ Xβ Xβ a I ρW y y b y I ρW y = (( - ) ) , if = 0, -∞, if = 1. , = ∞, if = 0, (( - ) ) , if = 1. i n i i i i i n i i -1 -1</formula><p>Similarly, the SEM probit model can be reformulated from Eq. ( <ref type="formula" target="#formula_0">1</ref>) as</p><formula xml:id="formula_5">y Xβ ϵ I λM = + ( - ) , n -1<label>(5)</label></formula><p>and hence the variance of the error term v ϵ I λM = ( -) n -1 can be written</p><formula xml:id="formula_6">as vv Σ E σ I λM I λM = ( ′) = (( - ) (( - ) ) ). n n t 2 -1 -1 (<label>6</label></formula><formula xml:id="formula_7">)</formula><p>Consistent and efficient estimates of the β and λ parameters are obtained by maximising the following likelihood function, that correspond again to the n-dimensional integral</p><formula xml:id="formula_8">⎛ ⎝ ⎜ ⎞ ⎠ ⎟ ∫ ∫ ∫ x A L β ρ Φ Σ π Σ e ( , ) = ( ∈ ) = 1 (2 ) … , x x n n A A A Σ /2 1 2 -1 2 n t 1 2 -1<label>(7)</label></formula><p>where A A a b = { } = ( ,</p><formula xml:id="formula_9">) i i n i i i n ∈{1,…, } ∈{1,…, } and ⎪ ⎪ ⎪ ⎪ ⎧ ⎨ ⎩ ⎧ ⎨ ⎩ Xβ Xβ a y y b y y = , if = 0, -∞, if = 1. , = ∞, if = 0, , if = 1. i i i i i i</formula><p>As previously mentioned, MVN probabilities cannot be computed exactly, since there exists no closed formula for solving the integrals in Eqs. ( <ref type="formula" target="#formula_3">4</ref>) and ( <ref type="formula" target="#formula_8">7</ref>) as long as Σ is different from the identity matrix (i.e. the case of independent observations). For dealing with this problem, there exists several proposals in the literature, that can be grouped into three main families: numerical integration methods, (see, amongst others, <ref type="bibr" target="#b13">Deák, 1980;</ref><ref type="bibr" target="#b14">Drezner and Wesolowsky, 1990;</ref><ref type="bibr" target="#b15">Drezner, 1994;</ref><ref type="bibr" target="#b18">Fayed and Atiya, 2014;</ref><ref type="bibr" target="#b20">Genz, 1992;</ref><ref type="bibr">Genz and</ref><ref type="bibr">Bretz, 1999, 2002;</ref><ref type="bibr" target="#b23">Genz, 2004;</ref><ref type="bibr" target="#b27">Harris and Soms, 1980)</ref>, simulation methods (see <ref type="bibr">Geweke, 1991;</ref><ref type="bibr" target="#b26">Hajivassiliou and McFadden, 1990;</ref><ref type="bibr" target="#b32">Keane, 1994;</ref><ref type="bibr" target="#b39">Manski and Lerman, 1981)</ref> and analytical approximation methods (see <ref type="bibr" target="#b9">Clark, 1961;</ref><ref type="bibr" target="#b12">Cox and Wermuth, 1991;</ref><ref type="bibr" target="#b29">Hohenbichler and Rackwitz, 1983;</ref><ref type="bibr" target="#b30">Joe, 1995;</ref><ref type="bibr">Langdon, 1984</ref><ref type="bibr">Langdon, , 1984;;</ref><ref type="bibr" target="#b42">Mendell and Elston, 1974;</ref><ref type="bibr" target="#b45">Olson and Weissfeld, 1991;</ref><ref type="bibr" target="#b53">Solow, 1990;</ref><ref type="bibr" target="#b54">Tang and Melchers, 1986)</ref>. Our proposal belongs to the last category and is presented in the next section.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.">Analytic approximation of MVN probabilities</head><p>To solve the integrals of Eqs. ( <ref type="formula" target="#formula_3">4</ref>) and ( <ref type="formula" target="#formula_8">7</ref>) we adopt a modified version of the Mendell and Elston approximation method <ref type="bibr" target="#b42">(Mendell and Elston, 1974)</ref>. The idea is to rewrite the MVN probabilities as the product of univariate conditional probabilities (we adopt the notation of <ref type="bibr" target="#b55">Trinh and Genz (2015)</ref>):</p><formula xml:id="formula_10">∏ x Φ A A Σ Px A x A Px A P x A x A P x A x A x A P x A x A x A x A P x A P x A x A x A ( ∈ { , …, } ) = ( ∈ , …, ∈ ) = ( ∈ )</formula><p>• ( ∈ ∈ )</p><p>• ( ∈ { ∈ , ∈ })…</p><p>• ( ∈ { ∈ , ∈ , …, ∈ }) = ( ∈ )• ( ∈ { ∈ , …, ∈ }).</p><formula xml:id="formula_11">n n n n n n n n i n i i i i 1 1 1 1 1 2 2 1 1 3 3 1 1 2 2 1 1 2 2 -1 -1 1 1 =2 1 1 -1 -1</formula><p>1 See Chapter 1 of the book of LeSage and <ref type="bibr" target="#b37">Pace (2008)</ref> for more details on spatial autoregressive and spatial error models.</p><p>The algorithm is based on the Cholesky decomposition of the variancecovariance matrix Σ CC = t , where C is a lower triangular matrix (the decomposition always exists, since Σ is symmetric and positive semidefinite by definition). The exponent of the integrand of Eq. ( <ref type="formula" target="#formula_3">4</ref>) takes then the form</p><p>x x x x Σ C C = ( ) t t t -1 -1 -1 and we use the transformation x z C = (or, equivalently, z x C = -1 ), where x x zz Σ = t t -1 , with x z z d C d Σ d = = . Taking advantage of the lower triangular structure of the Cholesky decomposition of Σ, the integral intervals A a b = ( , ) i i i are transformed according to a z b C ≤ ≤ : ∑ a C z ba C z C z b a C z C z C z b a C z b ≤ ≤ ≤ + ≤ ≤ + + ≤ ⋮ ≤ ≤ n i n ni i n 1 11 1 1 2 21 1 22 2 2 3 31 1 32 2 33 3 3 =1</p><p>or, equivalently,</p><formula xml:id="formula_12">a a C z b C b a a C z C z b C z C b a a C z C z C z b C z C z C b a a Cz C z b Cz C b ′ = ≤ ≤ = ′ ′ = - ≤ ≤ - = ′ ′ = - + ≤ ≤ - + = ′ ⋮ ′ = -∑ ≤ ≤ -∑ = ′ n n i n ni i nn n n i n ni i nn n 1 1 11 1 1 11 1 2 2 2 11 22 2 2 2 11 22 2 3 3 31 1 32 2 33 3 3 31 1 32 2 33 3 =1 -1 =1 -1</formula><p>The new integral limits a b ( ′, ′) can be computed iteratively, while the values of z i , that cannot be computed directly, are approximated using their truncated expected values:</p><formula xml:id="formula_13">z ϕ a ϕ b Φ b Φ a = ( ′ ) -( ′ ) ( ′ ) -( ′ ) , ∼ i i i i i (<label>8</label></formula><formula xml:id="formula_14">)</formula><p>where ϕ and Φ represent the standard normal univariate density and cumulative distribution functions, respectively. The key intuition beyond the Mendell-Elston approximation method is to replaces the z i values by truncated expected values z ∼ i (z ∼ i is then the average value of a random variable z i that follows the truncated univariate distribution). Another possibility is to use the GHK (Geweke-Hajivassiliou-Keene) technique (see <ref type="bibr">Geweke, 1991;</ref><ref type="bibr" target="#b26">Hajivassiliou and McFadden, 1990;</ref><ref type="bibr" target="#b32">Keane, 1994;</ref><ref type="bibr" target="#b39">Manski and Lerman, 1981</ref> or, equivalently, the RIS method used by <ref type="bibr" target="#b3">Beron and Vijverberg (2004)</ref>), where the value of z i is repeatedly sampled from a univariate normal distribution truncated at Φ b Φ a ( ′ ) -( ′ ) i i . We discarded this last option because it relies on a large number of simulations, that is too time-demanding for the purposes of this paper, as is showed in Section 4.1 where the RIS method is compared to our proposal.</p><p>Our algorithm iteratively substitutes the univariate conditional probabilities with the value of Eq. ( <ref type="formula" target="#formula_13">8</ref>), starting from the first random variable and uses the obtained approximation for computing the next step. The algorithm ends when the probability of the last random variable is computed and the final result is given by the following approximation:</p><formula xml:id="formula_15">∏ x Φ A A Σ Px A x A Φb Φa ( ∈ { , …, } ) = ( ∈ , …, ∈ ) ∼ ( ( ′ ) -( ′ )). n n n n i n i i 1 1 1 =1</formula><p>Variable reordering for improved accuracy. The iterations of the Mendell and Elston algorithm follow the order of the observations as given by the problem, but there exists evidence that different reorderings can lead to better approximations <ref type="bibr" target="#b11">(Connors et al., 2014;</ref><ref type="bibr" target="#b25">Gibson et al., 1994;</ref><ref type="bibr" target="#b52">Schervish, 1984)</ref>. If there were an exact solution to the integral, these orderings would not change the value of the probability, as long as integration limits and rows and columns of Σ are rearranged accordingly, but since we are using an approximation that runs iteratively over the n observations, it is advisable to control the propagation of the approximation error. For that, <ref type="bibr" target="#b25">Gibson et al. (1994)</ref> proposed to sort the observations in such a way that the outermost integrals correspond to those observations that have the smallest expected values (a recent study by <ref type="bibr" target="#b11">Connors et al. (2014)</ref> corroborates this hypothesis). Since the integral limits are recomputed at each iteration of the algorithm, then also the reordering has to be rerun iteratively. One drawback of this procedure is that it requires the stepwise construction of the Cholesky factor of Σ and it quickly becomes unfeasible, as the sample size increases. We hence implemented a reduced version that uses a unique reordering of the observations before the computation of the likelihood. A comparison of the two reordering schemes is proposed in the Monte Carlo experiment of Section 4.1.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1.">Numerical considerations for application to large samples</head><p>The numerical approximation presented in the preceding paragraph can be directly used to compute the likelihood associated to SAR and SEM probit models through Eqs. (4) and (7). Nevertheless, there are a few further precautions that we adopted in order to reduce the computation time of the algorithm and improve the quality of the approximation:</p><p>• use of sparse matrices and sparse linear algebra, especially for the computations relative to the spatial weight matrices W and M, that have dimension n×n, but usually high sparsity (lot of zero entries);</p><p>• the inverse matrices</p><p>I ρW ( -) n -1 and I λM ( -) n -1 are approximated (when n &gt; 1000) with their Taylor expansion I ρW I ρW ρ W ρ W ( -) ∼ + + + + ⋯ n n -1 2 2 3 3 and similarly for I λM ( -) n -1</p><p>. This is possible since W (resp. M) is row-standardised and the spatial lag parameter ρ (resp. spatial error parameter λ) is contained in the [ -1, 1] interval, hence all of the eigenvalues of ρW (resp. λM ) have absolute value smaller than 1. We will denote with o W the order of the Taylor approximation of I ρW ( -) n -1 and</p><formula xml:id="formula_16">I λM ( - ) n -1</formula><p>. A discussion on the appropriate value of the order of approximation o W , based on the results of a Monte Carlo experiment, is proposed in the Appendix C.</p><p>• the most time-consuming part of the entire algorithm is the Cholesky decomposition of the sparse matrix Σ (n×n). The length of this part depends strongly on the number of non-zero elements of Σ, that in turns depends on the sparsity of W and on the order of the Taylor approximation o W of I ρW ( -) n -1 or I λM ( -) n -1 detailed in the previous point. There exists several algorithms that allow to reduce the number of non-zero elements in the Cholesky factor, based on a clever reordering of the rows and columns of Σ (a.k.a. pivoting). We chosen to perform the Approximate Minimum Degree algorithm (AMD, see <ref type="bibr" target="#b0">Amestoy et al., 1996)</ref> before the Cholesky decomposition, since it proved to be really fast and efficient: it slightly worsens the accuracy of the MVN probability, but busts the computation time by several order of magnitude.</p><p>The complete algorithm for the computation of the likelihood function can be found in Appendix A.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2.">Likelihood function and optimization techniques</head><p>For the estimation of the parameters β ρ ( , ) or β λ ( , ) , we propose two optimisation procedures: FL Maximisation of the full log-likelihood by means of a multidimensional optimisation algorithm (it uses the gradient functions reported in Appendix B); CL Maximisation of the log-likelihood conditional to ρ (resp. λ): at each iteration of the optimisation algorithm, a value ρ is used to compute X I ρW X * = ( -) n -1</p><p>and then the β para- meters are estimated by means of a Standard Probit regression of y over X * . In this way, the log-likelihood is computed as a function of just ρ and the one-dimensional optimisation algorithm tries to find the ρ that minimize its value.<ref type="foot" target="#foot_0">foot_0</ref> Furthermore, one may consider the use of the precision matrix P Σ = -1 instead of the variance-covariance matrix Σ, as suggested by <ref type="bibr" target="#b46">Pace and Barry (1997)</ref> and <ref type="bibr" target="#b37">LeSage and Pace (2008)</ref>. This proposal makes perfectly sense, since P is usually sparser than Σ, and allows a faster Cholesky decomposition. Obviously, the accuracy of the approximation is reduced. Further details on the implementation of the precision-matrix version can be found in <ref type="bibr" target="#b47">Pace and LeSage (2011)</ref>. In Section 4 we will compare the performances of the approximation method with the full variance-covariance matrix and the one with the precision matrix.</p><p>To summarise, our proposal consists of four estimators for the SAR and SEM probit model: FLUC Full log-likelihood with univariate conditional approximation of MVN probabilities and variance-covariance matrix; CLUC Conditional log-likelihood with the univariate conditional approximation of MVN probabilities and variance-covariance matrix; FLUP Full log-likelihood with univariate conditional approximation of MVN probabilities and precision matrix; CLUP Conditional log-likelihood with univariate conditional approximation of MVN probabilities and precision matrix;</p><p>In theory, full-likelihood approaches (FLUC and FLUP) are expected to be more accurate, but slower, than the corresponding conditional methods (CLUC and CLUP). Similarly, the versions with the variance-covariance matrix (FLUC and CLUC) are expected to be more accurate, but slower, than the one with precision matrix (FLUP and CLUP), especially when the size n and/or the density of non-zero elements of W increase.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.">Monte Carlo simulations</head><p>We planned three Monte Carlo experiments:</p><p>1. the first experiment compares the performance of the RIS estimator of <ref type="bibr" target="#b3">Beron and Vijverberg (2004)</ref> and three CLUC methods with different reordering schemes. 2. the second experiment is intended to compare the full-likelihood method vs. the condition method; 3. the third experiment tests the performance of the conditional method in terms of accuracy and estimation time for increasing sample sizes.</p><p>In all the three experiments, the simulated data are generated using the DGPs detailed in Eq. ( <ref type="formula" target="#formula_1">2</ref>) for the SAR probit and in Eq. ( <ref type="formula" target="#formula_5">5</ref>) for the SEM probit. The parameters that can vary are:</p><p>• the sample size n, • the number of neighbours nn and • the true value ρ for SAR (resp. λ for SEM) of the spatial parameter, while the covariates X 1 ∼ ( , ( -1, 1)), the true parameters β = (0, 1) and the disturbances I 0 ϵ ∼ ( , ) n . <ref type="foot" target="#foot_1">3</ref> In light of the results of the experiments on the order of the Taylor approximation of I ρW ( -</p><formula xml:id="formula_17">) n -1 (resp. I λM ( - ) n -1</formula><p>) detailed in Appendix C, we fix the value of o W to six. The matrices W and M are generated assigning to each observation a location within n randomly-generated points in the unit square. For each observation, the number nn determines the set of its closest neighbours w.r.t. Euclidean distance. These settings are inspired to the choices made in the Monte Carlo simulations of <ref type="bibr" target="#b5">Calabrese and Elkink (2014)</ref>, with only minor changes (there X 1 ∼ ( , (2, 4)), β = (4, -2) and W has a fixed number of neighbors nn).</p><p>The simulations were performed on a Linux High Performance Computing cluster platform (INRA MIGALE bioinformatics platform <ref type="url" target="http://migale.jouy.inra.fr">http://migale.jouy.inra.fr</ref>) composed by 580 CPUs of various generations (Intel or AMD processors, quad, six and ten cores from 2.2 to 2.8 Ghz) on 60 computing nodes. The algorithms for the likelihood functions and the corresponding gradients of the second and third experiment have been written in C++ code and embedded in R by means of the Rcpp <ref type="bibr" target="#b16">(Eddelbuettel and François, 2011;</ref><ref type="bibr" target="#b17">Eddelbuettel, 2013)</ref> and RcppEigen <ref type="bibr" target="#b2">(Bates and Eddelbuettel, 2013)</ref> libraries, an include all the numerical considerations of Section 3.1. For the first experiment, in sake of a fair comparison against the RIS estimator of <ref type="bibr" target="#b3">Beron and Vijverberg (2004)</ref> (coded in R<ref type="foot" target="#foot_2">foot_2</ref> ), the algorithm have been written in simple R code, without the numerical precautions detailed in Section 3.1 (no sparse algebra, Taylor approximation of I ρW ( -) n -1 or pivoting for the Cholesky factorization).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1.">Experiment 1: Reordering scheme and a comparison with existing algorithms</head><p>In this experiment we intended to test the performance on a SAR probit model of the RIS estimator against our proposal, with the following three reordering schemes:</p><p>• No reordering: the observations are not reordered;</p><p>• One reordering: the observations are reordered only once, according to the permutation</p><formula xml:id="formula_18">⎛ ⎝ ⎜ ⎞ ⎠ ⎟ τ n n τ τ τ n τ n = 1 2 ⋯ -1 (1) (2) ⋯ ( -1) ( ) such that ⎛ ⎝ ⎜ ⎛ ⎝ ⎜ ⎞ ⎠ ⎟ ⎛ ⎝ ⎜ ⎞ ⎠ ⎟ ⎞ ⎠ ⎟ Φ Φ - b Σ a Σ τ i τ i τ i τ i τ i τ i ( ) ( ) ( ) ( ) ( ) ( )</formula><p>is in increasing order.</p><p>• Complete reordering: observations are reordered iteratively at each step of the algorithm (for the details, see <ref type="bibr" target="#b25">Gibson et al. (1994)</ref> or Section 2.2 of <ref type="bibr" target="#b55">Trinh and Genz (2015)</ref>).</p><p>We chosen the RIS estimator for two main reasons: first of all, because it is also a method based on maximum approximate likelihood optimization (it uses GHK approximation instead of Mendel-Elston), like our proposals, and secondly, because it proved to outperform other estimators in the recent literature review of <ref type="bibr" target="#b5">Calabrese and Elkink (2014)</ref> in terms of accuracy.</p><p>The Monte Carlo settings are the following: 1000 repetitions and the DGP generated with n ∈ {500, 1000}, nn=4 and ρ = 0.5. The results of the experiment are presented in Table <ref type="table" target="#tab_0">1</ref> and Fig. <ref type="figure" target="#fig_0">1</ref>. The first conclusion is that the RIS estimator is underperforming w.r.t. our proposals, in terms of both accuracy and efficiency. Even in the worst case, our estimators have a bias of less than 5% of the true value, while the RIS estimator is close to 10%. This is specially true for the spatial dependence parameter ρ. In terms of execution time, an average RIS estimation takes at least twice the time than our more time-consuming algorithm (and no less than 30 times our fastest). Furthermore, the computation time of RIS method is strongly affected by the random sampling used in the algorithm, as we can observe in the right panel of Fig. <ref type="figure" target="#fig_0">1</ref>.</p><p>Regarding the effects of the reordering schemes, we observe that the complete reordering (denoted all in Table <ref type="table" target="#tab_0">1</ref> and Fig. <ref type="figure" target="#fig_0">1</ref>) has the best performance in terms of accuracy, but it is very time consuming w.r.t. other reordering schemes: 17 times the execution time of the algorithm without reordering and 9 times the algorithm with one reordering. The computations with one reordering gives better results than the case without reordering (the bias is comparable in mean, but it has lower variance and its distribution is more pointed), with a moderate increase in computation time. It seems then that the most reasonable choice is to use one reordering, since it is good compromise between accuracy and estimation time. In light of these results, we will adopt the unique reordering scheme throughout the rest of the paper.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2.">Experiment 2: Conditional vs. full-likelihood method</head><p>In the second experiment we compare the performances of the fulllikelihood approach against the conditional one. A clever idea is to begin with a conditional estimation (that is faster), and then to perform a full-likelihood search around the values found in the first step. We expect the estimated parameters and the likelihood value to improve after the second estimation, while the estimation time will certainly increase.</p><p>To do that, we repeatedly generated (1000 times) two DGPs, one for SAR probit and one for SEM probit, with the following set of parameters: n=1000, ρ and λ in {0, 0.2, 0.4, 0.8}, nn=4 and o W =6.</p><p>For each simulation, a first estimation β β ρ ( , , )</p><formula xml:id="formula_19">CL CL CL 0 1</formula><p>, for SAR probit and β β λ ( , , )</p><formula xml:id="formula_20">CL CL CL 0 1</formula><p>, for SEM probit, is computed by means of a conditional likelihood method. Afterwards, a full-likelihood estimation<ref type="foot" target="#foot_3">foot_3</ref> is launched from those starting sets of parameters</p><formula xml:id="formula_21">β β ρ ( , , ) CL CL CL 0 1 and β β λ ( , , ) CL CL CL 0 1</formula><p>, in order to find the correspond-</p><formula xml:id="formula_22">ing β β ρ ( , , ) FL FL FL 0 1 and β β λ ( , , ) FL FL FL 0 1</formula><p>estimations. For each simulation, we recorded the resulting values of the parameters, the loglikelihood and the computation time.</p><p>The results show that the value of the log-likelihood of the second estimation is always slightly lower than the one of the first estimation (between 0.1% and 1% improvement, statistically significant at 5% confidence level). The comparison of the estimation times, instead, is totally in favour of the conditional estimation, as show in Table <ref type="table" target="#tab_1">2</ref>. With respect to the value of the estimated parameters, we found no clear advantage of the full-likelihood approach w.r.t. the conditional one. We expected the second method to be more accurate than the first, but it is not always the case: sometimes the differences are not statistically significant, sometimes they favour the conditional estimation, others the full-likelihood one. The explanation lies in the fact that both the  conditional and full-likelihood approach are based on an approximation of the true likelihood, and hence the relative small improvement in terms of log-likelihood achieved by the full-likelihood approach is not sufficient to correct the bias of the estimated parameter, since it is masked by the bigger approximation error. In general, we can conclude that the conditional estimator is capable of reaching a reasonable neighbourhood of the minimum of the true likelihood function. A fulllikelihood approach can later be attempted, but its result is not guaranteed to be better, while it will be surely more time-consuming.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.3.">Experiment 3: Conditional-likelihood estimations for big sample sizes</head><p>The last experiment is intended to test the performance of the proposed conditional-likelihood method w.r.t. sample size. To do that, we repeatedly generated (1000 times) two DGPs, one for SAR probit and one for SEM probit, with the following set of parameters: n ∈ {10 000, 100 000, 1 000 000}, nn ∈ {2, 4, 10} for n = 10 000, nn ∈ {2, 4} for n = 100 000 and nn=2 for n = 1 000 000, ρ and λ in { -0.8, -0.4, -0.2, 0, 0.2, 0.4, 0.8} and o W =6. On each generated data-set we tested the conditional-likelihood method, both with the variance-covariance matrix (UC) and with the precision matrix (UP), and a standard probit (SP) for benchmarking. For each simulation we recorded the obtained parameters and the estimation time. In the following Tables 3, 4 and 5 we summarise the results of the Monte Carlo experiment for the three sizes n ∈ {10 000, 100 000, 1 000 000}. In each table, for each nn and ρ, we report the mean value, standard deviation and RMSE of the estimated parameters β β ρ ( , , ) 0 1 and</p><formula xml:id="formula_23">β β λ ( , , ) 0 1</formula><p>. Table <ref type="table" target="#tab_2">6</ref> reports the mean estimation time of the experiments.</p><p>The results obtained in these experiments confirm the good performance of the conditional likelihood estimator, both in terms of accuracy than in terms of estimation time. As expected, we observe that the parameters β β ρ λ ( , , , ) 0 1 are better estimated for the method using the variance-covariance matrix (UC), instead of the precision matrix (UP). This comes at a cost: the UC method is always slower than the UP one, with time differences increasing as the number of neighbours increase (see Table <ref type="table" target="#tab_2">6</ref>). In general, we found that both SAR and SEM probit estimators have a tendency to underestimate the spatial dependence parameter, especially when the true value is very high ρ λ ( , = 0.8) or very low ρ λ ( , = -0.8), and this produce a bias also in the regression parameters β 0 and β 1 . Nevertheless, this effects seems to be mitigated by considering a higher number of neighbours nn.</p><p>If we look at the performance of the Standard Probit (SP) model, we can observe that it has a moderate to strong bias in the estimation of the β 1 parameter, especially when the spatial dependence parameter (either ρ or λ) is very high or very low.</p><p>To conclude, we would like to stress the impressive reduction in computation time that we have been able to achieve: in <ref type="bibr" target="#b5">Calabrese and Elkink (2014)</ref>, the Recursive Importance Sampling method (RIS) by <ref type="bibr" target="#b3">Beron and Vijverberg (2004)</ref> and the Gibbs Sampling method by <ref type="bibr" target="#b36">LeSage (2000)</ref> were the only algorithms performing reasonably well in terms of accuracy for n=1500, but always at a pace of around 10 000 seconds, with peaks of 14.5 hours for certain simulations. The comparison with our proposal is astounding: on a similar data set (n=1000, nn=4), we performed in around one second, more than a ten-thousandth of their time. This allowed us to run the algorithms on simulated datasets with as much as 1 million observations in less than 10 minutes with a contiguity matrix W, something never achieved before for spatial discrete choice models.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.">Empirical application</head><p>In this section we test the performance of the proposed algorithm for SAR probit estimation on a urban-sprawl dataset, based on parcel data of 26 municipalities in the Southern France region of Provence. The data analyzed in this application represent just a small sample of a complete survey of all parcels in the region, gathered in the context of the Urbansimul project. 6 The database contains information on the physical characteristics of more than sixty thousands parcels, such as slope, flat surface, altitude and distance to services and amenities, plus other variables on the municipality, notably municipal population (see Table <ref type="table" target="#tab_3">7</ref> for the descriptive statistics). Out of 60 826 parcels, we know that 19 733 of them were already developed in 1980 (32.44%), while the remaining 41 093 were non-developed (67.56%). In 2008, twentyeight years later, 29 536 parcels out of the 41 093 undeveloped parcels remained undeveloped (71.87%), while 11 557 become developed (28.13%). Finally, in 2015, 614 more parcels become developed.</p><p>A spatial probit model is applied to the 41093 undeveloped parcels in 1980 in order to predict which of them have become developed in 2008. In order to take into account those parcels that were already developed in 1980, and that will surely have an influence on the probability of construction in 2008 (urban sprawl around existing urban areas), we added the smoothed variable My 1980 to the set of covariates, where the spatial weight matrix M (60 826 × 41 093) is computed using the first 50 neighbors and y 1980 (of length 60 826) represents developed (1) and undeveloped (0) parcels at 1980. We also benchmarked the SAR probit against a non-spatial probit model, over the same set of covariates. To improve the quality of the estimation, we first fit a Multivariate Adaptive Regression Splines (MARS) model with probit link function. MARS is a non-parametric regression technique that extends the linear model in order to automatically account for nonlinearities. For ease of interpretation, we forced MARS to fit piecewise linear regression using the library earth of R <ref type="bibr" target="#b43">(Milborrow, 2011)</ref>. After choosing the set of best cuts for piecewise linear regression (cuts are reported in the last column of Table <ref type="table" target="#tab_3">7</ref>), the model further selects the most significative variables.</p><p>The spatial weight matrix W of the SAR probit model has been constructed using the 20 first nearest neighbours: we also explored other options and 20 neighbours resulted to be the best choice. In light of the results of the Monte Carlo experiments and the features of the problem (41 093 observations and W with 20 nearest neighbours), we chose to perform the SAR probit estimation via the CLUP estimator (Conditional log-likelihood with precision matrix) and an order of approximation of I ρW ( -) n -1 equal to six. The complete SAR estimation took less than 5 minutes (283 secs.) on a regular desk computer. The estimated coefficients for the two models are reported in Table <ref type="table" target="#tab_4">8</ref> (all coefficients are significant at 5% confidence level for both models). The results shows that the coefficients of the non-spatial model have the same sign than the coefficients of SAR probit model, with generally higher absolute values (except for the coefficients of slope) and that they are at least two standard deviations away from the spatial estimates. This is consistent with significant bias in the non-spatial estimates. In terms of interpretation of the regression coefficients, we know that the effect of the variation of one regressor on the dependent variable (for both the standard and the spatial probit) is non linear and the link is determined by the standard normal density. Furthermore, for spatial models that involves spatial lags of the output variable (such as our SAR probit), changes in the value of one covariate for one Table 3 Mean, s.d. and RMSE of β β ρ λ ( , , , ) 0 1</p><p>of SAR and SEM models for the conditional estimator with variance-covariance matrix (UC), precision matrix (UP) and standard Probit (SP), obtained from 1000 simulated DGP with n=10 000, nn ∈ {2, 4, 10} and ρ ∈ { -0.8, -0.4, -0.2, 0, 0.2}. ρ = -0.8 ρ = -0.4 ρ = -0.2 ρ = 0 ρ = 0.2 ρ = 0.4 ρ = 0.8</p><formula xml:id="formula_24">β 0 β 1 ρ β 0 β 1 ρ β 0 β 1 ρ β 0 β 1 ρ β 0 β 1 ρ β 0 β 1 ρ β 0 β 1 ρ SAR nn=2<label>UC</label></formula><p>0.00 0.99 -0.73 -0.00 1.00 -0.41 -0.00 1.00 -0.22 -0.00 1.00 -0.00 -0.00 1.00 0.22 -0.00 1.00 0.39 0.00 0.96 0.75 0.02 0.03 0.01 0.02 0.03 0.02 0.02 0.03 0.02 0.01 0.03 0.02 0.01 0.02 0.01 0.01 0.03 0.01 0.01 0.04 0.01 0.02 0.03 0.07 0.02 0.03 0.02 0.02 0.03 0.03 0.01 0.03 0.02 0.01 0.02 0.02 0.01 0.03 0.01 0.01 0.06 0.05 UP 0.00 0.99 -0.71 -0.00 1.00 -0.38 -0.00 1.00 -0.20 -0.00 1.00 -0.00 -0.00 1.00 0.20 -0.00 1.00 0.39 0.00 0.94 0.71 0.02 0.03 0.01 0.02 0.03 0.02 0.01 0.03 0.02 0.01 0.03 0.02 0.01 0.02 0.01 0.01 0.03 0.01 0.01 0.04 0.01 0.02 0.03 0.09 0.02 0.03 0.03 0.01 0.03 0.02 0.01 0.03 0.02 0.01 0.02 0.01 0.01 0.03 0.02 0.01 0.07 0.09 SP 0.00 0.82 -0.00 0.96 -0.00 0.99 -0.00 1.00 -0.00 0.99 -0.00 0.94 0.00 0.62 0.01 0.02 0.01 0.02 0.01 0.02 0.01 0.03 0.02 0.02 0.02 0.02 0.03 0.02 0.01 0.19 0.01 0.05 0.01 0.03 0.01 0.03 0.02 0.03 0.02 0.07 0.03 0.38 nn=4 UC -0.00 1.00 -0.74 -0.00 1.00 -0.41 -0.00 1.00 -0.21 -0.00 1.00 -0.00 -0.00 1.00 0.21 -0.00 1.00 0.41 0.00 0.98 0.83 0.02 0.03 0.02 0.02 0.02 0.03 0.01 0.02 0.03 0.01 0.03 0.03 0.01 0.03 0.02 0.01 0.03 0.02 0.01 0.04 0.01 0.02 0.03 0.06 0.02 0.02 0.03 0.01 0.02 0.03 0.01 0.03 0.03 0.01 0.03 0.02 0.01 0.03 0.02 0.01 0.04 0.03 UP -0.00 1.00 -0.72 -0.00 1.00 -0.38 -0.00 1.00 -0.20 -0.00 1.00 -0.00 -0.00 1.00 0.20 -0.00 1.00 0.40 0.00 0.97 0.76 0.02 0.03 0.02 0.02 0.02 0.03 0.01 0.02 0.03 0.01 0.03 0.02 0.01 0.03 0.02 0.01 0.03 0.02 0.01 0.04 0.01 0.02 0.03 0.08 0.02 0.02 0.03 0.01 0.02 0.03 0.01 0.03 0.02 0.01 0.03 0.02 0.01 0.03 0.02 0.01 0.05 0.04 SP -0.01 0.93 -0.00 0.98 -0.00 1.00 -0.00 1.00 0.00 0.99 0.00 0.96 0.01 0.71 0.01 0.02 0.01 0.02 0.01 0.02 0.01 0.03 0.01 0.02 0.02 0.02 0.03 0.02 0.01 0.08 0.01 0.03 0.01 0.02 0.01 0.03 0.01 0.03 0.02 0.04 0.03 0.29 nn=10 UC 0.00 1.00 -0.75 0.00 1.01 -0.41 0.00 1.00 -0.21 0.00 1.00 -0.00 0.00 1.00 0.22 0.00 1.00 0.41 -0.00 1.00 0.88 0.01 0.03 0.04 0.02 0.02 0.05 0.01 0.02 0.05 0.01 0.02 0.03 0.01 0.03 0.03 0.01 0.03 0.02 0.01 0.04 0.02 0.01 0.03 0.06 0.02 0.02 0.05 0.01 0.02 0.05 0.01 0.02 0.03 0.01 0.03 0.03 0.01 0.03 0.03 0.01 0.04 0.08 UP 0.00 1.00 -0.74 0.00 1.01 -0.39 0.00 1.00 -0.20 0.00 1.00 -0.00 0.00 1.00 0.21 0.00 1.00 0.41 -0.00 0.99 0.79 0.01 0.03 0.05 0.02 0.02 0.04 0.01 0.02 0.05 0.01 0.02 0.03 0.01 0.03 0.03 0.01 0.03 0.02 0.01 0.03 0.01 0.01 0.03 0.08 0.02 0.02 0.04 0.01 0.02 0.05 0.01 0.02 0.03 0.01 0.03 0.03 0.01 0.03 0.02 0.01 0.04 0.01 SP 0.00 0.98 0.00 1.00 0.00 1.00 0.00 1.00 0.00 1.00 -0.00 0.99 -0.01 0.82 0.01 0.02 0.01 0.02 0.01 0.02 0.01 0.02 0.01 0.03 0.02 0.03 0.03 0.02 0.01 0.03 0.01 0.02 0.01 0.02 0.01 0.02 0.01 0.03 0.02 0.03 0.03 0.18 λ = -0.8 λ = -0.4 λ = -0.2 λ = 0 λ = 0.2 λ = 0.4 λ = 0.8</p><formula xml:id="formula_25">β 0 β 1 λ β 0 β 1 λ β 0 β 1 λ β 0 β 1 λ β 0 β 1 λ β 0 β 1 λ β 0 β 1 λ SEM nn=2<label>UC</label></formula><p>0.00 0.92 -0.73 -0.00 1.01 -0.41 -0.00 1.01 -0.23 -0.00 1.00 -0.00 -0.00 1.01 0.22 -0.00 1.00 0.40 0.00 0.71 0.75 0.01 0.03 0.02 0.01 0.03 0.02 0.01 0.03 0.02 0.01 0.03 0.02 0.02 0.03 0.02 0.02 0.03 0.01 0.04 0.03 0.01 0.01 0.08 0.07 0.01 0.03 0.02 0.01 0.03 0.04 0.01 0.03 0.02 0.02 0.03 0.03 0.02 0.03 0.01 0.04 0.29 0.05 UP 0.00 0.89 -0.69 -0.00 0.99 -0.38 -0.00 1.00 -0.20 -0.00 1.00 -0.00 -0.00 1.00 0.20 -0.00 0.99 0.39 0.00 0.66 0.70 0.01 0.03 0.01 0.01 0.03 0.02 0.01 0.03 0.02 0.01 0.03 0.02 0.02 0.02 0.02 0.02 0.03 0.01 0.04 0.03 0.01 0.01 0.11 0.11 0.01 0.03 0.03 0.01 0.03 0.02 0.01 0.03 0.02 0.02 0.02 0.02 0.02 0.03 0.02 0.04 0.34 0.10 SP 0.00 0.68 -0.00 0.92 -0.00 0.98 -0.00 1.00 -0.00 0.97 -0.00 0.89 -0.00 0.44 0.01 0.02 0.01 0.02 0.01 0.02 0.01 0.03 0.02 0.02 0.02 0.02 0.03 0.02 0.01 0.32 0.01 0.09 0.01 0.03 0.01 0.03 0.02 0.04 0.02 0.12 0.03 0.56 nn=4 UC -0.00 0.98 -0.73 -0.00 1.00 -0.42 -0.00 1.00 -0.22 -0.00 1.00 -0.00 -0.00 1.00 0.22 -0.00 1.01 0.42 -0.00 0.86 0.83 0.01 0.03 0.02 0.01 0.03 0.03 0.01 0.02 0.03 0.01 0.03 0.03 0.02 0.03 0.02 0.02 0.03 0.02 0.05 0.04 0.01 0.01 0.03 0.07 0.01 0.03 0.03 0.01 0.02 0.04 0.01 0.03 0.03 0.02 0.03 0.03 0.02 0.03 0.02 0.05 0.14 0.03 UP -0.00 0.97 -0.70 -0.00 1.00 -0.38 -0.00 1.00 -0.20 -0.00 1.00 -0.00 -0.00 1.00 0.20 -0.00 1.00 0.40 -0.00 0.79 0.75 0.01 0.03 0.03 0.01 0.03 0.03 0.01 0.02 0.03 0.01 0.03 0.03 0.02 0.02 0.02 0.02 0.03 0.02 0.04 0.03 0.01 0.01 0.04 0.10 0.01 0.03 0.03 0.01 0.02 0.03 0.01 0.03 0.03 0.02 0.03 0.02 0.02 0.03 0.02 0.04 0.22 0.05 SP -0.00 0.85 -0.00 0.96 -0.00 0.99 -0.00 1.00 -0.00 0.99 -0.00 0.93 -0.00 0.57 0.01 0.02 0.01 0.02 0.01 0.02 0.01 0.03 0.01 0.02 0.02 0.02 0.03 0.02 0.01 0.15 0.01 0.05 0.01 0.03 0.01 0.03 0.01 0.03 0.02 0.07 0.03 0.43 nn=10 UC 0.00 1.00 -0.75 0.00 1.01 -0.41 0.00 1.00 -0.21 0.00 1.00 -0.01 0.00 1.00 0.22 0.00 1.01 0.42 0.00 0.98 0.91 0.01 0.03 0.04 0.01 0.02 0.05 0.01 0.02 0.05 0.01 0.02 0.04 0.01 0.03 0.04 0.02 0.03 0.02 0.05 0.03 0.02 0.01 0.03 0.07 0.01 0.02 0.05 0.01 0.02 0.05 0.01 0.02 0.04 0.01 0.03 0.04 0.02 0.03 0.03 0.05 0.04 0.11 UP 0.00 1.00 -0.73 0.00 1.01 -0.39 0.00 1.00 -0.20 0.00 1.00 -0.01 0.00 1.00 0.22 0.00 1.00 0.41 0.00 0.90 0.79 0.01 0.03 0.05 0.01 0.02 0.05 0.01 0.02 0.05 0.01 0.02 0.04 0.01 0.03 0.03 0.02 0.03 0.02 0.04 0.03 0.01 0.01 0.03 0.09 0.01 0.02 0.05 0.01 0.02 0.05 0.01 0.02 0.04 0.01 0.03 0.04 0.02 0.03 0.03 0.04 0.10 0.01 SP 0.00 0.94 0.00 0.99 0.00 1.00 0.00 1.00 0.00 0.99 0.00 0.97 0.00 0.75 0.01 0.03 0.01 0.02 0.01 0.02 0.01 0.02 0.01 0.03 0.02 0.03 0.03 0.03 0.01 0.06 0.01 0.03 0.01 0.02 0.01 0.02 0.01 0.03 0.02 0.04 0.03 0.26</p><p>individual have an impact on neighbouring observations. Hence, we can distinguish between the impact that a change in one variable at one location has on the expected probability at that same location (direct effect) and on the surrounding observations (indirect effects). The sum of direct and indirect marginal effects is called total marginal effect. <ref type="foot" target="#foot_4">7</ref>We report in Table <ref type="table" target="#tab_4">8</ref> the marginal effects of the standard and spatial probit, and for the latter we distinguish between direct, indirect and total average effects. We observe that total effects of the SAR model are similar to the marginal effects of the non-spatial one, while it seems that indirect effects are always around twice the direct effects for the spatial model. Nevertheless, we recall that indirect effects are cumulated over all neighbours of an observation, hence the individual indirect impact of a single parcel is likely to be smaller then the direct effect. These results illustrates even further the importance of including spatial spillovers in the model.</p><p>The direct interpretation of the marginal effects of the two models are complicated by the use of piecewise linear regression. Nevertheless, we can grasp the type of change of the conditional probability of the outcome variable according to the change of the regressors by looking at Fig. <ref type="figure" target="#fig_1">2</ref>. There, we can easily appreciate some typical effects of variables such as the distance to the road (for the first 250 meters, the effect on the probability of construction is positive, the more distant the better, due to noise avoidance, while it becomes negative after that threshold, since proximity to the road is considered as an asset) or the distance to the city center (within the borders of the city centre and in the following 50 meters, the effect on the probability of new constructions is positive, due to the scarcity of free parcels and it becomes negative after that threshold). Other topographical (slope, altitude, exposition and flat surface) and demographical <ref type="bibr">(population at 1968 and 1982)</ref> variables are harder to interpret, since they contribute simultaneously to the probability of new constructions. It is also interesting to look at the coefficients assigned by the two models to the variable My 1980 representing the proximity to developed parcels in</p><p>Table 4 Mean, s.d. and RMSE of β β ρ λ ( , , , ) 0 1</p><p>of SAR and SEM models for the conditional estimator with variance-covariance matrix (UC), precision matrix (UP) and standard Probit (SP), obtained from 1000 simulated DGP with n=100 000, nn ∈ {2, 4} and ρ ∈ { -0.8, -0.4, -0.2, 0, 0.2}. ρ = -0.8 ρ = -0.4 ρ = -0.2 ρ = 0 ρ = 0.2 ρ = 0.4 ρ = 0.8</p><formula xml:id="formula_26">β 0 β 1 ρ β 0 β 1 ρ β 0 β 1 ρ β 0 β 1 ρ β 0 β 1 ρ β 0 β 1 ρ β 0 β 1 ρ SAR nn=2</formula><p>UC -0.00 0.99 -0.74 -0.00 1.00 -0.41 -0.00 1.00 -0.22 0.00 1.00 0.00 -0.00 1.00 0.22 0.00 1.00 0.39 -0.00 0.95 0.75 0.01 0.01 0.00 0.01 0.01 0.01 0.01 0.01 0.01 0.00 0.01 0.01 0.00 0.01 0.00 0.00 0.01 0.00 0.00 0.01 0.00 0.01 0.02 0.07 0.01 0.01 0.01 0.01 0.01 0.02 0.00 0.01 0.01 0.00 0.01 0.02 0.00 0.01 0.01 0.00 0.05 0.05 UP -0.00 0.99 -0.71 -0.00 1.00 -0.38 -0.00 1.00 -0.20 0.00 1.00 0.00 -0.00 1.00 0.20 0.00 1.00 0.39 -0.00 0.94 0.71 0.01 0.01 0.00 0.01 0.01 0.00 0.01 0.01 0.00 0.00 0.01 0.00 0.00 0.01 0.00 0.00 0.01 0.00 0.00 0.01 0.00 0.01 0.02 0.09 0.01 0.01 0.02 0.01 0.01 0.00 0.00 0.01 0.01 0.00 0.01 0.00 0.00 0.01 0.02 0.00 0.06 0.09 SP -0.00 0.82 0.00 0.95 -0.00 0.99 0.00 1.00 -0.00 0.98 0.00 0.93 -0.00 0.62 0.00 0.01 0.00 0.01 0.00 0.01 0.00 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.00 0.18 0.00 0.05 0.00 0.01 0.00 0.01 0.01 0.02 0.01 0.07 0.01 0.38 nn=4 UC 0.00 1.00 -0.74 -0.00 1.00 -0.41 -0.00 1.00 -0.21 -0.00 1.00 0.00 -0.00 1.00 0.21 -0.00 1.00 0.41 -0.00 0.98 0.83 0.00 0.01 0.01 0.00 0.01 0.01 0.00 0.01 0.01 0.00 0.01 0.01 0.00 0.01 0.01 0.00 0.01 0.01 0.00 0.01 0.00 0.00 0.01 0.06 0.00 0.01 0.01 0.00 0.01 0.02 0.00 0.01 0.01 0.00 0.01 0.01 0.00 0.01 0.01 0.00 0.02 0.03 UP 0.00 1.00 -0.72 -0.00 1.00 -0.38 -0.00 1.00 -0.20 -0.00 1.00 0.00 -0.00 1.00 0.20 -0.00 1.00 0.40 -0.00 0.97 0.76 0.00 0.01 0.01 0.00 0.01 0.01 0.00 0.01 0.01 0.00 0.01 0.01 0.00 0.01 0.01 0.00 0.01 0.01 0.00 0.01 0.00 0.01 0.01 0.08 0.00 0.01 0.02 0.00 0.01 0.01 0.00 0.01 0.01 0.00 0.01 0.01 0.00 0.01 0.01 0.00 0.04 0.04 SP -0.00 0.93 0.00 0.98 -0.00 0.99 -0.00 1.00 -0.00 0.99 -0.00 0.96 -0.00 0.71 0.00 0.01 0.00 0.01 0.00 0.01 0.00 0.01 0.00 0.01 0.00 0.01 0.01 0.01 0.00 0.07 0.00 0.02 0.00 0.01 0.00 0.01 0.00 0.01 0.00 0.04 0.01 0.29</p><formula xml:id="formula_27">λ = -0.8 λ = -0.4 λ = -0.2 λ = 0 λ = 0.2 λ = 0.4 λ = 0.8 β 0 β 1 λ β 0 β 1 λ β 0 β 1 λ β 0 β 1 λ β 0 β 1 λ β 0 β 1 λ β 0 β 1 λ SEM nn=2<label>UC</label></formula><p>0.00 0.92 -0.73 0.00 1.01 -0.41 -0.00 1.01 -0.23 0.00 1.00 0.00 -0.00 1.01 0.22 -0.00 1.00 0.40 -0.00 0.71 0.75 0.00 0.01 0.00 0.00 0.01 0.01 0.00 0.01 0.01 0.00 0.01 0.01 0.01 0.01 0.00 0.01 0.01 0.00 0.01 0.01 0.00 0.00 0.08 0.07 0.00 0.01 0.02 0.00 0.01 0.03 0.00 0.01 0.01 0.01 0.01 0.03 0.01 0.01 0.00 0.01 0.29 0.05 UP 0.00 0.89 -0.69 0.00 0.99 -0.38 -0.00 1.00 -0.20 0.00 1.00 0.00 -0.00 1.00 0.20 -0.00 0.99 0.39 -0.00 0.66 0.70 0.00 0.01 0.00 0.00 0.01 0.01 0.00 0.01 0.01 0.00 0.01 0.01 0.01 0.01 0.00 0.01 0.01 0.00 0.01 0.01 0.00 0.00 0.11 0.11 0.00 0.01 0.02 0.00 0.01 0.01 0.00 0.01 0.01 0.01 0.01 0.00 0.01 0.02 0.01 0.01 0.34 0.10 SP -0.00 0.68 0.00 0.91 -0.00 0.98 0.00 1.00 -0.00 0.97 -0.00 0.88 -0.00 0.44 0.00 0.01 0.00 0.01 0.00 0.01 0.00 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.00 0.32 0.00 0.09 0.00 0.02 0.00 0.01 0.01 0.03 0.01 0.12 0.01 0.56 nn=4 UC 0.00 0.98 -0.73 -0.00 1.00 -0.42 -0.00 1.00 -0.22 -0.00 1.00 -0.00 -0.00 1.00 0.22 -0.00 1.01 0.42 -0.00 0.86 0.83 0.00 0.01 0.01 0.00 0.01 0.01 0.00 0.01 0.01 0.00 0.01 0.01 0.00 0.01 0.01 0.01 0.01 0.01 0.02 0.01 0.00 0.00 0.02 0.07 0.00 0.01 0.02 0.00 0.01 0.02 0.00 0.01 0.01 0.00 0.01 0.02 0.01 0.01 0.02 0.02 0.14 0.03 UP 0.00 0.97 -0.70 -0.00 1.00 -0.38 -0.00 1.00 -0.20 -0.00 1.00 -0.00 -0.00 1.00 0.20 -0.00 1.00 0.40 -0.00 0.79 0.75 0.00 0.01 0.01 0.00 0.01 0.01 0.00 0.01 0.01 0.00 0.01 0.01 0.00 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.00 0.00 0.03 0.10 0.00 0.01 0.02 0.00 0.01 0.01 0.00 0.01 0.01 0.00 0.01 0.01 0.01 0.01 0.01 0.01 0.22 0.05 SP 0.00 0.85 -0.00 0.96 -0.00 0.99 -0.00 1.00 -0.00 0.98 -0.00 0.93 -0.00 0.57 0.00 0.01 0.00 0.01 0.00 0.01 0.00 0.01 0.00 0.01 0.00 0.01 0.01 0.01 0.00 0.15 0.00 0.04 0.00 0.01 0.00 0.01 0.00 0.02 0.00 0.07 0.01 0.43 1980: its value is significantly higher for the standard probit model (1.059) w.r.t. the value for the SAR model (0.435). This is due to the fact that the standard probit has no contemporaneous information on developed parcels in 2008, hence it gives importance only to developed parcels in the past. The SAR model, on the other hand, is capable of disentangling the effects of contemporaneous and past presence of developed parcels in the neighbourhood. Furthermore, the high positive value of the spatial dependence parameter of the SAR model (0.817) can be justified by the urban policies that ruled building permission in France in the observed time period 1980-2008. In fact, after observing leapfrogged development in the early eighties, most of the municipalities adopted zoning strategies to reduce low-density urbanization and concentrate new buildings in proximity of existing developed parcels. This explains the fact that spatial dependence parameter ρ for contemporaneous autocorrelation is higher than the corresponding parameter for past autocorrelation (ρ = 0.817 vs. My = 0.435 1980</p><p>). In terms of predictive accuracy, the SAR probit model performed significantly better than the Standard Probit (80.01% vs. 78.03%), as well as in terms of Kappa statistic (0.463 vs. 0.394).</p><p>Finally, we wanted to assess the ability of the estimated SAR probit model to predict the likelihood of a parcel to become developed in 2015: amongst the 29 536 undeveloped parcels in 2008, 27 010 were correctly predicted as undeveloped by the SAR probit model (true negatives), while the remaining 2526 parcels were predicted as developed (false positive). We observe that, out of the 614 new developed parcels in 2015, 396 of them belong to the set of true negatives, while the remaining 218 to set of false positive. This means that the probability of becoming developed in 2015, is 5.8 times higher on a 2008-false-positive parcel than on a 2008-true-negative one (218/ 2526=8.56% vs. 396/27010=1.46%), suggesting that our model is able to foresee market signals with a certain accuracy.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.">Conclusions</head><p>In this paper we studied spatial autoregressive and spatial error models with binary-dependent variables. These models are of particular interest in several disciplines, in particular those that deal with dependent variables that represent some kind of choice, decision or action (between only two possible alternatives) and where the observations are spatially correlated. The concept of spatial interdependence, whether it comes from a direct geographical proximity of the observations of any other sort of contiguity measure (think for example to the relationships between members of a social network), is of major concern for the analysts and ignoring it can generate inefficient and inconsistent estimates <ref type="bibr" target="#b40">(McMillen, 1992)</ref>.</p><p>Table 5 Mean, s.d. and RMSE of β β ρ λ (</p><p>of SAR and SEM models for the conditional estimator with variance-covariance matrix (UC), precision matrix (UP) and standard Probit (SP), obtained from 1000 simulated DGP with n=1 000 000, nn=2 and ρ ∈ { -0.8, -0.4, -0.2, 0, 0.2}.</p><formula xml:id="formula_29">ρ = -0.8 ρ = -0.4 ρ = -0.2 ρ = 0 ρ = 0.2 ρ = 0.4 ρ = 0.8 β 0 β 1 ρ β 0 β 1 ρ β 0 β 1 ρ β 0 β 1 ρ β 0 β 1 ρ β 0 β 1 ρ β 0 β 1 ρ SAR nn=2</formula><p>UC -0.00 0.99 -0.73 -0.00 1.00 -0.41 -0.00 1.00 -0.22 -0.00 1.00 0.00 -0.00 1.00 0.22 -0.00 1.00 0.39 -0.00 0.96 0.75 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.01 0.07 0.00 0.00 0.01 0.00 0.00 0.02 0.00 0.00 0.00 0.00 0.00 0.02 0.00 0.00 0.01 0.00 0.04 0.05 UP -0.00 0.99 -0.71 -0.00 1.00 -0.38 -0.00 1.00 -0.20 -0.00 1.00 0.00 -0.00 1.00 0.20 -0.00 1.00 0.39 -0.00 0.94 0.71 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.01 0.09 0.00 0.00 0.02 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.01 0.00 0.06 0.09 SP -0.00 0.82 0.00 0.95 0.00 0.99 -0.00 1.00 0.00 0.98 -0.00 0.93 0.00 0.62 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.18 0.00 0.05 0.00 0.01 0.00 0.00 0.00 0.02 0.00 0.07 0.00 0.38</p><formula xml:id="formula_30">λ = -0.8 λ = -0.4 λ = -0.2 λ = 0 λ = 0.2 λ = 0.4 λ = 0.8 β 0 β 1 λ β 0 β 1 λ β 0 β 1 λ β 0 β 1 λ β 0 β 1 λ β 0 β 1 λ β 0 β 1 λ SEM nn=2</formula><p>UC -0.00 0.92 -0.73 -0.00 1.01 -0.41 -0.00 1.01 -0.23 -0.00 1.00 0.00 -0.00 1.01 0.23 -0.00 1.00 0.40 -0.00 0.71 0.75 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.08 0.07 0.00 0.01 0.01 0.00 0.01 0.03 0.00 0.00 0.00 0.00 0.01 0.03 0.00 0.00 0.00 0.00 0.29 0.05 UP -0.00 0.89 -0.69 -0.00 0.99 -0.38 -0.00 1.00 -0.20 -0.00 1.00 0.00 -0.00 1.00 0.20 -0.00 0.99 0.39 -0.00 0.66 0.70 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.11 0.11 0.00 0.01 0.02 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.01 0.01 0.00 0.34 0.10 SP -0.00 0.68 -0.00 0.91 -0.00 0.98 -0.00 1.00 -0.00 0.97 -0.00 0.89 -0.00 0.44 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.32 0.00 0.09 0.00 0.02 0.00 0.00 0.00 0.03 0.00 0.11 0.00 0.56 In order to estimate these models, we propose different maximumlikelihood estimators, based on approximated likelihood functions. The approximation is obtained by means of an improved version of the univariate conditioning procedure for MVN probabilities proposed by <ref type="bibr" target="#b42">Mendell and Elston (1974)</ref>. Two of our estimators (FLUC and FLUP) maximise directly the full log-likelihood function (with computed analytical gradients), while the other two (CLUC and CLUP) use a conditional approach in which intermediate estimations of the covariates parameters, conditional to the value of the spatial parameter, are used to improve the value of the log-likelihood. Moreover, the methods FLUC and CLUC operate directly on the variance-covariance matrix of the likelihood function, while the FLUP and CLUP operate on its inverse, the precision matrix, since it is usually sparser and hence leads to faster computations.</p><p>The proposed methods are tested by means of a simulation study in order to assess their performance in terms of accuracy and computation time. The results show that the full-likelihood estimators FLUC and FLUP are not outperforming their conditional counterparts CLUC and CLUP, that indeed prove to be very efficient and reliable. In fact, they recover accurately the value of the true parameters, with only some bias for the spatial dependence parameter, when the true absolute value is high. This effect can be caused by the error due to the approximation used for the computation of the likelihood function, that masks the small differences between the minima found by the conditional and the full-likelihood approaches. A very interesting property of the conditional methods CLUC and CLUP is that they do not suffer from the contagion effect caused by a bad estimation of the spatial dependence parameter, a frequent and troubling issue observed for other methods, as testified in a recent review by <ref type="bibr" target="#b5">Calabrese and Elkink (2014)</ref>. Furthermore, the speed of the conditional methods is remarkably higher than any other proposal found in the literature: we can easily reduce the estimation time by several orders of magnitude, with no detriment of results accuracy. This allowed us to fit SAR and SEM probit models on synthetic datasets containing as much as 1 million observations in less than 10 minutes and on a urban-sprawl study with more than 40 thousands observations in less than 5 minutes.</p><p>In the light of the good performances obtained with the proposed estimators, we will further investigate the possibility to apply the same methodology for the estimation of a SARAR(1,1) probit model, where both spatial autocorrelation and spatial error dependence are present. Moreover, the possibility of rapidly estimating several spatial binary choice models will allow to study spatial nested choice models with more than two alternatives. For us, the next goal is to estimate multinomial spatial probit model, as already attempted by in <ref type="bibr" target="#b4">Bhat (2011)</ref>.</p><p>All the functions used in this paper have been made available in the R package ProbitSpatial on the Comprehensive R Archive Network website. <ref type="foot" target="#foot_5">8</ref></p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Appendix A. Algorithm</head><p>We present in Algorithm 1 the steps of for the computation of the likelihood function of a SAR probit model. We the modification showed further, it can also be adapted for the SEM probit model or for the case of precision matrix instead of the variance covariance matrix (or both at the same time): SEM it suffices to consider the matrix M instead of W, λ instead of ρ and, at line of 10 Algorithm 1, to substitute X * i for X IM ∑ ( ) i n ii =1 2 ; Precision matrix it suffices to consider:</p><formula xml:id="formula_31">• P I ρW I ρW ← ( - )( - ) n n t instead of Σ at line 9 of Algorithm 1;</formula><p>• at line 18, reorder decreasingly;</p><p>• at line 20, take the upper-triangular matrix of the Cholesky factorization of Σ;</p><p>• the iteration at lines 23-29 should run backwards (from n to 1).</p><p>Algorithm 1. Log-likelihood estimation of a SAR probit model.</p><formula xml:id="formula_32">Input: X n k ( × ), y n ( × 1), W n n ( × ), o ∈ W , ρ ∈ [ -1, 1] and β ∈ k  1. if o = 0 W then 2. IW I ρW ← ( - ) n -1</formula><p>3. else 4. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>IW I ← n</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>5.</head><p>for i=1 to o W do 6.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>IW IW ρW ← + i i ; 7.</head><p>end for 8.</p><p>end if 9.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Σ IW IW ←</head><p>•( ) t computation of Sigma or P 10.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>X</head><formula xml:id="formula_33">IW X IW * ← • ∑ ( ) i n ii =1</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>11.</head><p>for i=1 to n do 12.</p><p>if y = 0</p><p>i then 13. β a b X ( , ) ← (( * ) , + ∞) i i i set upper and lower integration limits 14. else 15. β a b X ( , ) ← ( -∞, ( * ) ) i i i 16.</p><p>end if 17.</p><p>end for 18.</p><p>⎛ <ref type="bibr" target="#b25">Gibson et al. (1994)</ref> 19.</p><formula xml:id="formula_34">⎝ ⎜ ⎜ ⎛ ⎝ ⎜ ⎜ ⎞ ⎠ ⎟ ⎟ ⎛ ⎝ ⎜ ⎜ ⎞ ⎠ ⎟ ⎟ ⎞ ⎠ ⎟ ⎟ Φ b Σ Φ a Σ ord ← order - i ii i ii reorder</formula><p>Reorder a, b and Σ according to ord 20.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>C Σ ( , AMDord) ← CholeskyAMD( )</head><p>lower-triangular matrix and indexes of AMD order 21.</p><p>Reorder a, b and Σ according to AMDord 22.</p><formula xml:id="formula_35">L ← 0, μ ← 0 0 23. for i=1 to n do 24. g Cμ ← ∑ i j i ij j =1 -1 Mendell-Elston algorithm 25. ⎛ ⎝ ⎜ ⎞ ⎠ ⎟ a b a g C b g C ( , ) ← - , - i i i i ii i i ii 26. U Φ b Φ a ← ( ) -( ) i i i 27. μ ϕ a ϕ b U ← ( ) -( ) i i i i 28. L L U ← + log( ) i 29.</formula><p>end for Output: L.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Appendix B. Gradients</head><p>In the full-likelihood approach, the maximisation step can be accelerated by using the analytical expressions of the gradients of the likelihood function. In this work we dealt with four different likelihood functions, but for the sake of concision, in this Appendix we only present the gradients of the likelihood function of the SAR model with univariate conditional approximation that uses the variance-covariance matrix. The gradients of the other likelihood functions can be computed similarly and are available upon request. The notation is conform to that introduced in Sections 2 and 3.</p><p>Recall that the log-likelihood function depends on the parameters β k ( × 1) and ρ and that it is computed iteratively as the sum of the contributions U log( ) i of each of the n observations. The contribution of each observation i to the likelihood is given by the expression U Φ b Φ a = ( ) -( )</p><formula xml:id="formula_36">i i i , where ⎛ ⎝ ⎜ ⎞ ⎠ ⎟ a b ( , ) = , i i a g C b g C - - i i ii i i ii , g Cμ = ∑ i j i ij j =1 -1 , μ = j ϕ a ϕ b U ( )-( ) j j j</formula><p>and C is the lower triangular factor of the Cholesky decomposition of the variance-covariance matrix Σ I ρW I ρW = ( -) (( -) )</p><p>n n t -1 -1 . The values of a i and b i are computed from the matrix of covariates X and the spatial</p><formula xml:id="formula_37">matrix W as ⎪ ⎪ ⎧ ⎨ ⎪ ⎩ ⎪ ⎧ ⎨ ⎩ β β a X β I ρW X Σ y y b y X y = ( * ) = (( - ) ) ( ) , if = 0, -∞, if = 1. , = ∞, if = 0, ( * ) , if = 1. i i n i ii i i i i i i -1<label>(9)</label></formula><p>Before presenting the details of the computations of β U ∂ ∂ i and U ρ ∂ ∂ i , we recall some preliminary results on matrices and derivatives of matrices. Let A be n×n matrix, then the following properties are satisfied:</p><formula xml:id="formula_38">• A A ( ) = ( ) t t -1 -1 , • A A ∂ = (∂ ) t t , • A A AA ∂ = - (∂ ) -1 -1 -1 .</formula><p>The partial derivative of the Cholesky factor C can be computed using the following Lemma 1, provided Σ and Σ ρ ∂ ∂ are known. The proof of this result can be found in the Appendix A.2 of the book of <ref type="bibr" target="#b51">Särkkä (2013)</ref>.</p><p>Lemma 1. The partial derivative C ρ ∂ ∂ of the lower triangular Cholesky factor C of Σ with respect to the scalar parameter ρ can be computed as</p><formula xml:id="formula_39">⎛ ⎝ ⎜ ⎞ ⎠ ⎟ C ρ Cf C Σ ρ C ∂ ∂ = ∂ ∂ ( ) , t -1 -1</formula><p>where f is a function returning the lower triangular part and half the diagonal of its argument as follows:</p><formula xml:id="formula_40">⎧ ⎨ ⎪ ⎪ ⎩ ⎪ ⎪ f A A i j A i j i j ( ) = , if &gt; , 1 2 , if = , 0, if &lt; . ij ij ij</formula><p>Since the log-likelihood is computed iteratively, we will follow the same scheme for its derivatives: we present next the contributions to the derivatives of a generic observation i n ∈ {1, …, }. The value of the gradient is then the sum over all the observations of each single contribution. Derivative on β. The contribution to the derivative on β of the log-likelihood function from the i th observation is given by</p><formula xml:id="formula_41">β β U U Φ b Φ a ∂log( ) ∂ = ∂ ∂ 1 ( ) -( ) , i i i i (<label>10</label></formula><formula xml:id="formula_42">)</formula><p>where Φ denotes the distribution function of a standard normal distribution. The derivative <ref type="formula" target="#formula_51">11</ref>) is computed as:</p><formula xml:id="formula_43">β U ∂ ∂ i in Eq. (</formula><formula xml:id="formula_44">β β β U ϕ b b ϕ a a ∂ ∂ = ( ) ∂ ∂ -( ) ∂ ∂ , i i i i i</formula><p>where ϕ denotes the density function of a standard normal distribution. Since only one between a i and b i is non-infinite (see Eq. ( <ref type="formula" target="#formula_37">9</ref>)), we can suppose, without loss of generality, that a X β = ( * ) </p><formula xml:id="formula_45">⎛ ⎝ ⎜ ⎞ ⎠ ⎟ β β β a C a g ∂ ∂ = 1 ∂ ∂ - ∂ ∂ i ii i i</formula><p>The derivative of a X β = ( * ) i i w.r.t. β is equal to the i th row of the matrix X * =</p><formula xml:id="formula_46">I ρW X Σ (<label>( - ) ) diag( )</label></formula><formula xml:id="formula_47">n i i -1</formula><p>.</p><p>The derivative of g i is equal to</p><formula xml:id="formula_48">∑ β β g C μ ∂ ∂ = ∂ ∂ , i j i ij j =1 -1</formula><p>where β μ ∂ ∂ j is given, for any j i ∈ {1, …, -1}, by</p><formula xml:id="formula_49">⎛ ⎝ ⎜ ⎜ ⎞ ⎠ ⎟ ⎟ ⎛ ⎝ ⎜ ⎜ ⎞ ⎠ ⎟ ⎟ β β β β β μ ϕ a ϕ b U a ϕ a a b ϕ b b U ϕ a ϕ b U U ∂ ∂ = ∂ ∂ ( ) -( ) = ( ) ∂ ∂ - ( ) ∂ ∂ -( ( ) -( )) ∂ ∂ . j j j j j j j j j j j j j j j 2</formula><p>Since the log-likelihood is computed iteratively, we will follow the same scheme for its derivatives: we present next the contributions to the derivatives of a generic observation i n ∈ {1, …, }. The value of the gradient is then the sum over all the observations of each single contribution. Derivative on β. The contribution to the derivative on β of the log-likelihood function from the i th observation is given by</p><formula xml:id="formula_50">β β U U Φ b Φ a ∂log( ) ∂ = ∂ ∂ 1 ( ) -( )</formula><p>,</p><formula xml:id="formula_51">i i i i<label>(11)</label></formula><p>where Φ denotes the distribution function of a standard normal distribution. The derivative <ref type="formula" target="#formula_51">11</ref>) is computed as:</p><formula xml:id="formula_52">β U ∂ ∂ i in Eq. (</formula><formula xml:id="formula_53">β β β U ϕ b b ϕ a a ∂ ∂ = ( ) ∂ ∂ -( ) ∂ ∂ , i i i i i</formula><p>where ϕ denotes the density function of a standard normal distribution. Since only one between a i and b i is non-infinite (see Eq. ( <ref type="formula" target="#formula_37">9</ref>)), we can suppose, without loss of generality, that a X β = ( * ) j j j j j j j j j j j j j j j 2 Derivative on ρ. The contribution to the derivative on ρ of the log-likelihood function from the i th observation is given by <ref type="bibr">)</ref> .</p><formula xml:id="formula_54">U ρ U ρ Φ b Φ a ∂log( ) ∂ = ∂ ∂ 1 ( ) -(</formula><formula xml:id="formula_55">i i i i (<label>12</label></formula><formula xml:id="formula_56">)</formula><p>The derivative U ρ ∂ ∂ i in Eq. ( <ref type="formula" target="#formula_55">12</ref>) is computed as:</p><formula xml:id="formula_57">U ρ ϕ b b ρ ϕ a a ρ ∂ ∂ = ( ) ∂ ∂ -( ) ∂ ∂ . i i i i i</formula><p>Since only one between a i and b i is non-infinite (see Eq. ( <ref type="formula" target="#formula_37">9</ref>)), we can suppose, without loss of generality, that a X β = ( * ) </p><formula xml:id="formula_58">⎛ ⎝ ⎜ ⎞ ⎠ ⎟ a ρ C a g ρ C a g C ρ ∂ ∂ = 1 ∂( -) ∂ -( -) ∂ ∂ . i ii i i ii i i ii 2</formula><p>The derivative of a X β = ( * )</p><formula xml:id="formula_59">i i w.r.t. ρ is equal to β X ρ ∂ * ∂ , while the derivative of g i w.r.t. ρ is equal to ∑ ∑ g ρ C ρ μ C μ ρ ∂ ∂ = ∂ ∂ + ∂ ∂ , i j i ij j j i ij j =1 -1 =1 -1</formula><p>where μ ρ ∂ ∂ j is given, for any j i ∈ {1, …, -1}, by</p><formula xml:id="formula_60">⎛ ⎝ ⎜ ⎜ ⎞ ⎠ ⎟ ⎟ ⎛ ⎝ ⎜ ⎞ ⎠ ⎟ μ ρ ρ ϕ a ϕ b U a ϕ a a ρ b ϕ b U ϕ a ϕ b U ρ U ∂ ∂ = ∂ ∂ ( ) -( ) = ( ) ∂ ∂ - ( ) -( ( ) -( )) ∂ ∂ . j j j j j j j j j b ρ j j j j j ∂ ∂ 2 j</formula><p>Appendix C. On the order of the Taylor approximation</p><p>In order to establish a good choice for the value of the parameter o W , i.e. the order of the Taylor approximation of I ρW ( -</p><formula xml:id="formula_61">) n -1</formula><p>, we repeatedly generated (1000 times) a SAR probit DGP, with the following set of parameters: n=1000, ρ ∈ {0.2, 0.4, 0.8}, nn ∈ {2, 4, 6, 10} and o W in {1, 2, …, 10}. For each simulation, we recorded the value of the estimated values β β ρ (</p><p>and the estimation time. Fig. <ref type="figure">3</ref> shows the distribution of the bias of the estimated ρ parameter w.r.t. the value of o W (the bias of β β ( , ) 0 1 showed a stable behaviour and is not represented here). The observation of the graphics confirms that a suitable choice for the order of approximation is around 5 or 6: values smaller than 4 can lead to biased estimations, while higher values do not guarantee better performances and are hence unnecessarily more time-consuming. Furthermore, we observe that the estimation time for a single repetition always amounts to less than 30 seconds, a very good performance compared to the sample size. Such reduced estimation time allows the practitioner interested in finding the best value of o W for a given dataset, to implement his own Monte Carlo experience: from a new set of observations, he can estimate a first Standard Probit model in order to obtain a vector of β . After that, he repeatedly simulate a SAR probit DGP with the spatial weight matrix W, i.e. y β X ϵ I ρW = ( + )( -), n where ρ can be chosen arbitrary and ϵ σ I 0 ∼ ( , ) n 2 . With the generated samples, a SAR probit estimation can be conducted for different values of o W , in order to assess a good choice of the order of approximation. We recommend the practitioner to choose a reasonable dimension for the sample size (e.g. 1000 observations) and a good coverage of the coordinates space.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Fig. 1 .</head><label>1</label><figDesc>Fig.1. Distribution of the bias of the estimated ρ parameter (left panel) and estimation time in seconds (right panel, in logarithmic scale). The RIS estimator is not considered for the case n=1000 due to its excessive computation time.</figDesc><graphic coords="5,57.66,289.13,479.95,235.28" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Fig. 2 .</head><label>2</label><figDesc>Fig. 2. Plot of the SAR model's response over the range of predictor values.</figDesc><graphic coords="11,39.69,56.81,515.95,237.71" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><figDesc>easily worked out by the reader, following the same steps of the present case. The derivative of a i w.r.t. β is given by</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>.</head><figDesc>easily worked out by the reader, following the same steps of the present case. The derivative of a i w.r.t. β is given byThe derivative of a X β = ( * ) i i w.r.t. β is equal to the i th row of the matrix X * =The derivative of g i is equal to ∑</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><figDesc>of a i w.r.t. ρ is given by</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><graphic coords="15,81.64,56.81,432.00,423.78" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1</head><label>1</label><figDesc>Mean bias and standard deviation (in italics) of the estimated parameters using different reordering approaches (no reordering -no, 1 reordering -1 ord, and complete reordering -all) and the RIS estimator.</figDesc><table><row><cell>n</cell><cell>reorder</cell><cell>β 0</cell><cell>β 1</cell><cell>ρ</cell><cell>t</cell></row><row><cell>500</cell><cell>no</cell><cell>-0.0009</cell><cell>0.0177</cell><cell>-0.0184</cell><cell>21.3</cell></row><row><cell></cell><cell></cell><cell>(0.053)</cell><cell>(0.131)</cell><cell>(0.057)</cell><cell></cell></row><row><cell></cell><cell>1 ord</cell><cell>-0.0010</cell><cell>0.0165</cell><cell>-0.0263</cell><cell>37.9</cell></row><row><cell></cell><cell></cell><cell>(0.053)</cell><cell>(0.130)</cell><cell>(0.048)</cell><cell></cell></row><row><cell></cell><cell>all</cell><cell>-0.0009</cell><cell>0.0181</cell><cell>-0.0087</cell><cell>364.3</cell></row><row><cell></cell><cell></cell><cell>(0.052)</cell><cell>(0.132)</cell><cell>(0.051)</cell><cell></cell></row><row><cell></cell><cell>RIS</cell><cell>-0.0025</cell><cell>0.0066</cell><cell>-0.0431</cell><cell>666.2</cell></row><row><cell></cell><cell></cell><cell>(0.065)</cell><cell>(0.138)</cell><cell>(0.062)</cell><cell></cell></row><row><cell>1000</cell><cell>no</cell><cell>-0.0008</cell><cell>0.0090</cell><cell>-0.0170</cell><cell>147.4</cell></row><row><cell></cell><cell></cell><cell>(0.037)</cell><cell>(0.089)</cell><cell>(0.040)</cell><cell></cell></row><row><cell></cell><cell>1 ord</cell><cell>-0.0008</cell><cell>0.0082</cell><cell>-0.0248</cell><cell>249.1</cell></row><row><cell></cell><cell></cell><cell>(0.037)</cell><cell>(0.088)</cell><cell>(0.034)</cell><cell></cell></row><row><cell></cell><cell>all</cell><cell>-0.0007</cell><cell>0.0094</cell><cell>-0.0073</cell><cell>2361.5</cell></row><row><cell></cell><cell></cell><cell>(0.037)</cell><cell>(0.089)</cell><cell>(0.037)</cell><cell></cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 2</head><label>2</label><figDesc>Estimation times of the conditional (CL) and full-likelihood (FL) approach (in seconds).</figDesc><table><row><cell>ρ</cell><cell>CL</cell><cell>FL</cell></row><row><cell>0.0</cell><cell>1.01</cell><cell>13.12</cell></row><row><cell>0.2</cell><cell>1.40</cell><cell>44.18</cell></row><row><cell>0.4</cell><cell>2.83</cell><cell>127.28</cell></row><row><cell>0.8</cell><cell>2.97</cell><cell>621.28</cell></row></table><note><p>6 https://urbansimul.paca.inra.fr/urbansimul/.</p></note></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2"><head>Table 6</head><label>6</label><figDesc>Mean estimation times (in seconds) for the CLUC and CLUP method w.r.t. increasing sample size and number of neighbours.</figDesc><table><row><cell></cell><cell></cell><cell>SAR</cell><cell></cell><cell></cell><cell>SEM</cell><cell></cell><cell></cell></row><row><cell></cell><cell></cell><cell>UC</cell><cell>UP</cell><cell>SP</cell><cell>UC</cell><cell>UP</cell><cell>SP</cell></row><row><cell>n=1000</cell><cell>nn=2</cell><cell>0.36</cell><cell>0.32</cell><cell>0.01</cell><cell>0.32</cell><cell>0.29</cell><cell>0.01</cell></row><row><cell></cell><cell>nn=4</cell><cell>1.02</cell><cell>0.47</cell><cell>0.01</cell><cell>0.76</cell><cell>0.40</cell><cell>0.01</cell></row><row><cell></cell><cell>nn=10</cell><cell>5.12</cell><cell>1.40</cell><cell>0.01</cell><cell>3.57</cell><cell>1.16</cell><cell>0.01</cell></row><row><cell>n=10 000</cell><cell>nn=2</cell><cell>7.01</cell><cell>5.40</cell><cell>0.16</cell><cell>6.40</cell><cell>4.98</cell><cell>0.16</cell></row><row><cell></cell><cell>nn=4</cell><cell>52.91</cell><cell>14.54</cell><cell>0.10</cell><cell>42.48</cell><cell>13.29</cell><cell>0.10</cell></row><row><cell></cell><cell>nn=10</cell><cell>442.48</cell><cell>42.53</cell><cell>0.05</cell><cell>323.88</cell><cell>31.13</cell><cell>0.05</cell></row><row><cell>n=100 000</cell><cell>nn=2</cell><cell>40.57</cell><cell>33.23</cell><cell>0.55</cell><cell>36.86</cell><cell>30.66</cell><cell>0.52</cell></row><row><cell></cell><cell>nn=4</cell><cell>685.71</cell><cell>84.13</cell><cell>0.38</cell><cell>647.90</cell><cell>66.61</cell><cell>0.38</cell></row><row><cell>n=1 000 000</cell><cell>nn=2</cell><cell>504.10</cell><cell>395.51</cell><cell>4.39</cell><cell>489.57</cell><cell>388.34</cell><cell>4.21</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_3"><head>Table 7</head><label>7</label><figDesc>Descriptive statistics of dependent and independent variables of study region. The last column contains the cuts of the covariates as suggested by the piecewise linear regression model MARS.</figDesc><table><row><cell></cell><cell></cell><cell></cell><cell>Measure</cell><cell>Min</cell><cell>Median</cell><cell>Mean</cell><cell>Max</cell><cell>Cut</cell></row><row><cell>Municipality</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell cols="3">Population 1968 (Pop68)</cell><cell>hab.</cell><cell>131.0</cell><cell>1880.0</cell><cell>1798.0</cell><cell>3505</cell><cell>2401</cell></row><row><cell cols="3">Population 1982 (Pop82)</cell><cell>hab.</cell><cell>282.0</cell><cell>2339.0</cell><cell>2593.0</cell><cell>6245</cell><cell>2640</cell></row><row><cell>Parcel</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell cols="3">Distance to city centre (City)</cell><cell>m</cell><cell>0.0</cell><cell>961.3</cell><cell>1163.7</cell><cell>5991.9</cell><cell>(52.9-997.6)</cell></row><row><cell cols="3">Distance main road (Road)</cell><cell>m</cell><cell>0.0</cell><cell>9348.0</cell><cell>9549.0</cell><cell>21,552.0</cell><cell>254.6</cell></row><row><cell>Average altitude (AvAlt)</cell><cell></cell><cell></cell><cell>m.a.s.l.</cell><cell>63.93</cell><cell>151.9</cell><cell>171.30</cell><cell>717.8</cell><cell>194.9</cell></row><row><cell>St. dev. altitude (SdAlt)</cell><cell></cell><cell></cell><cell>m.a.s.l.</cell><cell>0.0</cell><cell>0.75</cell><cell>1.95</cell><cell>137.5</cell><cell>2.9</cell></row><row><cell cols="3">Minimum slope (MinSlope)</cell><cell>%</cell><cell>0.0</cell><cell>0.5</cell><cell>1.7</cell><cell>72.6</cell><cell>7.9</cell></row><row><cell>Average slope (AvSlope)</cell><cell></cell><cell></cell><cell>%</cell><cell>0.0</cell><cell>3.6</cell><cell>5.7</cell><cell>72.6</cell><cell>3.8</cell></row><row><cell cols="3">Maximum slope (MaxSlope)</cell><cell>%</cell><cell>0.0</cell><cell>10.0</cell><cell>13.6</cell><cell>85.7</cell><cell>7.2</cell></row><row><cell>Exposition (Exp)</cell><cell></cell><cell></cell><cell cols="2">°0.0</cell><cell>65.1</cell><cell>68.2</cell><cell>253.1</cell><cell>112.6</cell></row><row><cell>Flat surface (FlatSurf)</cell><cell></cell><cell></cell><cell>%</cell><cell>0.0</cell><cell>74</cell><cell>61</cell><cell>100</cell><cell>20</cell></row><row><cell>Binary variables</cell><cell></cell><cell></cell><cell></cell><cell>Non devel.</cell><cell>Devel.</cell><cell>Total</cell></row><row><cell>Parcel Status 1980 y ( 1980</cell><cell cols="2">)</cell><cell>0/1</cell><cell>41 093</cell><cell>19 733</cell><cell>60 826</cell></row><row><cell cols="2">Parcel Status 2008 y ( 2008</cell><cell>)</cell><cell>0/1</cell><cell>29 536</cell><cell>11 557</cell><cell>41 093</cell></row><row><cell>Parcel Status 2015 y ( 2015</cell><cell cols="2">)</cell><cell>0/1</cell><cell>28 922</cell><cell>614</cell><cell>29 536</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_4"><head>Table 8</head><label>8</label><figDesc>Regression coefficients of the standard and SAR probit models. Accuracy and Kappa statistics are reported in bottom of the right table.</figDesc><table><row><cell></cell><cell>Standard Probit</cell><cell></cell><cell></cell><cell>SAR Probit</cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>Variable</cell><cell>Coeff.</cell><cell>St. dev.</cell><cell>Marg. eff.</cell><cell>Coeff.</cell><cell>St. dev.</cell><cell>Dir. eff.</cell><cell>Ind. Eff.</cell><cell>Tot. Eff.</cell></row><row><cell>(Intercept)</cell><cell>4.77448</cell><cell>0.65621</cell><cell></cell><cell>2.756880</cell><cell>0.00034</cell><cell></cell><cell></cell><cell></cell></row><row><cell>City-997.6</cell><cell>0.00705</cell><cell>0.00069</cell><cell>0.0021</cell><cell>0.003911</cell><cell>0.00002</cell><cell>0.0009</cell><cell>0.0018</cell><cell>0.0028</cell></row><row><cell>997.6-City</cell><cell>-0.00599</cell><cell>0.00068</cell><cell>-0.0018</cell><cell>-0.003573</cell><cell>0.00003</cell><cell>-0.0008</cell><cell>-0.0017</cell><cell>-0.0026</cell></row><row><cell>City-52.8</cell><cell>-0.00715</cell><cell>0.00069</cell><cell>-0.0022</cell><cell>-0.003937</cell><cell>0.00001</cell><cell>-0.0009</cell><cell>-0.0019</cell><cell>-0.0028</cell></row><row><cell>Road-254.6</cell><cell>-0.00001</cell><cell>0.00001</cell><cell>-0.0000</cell><cell>-0.000006</cell><cell>0.00001</cell><cell>-0.0000</cell><cell>-0.0000</cell><cell>-0.0000</cell></row><row><cell>254.6-Road</cell><cell>-0.00285</cell><cell>0.00034</cell><cell>-0.0008</cell><cell>-0.001154</cell><cell>0.00001</cell><cell>-0.0002</cell><cell>-0.0005</cell><cell>-0.0008</cell></row><row><cell>194.9-AvAlt</cell><cell>-0.00490</cell><cell>0.00031</cell><cell>-0.0015</cell><cell>-0.002087</cell><cell>0.00017</cell><cell>-0.0005</cell><cell>-0.0010</cell><cell>-0.0015</cell></row><row><cell>2.9-SdAlt</cell><cell>0.14909</cell><cell>0.01209</cell><cell>0.0463</cell><cell>0.127406</cell><cell>0.00022</cell><cell>0.0317</cell><cell>0.0615</cell><cell>0.0933</cell></row><row><cell>7.9-MinSlope</cell><cell>0.11431</cell><cell>0.00812</cell><cell>0.0355</cell><cell>0.079450</cell><cell>0.00011</cell><cell>0.0198</cell><cell>0.0383</cell><cell>0.0582</cell></row><row><cell>AvSlope-3.8</cell><cell>0.00777</cell><cell>0.00357</cell><cell>0.0024</cell><cell>0.030145</cell><cell>0.00015</cell><cell>0.0075</cell><cell>0.0145</cell><cell>0.0220</cell></row><row><cell>3.8-AvSlope</cell><cell>-0.24846</cell><cell>0.01471</cell><cell>-0.0771</cell><cell>-0.275566</cell><cell>0.00019</cell><cell>-0.0687</cell><cell>-0.1331</cell><cell>-0.2018</cell></row><row><cell>MaxSlope-7.2</cell><cell>-0.00696</cell><cell>0.00140</cell><cell>-0.0021</cell><cell>-0.012275</cell><cell>0.00006</cell><cell>-0.0030</cell><cell>-0.0059</cell><cell>-0.0089</cell></row><row><cell>7.2-MaxSlope</cell><cell>0.11099</cell><cell>0.00645</cell><cell>0.0344</cell><cell>0.121371</cell><cell>0.00011</cell><cell>0.0302</cell><cell>0.0586</cell><cell>0.0889</cell></row><row><cell>112.6-Exp</cell><cell>0.00353</cell><cell>0.00023</cell><cell>0.0010</cell><cell>0.002680</cell><cell>0.00006</cell><cell>0.0006</cell><cell>0.0012</cell><cell>0.0019</cell></row><row><cell>FlatSurf-0.2</cell><cell>-0.11685</cell><cell>0.04096</cell><cell>-0.0362</cell><cell>-0.097895</cell><cell>0.00045</cell><cell>-0.0244</cell><cell>-0.0473</cell><cell>-0.0717</cell></row><row><cell>0.2-FlatSurf</cell><cell>-1.03979</cell><cell>0.23498</cell><cell>-0.3229</cell><cell>-1.533730</cell><cell>0.00550</cell><cell>-0.3824</cell><cell>-0.7411</cell><cell>-1.1235</cell></row><row><cell>Pop68-2401</cell><cell>0.00103</cell><cell>0.00006</cell><cell>0.0003</cell><cell>0.000425</cell><cell>0.00002</cell><cell>0.0001</cell><cell>0.0002</cell><cell>0.0003</cell></row><row><cell>2401-Pop68</cell><cell>0.00130</cell><cell>0.00008</cell><cell>0.0004</cell><cell>0.000334</cell><cell>0.00002</cell><cell>0.0000</cell><cell>0.0001</cell><cell>0.0002</cell></row><row><cell>Pop82-2640</cell><cell>-0.00015</cell><cell>0.00001</cell><cell>-0.0000</cell><cell>-0.000099</cell><cell>0.00001</cell><cell>-0.0000</cell><cell>-0.0000</cell><cell>-0.0000</cell></row><row><cell>2640-Pop82</cell><cell>-0.00131</cell><cell>0.00008</cell><cell>-0.0004</cell><cell>-0.000376</cell><cell>0.00002</cell><cell>-0.0000</cell><cell>-0.0001</cell><cell>-0.0002</cell></row><row><cell>My 1980</cell><cell>1.05917</cell><cell>0.05125</cell><cell>0.3289</cell><cell>0.435020</cell><cell>0.00085</cell><cell>0.1084</cell><cell>0.2102</cell><cell>0.3186</cell></row><row><cell>rho</cell><cell></cell><cell></cell><cell></cell><cell>0.817996</cell><cell>0.00071</cell><cell></cell><cell></cell><cell></cell></row><row><cell>Accuracy</cell><cell>78.03%</cell><cell></cell><cell></cell><cell>78.03%</cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>Kappa stat.</cell><cell>0.394</cell><cell></cell><cell></cell><cell>0.463</cell><cell></cell><cell></cell><cell></cell><cell></cell></row></table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="2" xml:id="foot_0"><p>We use the golden-section search optimization function optimize for the optimization task, and glm for the Standard Probit. Both functions belongs to the stats library in R (R Core Team, 2013).</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="3" xml:id="foot_1"><p>A similar experiment has been performed under a different error specification, ceteris paribus. The results confirm the robustness of our SAR and SEM probit estimators, in fact we obtain similar performances in terms of bias of the estimated parameters even under the t-Student distribution of the error term. Furthermore, we find that the SAR and SEM models are always outperforming the corresponding standard probit estimations, independently of the error specification.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="4" xml:id="foot_2"><p>The R code is available in the supplementary material of<ref type="bibr" target="#b5">Calabrese and Elkink (2014)</ref>.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="5" xml:id="foot_3"><p>The full-likelihood optimisation has been performed by means of the optim function of the stats library in R. We adopted the Broyden-Fletcher-Goldfarb-Shanno (BFGS) algorithm, that is a quasi-Newton iterative method for solving unconstrained nonlinear optimization problems. It uses function and gradient values to build up a picture of the surface to be optimized. The analytic expressions of the gradients are provided in Appendix B.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="7" xml:id="foot_4"><p>For more details on the computation of marginal effects of spatial probit models, see<ref type="bibr" target="#b37">LeSage and Pace (2008)</ref> and<ref type="bibr" target="#b38">LeSage et al. (2011)</ref>.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="8" xml:id="foot_5"><p>https://cran.r-project.org/package=ProbitSpatial.</p></note>
+		</body>
+		<back>
+
+			<div type="funding">
+<div><p>of the EU in the framework of the <rs type="programName">Marie-Curie FP7 COFUND People Programme</rs>, through the award of an <rs type="grantName">AgreenSkills Fellowship</rs> under grant agreement <rs type="grantNumber">267196</rs>. The research reported in this work has been partially supported by projects <rs type="funder">URBANSIMUL</rs> and EPIDEC.</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_q3vMgxT">
+					<idno type="grant-number">267196</idno>
+					<orgName type="grant-name">AgreenSkills Fellowship</orgName>
+					<orgName type="program" subtype="full">Marie-Curie FP7 COFUND People Programme</orgName>
+				</org>
+			</listOrg>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">An approximate minimum degree ordering algorithm</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">R</forename><surname>Amestoy</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">A</forename><surname>Davis</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">S</forename><surname>Duff</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">SIAM J. Matrix Anal. Appl</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="page" from="886" to="905" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Where do firms choose to locate their R &amp; D? A spatial conditional logit analysis on French data</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Autant-Bernard</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Eur. Plan. Stud</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="page" from="1187" to="1208" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Fast and elegant numerical linear algebra using the RcppEigen package</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Bates</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Eddelbuettel</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Stat. Softw</title>
+		<imprint>
+			<biblScope unit="volume">52</biblScope>
+			<biblScope unit="page" from="1" to="24" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Probit in a spatial context: a Monte Carlo analysis</title>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">J</forename><surname>Beron</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">P M</forename><surname>Vijverberg</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Advances in Spatial Econometrics. Methodology, Tools and Applications</title>
+		<editor>
+			<persName><surname>Luc Anselin</surname></persName>
+		</editor>
+		<editor>
+			<persName><surname>Florax</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">J</forename><forename type="middle">G M</forename><surname>Raymond</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">Sergio</forename><forename type="middle">J</forename><surname>Rey</surname></persName>
+		</editor>
+		<meeting><address><addrLine>Berlin</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2004">2004</date>
+			<biblScope unit="page" from="169" to="195" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">The maximum approximate composite marginal likelihood (MACML) estimation of multinomial probit-based unordered response choice models</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">R</forename><surname>Bhat</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Transp. Res. Part B</title>
+		<imprint>
+			<biblScope unit="volume">45</biblScope>
+			<biblScope unit="page" from="923" to="939" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Estimators of binary spatial autoregressive models: a Monte Carlo study</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Calabrese</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">A</forename><surname>Elkink</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Reg. Sci</title>
+		<imprint>
+			<biblScope unit="volume">54</biblScope>
+			<biblScope unit="page" from="664" to="687" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Analysis of deforestation and protected area effectiveness in Indonesia: a comparison of Bayesian spatial models</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brun</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">R</forename><surname>Cook</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">S</forename><surname>Huay Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">A</forename><surname>Wich</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Pin Koh</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">R</forename><surname>Carrasco</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Global Environ. Change</title>
+		<imprint>
+			<biblScope unit="volume">31</biblScope>
+			<biblScope unit="page" from="285" to="295" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Determinants of residential land-use conversion and sprawl at the rural-urban fringe</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Carrión-Flores</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">G</forename><surname>Irwin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Am. J. Agric. Econ</title>
+		<imprint>
+			<biblScope unit="volume">86</biblScope>
+			<biblScope unit="page" from="889" to="904" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Neighborhood influence and technological change</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Case</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Reg. Sci. Urban Econ</title>
+		<imprint>
+			<biblScope unit="volume">22</biblScope>
+			<biblScope unit="page" from="491" to="508" />
+			<date type="published" when="1992">1992</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">The greatest of a finite set of random variables</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">E</forename><surname>Clark</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Oper. Res</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="page" from="145" to="162" />
+			<date type="published" when="1961">1961</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Predicting the spatial distribution of non-indigenous riparian weeds: issues of spatial scale and extent</title>
+		<author>
+			<persName><forename type="first">Y</forename><forename type="middle">C</forename><surname>Collingham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">A</forename><surname>Wadsworth</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Huntley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">E</forename><surname>Hulme</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Appl. Ecol</title>
+		<imprint>
+			<biblScope unit="volume">37</biblScope>
+			<biblScope unit="page" from="13" to="27" />
+			<date type="published" when="2000">2000</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Analytic approximations for computing probit choice probabilities</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">D</forename><surname>Connors</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Hess</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Daly</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Transportmetrica A. Transp. Sci</title>
+		<imprint>
+			<biblScope unit="volume">10</biblScope>
+			<biblScope unit="page" from="119" to="139" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">A simple approximation for bivariate and trivariate normal integrals</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">R</forename><surname>Cox</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Wermuth</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Int. Statist. Rev</title>
+		<imprint>
+			<biblScope unit="volume">59</biblScope>
+			<biblScope unit="page" from="263" to="269" />
+			<date type="published" when="1991">1991</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Three digit accurate multiple normal probabilities</title>
+		<author>
+			<persName><forename type="first">I</forename><surname>Deák</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Numer. Math</title>
+		<imprint>
+			<biblScope unit="volume">35</biblScope>
+			<biblScope unit="page" from="369" to="380" />
+			<date type="published" when="1980">1980</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">On the computation of the bivariate normal integral</title>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Drezner</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">D</forename><surname>Wesolowsky</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Statist. Comput. Simul</title>
+		<imprint>
+			<biblScope unit="volume">35</biblScope>
+			<biblScope unit="page" from="101" to="107" />
+			<date type="published" when="1990">1990</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Computation of the trivariate normal integral</title>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Drezner</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Math. Comput</title>
+		<imprint>
+			<biblScope unit="volume">62</biblScope>
+			<biblScope unit="page" from="289" to="294" />
+			<date type="published" when="1994">1994</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Rcpp: seamless R and C++ integration</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Eddelbuettel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>François</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Statist. Softw</title>
+		<imprint>
+			<biblScope unit="volume">40</biblScope>
+			<biblScope unit="page" from="1" to="18" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<monogr>
+		<author>
+			<persName><forename type="first">D</forename><surname>Eddelbuettel</surname></persName>
+		</author>
+		<title level="m">Seamless R and C++ Integration with Rcpp</title>
+		<meeting><address><addrLine>New York</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">A novel series expansion for the multivariate normal probability integrals based on Fourier series</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">A</forename><surname>Fayed</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">F</forename><surname>Atiya</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Math. Comput</title>
+		<imprint>
+			<biblScope unit="volume">83</biblScope>
+			<biblScope unit="page" from="2385" to="2402" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Considering spatial correlations between binary response variables in forestry: an example applied to tree harvest modeling</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Fortin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Delisle-Boulianne</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Pothier</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Forest Sci</title>
+		<imprint>
+			<biblScope unit="volume">59</biblScope>
+			<biblScope unit="page" from="253" to="260" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Numerical computation of multivariate normal probabilities</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Genz</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Comput. Graph. Statist</title>
+		<imprint>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="page" from="141" to="149" />
+			<date type="published" when="1992">1992</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Numerical computation of multivariate t-probabilities with application to power calculation of multiple contrasts</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Genz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Bretz</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Statist. Comput. Simul</title>
+		<imprint>
+			<biblScope unit="volume">63</biblScope>
+			<biblScope unit="page" from="103" to="117" />
+			<date type="published" when="1999">1999</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Comparison of methods for the computation of multivariate t probabilities</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Genz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Bretz</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Comput. Graph. Statist</title>
+		<imprint>
+			<biblScope unit="volume">11</biblScope>
+			<biblScope unit="page" from="950" to="971" />
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Numerical computation of rectangular bivariate and trivariate normal and t probabilities</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Genz</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statist and Comput</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="page" from="251" to="260" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Bias of the estimated ρ parameter (solid lines and left vertical axes) and estimation time (dashed lines and right vertical axes) w.r.t. the order of approximation of o W</title>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 23th Symposium on the Interface</title>
+		<meeting>the 23th Symposium on the Interface<address><addrLine>Alexandria, VA</addrLine></address></meeting>
+		<imprint>
+			<publisher>American Statistical Association</publisher>
+			<date type="published" when="1991">1991</date>
+			<biblScope unit="page" from="571" to="578" />
+		</imprint>
+	</monogr>
+	<note>Efficient simulation from the multivariate normal and Student-t distributions subject to linear constraints Geweke, J.</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Monte Carlo evaluation of multivariate normal integrals and sensitivity to variate ordering</title>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">J</forename><surname>Gibson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">A</forename><surname>Glasbey</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Elston</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Advances in Numerical Methods and Applications</title>
+		<editor>
+			<persName><forename type="first">I</forename><forename type="middle">T</forename><surname>Dimov</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">B</forename><surname>Sendov</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">P</forename><forename type="middle">S</forename><surname>Vassilevski</surname></persName>
+		</editor>
+		<meeting><address><addrLine>River Edge</addrLine></address></meeting>
+		<imprint>
+			<publisher>World Scientific Publishing</publisher>
+			<date type="published" when="1994">1994</date>
+			<biblScope unit="page" from="120" to="126" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">The method of simulated scores for the estimation of LDV models with an application to external debt crises</title>
+		<author>
+			<persName><forename type="first">V</forename><surname>Hajivassiliou</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Mcfadden</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Cowles Foundation Discussion Paper 967</title>
+		<meeting><address><addrLine>Yale University</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="1990">1990</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">The use of the tetrachoric series for evaluating multivariate normal probabilities</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Harris</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">P</forename><surname>Soms</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Multivar. Anal</title>
+		<imprint>
+			<biblScope unit="volume">10</biblScope>
+			<biblScope unit="page" from="252" to="267" />
+			<date type="published" when="1980">1980</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">A composite likelihood approach to binary spatial data</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">J</forename><surname>Heagerty</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">R</forename><surname>Lele</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J of the Am Statist Assoc</title>
+		<imprint>
+			<biblScope unit="volume">93</biblScope>
+			<biblScope unit="page" from="1099" to="1111" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">First-order concepts in system reliability</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Hohenbichler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Rackwitz</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Struct. Saf</title>
+		<imprint>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="page" from="177" to="188" />
+			<date type="published" when="1983">1983</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Approximations to multivariate normal rectangle probabilities based on conditional expectations</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Joe</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Am. Statist. Assoc</title>
+		<imprint>
+			<biblScope unit="volume">90</biblScope>
+			<biblScope unit="page" from="957" to="964" />
+			<date type="published" when="1995">1995</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">The estimation of multinomial probit models: a new calibration algorithm</title>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">A</forename><surname>Kamakura</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Transp. Sci</title>
+		<imprint>
+			<biblScope unit="volume">23</biblScope>
+			<biblScope unit="page" from="253" to="265" />
+			<date type="published" when="1989">1989</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">A computationally practical simulation estimator for panel data</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Keane</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">62</biblScope>
+			<biblScope unit="page" from="95" to="116" />
+			<date type="published" when="1994">1994</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">Clustering of auto supplier plants in the United States: generalized method of moments spatial logit for large samples</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Klier</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">P</forename><surname>Mcmillen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Bus. Econ. Statist</title>
+		<imprint>
+			<biblScope unit="volume">26</biblScope>
+			<biblScope unit="page" from="460" to="471" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<analytic>
+		<title level="a" type="main">Improved algorithms for estimating choice probabilities in the multinomial probit model</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">G</forename><surname>Langdon</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Transp. Sci</title>
+		<imprint>
+			<biblScope unit="volume">18</biblScope>
+			<biblScope unit="page" from="267" to="299" />
+			<date type="published" when="1984">1984</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<analytic>
+		<title level="a" type="main">Methods of determining choice probability in utility maximising multiple alternative models</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">G</forename><surname>Langdon</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Transp Res Part B: Methodol</title>
+		<imprint>
+			<biblScope unit="volume">18</biblScope>
+			<biblScope unit="page" from="209" to="234" />
+			<date type="published" when="1984">1984</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<analytic>
+		<title level="a" type="main">Bayesian estimation of limited dependent variable spatial autoregressive models</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Lesage</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geogr. Anal</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="page" from="19" to="35" />
+			<date type="published" when="2000">2000</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<monogr>
+		<title level="m" type="main">An Introduction to Spatial Econometrics</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Lesage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">K</forename><surname>Pace</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2008">2008</date>
+			<publisher>Chapman and Hall/CRC Eds</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<analytic>
+		<title level="a" type="main">New Orleans business recovery in the aftermath of hurrican Katrina</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Lesage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">K</forename><surname>Pace</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Lam</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Campanella</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Liu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. R. Statist. Soc. A</title>
+		<imprint>
+			<biblScope unit="volume">174</biblScope>
+			<biblScope unit="page" from="1007" to="1027" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<analytic>
+		<title level="a" type="main">On the use of simulated frequencies to approximate choice probabilities</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Manski</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Lerman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Structural Analysis of Discrete Data with Econometric Applications</title>
+		<imprint>
+			<date type="published" when="1981">1981</date>
+			<biblScope unit="page" from="305" to="319" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b40">
+	<analytic>
+		<title level="a" type="main">Probit with spatial autocorrelation</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">P</forename><surname>Mcmillen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Reg. Sci</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="page" from="335" to="348" />
+			<date type="published" when="1992">1992</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b41">
+	<analytic>
+		<title level="a" type="main">A conditionally parametric probit model of microdata land use in Chicago</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Mcmillen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">E</forename><surname>Soppelsa</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Reg. Sci</title>
+		<imprint>
+			<biblScope unit="volume">55</biblScope>
+			<biblScope unit="page" from="391" to="415" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b42">
+	<analytic>
+		<title level="a" type="main">Multifactorial qualitative traits: genetic analysis and prediction of recurrence risks</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Mendell</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Elston</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometrics</title>
+		<imprint>
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="page" from="41" to="57" />
+			<date type="published" when="1974">1974</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b43">
+	<monogr>
+		<title level="m" type="main">Derived from mda:mars by T. Hastie and R. Tibshirani. earth: Multivariate Adaptive Regression Splines</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Milborrow</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2011">2011. 2011</date>
+		</imprint>
+	</monogr>
+	<note>R package</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b44">
+	<analytic>
+		<title level="a" type="main">Modeling spatially and temporally complex land-cover change: the case of Western Honduras</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">K</forename><surname>Munroe</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Southworth</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">M</forename><surname>Tucker</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Prof Geogr</title>
+		<imprint>
+			<biblScope unit="volume">56</biblScope>
+			<biblScope unit="page" from="544" to="559" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b45">
+	<analytic>
+		<title level="a" type="main">Approximation of certain multivariate integrals</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename><surname>Olson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">A</forename><surname>Weissfeld</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statist. Probab. Lett</title>
+		<imprint>
+			<biblScope unit="volume">11</biblScope>
+			<biblScope unit="page" from="309" to="317" />
+			<date type="published" when="1991">1991</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b46">
+	<analytic>
+		<title level="a" type="main">Quick computation of regressions with a spatially autoregressive dependent variable</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">K</forename><surname>Pace</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Barry</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geogr. Anal</title>
+		<imprint>
+			<biblScope unit="volume">29</biblScope>
+			<biblScope unit="page" from="232" to="237" />
+			<date type="published" when="1997">1997</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b47">
+	<monogr>
+		<title level="m" type="main">Fast Maximum Likelihood Estimation of the Spatial Probit Model Capable of Handling Large Samples</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">K</forename><surname>Pace</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Lesage</surname></persName>
+		</author>
+		<idno type="DOI">10.2139/ssrn.1966039</idno>
+		<ptr target="〈http://ssrn.com/abstract=1966039〉orhttp://dx.doi.org/10.2139/ssrn.1966039" />
+		<imprint>
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b48">
+	<analytic>
+		<title level="a" type="main">Contracting in space: an application of spatial statistics to discrete choice models</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Pinkse</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">E</forename><surname>Slade</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Econ</title>
+		<imprint>
+			<biblScope unit="volume">85</biblScope>
+			<biblScope unit="page" from="125" to="154" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b49">
+	<analytic>
+		<title level="a" type="main">The future of spatial econometrics</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Pinkse</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Slade</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Reg. Sci</title>
+		<imprint>
+			<biblScope unit="volume">50</biblScope>
+			<biblScope unit="page" from="103" to="117" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b50">
+	<analytic>
+		<title level="a" type="main">R: A language and environment for statistical computing</title>
+		<author>
+			<persName><forename type="first">Team</forename><surname>Core</surname></persName>
+		</author>
+		<ptr target="〈http://www.R-project.org/〉" />
+	</analytic>
+	<monogr>
+		<title level="m">R Foundation for Statistical Computing</title>
+		<meeting><address><addrLine>Vienna, Austria</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b51">
+	<monogr>
+		<title level="m" type="main">Bayesian Filtering and Smoothing</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Särkkä</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2013">2013</date>
+			<publisher>Cambridge University Press</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b52">
+	<analytic>
+		<title level="a" type="main">Algorithm AS 195: multivariate normal probabilities with error bound</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">J</forename><surname>Schervish</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. R. Statist. Soc. Ser. C</title>
+		<imprint>
+			<biblScope unit="volume">33</biblScope>
+			<biblScope unit="page" from="103" to="104" />
+			<date type="published" when="1984">1984. 1985</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b53">
+	<analytic>
+		<title level="a" type="main">A method for approximating multivariate normal orthant probabilities</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">R</forename><surname>Solow</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Statist. Comput. Simul</title>
+		<imprint>
+			<biblScope unit="volume">37</biblScope>
+			<biblScope unit="page" from="225" to="229" />
+			<date type="published" when="1990">1990</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b54">
+	<analytic>
+		<title level="a" type="main">Improved approximation for multinormal integral</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">K</forename><surname>Tang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">E</forename><surname>Melchers</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Struct. Saf</title>
+		<imprint>
+			<biblScope unit="volume">4</biblScope>
+			<biblScope unit="page" from="81" to="93" />
+			<date type="published" when="1986">1986</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b55">
+	<analytic>
+		<title level="a" type="main">Bivariate conditioning approximations for multivariate normal probabilities</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Trinh</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Genz</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statist. Comput</title>
+		<imprint>
+			<biblScope unit="volume">25</biblScope>
+			<biblScope unit="page" from="989" to="996" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b56">
+	<analytic>
+		<title level="a" type="main">Maximum simulated likelihood estimation with spatially correlated observations: a comparison of simulation techniques</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">M</forename><surname>Kockelman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Transportation Statistics</title>
+		<editor>
+			<persName><forename type="first">Brian</forename><surname>Sloboda</surname></persName>
+		</editor>
+		<imprint>
+			<publisher>JD Ross Publications</publisher>
+			<date type="published" when="2009">2009</date>
+			<biblScope unit="page" from="173" to="189" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b57">
+	<analytic>
+		<title level="a" type="main">Anticipation of land use change through use of geographically weighted regression models for discrete response</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">M</forename><surname>Kockelman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Wang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Transp. Res. Record</title>
+		<imprint>
+			<biblScope unit="volume">2245</biblScope>
+			<biblScope unit="page" from="111" to="123" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b58">
+	<analytic>
+		<title level="a" type="main">Partial Maximum likelihood estimation of spatial probit models</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">M</forename><surname>Iglesias</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename><surname>Wooldridge</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Econ</title>
+		<imprint>
+			<biblScope unit="volume">172</biblScope>
+			<biblScope unit="page" from="77" to="89" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b59">
+	<analytic>
+		<title level="a" type="main">Temporal and spatial variability of agricultural land loss in relation to policy and accessibility in a low hilly region of Southeast China</title>
+		<author>
+			<persName><forename type="first">T.-Y</forename><surname>Zhong</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X.-J</forename><surname>Huanga</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X.-Y</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Wang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Land Use Policy</title>
+		<imprint>
+			<biblScope unit="volume">287</biblScope>
+			<biblScope unit="page" from="762" to="769" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

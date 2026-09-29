@@ -1,0 +1,1340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Top-down scale approaches for multiscale GWR with locally adaptive bandwidths</title>
+				<funder ref="#_JehJ6ZG #_8xMYauC">
+					<orgName type="full">unknown</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability  status="unknown">
+					<licence/>
+				</availability>
+				<date type="published" when="2026-01-12">12 January 2026</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author role="corresp">
+							<persName><forename type="first">Ghislain</forename><surname>Geniaux</surname></persName>
+							<email>ghislain.geniaux@inrae.fr</email>
+							<idno type="ORCID">0000-0003-3256-2406</idno>
+							<affiliation key="aff0">
+								<orgName type="institution">INRAE UR Ecodeveloppement</orgName>
+								<address>
+									<settlement>Avignon</settlement>
+									<country key="FR">France</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Top-down scale approaches for multiscale GWR with locally adaptive bandwidths</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2026-01-12">12 January 2026</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">31FAFC123B2F0B88CFC9485ACD7BA1B3</idno>
+					<idno type="DOI">10.1007/s10109-025-00481-4</idno>
+					<note type="submission">Received: 30 September 2024 / Accepted: 28 October 2025 /</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-07-09T08:32+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>Partially varying coefficients model</term>
+					<term>Adaptive bandwidth</term>
+					<term>Multiscale geographically weighted regression</term>
+					<term>GWR JEL Classification C13</term>
+					<term>C14</term>
+					<term>C21</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Spatially varying coefficient models are widely used in fields such as housing markets, land use, ecology, and seismology, where capturing spatial heterogeneity is essential. Compared to standard Geographically Weighted Regression (GWR), Multiscale Geographically Weighted Regression (MGWR) improves estimation by allowing each covariate to operate at its own spatial scale. Yet, MGWR relies on a backfitting algorithm that limits scalability to moderate datasets and leaves predictive performance largely unexplored. We propose the Top-Down Scale approach for MGWR, which introduces a structured sequence of decreasing bandwidths within the backfitting process. This avoids full re-optimization at each step, substantially reducing computational costs while improving reliability of the global optimum. The resulting algorithm, tds_mgwr, handles up to 50,000 observations and 20 covariates efficiently, combining speed with accurate estimation and enabling more flexible and accurate modeling of complex spatial patterns. We also introduce the Adaptive Top-Down Scale approach for MGWR (atds_mgwr), which incorporates a gradient boosting-like stage to refine covariate bandwidths sequentially. This captures multiple spatial scales simultaneously, moving beyond the notion of a single optimal bandwidth. Monte Carlo experiments show that tds_mgwr achieves fast convergence and high accuracy, while atds_mgwr excels in complex multiscale settings. However, applications to real datasets suggest that predictive gains from MGWR over single-scale GWR are often modest, underlining the need for careful cross-validation and AICc-based validation when adopting multiscale models.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>Spatially varying coefficient models are extensively employed across various application domains, especially in cases where it is crucial to account for spatial heterogeneity within coefficient models. These domains include house markets, land use, population ecology, seismology, mining, and more. On the SCOPUS database, no fewer than 1258 scientific journal articles mentioned this type of regression. These articles showed a relatively balanced distribution across different categories, including "environmental science" (476 articles), "Social science" (447 articles), "Earth and Planetary Sciences" (384 articles) and "Agricultural and biological science" (246 articles). A majority of these articles make reference to the utilization of Geographically Weighted Regression (GWR) for estimating models with varying coefficients in space.</p><p>Numerous alternative methods have been proposed to capture spatially varying coefficients, and <ref type="bibr" target="#b31">Lambert's (2021)</ref> review offers an insightful and in-depth overview of these methodological approaches. <ref type="bibr" target="#b10">Casetti's (1972)</ref> spatial expansion model expresses coefficients as polynomials of location coordinates, but higher-order polynomials can lead to severe collinearity issues, and the approach lacks a clear theoretical foundation <ref type="bibr" target="#b31">(Lambert 2021)</ref>. <ref type="bibr" target="#b19">Foster and Gorr (1992)</ref> introduced a spatial filtering method inspired by rolling regressions in time-series analysis to estimate location-specific coefficients. However, such models were largely abandoned in favor of GWR-based approaches from the mid-1990s onward. When spatial units can be meaningfully defined, parametric models with fixed effects provide an alternative <ref type="bibr" target="#b39">(McGranahan et al. 2011)</ref>. To address unobserved heterogeneity caused by missing covariates or measurement errors, <ref type="bibr" target="#b41">McMillen (2012)</ref> proposed a semiparametric Geoadditive Model, which incorporates a smooth interaction between latitude and longitude to mitigate these effects. Other parametric models integrate both spatial dependence and spatially varying coefficients. <ref type="bibr" target="#b45">Pede et al. (2014)</ref> extended smooth transition autoregressive (STAR) models to spatial data, allowing parameters to vary across locations by applying a transition function to a linear term, thus modeling spatial regimes. <ref type="bibr" target="#b4">Basile et al. (2014)</ref> proposed Spatial Autoregressive Semiparametric Geoadditive Models, which simultaneously account for substantive spatial dependence, unobserved heterogeneity, and unknown functional forms. Bayesian Kriging <ref type="bibr" target="#b49">(Stein and Handcock 1993;</ref><ref type="bibr" target="#b23">Gelfand et al. 2003)</ref> provides another robust alternative but is computationally demanding, with estimation time increasing exponentially with the number of locations. Recent extensions, such as <ref type="bibr" target="#b13">Congdon (2019)</ref>, incorporate SAR structures into hierarchical Bayesian frameworks, offering a more flexible representation of spatial dependence. Despite these numerous methodological advancements-both parametric and semiparametric-GWR remains the most widely used approach for modeling spatially varying coefficients and continues to be the focus of the largest body of research and methodological developments in the field.</p><p>The GWR is a special case of locally weighted regression originally developed by <ref type="bibr" target="#b11">Cleveland and Devlin (1988)</ref>. It was first applied to the study of land values by <ref type="bibr" target="#b40">McMillen (1996)</ref> and later introduced as GWR by Brundson, Fortheringham, and Charlton through a series of articles <ref type="bibr" target="#b6">(Brunsdon et al. 1996</ref><ref type="bibr" target="#b7">(Brunsdon et al. , 1998;;</ref><ref type="bibr">Fotheringham et al. 1996)</ref>. GWR is a semi-parametric method that requires estimation of a regression model for each individual observation. This approach allows us to examine variations in model parameters based on geographical location. To achieve this, a weighted local regression is performed for each observation within a neighbourhood defined by a bandwidth parameter. In its simplest form, the neighborhood's definition is based on a kernel function, which assigns weights to observations according to their distance from the focal point. The canonical version of a GWR model could be written as:</p><formula xml:id="formula_0">y i = K ∑ k=1 β k (u i , v i ; h, kernel) x ik + ϵ i i = 1, 2, .., n (<label>1</label></formula><formula xml:id="formula_1">)</formula><p>Where y is a vector of responses, x a matrix of covariates of dimension K × n, h is the bandwidth expressed either as a distance or as a number of closest neighbors, (u i , v i ) the spatial coordinates of i, kernel a specific kernel, n the number of observations, K the number of covariates and ϵ an IID error term.</p><p>In the GWR estimation, the first step involves identifying the optimal bandwidth value for the chosen kernel function. This implies that all spatial patterns of the coefficients to be estimated must exhibit comparable spatial scales across the entire geographical space. Naturally, it is unlikely to encounter this form of spatial heterogeneity of coefficients with real data. Indeed, it may be necessary to use neighborhoods that vary according to the variables and locations involved when dealing with real data. It may even be expected that the same varying coefficient displays multiple scales of spatial variation simultaneously, for example, with a large-scale spatial trend and much finer local variations around this trend.</p><p>Therefore, we would like to be able to estimate a GWR like model with bandwidths that may be different for each variable and that can also adapt in value according to the locations. Such a model can be expressed as follows:</p><formula xml:id="formula_2">y i = K ∑ k=1 β k (u i , v i ; h(k, u i , v i ) , kernel)x ik + ϵ i i = 1, 2, .., n<label>(2)</label></formula><p>Following the initial works of <ref type="bibr" target="#b52">Yang et al. (2011)</ref> for developing a Flexible Bandwidth approach for GWR, <ref type="bibr" target="#b51">Yang (2014)</ref>, <ref type="bibr" target="#b33">Leong and Yue (2017)</ref>, <ref type="bibr" target="#b37">Lu et al. (2017)</ref>, <ref type="bibr" target="#b21">Fotheringham et al. (2017)</ref> made a significant contribution to this issue by allowing for the identification of different optimal bandwidths for each variable k, using jacobi iteration or backfitting algorithm. The estimation method termed Multiscale Geographically Weighted Regression (MGWR) by <ref type="bibr" target="#b21">Fotheringham et al. (2017)</ref>, hereafter FYK2017, involves a backfitting algorithm, variable by variable, which requires computing a large number of GWR at each iteration to select the set of optimal bandwidths [using the corrected AIC as information criterion, <ref type="bibr" target="#b1">Akaike (1974)</ref>, <ref type="bibr" target="#b28">Hurvich et al. (1998)</ref>, <ref type="bibr" target="#b8">Brunsdon et al. (2000)</ref>]. The algorithm requires numerous iterations to converge towards stabilization of the optimal bandwidths for all coefficients. This method, which notably improves the estimation of models with variable coefficients by better accounting for the spatial heterogeneity of each variable, thus involves replicating a large number of GWR calculations, which already individually entail the estimation of n local regressions. Given the computational burdens, this method is limited to moderate samples with few covariates, even with methods for parallelizing calculations, as proposed by <ref type="bibr" target="#b42">Oshan et al. (2019)</ref>. The most commonly employed and efficient implementation of the FYK2017 methods is its Python implementation in the mgwr library <ref type="bibr" target="#b42">(Oshan et al. 2019</ref>) which allow to consider sample size up to 10,000 with a dozen covariates in reasonable computation time <ref type="bibr" target="#b35">(Li and Fotheringham 2020)</ref>. In R, the GWmodel R package <ref type="bibr" target="#b36">(Lu et al. 2014;</ref><ref type="bibr" target="#b26">Gollini et al. 2015)</ref> still demonstrates sluggish performance and is only suitable for datasets containing fewer than 2500 observations and fewer than 6 explanatory variables.</p><p>The literature on models with spatially varying coefficients tends to overlook the investigation of methods that allow bandwidths to adapt locally to the spatial patterns of coefficient. This can be explained by two aspects. The first is that the term "adaptive bandwidth" is used for kernels where the bandwidth is expressed in terms of the number of neighbors, making it a kernel that adapts to point density but not to the curvature of the coefficient surface, as would be required by an approach seeking to locally adapt the kernel to optimize coefficient surface estimation <ref type="bibr" target="#b36">(Loader 1999)</ref>. The second explanation is that this difficulty can be circumvented by estimating different bandwidths for sub-zones <ref type="bibr" target="#b29">(Ispriyanti et al. 2017)</ref> or more generally by optimizing bandwidths through subsampling, particularly with moving window methods coupled with cross validation. However, the identification of the optimal bandwidth based on location is hardly explored in GWR applications and is not available in existing calculation routines for GWR. Most studies on locally adaptive bandwidth selection in GWR have focused on point-based local bandwidth optimization, as in <ref type="bibr" target="#b12">Comber et al. (2018)</ref>, or on moving window techniques. <ref type="bibr" target="#b44">Páez et al. (2002)</ref> propose an elegant alternative by modeling the covariance function locally, allowing the bandwidth to be determined adaptively. Building on a similar approach, <ref type="bibr" target="#b32">Lee and Park (2025)</ref> proposes a method that identifies, for each focal point, both an individualized bandwidth and a specific set of covariates to include in the local regression. However, this approach offers less flexibility in bandwidth adaptation compared to methods that explicitly optimize point-based local bandwidths.</p><p>In this article, we introduce several estimation methods aimed at accommodating bandwidths that may vary for each variable and adapt according to location. To achieve this, we rely on an innovative approach that departs from the optimization of a single optimal bandwidth and instead utilizes a decreasing series of bandwidths in a manner reminiscent of gradient boosting algorithms. Rather than attempting to identify an unique optimal bandwidth h * (k, u i , v i ) for the pair (k, i), we sequentially employ a series of decreasing bandwidths to capture the contribution of each neighborhood to improving regression coefficient estimation. This approach, termed "topdown scale" boosting regression, and more specifically "top-down scale GWR" in the case of spatially varying coefficient models, has not, to our knowledge, been utilized for estimation of varying coefficient models. Its potential extends beyond GWR to other frameworks in the domain of semi-parametric regressions, with notable examples including the adaptive weights smoothing procedure for image denoising <ref type="bibr" target="#b46">(Polzehl and</ref><ref type="bibr" target="#b46">Spokoiny 2000, 2004)</ref> which ressembles to the procedure we propose here. Other used of sequence of decreasing bandwidths in semi-parametric regressions, like in <ref type="bibr" target="#b47">Ruppert and Wand (1994)</ref> and extension around it like for example the Rodeo Approach for Nonparametric Density Estimation of <ref type="bibr" target="#b30">Lafferty and Wasserman (2008)</ref>, have as final objective to select an adaptive bandwidth that is unique for a given location. Some applications of this concept, employing a sequence of decreasing bandwidths, can also be found in computer vision domains for shape recognition <ref type="bibr" target="#b3">(Bäcklin et al. 2018)</ref>. However, in this paper, we focus solely on describing its application for the particular case of spatially varying coefficients regression.</p><p>In Sect. 2, dedicated to the methodological aspects of the estimation algorithms, we first outline the application of the top-down scale gradient boosting regression approach in the context of univariate regression, which leads to Algorithm 1 (tds_gwr), in order to demonstrate its effectiveness. To achieve this, we examine four prototypical spatial patterns for a single covariate: absence of spatial variation, stable spatial pattern, evolving spatial pattern, and dual spatial pattern. These characteristic spatial patterns allow us to depict the fluctuations in bias in coefficient estimation with respect to change in locations and to decrease of the bandwidths. This analysis aids in understanding the challenges associated with extending such an approach to the multivariate case. We then move to the multivariate case and describe the two main proposed algorithms. The Top-Down Scale Approach for MGWR Algorithm 2 (tds_mgwr) aims to identify a unique bandwidth per covariate, following the approach proposed by FYK2017's with the MGWR. It leverages the top-down scale method, employing a backfitting procedure in order to preserve the favorable properties observed in the univariate case. This approach accelerates the identification process of the set of optimal bandwidths and enhances the accuracy of final coefficient estimates. The Adaptive-Top-Down Scale Approach for MGWR Algorithm 3 (atds_mgwr) builds upon the optimal bandwidth knowledge per covariate obtained from the first algorithm. In the second step, it introduces a gradient boosting algorithm combined with a backfitting procedure to better account for local variations in bandwidths, further refining the estimation process. Section 3 introduces a series of Monte Carlo experiments designed to evaluate the finite sample properties of the estimators and to compare estimation times between the proposed algorithms and the existing implementation of GWR and MGWR in R and Python. These experiments are conducted on data generating processes (DGPs) that incorporate complex spatial patterns as well as a variety of benchmark DGPs already considered in the existing literature. Section 4 discusses out-of-sample prediction with MGWR and reports empirical results and applications to real-world datasets using seven real world dataset of various thematic, size and number of covariates. Section 5 addresses computational issues, highlighting algorithmic complexity, memory requirements, and implementation strategies that enable the methods to scale efficiently to large datasets, while Sect. 6 concludes with a discussion of the main findings and their implications.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">Methodology</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1">Top down scale approach for univariate regression: atds_gwr</head><p>In this section, we illustrate the advantages of the top-down scale approach, which integrates multiple bandwidths during estimation, in a univariate setting by considering the following univariate varying coefficient model:</p><formula xml:id="formula_3">y i = β (u i , v i ; h(u i , v i ), kernel) x i + ϵ i i = 1, 2, .., n<label>(3)</label></formula><p>where</p><formula xml:id="formula_4">y = (y 1 , . . . , y n ) is the n × 1 response vector, x = (x 1 , . . . , x n ) is the n × 1 vector of a single explanatory variable, ε = (ε 1 , . . . , ε n ) is the n × 1 error vector, and h(u i , v i )</formula><p>denotes the adaptive bandwidth at location (u i , v i ), allowing the degree of smoothing to vary spatially in order to better capture local heterogeneity.</p><p>There are several reasons for using variable local bandwidths. <ref type="bibr" target="#b17">Fan and Marron (1994)</ref> highlight three key advantages: the ability to adapt to the local curvature of the function, improved handling of local heteroscedasticity, and better adaptation to the data distribution. It is well known in the semi-parametric literature that inhomogeneous smoothness cannot be effectively addressed using kernel estimates with a deterministic bandwidth <ref type="bibr" target="#b34">(Lepski et al. 1997</ref>). To overcome this limitation, adaptive knot splines <ref type="bibr" target="#b38">(Mammen and Van De Geer 1997;</ref><ref type="bibr" target="#b54">Zhou and Shen 2001)</ref> and waveletbased methods <ref type="bibr" target="#b14">(Donoho and Johnstone 1994)</ref> have been developed to achieve spatial adaptivity by locally adjusting the model's resolution to variations in the data structure. Focusing on local regression methods using kernel smoothing, as done in GWR like models, identifying an optimal adaptive bandwidth h(u i , v i ) for a given kernel at all points i (point-based local bandwidth) is computationally infeasible. To approximate these local bandwidths, several strategies have been proposed:</p><p>• Partitioning the data space <ref type="bibr" target="#b5">(Breiman and Meisel 1976;</ref><ref type="bibr" target="#b36">Loader 1999)</ref> , 
+• Local regularization to balance bias and variance, including plug-in methods <ref type="bibr" target="#b16">(Fan and Gijbels 1995;</ref><ref type="bibr" target="#b18">Fan et al. 1996</ref>), • Local cross-validation <ref type="bibr" target="#b22">(Friedman and Stuetzle 1982;</ref><ref type="bibr" target="#b36">Loader 1999)</ref>.</p><p>The most commonly used approaches involve plug-in methods and cross-validation procedures <ref type="bibr" target="#b15">(Fan and Gijbels 1992;</ref><ref type="bibr" target="#b2">Atkeson et al. 1997)</ref>. Many studies combine multiple strategies to derive adaptive bandwidths that achieve local adaptation properties comparable to those of wavelet-based methods <ref type="bibr" target="#b18">(Fan et al. 1996)</ref>. For computational efficiency, most of these approaches share several key characteristics. Whether based on moving window, plug-in techniques, regularization, or cross-validation, they typically rely on kernels with compact support and begin with an initial estimate using the smallest possible bandwidth. This bandwidth is then gradually increased in a geometric sequence, as long as a goodness-of-fit or information criterion continues to improve <ref type="bibr" target="#b36">(Loader 1999;</ref><ref type="bibr" target="#b34">Lepski et al. 1997)</ref>. Additionally, as highlighted by <ref type="bibr" target="#b46">Polzehl and Spokoiny (2004)</ref>, most of these methods determine local bandwidths independently of one another.</p><p>We argue that using multiple bandwidths simultaneously can improve the estimation of spatially varying coefficients in this type of model. The idea of searching for a single optimal bandwidth, even within a point-based local bandwidth framework, where each observation i has its own bandwidth h i , implicitly assumes that the local curvature at point i is determined by a single scale. However, we believe this assumption is inadequate in certain data contexts, particularly when coefficients evolve across space. In many cases, spatial patterns exhibit multiple scales, rather than a single dominant one. For instance, in land-use and land-price data, it is common to observe local-scale variations at the intra-municipal level, while also detecting broader spatial trends at larger scales, such as north-south gradients or proximity effects related to coastlines, mountain ranges, or CBD. Given these complexities, the estimation of local coefficients should incorporate multiple neighborhood scales rather than relying on a single bandwidth, allowing for a more accurate representation of both fine-grained local variations and broader spatial trends. Considering spatial autocorrelation in GWR <ref type="bibr" target="#b7">(Brunsdon et al. 1998;</ref><ref type="bibr" target="#b25">Geniaux and Martinetti 2018)</ref> represents another way to make a step in this direction since the scale of the GWR bandwidth and the weight matrix used for spatial autocorrelation could be at different scale. However, a more generalized procedure for incorporating multiple neighborhood scales into the smoothing process is still needed.</p><p>Developing a more general procedure that identifies multiple bandwidth values for each observation, along with a weighting vector to balance their contributions to the estimation, may initially seem computationally intractable-especially when extending this approach to variable-specific bandwidths in a multivariate setting. However, in the univariate case, combining gradient boosting algorithms with local regression methods offers a promising solution, allowing for sequential adjustments across multiple scales to refine the estimation at different levels of spatial variation.</p><p>We conjecture that estimation via a gradient boosting procedure, where each local estimation at iteration m of β(u i , v i ; h m , kernel) is refined in subsequent iterations by progressively reducing the bandwidth h m , will enhance estimation accuracy of model in Eq. 3. Here, {h 1 , h 2 , . . . , h M } denotes a decreasing grid of candidate bandwidth values, with M the total number of bandwidths in the sequence and m = 1, . . . , M indexing the elements of this grid. This process continues until the bandwidth h m becomes too small to yield meaningful bias-variance trade-off improvements, at which point further reductions would lead to overfitting. Implementing an estimator based on this conjecture requires selecting the most appropriate sequence of decreasing bandwidths, along with defining an optimal learning rate and a stopping criterion to prevent overfitting.</p><p>Rather than seeking a single optimal bandwidth h * (u i , v i ) for each observation i, we instead sequentially apply multiple bandwidths across all observations, progressively decreasing in value. This approach allows us to capture the contribution of different neighborhood scales to improving the estimation of the regression coefficient β(u i , v i ). Constructing such a univariate GWR-like model with multiple bandwidths necessitates adopting the following formulation instead of the one in Eq. ( <ref type="formula" target="#formula_3">3</ref>):</p><formula xml:id="formula_5">y i = β(u i , v i ; hs, kernel)x i + ϵ i i = 1, 2, .., n<label>(4)</label></formula><p>1 3</p><p>where hs is a bandwidth vector of size M that must be calibrated through cross-validation.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1.1">Algorithm 1 (atds_gwr)</head><p>We formally introduce the Algorithm 1 (atds_gwr), titled atds_gwr, which implements the top-down scale approach for univariate GWR to estimate model (4). In the following subsections, we provide a detailed discussion of its key components and explain how the default values for the hyperparameters M and η can be set. This algorithm builds upon a gradient boosting framework, with the key distinction that the information space evolves across iterations. Specifically, even if the base learner uses the same covariates in consecutive iterations, the local neighborhood in each regression changes, allowing for an adaptive refinement of the estimates. The algorithm in the univariate setting is relatively straightforward, as illustrated in Fig. <ref type="figure" target="#fig_0">1</ref>. The detailed Algorithm 1 (atds_gwr) can be found in Appendix 1. The initial value of coefficients β(u i , v i ) 0 are estimated using OLS. The next M iterations will use the residuals of the previous iteration εm-1 and regress it on x using a GWR with a bandwidth equal to h m , decreasing in size h m &gt; h m+1 , resulting in a corrective coefficient b(u i , v i ) m that will be use to update the previous coefficients given a learning rate η. At each iteration, β(u i , v i ) m is corrected:</p><formula xml:id="formula_6">β(u i , v i ) m = β(u i , v i ) m-1 + η b(u i , v i ) m</formula><p>(5)</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1.2">AICc as stopping criterion</head><p>In such a gradient boosting algorithm, we need a stopping criterion to determine the terminal bandwidth size at which the coefficient estimation no longer improves.</p><p>Among the two natural candidates for GWR-like estimations that avoid overfitting by choosing too small a bandwidth, the leave-one-out cross-validation (LOOCV) criterion performed poorly in reducing β RMSE compared to the corrected AIC in this gradient boosting algorithm. From a computational perspective, AICc has the advantage of requiring a single GWR regression at each iteration, whereas LOOCV necessitates two runs of GWR. However, AICc has the disadvantage of requiring n × n matrix storage and multiplication. As discussed in <ref type="bibr" target="#b9">Bühlmann and Hothorn (2007)</ref> and <ref type="bibr" target="#b27">Hastie (2007)</ref>, the approximation of degrees of freedom for gradient boosting in a linear model at the mth iteration is given by df (m) = trace(B m ), where:</p><formula xml:id="formula_7">B m = B m-1 + ηH m (I -B m-1 )<label>(6)</label></formula><p>Here, H m is the hat matrix of the GWR regression of εm-1 on x using h m as the bandwidth. It is worth noting that the matrix product H m B m-1 is required at each iteration. This operation may be too resource-intensive for matrix sizes above 5000 square because H m is dense in the early iterations when starting from a large bandwidth.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1.3">Choosing the sequence of decreasing bandwidths: hyperparameter M</head><p>The descending order of bandwidths, unlike the methods cited earlier, is essential here to structure the bias reduction sequence in a gradient boosting algorithm. This approach ensures that corrections made at larger bandwidths are properly accounted for when smaller bandwidths need to be incorporated into the estimation process.</p><p>Following the approach of Loader (1999), <ref type="bibr" target="#b34">Lepski et al. (1997)</ref>, <ref type="bibr" target="#b46">Polzehl and Spokoiny (2004)</ref>, we adopt a geometric grid for this sequence. Through simulations based on the DGPs of Geniaux (2024), we demonstrate that a geometric grid is preferable to a regular grid in this context (see Figs. 9, 10, 11 and 12 in Appendix 3).</p><p>In Algorithm 1 (atds_gwr), we use a formulation where, given M as the number of different bandwidths, we construct the series using the hs() function, i.e. hs(M ) = (h 1 , h 2 , . . . , h M ), which satisfies the following conditions:</p><formula xml:id="formula_8">∀ m ∈ (1, ..., M ), h m+1 = h m * α(M )<label>(7)</label></formula><p>where h m ∈ R and 0 &lt; α(M ) &lt; 1 is a scalar determined to generate M distinct decreasing values for h, ensuring that the smallest value, h M , results in subsamples with a sufficient number of observations to reliably estimate the local regressions.</p><p>For simplicity, we focus in the present paper on bandwidth expressed as the number of neighbors instead of metric distance, although the algorithm we propose can accommodate both. If we use bandwidth expressed as the number of neighbors, note that h 1 = n and h M &gt; 2 in univariate case.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1.4">Choosing a learning rate: hyperparameter η</head><p>The two hyperparameters M and η are closely linked. Figure <ref type="figure" target="#fig_1">2</ref> illustrates their relationship: if the gradient boosting algorithm is applied with too many neighborhood scales (i.e., a large M), the neighborhoods become increasingly similar and redundant in terms of information. This redundancy can lead to overfitting, unless η is reduced to counteract the effect. To mitigate overfitting when M is too large, the learning rate must be lowered accordingly.</p><p>In Fig. <ref type="figure" target="#fig_1">2</ref>, M t denotes a threshold value of the number of neighborhood scales, expressed as a proportion of the sample size. Below this threshold (M &lt; M t ), the neighborhoods remain sufficiently distinct, so the learning rate η can safely be set to its maximum (i.e., η = 1). Beyond this threshold (M &gt; M t ), the neighborhoods become increasingly redundant, and η must be reduced to prevent overfitting. In the example with n=1000, we find M t ≈ 100, corresponding to roughly 10% of the observations.</p><p>From a computational perspective, using a longer sequence of bandwidths increases the number of iterations, making it necessary to choose M as small as possible. Choosing M as small as possible, less than 10% of the number of observations, also has the added benefit of allowing us to fix η = 1, thereby reducing the hyperparameter search to a single parameter M. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2">Simulation results comparing top-down scale GWR with standard GWR in a univariate setting</head><p>To illustrate the properties of the top-down scale approach for univariate GWR, we will examine four prototypical spatial patterns for a single covariate: flat spatial pattern, concentric spatial pattern, evolving spatial pattern, and dual spatial pattern. These characteristic spatial patterns allow us to depict the fluctuations in bias in coefficient estimation with respect to changes in locations and decreases in bandwidths along the Algorithm 1 (atds_gwr). To make these variations clearer, we will consider a one-dimensional space, the longitude.</p><p>The two first rows of Fig. <ref type="figure">3</ref> illustrates the four prototypical spatial patterns that we will use in the Monte Carlo Simulation, in their 1D representation utilized in the present section for the univariate case. The simulation design, which is further elaborated upon in the multivariate case in Sect. 3.1, relies here on a single explanatory variable, denoted as X, and residuals following a normal distribution, with a signal-to-noise Fig. <ref type="figure">3</ref> 1D simulations design for Univariate case in row 1 and 2, approximations of local bandwidths using GWR/AICc with moving windows (10 % of obs.) in row 3, and representative smoothed bias of β(u i , v i ) estimates for Algorithm 1 (atds_gwr) with (η = 1, M = 30) and GWR in row 4 ratio of 0.7 and 1000 observations. Considering these four prototypical spatial patterns, it is anticipated that a constant bandwidth should be used only for the first case, and possibly for the second cases.</p><p>The third row of Fig. <ref type="figure">3</ref> shows the optimal local bandwidth approximation using moving window estimation (10% first neighbors) of GWR, with bandwidth selection using AICc. The 10% of border observations, which are subject to bias, are removed in the plots. The distribution of the local bandwidth approximation over the x axis clearly indicates that for the third spatial pattern, a fully adaptive bandwidth is preferable, while a constant bandwidth may be used only for the first and second cases. In the last case, characterized by dual spatial patterns (one at a large spatial scale and the other at a very small spatial scale), it is impossible to predict in advance which pattern, among the large spatial trend or the finer sinusoidal fluctuation, using AICc or LOOCV criterion to select a single bandwidth will favor. Naturally, this type of case poses the most difficulty, and once again, a procedure with a fully adaptive bandwidth will be preferable.</p><p>The last row of Fig. <ref type="figure">3</ref> compares the bias of the regression coefficients between an estimation using GWR with a single optimal bandwidth using AICc (dashed orange) and the Algorithm 1 (atds_gwr) that we propose (solid red) using a single representative run. The resulting bias is smoothed along the x axis using a loess procedure for clarity. We also illustrate the bias at different stages of the Algorithm 1 (atds_gwr), beginning with the initial estimation by OLS (solid black) and progressing as the bandwidth decreases (solid dark blue and blue). Bias is also reported when the algorithm continues beyond the stopping criterion down to the smallest admissible bandwidth (number of covariates + 2; i.e., 3 neighbors in the univariate case, solid purple). The last row of Fig. <ref type="figure">3</ref> demonstrates that across all patterns, the Top-Down Scale approach exhibits superior performance compared to GWR. This superiority becomes particularly evident in spatial patterns that exhibit structure in space, such as pattern 3, or pattern 4, which display two scales. Naturally, the performance gains achieved by gradient boosting are balanced by a lower degree of model freedom. However, the use of the AICc criterion as a stopping criterion helps control this trade-off. The last row of Fig. <ref type="figure">3</ref> is included here for illustrative purposes only, while the simulation results provided in Table <ref type="table" target="#tab_0">1</ref> and Fig. <ref type="figure" target="#fig_2">4</ref> offer a more comprehensive evaluation of the performance comparisons between standard univariate GWR and univariate Top Down Scale GWR. We conduct 1,000 simulations of a DGP based on each of the four spatial patterns presented in Fig. <ref type="figure">3</ref>, using a normal distribution for the error term and the covariate X, with n = 1000. We then estimate spatially varying coefficients using both univariate GWR and the Algorithm 1 (atds_gwr) with different values of M, and compute the RMSE for the estimated coefficients.</p><p>As shown in Table <ref type="table" target="#tab_0">1</ref>, the Monte Carlo simulation results clearly demonstrate that, in the univariate case, the use of multiple bandwidths, as proposed in the Algorithm 1 (atds_gwr), consistently outperforms GWR, even with a limited sequence of bandwidths. Depending on the simulated spatial pattern of coefficients, the optimal bandwidth sequence length ranges between 20 and 30. Naturally, computation time increases with the number of bandwidths. When M = 5, the Top-Down Scale approach is faster than GWR's bandwidth optimization step, while also providing more accurate estimates. However, achieving the minimum RMSE comes at a computational cost, requiring 2 to 3 times longer than standard GWR. Figure <ref type="figure" target="#fig_2">4</ref> further highlights the superiority of the top-down scale approach. Figure <ref type="figure" target="#fig_2">4</ref> displays the distribution of the percentage difference in RMSE between tds_gwr and GWR estimates with different values of M across all simulation runs. A positive value indicates that GWR has a lower bias, while a negative value indicates the opposite. As shown in Fig. <ref type="figure" target="#fig_2">4</ref>, for spatial patterns k = 1, 2 and 4, tds_gwr consistently outperforms GWR across all simulation runs when M ≥ 10. For spatial pattern k = 1, GWR provides better estimates in rare cases when M = 5. Additionally, spatial pattern k = 3 shows that for M = 5, even though Top-Down Scale approach outperforms GWR in terms of mean and median bias, GWR may provide better estimates in approximately one-third of the cases.</p><p>These simulations provide a rule of thumb for selecting the hyperparameters η and M. While optimizing both parameters may be preferable in certain cases, the results suggest that fixing η = 1 and setting M to a value below 5% of the observations is generally sufficient. As shown in Fig. <ref type="figure" target="#fig_2">4</ref>, choosing M between 20 and 30 (equivalent to 2% to 3% of the sample size) ensures that the Top-Down Scale approach consistently outperforms GWR. Based on these findings, we propose a practical guideline of setting M = 30 and η = 1, and we adopt these values for the simulations throughout the rest of the article.</p><p>This detour through the univariate case would require conducting additional simulations by varying the parameters involved in the algorithm and in the DGP. However, in this paper, we are specifically interested in the multivariate case, and the properties illustrated at this stage are sufficient for studying the extension of this algorithm to the multivariate case. Therefore, we reserve the effort of intensifying Monte Carlo experiments for the multivariate case.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3">Top down scale approach for multivariate regression: tds_mgwr and atds_ mgwr</head><p>As demonstrated in the univariate case, identifying the terminal bandwidth h * m within the sequence hs is straightforward when applying a Top-Down Scale approach and can be efficiently determined using an AICc-based stopping criterion. However it is not possible to directly extend Algorithm 1 (atds_gwr) to the multivariate case by using a multivariate GWR at each iteration, as we aim to identify different terminal bandwidths h ⋆ m for each covariate, denoted as h ⋆ k,m . This requires either:</p><p>• a stopping criterion for each variable that can be applied at each iteration of the algorithm, or • testing all possible combinations of h * k,m to ensure that a global minimum is reached.</p><p>For example, with four varying coefficients and M = 30, this would require testing 30 4 combinations. This presents the same challenge as transitioning from a standard GWR to a Multiscale GWR, where the optimal bandwidth for one variable depends on the bandwidth values of all other variables. In standard Multiscale GWR, the backfitting algorithm proposed by FYK2017 reduces the number of GWR estima-tions needed to identify an optimal bandwidth vector, making it a natural candidate for extending the Top-Down Scale approach to multivariate GWR.</p><p>However, combining gradient boosting with a backfitting algorithm for estimating spatially varying coefficients is challenging. Using a backfitting algorithm, as proposed by FYK2017, and replacing the univariate GWR estimation at each iteration with our Algorithm 1 (atds_gwr), initialized with OLS, does not guarantee convergence to a global optimum.</p><p>To address this, we propose using the estimates from a standard multiscale GWR as the starting model. Our approach to extending Algorithm 1 (atds_gwr) to the multivariate case consists of two steps: First, we estimate a standard multiscale GWR to obtain coefficient estimates and residuals. Then, we apply an algorithm combining gradient boosting and backfitting with multiple bandwidths. This allows the AICc criterion to be used for each variable at each iteration within the backfitting framework. In essence, the first step selects a different bandwidth for each covariate, and the second step refines the coefficient estimates locally using multiple bandwidths.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3.1">First stage: algorithm 2 (tds_mgwr)</head><p>The properties of the top-down scale approach, identified in the univariate case with a decreasing sequence of bandwidths, can also help reduce computation times in standard multiscale GWR. In the standard application of the backfitting algorithm proposed by FYK2017, the bandwidth for each variable is optimized at every iteration using a golden search. However, this repeated optimization becomes unnecessary when the bandwidths of other variables are not close to their optimal values. In such cases, it is sufficient to check whether a decrease, increase, or maintenance of the current bandwidth improves the estimation. This approach allows for incremental bandwidth adjustments across multiple iterations of the algorithm, advancing by at most one step in the bandwidth sequence at each iteration. This strategy helps minimize the number of GWR estimations required, significantly improving computational efficiency. This new approach to searching for optimal bandwidth vectors in multiscale GWR significantly reduces the number of GWR computations compared to standard implementations in existing software (R and Python). It also provides more accurate estimates, especially when varying coefficients follow complex spatial patterns, using both simulated and real data, as demonstrated in Sects. 3.2 and 4.</p><p>Algorithm 2 (tds_mgwr), proposed for the multivariate case, aims to achieve the same objective as MGWR -namely, identifying a distinct bandwidth for each variable-while relying on the sequence of bandwidths hs at each step of the backfitting algorithm. At each step m of the backfitting sequence, Algorithm 2 (tds_mgwr) uses a single bandwidth h m and iterates it over each variable, testing for each one whether it is preferable to retain h m or revert to h (m-1) using the AICc criterion. For each variable and at each iteration of the backfitting algorithm, Algorithm 2 (tds_mgwr) will estimate the AICc for up to 4 bandwidth values:</p><p>• the most recent optimal bandwidth value for this variable (last optimal bandwidth), • the bandwidth value preceding this bandwidth value (upper bandwidth),</p><p>• the bandwidth value following this bandwidth value (lower bandwidth),</p><p>• the lowest bandwidth value among all the variables (lowest bandwidth).</p><p>The first three bandwidth values tested determine whether the algorithm should continue decreasing the bandwidth, stop decreasing and maintain the current bandwidth, or increase the bandwidth towards larger values. The fourth tested bandwidth, referred to as the "lowest bandwidth", allows the algorithm to escape local minima. This step is particularly crucial when a bandwidth has remained stuck in a local minimum for multiple iterations. In such cases, further improvements in the estimation of other variables' bandwidths may require an adjustment of the given variable's bandwidth beyond the immediate vicinity of the local minimum. This adjustment helps the AICc minimization algorithm shift bandwidth values and reach a global minimum.</p><p>At each iteration, the optimal bandwidth for each variable is selected based on the lowest AICc, using the univariate corrected AIC. This corrected AIC is referred to as univariate because it corresponds to the corrected AIC of each intermediate univariate GWR, rather than the global AICc of MGWR, as proposed by <ref type="bibr" target="#b53">Yu et al. (2020)</ref>. Its advantage lies in requiring only the trace of the hat matrix from the univariate GWR, thus eliminating the need to store a full hat matrix for each covariate and avoiding the necessity for n × n matrix multiplications.</p><p>Although the backfitting algorithm is inherently sequential, this diagnostic phase involving 4 bandwidth values can be parallelized to speed up computations. The decrease in bandwidths continues in Algorithm 2 (tds_mgwr) as long as variations in the optimal bandwidths are observed for at least one variable and the iteration proceeds as long as the percentage decrease in RMSE remains higher than a specified tolerance value. In Algorithm 2 (tds_mgwr), we also use the value n as the first bandwidth value in the sequence hs with h 1 = n. When h 1 = n is one of the four competing bandwidth values, we add the possibility to use OLS to calculate the coefficients. This way, the algorithm can result in mixed models where some coefficients may be stationary in space and some not.</p><p>Algorithm 2 (tds_mgwr) can consider both adaptive and non adaptive kernel. In the latter case, the value of bandwidth that triggers the use of OLS is h 1 = maxdist where maxdist is the maximum distance between two locations in the sample. In its implementation within the mgwrsar package, Algorithm 2 (tds_mgwr) also allows the forced estimation of mixed models by arbitrarily constraining certain coefficients to be stationary. This feature enables the determination of the preferred model form, between mixed and non-mixed models, in these contentious cases by comparing the obtained global AICc values using <ref type="bibr" target="#b53">Yu et al. (2020)</ref>. This algorithm is formally described in Algorithm 2 (tds_mgwr) in Appendix 1 and visually represented as a flowchart in Fig. <ref type="figure" target="#fig_3">5</ref>. Algorithm 2 (tds_mgwr) enables faster identification of optimal bandwidths for each variable while providing coefficient estimates β k (u i , v i ) that are at least as precise, if not more so, than those obtained with the MGWR method proposed by FYK2017, as demonstrated in the following sections through a series of Monte Carlo experiments.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3.2">Second stage: Algorithm 3 (atds_mgwr)</head><p>The third and final proposed algorithm, Algorithm 3 (atds_mgwr), relies on a combination of the first two algorithms. Using the estimation obtained by Algorithm 2 (tds_mgwr) as a starting point, Algorithm 3 (atds_mgwr) repeats, at least once, a backfitting sequence for each variable with Algorithm 1 (atds_gwr). Our exploratory Monte Carlo experiments on this algorithm indicate that the most significant improvements in estimates occur within the first two rounds, while additional iterations beyond three yield negligible gains. Therefore, the default number of rounds nrep has been set to three for the remainder of this study. This second stage allows for the local adaptation of bandwidths or the consideration of multiple bandwidth scales, thereby improving estimation accuracy. Algorithm 3 (atds_mgwr) is formally described in Appendix 1 and a flowchart is proposed in Fig. <ref type="figure" target="#fig_4">6</ref>. This algorithm significantly improves bias reduction in estimating varying coefficients with complex spatial patterns as we demonstrate in the next section using Monte Carlo experiments. The requirement to estimate the AICc of the global model throughout Algorithm 1 (atds_gwr) and incidentally in Algorithm 3 (atds_mgwr) at each backfitting step increases computation times and memory needs to store the Hat matrix and its decomposition by variables, as required by the method of <ref type="bibr" target="#b53">Yu et al. (2020)</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">Monte Carlo experiments</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1">Monte Carlo design</head><p>In this section, we will employ three simulated DGPs to illustrate the properties of the proposed estimation algorithms. We will rely on two DGPs inspired by previously used in the literature for multiscale Geographically Weighted Regression, namely the DGP proposed by FYK2017 and by <ref type="bibr" target="#b22">Gao et al. (2023)</ref>, hereafter GAO2021. These two DGPs do not pose major difficulties for the GWR and MGWR estimator to select suitable bandwidths. However, they do not capture the diversity of spatial pat- 1 3 terns that can be found in real data and their irregularity. For this reason, we propose using a multivariate DGP with four variable coefficients in a two-dimensional space inspired by the four spatial patterns introduced in the previous section. The first row of Fig. <ref type="figure" target="#fig_5">7</ref> illustrates the spatial patterns of this DGP, which we refer to as GG2025, while rows 2 and 3 present the spatial patterns associated with the DGPs FYK2017 and GAO2021. The coefficient β 3 (u i , v i ) of the GG2025 DGP, which exhibits a spatial pattern variable by longitude, would require an adaptive bandwidth and generally results in both GWR and multiscale GWR estimators being biased. Similarly, the coefficient β 4 (u i , v i ), which displays a dual spatial pattern, poses difficulties for multiscale GWR in selecting the shortest bandwidth depending on the level of residuals.</p><p>Many case studies in economics, geography, and ecology involve spatially clustered observations and/or polycentric contexts. In such situations, the choice between an adaptive and a non-adaptive kernel often leads to spatial patterns similar to those of β 3 (u i , v i ). Additionally, when working with large territories, spatial trends frequently emerge. For instance, distance from the coastline or mountainous areas can create spatial patterns comparable to β 4 (u i , v i ). Unlike the highly stylized spatial patterns commonly used in the GWR literature, we argue that these more complex spatial structures are far more prevalent in real-world datasets and should serve as the standard framework for Monte Carlo experiments in GWR-like models.</p><p>These three DGPs were simulated over a coordinate space contained within the unit square [0, 1] 2 , using a uniform distribution. All DGP simulations are based on the following model:</p><formula xml:id="formula_9">y i = β 0 (u i , v i ) + K-1 ∑ k=1 β k (u i , v i )X ki + ϵ i (<label>8</label></formula><formula xml:id="formula_10">)</formula><p>Here, K = 3 for the FYK2017 and GAO2021 DGPs, and K = 4 for the DGP GG2025. Depending on the experiment, ϵ i follows a normal distribution, a uniform distribution, or a χ 2 distribution (as proposed by GAO2021), resulting in Signal-to-Noise Ratios (SNRs) of 0.7 or 0.9. Sample sizes (n) were set to 600, 1000, 3000, or 5000. In certain experiments involving the DGP GG2025, specific variables were held constant or set to zero to assess the algorithm's performance under partially varying coefficient models (mixed GWR). The formulations of β j (u i , v i ) for each DGP are provided in the following equations:</p><formula xml:id="formula_11">DGP GG2025 β 1 =3 * (x + y) -1 β 2 =84 * (x * y) * (1 -x) * (1 -y) β 3 =4 * x * sin(sqrt((6 2 * (-0.4 + x * 2) 4 ))) β 4 =4 * sin(sqrt((6 3 * (-x -y) 2 ))) + 2 * (x -0.5) DGP GAO2021 β 1 =3 * (x + y) -1 β 2 =4 * sin(sqrt(12 * (x -0.5) 2 + 12 * (y -0.5) 2 )) β 3 =84 * (x * y) * (1 -x) * (1 -y) DGP FYK2017 β 1 =3 β 2 =1 + (x * 25 + y * 25)/12 β 3 =1 + 1/324 * (36 -(6 -x * 25/2) 2 ) * (36 -(6 -y * 25/2) 2 )</formula><p>For each simulation, we compare the RMSE of the estimated coefficients using five estimators: OLS, GWR, MGWR (multiscale_gwr), tds_mgwr, atds_mgwr and Python MGWR. All simulations and estimations are performed in R, and except for the OLS estimation, they use the mgwrsar package version 1.2 with an adaptive Gaussian kernel. The bandwidth selection criterion used for all these models is AICc. For Algorithm 2 (tds_mgwr) and Algorithm 3 (atds_mgwr), the bandwidth sequence is set to 30, i.e., M = 30.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2">Monte Carlo results</head><p>The Table <ref type="table" target="#tab_1">2</ref> presents the results obtained on the DGP GG2025 by varying the size and the signal-to-noise ratio. For every set of results grouped by sample size n, the fifth column computes the average RMSE for the 4 variable coefficients β k (u i , v i ), enabling a swift comparison of the estimators' performance. Table <ref type="table" target="#tab_1">2</ref> shows that MGWR exhibits higher average coefficient RMSE than GWR in certain cases, as it struggles to identify the optimal bandwidth for β 3 when n is less than 5000, regardless of whether the signal-to-noise ratio is moderate or high. This difficulty for MGWR can be explained by the fact that β 3 has a spatial pattern with a dual spatial pattern: very local sinusoidal variations at a very small scale, and a positive spatial trend at a larger scale, as illustrated in Fig. <ref type="figure" target="#fig_0">1</ref> (last column, 2nd row). When n = 5000, it appears that MGWR (multiscale_gwr) estimates this parameter β 3 more accurately and achieves results comparable to our estimator tds_mgwr. In practice, both multiscale_gwr and tds_mgwr yield comparable results when spatial patterns are not overly complex; this is an expected outcome since both estimators are based on comparable algorithms but with different optimization schemes. Our estimator tds_mgwr demonstrates a better guarantee of reaching a global optimum for bandwidth optimization than the original FYK2017 algorithm, which relies on a golden search algorithm that is more likely to lead to a local minimum, as illustrated by the varying results presented in this table and the following ones. For all results in Table <ref type="table" target="#tab_0">1</ref>, the average coefficient RMSEs for the estimator tds_mgwr are smaller than those for both GWR and MGWR, while those for the estimator atds_mgwr are even smaller than those for tds_mgwr. These results highlight the advantages of a multiscale approach over a single-scale approach when dealing with DGPs with spatially varying coefficients, but also to move to locally self-adaptive bandwidths with atds_mgwr etimator. We observe that the reduction in average coefficient RMSE resulting from the use of multiple bandwidths with the estimator tds_mgwr ranges from 15 to 25%, and the additional improvement when switching to locally self-adaptive bandwidths with atds_mgwr is of a similar order. For example, for n = 1000 and SN R = 0.9, the average coefficient RMSE of β k in table 2 decreases from 0.9 for GWR to 0.70 for tds_mgwr and to 0.57 for atds_mgwr, representing a reduction in average coefficient RMSE of 23% and then 37%, respectively.</p><p>Table <ref type="table">3</ref> presents the results obtained with other DGPs, using the DGPs from FYK2017 and GAO2020 while varying the distribution of errors, from normal distribution to uniform and χ2 distribution. It appears that the distribution of the residuals has no impact on the hierarchy of the estimators. As mentioned earlier, when spatial patterns are simple and stylized, as in the DGPs from FYK2017 and GAO2020, MGWR performs slightly worse than the Top-Down Scale approach (tds_mgwr). However, the Adaptive Top-Down Scale approach (atds_mgwr) provides a notable improvement in average coefficient RMSE for these two DGPs. In the presence of complex spatial patterns of coefficients-which should be considered the reference case when working with real data-simulations demonstrate that both the Top-Down Scale approach (tds_mgwr) and the Adaptive Top-Down Scale approach (atds_mgwr) significantly outperform classical multiscale GWR. 1 3</p><p>Figure <ref type="figure" target="#fig_6">8</ref> further highlights this result by illustrating the distribution of the differences in mean RMSE across replications in the case of normally distributed errors. The plot clearly shows that when complex spatial patterns are present, tds_mgwr consistently outperforms MGWR based on the FYK2017 algorithm. Additionally, for simpler DGPs such as FYK2017 and GAO2020, atds_mgwr also consistently achieves superior performance over MGWR.</p><p>As indicated in the Sect. 2.3, our tds_mgwr estimator differs from the MGWR version of FYK2017 and its implementation in GWmodel <ref type="bibr" target="#b36">(Lu et al. 2014;</ref><ref type="bibr" target="#b26">Gollini et al. 2015)</ref> R package and mgwr Python library <ref type="bibr" target="#b42">(Oshan et al. 2019)</ref>. In these implementations, bandwidth optimization at each iteration relies on a golden search algorithm for a given kernel. Consequently, the model cannot converge to an OLS solution for some covariates, although it can approximate one by selecting sufficiently large bandwidth values. In Algorithm 2 (tds_mgwr), the largest value of the sequence of tested bandwidths, H[1] = n, can explicitly correspond to an OLS model. Therefore, our tds_mgwr estimator can result in a mixed GWR model where some coefficients do not vary spatially. Table <ref type="table">4</ref> presents the simulation results where the DGPs correspond to mixed models with some coefficients that are spatially invariant. Table <ref type="table">4</ref> shows that in 70 to 90% of cases, Algorithm 2 (tds_mgwr) identifies the spatial stationarity of the concerned coefficient. When it does not identify the coefficient's stationarity, the bandwidths value close to n (or maxdist). We observe the same results for Algorithm 3 (atds_mgwr), which, by construction, considers the coefficients as stationary if the first-stage Algorithm 2 (tds_mgwr) identified them as such.</p><p>Appendix 2 presents a series of additional Monte Carlo results with DGP variants that include some null coefficients or configurations of spatial patterns multiplying small-scale or large-scale patterns: the results remain comparable to those presented in Tables 2, 3 and 4 and do not change the hierarchy of estimators or the magnitude of biases between them.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">Out sample prediction with MGWR</head><p>The literature on MGWR (Multiscale Geographically Weighted Regression) is relatively young and recent, with little to no research focusing on the predictive performance of MGWR on real-world data. The vast majority of studies <ref type="bibr" target="#b51">(Yang 2014;</ref><ref type="bibr" target="#b20">Fotheringham et al. 1996</ref><ref type="bibr" target="#b21">Fotheringham et al. , 2017;;</ref><ref type="bibr" target="#b42">Oshan et al. 2019</ref><ref type="bibr" target="#b43">Oshan et al. , 2020;;</ref><ref type="bibr" target="#b53">Yu et al. 2020;</ref><ref type="bibr" target="#b48">Shahneh et al. 2021;</ref><ref type="bibr" target="#b22">Gao et al. 2023</ref>) concentrate on evaluating the performance of estimators using synthetic data, where the DGPs indeed stem from models with varying coefficients. Additionally, these studies limit the use of real-world data to in-sample estimations, aiming to illustrate differences in coefficients, scales between variables, and improvements in RMSE or AIC compared to GWR (Geographically Weighted Regression), without studying comparisons between MGWR and GWR in terms of out-sample predictions.</p><p>One of the reasons for the limited research on the out-of-sample predictive performance of MGWR is that the open-source libraries providing practitioners with this type of estimator initially offered the estimators without making available the 1 3</p><p>Table 3 Monte Carlo result with various DGP and error distributions, SNR=0.7, 1000 replications Error distribution ~ normal Error distribution ~ Uniform Error distribution ~ χ 2 β RMSE β RMSE β RMSE Estimator β 1 β 2 β 3 β 4 mean β 1 β 2 β 3 β 4 mean β 1 β 2 β 3 β 4 mean DGP ~ GG2025 OLS 1.22 1.55 1.63 2.89 1.82 1.22 1.56 1.62 2.89 1.82 1.22 1.55 1.62 2.89 1.82 GWR 0.85 0.86 1.28 1.50 1.12 0.80 0.84 1.26 1.53 1.11 0.85 0.88 1.26 1.46 1.11 Python MGWR 0.44 0.71 1.39 2.77 1.33 0.44 0.71 1.39 2.80 1.34 0.44 0.72 1.39 2.78 1.33 multiscale_gwr 0.45 0.71 1.29 2.41 1.22 0.41 0.68 1.31 2.31 1.18 0.40 0.69 1.34 2.50 1.23 tds_mgwr 0.42 0.66 1.20 1.39 0.92 0.39 0.64 1.17 1.35 0.89 0.38 0.65 1.20 1.36 0.90 atds_mgwr 0.38 0.53 1.24 1.18 0.83 0.35 0.56 1.19 1.21 0.83 0.34 0.57 1.22 1.20 0.83 DGP ~ FYK2017 OLS 0.10 0.85 1.26 0.74 0.12 0.85 1.26 0.74 0.11 0.85 1.26 0.74 GWR 0.34 0.36 0.57 0.42 0.32 0.37 0.57 0.42 0.31 0.36 0.58 0.42 Python MGWR 0.22 0.33 0.55 0.37 0.23 0.33 0.56 0.37 0.22 0.33 0.57 0.37 multiscale_gwr 0.15 0.34 0.55 0.35 0.13 0.36 0.54 0.35 0.15 0.34 0.55 0.35 tds_mgwr 0.16 0.33 0.55 0.35 0.14 0.36 0.55 0.35 0.15 0.34 0.56 0.35 atds_mgwr 0.16 0.29 0.52 0.32 0.13 0.32 0.52 0.32 0.15 0.31 0.53 0.33 DGP ~ Gao2021 OLS 1.22 0.75 1.55 1.17 1.22 0.75 1.55 1.18 1.22 0.75 1.55 1.18 GWR 0.40 0.43 0.61 0.48 0.38 0.43 0.62 0.48 0.42 0.43 0.62 0.49 Python MGWR 0.39 0.42 0.60 0.47 0.38 0.43 0.61 0.47 0.38 0.43 0.61 0.47 multiscale_gwr 0.36 0.42 0.58 0.46 0.35 0.43 0.59 0.46 0.37 0.42 0.60 0.46 tds_mgwr 0.36 0.42 0.59 0.46 0.35 0.43 0.61 0.46 0.36 0.42 0.61 0.46 atds_mgwr 0.33 0.40 0.55 0.43 0.30 0.41 0.56 0.42 0.33 0.40 0.58 0.44 1 3 appropriate prediction methods for this model or subsequently with little guidance on their parameterization. To our knowledge, only Shahneh et al. ( <ref type="formula">2021</ref>) have proposed such a comparison across a wide range of real-world datasets, considering six datasets primarily in real estate topics, which are extensively used in MGWR research as they are part of the PYSAL library offering this type of estimator. The results obtained, though surprisingly not commented on in this regard in the article, show that the use of MGWR compared to GWR does not improve predictive performance across all real-world datasets, while significantly improving in-sample performance. This naturally suggests either a significant overfitting problem with these real-world datasets, or the use of an inappropriate or suboptimal extrapolation kernel. It is observed in the same article that improvements in out-of-sample predictive performance are only obtained for the two synthetic datasets used, where the coefficients were generated with a pronounced spatial pattern.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1">Prediction methods for multiscale GWR-type models</head><p>For the GWR, out-of-sample predictions can be made either through extrapolation procedures of the estimated coefficients or by re-estimating the optimized model on the training data, using the training data while selecting the locations of the observations to predict as target points. This second prediction method is recognized in the literature to be preferable and does not require optimizing the bandwidth for the extrapolation kernel. When predicting on large samples, it may be computationally preferable to resort to coefficient extrapolation with GWR, and Geniaux (2024) proposes various solutions that do not require optimizing the bandwidth of the extrapolation kernel. Here, predictions with GWR are made by re-estimating the optimized model on the training data with the locations of the observations to predict as target points.</p><p>To our knowledge, prediction methods for MGWR have not been the subject of specific studies until today. Given the use of backfitting in the coefficient estimation and bandwidth selection procedures of MGWR, it is not feasible, as it is for GWR, to use an MGWR estimation procedure to make predictions by using outsample locations as focal points. In this case, it is necessary to rely on a spatial extrapolation of the estimated coefficients, supported by an extrapolation kernel. One can rely on the optimal kernel used for model estimation, either directly or by transforming it as proposed by <ref type="bibr" target="#b24">Geniaux (2024)</ref> in the case of GWR, or by using another more efficient kernel for out-of-sample predictions (selected through an additional cross validation procedure). However, this issue may be further complicated here, as the weights used in the estimations may differ between variables. In order to adopt the most appropriate prediction method for MGWR, we compared, using real datasets as well as synthetic data from the previous section, the predictive performance of the different extrapolation kernel construction methods proposed in <ref type="bibr" target="#b24">Geniaux (2024)</ref>. These were adapted to the MGWR case using different bandwidths for each variable or, conversely, by choosing identical bandwidths for all variables. It turned out that, for all the data used, both real and synthetic, it is preferable to use a single very short bandwidth for all variables with an adaptive Gaussian kernel. This result can be partly explained by the fact that the differentiated spatial scale of the variables has already been taken into account in the MGWR estimation procedure. For this reason, all predictions for multiscale models are done here using an adaptive Gaussian kernel with three neighbors as global bandwidth:</p><formula xml:id="formula_12">Y O = W extra βs X o (<label>9</label></formula><formula xml:id="formula_13">)</formula><p>where O is the index of out-sample data of length m, Y O represents the prediction for the vector of dependant variable Y, S the index of in-sample data of length n, X the covariates matrix, βS is the matrix of MGWR coefficients estimated using in-sample data. W extra is a weight matrix of dimension n × m, computed using an adaptive Gaussian kernel with three neighbors, based on the Euclidean distance between the locations of the samples S and O. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Table 4</head><p>Monte Carlo result for DGP GG2025 with some coefficients non varying and normal errors, SNR=0.7, 1000 replications Table 5 Real datasets</p><formula xml:id="formula_14">β 1 = 3 β 2 = 3 β 3 = 3 β 4 = 3 β RMSE % β RMSE % β RMSE % β RMSE % Estimator β 1 β 2 β 3 β 4 mean β 1 fixed β 1 β 2 β 3 β 4 mean β 2 fixed β 1 β 2 β 3 β 4 mean β 3 fixed β 1 β 2 β 3 β 4 mean β 4 fixed OLS 0.11 1.</formula><p>1 3 likely due to approximation errors in computing the hat matrix within the gradient boosting algorithm. These errors affect the estimation of effective degrees of freedom and AICc, leading to suboptimal results. Overall, these findings indicate that, across a wide range of real-world datasets, the improvements in predictive performance from switching GWR to multiscale GWR remain relatively minor.</p><p>These results indicate the presence of overfitting in cases of model misspecification-that is, when the DGP is not a linear varying-coefficient model or when it is influenced by non-linearity in certain covariates or interactions between covariates. At a minimum, it is essential to verify AICc improvement, though this becomes increasingly difficult to achieve as sample sizes exceed 10,000. Alternatively, crossvalidation procedures should be used to confirm that MGWR improves out-of-sample predictions compared to GWR. This validation step is crucial before favoring MGWR, interpreting its estimated coefficients, or analyzing its selected scales, even in studies that do not primarily focus on out-of-sample prediction.</p><p>Table <ref type="table" target="#tab_2">6</ref> also shows that the Python MGWR implementation exhibits slightly lower out-of-sample performance compared to our top-down scale approach (tds_mgwr). Additionally, when tested on real datasets, Python MGWR seems to not provide any significant improvement in computation time, as real datasets often require more iterations than with simulated data in which spatial pattern are more regular. The column showing the number of GWR estimations per algorithm highlights a significantly larger difference between our top-down scale approach and FYK2017-based estimators (multiscale_gwr, Python MGWR) when applied to real datasets, compared to simulated data. On average, across the first five datasets, our approach requires approximately five times fewer GWR estimations, reaching up to 200 iterations for the VaucluseHousePrice dataset,<ref type="foot" target="#foot_0">foot_0</ref> demonstrating its computational efficiency.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5">Computational issues</head><p>The MGWR algorithm proposed by FYK2017 has a computational complexity of O(kdn 2 log(n)), where k is the number of covariates, d is the number of backfitting iterations, and log(n) arises from the golden-section search used to determine the optimal bandwidth <ref type="bibr" target="#b35">(Li and Fotheringham 2020)</ref>. A straightforward way to speed up computation without altering MGWR's computational complexity is parallelizing GWR estimation. Since local GWR regressions are independent, parallelization is relatively simple in both R and Python. As a result, most GWR implementations (e.g., R GWmodel, R mgwrsar, Python GWR) offer parallelized GWR estimation, which can be leveraged to accelerate MGWR computations.</p><p>Li and Fotheringham (2020) further improve efficiency by introducing chunk-wise parallel computing for MGWR inference, which, when combined with multicore processing, reduces memory requirements while enhancing computational speed.</p><p>Memory consumption remains a major challenge in MGWR inference, as it requires storing k n × n matrices and performing repeated n × n matrix multiplications throughout the backfitting process. Similarly, in Algorithm 3 (atds_mgwr), searching for optimal terminal bandwidths using a gradient boosting approach requires frequent updates of the hat matrix, further increasing computational complexity and memory requirements.</p><p>The Python MGWR implementation, which combines GWR parallelization with chunk-wise parallel computing, is currently one of the most efficient tools available, capable of handling datasets with up to 10,000 observations within a reasonable timeframe. However, as previously discussed, backfitting combined with golden-section search remains inefficient and biased when dealing with complex spatial patterns of coefficients.</p><p>To further reduce computational complexity, Geniaux (2024) proposes using optimal target point sets, which can be integrated into MGWR estimation to reduce complexity to O(kdm 2 log(n)), where m represents the number of target points. However, using target points introduces a trade-off between computational efficiency and coefficient approximation accuracy, which requires further investigation in the context of multiscale GWR. Additionally, <ref type="bibr" target="#b48">Shahneh et al. (2021)</ref> propose a multiscale GWR variant that eliminates backfitting, instead relying on a cross-validation method to determine optimal bandwidths.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.1">Computational efficiency of our algorithms</head><p>Our Algorithm 2 (tds_mgwr) algorithm has a computational complexity of O(4k dn 2 ). At each iteration, a maximum of four GWR estimations is required, while the ordered bandwidth sequence ensures that the total number of univariate GWR computations (4k d) remains lower than kd log(n) in the FYK2017 algorithm. Here, d depends on M the length of he bandwidth sequence. With M typically between 10 and 30, our algorithm requires fewer iterations ( d &lt; d) because the distributed coefficient estimation improvements across a decreasing bandwidth sequence help prevent oscillations (yo-yo effects) in optimal bandwidth values, leading to more stable and efficient optimization as it has been illustrated with real datasets, such as vaucluse-HousePrice, in previous section.</p><p>Our Algorithm 3 (atds_mgwr) has higher computational complexity and greater memory requirements than Algorithm 2 (tds_mgwr). First, it requires running tds_mgwr as an initial stage, including the computation of <ref type="bibr" target="#b53">Yu et al. (2020)</ref>'s AICc, which increases memory usage. In the second stage, the computational complexity of</p><formula xml:id="formula_15">atds_mgwr is at most O ( bk M (M -1) 2 (n 2 + n 3 ) )</formula><p>, where b is the number of backfittting/boosting rounds (maximum of 3, see Sect. 2.3.2). The term M (M -1) 2 significantly increases computational complexity. However, it serves as an upper bound, as in most cases, depending on the covariates involved, the boosting algorithm does not explore all M values but stops earlier once the optimal terminal bandwidth is reached. The term n 3 come from the computation of <ref type="bibr" target="#b53">Yu et al. (2020)</ref>'s AICc. In univariate case, Algorithm 1 (atds_gwr) has a computational complexity of O ( M (n 2 + n 3 ) ) .</p><p>Compared to the FYK2017 algorithm, Algorithm 2 (tds_mgwr) reduces computational complexity, whereas Algorithm 3 (atds_mgwr) increases it by aiming to achieve self-adaptive bandwidth selection for each covariate. For the inference step in both algorithms, we primarily focus on optimizing computation times for the large matrix multiplications required, leveraging the RcppEigen library. As a result, Algorithm 3 (atds_mgwr), which necessitates computing <ref type="bibr">Yu et al. (2019)</ref>'s AICc, remains feasible within reasonable timeframes only for sample sizes below 10,000.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.2">Computational Efficiency assessment</head><p>While theoretical computational complexity offers an estimate of the expected computation time, a practical comparison of these algorithms' performance remains essential. Table <ref type="table" target="#tab_2">6</ref> offers an initial assessment of computational efficiency across estimators using real-world data. Here, we provide a more systematic evaluation of the time needed to identify optimal bandwidths, based on simulated datasets that differ in size and the number of covariates.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.2.1">Comparing multiscale GWR-like estimators in R</head><p>We first propose a comparison of our estimators with other available MGWR estimators in the R language to highlight the performance differences between the algorithms, without parallelisation and independent of the language's efficiency, given that Python is a lower-level, more efficient language. We present here a table indicating the computation times of the GWR and MGWR-like algorithms proposed in this article and implemented in the mgwrsar package. We also indicate the number of time a single GWR is performed. Calculations were performed on a Linux computing cluster with Intel Xeon processors @ 3.10GHz, 500 GB of RAM (single core) using simulated data described in Sect. 3.1.</p><p>Table <ref type="table">7</ref> shows that gwr.multiscale of GWmodel package cannot process cases with more than 5000 observations and 4 coefficients within reasonable timeframes. The implementation of this same algorithm, without calculating the AICc, within the mgwrsar package can handle cases with up to 50,000 observations and 16 variables in 8 h on a standard computer. For a reference case with 2500 observations and 4 variables, the computation time is reduced by a factor of 43. Our tds_mgwr estimator, based on a more efficient optimization scheme for MGWR, further reduces computation time by a factor of 480. For smaller sample sizes of 1000 observations, this reduction factor may be around 10, but it significantly increases for sample sizes beyond 5000 and when the number of covariates exceeds 8.</p><p>In addition, the Multiscale Inference time reported in Table <ref type="table" target="#tab_4">11</ref> corresponds to the computation of the AICc following <ref type="bibr" target="#b53">Yu et al. (2020)</ref> for Algorithm 2 (tds_mgwr). By contrast, Algorithm 3 (atds_mgwr) already requires AICc computation during the bandwidth search phase, so no additional cost is incurred at this stage.</p><p>Table 7 In this section, we compare the computational performance of our estimator tds_mgwr with its Python equivalent in mgwr library. The estimation of an MGWR follows a backfitting algorithm, where repeated univariate GWR estimations are performed iteratively. Since univariate GWR computation is significantly faster in Python, it is expected that MGWR estimation will also be more efficient in this environment. To assess the benefits of our algorithms in this cross-language comparison, we include in the computation time table <ref type="table" target="#tab_3">8</ref> the number of univariate GWR estimations required for each algorithm to converge to an optimum. This metric helps quantify the potential computational gains that could be achieved if our algorithms were implemented in Python. Here, we limit the maximum sample size to 20,000 to ensure sufficient replications for β RMSE estimation. These comparisons are conducted using 8 cores, as the primary advantage of the mgwr Python library lies in its highly efficient implementation of parallel computation. Calculations were performed on a Linux computing cluster with Intel Xeon processors @ 3.10GHz, 500 GB of RAM per node, and 40 cores per node, using both real and simulated data.</p><p>With synthetic data, which generally require fewer iterations for the backfitting algorithm, it appears that the FYK2017 algorithm requires approximately four times more univariate GWR estimations to converge compared to our top-down scale approach. Since Python is more efficient in computing univariate GWR, Python MGWR is faster than our estimator for sample sizes under 10,000 observations. However, for sample sizes larger than 10,000 observations, our estimator becomes faster while also providing more accurate estimates of varying coefficients. Indeed, as demonstrated in previous versions, the bandwidths identified by Python MGWR are suboptimal when complex spatial patterns are present (i.e., when k ≥ 4).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6">Conclusion</head><p>This study introduces and evaluates several innovative approaches for MGWR, focusing on the advantages of using a series of decreasing bandwidth either to build a more efficient optimization scheme for MGWR based on backfitting algorithm, either to use a gradient boosting algorithm that take profit of the correction delivered by each bandwidth. The top-down scale approach with decreasing sequence of bandwidths when combined with the backfitting algorithm allows a faster convergence. This improvement results from reduced computational complexity and fewer iterations, particularly when dealing with complex spatial patterns and real-world data. It prevents oscillations (the 'yo-yo' effect) during the optimal bandwidth search, leading to more stable and efficient optimization. The top-down scale MGWR method 1 3</p><p>addresses the limitations of current MGWR implementations, especially when handling larger datasets or increasing numbers of covariates, and enhances the accuracy of coefficient estimation when dealing with complex spatial patterns. Monte Carlo simulations demonstrated that the top-down scale approach and adaptive top-down scale approach for MGWR significantly reduce bias and improve the RMSE of coefficient estimates compared to traditional GWR and MGWR methods, especially when dealing with complex spatial patterns. The simulations revealed that MGWR can struggle with identifying optimal bandwidths for complex spatial patterns in smaller datasets, leading to higher RMSEs compared to GWR. However, as the sample size increases, MGWR's performance improves and justify the systematic usage of multiscale version of GWR. Among available MGWR algorithms, Algorithm 2 (tds_mgwr) algorithm provides a more reliable guarantee of reaching a global optimum for bandwidth selection, addressing the limitations of the golden search algorithm used in traditional MGWR implementations. The adaptive topdown scale approach by Algorithm 3 (atds_mgwr) allows a huge improvement of coefficients estimates when dealing with complex spatial patterns. However, its computational complexity and memory requirements limit its usage to moderate sample size, under 10,000 observations.</p><p>Empirical evaluations using real-world datasets confirmed these findings. For small sample sizes, GWR performed better, but as sample sizes increased, the use of variable-specific bandwidths in MGWR improved predictive performance. Nonetheless, the improvements were modest, with RMSE reductions generally below 4%, highlighting the need for careful consideration when adopting multiscale approaches for out-sample predictions. Future work should continue to refine these approaches, focusing on improving scalability and robustness to model misspecifications. By design, our algorithms can yield either an OLS model, a GWR model, a multiscale GWR model, or an adaptive multiscale GWR model, with the final choice depending on the bandwidths selected by the algorithm for each variable. As a result, they can be considered as robust to misspecification between these different DGPs.</p><p>Building on <ref type="bibr" target="#b43">Oshan, Smith, and Fotheringham (2020)</ref>, we hypothesize that the Multiscale GWR approach can help mitigate estimation issues related to collinearity and concurvity in GWR <ref type="bibr" target="#b50">(Wheeler and Tiefelsdorf 2005)</ref>. However, research in this area remains limited, and the respective contributions of Multiscale GWR and our proposed estimators require further evaluation. Our results on real data underscore the necessity of systematically computing the global AICc or performing cross-validation to assess whether transitioning to multiple or locally adaptive bandwidths is justified. Given the computational and memory demands of AICc inference for datasets exceeding 10,000 observations -even with chunk-wise parallelization in Pythonwe recommend prioritizing cross-validation methods, as no less computationally intensive alternatives are currently available. Addressing the limitations of AICc computation in our algorithms will require developing approximation methods for the trace of the hat matrix that avoid repeated multiplications of dense n × n matrices during backfitting or gradient boosting iterations. Another promising approach to accelerating bandwidth selection is to evaluate multiscale estimators on a reduced set of target points and extrapolate coefficient estimates beyond these points.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Table 9</head><p>Monte Carlo result for DGP GG2025 with some coefficients null and normal errors, SNR=0.7, 1000 replications</p><formula xml:id="formula_16">β 1 = 0 β 2 = 0 β 3 = 0 β 4 = 0 β RMSE % β RMSE % β RMSE % β RMSE % Estimator β 1 β 2 β 3 β 4 mean β 1 fixed β 1 β 2 β 3 β 4 mean β 2 fixed β 1 β 2 β 3 β 4 mean β 3 fixed β 1 β 2 β 3 β 4 mean β 4</formula><p>fixed OLS 0.11 1.55 1.62 2.89 1.55 0.00 1.22 0.14 1.62 2.89 1.47 0.00 1.23 1.55 0.15 2.89 1.46 0.00 1.22 1.55 1.62 0.12 1.13 0.00 GWR 0.79 0.90 1.31 1.65 1.16 0.00 0.51 0.30 1.58 2.75 1.28 0.00 0.78 0.85 0.81 1.66 1.02 0.00 0.56 0.66 1.36 0.59 0.79 0.00 python_mgwr 0.24 0.70 1.35 2.80 1.27 0 0.41 0.20 1.32 2.80 1.18 0 0.42 0.68 0.21 2.80 1.03 0 0.34 0.54 1.11 0.16 0.54 0 multiscale_ gwr 0.15 0.70 1.31 2.42 1.15 0.00 0.44 0.19 1.30 2.45 1.10 0.00 0.46 0.72 0.18 2.59 0.99 0.00 0.38 0.59 1.17 0.20 0.59 0.00 tds_mgwr 0.15 0.67 1.21 1.42 0.86 82.14 0.43 0.16 1.27 1.70 0.89 89.29 0.45 0.67 0.15 1.47 0.68 85.71 0.38 0.61 1.19 0.18 0.59 71.43 atds_mgwr 0.12 0.59 1.25 1.29 0.81 82.14 0.37 0.15 1.30 1.25 0.77 89.29 0.36 0.56 0.13 1.22 0.57 85.71 0.35 0.57 1.17 0.39 0.62 71.43 1 3</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Table 10</head><p>Monte Carlo result for DGP GG2025 with specific spatial patterns configurations and normal errors, SNR=0.7, 1000 replications</p><formula xml:id="formula_17">β 1 = 3, β 2 = β 3 = β</formula><p>4 spatial patterns with short bandwidth spatial patterns with large bandwidth β RMSE β RMSE β RMSE Estimator β 1 β 2 β 3 β 4 mean β 1 β 2 β 3 β 4 mean β 1 β 2 β 3 β 4 mean OLS 0.15 1.62  Fig. 10 RMSE of gwr_tds error estimates, bisquare kernel, 300 replications of a DGP based on Y = β 2 X 1 + ϵ with n=1000 and ϵ ∼ N (0, 3) 1 3 Fig. 11 RMSE of gwr_tds error estimates, bisquare kernel, 300 replications of a DGP based on Y = β 3 X 2 + ϵ with n=1000 and ϵ ∼ N (0, 3) 1 3</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Fig. 1</head><label>1</label><figDesc>Fig. 1 Flowchart of Top-Down Scale Approach for Univariate GWR Algorithm 1 (atds_gwr)</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Fig. 2</head><label>2</label><figDesc>Fig. 2 Relationship between M and η hyperparameters for atds_gwr in univariate case</figDesc><graphic coords="10,175.71,403.94,212.64,202.20" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Fig. 4</head><label>4</label><figDesc>Fig. 4 Distribution of RMSE Between GWR and atds_gwr in Monte Carlo Simulations: Univariate Case, k = 1 . . . , 4, n = 1000, 1000 Replications</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Fig. 5</head><label>5</label><figDesc>Fig. 5 Flowchart of top-down scale approach for MGWR Algorithm 2 (tds_mgwr)</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Fig. 6</head><label>6</label><figDesc>Fig. 6 Flowchart of Adaptive-Top-Down Scale Approach for MGWR Algorithm 3 (atds_mgwr)</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>Fig. 7</head><label>7</label><figDesc>Fig. 7 Spatial pattern of β k (u i , v i ) for the DGPs used in Monte Carlo experiments</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>Fig. 8</head><label>8</label><figDesc>Fig. 8 Distribution of RMSE Between Estimators by DGPs with normal distribution, n = 1000, SN R = 0.7, 1000 replications</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><figDesc>Computation time in seconds (single core) with respect to number of covariates k and observations n</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8"><head>Fig. 9 3 Fig. 11</head><label>9311</label><figDesc>Fig.9RMSE of gwr_tds error estimates, bisquare kernel, 300 replications of a DGP based on Y = β 1 + ϵ, n=1000 and ϵ ∼ N(0, 3)   </figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_9"><graphic coords="11,53.85,251.38,331.68,317.76" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1</head><label>1</label><figDesc>Monte Carlo results, Mean RMSE, Univariate Case, k = 1 . . . , 4, n = 1000, 1000 Replications</figDesc><table><row><cell>Estimator</cell><cell>M</cell><cell>Mean RMSE β</cell><cell></cell><cell></cell><cell></cell><cell>Time</cell></row><row><cell></cell><cell></cell><cell>β 1</cell><cell>β 2</cell><cell>β 3</cell><cell>β 4</cell></row><row><cell>GWR</cell><cell></cell><cell>0.098</cell><cell>0.218</cell><cell>0.518</cell><cell>0.485</cell><cell>0.733</cell></row><row><cell>tds_gwr</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell></cell><cell>5</cell><cell>0.087</cell><cell>0.187</cell><cell>0.510</cell><cell>0.328</cell><cell>0.733</cell></row><row><cell></cell><cell>10</cell><cell>0.084</cell><cell>0.161</cell><cell>0.410</cell><cell>0.315</cell><cell>1.594</cell></row><row><cell></cell><cell>20</cell><cell>0.078</cell><cell>0.150</cell><cell>0.415</cell><cell>0.302</cell><cell>3.300</cell></row><row><cell></cell><cell>30</cell><cell>0.076</cell><cell>0.146</cell><cell>0.421</cell><cell>0.299</cell><cell>4.684</cell></row><row><cell></cell><cell>60</cell><cell>0.075</cell><cell>0.140</cell><cell>0.445</cell><cell>0.299</cell><cell>8.880</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 2</head><label>2</label><figDesc>Monte Carlo result with increasing sample size and low/moderate Signal Noise Ratio, DGP GG2025 with normal distribution, 1000 replications</figDesc><table><row><cell>n=600 n=1000 n=3000 n=5000</cell><cell>β RMSE β RMSE β RMSE β RMSE</cell><cell>Estimator β 1 β 2 β 3 β 4 mean β 2 β 2 β 3 β 4 mean β 1 β 2 β 3 β 4 mean β 1 β 2 β 3 β 4 mean</cell><cell>Signal Noise Ratio = 0.7</cell><cell>OLS 1.24 1.56 1.62 2.89 1.83 1.22 1.55 1.63 2.89 1.82 1.23 1.55 1.62 2.89 1.82 1.23 1.55 1.62 2.90 1.82</cell><cell>GWR 0.85 1.06 1.53 2.26 1.42 0.85 0.86 1.28 1.50 1.12 0.58 0.62 0.86 0.95 0.75 0.50 0.53 0.72 0.80 0.63</cell><cell>Python MGWR 0.55 0.82 1.57 2.74 1.42 0.44 0.71 1.39 2.77 1.33 0.31 0.50 0.94 2.84 1.15 0.26 0.43 0.80 2.84 1.08</cell><cell>multiscale_gwr 0.54 0.80 1.53 2.27 1.29 0.45 0.71 1.29 2.41 1.22 0.27 0.47 0.88 2.03 0.91 0.21 0.38 0.69 0.76 0.51</cell><cell>tds_mgwr 0.51 0.82 1.42 1.82 1.14 0.42 0.66 1.20 1.39 0.92 0.26 0.45 0.82 0.90 0.61 0.22 0.38 0.69 0.76 0.51</cell><cell>atds_mgwr 0.49 0.72 1.46 1.52 1.05 0.38 0.53 1.24 1.18 0.83 0.22 0.36 0.77 0.79 0.53 0.19 0.30 0.65 0.70 0.46</cell><cell>Signal Noise Ratio = 0.9</cell><cell>OLS 1.24 1.55 1.61 2.89 1.83 1.22 1.55 1.62 2.89 1.82 1.23 1.55 1.62 2.89 1.82 1.23 1.55 1.62 2.90 1.82</cell><cell>GWR 0.75 0.89 1.31 1.72 1.17 0.67 0.72 1.03 1.18 0.90 0.44 0.47 0.63 0.70 0.56 0.37 0.38 0.53 0.59 0.47</cell><cell>Python MGWR 0.45 0.70 1.45 2.69 1.32 0.37 0.61 1.21 2.78 1.24 0.26 0.43 0.81 2.84 1.09 0.22 0.37 0.68 2.84 1.03</cell><cell>multiscale_gwr 0.40 0.65 1.21 2.00 1.06 0.32 0.59 1.09 2.24 1.06 0.22 0.37 0.69 1.98 0.82 0.15 0.26 0.49 0.56 0.36</cell><cell>tds_mgwr 0.38 0.62 1.14 1.35 0.87 0.31 0.51 0.93 1.07 0.70 0.20 0.32 0.58 0.67 0.44 0.17 0.27 0.49 0.56 0.37</cell><cell>atds_mgwr 0.32 0.50 1.14 1.06 0.75 0.24 0.38 0.87 0.80 0.57 0.14 0.23 0.52 0.52 0.35 0.13 0.19 0.45 0.43 0.30</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2"><head>Table 6</head><label>6</label><figDesc>In-sample and out-sample performance of GWR, Multiscale GWR, tds_mgwr and atds_mgwr</figDesc><table><row><cell>55 1.62 2.89 1.55 0.00 1.22 0.14 1.62 2.89 1.47 0.00 1.23 1.55 0.15 2.89 1.46 0.00 1.22 1.55 1.62 0.12 1.13 0.00</cell><cell>0.79 0.90 1.31 1.65 1.16 0.00 0.51 0.30 1.58 2.75 1.28 0.00 0.78 0.85 0.81 1.66 1.02 0.00 0.56 0.66 1.36 0.59 0.79 0.00</cell><cell>0.24 0.73 1.41 2.79 1.29 0.00 0.44 0.23 1.40 2.80 1.21 0.00 0.46 0.73 0.25 2.79 1.06 0.00 0.39 0.61 1.21 0.19 0.60 0.00</cell><cell></cell><cell>0.15 0.70 1.31 2.42 1.15 0.00 0.44 0.19 1.30 2.45 1.10 0.00 0.46 0.72 0.18 2.59 0.99 0.00 0.38 0.59 1.17 0.20 0.59 0.00</cell><cell></cell><cell>0.15 0.67 1.21 1.42 0.86 82.14 0.43 0.16 1.27 1.70 0.89 89.29 0.45 0.67 0.15 1.47 0.68 85.71 0.38 0.61 1.19 0.18 0.59 71.43</cell><cell>0.12 0.59 1.25 1.29 0.81 82.14 0.37 0.15 1.30 1.25 0.77 89.29 0.36 0.56 0.13 1.22 0.57 85.71 0.35 0.57 1.17 0.39 0.62 71.43</cell></row><row><cell></cell><cell>GWR</cell><cell>Python</cell><cell>MGWR</cell><cell>multiscale_</cell><cell>gwr</cell><cell>tds_mgwr</cell><cell>atds_mgwr</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell>1 3</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_3"><head>Table 8</head><label>8</label><figDesc>Multiscale bandwidths search: Comparison between Python MGWR and tds_mgwr R function (8 cores)</figDesc><table><row><cell>k=2</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_4"><head>Table 11</head><label>11</label><figDesc>Number of univariate GWR required for bandwidth search with respect to number of covariates k and observations n</figDesc><table><row><cell>1.23</cell><cell>0.38</cell><cell>0.35</cell><cell>0.34</cell><cell>0.35</cell><cell>0.32</cell></row><row><cell>1.24</cell><cell>0.33</cell><cell>0.30</cell><cell>0.30</cell><cell>0.30</cell><cell>0.35</cell></row><row><cell>1.24</cell><cell>0.32</cell><cell>0.31</cell><cell>0.30</cell><cell>0.30</cell><cell>0.27</cell></row><row><cell>1.55</cell><cell>0.54</cell><cell>0.50</cell><cell>0.49</cell><cell>0.50</cell><cell>0.41</cell></row><row><cell>0.88</cell><cell>0.32</cell><cell>0.29</cell><cell>0.29</cell><cell>0.28</cell><cell>0.25</cell></row><row><cell>1.92</cell><cell>1.14</cell><cell>1.46</cell><cell>1.32</cell><cell>1.03</cell><cell>0.96</cell></row><row><cell>2.89</cell><cell>1.43</cell><cell>2.76</cell><cell>2.32</cell><cell>1.36</cell><cell>1.17</cell></row><row><cell>1.63</cell><cell>1.26</cell><cell>1.36</cell><cell>1.31</cell><cell>1.21</cell><cell>1.21</cell></row><row><cell>1.55</cell><cell>0.91</cell><cell>0.71</cell><cell>0.69</cell><cell>0.65</cell><cell>0.56</cell></row><row><cell>1.61</cell><cell>0.96</cell><cell>0.99</cell><cell>0.95</cell><cell>0.90</cell><cell>0.91</cell></row><row><cell>1.25</cell><cell>1.13</cell><cell>0.94</cell><cell>0.91</cell><cell>0.91</cell><cell>0.90</cell></row><row><cell>1.62</cell><cell>1.28</cell><cell>1.20</cell><cell>1.15</cell><cell>1.17</cell><cell>1.12</cell></row><row><cell>1.62</cell><cell>1.29</cell><cell>1.20</cell><cell>1.16</cell><cell>1.17</cell><cell>1.16</cell></row><row><cell></cell><cell>1.24</cell><cell>1.16</cell><cell>1.10</cell><cell>1.10</cell><cell>1.11</cell></row><row><cell></cell><cell>0.73</cell><cell>0.20</cell><cell>0.23</cell><cell>0.21</cell><cell>0.21</cell></row><row><cell></cell><cell>GWR</cell><cell>python_mgwr</cell><cell>multiscale_gwr</cell><cell>tds_mgwr</cell><cell>atds_mgwr</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell>1 3</cell></row></table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="1" xml:id="foot_0"><p>For the VaucluseHousePrice dataset, which includes 12 covariates, the FYK2017 algorithm required an exceptionally high number of iterations to converge, even after all bandwidths had stabilized. To obtain results within a reasonable timeframe, we had to reduce the tolerance for the stopping criterion to 0.001. Depending on the cross-validation fold, the algorithm required approximately</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="200" xml:id="foot_1"><p>iterations with this reduced tolerance, while bandwidth stabilization was observed around iteration 90.</p></note>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div><p>Acknowledgements This work was supported by the <rs type="projectName">BEYOND</rs> project (Building epidemiological surveillance and prophylaxis with observations both near and distant, Grant <rs type="grantNumber">ANR-20-PCPA-0002</rs>) and the <rs type="projectName">SEPIM</rs> project (<rs type="affiliation">Surveillance, Évaluation, Prévision, Interpolation et Mitigation des risques relatifs à la jaunisse de la betterave</rs>, FranceAgriMer Grant <rs type="grantNumber">3890396</rs>).</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funded-project" xml:id="_JehJ6ZG">
+					<idno type="grant-number">ANR-20-PCPA-0002</idno>
+					<orgName type="project" subtype="full">BEYOND</orgName>
+				</org>
+				<org type="funded-project" xml:id="_8xMYauC">
+					<idno type="grant-number">3890396</idno>
+					<orgName type="project" subtype="full">SEPIM</orgName>
+				</org>
+			</listOrg>
+
+			<div type="conflict">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Conflict of interest</head><p>The authors confirm that no conflicts of interest are associated with the work submitted for publication.</p></div>
+			</div>
+
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2">Results</head><p>Using seven real-world datasets, we assess the predictive performance of Multiscale GWR, GWR, Python MGWR, and our top-down scale GWR estimators through a random 5-fold cross-validation procedure. Six of these datasets correspond to those used in <ref type="bibr" target="#b48">Shahneh et al. (2021)</ref>, and one is an open dataset on house prices in France (DVF), ensuring a wide diversity in theme, sample sizes and number of explanatory variables. The table 5 describes the main characteristics of these datasets. Further details on Georgia, Clearwater, Tokyo and Berlin datasets can be found on Pysal website ( <ref type="url" target="https://pysal.org/notebooks/lib/libpysal/Example_Datasets.html">p y s a l</ref> . Because atds_mgwr requires computing the global AIC using the formula from <ref type="bibr" target="#b53">Yu et al. (2020)</ref> at each iteration of the two stages of this estimator, it cannot be used for datasets larger than 5000 observations within a reasonable time frame. Therefore, atds_mgwr results are provided only for samples smaller than this threshold.</p><p>Predictions are made using a random 5-fold cross-validation framework, where a random one-fifth of the observations is sequentially predicted using models estimated with the remaining four-fifths of the data. Out-of-sample extrapolation of the model's coefficients is performed using an adaptive Gaussian kernel with three neighbors as the bandwidth for all estimators, except for GWR, where coefficients are estimated using GWR with out-of-sample locations as target points. When crossvalidation exceeds 8 h by fold for certain estimators, the computation is skipped. This occurs, for example, with multiscale_gwr for the VaucluseHousePrice, King_house, and NYCAirBnb datasets, as well as for computing the global AICc using the King_ house and NYCAirBnb datasets. The absence of results for Python MGWR on these two datasets is due to singularity issues encountered during local coefficient estimation, which do not affect the other estimators.</p><p>Table <ref type="table">6</ref> presents both in-sample and out-of-sample RMSE for each dataset and estimator. The results show that for small sample sizes, GWR outperforms multiscale estimators. However, as sample sizes increase to medium or large, using variable-specific bandwidths generally leads to better predictive performance. Despite this, the improvements remain modest, with RMSE reductions below 4%, whereas synthetic data showed gains of up to 50%. The atds_mgwr estimator, which performs exceptionally well with synthetic data featuring spatially varying coefficients, delivers disappointing results with real datasets. A clear overfitting issue is observed,</p><formula xml:id="formula_18">Appendix 1. Algorithms Algorithm 1 (atds_gwr) 1 3 Algorithm 3 (atds_mgwr)</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Appendix 2. Additional Monte Carlo results</head><p>See Tables <ref type="table">9</ref> and <ref type="table">10</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">3 Appendix 3. A default method for selecting the decreasing neighborhood sequence</head><p>In this Appendix, we justify the choice of a default method for selecting the decreasing neighborhood sequence of bandwidth.</p><p>We simulate 300 replications with n = 1000 of each univariate DGP proposed in this article in Fig. <ref type="figure">3</ref> to evaluate the performance of tds_gwr based on the choice of the decreasing neighborhood sequence, considering its length (parameter M) and type of decay (geometric or regular decay).</p><p>The results obtained using tds_gwr with an adaptive bisquare kernel show that the geometrically decreasing sequence provides better performance and is more stable when M is not optimally chosen. Moreover, in Figs. 9 and 10 when spatial patterns are very large and require wide bandwidths, as is the case for β 1 and β 2 , lower values of M are optimal. In our simulations, M = 6 yielded the best results for both spatial patterns.</p><p>Conversely, we observe in Figs. 11 and 12 that when spatial patterns are finer, as in the case of β 3 and β 4 , the optimal values of M increase, reaching between 20 and 30. We also note that increasing the length of the neighborhood sequence beyond these values does not necessarily reduce errors, even though the resulting biases remain limited.</p><p>While choosing a very large M does not introduce significant bias, the computational time increases with M. Therefore, it is advisable to select the smallest possible default value that still ensures reliable estimation when spatial patterns are fine. A default value between 20 and 40 is a cautious choice in this context.</p><p>This default value selection appears to be independent of the sample size n, as we obtain comparable results when increasing the sample size (n = 2000, 5000, 10000)  in the case of β 4 , which exhibits a fine spatial pattern. However, to optimize computational time for a given dataset, it is still recommended to determine the smallest optimal M via cross-validation.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Declarations</head><p>Open Access This article is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License, which permits any non-commercial use, sharing, distribution and reproduction in any medium or format, as long as you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons licence, and indicate if you modified the licensed material. You do not have permission under this licence to share adapted material derived from this article or parts of it. The images or other third party material in this article are included in the article's Creative Commons licence, unless indicated otherwise in a credit line to the material. If material is not included in the article's Creative Commons licence and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to obtain permission directly from the copyright holder. To view a copy of this licence, visit <ref type="url" target="http://creativecommons.org/licenses/by-nc-nd/4.0/">h t t p : / / c r e a t i v e c o m m o n s . o r g / l i c e n s e s / b y -n c -n d / 4 . 0 /</ref>.</p><p>Publisher's Note Springer Nature remains neutral with regard to jurisdictional claims in published maps and institutional affiliations.</p><p>1 3</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_10"><figDesc>o r g / n o t e b o o k s / l i b / l i b p y s a l / E x a m p l e _ D a t a s e t s . h t m l). Further details on KingHousePrices and NYCAirBnb can be found on Kaggle website ( w w w . k a g g l e . c o m / d a t a s e t s / h a r l f o x e m / h o u s e s a l e s p r e d i c t i o n, w w w . k a g g l e . c o m / d g o m o n o v / n e w -y o r k -c i t y -a i r b n b -o p e n -d a t a / m e t a d a t a). The vaucluseHousePrice data come from the French open-source real estate transaction database DVF ( w w w . d a t a . g o u v . f r / f r / d a t a s e t s / d e m a n d e s -d e -v a l e u r s -f o n c i e r e s) and contain 3661 sales of individual houses with less than 400 square meters of living space and land areas under 5000 square meters, located in forty small municipalities in the Vaucluse department during the period from January 2013 to December 2023. They include fourteen characteristics describing the year and quarter of the sale, living area, land area, number of rooms, number and area of outbuildings, and the presence of a swimming pool. The 7 real-world datasets are made available on a GitHub repository ( h t t p s : / / g i t h u b . c o m / g g e n i a u x / t d s _ m g w r _ d a t a s e t s ) to facilitate the reproduction of the study proposed in this section.</figDesc></figure>
+			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<monogr>
+		<title level="m">RMSE of gwr_tds error estimates, bisquare kernel, 300 replications of a DGP based on Y = β 4 X 3 + ϵ with n=1000 and ϵ ∼ N</title>
+		<imprint>
+			<biblScope unit="volume">3</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">A new look at the statistical model identification</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Akaike</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Trans Autom Control</title>
+		<imprint>
+			<biblScope unit="volume">19</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="716" to="723" />
+			<date type="published" when="1974">1974</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Locally weighted learning</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">G</forename><surname>Atkeson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">W</forename><surname>Moore</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Schaal</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Artif Intell Rev</title>
+		<imprint>
+			<biblScope unit="volume">11</biblScope>
+			<biblScope unit="page" from="11" to="73" />
+			<date type="published" when="1997">1997</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Self-tuning density estimation based on Bayesian averaging of adaptive kernel density estimations yields state-of-the-art performance</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">L</forename><surname>Bäcklin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Andersson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">G</forename><surname>Gustafsson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Pattern Recogn</title>
+		<imprint>
+			<biblScope unit="volume">78</biblScope>
+			<biblScope unit="page" from="133" to="143" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Modeling regional economic dynamics: spatial dependence, spatial heterogeneity and nonlinearities</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Basile</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Durbán</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Mínguez</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Econ Dyn Control</title>
+		<imprint>
+			<biblScope unit="volume">48</biblScope>
+			<biblScope unit="page" from="229" to="245" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">General estimates of the intrinsic variability of data in nonlinear regression models</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Breiman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">S</forename><surname>Meisel</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Am Stat Assoc</title>
+		<imprint>
+			<biblScope unit="volume">71</biblScope>
+			<biblScope unit="issue">354</biblScope>
+			<biblScope unit="page" from="301" to="307" />
+			<date type="published" when="1976">1976</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Geographically weighted regression: a method for exploring spatial nonstationarity</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geogr Anal</title>
+		<imprint>
+			<biblScope unit="volume">28</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="281" to="298" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Spatial nonstationarity and autoregressive models</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environ Plan A</title>
+		<imprint>
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="957" to="973" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Geographically weighted regression as a statistical model</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Tech. rep</title>
+		<imprint>
+			<date type="published" when="2000">2000</date>
+			<publisher>Department of Geograph</publisher>
+			<pubPlace>Newcastle, UK</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Boosting algorithms: regularization, prediction and model fitting</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Bühlmann</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Hothorn</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Stat Sci</title>
+		<imprint>
+			<biblScope unit="volume">22</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="477" to="505" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Generating models by the expansion method: applications to geographical research</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>Casetti</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geogr Anal</title>
+		<imprint>
+			<biblScope unit="volume">4</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="81" to="91" />
+			<date type="published" when="1972">1972</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Locally weighted regression: an approach to regression analysis by local fitting</title>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">S</forename><surname>Cleveland</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">J</forename><surname>Devlin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Am Stat Assoc</title>
+		<imprint>
+			<biblScope unit="volume">83</biblScope>
+			<biblScope unit="issue">403</biblScope>
+			<biblScope unit="page" from="596" to="610" />
+			<date type="published" when="1988">1988</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Hyper-local geographically weighted regression: extending gwr through local model selection and local bandwidth optimization</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Comber</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Lü</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Spatial Inform Sci</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="page" from="63" to="84" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<monogr>
+		<title level="m" type="main">Bayesian hierarchical models: with applications using R</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">D</forename><surname>Congdon</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+			<publisher>Chapman and Hall/CRC</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Ideal spatial adaptation via wavelet thresholding</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Donoho</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><surname>Johnstone</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometrika</title>
+		<imprint>
+			<biblScope unit="volume">81</biblScope>
+			<biblScope unit="page" from="425" to="455" />
+			<date type="published" when="1994">1994</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Variable bandwidth and local linear regression smoothers</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Fan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><surname>Gijbels</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">The Annals of Statistics</title>
+		<imprint>
+			<date type="published" when="1992">1992. 2008-2036</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Data-driven bandwidth selection in local polynomial fitting: variable bandwidth and spatial adaptation</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Fan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><surname>Gijbels</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Roy Stat Soc Ser B (Methodol)</title>
+		<imprint>
+			<biblScope unit="volume">57</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="371" to="394" />
+			<date type="published" when="1995">1995</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Fast implementations of nonparametric curve estimators</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Fan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">S</forename><surname>Marron</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Comput Graph Stat</title>
+		<imprint>
+			<biblScope unit="volume">3</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="35" to="56" />
+			<date type="published" when="1994">1994</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">A study of variable bandwidth selection for local polynomial regression</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Fan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><surname>Gijbels</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">C</forename><surname>Hu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Stat Sin</title>
+		<imprint>
+			<biblScope unit="volume">6</biblScope>
+			<biblScope unit="page" from="113" to="127" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Federal health care policy and the geographic diffusion of physicians: A macro-scale analysis</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">A</forename><surname>Foster</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">L</forename><surname>Gorr</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Policy Sci</title>
+		<imprint>
+			<biblScope unit="volume">25</biblScope>
+			<biblScope unit="page" from="117" to="134" />
+			<date type="published" when="1992">1992</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">The geography of parameter space: an investigation of spatial non-stationarity</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Int J Geogr Inf Syst</title>
+		<imprint>
+			<biblScope unit="volume">10</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="605" to="627" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Multiscale geographically weighted regression (mgwr)</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Yang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Kang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ann Am Assoc Geogr</title>
+		<imprint>
+			<biblScope unit="volume">107</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1247" to="1265" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Non-iterative multiscale estimation for spatial autoregressive geographically weighted regression models</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">H</forename><surname>Friedman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W ; Citeseer</forename><surname>Stuetzle</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">J</forename><surname>Gao</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">L</forename><surname>Mei</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Q</forename><forename type="middle">X</forename><surname>Xu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Entropy</title>
+		<imprint>
+			<biblScope unit="volume">25</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page">320</biblScope>
+			<date type="published" when="1982">1982. 2023</date>
+		</imprint>
+	</monogr>
+	<note>Smoothing of scatterplots</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Spatial modeling with spatially varying coefficient processes</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">J</forename><surname>Kim</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Sirmans</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Am Stat Assoc</title>
+		<imprint>
+			<biblScope unit="volume">98</biblScope>
+			<biblScope unit="issue">462</biblScope>
+			<biblScope unit="page" from="387" to="396" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Speeding up estimation of spatially varying coefficients models</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Geniaux</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Geogr Syst</title>
+		<imprint>
+			<biblScope unit="volume">26</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="293" to="327" />
+			<date type="published" when="2024">2024</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">A new method for dealing simultaneously with spatial autocorrelation and spatial heterogeneity in regression models</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Geniaux</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Martinetti</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Reg Sci Urban Econ</title>
+		<imprint>
+			<biblScope unit="volume">72</biblScope>
+			<biblScope unit="page" from="74" to="85" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Gwmodel: an r package for exploring spatial heterogeneity using geographically weighted models</title>
+		<author>
+			<persName><forename type="first">I</forename><surname>Gollini</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Lu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Stat Softw</title>
+		<imprint>
+			<biblScope unit="volume">63</biblScope>
+			<biblScope unit="page" from="1" to="50" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">Comment: Boosting algorithms: Regularization, prediction and model fitting</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Hastie</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Stat Sci</title>
+		<imprint>
+			<biblScope unit="volume">22</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="513" to="515" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Smoothing parameter selection in nonparametric regression using an improved akaike information criterion</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">M</forename><surname>Hurvich</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">S</forename><surname>Simonoff</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">L</forename><surname>Tsai</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J R Stat Soc Ser B Stat Methodol</title>
+		<imprint>
+			<biblScope unit="volume">60</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="271" to="293" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">Mixed geographically weighted regression using adaptive bandwidth to modeling of air polluter standard index</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Ispriyanti</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Yasin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Warsito</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">ARPN J Eng Appl Sci</title>
+		<imprint>
+			<biblScope unit="volume">12</biblScope>
+			<biblScope unit="issue">15</biblScope>
+			<biblScope unit="page" from="4477" to="4482" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Rodeo: sparse, greedy nonparametric regression</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Lafferty</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Wasserman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ann Stat</title>
+		<imprint>
+			<biblScope unit="volume">36</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="28" to="63" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">Old and new approaches for spatially varying coefficient models</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">M</forename><surname>Lambert</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Rev Reg Stud</title>
+		<imprint>
+			<biblScope unit="volume">51</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="113" to="128" />
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">Integrated subset selection and bandwidth estimation algorithm for geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><forename type="middle">W</forename><surname>Park</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Pattern Recognit</title>
+		<imprint>
+			<biblScope unit="page">111589</biblScope>
+			<date type="published" when="2025">2025</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">A modification to geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">Y</forename><forename type="middle">Y</forename><surname>Leong</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">C</forename><surname>Yue</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Int J Health Geogr</title>
+		<imprint>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="page" from="1" to="18" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<analytic>
+		<title level="a" type="main">Optimal spatial adaptation to inhomogeneous smoothness: an approach based on kernel estimates with variable bandwidth selectors</title>
+		<author>
+			<persName><forename type="first">O</forename><forename type="middle">V</forename><surname>Lepski</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Mammen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><forename type="middle">G</forename><surname>Spokoiny</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ann Stat</title>
+		<imprint>
+			<biblScope unit="volume">25</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="929" to="947" />
+			<date type="published" when="1997">1997</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<analytic>
+		<title level="a" type="main">Computational improvements to multi-scale geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Int J Geogr Inf Sci</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="issue">7</biblScope>
+			<biblScope unit="page" from="1378" to="1397" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<analytic>
+		<title level="a" type="main">The gwmodel r package: further topics for exploring spatial heterogeneity using geographically weighted models</title>
+		<author>
+			<persName><forename type="first">C ; York</forename><surname>Loader</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Lu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Harris</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geo-spatial Inform Sci</title>
+		<imprint>
+			<biblScope unit="volume">47</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="85" to="101" />
+			<date type="published" when="1999">1999. 2014</date>
+			<publisher>Springer</publisher>
+			<pubPlace>New</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<analytic>
+		<title level="a" type="main">Geographically weighted regression with parameter-specific distance metrics</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Lu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Int J Geogr Inf Sci</title>
+		<imprint>
+			<biblScope unit="volume">31</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="982" to="998" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<analytic>
+		<title level="a" type="main">Locally adaptive regression splines</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>Mammen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Van</forename><forename type="middle">De</forename><surname>Geer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ann Stat</title>
+		<imprint>
+			<biblScope unit="volume">25</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="387" to="413" />
+			<date type="published" when="1997">1997</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<analytic>
+		<title level="a" type="main">The rural growth trifecta: outdoor amenities, creative class and entrepreneurial context</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Mcgranahan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">R</forename><surname>Wojan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">M</forename><surname>Lambert</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Econ Geogr</title>
+		<imprint>
+			<biblScope unit="volume">11</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="529" to="557" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b40">
+	<analytic>
+		<title level="a" type="main">One hundred fifty years of land values in Chicago: a nonparametric approach</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Mcmillen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Urban Econ</title>
+		<imprint>
+			<biblScope unit="volume">40</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="100" to="124" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b41">
+	<analytic>
+		<title level="a" type="main">Perspectives on spatial econometrics: linear smoothing with structured models</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">P</forename><surname>Mcmillen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Reg Sci</title>
+		<imprint>
+			<biblScope unit="volume">52</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="192" to="209" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b42">
+	<analytic>
+		<title level="a" type="main">mgwr: a python implementation of multiscale geographically weighted regression for investigating process spatial heterogeneity and scale</title>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">M</forename><surname>Oshan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Kang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">ISPRS Int J Geo Inf</title>
+		<imprint>
+			<biblScope unit="volume">8</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page">269</biblScope>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b43">
+	<analytic>
+		<title level="a" type="main">Targeting the spatial context of obesity determinants via multiscale geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">M</forename><surname>Oshan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Smith</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Int J Health Geogr</title>
+		<imprint>
+			<biblScope unit="volume">19</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page">11</biblScope>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b44">
+	<analytic>
+		<title level="a" type="main">A general framework for estimation and inference of geographically weighted regression models: 1. location-specific kernel bandwidths and a test for locational heterogeneity</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Páez</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Uchida</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Miyamoto</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environ Plan A</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="733" to="754" />
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b45">
+	<analytic>
+		<title level="a" type="main">Spatial econometric star models: Lagrange multiplier tests, Monte Carlo simulations and an empirical application</title>
+		<author>
+			<persName><forename type="first">Pede</forename><surname>Vo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J</forename><surname>Florax</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">M</forename><surname>Lambert</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Reg Sci Urban Econ</title>
+		<imprint>
+			<biblScope unit="volume">49</biblScope>
+			<biblScope unit="page" from="118" to="128" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b46">
+	<analytic>
+		<title level="a" type="main">Adaptive weights smoothing with applications to image restoration</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Polzehl</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V ;</forename><surname>Spokoiny</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Polzehl</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><forename type="middle">G</forename><surname>Spokoiny</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J R Stat Soc Ser B (Statistical Methodology)</title>
+		<imprint>
+			<biblScope unit="volume">62</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="335" to="354" />
+			<date type="published" when="2000">2004. 2000</date>
+		</imprint>
+	</monogr>
+	<note>Local likelihood modeling by adaptive weights smoothing</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b47">
+	<analytic>
+		<title level="a" type="main">Multivariate locally weighted least squares regression</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Ruppert</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">P</forename><surname>Wand</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ann Stat</title>
+		<imprint>
+			<biblScope unit="page" from="1346" to="1370" />
+			<date type="published" when="1994">1994</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b48">
+	<analytic>
+		<title level="a" type="main">A-gwr: Fast and accurate geospatial inference via augmented geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">R</forename><surname>Shahneh</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Oymak</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Magdy</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 29th International Conference on advances in geographic information systems</title>
+		<meeting>the 29th International Conference on advances in geographic information systems</meeting>
+		<imprint>
+			<date type="published" when="2021">2021</date>
+			<biblScope unit="page" from="564" to="575" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b49">
+	<analytic>
+		<title level="a" type="main">A Bayesian analysis of kriging</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">L</forename><surname>Stein</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Handcock</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Technometrics</title>
+		<imprint>
+			<biblScope unit="volume">35</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="403" to="410" />
+			<date type="published" when="1993">1993</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b50">
+	<analytic>
+		<title level="a" type="main">Multicollinearity and correlation among local regression coefficients in geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Wheeler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Tiefelsdorf</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Geograph Syst</title>
+		<imprint>
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="161" to="187" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b51">
+	<monogr>
+		<title level="m" type="main">An extension of geographically weighted regression with flexible bandwidths</title>
+		<author>
+			<persName><forename type="first">W</forename><surname>Yang</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2014">2014</date>
+		</imprint>
+		<respStmt>
+			<orgName>University of St Andrews</orgName>
+		</respStmt>
+	</monogr>
+	<note type="report_type">PhD thesis</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b52">
+	<analytic>
+		<title level="a" type="main">Model selection in gwr: the development of a flexible bandwidth gwr</title>
+		<author>
+			<persName><forename type="first">W</forename><surname>Yang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Harris</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">The 11th International Conference on geocomputation</title>
+		<imprint>
+			<date type="published" when="2011">2011</date>
+			<biblScope unit="page" from="20" to="22" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b53">
+	<analytic>
+		<title level="a" type="main">Inference in multiscale geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Yu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Li</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geogr Anal</title>
+		<imprint>
+			<biblScope unit="volume">52</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="87" to="106" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b54">
+	<analytic>
+		<title level="a" type="main">Spatially adaptive regression splines and accurate knot selection schemes</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Zhou</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Shen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Am Stat Assoc</title>
+		<imprint>
+			<biblScope unit="volume">96</biblScope>
+			<biblScope unit="issue">453</biblScope>
+			<biblScope unit="page" from="247" to="259" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

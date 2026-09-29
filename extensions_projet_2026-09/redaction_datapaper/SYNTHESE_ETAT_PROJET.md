@@ -1,18 +1,18 @@
 # Synthèse consolidée de l’état du projet
 
-Date du snapshot : **2026-09-24T10:11:49+02:00**  
+Date du snapshot : **2026-09-27T16:14:56+02:00**  
 Source : audit local reproductible par `tools/audit_datapaper_repo.py`.
 
 ## État mesuré
 
-- Dépôt analysé : **9131 fichiers** hors `.git`, `.venv`, `node_modules` et `.claude`.
+- Dépôt analysé : **9222 fichiers** hors `.git`, `.venv`, `node_modules` et `.claude`.
 - Fiches datasets : **392** (`paper`: 280, `software_or_other`: 111, `warehouse`: 1).
-- Registre `spatialtidymodels` : **392 enregistrements**, généré le **2026-09-24T07:43:30.107452+00:00**.
+- Registre `spatialtidymodels` : **392 enregistrements**, généré le **2026-09-24T11:10:32.060253+00:00**.
 - Artifacts locaux déclarés dans le registre : **392**.
 - Champs `formula_used` présents dans le registre : **392**, dont **354** différents de `pending`.
 - KG : **80653 nœuds** et **108366 relations**.
 - Bibliographies : **12 fichiers `.bib`**, **669 entrées**, **427 champs DOI**.
-- Extension septembre : **560 fichiers**.
+- Extension septembre : **614 fichiers**.
 - Alignement fiches–registre : **392 identifiants communs**, **0 seulement dans les fiches**, **0 seulement dans le registre**, **0 désaccords de champs non vides**.
 
 ## Ventilation par typologie, panel et découpage parent/enfant

@@ -3,7 +3,7 @@
 % Working manuscript structured as a Scientific Data Data Descriptor.
 % The journal does not mandate a visual template at first submission.
 % This file is deliberately standalone, as requested for revised LaTeX files.
-\usepackage[a4paper,margin=2.35cm]{geometry}
+\usepackage[a4paper,left=5.15cm,right=1.65cm,top=1.65cm,bottom=1.75cm]{geometry}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage{lmodern}
@@ -13,268 +13,553 @@
 \usepackage{tabularx}
 \usepackage{array}
 \usepackage{xcolor}
-\usepackage{enumitem}
 \usepackage{amsmath}
 \usepackage{hyperref}
-\usepackage{cleveref}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{tikz}
+\graphicspath{{../figures/}}
 
-\definecolor{natureblue}{HTML}{1F5A7A}
+\definecolor{natureblue}{HTML}{3299C5}
+\definecolor{natureorange}{HTML}{F07F22}
 \definecolor{draftamber}{HTML}{8A5A00}
 \hypersetup{colorlinks=true,linkcolor=natureblue,citecolor=natureblue,urlcolor=natureblue}
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{0.55em}
-\setlist{nosep,leftmargin=1.5em}
-\pagestyle{plain}
+\setlength{\parindent}{1.25em}
+\setlength{\parskip}{0.15em}
+
+% Working visual facsimile of the Scientific Data house style. Nature will
+% typeset any accepted manuscript; these elements are for internal review.
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[C]{%
+  \begin{tikzpicture}[remember picture,overlay]
+    \fill[natureblue] (current page.north west)
+      rectangle ([yshift=-0.78cm]current page.north east);
+    \node[anchor=north west,text=white,font=\sffamily\small]
+      at ([xshift=1.65cm,yshift=-0.22cm]current page.north west)
+      {www.nature.com/scientificdata/};
+  \end{tikzpicture}%
+}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0.45pt}
+\fancyfoot[L]{\sffamily\scriptsize\color{natureblue}SCIENTIFIC DATA\color{black}\enspace|\enspace WORKING DATA DESCRIPTOR}
+\fancyfoot[R]{\sffamily\scriptsize\color{natureblue}\thepage}
+\setlength{\footskip}{0.8cm}
+
+\titleformat{\section}
+  {\sffamily\bfseries\large\color{natureblue}}{}{0pt}{}
+\titleformat{\subsection}
+  {\sffamily\bfseries\normalsize\color{black}}{}{0pt}{}
+\titlespacing*{\section}{0pt}{1.15em}{0.15em}
+\titlespacing*{\subsection}{0pt}{0.8em}{0.05em}
+\renewenvironment{abstract}{\par\small}{\par}
 
 \newcommand{\todo}[1]{%
   \par\noindent\fcolorbox{draftamber}{draftamber!7}{%
     \parbox{0.94\linewidth}{\textbf{To be completed after the frozen snapshot.} #1}}\par}
 \newcommand{\placeholder}[1]{\textcolor{draftamber}{[\textit{#1}]}}
 
-\title{\textbf{A provenance-aware spatial and spatio-temporal data bank for reproducible statistical research}}
-\author{Ghislain Geniaux$^{1}$ \and Johnny D'OLIVEIRA$^{1}$\\[0.5em]
-\small $^{1}$\placeholder{affiliation to confirm}\\
-\small Corresponding author: \placeholder{name and email to confirm}}
-\date{Working manuscript -- 21 September 2026}
+\newcommand{\makesdtitle}{%
+  \thispagestyle{fancy}%
+  \noindent\llap{%
+    \raisebox{0pt}[0pt][0pt]{\parbox[t]{4.45cm}{%
+      \raggedright\sffamily
+      {\fontsize{20}{22}\selectfont scientific \bfseries data}\par
+      \vspace{1.25cm}
+      {\color{natureorange}\bfseries\Large OPEN}\par
+      \vspace{0.65cm}
+      {\bfseries\large DATA DESCRIPTOR}%
+    }}\hspace{0.45cm}%
+  }%
+  \begin{tikzpicture}[remember picture,overlay]
+    \draw[natureblue,densely dotted,line width=0.8pt]
+      ([xshift=4.95cm,yshift=-4.15cm]current page.north west)
+      -- ([xshift=4.95cm,yshift=1.65cm]current page.south west);
+  \end{tikzpicture}%
+  {\sffamily\bfseries\fontsize{24}{27}\selectfont\color{natureblue}
+    A cross-domain collection of spatial and spatio-temporal datasets for
+    statistical modelling\par}
+  \vspace{0.45cm}
+  {\sffamily\bfseries Ghislain Geniaux$^{1}$, Johnny D'OLIVEIRA$^{1}$\par}
+  \vspace{0.25cm}
+  {\sffamily\small $^{1}$\placeholder{affiliation to confirm}\par
+   Corresponding author: \placeholder{name and email to confirm}\par}
+  \vspace{0.55cm}
+}
+
+\title{A cross-domain collection of spatial and spatio-temporal datasets for statistical modelling}
+\author{Ghislain Geniaux and Johnny D'OLIVEIRA}
+\date{}
+
 
 \begin{document}
-\maketitle
-
-\begin{center}
-\fcolorbox{natureblue}{natureblue!6}{\parbox{0.92\linewidth}{%
-\textbf{Document status.} Structural LaTeX skeleton for a \emph{Scientific Data}
-Data Descriptor. Counts describing the bank, repository identifiers, licences,
-author information and data citations must be replaced from the dated frozen
-snapshot before submission.}}
-\end{center}
+\makesdtitle
 
 \begin{abstract}
-Spatial and spatio-temporal datasets are distributed across software packages,
-publication supplements and domain repositories, often with incomplete links
-between source data, analytical roles, spatial support and published model
-specifications. We describe a curated, cross-domain data bank that links source
-datasets, local artefacts, documented analytical records and controlled
-derivatives. The resource records provenance, response and covariate roles,
-geometry, coordinates, time, coordinate reference systems, spatial weights,
-published formulas, transformations and readiness for reuse. Its construction
-combines structured discovery, full-text evidence extraction, a knowledge graph,
-human-readable dataset sheets and deterministic consistency checks. The bank is
-intended to support transparent reuse and the design of reproducible empirical
-evaluations in spatial statistics. \placeholder{Replace with final repository,
-release scope and reuse statement; keep below 170 words.}
+\noindent\bfseries
+Spatial regression methods are commonly evaluated through rich simulations
+but limited empirical evidence. In our review of 101 articles, the median was
+one real dataset per article and 27 used none. Reusable spatial data remain
+dispersed across papers, software and repositories, with inconsistent
+documentation of spatial structure. We present a cross-domain spatial data
+bank built from these sources. It comprises 276 technically ready datasets and
+analysis-ready variants derived from 129 sources, spanning agriculture,
+ecology, climate, hydrology, health, natural hazards, housing and social
+science. Each dataset or variant contains a response, predictors and a
+resolved formula; 272 declare a coordinate reference system. The bank covers
+point, polygonal and gridded source supports. Standardized artefacts may use
+representative points or centroids, while original areal geometries are
+retained separately when available. Reproducible loaders preserve provenance,
+transformations, temporal and parent relationships, and distinguish
+author-provided spatial weights from project reconstructions. The bank also
+defines reproducible subsampling and semi-synthetic constructions on real
+supports. The final distributed collection will be fixed after source-level
+licence and redistribution audits.
+\normalfont
 \end{abstract}
 
 \section*{Background \& Summary}
 
-Simulation is essential in spatial methodology because it provides known
-data-generating mechanisms and permits controlled variation of sample size,
-spatial dependence, neighbourhood geometry, noise, heterogeneity and
-non-linearity. Yet simulation alone cannot establish whether conclusions extend
-across empirical domains, spatial supports, temporal structures and measurement
-processes. A reusable empirical resource can complement this evidence when it
-preserves the information required to reconstruct each spatial analysis.
+Simulation studies are central to the development of spatial estimators
+because they provide a known data-generating process and controlled variation
+in sample size, dependence, neighbourhood structure, noise and coefficient
+heterogeneity. Empirical applications provide a different form of evidence:
+they expose methods to measurement processes, missingness, spatial supports,
+temporal structures and covariate distributions that are difficult to encode
+in a finite simulation design. A purposive review assembled during the
+construction of this resource covered 101 spatial-method articles with an
+explicit response, at least one covariate, a parametric data-generating
+process and repeated Monte Carlo evaluation. Although these articles
+contained 199 coded simulation experiments and at least 2,977 documented
+parameter cells, 27 used no real dataset and 62 used only one. The median was
+one real dataset per article. This descriptive contrast motivated the
+collection of a broader and more traceable empirical resource; it is not
+presented as an estimate of field-wide practice.
 
-General-purpose machine-learning collections demonstrate the value of common
-interfaces, machine-readable metadata and a clear separation between datasets,
-tasks and computational runs. Domain spatial collections, particularly in
-hydrology, show that provenance and variable-level documentation can be handled
-rigorously at scale. The remaining need addressed here is a cross-domain layer
-that links heterogeneous areal, point, network, raster, panel and
-spatio-temporal data to their scientific provenance and published analytical
-roles.
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.92\linewidth]{F1_distribution_jeux_reels_101_articles.png}
+  \caption{Number of real datasets used per article in the reviewed corpus.}
+  \label{fig:empirical-diversity}
+\end{figure}
 
-The data bank therefore distinguishes a source dataset from its local artefacts,
-documented analytical records, controlled derivatives and future benchmark
-tasks. It records response and covariate roles, formulas, geometry, time,
-coordinate reference systems and spatial weights without treating all catalogued
-records as immediately benchmark-ready.
+\begin{table}[ht]
+\centering
+\small
+\caption{Descriptive summary of the methodological corpus.}
+\label{tab:literature-summary}
+\begin{tabular}{lr}
+\toprule
+Measure & Value \\
+\midrule
+Quantitative articles & 101 \\
+Published from 2017 onwards & 79 (78.2\%) \\
+Coded simulation experiments & 199 \\
+Articles with quantified DGP cells & 93 \\
+Documented DGP cells, minimum & 2,977 \\
+Median DGP cells (interquartile range) & 16 (6--36) \\
+Article-level real-data uses & 93 \\
+Median real datasets per article & 1 \\
+\bottomrule
+\end{tabular}
+\end{table}
 
-\todo{Insert the final bank contribution and quantitative scope from the frozen
-snapshot: number of source datasets, fiches, distributable records, artefacts,
-panels, derivatives and mature semi-synthetic records. Cite comparable data
-collections and remove any remaining unsupported novelty wording.}
+Existing data infrastructures solve complementary parts of this problem.
+PMLB provides uniform access and machine-readable metadata for tabular data,
+whereas OpenML distinguishes datasets from fully specified tasks, suites and
+runs \cite{Romano2022Pmlb,Bischl2021Openml}. Collections such as TableShift
+and TabReD demonstrate that a partition represents a scientific target, such
+as transfer across domains or prediction forward in time, rather than a
+purely technical setting \cite{Gardner2023Benchmarking,Rubachev2025Tabred}.
+Spatial data resources including CAMELS-US, LamaH-CE, Caravan and LAGOS-NE
+provide strong models for documenting geometries, supports, temporal coverage
+and variable provenance
+\cite{Addor2017Camels,Klingler2021Lamah,Kratzert2023Caravan,Soranno2017Lagos}.
+
+Data Descriptors that consolidate heterogeneous sources also show the need to
+separate the original resource from the standardized object that is actually
+distributed. MedMNIST v2 reports source-specific transformations, file
+contents and partitions; the Compound Matrix-Based Project Database links
+source collections to common representations and automated checks; and the
+Construction Motion Data Library records the transformations required to
+align structures, units, coordinates and labels
+\cite{Yang2023Medmnist,Kosztyan2024Cmpd,Tian2022Construction}.
+
+The present collection applies these principles to cross-domain spatial and
+spatio-temporal data. Each released entry identifies the statistical unit,
+response, predictors, source model, spatial support, time variables and
+available geometry. Information about spatial weights distinguishes matrices
+distributed by the source authors, matrices reconstructed from a documented
+rule and matrices created for a new project analysis. Longitudinal sources
+remain connected to their parent panels rather than being represented only by
+independent cross-sections. The collection therefore provides both reusable
+data artefacts and the information needed to judge whether a proposed model,
+weight structure or evaluation split is consistent with the source.
 
 \section*{Methods}
 
-\subsection*{Resource scope and units of description}
+\subsection*{Scope and unit of description}
 
-The resource uses separate identifiers for source datasets, local artefacts,
-documented dataset sheets and derived analytical records. A source dataset is
-counted once even when several targets, formulas, periods or subsamples are
-derived from it. Panel parents remain distinct from cross-sectional extracts.
-Prediction products, coefficient surfaces and other model outputs are not
-classified as raw observational datasets unless the distributed record is
-explicitly designed around that object.
+The collection distinguishes a \emph{source dataset} from an
+\emph{analytical record}. A source dataset denotes the data resource released
+by its original producer. An analytical record denotes a response,
+predictor set, formula, period or scientifically meaningful subset associated
+with that source. Several analytical records may therefore point to one
+source dataset without being counted as independent data collections.
 
-\todo{Freeze the operational definitions of source dataset, artefact, dataset
-sheet, panel parent, controlled subsample, semi-synthetic record and benchmark
-task.}
+Only records that satisfy the release criteria are described as members of
+the published collection. Inclusion requires a recoverable data artefact, an
+identified source, a defined response and predictor set, sufficient spatial
+information for the stated use, a documented transformation path and a
+completed technical review. Records awaiting source verification, manual
+review or redistribution decisions remain in the internal catalogue and are
+not counted in the released total.
 
-\subsection*{Input data discovery}
+\subsection*{Source discovery and acquisition}
 
-Datasets were identified through three source families: datasets distributed by
-R or Python packages; open datasets linked to scientific publications in
-spatial statistics, spatial econometrics and spatio-temporal modelling; and
-datasets obtained from public data repositories and portals. For publication-
-linked records, full texts were converted to structured TEI, and dataset names,
-repository identifiers, empirical roles and model evidence were checked against
-the source article. Repository relations and licences were verified before
-download. A bibliographic DOI was never treated as a dataset DOI without an
-explicit repository relation.
+Sources entered the project through three chronological routes. The first
+route examined datasets distributed by R and Python packages and used package
+documentation, object metadata and cited publications to identify their
+origin. The second searched data repositories and portals for reusable
+spatial resources. The third began with methodological articles and traced
+their empirical applications to repositories, supplementary material,
+software packages or data providers. This article-first route complemented
+the repository search when papers referred to data that were difficult to
+locate through metadata alone.
 
-\todo{Report exact searches, dates, versions, inclusion rules and persistent
-identifiers for every input collection. Cite each deposited input dataset using
-the journal's data-citation format.}
+Original downloads are retained unchanged whenever redistribution and storage
+conditions permit. A source manifest records the access location, retrieval
+date, original filename, citation and available version information. Derived
+artefacts are produced by separate loaders so that acquisition and
+transformation remain distinguishable.
 
-\subsection*{Provenance and curation workflow}
+\subsection*{Methodological-literature audit}
 
-The working workflow proceeds from immutable raw sources to a curated corpus,
-structured knowledge graph and human-readable dataset sheets. Automated
-extraction produces candidate evidence rather than final assertions. Curators
-verify source identity, variables, spatial support, formula evidence,
-transformations and limitations. Deterministic audits then compare the knowledge
-graph, dataset sheets, file registry and local artefacts.
+The literature audit used DOI as the principal deduplication key and retained
+regression studies with an explicit response, at least one covariate, a
+parametric DGP and repeated Monte Carlo regeneration. Pure kriging, universal
+kriging and regression-kriging studies were outside the quantitative scope.
+For each included article, coding distinguished independent DGP regeneration
+from bootstrap resampling, randomization and MCMC. Simulation experiments,
+parameter cells, methods, metrics, basic design factors and qualitative
+misspecification axes were recorded with supporting passages from the full
+text. Cell totals were classified as exact, lower bounds or
+non-reconstructible.
 
-\subsection*{Spatial and temporal harmonisation}
+Real datasets were counted once per article and source, even when several
+outcomes, formulas, periods or subsets were analysed. Validation of the real
+application was coded separately from validation used only in simulation.
+Among the 74 articles with at least one real dataset, 59 used only in-sample
+analysis, 13 combined in-sample and out-of-sample evaluation, and two used an
+exclusively out-of-sample design. The corpus was assembled to diversify
+methodological families and publication periods rather than to estimate the
+prevalence of these practices in the complete literature.
 
-Where supported by the source, tabular observations are converted to simple-
-feature objects while retaining source identifiers and provenance. Coordinates,
-geometry and coordinate reference systems are recorded separately from model
-covariates. Temporal variables and stable unit identifiers are retained for
-panels. Spatial weights supplied by a source are preserved; geographic weights
-may be reconstructed only when the geometry and construction rule are documented.
+\subsection*{Evidence extraction and source fidelity}
 
-\todo{Insert the final conversion rules, software versions, handling of missing
-values, CRS policy, geometry repair policy and checks for panel identifiers.}
+Article PDFs were converted to structured TEI XML with GROBID to support
+search and extraction. Tables, equations, figures and passages for which the
+TEI representation was incomplete were checked against the rendered PDF.
+Extracted claims were treated as evidence requiring verification rather than
+as authoritative metadata.
 
-\subsection*{Controlled subsampling}
+For every released analytical record, the review identifies the response,
+covariates, sample definition, unit of observation, study period and model
+formula used in the source article when these are reported. The source
+formula and a locally executable formula are stored separately when file
+names or available variables require an adaptation. A local formula is not
+presented as the authors' model unless it is supported by the article or its
+replication material.
 
-Controlled subsamples remain linked to their parent dataset and record the
-selection rule, random seed, retained units and intended purpose. They are not
-counted as independent source datasets.
+\subsection*{Data conversion and harmonisation}
 
-\todo{Describe only the subsamples included in the frozen release.}
+Dataset-specific loaders convert source files into stable analytical
+artefacts. Conversion may include parsing, type normalization, joins,
+variable renaming, documented filtering and construction of geometry from
+published coordinates or identifiers. Each loader records the input files,
+output files and transformations applied. Raw files are not overwritten.
 
-\subsection*{Semi-synthetic records}
+Harmonisation is limited to the information required for consistent access.
+Original units, coding choices and variable names are retained in provenance
+metadata even when standardized names are exposed to users. Missing values
+are not silently imputed. When a paper analyses a subset of a larger public
+resource, the released record either reproduces that subset from documented
+rules or states that the available artefact differs from the authors'
+analytic sample.
 
-Semi-synthetic records combine observed spatial support or covariates with an
-explicitly documented outcome-generating mechanism. Each record must distinguish
-observed inputs, fitted components, controlled interventions and generated
-quantities, and must retain the random seed and generating parameters.
+\subsection*{Spatial and temporal representation}
 
-\todo{Include only sufficiently mature records. Detailed estimator comparisons
-and package benchmarking remain outside this Data Descriptor.}
+Spatial support is recorded as point, areal unit, grid, network or another
+source-defined structure. Geometry metadata include the source geometry,
+coordinate fields, coordinate reference system and any transformation applied
+by the loader. Operations requiring distance are not validated from coordinate
+presence alone; the coordinate reference system must be suitable for the
+stated calculation or an explicit transformation must be documented.
+
+Temporal data retain stable unit and time identifiers. A panel is represented
+as a parent dataset with its longitudinal structure intact. Cross-sectional
+or period-specific derivatives remain linked to that parent and record their
+selection rule. These relations make it possible to prevent the same unit or
+derived observation from entering incompatible training and evaluation sets.
+
+\subsection*{Spatial-weights provenance}
+
+Spatial weights are described by their origin, unit order, construction rule,
+neighbour definition, normalization and treatment of units without neighbours.
+Three cases are distinguished. A \emph{source-author matrix} is an artefact
+provided or explicitly used by the authors. A \emph{reconstructed matrix}
+implements a rule reported in the source. A \emph{project matrix} supports a
+new analysis chosen by this project. A project matrix is never attributed to
+the source authors, even when it uses the same observations.
+
+\subsection*{Metadata and registry construction}
+
+Each released record is linked to a machine-readable registry entry and a
+human-readable dataset description. The registry identifies the source,
+artefact, response, predictors, formula status, spatial support, temporal
+structure, geometry, coordinate reference system, weights provenance, parent
+relations, licence evidence and validation state. Stable identifiers connect
+the source dataset, analytical records and distributed files. The release
+manifest additionally records file size and checksum.
+
+\subsection*{Quality-control workflow}
+
+Automated checks verify schema conformance, referenced paths, variable names,
+formula terms, identifiers, dimensions and parent--derivative relations.
+Spatial checks examine geometry validity, coordinate reference systems and the
+correspondence between weight matrices and observation order. Longitudinal
+checks examine the uniqueness and completeness of unit--time identifiers.
+These checks identify inconsistencies but do not promote a record
+automatically. Final inclusion requires review against the source article,
+documentation and available data artefacts.
+
+\subsection*{Ethics and sensitive data}
+
+The collection reuses data released by their original producers. For sources
+involving human participants, animals or sensitive locations, the dataset
+record cites the source study's ethics and access statements and preserves any
+restrictions on redistribution. The present release does not replace the
+conditions imposed by the original data provider.
 
 \section*{Data Records}
 
-The deposited release will be described at file level, including repository,
-accession, folder structure, formats, data dictionaries and relationships between
-parents and derivatives. Table~\ref{tab:records} is the required summary table;
-its values must be generated from the frozen snapshot.
+\subsection*{Deposited release}
 
-\begin{center}
-\refstepcounter{table}\label{tab:records}
-\textbf{Table~\thetable.} Planned record groups in the deposited release.
-Replace placeholders with frozen counts and repository locations.\par\smallskip
-\begin{tabularx}{\textwidth}{>{\bfseries}p{0.22\textwidth}X p{0.18\textwidth}}
-\toprule
-Record group & Contents & Frozen count \\
-\midrule
-Metadata registry & Machine-readable identifiers, provenance, status and links & \placeholder{pending} \\
-Dataset sheets & Human-readable documentation and evidence & \placeholder{pending} \\
-Final spatial artefacts & Reusable spatial or spatio-temporal objects & \placeholder{pending} \\
-Panel parents & Longitudinal records with unit and time identifiers & \placeholder{pending} \\
-Controlled derivatives & Reproducible subsamples linked to parents & \placeholder{pending} \\
-Semi-synthetic records & Generated outcomes and complete generating metadata & \placeholder{pending} \\
-\bottomrule
-\end{tabularx}
-\end{center}
+The released collection is deposited at
+\placeholder{repository name, DOI and version}. It contains
+\placeholder{number} validated source datasets and
+\placeholder{number} analytical records. Files that cannot legally be
+redistributed are not included as data artefacts; their registry entries, if
+published, provide provenance and acquisition instructions without implying
+that the files are part of the downloadable collection.
 
-\todo{List the actual repository accession, exact filenames, formats, folder
-hierarchy, checksums, schemas and data dictionaries. Do not report summary
-statistics here.}
+\subsection*{File organisation}
+
+The deposit is organized into the following components:
+\begin{itemize}
+  \item a machine-readable registry containing one row or object per released
+        analytical record;
+  \item dataset-level metadata and variable dictionaries;
+  \item processed data artefacts in RDS or GeoPackage format, with any other
+        formats identified in the manifest;
+  \item geometry and spatial-weights artefacts when redistribution is allowed;
+  \item a source and transformation manifest containing citations, versions,
+        file sizes and SHA-256 checksums; and
+  \item loader and validation code associated with the archived release.
+\end{itemize}
+
+\todo{Replace this functional description with the exact deposited folder
+tree, filenames, accession numbers, formats and file counts after the release
+snapshot is frozen.}
+
+\subsection*{Record-level metadata}
+
+For each analytical record, the registry exposes its stable identifier,
+source identifier, parent dataset when applicable, response, predictors,
+published formula, executable formula, statistical unit, spatial support,
+time fields, geometry reference, coordinate reference system, spatial-weights
+reference, provenance class and validation state. Dataset-level descriptions
+provide definitions, units, transformations, missing-value conventions,
+known differences from the source analysis and recommended citations.
+
+\subsection*{Relationship between source and derived records}
+
+Derived records do not replace their source dataset. Period-specific slices,
+subsamples and other transformations retain the source identifier, parent
+identifier, transformation rule and random seed when randomness is involved.
+The final Data Records table will report source datasets separately from
+analytical or derived records so that the size of the collection is not
+inflated by multiple representations of the same resource.
 
 \section*{Data Overview}
 
-\todo{Optional. Limit to one paragraph and at most one or two descriptive
-figures or tables. Remove this section if the overview can be generated directly
-from the deposited files without aiding reuse.}
+\todo{Insert one compact table and, if needed, one figure describing only the
+released collection. Report source datasets separately from analytical
+records and summarize domain, response type, spatial support and temporal
+structure. Exclude internal manual-review and rejected records.}
 
 \section*{Technical Validation}
 
-Technical validation will report checks on schema conformance, identifier
-alignment, file readability, dimensions, variable presence, geometry validity,
-coordinate reference systems, temporal indexing, formula consistency,
-neighbourhood reconstruction, parent--derivative links and provenance. A record
-is not reported as reusable merely because a file was downloaded or a dataset
-sheet exists.
+\subsection*{File integrity and schema validation}
 
-\begin{center}
-\refstepcounter{table}\label{tab:validation}
-\textbf{Table~\thetable.} Validation dimensions to be populated from the frozen audit.\par\smallskip
-\begin{tabularx}{\textwidth}{>{\bfseries}p{0.27\textwidth}X p{0.18\textwidth}}
-\toprule
-Validation dimension & Acceptance evidence & Frozen result \\
-\midrule
-File integrity & Readable artefact, checksum and documented format & \placeholder{pending} \\
-Variable consistency & Declared response and covariates occur in the artefact & \placeholder{pending} \\
-Spatial support & Valid geometry or coordinates and documented CRS & \placeholder{pending} \\
-Spatial weights & Original or reproducible construction rule & \placeholder{pending} \\
-Temporal structure & Valid time field and stable panel identifier where required & \placeholder{pending} \\
-Provenance & Source, version, licence and transformation chain recorded & \placeholder{pending} \\
-Cross-layer agreement & KG, sheets, registry and files agree & \placeholder{pending} \\
-\bottomrule
-\end{tabularx}
-\end{center}
+Every deposited file will be checked for readability, expected dimensions,
+file size and SHA-256 checksum. Registry entries will be validated against the
+published schema, and every referenced artefact will be required to resolve
+within the archived release or to an explicitly documented external source.
 
-\todo{Insert reproducible audit commands, sample sizes, failure counts and the
-handling of unresolved records. Validation concerns data quality and consistency,
-not estimator rankings.}
+\subsection*{Variable and source-model checks}
+
+Responses and predictors will be compared with the variables present in the
+released artefacts. Formula terms, sample sizes and study periods will be
+reviewed against the source article or replication material. Deviations needed
+to make a model executable will be reported as local adaptations rather than
+silently substituted for the published specification.
+
+\subsection*{Spatial validation}
+
+Spatial validation will test geometry type, missing and invalid geometries,
+coordinate reference system declarations and identifier uniqueness. For
+distance-based uses, the validation record will state the coordinate system
+in which distances are computed. Spatial-weights checks will cover matrix
+dimensions, observation order, normalization, symmetry when expected and
+units without neighbours. Provenance will be checked separately from numerical
+validity.
+
+\subsection*{Temporal and parent--derivative checks}
+
+Panel records will be checked for stable unit and time identifiers, duplicate
+unit--time pairs and consistency between parent datasets and derived slices.
+Where partitions are distributed, the validation will ensure that grouping or
+chronology required by the intended prediction problem is preserved.
+
+\subsection*{Loader reproducibility}
+
+Released loaders will be executed in a clean environment from the archived
+source files whenever redistribution permits. Their outputs will be compared
+with the deposited artefacts using dimensions, schemas and checksums or
+documented tolerance rules. The final manuscript will report the number of
+records passing each check and list any validation that cannot be performed.
+
+\todo{Replace future-tense validation statements with the frozen results and
+their denominators after the release audit.}
 
 \section*{Usage Notes}
 
-Users should distinguish catalogued records from distributable artefacts and
-from records explicitly ready for a given analytical task. Published formulas,
-targets and spatial weights should be reused only with their recorded evidence
-and preprocessing. Panel parents should not be silently collapsed into a cross-
-section, and random partitions should not be assumed appropriate for spatial or
-temporal validation.
+Users should begin with the registry and the associated dataset description
+rather than selecting files by filename alone. The description identifies the
+response, permissible predictors, statistical unit, geometry, time fields and
+known differences from the source analysis. RDS files can be read with
+\texttt{readRDS}; GeoPackage files require a spatial reader such as
+\texttt{sf::st\_read}.
 
-\todo{Add loading examples, licence-specific restrictions, software versions,
-known limitations and instructions for citing both this bank and original data
-creators.}
+Spatial weights must be matched to the released observation identifiers and
+their order before analysis. Reconstructed and project matrices should be
+cited and described according to their own construction rule. For panels,
+users should retain unit and time identifiers and prevent related slices from
+crossing evaluation partitions. Random, spatially blocked, temporally ordered
+and new-region splits answer different questions and should not be treated as
+interchangeable.
+
+Users should cite the original data creators in addition to this collection.
+The registry records do not override source licences or access restrictions.
 
 \section*{Data Availability}
 
-\todo{Repeat the final repository name, DOI or accession, version, principal
-record groups and access restrictions. The deposited data must be available to
-reviewers at initial submission and public in an appropriate repository before
-publication.}
+The data described in this manuscript will be available from
+\placeholder{repository, DOI and version}. The final statement will list the
+accession, principal files and any source datasets that require separate
+authorized access.
 
 \section*{Code Availability}
 
-\todo{Provide the archived code release, DOI, version or commit, licence and the
-commands required to regenerate the registry, audit tables and figures.}
+Loaders, registry-construction scripts and validation code will be archived at
+\placeholder{code repository and DOI}. The archived release will identify the
+commit, dependency environment and commands used to regenerate the distributed
+artefacts and validation report.
 
-\section*{Acknowledgements}
-
-\placeholder{Funding, institutional and individual acknowledgements.}
-
-\section*{Author Contributions}
-
-\placeholder{Use the CRediT taxonomy and confirm contributions with all authors.}
-
-\section*{Competing Interests}
-
-The authors declare \placeholder{statement to confirm}.
-
-\section*{Funding}
-
-\placeholder{Funding bodies and grant numbers.}
-
-% Embedded bibliography keeps this .tex standalone for revised submission.
-% Replace these scaffolding entries with the verified master bibliography.
 \begin{thebibliography}{99}
+\bibitem{Romano2022Pmlb}
+Romano, J.~D. et al. PMLB v1.0: an open-source dataset collection for
+benchmarking machine learning methods. \emph{Bioinformatics} \textbf{38},
+878--880 (2022). \url{https://doi.org/10.1093/bioinformatics/btab727}.
+
+\bibitem{Bischl2021Openml}
+Bischl, B. et al. OpenML Benchmarking Suites. \emph{Proceedings of the
+Neural Information Processing Systems Track on Datasets and Benchmarks}
+(2021). \url{https://datasets-benchmarks-proceedings.neurips.cc/paper/2021/file/c7e1249ffc03eb9ded908c236bd1996d-Paper-round2.pdf}.
+
+\bibitem{Gijsbers2024Amlb}
+Gijsbers, P. et al. AMLB: an AutoML Benchmark. \emph{Journal of Machine
+Learning Research} \textbf{25}(101), 1--65 (2024).
+\url{https://jmlr.org/papers/v25/22-0493.html}.
+
+\bibitem{Gardner2023Benchmarking}
+Gardner, J., Popovic, Z. \& Schmidt, L. Benchmarking Distribution Shift
+in Tabular Data with TableShift. \emph{Advances in Neural Information
+Processing Systems} (2023).
+\url{https://doi.org/10.52202/075280-2324}.
+
+\bibitem{McElfresh2023When}
+McElfresh, D. et al. When Do Neural Nets Outperform Boosted Trees on
+Tabular Data? \emph{Advances in Neural Information Processing Systems}
+(2023). \url{https://doi.org/10.52202/075280-3337}.
+
+\bibitem{Rubachev2025Tabred}
+Rubachev, I., Kartashev, N., Gorishniy, Y. \& Babenko, A. TabReD:
+Analyzing Pitfalls and Filling the Gaps in Tabular Deep Learning
+Benchmarks. \emph{International Conference on Learning Representations}
+(2025).
+
+\bibitem{Addor2017Camels}
+Addor, N., Newman, A.~J., Mizukami, N. \& Clark, M.~P. The CAMELS
+data set: catchment attributes and meteorology for large-sample
+studies. \emph{Hydrology and Earth System Sciences} \textbf{21},
+5293--5313 (2017).
+\url{https://doi.org/10.5194/hess-21-5293-2017}.
+
+\bibitem{Klingler2021Lamah}
+Klingler, C., Schulz, K. \& Herrnegger, M. LamaH-CE: LArge-SaMple DAta
+for Hydrology and Environmental Sciences for Central Europe.
+\emph{Earth System Science Data} \textbf{13}, 4529--4565 (2021).
+\url{https://doi.org/10.5194/essd-13-4529-2021}.
+
+\bibitem{Kratzert2023Caravan}
+Kratzert, F. et al. Caravan: a global community dataset for
+large-sample hydrology. \emph{Scientific Data} \textbf{10}, 61
+(2023). \url{https://doi.org/10.1038/s41597-023-01975-w}.
+
+\bibitem{Soranno2017Lagos}
+Soranno, P.~A. et al. LAGOS-NE: a multi-scaled geospatial and temporal
+database of lake ecological context and water quality for thousands of US
+lakes. \emph{GigaScience} \textbf{6}, 1--22 (2017).
+\url{https://doi.org/10.1093/gigascience/gix101}.
+
+\bibitem{Yang2023Medmnist}
+Yang, J. et al. MedMNIST v2: a large-scale lightweight benchmark for 2D and
+3D biomedical image classification. \emph{Scientific Data} \textbf{10}, 41
+(2023). \url{https://doi.org/10.1038/s41597-022-01721-8}.
+
+\bibitem{Kosztyan2024Cmpd}
+K\H{o}szty\'an, Z.~T. \& Nov\'ak, G.~L. Compound Matrix-Based Project
+Database (CMPD). \emph{Scientific Data} \textbf{11}, 319 (2024).
+\url{https://doi.org/10.1038/s41597-024-03154-x}.
+
+\bibitem{Tian2022Construction}
+Tian, Y., Li, H., Cui, H. \& Chen, J. Construction motion data library: an
+integrated motion dataset for on-site activity recognition.
+\emph{Scientific Data} \textbf{9}, 726 (2022).
+\url{https://doi.org/10.1038/s41597-022-01841-1}.
+
+\bibitem{Gebru2021Datasheets}
+Gebru, T. et al. Datasheets for datasets. \emph{Communications of
+the ACM} \textbf{64}(12), 86--92 (2021).
+\url{https://doi.org/10.1145/3458723}.
+
+\bibitem{Wilkinson2016Fair}
+Wilkinson, M.~D. et al. The FAIR Guiding Principles for scientific
+data management and stewardship. \emph{Scientific Data} \textbf{3},
+160018 (2016). \url{https://doi.org/10.1038/sdata.2016.18}.
+
 \bibitem{scientificdata-guidelines}
 Scientific Data. Submission guidelines. Nature Portfolio
 (\url{https://www.nature.com/sdata/publish/submission-guidelines}).
@@ -283,5 +568,22 @@ Scientific Data. Submission guidelines. Nature Portfolio
 Scientific Data. Data policies. Nature Portfolio
 (\url{https://www.nature.com/sdata/policies/data-policies}).
 \end{thebibliography}
+
+\section*{Author Contributions}
+
+\placeholder{Describe the contributions of Ghislain Geniaux and Johnny
+D'OLIVEIRA using the CRediT taxonomy and confirm them with both authors.}
+
+\section*{Competing Interests}
+
+The authors declare \placeholder{statement to confirm}.
+
+\section*{Acknowledgements}
+
+\placeholder{Institutional and individual acknowledgements, if applicable.}
+
+\section*{Funding}
+
+\placeholder{Funding bodies and grant numbers.}
 
 \end{document}

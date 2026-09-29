@@ -1,0 +1,1061 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Estimation of a SAR model with endogenous spatial weights constructed by bilateral variables</title>
+				<funder ref="#_JMyh74X #_6K6Zk6U #_S9UYGPQ #_Y6qGRCy">
+					<orgName type="full">National Natural Science Foundation of China</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">Xi</forename><surname>Qu</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department" key="dep1">Department of Economics</orgName>
+								<orgName type="department" key="dep2">Antai College of Economics and Management</orgName>
+								<orgName type="institution">Shanghai Jiao Tong University</orgName>
+								<address>
+									<country key="CN">China</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Lung-Fei</forename><surname>Lee</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="department">Department of Economics</orgName>
+								<orgName type="institution">The Ohio State University</orgName>
+								<address>
+									<country key="US">United States of America</country>
+								</address>
+							</affiliation>
+						</author>
+						<author role="corresp">
+							<persName><forename type="first">Chao</forename><surname>Yang</surname></persName>
+							<email>yang.chao@mail.shufe.edu.cn</email>
+							<affiliation key="aff2">
+								<orgName type="department">School of Economics</orgName>
+								<orgName type="laboratory" key="lab1">Key Laboratory of Mathematical Economics (SUFE)</orgName>
+								<orgName type="laboratory" key="lab2">Ministry of Education</orgName>
+								<orgName type="institution">Shanghai University of Finance and Economics</orgName>
+								<address>
+									<country key="CN">China</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">C31</forename><surname>C51</surname></persName>
+						</author>
+						<author>
+							<affiliation key="aff3">
+								<orgName type="institution" key="instit1">The School of Economics</orgName>
+								<orgName type="institution" key="instit2">SUFE</orgName>
+								<address>
+									<addrLine>777 Guoding Rd</addrLine>
+									<postCode>200433</postCode>
+									<settlement>Shanghai</settlement>
+									<country key="CN">China</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Estimation of a SAR model with endogenous spatial weights constructed by bilateral variables</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<idno type="MD5">0111F102CA2A14297233A13D33E1CB84</idno>
+					<idno type="DOI">10.1016/j.jeconom.2020.05.011</idno>
+					<note type="submission">Received 31 July 2018 Received in revised form 27 August 2019 Accepted 15 May 2020</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-29T10:20+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>Spatial autoregressive model Endogenous spatial weight matrix Bilateral variables</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>This paper studies the estimation of a cross-sectional spatial autoregressive (SAR) model with spatial weights constructed by bilateral variables like the trade or investment between regions. We model the possible endogeneity in spatial weights due to the correlation between the error term in the SAR model and unobserved interactive fixed effects in bilateral variables. Using a control function approach, we propose two-stage estimation methods and establish their consistency and asymptotic normality. Finite sample properties are investigated by a Monte Carlo study. We further apply our method to an empirical study of interactions among different US industries through production networks.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">Introduction</head><p>In spatial econometrics, the spatial autoregressive (SAR) model has been applied to cases where the outcome of a spatial unit at a location depends not only on its own characteristics but also on outcomes of its neighbors. This model is of great interest to economists because it has a game structure and can be interpreted as a reaction function. Hence, it has been widely used in both economics and social sciences. Typical examples are the technological externality among countries in regional science <ref type="bibr" target="#b19">(Ertur and Koch, 2011</ref>), the regional competition among local governments in political science <ref type="bibr" target="#b13">(Bordigon et al., 2003;</ref><ref type="bibr" target="#b3">Allers and Elhorst, 2005)</ref>, the spillover of housing prices in urban economics <ref type="bibr" target="#b11">(Baltagi et al., 2014)</ref>, and peer effects among students in labor economics <ref type="bibr" target="#b32">(Lin, 2010)</ref>, etc. The structure of "neighbors" is fully captured by a spatial weight matrix W n = (w ij ), where w ij is a measure of connections and their strengths among locations i and j as flows in a directed network. 1 Consequently, the spatial dependence parameter measures the magnitude of the interactive/spillover effects based on the neighboring structure W n . Usually, W n is specified before estimating the interactive/spillover effect. Estimation methods for the SAR model have been well studied in the literature: the maximum likelihood estimation (MLE) of <ref type="bibr" target="#b39">Ord (1975)</ref> and <ref type="bibr" target="#b29">Lee (2004)</ref>; the instrumental variable (IV) methods of <ref type="bibr" target="#b5">Anselin (1980)</ref> and <ref type="bibr">Kelejian and</ref><ref type="bibr">Prucha (1998, 1999)</ref>, and the generalized method of moments (GMM) of <ref type="bibr" target="#b30">Lee (2007)</ref>, <ref type="bibr">Liu and Lee (2010)</ref>, <ref type="bibr" target="#b33">Lin and Lee (2010)</ref>, and <ref type="bibr">Liu et al. (2010)</ref>. Consistency and asymptotic normality of these estimators are established using the law of large numbers (LLN) and central limit theorem (CLT) of linear-quadratic statistics. The underlying assumption is that W n is either pre-determined, non-stochastic, or at least exogenous in the sense that elements in w ij would be uncorrelated with unobservables in the outcome equation.</p><p>This exogeneity assumption of W n may hold when spatial weights are constructed using pre-determined location information, for example, w ij = 1 if the two locations i and j are adjacent and w ij = 0 otherwise; or w ij is a function of geographic distances and/or exogenous characteristics between different i and j cities, regions, and countries. However, when spatial weights involve endogenous social/economic variables, such as the relative GDP or trade volume, then it is very likely that these elements in w ij are directly correlated with the final outcome. In this case, W n may not be exogenous and estimation methods relying on exogenous W n might not be valid.</p><p>In <ref type="bibr" target="#b40">Pinkse and Slade (2010)</ref>, they point out that endogeneity of spatial weights is challenging and waiting for good solutions, and is one of the future research directions of spatial econometrics. However, due to the technical complication, only few estimation methods have been proposed for estimating spatial models with endogenous weights. <ref type="bibr" target="#b26">Kelejian and Piras (2014)</ref> propose using an estimated weight matrix Ŵn to construct valid instruments. To do so, they directly use projections of w ij on exogenous variables to construct instruments. Their idea is straightforward, but it is not easy to find valid instruments, and they can only provide high level assumptions to justify asymptotic properties of their IV estimators. Based on such projections, <ref type="bibr" target="#b15">Cheng and Lee (2017)</ref> construct a Hausman test for the endogeneity of the spatial weights matrix. However, the test may have weak powers unless the sample size is sufficiently large. Alternatively, when the spatial weight matrix W n is constructed by some economic variable Z that measures the importance of the relationship between regions, it is desirable to directly model the source of endogeneity and use a control function approach to deal with it. <ref type="bibr" target="#b41">Qu and Lee (2015)</ref> consider the case of W n constructed by some vector z of unilateral economic variables w ij = h(z i , z j ), for example, h(z i , z j ) = 1/|z i -z j |. They model the source of endogeneity as the correlation between error terms in the z equation and the SAR equation. This idea is further applied to model endogenous spatial weights in the spatial dynamic panel data model in <ref type="bibr" target="#b43">Qu et al. (2016</ref><ref type="bibr" target="#b42">Qu et al. ( , 2017))</ref>.</p><p>However, in some empirical cases, relevant economic variables z may be bilateral, namely, w ij = h(z ij , z ji ), where z ij can be a trade volume, a migration flow, or an investment cash flow between regions i and j. For example, when <ref type="bibr" target="#b10">Baicker (2005)</ref> uses the SAR model to study the per capita expenditure, one specification of w ij is based on the fraction of all immigrants to state i that comes from state j. <ref type="bibr" target="#b21">Giuliodori and Beetsma (2008)</ref> study the primary deficit over GDP using the SAR model and construct the spatial weight w ij by trade-weights as a share of total trade. <ref type="bibr" target="#b19">Ertur and Koch (2011)</ref> apply spatial models to study the total factor productivity, and they construct the spatial weight w ij using average imports of country i from country j. <ref type="bibr" target="#b22">Ho et al. (2013)</ref> study the spatial spillover in the real GDP per labor, and they construct w ij using the sum of export and import flows between i and j. According to the gravity model which is widely used for international trade, imports and exports between two regions can be affected by unobservable multilateral resistance of each region, which might be correlated with the unobservables in the outcome equation. Similarly, for other cases like immigration, the unobservables generating the bilateral variables could be correlated with those generating outcomes. Unfortunately, many researchers still treat W n as exogenous and apply conventional methods for estimation and inference. In general, when endogeneity in W n was ignored, estimators would be biased and inconsistent. Then, how to model this endogeneity in W n coming from bilateral economic variables? How to consistently estimate and give inference to parameters of interest? These are the motivated issues for study in this paper.</p><p>As the economic variable z is bilateral, modeling and estimation methods in <ref type="bibr" target="#b41">Qu and Lee (2015)</ref> cannot be directly applied. We need to extend it to allow for bilateral economic variables, propose new estimation methods, and establish corresponding asymptotic properties. To explicitly model the source of potential endogeneity of W n from bilateral economic variables, we build two sets of equations -one is for the SAR outcome y, and the other is a factor model for the bilateral variable z which enters the spatial weights matrix W n . The source of endogeneity is captured by the correlation between error terms in the SAR outcome y equation and unobserved interactive fixed effects in the z equation. As an extension, besides bilateral economic variables, one may also incorporate endogenous univariate variables in W n . We suggest overcoming this endogeneity problem by using a control function approach and propose two-stage estimation methods. As bilateral endogenous variables are our main interest, we first focus on the estimation with only bilateral endogenous variables. In the first stage, unobserved factors and their loadings in the bilateral variable z equation are estimated. In the second stage, we add those two estimates into the SAR model as two additional sets of regressors and then apply the conventional IV or MLE approach to this augmented SAR equation. We show the proposed two-stage estimators are consistent and have asymptotic normality. Based on those, we can directly test the endogeneity through the significance of estimated parameters of the additional sets of regressors. The estimation methods are then extended to the case with both endogenous univariate and bilateral variables.</p><p>Notice that we focus on spatial spillover effects of spatial units, which are different from those in the literature of social networks. In a recent working paper of <ref type="bibr" target="#b25">Johnsson and Moon (2019)</ref>, they consider the estimation of peer effects in endogenous social networks. Our paper is different from theirs in several aspects. First of all, their w ij is either zero or one because it measures whether two individuals are linked, while our w ij is a flexible function (can be continuous or an indicator function) of economic variables. Secondly and most importantly, they model their binary weight using a symmetric function of unobserved dyad attributes, while we model the bilateral variable using a factor model and explicitly address the asymmetric feature in these unobservables. Our model specification is motivated by the trade literature from the direction of the inflow/outflow data that provide enough information to estimate the source and destination regions' effects. Also, in their identification, they require the monotonicity in unobserved effects, but our identification does not impose such a requirement. The two papers propose different implementations of the control function. Our setting is a SAR model where spatial weights are constructed by economic variables measuring the "economic distance" or "economic similarity". Therefore, geographic locations and spatial structures play an important role to guarantee sparsity and weak dependence of spatial units. In a social network, there is no clear measure of the location of an individual, and network links are 0 or 1, which does not guarantee sparsity specifically. When considering the estimation of those models, due to different endogenous weights, the asymptotic analysis will be different.</p><p>There are two main contributions of our paper. The first contribution comes from a natural but non-trivial extension of modeling a spatial weights matrix in <ref type="bibr" target="#b41">Qu and Lee (2015)</ref>. We extend the SAR model with unilateral endogenous variables to allow both endogenous unilateral and bilateral variables in w ij , so we believe that our study may benefit empirical researchers to consistently estimate spatial spillover effects when they construct spatial weight matrix using richer economic variables. As the asymptotic analysis is quite different from that in <ref type="bibr" target="#b41">Qu and Lee (2015)</ref>, our paper might also be beneficial to theoretical estimation approaches with endogenous spatial/network relations. Secondly, we model our bilateral economic variables using a factor model of interactive fixed effects, which nests the two-way fixed effects model used in the international trade literature as a special example. Then, the source of endogeneity has a clear economic meaning as the correlation between those unobservables and error terms in the outcome equation, which helps us to understand the channel of endogeneity, and hence better analyzing and interpreting the spatial spillover effect.</p><p>The rest of the paper is as follows: Section 2 sets up the model. Section 3 introduces 2-stage estimation approaches. Their consistency and asymptotic distributions are established in Section 4. Finite sample properties of our proposed estimators are investigated in Section 5 by a Monte Carlo (MC) study. Section 6 applies our estimation methods to empirically study interactions among different industries through the input/output networks. Section 7 extends the model to allow both unilateral and bilateral economics variables to construct w ij . Section 8 concludes the paper. The MLE derivations and the construction of the Input-Output relations are in Appendix A. Detailed proofs and additional MC results are provided in the supplementary file. 2</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.">Model</head><p>The outcome y at the location i is modeled with a cross-sectional SAR equation of</p><formula xml:id="formula_0">y i = λ ∑ j̸ =i w ij y j + x ′ i β + v i ,<label>(2.1)</label></formula><p>where i = 1, . . . , n is the spatial unit, x i is a k-dimensional vector of observed exogenous characteristics at location i including the constant, v i is the error term, the spatial weight w ij measures the connections and their strengths among</p><formula xml:id="formula_1">locations i ̸ = j (w ii = 0 for all i), so ∑ j̸ =i w ij y j is the outcome of i's neighbors, the scalar λ is the spatial coefficient, β is a k-dimensional parameter. Define the n-dimensional vectors Y n = (y 1 , . . . , y n ) ′ and V n = (v 1 , . . . , v n ) ′</formula><p>, and the n × k matrix X n = (x 1 , . . . , x n ) ′ . Then, we can write the SAR model in the matrix form as 3</p><formula xml:id="formula_2">Y n = λW n Y n + X n β + V n . (2.2)</formula><p>In this paper, we consider a spatial weight constructed by some bilateral variable z ij , i.e., w ij = h(z ij , z ji ), where h(•) is a known function. Typical examples can be the trade volume, the migration flow, and the foreign direct investment between the two countries i and j. We model this bilateral variable z ij by the regression equation</p><formula xml:id="formula_3">z ij = c z + ϕ ij α + η ′ 1i η 2j + ε ij , (2.3)</formula><p>where c z is a constant, ϕ ij is a vector of exogenous variables and α is its associated slope parameter vector, η 1i and η 2j are r-dimensional unobserved interactive fixed effects (FE) motivated by the panel factor model, 4 which includes conventional additive fixed effects as a special case, and ε ij is the idiosyncratic error.</p><p>2 The supplementary file is online of this journal.</p><p>3 We use lowercase letters for vectors representing individual characteristics, fixed effects, and outcomes, and uppercase letters for characters and outcomes of the whole sample. The subscript n for a lowercase letter in some occasions shows the identity of the nth individual (in general, we use a subscript i to represent an arbitrary individual) and the subscript n for an uppercase letter represents the sample size. So we have decided to take the simpler option on indexing all variables without an additional subscript n. This is so because in our spatial weight matrix, there are flow variables which have already double subscripts. If we adopt another index n, we would have triple indices for flow variables, which would seem too much. 4 We note that these effects would be different from the model where η 1i = η 2i for all i, which can be regarded as an error component model.</p><p>Here the effects η 1i and η 2i are not restricted to be the same. For example, if i is an exporter and j is an importer, their individual effects would be different due to their different roles in the trade. This specification is relevant to panel data models with individual effects interacted with time effects. In our model, the "time period" and the number of individual units are the same, while in a panel model, they are usually not the same.</p><p>Here, to fix the idea and simplify the notation, we use a standard SAR model for y. The same analysis also applies to the spatial Durbin model, i.e.,</p><formula xml:id="formula_4">y i = λ ∑ j̸ =i w ij y j + x ′ i β + ∑ j̸ =i w ij x j δ + v i , so not only i's neighbors outcome ∑ j̸ =i w ij y j but also i's neighbors characteristics ∑ j̸ =i w ij x j might directly affect y i . 5</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1.">A motivating example: The gravity model</head><p>The generation of the bilateral variable is motivated by the gravity example. The outcome TFP (total factor productivity) y has the technological spillover that</p><formula xml:id="formula_5">y i = λ ∑ j̸ =i w ij y j + x ′ i β + v i , (2.4)</formula><p>where in the spatial weight w ij = h(z ij , z ji ), z ij is the log value of export from i to j, and z ji is the log value of j's export to i. For example, w ij is constructed purely by the import from j by i in <ref type="bibr" target="#b19">Ertur and Koch (2011)</ref>, i.e., w ij = exp(z ji ); w ij is constructed by the summation of i's export to and import from j in de <ref type="bibr" target="#b16">Mooij et al. (2005)</ref> and <ref type="bibr" target="#b22">Ho et al. (2013)</ref>, i.e., w ij = exp(z ij + z ji ).</p><p>From the gravity model, the international trade literature derives the following equation for the export:</p><formula xml:id="formula_6">Ept ij = ( G i G j G w ) ( T ij Pi Pj ) 1-σ ,</formula><p>where Ept ij is the total export of country i to country j, G i and G j are the GDP of country i and j, G</p><formula xml:id="formula_7">w = ∑ n i=1 G i is the</formula><p>world GDP, T ij is the transport cost related to the geographic distance of i and j, and the cross-border effect, Pi and Pj are called "indices of multilateral resistance" in <ref type="bibr" target="#b4">Anderson and van Wincoop (2003)</ref>. These indices are unobserved, so the trade literature has several different ways to proxy or estimate them. For the detailed model derivation, structure interpretation, and results comparison, see the survey in <ref type="bibr" target="#b20">Feenstra (2003)</ref>. Subsequently, the following econometrics model is recommended:</p><formula xml:id="formula_8">ln(Ept ij /G i G j ) = α 1 ln d ij + γ 1 (1 -b ij ) + δ i 1 + δ j 2 + ε ij ,</formula><p>where d ij is the geographic distance between country i and j, b ij is a dummy variable related to the cross-border or some trade treaty, δ i 1 is the exporter fixed effects, δ j 2 is the importer fixed effects. In this setting, the coefficients δ i 1 and δ j 2 provide estimates of the multilateral resistance terms (average trade barriers faced by an importer and an exporter), and ε ij is the idiosyncratic shock. <ref type="bibr" target="#b20">Feenstra (2003)</ref> comments "the fixed effects method produces consistent estimates of the average border effect across countries, and is simple to implement, so it might be considered to be the preferred empirical method". This example is a special case of our proposed model</p><formula xml:id="formula_9">z ij = c z + ϕ ij α + η ′ 1i η 2j + ε ij , (2.5) with c z = γ 1 , ϕ ij = (ln d ij , b ij ), η 1i = (1, δ i 1 ) ′</formula><p>, and η 2j = (δ j 2 , 1) ′ . With interactive fixed effects allowed, our model is capable of characterizing the asymmetry of the marginal effects of unobservable individual heterogeneity. In the gravity model, with multilateral resistance treated as one-dimensional additive fixed effects, if δ i 1 &lt; δ k 1 , compared to k, country i would have more exports to any other third country j, with other characteristics controlled equally. With a multi-dimensional factor structure, however, we can use η 1i to represent i's trade advantage in different industries and η 2j as j's protection policies in corresponding sectors. Therefore, it is possible that i enjoys a comparative advantage in agricultural production and exports more to j in agriculture than k; and k is better at manufacture and exports more manufactured goods to j than i. With a more flexible framework on endogenous bilateral variables, our model can be applied to analyze more issues, such as inter-sectoral spillovers through input-output networks, which is analyzed in the empirical part.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2.">Source of endogeneity</head><p>The unobservables in the bilateral variable z have two parts: one is the idiosyncratic error ε ij and the other one is the interactive term of η ′ 1i η 2j . Using terms in the factor model, η 1i is an r-dimensional column of factors and η 2j represents the corresponding r-dimensional factor loadings. For any location i, η 1i and η 2i measure unobserved parts in location i when i is respectively, an origin and a destination. Then, the 2r-dimensional vector</p><formula xml:id="formula_10">η i = (η ′ 1i , η ′ 2i ) ′ for i = 1, .</formula><p>. . , n measures the unobserved factors affecting z ij and z ji , and we model the endogeneity of W n from the correlation between v i and η i for</p><formula xml:id="formula_11">all i. Let the n × r * matrix η n = (η ′ 1 , . . . , η ′ n ) ′ collect the linearly independent columns in η 1n = (η ′ 11 , . . . , η ′ 1n ) ′ and η 2n = (η ′ 21 , . . . , η ′ 2n ) ′6 ; the matrix Φ = (ϕ ij ).</formula><p>For a vector or matrix A, its norm in the following assumption is defined as the Euclidean norm ∥A∥ = (tr(A ′ A)) 1/2 . Following is the formal assumption.</p><formula xml:id="formula_12">Assumption 1. The error term ε ij is i.i.d. (0, σ 2 ε ) and independent of (Φ, η n , X n , V n ). The E|v i | 4+δ and E∥η i ∥ 4+δ exist for some δ &gt; 0. 1 n η ′ n η n p → Σ η , where Σ η is an r * × r * positive definite matrix. The conditional expectation E(v i |η i ) = (η i -µ η ) ′ ρ where µ η = E(η i ) and ρ is an r * -dimensional vector. The conditional variance Var(V n |η n ) = σ 2 M n , where σ 2 &gt; 0 is a scalar and M n is a known n × n positive definite matrix with ∥M n ∥ = O(n).</formula><p>Assumption 1 is relatively general without imposing a specific distribution on disturbances as it is based on only conditional moments restrictions. The endogeneity of W n comes from the correlation between v i and η i , and is captured by the parameter ρ. When ρ is zero, the spatial weight matrix W n might be treated as strictly exogenous and we can apply the conventional methodology of SAR models for estimation. However, if ρ is not zero, W n becomes an endogenous spatial weights matrix. 7   Denote</p><formula xml:id="formula_13">ξ n = V n -(η n -1 n µ ′ η )ρ, where 1 n is an n-dimensional vector with all unit elements. Then E(ξ n |η n ) = 0 and Var(ξ n |η n ) = σ 2 M n . The outcome equation (2.2) becomes Y n = λW n Y n + X n β -µ ′ η ρ1 n + η n ρ + ξ n .</formula><p>(2.6)</p><p>Our subsequent asymptotic analysis will mainly rely on Eq. (2.6), where η n is the control variable to control the endogeneity of W n .</p><p>In the special case that (v i , η</p><p>′ i ) ′ are i.i.d. normally distributed with mean ( 0 µη ) and positive definite variance</p><formula xml:id="formula_14">( σ 2 v σ ′ vη σ vη Σ η ) , we can express ρ = Σ -1 η σ vη , σ 2 = σ 2 v -σ ′ vη Σ -1 η σ vη , and M n = I n . In this setting, ξ n is independent of η n in Eq. (2.6).</formula><p>But in general, the i.i.d. assumption can be relaxed to allow for heteroskedastic and weakly dependent distributions. The</p><formula xml:id="formula_15">conditional variance Var(V n |η n ) = σ 2 M n</formula><p>, so M n accounts for spatially correlated error structures with the correlation weak enough and bounded variances to satisfy ∥M n ∥ = O(n). 8   To summarize, compared to a standard linear regression model, we have two sources of endogeneity:</p><p>(1) the usual endogeneity from the spatial term ∑ j̸ =i w ij y j via y j 's since the SAR model is a simultaneous equation system and Y n is generated by W n , X n , and V n as seen from the reduced form of the SAR model</p><formula xml:id="formula_16">Y n = (I n -λW n ) -1 (X n β +V n );</formula><p>(2) the unusual endogeneity from the spatial term ∑ j̸ =i w ij y j via w ij 's from the direct correlation between v i and η i since w ij is constructed by z ij and z ji while elements in η i are unobserved interactive effects in z ij and z ji .</p><p>This second source is the key motivation of the paper: endogenous spatial weights constructed by bilateral variables. And because of this new source of endogeneity, the conventional estimation cannot be directly applied and we need new estimation methods.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.">Estimation</head><p>Our estimation for the SAR outcome equation is based on the control function approach such that</p><formula xml:id="formula_17">y i = λ ∑ j̸ =i w ij y j + x ′ i β + c + η i ρ + ξ i ,<label>(3.1)</label></formula><p>where c = -µ ′ η ρ is a constant, which shall be absorbed by the intercept term if there is a constant intercept in x i . So for this intercept issue, we may assume that x i does not include a constant term and c is a free intercept coefficient. Once we control for the unobserved effect η i , the remaining error term ξ i is uncorrelated with regressors x i and the weight w ij for all j ̸ = i. Since η i is unobservable but can be consistently estimated, we propose two-stage estimation methods for the SAR equation in (3.1).</p><p>6 If all columns in η 1n and η 2n are linearly independent, then η n = (η ′ 1n , η ′ 2n ) ′ and r * = 2r. In the special case of a constant vector included as one column in η 1n or η 2n , we need to exclude them in η n .</p><p>7 In this paper, we have assumed essentially v i will be independent of all ε ij 's. In the Supplementary Appendix, we use an example to show that if this assumption is relaxed, the model would be problematic. 8 In the general setting, M n would involve unknown parameters. If we know the error structure, for example, a spatial error model, then the MLE and IV estimation can directly take the unknown extra parameter in M n into account. If we do not know such a possible generalized error structure and hence do not take it into account in estimation, then MLE will be inconsistent, but the IV estimation is still valid with a robust standard error. This is the same case as a standard linear regression model. For simplicity, we just take M n to be known. We thank referees for this possible extension of the model.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1.">The first stage estimation</head><p>In the 1st stage, we estimate equation (2.3) and get estimates for all the interactive fixed effects η1i and η2i by the principal components estimators in <ref type="bibr" target="#b6">Bai (2003)</ref>. We need to normalize some parameters to identify these interactive fixed effects, otherwise there exist multiple sets of parameter values that satisfy the model specification. Following Bai (2009a), we normalize η ′ 1n η 1n /n = I r and η ′ 2n η 2n to be diagonal.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2.">The second stage estimation</head><p>In the 2nd stage, let ηn collect linearly independent elements in η1n and η2n , and estimate the augmented SAR equation (3.2) with ηn plugged in as an additional regressor. 9 In the 2nd stage, we estimate the following equation</p><formula xml:id="formula_18">Y n = λW n Y n + X n β + c1 n + ηn ρ + ξn , where ξn = ξ n + (η n -ηn )ρ. (3.2)</formula><p>Our outcome equation has the slope coefficient ρ associated with η n , so the normalization of η n in the first stage will only affect elements in ρ and possibly c, but not λ, β, and the overall significance of ρ. Also with η i added as control variables, the intercept of the model might change, but all the coefficient parameters remain the same.</p><formula xml:id="formula_19">Denote θ = (λ, β ′ , c, ρ ′ ) ′ , Rn = (W n Y n , X n , 1 n ,η n ) and Tn = (Q n , X n , 1 n ,η n ) where Q n is an instrument variable matrix for W n Y n , for example W n X n and W 2 n X n , then our 2SIV (2-Stage instrumental variable) estimator of θ is θn = [ R′ n Tn ( T ′ n Tn ) -1 T ′ n Rn ] -1 R′ n Tn ( T ′ n Tn ) -1 T ′ n Y n .</formula><p>For the 2SML (2-Stage maximum likelihood) estimation, we write down the likelihood function based on Eq. ( <ref type="formula" target="#formula_17">3</ref>.2)</p><formula xml:id="formula_20">ln L n (θ , σ 2 ) = - n 2 ln(2π ) - n 2 ln σ 2 - 1 2 ln |M n | + ln |I n -λW n | (3.3) - 1 2σ 2 (Y n -λW n Y n -X n β -c1 n -ηn ρ) ′ M -1 n (Y n -λW n Y n -X n β -c1 n -ηn ρ),</formula><p>and the 2SML estimator ( θM , σ 2 M ) = arg max ln L n (θ , σ 2 ).</p><p>In the case that additional endogenous variables appear in the regressor x of model (2.1), we would extend the 2SIV estimation with additional IV moments to take care of extra endogenous regressors. Then, our endogenous spatial weights just add ηn from the 1st stage, and the 2nd stage is the estimation with augmented regressors (X n ,η n ).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.">Asymptotic analysis</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1.">The first stage estimators</head><p>Let H be an invertible r × r matrix such that η1i is an estimator of H ′ η 1i . From <ref type="bibr" target="#b6">Bai (2003)</ref>,</p><formula xml:id="formula_21">η1i -H ′ η 1i = P -1 Q 1 n n ∑ j=1 η 2j ε ji + o p ( 1 √ n ) and η2i -H -1 η 2i = Q Σ Λ 1 n n ∑ j=1 η 1j ε ij + o p ( 1 √ n ),</formula><p>where</p><formula xml:id="formula_22">P = diag(p 1 , p 2 , . . . , p r ) are the eigenvalues of Σ 1/2 Λ Σ F Σ 1/2 Λ , Q is the probability limit of 1 n ∑ n s=1 (η 1s η ′ 1s ) as in Proposition 1 of Bai (2003), Σ Λ is the probability limit of 1 n ∑ n p=1 (η 2p η ′ 2p ) and Σ F is the probability limit of 1 n ∑ n s=1 (η 1s η ′<label>1s</label></formula><p>). Then, the estimation error from the first stage has the leading term with 1 n ∑ n j=1 c 2j ε ji and 1 n ∑ n j=1 c 1j ε ij , where c 1j and c 2j are independent of ε's.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2.">The second stage estimators</head><p>To establish the asymptotic properties of our estimator, we list some regularity conditions. Following <ref type="bibr">Jenish and</ref><ref type="bibr">Prucha (2009, 2012)</ref>, we consider spatial processes located on a (possibly) unevenly spaced lattice D ⊆ R d 0 , d 0 ≥ 1. Asymptotic methods we employ are increasing domain asymptotics: growth of the sample is ensured by an unbounded expansion of the sample region as in <ref type="bibr" target="#b24">Jenish and Prucha (2012)</ref>. 10   Assumption 2. The lattice D ⊂ R d 0 , d 0 ≥ 1, is infinitely countable. The location l : {1, . . . , n} → D n ⊂ D is a mapping of individual i to its location l(i) ∈ D n ⊂ R d 0 . All elements in D are located at distances of at least s 0 &gt; 0 from each other, i.e., ∀l(i), l(j) ∈ D : d ij ≥ s 0 , where d ij is the distance between individuals i and j (locations l(i) and l(j)); w.l.o.g. we assume that s 0 = 1.</p><p>As our asymptotic analysis is based on inference in increasing domain but not for infill asymptotics, physical distance plays an important role in keeping agents apart from each other. For the case of pure economic distance, if there were economic factors which keep agents apart, we might replace the "physical distance'' in Assumption 2 by economic distance.</p><p>Assumption 3. For any i, j, and n, the spatial weight w ij ≥ 0, w ii = 0, and sup n ∥W n ∥ ∞ = c w &lt; ∞. The spatial coefficient λ satisfies sup λ∈Λ |λ|c w &lt; 1, where Λ is the parameter space for λ.</p><p>Assumption 3 is standard in the spatial econometrics literature to limit the spatial correlation in a manageable degree.</p><p>Assumption 4. We consider the spatial weight matrix W n that can be either row-normalized or normalized using the spectral norm. Before normalization, w * ij = h ij (z ij , z ji , d ij ) for i ̸ = j, where h ij (•)'s are non-negative, uniformly bounded functions of some observable variable Z such that 0 ≤ w * ij ≤ c 1 d ij -c 0 d 0 for some 0 ≤ c 1 and c 0 &gt; 3 + 1/d 0 . 11 Furthermore, there exist at most K (K ≥ 1) columns of W n that the column sum exceeds c w , where K is a fixed number that does not depend n. 12 To ensure the valid row-normalization, we assume there are no isolated locations, i.e., there exists a finite distance r 0 such that for any i,</p><formula xml:id="formula_23">∑ j∈B i (r 0 ) w * ij ≥ c &gt; 0, where B i (r)</formula><p>is a ball centered at location i with the radius of r.</p><p>Assumption 4 is also imposed in <ref type="bibr" target="#b41">Qu and Lee (2015)</ref>. We can see that the geographic distance plays an important role in constraining magnitudes of our spatial weights. The spatial weight of two locations would be larger if they were closer to each other or when their economic indices were more similar, but their weights would become smaller when two units are further apart. Assumption 4 allows the situation that all agents can be directly connected through space, i.e., w ij &gt; 0 for all i ̸ = j, but their spatial connection w ij decreases sufficiently fast at a certain rate as physical distances increase, so that the spatial weight matrix is uniformly bounded in both row and column sum norms, and the spatial process y i can also be near-epoch dependent. Symmetry is not imposed on the spatial weight matrix. If W n is indeed symmetric, thenby Assumption 3, the column sum will also be uniformly bounded by c w . In that case, the second part on the column sum norm condition in Assumption 4 will not be needed. However, in general, W n can be asymmetric</p><formula xml:id="formula_24">, i.e., h ij (z ij , z ji ) ̸ = h ji (z ji , z ij ).</formula><p>For an asymmetric W n , the second part of Assumption 4 limits the number of columns which have large magnitudes relative to the row sum norm. For example, big countries may have a great impact on small countries, but those small countries may have little or zero influence on big countries. In this example, we have some "stars" whose row sums are bounded by c w , while their column sums can be much larger. Assumption 4 assumes that the number of such stars can only be finite and bounded.</p><p>Notice Assumption 4 is automatically satisfied if W n is sparse in the sense that there exists a threshold ρ c , that if the geographic distance exceeds this threshold, w ij = 0, so this assumption fits most empirical settings. Theoretically, any finite value of ρ c is fine, but we do need this to control for the weak dependence. Otherwise, all spatial units could be strongly correlated, and asymptotic properties would fail.</p><formula xml:id="formula_25">Assumption 5. Let R n = (W n Y n , X n , 1 n , η n ) and T n = (Q n , X n , 1 n , η n ), where Q n is an instrument variable matrix for W n Y n . Then plim n→∞ 1 n [R ′ n T n (T ′ n T n ) -1 T ′ n R n ]</formula><p>exists and is nonsingular. Assumption 5 requires that all regressors, including the interactive fixed effects η n in the economic variable equation are asymptotically linearly independent to ensure the IV estimation in the second stage will not suffer from the collinearity problem.</p><p>With these formal assumptions, our 2SIV estimator has the following asymptotic properties.</p><p>Theorem 1 (Consistency and Asymptotic Normality of 2SIV Estimator). Under Assumptions 1-5, the 2SIV estimator θn is a consistent estimator of θ 0 , i.e., θn</p><formula xml:id="formula_26">-θ 0 = O p ( 1 √ n )</formula><p>and it has the asymptotic distribution of</p><formula xml:id="formula_27">√ n( θn -θ 0 ) d → N(0, Σ 0 ),<label>where</label></formula><formula xml:id="formula_28">Σ 0 = σ 2 0 plim n→∞ 1 n [R ′ n T n (T ′ n T n ) -1 T ′ n R n ] -1 R ′ n T n (T ′ n T n ) -1 T ′ n M n T n (T ′ n T n ) -1 T ′ n R n [R ′ n T n (T ′ n T n ) -1 T ′ n R n ] -1 . A consistently estimated asymptotic variance of θn is Σ = σ 2 ξ 1 n [ R′ n Tn ( T ′ n Tn ) -1 T ′ n Rn ] -1 R′ n Tn ( T ′ n Tn ) -1 T ′ n M n Tn ( T ′ n Tn ) -1 T ′ n Rn [ R′ n Tn ( T ′ n Tn ) -1 T ′ n Rn ] -1 , where σ 2 ξ = 1 n (Y n -λW n Y n -X n β -ĉ1 n -ηn ρ) ′ M -1 n (Y n -λW n Y n -X n β -ĉ1 n -ηn ρ). 11 For example, w ij,n = min(exp(z ij + z ji ), c 1 d -c 0 d 0 ij ). 12 As c -d ij 0 decreases faster than d -c 0 d 0 ij , all the results hold for the case of 0 ≤ w ij ≤ c 1 c -d ij 0</formula><p>with some c 1 ≥ 0 and c 0 &gt; 1. Also, the results hold for the special case that w ij = 0 if d ij exceeds some threshold.</p><p>Proof of Theorem 1. We can express</p><formula xml:id="formula_29">θn -θ 0 = [ R′ n Tn ( T ′ n Tn ) -1 T ′ n Rn ] -1 R′ n Tn ( T ′ n Tn ) -1 T ′ n ξn = [ R′ n Tn n ( T ′ n Tn n ) -1 T ′ n Rn n ] -1 R′ n Tn n ( T ′ n Tn n ) -1 ( 1 n T ′ n ξ n + 1 n T ′ n (η n -ηn )ρ 0</formula><p>) .</p><p>As Tn = T n + (0,η n -η n ), the asymptotic analysis relies on terms of</p><formula xml:id="formula_30">1 n T ′ n ξ n , 1 n (η n -η n ) ′ ξ n , 1 n T n (η n -ηn ), 1 n (η n -η n ) ′ (η n -ηn ).</formula><p>(4.1)</p><p>In the supplementary file, we show that under Assumptions 1-5, 1 n T ′ n ξ n , the first term in (4.1) is O p ( 1 √ n ), and the other three terms related to ηn -η n are all o p ( 1 √ n ), i.e., they converge to zero at a faster rate than √ n. Therefore, the 1st stage estimation error ηn -η n will not affect the asymptotic analysis of the 2nd stage. We can treat ηn as the true η n and the asymptotic property of the conventional IV estimator in the SAR model can be directly applied. The asymptotic distribution follows because 1</p><formula xml:id="formula_31">√ n T ′ n ξ n is asymptotically normal by a CLT. ■</formula><p>Next we consider the asymptotic property of the 2SML estimator.</p><formula xml:id="formula_32">Assumption 6. plim n→∞ 1 n [G n (X n β 0 + c 0 1 n + η n ρ 0 ), X n , 1 n , η n ] ′ M -1 n [G n (X n β 0 + c 0 1 n + η n ρ 0 ), X n , 1 n , η n ] exists and is nonsingular.</formula><p>Theorem 2 (Consistency and Asymptotic Normality of 2SML Estimator). Under Assumptions 1-4 and 6, the 2SML estimator θM is a consistent estimator of θ 0 , i.e., θM -θ 0 = O p ( 1 √ n ) and has the asymptotic distribution of</p><formula xml:id="formula_33">√ n( ( θM σ 2 M ) - ( θ 0 σ 2 0 ) ) d → N(0, -H -1 0 ),<label>where</label></formula><formula xml:id="formula_34">H 0 = lim n→∞ 1 n E ( ∂ 2 ln L n0 (θ 0 , σ 2 0 ) ∂ ( θ σ 2 ) ∂ ( θ σ 2 ) ′</formula><p>) .</p><p>The H 0 can be consistently estimated by</p><formula xml:id="formula_35">1 n ∂ 2 ln Ln( θM ,σ 2 M ) ∂( θ σ 2 )∂( θ σ 2 )</formula><p>′ , where the second order derivative of the log likelihood function can be found in Appendix A.</p><formula xml:id="formula_36">Proof of Theorem 2. Denote ln L n0 (θ , σ 2 ) = - n 2 ln(2π ) - n 2 ln σ 2 - 1 2 ln |M n | + ln |I -λW n | (4.2) - 1 2σ 2 (Y n -λW n Y n -X n β -c1 n -η n ρ) ′ M -1 n (Y n -λW n Y n -X n β -c1 n -η n ρ),</formula><p>where the unobserved effect is evaluated at its true value. In the supplementary file, we show that the main difference between ln L n0 (θ , σ 2 ) and ln L n (θ , σ 2 ) comes from terms related to ηn vs. η n , along with the differences in their sample averages of the first and second order derivatives are all o p ( 1 √ n ). Hence, we can treat the estimated ηn as the true η n and apply the asymptotic property of the conventional MLE to Eq. (3.1). ■</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.3.">Test the endogeneity</head><p>Since the endogeneity of W n comes from the unobserved fixed effects η n , to test the endogeneity in W n , we can simply test the irrelevance of η n , i.e., test the significance of the associated coefficient ρ with H 0 : ρ = 0 and H 1 : ρ ̸ = 0. As ρ is directly estimated in our 2nd Stage, we can construct the Wald test statistic nρ ′ V (ρ) -1 ρ d → χ 2 r * , where V (ρ) is the estimated variance-covariance matrix for √ nρ. We reject H 0 at the significance level α s if nρ ′ V (ρ) -1 ρ exceeds the (1-α s ) percentile of the χ 2 distribution with the degree of freedom r * . For example, if r * = 2 (interactive fixed effects with r = 1 or additive two-way fixed effects), we reject the null of no endogeneity in W n at the 10%, 5%, and 1% significance levels if nρ ′ V (ρ) -1 ρ exceeds respectively 4.605, 5.991, and 9.210.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.">Monte Carlo simulation</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.1.">Data generating process</head><p>In this section, we evaluate four estimation methods of a SAR model with the spatial weights matrix W n constructed by endogenous bilateral variables. The data generating process (DGP) starts from generating trivariate normal random variables (η 1i , η 2i , v i ) from i.i.d N (µ, Σ) as the disturbance in the SAR outcome equation and the unobserved interactive effects in the bilateral variable equation, where µ = (1, 0, 0) ′ and Σ = σ 2</p><formula xml:id="formula_37">( I 2 τ τ ′ 1</formula><p>) are respectively the mean vector and the positive definite variance matrix with τ measuring the correlation between (η 1i , η 2i ) ′ and v i . Hence, τ can be considered a direct measure of the endogeneity in spatial weights. The SAR/SDM outcome equation is</p><formula xml:id="formula_38">Y n = (I n -λW n ) -1 (β 1 + β 2 X n + β 3 W n X n + V n ),</formula><p>where x i ∼ N(0, 1), β 1 = 2, β 2 = 3, β 3 = 1. The endogenous, row-normalized W n = (w ij ) is constructed as follows:</p><p>1. Generate the bilateral variable using</p><formula xml:id="formula_39">z ij = ϕ ij + η 1i η 2j + ε ij with ϕ ij = N(1, 1) + η 1i + η 2j + η 1i η 2j and ε ij ∼ N(0, 1) for i ̸ = j; z ii = ϕ ii = 0.</formula><p>The values of ϕ ij are observable, while η 1i and η 2j are not. The specification of ϕ ij allows correlation of ϕ ij with the individual effects η 1i and η 2j , following Bai (2009a). 2. Construct the spatial weight matrix as the Hadamard product W n = W d n • W e n , i.e., w ij = w d ij • w e ij , where W d n is a predetermined matrix based on geographic distance: w d ij = 1 if the two locations are neighbors and otherwise 0; W e n is a matrix based on the bilateral variable:</p><formula xml:id="formula_40">w e ij = exp(z ij ) + exp(z ji ) if i ̸ = j, so if z ij</formula><p>is the log of export from country i to country j, then we can interpret w e ij as the sum of import and export. 3. Row-normalize W n .</p><p>For the predetermined W d n , we use randomly generated weight matrices with 10 closest neighbors. In the simulation, we compare our 2-stage estimation method (2SIV and 2SML) with the conventional IV and MLE methods which refer to the case of treating W n exogenous. Hence, the conventional methods do not estimate the z equation at all and only estimate the outcome equation of</p><formula xml:id="formula_41">Y n = λW n Y n + β 1 + β 2 X n + β 3 W n X n + error.</formula><p>The 2-stage method estimates both equations using our proposed 2SIV and 2SML in Section 3. When we estimate the model by 2SIV, we use W 2 n X n and W 3 n X n as instruments for W n Y n due to the SDM structure. Of particular interest, we want to see how large the bias would be for conventional estimation methods when W n is indeed endogenous. To generate exogenous as well as endogenous W n , we set, respectively, τ = 0 and 0.7. If τ = 0, η i and v i are independent, so W n is indeed exogenous. When τ increases, the unobserved interactive effects are more correlated with the error in Y n , so we expect the presence of bias in the conventional IV and ML estimators, but not in the 2SIV and 2SML estimators. To see how the error structure affects our estimation results, we also generate heteroskedastic error v * i = v i • x i and introduce a spatial moving average correlation in the error by</p><formula xml:id="formula_42">Y n = (I n -λW n ) -1 (β 1 + β 2 X n + β 3 W n X n + (I n + 0.1W d n )V * n ).</formula><p>Results with parameter λ = 0.2, n = 50, 100, 200 and σ = 3 of v i for both the homoskedastic and heteroskedastic disturbances are presented in the next paragraph. We also try other values of parameters, and the patterns of estimates are quite similar. 500 replications for a case are carried out for all cases.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.2.">Simulation results</head><p>Due to the bilateral variable feature, we do not have observations of z ii and ϕ ii . We consider z ij to be an unbalanced panel where both the cross-sectional dimension and the "time" dimension are n, but each cross-sectional dimension misses one observation of (z ii , ϕ ii ). It is convenient to treat those z ii 's as missing observations in the estimation of the equation z ij .</p><p>To deal with these missing values, in the estimation of the equation z ij , we use the EM algorithm proposed in <ref type="bibr" target="#b9">Bai et al. (2015)</ref>, i.e., in each E-step, replace the zero value of z ii by η′ 1i η2i using factor estimates from the previous M-step. 13</p><p>Tables 1 to 3 report the empirical mean and the empirical standard deviation (in brackets) of each estimator, the average total effects, average direct effects, and average indirect effects of x based on 500 simulations under the normal distributed errors. The three effects are calculated using the formula on page 39 of LeSage and Pace (2009), i.e., the total effect is 1</p><formula xml:id="formula_43">′ n [(I n -λW n ) -1 (β 2 I n + β 3 W n )]1 n /n, direct effect is tr[(I n -λW n ) -1 (β 2 I n + β 3 W n )]</formula><p>/n, and the indirect effect is the difference of these two. Under our parameter setting, the true total effect is 5 all the time, but the true direct and indirect effects have very small variations over our 500 replications because W n changes at each simulation due to the randomness in the bilateral variable z. The standard deviation of these two true effects is around 0.01, so we report the sample mean from 500 replications of these two effects under the true parameter as a close proxy of the true direct and indirect effects. For the robustness check, in the supplementary file, we also generate the bilateral variable z ij using the additive fixed effects, in place of the multiplicative fixed effects, i.e., z ij = ϕ ij + η 1i + η 2j + ε ij and using the gamma distributed errors Γ (2.25, 2) -4.5, which has a mean of zero and the variance is the same as our normal distribution.</p><p>The pattern of simulation results is very similar. The bias and accuracy of the four estimators of the equation Y n depend on the sample size n, the error distribution, and τ the correlation vector between η and v, which measures magnitudes of the endogeneity in W n . The simulation results are summarized as follows:</p><p>1. When there is no endogeneity (τ = 0), the conventional ML for the SAR/SDM and the 2SML estimation proposed in this paper give very similar point estimates and the standard deviations; the IV and 2SIV also behave similarly when the sample size is large 14 In general, IV estimate does not have much bias, but MLE has a downward bias due to the spatial Durbin term. This downward bias decreases with the sample size.</p><p>2. When the endogeneity is present (τ = 0.7), conventional IV and ML estimators have clear biases, especially in λ, the spatial correlation coefficient, and β 3 the slope coefficient associated with W n X n . When the number of neighbors keeps fixed (10 in our case), but sample size n increases, the bias becomes smaller. The reason might be the more sparse W n . An interesting phenomenon is that even though the conventional MLE has more serious biases in parameter estimates, the marginal effects estimates based on the MLE are closer to the true values compared to those of the conventional IV estimator.</p><p>3. Compare the results with and without endogeneity, we can see that MLE has a downward bias when τ = 0 and that bias is absent when τ = 0.7. That is because the two settings have different population R 2 . Though the variance of v is the same (9 in our case), when τ = 0, the variance of y is around 22, smaller than a variance of 27 for the case with τ = 0.7. The larger variance of y when τ = 0.7 is from variation in the additional regressor η n , which also results in smaller R 2 . We simulate data using a similar R 2 structure but with exogenous weight matrices. The usual MLE has a severe downward bias in small samples when the population R 2 is small. 4. Under endogeneity of the spatial weights, our two-stage estimators have better performances than their counterpart in all cases. Under i.i.d. normally distributed error, the ML estimator has smaller variances than IV estimator, which is consistent with the theory that MLE is more efficient if the error distribution is correctly specified. 5. The variance of estimators decreases, when the sample size increases while the number of neighbors for each individual stays the same.</p><p>14 We can see that IV has larger standard errors than 2SIV. That is because we use different IV's in the two settings. When estimating the model using 2SIV, in additional to (W 2 n X n , W 3 n X n ), we also add (W n ηn , W 2 n ηn ) as our IV as ηn is the regressor now. When dropping (W n ηn , W 2 n ηn ) and just using (W 2 n X n , W 3 n X n ) as the conventional IV, standard errors of IV can indeed be smaller than those of 2SIV. 6. By ignoring heteroskedastic variances, both the conventional MLE and the 2SML might be inconsistent even with exogenous W n .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.">Empirical application</head><p>In this section, we apply the model to investigate interactions among different "industries", or "sectors". The idea that different industries (or "sectors") are connected through input-output linkages and idiosyncratic shocks can translate and propagate through a network dates back to <ref type="bibr" target="#b36">Long and Plosser (1983)</ref> and is developed by <ref type="bibr" target="#b2">Acemoglu et al. (2012)</ref>. In their general-equilibrium models about a multi-sectoral economy, outputs produced by one sector can be used both as the final goods consumed by consumers and production intermediary inputs employed by other sectors. As a result, shocks to the production of one sector may influence the production of sectors who use its outputs and also those who make its inputs. After scrutinizing the input-output network structure, <ref type="bibr" target="#b2">Acemoglu et al. (2012)</ref> relate the aggregate volatility of the economy to network features characterized by two measures: the network degrees and the Bonacich centrality vector. <ref type="foot" target="#foot_3">15</ref>In this way, they explain why shocks in one sector cannot always be disaggregated even when the number of sectors increases. Input-output linkages were viewed as exogenous in <ref type="bibr" target="#b36">Long and Plosser (1983)</ref>, <ref type="bibr" target="#b2">Acemoglu et al. (2012)</ref> and other early research papers. More recently, researchers model them as determined by choices of consumers and firms, such as <ref type="bibr" target="#b1">Acemoglu and Azar (2020)</ref> and <ref type="bibr" target="#b17">Dong and Wen (2019)</ref>. In those structural models, tractable closed-form solutions usually rely on assumptions on specific forms for utility and production functions. In this section, we show how to quantitatively characterize this type of interactions using publicly available census or survey data, with the endogeneity brought about by industry-specific unobservables.</p><p>We employed the 6-digit detail-level input-output information from BEA. This data set is renewed every five years, and the most recent two sets of tables are for the Year 2007 and 2012. From the NBER-CES database, we can get information on value-added, labor, and capital used for detail-level manufacture industries only till 2011. 16 As both data are available only for 2007, we use that cross-sectional data to analyze cross-industry interactions on value added:   <ref type="bibr">9617</ref> Note: ''Input Direct requirements'' measures the dollar values of inputs required directly from other sectors to produce a unit of output of a downstream industry. ''Output Supplies'' correspond to the shares of outputs sold to other industries as production intermediaries normalized by the suppliers' total sales. Summing up the total inputs of a downstream industry and the total outputs supplied by an upstream industry, we get ''total input direct requirements'' and ''total output supplies''. Both of them are calculated according to the BEA's ''use'' and ''make'' tables.</p><formula xml:id="formula_44">log y i = λ n ∑ j=1 w ij log y j + β 0 + β 1 log l i + β 2 log k i + v i . (6.1)</formula><p>where log y i , log l i , and log k i respectively, denote industry i's log value-added, log population of production workers, and log total capital stock in Year 2007. For i ̸ = j, w ij shows the input-output relationship between i and j, which will be elaborated below. For all i and j, w ij ≥ 0; and w ii = 0 for each i. This SAR framework implies that log</p><formula xml:id="formula_45">Y n = (I -λW n ) -1 (β 0 + β 1 log L n + β 2 log K n + V n ), where log Y n = (log y 1 , . . . , log y n ) ′ , log L n = (log l 1 , . . . , log l n ) ′ , log K n = (log k 1 , . . . , log k n ) ′ ,</formula><p>and</p><formula xml:id="formula_46">V n = (v 1 , . . . , v n ) ′</formula><p>, and (I -λW n ) -1 corresponds to the Leontief inverse, which is used to capture the network effects in the literature. 17 Summary statistics are listed in Table <ref type="table" target="#tab_3">4</ref>. In a production network, an industry can be both an upstream input-supplier and a downstream input-customer. As a result, it may be affected by shocks from either the supply-side or the demand-side. According to <ref type="bibr" target="#b0">Acemoglu et al. (2016)</ref>, the network effects in response to these two types of shocks are quite different and different input-output links might be used for exploration. For the supply-side shocks, to characterize the downstream propagation to customers of affected industries, the (i, j) element of W n = W d n shows the relationship that i consumes j's outputs as its production inputs. It is derived from</p><formula xml:id="formula_47">z d ij = Sales j→i Sales i</formula><p>, which is the dollar worth of the output of sector j that sector i directly needs to produce per dollar worth of its own output. z d ij 's are either strictly positive or zero. That is because due to production technology constraint, generally speaking, the production of one industry uses a specific set of inputs from other industries. If z d ij = 0, industry i does not use the products of industry j. The larger the z d ij is, the larger the share of j's output value in sector i's production. From our data, ∑ h̸ =i z d ih &gt; 0 for all i. That is, each sector uses the outputs from at the least one of other sectors as its production inputs. To be specific, for each i ̸ = j, w d ij =</p><formula xml:id="formula_48">w d ij ∑ h̸ =i z d ih</formula><p>; and w d ii = 0 for all i. We see that</p><formula xml:id="formula_49">w d ij &gt; 0 if z d ij &gt; 0; and w d ij = 0 if z d ij = 0.</formula><p>That is, the signs of w d ij 's also show the immediate relationship from the supplier to the consumer.</p><p>For the demand-side shocks that propagate upstream to suppliers, the linkages are</p><formula xml:id="formula_50">w u ij = z u ij ∑ h̸ =i z u ih , where z u ij = Sales i→j Sales i is</formula><p>the sales from supplier i to customer j normalized by i's sales. In this paper, we investigate the cross-industry interactions, Eq. ( <ref type="formula">6</ref>.1), through W d n and W u n respectively. These industry-by-industry linkages are constructed from the detail-level "use" table and "make" table of BEA data sets. The "use" table presents the "recipe" for the production of each industry and is often viewed as exogenous in a short period of time. The "make" table, however, reveals market shares of each type of commodity produced by industry and therefore, might vary with other economic variables. 18 Without the information of other related variables, such as prices of different commodities, we model the generation of the relationship from a supplier to a customer, z d ij 's, and that from a customer to a supplier, z u ij &gt; 0, in a parsimonious way by a double-log equation, i.e., for t = d, u,</p><formula xml:id="formula_51">log(z t ij + 1) = α t log(k i,-1 • k j,-1 ) + η t ′ 1,i η t 2,j + ϵ t ij , (6.2)</formula><p>where k i,-1 and k j,-1 denote last year's (the Year 2006) total capital stock of industries i and j, showing the production scale of those industries at the beginning at the Year 2007. η t 1i and η t 2i are the industry-level fixed effects, which may be correlated with the disturbance v i . For robustness check, we consider the special case that additive fixed effects are explicitly specified. In that case, however, log(k i,-1 • k j,-1 ) will be absorbed. To be specific, consider the following variation to Eq. ( <ref type="formula">6</ref>.2), for t = d, u,</p><formula xml:id="formula_52">log(z t ij + 1) = µ t + η t 3,i + η t 4,j + ϵ t ij , (6.3)</formula><p>where η t 3,i ∈ ℜ and η t 4,j respectively represents additive fixed effects for i and j. As we mentioned before, Eq. ( <ref type="formula">6</ref>.3) corresponds to the case in Eq. ( <ref type="formula">6</ref>.2) that there are two factors (r = 2) with constant factors or factor loadings. In Eq. ( <ref type="formula">6</ref>.3), for identification, assume that</p><formula xml:id="formula_53">∑ n i=1 η t 3,i = ∑ n j=1 η t 4,j = 0. Another variation is the framework discussed in Bai et al. (2015), for t = d, u, log(z t ij + 1) = η t ′</formula><p>1,i η t 2,j + η t 3,i + ϵ ij , (6.4) where η t 1,i ∈ ℜ r (η t 2,j ∈ ℜ r ) represents interactive fixed effects for i (j) and η t 3,i ∈ ℜ stands for the additive fixed effect for i. For identification, in addition to the conventional normalization that η t ′ 1 η t 1 /n = I r and η t ′ 2 η t 2 is diagonal, assume that ∑ n j=1 η t 2,j = 0. 19 Since positive direct requirements are only for pairs of sectors when one supplies production intermediaries to another, (6.2), (6.3), and (6.4) are unbalanced, as z t ii for all i and those z t ij = 0 are irrelevant in these equations. But for estimation, we can utilize the EM algorithm proposed by <ref type="bibr" target="#b9">Bai et al. (2015)</ref> just as we did when there are no observations for diagonal elements in previous sections. 20  Another subtlety is about the dimension of interactive fixed effects, i.e., the number of factors. We use a linear regression with interactive fixed effects for endogenous bilateral variables, which is a factor model with regressors. In the main text, as the focus is on estimating spatial/network interactions, we assume that the number of factors, r, is known, which is also imposed by <ref type="bibr">Bai (2009a)</ref> and <ref type="bibr" target="#b38">Moon and Weidner (2017)</ref>. 21 But with consistent estimates of regression coefficients, after subtracting the product of the regressors and estimated coefficients, the residual will (approximately) have a pure factor model structure and the number of factors can be consistently estimated by applying techniques introduced by <ref type="bibr">Bai and Ng (2002)</ref>, as discussed in <ref type="bibr">Bai (2009b)</ref>. We apply this approach to check the robustness of empirical results. Details are included in Appendix A.</p><p>Table <ref type="table">5</ref> summarizes the basic estimation for SAR (Eq. (6.1)). Estimations (1), ( <ref type="formula" target="#formula_17">3</ref>), (5), and (7) are for network W n = W d n ; and other four estimations, (2), (4), (6), and (8) are for network W n = W u n . The I/O production networks are viewed as exogenously given in columns (1) and ( <ref type="formula" target="#formula_0">2</ref>) and endogenously determined with interactive fixed effects (Eq. (6.2)) for (3) 18 Construction of this table for detail requirements is explained in detail in Appendix A. 19 To see this, suppose that</p><formula xml:id="formula_54">∑ n j=1 η t 2,j ̸ = 0. Define η t 2 = 1 N ∑ n j=1 η t 2,j . Consider η t † 1,i = η t 1,i , η t † 2,j = η t 2,j -2η t 2 , and η t † 3,i = η t 3,i + 2η t ′ 1,i η t 2 . Obviously, η t † ′ 1,i η t † 2,j + η t † 3,i = η t ′ 1,i η t 2,j + η t 3,i and η t † ′ 2 η t †</formula><p>2 is diagonal. 20 Eq. (6.4) corresponds to the case with one additive FE and multiple interactive FE. <ref type="bibr">Bai (2009a)</ref> considers multiple interactive FE as well as two-way additive FE and shows that the model can be analyzed by the principal component method with "demeaned" data. That method works for balanced data. For unbalanced data, however, demeaning cannot effectively concentrate out the additive FE. For our network generation equation, we follow the structure with one additive FE specified, as in <ref type="bibr" target="#b9">Bai et al. (2015)</ref>, who show that the demeaning approach works for unbalanced data sets. With the identification assumption that</p><formula xml:id="formula_55">∑ n 2,j η t 2,j = 0, log(z t ij + 1) -log(z t ij + 1) = η t ′ 1,i η t 2,j + ϵ t ij</formula><p>, the model is a conventional factor model. 21 <ref type="bibr" target="#b37">Moon and Weidner (2015)</ref> show that under some regularity conditions when the true number of factors r 0 is not underestimated, LS estimator of the regressors' slope αr for r ≥ r 0 would have the same asymptotic distribution with the estimator with true factor number αr0 . However, one might argue that those regularity conditions are rather strong.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Table 5</head><p>Estimates for industry production interactions through I/O networks.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Networks variables</head><formula xml:id="formula_56">W d n W u n W d n W u n W d n W u n W d n W u n (1) (2) (<label>3</label></formula><p>) (4) (5) (6) (7) (8) Constant 1.762*** 2.020*** 1.779*** 1.677*** 1.951*** 2.290*** 2.125*** 1.842*** (0.655) (0.523) (0.651) (0.504) (0.659) (0.504) (0.669) (0.529) log L 0.244*** 0.230*** 0.259*** 0.244*** 0.263*** 0.205*** 0.262*** 0.234*** (0.038) (0.037) (0.039) (0.036) (0.039) (0.039) (0.038) (0.038) log K 0.620*** 0.632*** 0.605*** 0.624*** 0.598*** 0.594*** 0.596*** 0.627*** (0.036) (0.036) (0.039) (0.035) (0.040) (0.037) (0.037) (0.036) λ 0.105 0.071 0.114* 0.112** 0.098 0.085* 0.099 0.092* (0.068) (0.052) (0.069) (0.050) (0.069) (0.047) (0.068) (0.053) Estimated log L(Y ) -33.509 -33.997 -32.400 -26.424 -30.468 -29.562 -30.322 -31.938 Marginal Eff. log L Total 0.272 0.248 0.293 0.274 0.291 0.224 0.291 0.257 Direct 0.244 0.230 0.260 0.244 0.263 0.205 0.262 0.234 Indirect 0.029 0.018 0.033 0.031 0.029 0.019 0.029 0.024 log K Total 0.693 0.680 0.683 0.703 0.663 0.649 0.661 0.691 Direct 0.620 0.632 0.605 0.625 0.598 0.594 0.596 0.627 Indirect 0.073 0.048 0.078 0.078 0.065 0.055 0.065 0.063 Fixed effects Test: Joint 2.239 15.303*** 6.179** 9.102** 6.478* 4.170 r * 1 1 1 1 ρ 1 -0.802 -1.388*** 0.597 -102.126* (0.591) (0.369) (40.250) (53.909) ρ 2 -0.060 0.522 -0.328 1.299* (0.439) (0.394) (0.434) (0.667) Additive s * 2 2 1 1 ρ 3 -89.207** 3.354 -87.403** 1.466 (35.971) (6.181) (36.678) (6.255) ρ 4 -1.975 42.774*** (8.692) (14.303) No. sectors 225 225 225 225 225 225 225 225</p><p>and (4), with additive individual effects (Eq. ( <ref type="formula">6</ref>.3)) for ( <ref type="formula">5</ref>) and ( <ref type="formula">6</ref>), or with both types of individual heterogeneity (Eq. (6.4)) in ( <ref type="formula">7</ref>) and ( <ref type="formula">8</ref>). 22 We see that those eight estimated equations all get significant and positive coefficients for own labor and capital. The estimates for interaction intensities and fixed effects in those two different networks are rather different. The estimates of interactions for W d n are positive under all settings but only significant when there are two interactive fixed effects, i.e., (3). For W u n , nonetheless, the estimated interaction intensities are positive and significant for all three settings of endogenous linkages, (4), (6), and (8). Comparing the estimates of λ in (2) with those in (4), (6), and (8), for W u n , if endogeneity of customer-to-supplier links, w u ij 's, is assumed away, interaction intensity would be underestimated. According to t-statistics for single coefficient, for W d n , the interactive fixed effects are not significant no matter whether the additive fixed effects are controlled or not. However, at least one additive fixed effect is significant at 5% level in both ( <ref type="formula">5</ref>) and ( <ref type="formula">7</ref>). For W u n , when both interactive (additive) fixed effects are controlled, one of them is significant at 1% level; when both interactive and additive fixed effects are controlled, only the interactive fixed effects are significant at 10% level. We also present the result of a Wald test for the null hypothesis that all those fixed effects (either interactive, or additive, or both) are jointly insignificance. Under the assumptions that the bilateral variables are generated with additive fixed effects, (5) and (6), the null hypothesis is rejected at 5% level for both W d n and W u n . For the model with only interactive fixed effects, the Wald test is rejected for W u n at significance 1% but cannot be rejected for W d n . For the model with both interactive and additive fixed effects, however, this Wald test is rejected for W d n at 10% but cannot be rejected for W u n . 23  We also report the estimated sample log likelihood of outcomes and see that in terms of maximal estimated sample log likelihood of log Y n , the log value-added, the model with W d n is in favor of the setting that z d ij 's are generated with both interactive and additive fixed effects; for the model with W u n , however, the setting with z u ij 's generated with only interactive fixed effects provides with the largest estimated sample log likelihood. Despite those differences in parameter 22 For estimations (3), ( <ref type="formula">4</ref>), (7), and (8), where interactive FEs are in network generation equations, the number of factors is picked in the way we discussed before. All criteria are in favor of one factor, i.e., r * = 1. That is, for those estimations, we control for two interactive FEs in the outcome equation. For (5) and ( <ref type="formula">6</ref>), in the network generation equation, we control for two-way FEs and for (7) and ( <ref type="formula">8</ref>) there is one additive FE. 23 The p-value for this test is a little bit higher than 20%.</p><p>estimates, however, the estimated marginal effects of log L and log K in both networks W d n and W u n are very consistent. We can see that both log K and log L have positive total, direct, and indirect effects. The effects of log K are larger than those of log L though.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="7.">Extension</head><p>Till now, we focus on the simple situation that w ij = h ij (z ij , z ji , d ij ). It can be further extended to the case that w ij = h ij (z ij , z ji , g i , g j , d ij ), where g i and g j are the unilateral economic variables as in <ref type="bibr" target="#b41">Qu and Lee (2015)</ref>. Then both the bilateral variable z and the unilateral variable g may cause the endogeneity problem. We can construct the control function approach by</p><formula xml:id="formula_57">y i = λ ∑ j̸ =i w ij y j + x ′ 1i β + c + η ′ i ρ + ς ′ i δ + ξ i ,</formula><p>where ς i is the error term in the model</p><formula xml:id="formula_58">g i = x ′ 2i γ + ς i . and ξ i is strictly exogenous in the sense that E(ξ |ς, η) = 0.</formula><p>To estimate this control function, in the first stage, in addition to have the estimated fixed effects ηi , we may use the OLS residual ςi . Then, in the second stage of an IV estimation, we use W n X n as the IV for W n y to estimate</p><formula xml:id="formula_59">y i = λ ∑ j̸ =i w ij y j + x ′ 1i β + c + η′ i ρ + ς′ i δ + error, treating ηi and ςi as the usual regressors. Denote θ + = (λ, β ′ , c, ρ ′ , δ) ′ , R + n = (W n Y n , X 1n , 1 n ,η n ,ς n ) and T + n = (Q n , X 1n , 1 n ,η n ,ς n )</formula><p>where Q n is a submatrix of instrument variables for W n Y n , for example, it might include W n X 1n and</p><formula xml:id="formula_60">W 2 n X 1n , then our 2SIV estimator of θ + is θ+ n = [R +′ n T + n (T +′ n T + n ) -1 T +′ n R + n ] -1 R +′ n T + n (T +′ n T + n ) -1 T +′ n Y n .</formula><p>The proof of consistency and asymptotic normality will follow from our analysis in previous sections and those in <ref type="bibr" target="#b41">Qu and Lee (2015)</ref>. Let A Tn = T + n (T +′ n T + n ) -1 T +′ n . The 2SIV estimator can be expressed as</p><formula xml:id="formula_61">θ+ n = θ + 0 + [R +′ n A Tn R + n ] -1 R +′ n A Tn [ξ n + (η n -ηn )ρ 0 + (ς n -ςn )δ 0 ].</formula><p>Compared to the simple case, we have the additional term <ref type="bibr">1)</ref>. The martingale CLT also applies to obtain its asymptotic normal distribution such that</p><formula xml:id="formula_62">1 n T +′ n (ς n -ςn )δ 0 = 1 n T +′ n X 2n (X ′ 2n X 2n ) -1 X ′ 2n ς n δ 0 = O p ( 1 √ n ) because 1 n X 2n ς n δ 0 = O p ( 1 √ n ) and 1 n T +′ n X 2n = O p (</formula><formula xml:id="formula_63">√ n( θ+ n -θ + 0 ) d → N(0, Σ + ),</formula><p>where</p><formula xml:id="formula_64">Σ + = plim n→∞ 1 n [R +′ n A Tn R + n ] -1 R +′ n A Tn ( σ 2 ξ M n + δ ′ 0 Σ ς δ 0 P n ) A Tn R + n [R +′ n A Tn R + n ] -1 with P n = X 2n (X ′ 2n X 2n ) -1 X ′</formula><p>2n being the projection matrix from the equation of the potential endogenous unilateral variable g, and M n is the variance of V n as in Assumption 1.</p><p>The estimated asymptotic variance of θn is</p><formula xml:id="formula_65">Σ+ = 1 n [R +′ n A Tn R + n ] -1 R +′ n A Tn ( σ 2 ξ M n + δ′ Σς δP n ) A Tn R + n [R +′ n A Tn R + n ] -1 , where σ 2 ξ = 1 n (Y n -λW n Y n -X 1n β -ĉ -ηn ρ -ςn δ) ′ M -1 n (Y n -λW n Y n -X 1n β -ĉ -ηn ρ -ςn δ); Σς = 1 n (g n -X 2n γ ) ′ (g n -X 2n γ ).</formula><p>Here in this extended control equation, we see that the estimated interactive fixed effects vector ηi has no asymptotic impact on the second stage estimate of the SAR Y n equation, but the generated regressor ςi has. The detailed analysis combines the previous one for ηn and those for ςn in Qu and Lee (2015) based on spatial NED processes. In addition to the 2SIV estimation, one may also consider an ML estimation approach which generalizes that of the previous section and also that in <ref type="bibr" target="#b41">Qu and Lee (2015)</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="8.">Conclusion</head><p>This paper studies the specification and 2-stage estimation methods (2SIV and 2SML) of a cross-sectional SAR/SDM model with spatial weights constructed by endogenous bilateral variables. We build two sets of equations: one for the SAR outcome, and the other for the bilateral economic variable that constructs spatial weights. We argue that the unobserved interactive effects in the bilateral variable and the error term in the SAR outcome equation can be correlated and hence cause the endogeneity in spatial weights. We establish the consistency and asymptotic normality of the 2SIV and the 2SML estimators, investigate their finite sample properties by a Monte Carlo study. We use our model and estimation methods to study the productivity of industries in the U.S. The empirical results are more revealing and interesting once the interactive fixed effects are controlled for.</p><formula xml:id="formula_66">σ 2 (W n Y n ) ′ M -1 n (λW n ) - n 2 tr[W n S -1 (λ)] 2 ; ∂ 2 ln L n (θ , σ 2 ) ∂λ∂ρ = - 1 σ 2 η′ n M -1 n W n Y n ; ∂ 2 ln L n (θ , σ 2 ) ∂λ∂β = - 1 σ 2 X ′ n M -1 n W n Y n ; ∂ 2 ln L n (θ , σ 2 ) ∂λ∂c = - 1 σ 2 1 ′ n M -1 n W n Y n ; ∂ 2 ln L n (θ , σ 2 ) ∂λ∂σ 2 = - 1 σ 4 (W n Y n ) ′ M -1 n (Y n -λW n Y n -X n β -c1 n -ηn ρ); ∂ 2 ln L n (θ , σ 2 ) ∂ρ∂ρ ′ = - 1 σ 2 η′ n M -1 n ηn ; ∂ 2 ln L n (θ , σ 2 ) ∂ρ∂β ′ = - 1 σ 2 η′ n M -1 n X n ; ∂ 2 ln L n (θ , σ 2 ) ∂ρ∂c = - 1 σ 2 η′ n M -1 n 1 n ; ∂ 2 ln L n (θ , σ 2 ) ∂ρ∂σ 2 = - 1 σ 4 η′ n M -1 n (Y n -λW n Y n -X n β -c1 n -ηn ρ); ∂ 2 ln L n (θ , σ 2 ) ∂β∂β ′ = - 1 σ 2 X ′ n M -1 n X n ; ∂ 2 ln L n (θ , σ 2 ) ∂β∂σ 2 = - 1 σ 4 X ′ n M -1 n (Y n -λW n Y n -X n β -c1 n -ηn ρ); ∂ 2 ln L n (θ , σ 2 ) ∂β∂c = - 1 σ 2 X ′ n M -1 n 1 n ; ∂ 2 ln L n (θ , σ 2 ) ∂c 2 = - 1 σ 2 1 ′ n M -1 n 1 n ; ∂ 2 ln L n (θ , σ 2 ) ∂σ 2 ∂c = - 1 σ 4 1 ′ n M -1 n (Y n -λW n Y n -X n β -c1 n -ηn ρ); ∂ 2 ln L n (θ , σ 2 ) ∂(σ 2 ) 2 = n 2σ 4 - 1 σ 6 (Y n -λW n Y n -X n β -c1 n -ηn ρ) ′ M -1 n (Y n -λW n Y n -X n β -c1 n -ηn ρ).</formula></div><figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1</head><label>1</label><figDesc>Estimates with 50 observations under interactive fixed effects.</figDesc><table><row><cell>n = 50</cell><cell>i.i.d</cell><cell></cell><cell></cell><cell></cell><cell cols="2">Hetero. and spatially correlated</cell><cell></cell><cell></cell></row><row><cell>τ = 0</cell><cell>IV</cell><cell>MLE</cell><cell>2SIV</cell><cell>2SML</cell><cell>IV</cell><cell>MLE</cell><cell>2SIV</cell><cell>2SML</cell></row><row><cell>λ = 0.2</cell><cell>0.202</cell><cell>0.102</cell><cell>0.204</cell><cell>0.097</cell><cell>0.197</cell><cell>0.099</cell><cell>0.197</cell><cell>0.095</cell></row><row><cell></cell><cell>(0.634)</cell><cell>(0.083)</cell><cell>(0.261)</cell><cell>(0.085)</cell><cell>(0.514)</cell><cell>(0.097)</cell><cell>(0.314)</cell><cell>(0.096)</cell></row><row><cell>β 1 = 2</cell><cell>1.979</cell><cell>2.326</cell><cell>1.989</cell><cell>2.358</cell><cell>2.032</cell><cell>2.373</cell><cell>2.040</cell><cell>2.397</cell></row><row><cell></cell><cell>(2.535)</cell><cell>(0.646)</cell><cell>(1.104)</cell><cell>(0.672)</cell><cell>(1.925)</cell><cell>(0.679)</cell><cell>(1.279)</cell><cell>(0.702)</cell></row><row><cell>β 2 = 3</cell><cell>3.018</cell><cell>3.020</cell><cell>2.990</cell><cell>3.018</cell><cell>2.968</cell><cell>3.003</cell><cell>2.986</cell><cell>3.004</cell></row><row><cell></cell><cell>(0.522)</cell><cell>(0.413)</cell><cell>(0.443)</cell><cell>(0.415)</cell><cell>(0.750)</cell><cell>(0.716)</cell><cell>(0.742)</cell><cell>(0.720)</cell></row><row><cell>β 3 = 1</cell><cell>0.964</cell><cell>1.288</cell><cell>0.953</cell><cell>1.297</cell><cell>0.893</cell><cell>1.272</cell><cell>0.918</cell><cell>1.270</cell></row><row><cell></cell><cell>(2.089)</cell><cell>(0.593)</cell><cell>(1.016)</cell><cell>(0.636)</cell><cell>(1.799)</cell><cell>(0.671)</cell><cell>(1.189)</cell><cell>(0.702)</cell></row><row><cell>total = 5</cell><cell>5.102</cell><cell>5.241</cell><cell>4.807</cell><cell>4.788</cell><cell>4.347</cell><cell>5.133</cell><cell>4.756</cell><cell>4.732</cell></row><row><cell></cell><cell>(2.909)</cell><cell>(1.919)</cell><cell>(0.749)</cell><cell>(0.772)</cell><cell>(11.72)</cell><cell>(3.878)</cell><cell>(1.042)</cell><cell>(1.056)</cell></row><row><cell>direct = 3.062</cell><cell>3.081</cell><cell>3.069</cell><cell>3.051</cell><cell>3.047</cell><cell>2.981</cell><cell>3.067</cell><cell>3.034</cell><cell>3.033</cell></row><row><cell></cell><cell>(0.580)</cell><cell>(0.473)</cell><cell>(0.414)</cell><cell>(0.415)</cell><cell>(0.972)</cell><cell>(0.857)</cell><cell>(0.715)</cell><cell>(0.719)</cell></row><row><cell>indir = 1.938</cell><cell>2.021</cell><cell>2.172</cell><cell>1.756</cell><cell>1.741</cell><cell>1.366</cell><cell>2.065</cell><cell>1.722</cell><cell>1.699</cell></row><row><cell></cell><cell>(2.676)</cell><cell>(1.696)</cell><cell>(0.586)</cell><cell>(0.626)</cell><cell>(11.18)</cell><cell>(3.373)</cell><cell>(0.684)</cell><cell>(0.714)</cell></row><row><cell>τ = 0.7</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>λ = 0.2</cell><cell>0.436</cell><cell>0.460</cell><cell>0.197</cell><cell>0.194</cell><cell>0.275</cell><cell>0.207</cell><cell>0.237</cell><cell>0.150</cell></row><row><cell></cell><cell>(0.458)</cell><cell>(0.074)</cell><cell>(0.019)</cell><cell>(0.019)</cell><cell>(0.486)</cell><cell>(0.094)</cell><cell>(0.191)</cell><cell>(0.089)</cell></row><row><cell>β 1 = 2</cell><cell>0.902</cell><cell>0.853</cell><cell>2.180</cell><cell>2.194</cell><cell>1.786</cell><cell>2.006</cell><cell>1.970</cell><cell>2.283</cell></row><row><cell></cell><cell>(2.469)</cell><cell>(0.579)</cell><cell>(0.166)</cell><cell>(0.165)</cell><cell>(1.703)</cell><cell>(0.605)</cell><cell>(0.898)</cell><cell>(0.725)</cell></row><row><cell>β 2 = 3</cell><cell>2.984</cell><cell>2.951</cell><cell>2.999</cell><cell>3.000</cell><cell>3.012</cell><cell>3.046</cell><cell>3.011</cell><cell>3.039</cell></row><row><cell></cell><cell>(0.401)</cell><cell>(0.327)</cell><cell>(0.061)</cell><cell>(0.061)</cell><cell>(0.732)</cell><cell>(0.714)</cell><cell>(0.693)</cell><cell>(0.687)</cell></row><row><cell>β 3 = 1</cell><cell>0.311</cell><cell>0.166</cell><cell>1.003</cell><cell>1.012</cell><cell>0.630</cell><cell>0.928</cell><cell>0.796</cell><cell>1.170</cell></row><row><cell></cell><cell>(1.348)</cell><cell>(0.571)</cell><cell>(0.101)</cell><cell>(0.100)</cell><cell>(1.820)</cell><cell>(0.782)</cell><cell>(1.005)</cell><cell>(0.738)</cell></row><row><cell>total = 5</cell><cell>5.557</cell><cell>4.987</cell><cell>5.827</cell><cell>4.981</cell><cell>5.497</cell><cell>5.020</cell><cell>5.013</cell><cell>4.963</cell></row><row><cell></cell><cell>(18.24)</cell><cell>(0.126)</cell><cell>(1.235)</cell><cell>(0.125)</cell><cell>(6.684)</cell><cell>(2.091)</cell><cell>(1.209)</cell><cell>(1.129)</cell></row><row><cell>direct = 3.062</cell><cell>3.090</cell><cell>3.040</cell><cell>3.123</cell><cell>3.060</cell><cell>3.049</cell><cell>3.077</cell><cell>3.108</cell><cell>3.085</cell></row><row><cell></cell><cell>(1.851)</cell><cell>(0.063)</cell><cell>(0.361)</cell><cell>(0.063)</cell><cell>(1.283)</cell><cell>(0.716)</cell><cell>(0.717)</cell><cell>(0.690)</cell></row><row><cell>indir = 1.938</cell><cell>2.467</cell><cell>1.926</cell><cell>2.705</cell><cell>1.921</cell><cell>2.449</cell><cell>1.943</cell><cell>1.906</cell><cell>1.877</cell></row><row><cell></cell><cell>(16.51)</cell><cell>(0.109)</cell><cell>(1.015)</cell><cell>(0.107)</cell><cell>(6.205)</cell><cell>(1.767)</cell><cell>(0.799)</cell><cell>(0.736)</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 2</head><label>2</label><figDesc>Estimates with 100 observations under interactive fixed effects.</figDesc><table><row><cell>n = 100</cell><cell>i.i.d</cell><cell></cell><cell></cell><cell></cell><cell cols="2">Hetero. and spatially correlated</cell><cell></cell><cell></cell></row><row><cell>τ = 0</cell><cell>IV</cell><cell>MLE</cell><cell>2SIV</cell><cell>2SML</cell><cell>IV</cell><cell>MLE</cell><cell>2SIV</cell><cell>2SML</cell></row><row><cell>λ = 0.2</cell><cell>0.178</cell><cell>0.115</cell><cell>0.206</cell><cell>0.114</cell><cell>0.194</cell><cell>0.116</cell><cell>0.213</cell><cell>0.113</cell></row><row><cell></cell><cell>(0.422)</cell><cell>(0.061)</cell><cell>(0.184)</cell><cell>(0.062)</cell><cell>(0.261)</cell><cell>(0.067)</cell><cell>(0.206)</cell><cell>(0.068)</cell></row><row><cell>β 1 = 2</cell><cell>2.053</cell><cell>2.215</cell><cell>1.981</cell><cell>2.222</cell><cell>2.050</cell><cell>2.243</cell><cell>1.992</cell><cell>2.250</cell></row><row><cell></cell><cell>(1.099)</cell><cell>(0.396)</cell><cell>(0.599)</cell><cell>(0.403)</cell><cell>(0.791)</cell><cell>(0.392)</cell><cell>(0.641)</cell><cell>(0.395)</cell></row><row><cell>β 2 = 3</cell><cell>3.015</cell><cell>3.032</cell><cell>3.008</cell><cell>3.033</cell><cell>2.993</cell><cell>3.017</cell><cell>2.987</cell><cell>3.015</cell></row><row><cell></cell><cell>(0.327)</cell><cell>(0.307)</cell><cell>(0.315)</cell><cell>(0.311)</cell><cell>(0.517)</cell><cell>(0.515)</cell><cell>(0.515)</cell><cell>(0.516)</cell></row><row><cell>β 3 = 1</cell><cell>1.054</cell><cell>1.279</cell><cell>0.971</cell><cell>1.289</cell><cell>0.920</cell><cell>1.258</cell><cell>0.901</cell><cell>1.267</cell></row><row><cell></cell><cell>(1.473)</cell><cell>(0.405)</cell><cell>(0.717)</cell><cell>(0.416)</cell><cell>(0.915)</cell><cell>(0.405)</cell><cell>(0.801)</cell><cell>(0.415)</cell></row><row><cell>total = 5</cell><cell>4.992</cell><cell>5.112</cell><cell>4.881</cell><cell>4.884</cell><cell>4.971</cell><cell>5.023</cell><cell>4.845</cell><cell>4.839</cell></row><row><cell></cell><cell>(1.144)</cell><cell>(0.877)</cell><cell>(0.568)</cell><cell>(0.579)</cell><cell>(1.016)</cell><cell>(0.913)</cell><cell>(0.746)</cell><cell>(0.756)</cell></row><row><cell>direct = 3.063</cell><cell>3.063</cell><cell>3.078</cell><cell>3.068</cell><cell>3.069</cell><cell>3.058</cell><cell>3.056</cell><cell>3.054</cell><cell>3.051</cell></row><row><cell></cell><cell>(0.417)</cell><cell>(0.321)</cell><cell>(0.308)</cell><cell>(0.312)</cell><cell>(0.520)</cell><cell>(0.516)</cell><cell>(0.518)</cell><cell>(0.518)</cell></row><row><cell>indir = 1.937</cell><cell>1.929</cell><cell>2.035</cell><cell>1.813</cell><cell>1.816</cell><cell>1.913</cell><cell>1.967</cell><cell>1.792</cell><cell>1.788</cell></row><row><cell></cell><cell>(0.936)</cell><cell>(0.732)</cell><cell>(0.425)</cell><cell>(0.434)</cell><cell>(0.772)</cell><cell>(0.642)</cell><cell>(0.417)</cell><cell>(0.424)</cell></row><row><cell>τ = 0.7</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>λ = 0.2</cell><cell>0.309</cell><cell>0.463</cell><cell>0.197</cell><cell>0.195</cell><cell>0.248</cell><cell>0.171</cell><cell>0.227</cell><cell>0.163</cell></row><row><cell></cell><cell>(0.331)</cell><cell>(0.049)</cell><cell>(0.012)</cell><cell>(0.012)</cell><cell>(0.438)</cell><cell>(0.059)</cell><cell>(0.152)</cell><cell>(0.058)</cell></row><row><cell>β 1 = 2</cell><cell>1.623</cell><cell>1.032</cell><cell>2.094</cell><cell>2.101</cell><cell>1.871</cell><cell>2.065</cell><cell>1.928</cell><cell>2.095</cell></row><row><cell></cell><cell>(1.379)</cell><cell>(0.278)</cell><cell>(0.089)</cell><cell>(0.089)</cell><cell>(1.082)</cell><cell>(0.358)</cell><cell>(0.526)</cell><cell>(0.370)</cell></row><row><cell>β 2 = 3</cell><cell>2.971</cell><cell>2.918</cell><cell>3.002</cell><cell>3.003</cell><cell>2.998</cell><cell>3.030</cell><cell>3.007</cell><cell>3.029</cell></row><row><cell></cell><cell>(0.286)</cell><cell>(0.231)</cell><cell>(0.044)</cell><cell>(0.044)</cell><cell>(0.538)</cell><cell>(0.532)</cell><cell>(0.528)</cell><cell>(0.528)</cell></row><row><cell>β 3 = 1</cell><cell>0.661</cell><cell>0.183</cell><cell>1.009</cell><cell>1.016</cell><cell>0.753</cell><cell>1.118</cell><cell>0.874</cell><cell>1.160</cell></row><row><cell></cell><cell>(0.971)</cell><cell>(0.361)</cell><cell>(0.068)</cell><cell>(0.067)</cell><cell>(1.577)</cell><cell>(0.484)</cell><cell>(0.752)</cell><cell>(0.484)</cell></row><row><cell>total = 5</cell><cell>5.117</cell><cell>4.999</cell><cell>5.782</cell><cell>4.995</cell><cell>4.896</cell><cell>5.056</cell><cell>5.006</cell><cell>5.006</cell></row><row><cell></cell><cell>(24.78)</cell><cell>(0.087)</cell><cell>(0.745)</cell><cell>(0.087)</cell><cell>(3.007)</cell><cell>(0.849)</cell><cell>(0.860)</cell><cell>(0.850)</cell></row><row><cell>direct = 3.063</cell><cell>3.072</cell><cell>3.064</cell><cell>3.088</cell><cell>3.064</cell><cell>3.080</cell><cell>3.076</cell><cell>3.084</cell><cell>3.081</cell></row><row><cell></cell><cell>(1.770)</cell><cell>(0.046)</cell><cell>(0.245)</cell><cell>(0.046)</cell><cell>(0.784)</cell><cell>(0.530)</cell><cell>(0.535)</cell><cell>(0.531)</cell></row><row><cell>indir = 1.937</cell><cell>2.045</cell><cell>1.935</cell><cell>2.694</cell><cell>1.931</cell><cell>1.816</cell><cell>1.979</cell><cell>1.922</cell><cell>1.925</cell></row><row><cell></cell><cell>(23.04)</cell><cell>(0.067)</cell><cell>(0.591)</cell><cell>(0.067)</cell><cell>(3.439)</cell><cell>(0.539)</cell><cell>(0.506)</cell><cell>(0.496)</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2"><head>Table 3</head><label>3</label><figDesc>Estimates with 200 observations under interactive fixed effects.</figDesc><table><row><cell>n = 200</cell><cell>i.i.d.</cell><cell></cell><cell></cell><cell></cell><cell cols="2">Heter. and spatially correlated</cell><cell></cell><cell></cell></row><row><cell>τ = 0</cell><cell>IV</cell><cell>MLE</cell><cell>2SIV</cell><cell>2SML</cell><cell>IV</cell><cell>MLE</cell><cell>2SIV</cell><cell>2SML</cell></row><row><cell>λ = 0.2</cell><cell>0.202</cell><cell>0.132</cell><cell>0.207</cell><cell>0.131</cell><cell>0.186</cell><cell>0.126</cell><cell>0.201</cell><cell>0.125</cell></row><row><cell></cell><cell>(0.147)</cell><cell>(0.042)</cell><cell>(0.130)</cell><cell>(0.043)</cell><cell>(0.180)</cell><cell>(0.045)</cell><cell>(0.153)</cell><cell>(0.045)</cell></row><row><cell>β 1 = 2</cell><cell>2.001</cell><cell>2.172</cell><cell>1.990</cell><cell>2.177</cell><cell>2.030</cell><cell>2.183</cell><cell>1.993</cell><cell>2.188</cell></row><row><cell></cell><cell>(0.433)</cell><cell>(0.242)</cell><cell>(0.399)</cell><cell>(0.245)</cell><cell>(0.529)</cell><cell>(0.280)</cell><cell>(0.453)</cell><cell>(0.279)</cell></row><row><cell>β 2 = 3</cell><cell>2.997</cell><cell>3.017</cell><cell>2.995</cell><cell>3.016</cell><cell>3.011</cell><cell>3.031</cell><cell>3.005</cell><cell>3.029</cell></row><row><cell></cell><cell>(0.196)</cell><cell>(0.190)</cell><cell>(0.197)</cell><cell>(0.190)</cell><cell>(0.369)</cell><cell>(0.361)</cell><cell>(0.372)</cell><cell>(0.363)</cell></row><row><cell>β 3 = 1</cell><cell>0.973</cell><cell>1.206</cell><cell>0.966</cell><cell>1.212</cell><cell>1.019</cell><cell>1.238</cell><cell>0.982</cell><cell>1.240</cell></row><row><cell></cell><cell>(0.511)</cell><cell>(0.242)</cell><cell>(0.460)</cell><cell>(0.244)</cell><cell>(0.591)</cell><cell>(0.263)</cell><cell>(0.532)</cell><cell>(0.267)</cell></row><row><cell>total = 5</cell><cell>5.033</cell><cell>5.036</cell><cell>4.871</cell><cell>4.868</cell><cell>5.049</cell><cell>5.037</cell><cell>4.889</cell><cell>4.882</cell></row><row><cell></cell><cell>(0.490)</cell><cell>(0.449)</cell><cell>(0.344)</cell><cell>(0.347)</cell><cell>(0.968)</cell><cell>(0.605)</cell><cell>(0.520)</cell><cell>(0.521)</cell></row><row><cell>direct = 3.066</cell><cell>3.066</cell><cell>3.065</cell><cell>3.061</cell><cell>3.059</cell><cell>3.078</cell><cell>3.075</cell><cell>3.073</cell><cell>3.070</cell></row><row><cell></cell><cell>(0.195)</cell><cell>(0.193)</cell><cell>(0.191)</cell><cell>(0.191)</cell><cell>(0.366)</cell><cell>(0.366)</cell><cell>(0.363)</cell><cell>(0.364)</cell></row><row><cell>indir = 1.934</cell><cell>1.967</cell><cell>1.970</cell><cell>1.810</cell><cell>1.809</cell><cell>1.970</cell><cell>1.963</cell><cell>1.816</cell><cell>1.812</cell></row><row><cell></cell><cell>(0.419)</cell><cell>(0.373)</cell><cell>(0.250)</cell><cell>(0.252)</cell><cell>(0.840)</cell><cell>(0.431)</cell><cell>(0.278)</cell><cell>(0.279)</cell></row><row><cell>τ = 0.7</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>λ = 0.2</cell><cell>0.193</cell><cell>0.458</cell><cell>0.199</cell><cell>0.198</cell><cell>0.218</cell><cell>0.159</cell><cell>0.208</cell><cell>0.157</cell></row><row><cell></cell><cell>(0.260)</cell><cell>(0.034)</cell><cell>(0.008)</cell><cell>(0.007)</cell><cell>(0.163)</cell><cell>(0.043)</cell><cell>(0.123)</cell><cell>(0.043)</cell></row><row><cell>β 1 = 2</cell><cell>2.004</cell><cell>1.068</cell><cell>2.041</cell><cell>2.047</cell><cell>1.971</cell><cell>2.130</cell><cell>1.992</cell><cell>2.132</cell></row><row><cell></cell><cell>(1.441)</cell><cell>(0.177)</cell><cell>(0.050)</cell><cell>(0.049)</cell><cell>(0.492)</cell><cell>(0.294)</cell><cell>(0.403)</cell><cell>(0.295)</cell></row><row><cell>β 2 = 3</cell><cell>2.999</cell><cell>2.932</cell><cell>3.000</cell><cell>3.000</cell><cell>2.978</cell><cell>3.005</cell><cell>2.982</cell><cell>3.005</cell></row><row><cell></cell><cell>(0.186)</cell><cell>(0.153)</cell><cell>(0.027)</cell><cell>(0.027)</cell><cell>(0.363)</cell><cell>(0.367)</cell><cell>(0.361)</cell><cell>(0.365)</cell></row><row><cell>β 3 = 1</cell><cell>0.977</cell><cell>0.195</cell><cell>1.001</cell><cell>1.006</cell><cell>0.887</cell><cell>1.163</cell><cell>0.947</cell><cell>1.176</cell></row><row><cell></cell><cell>(1.000)</cell><cell>(0.248)</cell><cell>(0.038)</cell><cell>(0.038)</cell><cell>(0.699)</cell><cell>(0.321)</cell><cell>(0.555)</cell><cell>(0.323)</cell></row><row><cell>total = 5</cell><cell>5.228</cell><cell>4.998</cell><cell>5.773</cell><cell>4.995</cell><cell>4.985</cell><cell>4.987</cell><cell>4.956</cell><cell>4.960</cell></row><row><cell></cell><cell>(2.032)</cell><cell>(0.051)</cell><cell>(0.544)</cell><cell>(0.050)</cell><cell>(0.626)</cell><cell>(0.533)</cell><cell>(0.518)</cell><cell>(0.517)</cell></row><row><cell>direct = 3.066</cell><cell>3.090</cell><cell>3.066</cell><cell>3.109</cell><cell>3.066</cell><cell>3.048</cell><cell>3.050</cell><cell>3.058</cell><cell>3.058</cell></row><row><cell></cell><cell>(0.256)</cell><cell>(0.028)</cell><cell>(0.167)</cell><cell>(0.028)</cell><cell>(0.369)</cell><cell>(0.363)</cell><cell>(0.368)</cell><cell>(0.365)</cell></row><row><cell>indir = 1.934</cell><cell>2.138</cell><cell>1.932</cell><cell>2.664</cell><cell>1.929</cell><cell>1.937</cell><cell>1.937</cell><cell>1.898</cell><cell>1.902</cell></row><row><cell></cell><cell>(1.842)</cell><cell>(0.040)</cell><cell>(0.425)</cell><cell>(0.039)</cell><cell>(0.446)</cell><cell>(0.343)</cell><cell>(0.299)</cell><cell>(0.302)</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_3"><head>Table 4</head><label>4</label><figDesc>Sample statistics: Detail-level manufacturing industries.</figDesc><table><row><cell>Variables</cell><cell>Mean</cell><cell>Standard deviation</cell><cell>Min</cell><cell>Max</cell></row><row><cell>log value-added (in 1 m)</cell><cell>8.8170</cell><cell>0.8809</cell><cell>7.1144</cell><cell>11.6120</cell></row><row><cell>log production workers (in 1000 s)</cell><cell>3.2500</cell><cell>0.9347</cell><cell>1.4816</cell><cell>6.0970</cell></row><row><cell>log capital stock (in 1 m)</cell><cell>8.4973</cell><cell>0.9851</cell><cell>6.3002</cell><cell>11.5131</cell></row><row><cell>Input direct requirements</cell><cell>0.0016</cell><cell>0.0100</cell><cell>0</cell><cell>0.4586</cell></row><row><cell>Output supplies</cell><cell>0.0016</cell><cell>0.0135</cell><cell>0</cell><cell>0.7577</cell></row><row><cell>Total input direct requirements</cell><cell>0.3524</cell><cell>0.1440</cell><cell>0.0076</cell><cell>0.6847</cell></row><row><cell>Total output supplies</cell><cell>0.3536</cell><cell>0.3601</cell><cell>0.0002</cell><cell>1.</cell></row></table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="5" xml:id="foot_0"><p><ref type="bibr" target="#b18">Elhorst (2010)</ref> has pointed out the inclusion of the spatial Durbin term will reflect more general implications on marginal spatial effects than those of a SAR model without the Durbin term.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" xml:id="foot_1"><p>X. Qu, L.-f. Lee and C. Yang / Journal of Econometrics xxx (xxxx) xxx</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="9" xml:id="foot_2"><p>To avoid the multicollinearity problem in the 2nd stage regression, if η1n and η2n are linearly independent, then ηn = (η 1n ,η 2n ). Otherwise, we need to exclude terms that cause the collinearity, for example the constants.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="15" xml:id="foot_3"><p>In<ref type="bibr" target="#b2">Acemoglu et al. (2012)</ref>, an analogue of the Bonacich centrality vector, "the influence vector", is used.</p></note>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div><head>Acknowledgments</head><p>The first author, <rs type="person">Xi Qu</rs>, is grateful for research funding from the <rs type="funder">National Natural Science Foundation of China</rs> (No. <rs type="grantNumber">71973097</rs>, No. <rs type="grantNumber">71601115</rs>). The corresponding author, <rs type="person">Chao Yang</rs>, owes thanks to the <rs type="funder">National Natural Science Foundation of China</rs> (No. <rs type="grantNumber">71703092</rs>, No. <rs type="grantNumber">71833004</rs>) for financial support. We thank editors and referees for precious comments and suggestions.</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_JMyh74X">
+					<idno type="grant-number">71973097</idno>
+				</org>
+				<org type="funding" xml:id="_6K6Zk6U">
+					<idno type="grant-number">71601115</idno>
+				</org>
+				<org type="funding" xml:id="_S9UYGPQ">
+					<idno type="grant-number">71703092</idno>
+				</org>
+				<org type="funding" xml:id="_Y6qGRCy">
+					<idno type="grant-number">71833004</idno>
+				</org>
+			</listOrg>
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Appendix A</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>MLE derivation</head><p>The first order derivatives are</p><formula xml:id="formula_67">∂ ln L n (θ , σ 2 ) ∂λ = 1 σ 2 (W n Y n ) ′ M -1 n (Y n -λW n Y n -X n β -c1 n -ηn ρ) - n 2 tr(W n S -1 (λ)); ∂ ln L n (θ , σ 2 ) ∂ρ = 1 σ 2 η′ n M -1 n (Y n -λW n Y n -X n β -c1 n -ηn ρ); ∂ ln L n (θ , σ 2 ) ∂β = 1 σ 2 X ′ n M -1 n (Y n -λW n Y n -X n β -c1 n -ηn ρ); ∂ ln L n (θ , σ 2 ) ∂c = 1 σ 2 1 ′ n M -1 n (Y n -λW n Y n -X n β -c1 n -ηn ρ); ∂ ln L n (θ , σ 2 ) ∂σ 2 = 1 2σ 4 (Y n -λW n Y n -X n β -c1 n -ηn ρ) ′ M -1 n (Y n -λW n Y n -X n β -c1 n -ηn ρ) - n 2σ 2 .</formula><p>The second order derivatives are</p><formula xml:id="formula_68">∂ 2 ln L n (θ , σ 2 ) ∂λ 2 = -</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Construction of the input-output relations</head><p>The bilateral variable, z d i,j , which measures the dollar values of output produced by j demanded by i to produce a dollar value of i's output corresponds to the ''direct requirements'' to industry j by industry i. In a multi-sector economy, an industry is composed of firms and institutes producing analogous products or services, which is called "commodities". A commodity may be produced by different industries. An industry can also produce more than one type of commodities. Hence, in calculating the input-output requirements, we take into account the multiplicity of both inputs and outputs and use both the "use" and "make" tables. The rows and columns of the "use" table, U = (U c,k ), correspond, respectively, to commodities and industries. The elements of the cth row show the use of Commodity c by industries, while the elements of the kth columns present the dollar value of each commodity component used by industry k. With U, we can construct the commodity-by-industry direct requirements matrix B = (B ck ), where</p><formula xml:id="formula_69">B ck = U ck ∑ c ′ U c ′ k</formula><p>, with each B ck representing the shares of commodity c used per dollar value of k's production. The rows and columns of the "make" table, V = (V lc ), however, represent industries and commodities. The lth row shows the value of each type of commodity produced by industry l; and the cth column shows the dollar value of the production of commodity c by each industry. From V , we can derive the industry-by-commodity market shares, S = (S lc ), with</p><formula xml:id="formula_70">S lc = V lc ∑ h V hc</formula><p>. These market shares need to be adjusted for scrap, a byproduct of production. For each industry (row of the "make" table), we can compute the ratio of non-scrap production. By dividing S lc by the corresponding non-scrap production ratio for row l, we can get the adjusted market share production matrix, M. Then the industry-by-industry direct requirements table/matrix is MB, 24 where the (l, k) element of the matrix D = MB, D lk = ∑ c M lc B ck , measures the value of supplier l's production used as inputs to produce 1 unit of customer k's output. We can see z d ij = D ji . In addition, k might use products of other industries, say industry l ′ , as inputs, and l ′ may also input l's output as inputs. In this way, k uses l's products in an indirect way. Therefore, there is another measure for the input-output relationships, the total requirements, measured by elements of the matrix (I -MB) -1 . 25   As the total requirement combines the use of intermediaries across all the sectors, to focus on the bilateral relationship between two industries, we focus on the measure of direct requirements in this paper. The bilateral variables we used satisfy z d ij = D ji , for i ̸ = j. For definitions and calculations of the "use" and "make" tables, direct and total requirements, please refer to the I/O table manual provided by BEA. In constructing the matrix for direct requirements, we take care of the concordance between the 2012 NAICS codes that BEA tables used and the 1997 NAICS codes that the NBER CES Manufacturing Industry Database used.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>The number of factors</head><p>Suppose that the number of factors does not exceed r max . We estimate the factor model for each integer 1 ≤ r ≤ r max .</p><p>Among those with estimated fixed effects satisfying the full rank condition in the SAR model for outcomes log Y n , we select the one with smallest criterion function values according to <ref type="bibr">Bai and Ng (2002)</ref> and <ref type="bibr">Bai (2009b)</ref>. For any i ̸ = j, let I(z t ij &gt; 0) be the indicator, which is equal to 1 if z t ij &gt; 0 and is equal to 0 otherwise. Let εr,ij denote the estimation residual when the number of factor is set as r, for (6.2), εr,ij = log(z t ij + 1)αr log(k i,-1 • k j,-1 ) -η′ r,1,i ηr,2,j ; and for (6.4), εr,ij = log(z t ij + 1) -η′ r,1,i ηr,2,j -η3,i</p><formula xml:id="formula_71">. Define V (r) = ∑ i ∑ j̸ =i I(z t ij &gt; 0)ε 2 r,ij / ∑ i ∑ j̸ =i I(z t ij &gt; 0).</formula><p>A criterion function is combined with V (r) and a penalty term. Among the criteria functions proposed by <ref type="bibr">Bai and Ng (2002)</ref>, we choose IC p1 , IC p2 , and IC p3 , as they do not vary with the maximal number of factors allowed. To be specific,</p><formula xml:id="formula_72">IC p1 = log V (r) + r N+1 NT log( NT N+T ); IC p2 = log V (r) + r N+1 NT log C 2 NT , and IC p3 = log V (r) + r log C 2 NT C 2 NT , where C NT = min { √ N, √ T } . Bai (2009b) proposes another one with IC = log V (r) + [r(N + T ) -r 2 ] log(NT )</formula><p>NT , which we also adopt. In those equations, N and T denote respectively the number of cross-sectional individuals and time periods in their original panel data, corresponding to the number of sectors in our case N = T = 225.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Appendix B. Supplementary data</head><p>Supplementary material related to this article can be found online at <ref type="url" target="https://doi.org/10.1016/j.jeconom.2020.05.011">https://doi.org/10.1016/j.jeconom.2020.05.011</ref>.</p></div>			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Networks and the macroeconomy: An empirical exploration</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Acemoglu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">U</forename><surname>Akcigit</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Kerr</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">NBER Macroecon. Annu</title>
+		<imprint>
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="273" to="335" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Endogenous production networks</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Acemoglu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">D</forename><surname>Azar</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">88</biblScope>
+			<biblScope unit="page" from="33" to="82" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">The network origins of aggregate fluctuations</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Acemoglu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><forename type="middle">M</forename><surname>Carvalho</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Ozdaglar</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Tahbaz-Salehi</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">80</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="1977" to="2016" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Tax mimicking and yardstick competition among local governments in the Netherlands</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Allers</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Elhorst</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Int. Tax Public Finance</title>
+		<imprint>
+			<biblScope unit="volume">12</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="493" to="513" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">24 The table of commodity-by-commodity direct requirements is defined as BM, and can be downloaded from BEA&apos;s website. 25 The table of commodity-by-commodity total requirements is (I -BM) -1 and can be downloaded from BEA</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Anderson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Van Wincoop</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Amer. Econ. Rev</title>
+		<imprint>
+			<biblScope unit="volume">93</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="170" to="192" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+	<note>Gravity with gravitas: a solution to the border puzzle s website</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Estimation Methods for Spatial Autoregressive Structures</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science Dissertation and Monograph Series</title>
+		<imprint>
+			<date type="published" when="1980">1980</date>
+			<pubPlace>Ithaca, N.Y.</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Inferential theory for factor models of large dimensions</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Bai</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">71</biblScope>
+			<biblScope unit="page" from="135" to="171" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Panel data models with interactive fixed effects</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Bai</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">77</biblScope>
+			<biblScope unit="page" from="1229" to="1279" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<monogr>
+		<title level="m" type="main">Supplement to panel data models with interactive fixed effects : technical details and proofs</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Bai</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+	<note>Suppl. Mater. 77</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Determining the number of factors in approximating factor models</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Bai</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Liao</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<editor>
+			<persName><forename type="first">J</forename><surname>Bai</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">S</forename><surname>Ng</surname></persName>
+		</editor>
+		<imprint>
+			<biblScope unit="volume">70</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="191" to="221" />
+			<date type="published" when="2002">2015. 2002</date>
+		</imprint>
+	</monogr>
+	<note>The Oxford Handbook of Panel Data Unbalanced panel data models with interactive effects</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">The spillover effects of state spending</title>
+		<author>
+			<persName><forename type="first">K</forename><surname>Baicker</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Public Econ</title>
+		<imprint>
+			<biblScope unit="volume">89</biblScope>
+			<biblScope unit="issue">2-3</biblScope>
+			<biblScope unit="page" from="529" to="544" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Spatial lag models with nested random effects: An instrumental variable procedure with an application to English house prices</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Baltagi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Fingleton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Pirotte</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Urban Econ</title>
+		<imprint>
+			<biblScope unit="volume">80</biblScope>
+			<biblScope unit="page" from="76" to="86" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<monogr>
+		<title level="m" type="main">NBER-CES Manufacturing Industry Database: Technical Notes</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Becker</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Gray</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Marvakov</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2013">2013</date>
+			<publisher>NBER Working Paper</publisher>
+			<biblScope unit="page">5809</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">In search of yardstick competition: a spatial analysis of Italian municipality property tax setting</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Bordigon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Cerniglia</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Revelli</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Urban Econ</title>
+		<imprint>
+			<biblScope unit="volume">54</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="199" to="217" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Homeomorphism between Leontief and Cobb-Douglas input-output models</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Burres</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econom. Lett</title>
+		<imprint>
+			<biblScope unit="volume">44</biblScope>
+			<biblScope unit="issue">1-2</biblScope>
+			<biblScope unit="page" from="49" to="53" />
+			<date type="published" when="1994">1994</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Testing endogeneity of spatial and social networks</title>
+		<author>
+			<persName><forename type="first">W</forename><surname>Cheng</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Reg. Sci. Urban Econ</title>
+		<imprint>
+			<biblScope unit="volume">64</biblScope>
+			<biblScope unit="page" from="81" to="97" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<monogr>
+		<author>
+			<persName><forename type="first">R</forename><surname>De Mooij</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Vollebergh</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Evers</surname></persName>
+		</author>
+		<title level="m">Tax Competition in European Diesel Excises</title>
+		<imprint>
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+	<note type="report_type">Working Paper</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Long and plosser meet Bewley and Lucas</title>
+		<author>
+			<persName><forename type="first">F</forename><surname>Dong</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Wen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Monetary Econ</title>
+		<imprint>
+			<biblScope unit="volume">102</biblScope>
+			<biblScope unit="page" from="70" to="92" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Applied spatial econometrics: raising the bar</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Elhorst</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Spat. Econ. Anal</title>
+		<imprint>
+			<biblScope unit="volume">5</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="9" to="28" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">A contribution to the theory and empirics of Schumpeterian growth with worldwide interactions</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Ertur</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Koch</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Econ. Growth</title>
+		<imprint>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="page" from="215" to="255" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<monogr>
+		<title level="m" type="main">Advanced International Trade: Theory and Evidence</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">C</forename><surname>Feenstra</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2003">2003</date>
+			<publisher>Princeton University Press</publisher>
+			<pubPlace>Princeton</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">On the relationship between fiscal plans in the European union: An empirical analysis based on real-time data</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Giuliodori</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Beetsma</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Roel</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Comp. Econ</title>
+		<imprint>
+			<biblScope unit="volume">36</biblScope>
+			<biblScope unit="page" from="221" to="242" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Growth spillover through trade: A spatial dynamic panel data approach</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Ho</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econom. Lett</title>
+		<imprint>
+			<biblScope unit="volume">120</biblScope>
+			<biblScope unit="page" from="450" to="453" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Central limit theorems and uniform laws of large numbers for arrays of random fields</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Jenish</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">150</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="86" to="98" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">On spatial processes and asymptotic inference under near-epoch dependence</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Jenish</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">170</biblScope>
+			<biblScope unit="page" from="178" to="190" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Estimation of Peer Effects in Endogenous Social Networks: Control Function Approach</title>
+		<author>
+			<persName><forename type="first">I</forename><surname>Johnsson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Moon</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Review of Economics and Statistics</title>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Estimation of spatial models with endogenous weighting matrices, and an application to a demand model for cigarettes</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Piras</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Reg. Sci. Urban Econ</title>
+		<imprint>
+			<biblScope unit="volume">46</biblScope>
+			<biblScope unit="page" from="140" to="149" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">A generalized spatial two-stage least squares procedure for estimating a spatial autoregressive model with autoregressive disturbances</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Real Estate Finance Econ</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="99" to="121" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">A generalized moments estimator for the autoregressive parameter in a spatial model</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Internat. Econom. Rev</title>
+		<imprint>
+			<biblScope unit="volume">40</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="509" to="533" />
+			<date type="published" when="1999">1999</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">Asymptotic distributions of quasi-maximum likelihood estimators for spatial autoregressive models</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">72</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1899" to="1925" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">GMM and 2SLS estimation of mixed regressive, spatial autoregressive models</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">137</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="489" to="514" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<monogr>
+		<title level="m" type="main">Introduction to Spatial Econometrics</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Lesage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Pace</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2009">2009</date>
+			<publisher>CRC Press</publisher>
+			<pubPlace>Boca Raton, FL, USA</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">Identifying peer effects in student academic achievement by spatial autoregressive models with group unobservables</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Lin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Labor Econ</title>
+		<imprint>
+			<biblScope unit="volume">28</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="825" to="860" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">GMM estimation of spatial autoregressive models with unknown heteroskedasticity</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Lin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">157</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="34" to="52" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<analytic>
+		<title level="a" type="main">GMM estimation of social interaction models with centrality</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">159</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="99" to="115" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<analytic>
+		<title level="a" type="main">An efficient GMM estimator of spatial autoregressive models</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">R</forename><surname>Bollinger</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">159</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="303" to="319" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<analytic>
+		<title level="a" type="main">Real business cycles</title>
+		<author>
+			<persName><forename type="first">Jr</forename><surname>Long</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">B</forename><surname>Plosser</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">I</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Political Econ</title>
+		<imprint>
+			<biblScope unit="volume">91</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="39" to="69" />
+			<date type="published" when="1983">1983</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<analytic>
+		<title level="a" type="main">Linear regression for panel with unknown number of factors as interactive fixed effects</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">R</forename><surname>Moon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Weidner</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">83</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="1543" to="1579" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<analytic>
+		<title level="a" type="main">Dynamic linear panel regression models with interactive fixed effects</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">R</forename><surname>Moon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Weidner</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometric Theory</title>
+		<imprint>
+			<biblScope unit="volume">33</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="158" to="195" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<analytic>
+		<title level="a" type="main">Estimation methods for models of spatial interaction</title>
+		<author>
+			<persName><forename type="first">K</forename><surname>Ord</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Amer. Statist. Assoc</title>
+		<imprint>
+			<biblScope unit="volume">70</biblScope>
+			<biblScope unit="issue">349</biblScope>
+			<biblScope unit="page" from="120" to="126" />
+			<date type="published" when="1975">1975</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b40">
+	<analytic>
+		<title level="a" type="main">The future of spatial econometrics</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Pinkse</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">E</forename><surname>Slade</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Reg. Sci</title>
+		<imprint>
+			<biblScope unit="volume">50</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="103" to="117" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b41">
+	<analytic>
+		<title level="a" type="main">Estimating a spatial autoregressive model with an endogenous spatial weight matrix</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Qu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">184</biblScope>
+			<biblScope unit="page" from="209" to="232" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b42">
+	<analytic>
+		<title level="a" type="main">QML estimation of spatial dynamic panel data models with endogenous time varying spatial weights matrices</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Qu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">197</biblScope>
+			<biblScope unit="page" from="173" to="201" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b43">
+	<analytic>
+		<title level="a" type="main">Instrumental variable estimation of a spatial dynamic panel data model with endogenous spatial weight matrices when T is small</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Qu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econom. J</title>
+		<imprint>
+			<biblScope unit="volume">19</biblScope>
+			<biblScope unit="page" from="261" to="290" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

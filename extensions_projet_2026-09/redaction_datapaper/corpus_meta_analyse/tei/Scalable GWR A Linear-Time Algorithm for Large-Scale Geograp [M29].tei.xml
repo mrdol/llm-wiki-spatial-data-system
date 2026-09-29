@@ -1,0 +1,1408 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Scalable GWR: A linear-time algorithm for large-scale geographically weighted regression with polynomial kernels</title>
+				<funder ref="#_pgjWumV #_FfwXmuY #_4Cxnhbq">
+					<orgName type="full">Japan Society for the Promotion of Science</orgName>
+				</funder>
+				<funder ref="#_tbUBcnm #_WaxQXGb">
+					<orgName type="full">Joint Support Center for Data Science Research</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">Daisuke</forename><surname>Murakami</surname></persName>
+						</author>
+						<author>
+							<persName><forename type="first">Narumasa</forename><surname>Tsutsumida</surname></persName>
+						</author>
+						<author>
+							<persName><forename type="first">Takahiro</forename><surname>Yoshida</surname></persName>
+						</author>
+						<author>
+							<persName><forename type="first">Tomoki</forename><surname>Nakaya</surname></persName>
+						</author>
+						<author>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Statistical Modeling</orgName>
+								<orgName type="institution">The Institute of Statistical Mathematics</orgName>
+								<address>
+									<addrLine>10-3 Midori-cho</addrLine>
+									<postCode>190-8562</postCode>
+									<settlement>Tachikawa</settlement>
+									<region>Tokyo</region>
+									<country key="JP">Japan</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<affiliation key="aff1">
+								<orgName type="department">Graduate School of Global Environmental Studies</orgName>
+								<orgName type="institution">Kyoto University</orgName>
+								<address>
+									<postCode>606-8501</postCode>
+									<settlement>Sakyo</settlement>
+									<region>Kyoto</region>
+									<country key="JP">Japan</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<affiliation key="aff2">
+								<orgName type="department">Center for Global Environmental Research</orgName>
+								<orgName type="institution">National Institute for Environmental Studies. Tsukuba</orgName>
+								<address>
+									<postCode>305-8506</postCode>
+									<settlement>Ibaraki</settlement>
+									<country key="JP">Japan</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<affiliation key="aff3">
+								<orgName type="department">Graduate School of Environmental Studies</orgName>
+								<orgName type="institution">Tohoku University</orgName>
+								<address>
+									<postCode>980-0845</postCode>
+									<settlement>Sendai</settlement>
+									<region>Miyagi</region>
+									<country key="JP">Japan</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<affiliation key="aff4">
+								<orgName type="department">Binbin Lu School of Remote Sensing and Information Engineering</orgName>
+								<orgName type="institution">Wuhan University</orgName>
+								<address>
+									<postCode>430079</postCode>
+									<settlement>Wuhan</settlement>
+									<region>Hubei</region>
+									<country key="CN">China</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Scalable GWR: A linear-time algorithm for large-scale geographically weighted regression with polynomial kernels</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<idno type="MD5">D72DB5698D9FC7B475C49333BFA46D0D</idno>
+					<note type="submission">This article has been accepted for publication in Annals of the American Association of Geographers, published by Taylor &amp; Francis. This article has been accepted for publication in Annals of the American Association of Geographers, published by Taylor &amp; Francis.</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-28T15:59+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>geographically weighted regression</term>
+					<term>large spatial data</term>
+					<term>fast computation</term>
+					<term>scalability</term>
+					<term>pre-processing</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Although a number of studies have developed fast geographically weighted regression (GWR) algorithms for large samples, none of them has achieved linear-time estimation, which is considered a requisite for big data analysis in machine learning, geostatistics, and related domains. Against this backdrop, this study proposes a scalable GWR (ScaGWR) for large datasets. The key improvement is the calibration of the model through a pre-compression of the matrices and vectors whose size depends on the sample size, prior to the leaveone-out cross-validation, which is the heaviest computational step in conventional GWR. This pre-compression allows us to run the proposed GWR extension so that its computation time increases linearly with the sample size.</p><p>With this improvement, the ScaGWR can be calibrated with one million observations without parallelization. Moreover, the ScaGWR estimator can be regarded as an empirical Bayesian estimator that is more stable than the conventional GWR estimator. We compare the ScaGWR with the conventional This article has been accepted for publication in Annals of the American Association of Geographers, published by Taylor &amp; Francis.</p><p>GWR in terms of estimation accuracy and computational efficiency using a Monte Carlo simulation. Then, we apply these methods to a US income analysis.</p><p>The code for ScaGWR is available in the R package scgwr. The code is embedded into C++ code and implemented in another R package, GWmodel.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Introduction</head><p>In the last decade, in addition to the development of remote sensing, human sensing, and other sensing technologies, there has been a rapid increase in the size of spatial data.</p><p>For example, more than 1 petabyte of spatial images are published by NASA per year whereas 10 million geo-tagged tweets are posted every day as of 2014 <ref type="bibr" target="#b11">(Eldawy and Mokbel, 2016)</ref>. In the era of open data, every researcher and practitioner can easily access high-resolution/large sensor data, survey data (e.g., census data), and voluntarily collected data (see <ref type="bibr" target="#b14">Flanagin and Metzger, 2008)</ref>.</p><p>Under this background, statistical methods for big spatial data have attracted considerable attention in geostatistics (for a review, see <ref type="bibr" target="#b22">Heaton et al. 2018</ref>) and machine learning (for a review, see <ref type="bibr">Liu et al. 2018)</ref>, and other fields. In particular, a wide variety of geostatistical methods for very large samples have been developed (e.g., <ref type="bibr" target="#b6">Cressie and Johannesson 2008;</ref><ref type="bibr" target="#b0">Banerjee et al. 2008;</ref><ref type="bibr" target="#b13">Finley 2011;</ref><ref type="bibr" target="#b7">Datta et al. 2016</ref>) and applied to analyze the spatial processes underlying carbon concentration, biomass, temperature, and other types of observations. Most of these methods have been designed to achieve "linear-time" computation (CP) complexity 𝑂(𝑁) with respect to the sample size N, where O(•) indicates the order. In other words, the computational cost doubles when the sample size doubles whereas the classical geostatistical interpolation method (i.e., kriging; see <ref type="bibr" target="#b5">Cressie 1993)</ref> requires eight times the computational cost (i.e., 𝑂(𝑁 ! )).</p><p>Today, linear-time CP is regarded as a necessary condition for modeling big spatial data. <ref type="bibr">Murakami and Griffith 2019a, b)</ref>, and (iv) geostatistical approaches (e.g., Finley 2011).</p><p>They estimate SVCs by fitting spatially smooth functions, defined using 𝐿(≪ 𝑁) spatial basis functions describing principal map patterns. However, smooth function approaches are known to suffer from the degeneracy problem <ref type="bibr" target="#b43">(Stein 2014)</ref>. In other words, the existing approaches cannot capture local-scale spatial variations, and their SVCs estimates tend to have overly smooth map patterns. Unfortunately, this tendency becomes severe as N increases (because of the fixed L).</p><p>In summary, an SVCs modeling approach that fulfills the following requirements is required: (i) Linear-time estimation of SVCs (ii) Avoidance of the degeneracy problem, that is, small-scale spatial variations should be effectively captured.</p><p>With its focus on (ii), GWR, a local approach that does not suffer from the degeneracy problem, is an appropriate approach. Thus, we extend GWR to scalable GWR (ScaGWR) to satisfy all the requirements above.</p><p>The remainder of this paper is organized as follows: The next section introduces the original GWR, and the subsequent section develops the ScaGWR. Then, we compare GWR and ScaGWR through Monte Carlo experiments. Subsequently, we apply ScaGWR to analyze US income data. We then conclude with a discussion.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Geographically weighted regression (GWR)</head><p>The basic GWR model can be expressed as follows:</p><p>𝑦 " = 𝛽 ",$ + , 𝑥 ",% 𝛽 ",% &amp; %'(</p><formula xml:id="formula_0">+ 𝜀 " 𝜀 " ~𝑁(0, 𝜎 ) ),<label>(1)</label></formula><p>where 𝑖 ∈ {1, ⋯ , 𝑁} is an index for the sample sites distributed across a geographical space, yi is the i-th explained variable, xi,k is the k-th covariate, 𝛽 ",$ is the intercept parameter, and 𝛽 ",% is the local regression coefficient for the k-th covariate. The regression coefficients 𝛃 " = [𝛽 ",$ , 𝛽 ",( ⋯ 𝛽 ",&amp; ]′ are estimated by a weighted least squares method, where " ′ " denotes the matrix transpose. The estimator is given by:</p><formula xml:id="formula_1">𝛃 &gt; " = ?𝐗′𝐆 𝒊 ($) (ℎ)𝐗C -( 𝐗 . 𝐆 𝒊 ($) (ℎ)𝐲,<label>(2)</label></formula><p>where y is the vector of the dependent variables and X is the matrix of covariates that includes a column of 1s for the intercept. 𝐆 𝒊 ($) (ℎ) is a diagonal matrix whose j-th element is the geographical weight 𝑔 ",/ ($) (ℎ) for the j-th sample and can be calculated via a distance-decaying kernel function. For example, the Gaussian kernel in Eq. ( <ref type="formula" target="#formula_2">3</ref>) is the usual choice:</p><formula xml:id="formula_2">𝑔 ",/ ($) (ℎ) = exp I-K 𝑑 ",/ ℎ M ) N,<label>(3)</label></formula><p>where 𝑑 ",/ is the Euclidean distance between sample sites i and j. Instead of Euclidean distance, the Minkowski distance <ref type="bibr" target="#b28">(Lu et al. 2016</ref>), network distance, travel time, or other non-Euclidean distances <ref type="bibr">(Lu et al. 2014a</ref>) can be used. h is a bandwidth parameter that takes a small (near-zero) value if the regression coefficients have small-scale map patterns and a large value when they have large-scale patterns. As h grows, 𝛃 &gt; " asymptotically converges to the ordinary least squares (OLS) estimator 𝛃 &gt; 012 = (𝐗′𝐗) -( 𝐗 . 𝐲.</p><p>This article has been accepted for publication in Annals of the American Association of Geographers, published by Taylor &amp; Francis.</p><p>6</p><p>The bandwidth h can be optimized by leave-one-out cross-validation (LOOCV), which minimizes the cross-validation (CV) score. This score is defined as follows:</p><formula xml:id="formula_3">CV score = , 𝜀̂" ) , 3 "'(<label>(4)</label></formula><p>where 𝜀" = 𝑦 " -∑ 𝑥 ",% 𝛽 W -",% &amp; %'( . 𝛽 W -",% is estimated using 𝑁 -1 observations remaining after the i-th observation has been excluded. Specifically, 𝛃 &gt; -" = [𝛽 -",( ⋯ 𝛽 -",&amp; ]′ is estimated using Eq. ( <ref type="formula" target="#formula_1">2</ref>), where 𝐆 " (ℎ) is replaced with 𝐆 -" (ℎ), which is a diagonal matrix whose elements are represented by the vector 𝐠 -" (ℎ) = [𝑔 (,/ (ℎ), ⋯ 𝑔 "-(,/ (ℎ), 0, 𝑔 "4(,/ (ℎ), ⋯ 𝑔 3,/ (ℎ)]′. vectors whose dimensions depend on the sample size are shown in grey. As illustrated by the figure, large matrices must be repeatedly processed to find the optimal b. This is the main reason GWR is slow for large N. vectors whose sizes depend on N, and red squares represent other small elements.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Scalable geographically weighted regression (ScaGWR)</head><p>Figure <ref type="figure" target="#fig_0">1</ref> suggests that GWR can be accelerated if we let the large matrices/vectors out of the LOOCV iteration. However, this is not possible because the bandwidth parameter h is not separable from 𝐠 -" (ℎ). We overcome this bottleneck by introducing a linear multiscale kernel that allows us to linearly separate the bandwidth parameter from the kernel function and pre-process the large matrices and vectors before the LOOCV iterations. The resulting procedure estimates a regularized GWR model in quasi-linear time. We refer to this accelerated GWR as ScaGWR.</p><p>The subsections below explaining ScaGWR are organized as follows: The first subsection introduces a linear kernel that approximates standard kernels. The second subsection extends this linear kernel to a linear multiscale kernel for memory saving.</p><p>The third subsection explains parameter estimation and the fourth describes the LOOCV, which is the critical step for fast CP.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Linear kernel</head><p>Our kernel must be defined by a linear function to allow the large matrices to be excluded from the iterative part shown in Figure <ref type="figure" target="#fig_0">1</ref>. Although a Taylor or Fourier transformation could be used to find a linear approximation of the kernels, our preliminary analysis suggests that their approximation error for the kernels rapidly increases with 𝑑 ",/ . Instead, we propose the following linear kernel:</p><formula xml:id="formula_4">𝑔 ",/ (5678) (𝑏) = , 𝑏 5 9 5'( 𝑔 ",/ (ℎ $ ) : ) ! ⁄ ,<label>(5)</label></formula><p>where 𝑔 ",/ (ℎ $ ) is a base kernel with a known bandwidth ℎ $ . We assume that 𝑔 ",/ (ℎ $ ) is a non-negative decreasing function with respect to 𝑑 ",/ , and is equal to 1 if 𝑑 ",/ = 0. 𝑝 ∈ {1, ⋯ , 𝑃} represents the degree of the polynomials. This means that the Gaussian kernel (Eq. 3) and the exponential kernel can be used to define the 𝑔 ",/ (ℎ $ ) function whereas kernels with hard thresholds, such as the bi-square and tri-cube kernels, cannot. It is unclear how to determine P. Later, we perform a Monte Carlo simulation to clarify this.</p><p>Instead of the known ℎ $ , we estimate 𝑏, which indicates the spatial scale of the SVCs. For instance, consider a case with three polynomials. In this case, Eq. ( <ref type="formula" target="#formula_4">5</ref>) is the sum of the known base kernels {𝑔 ",/ (ℎ $ ) ) , 𝑔 ",/ (ℎ $ ), 𝑔 ",/ (ℎ $ ) ( ) ⁄ } weighted by the coefficients {𝑏, 𝑏 ) , 𝑏 ! }. Among the base kernels, 𝑔 ",/ (ℎ $ ) ) decays the fastest whereas</p><formula xml:id="formula_5">𝑔 ",/ (ℎ $ ) ( ) ⁄</formula><p>decays the slowest with respect to distance. In other words, the three kernels describe the short-range, moderate-range, and long-range decay of a kernel function.</p><p>The coefficients {𝑏, 𝑏 ) , 𝑏 ! } assign weights to these kernels. For example, if 𝑏 = 0.1, the weights of the three kernels become {0.1, 0.01, 0.001}, with the largest weight assigned to the short-range kernel. The linear kernel resulting from Eq. ( <ref type="formula" target="#formula_4">5</ref>) yields a short-range kernel. By contrast, if 𝑏 = 10, the weights become {10,100,1000}, implying a longrange kernel. Thus, 𝑏 replaces the usual bandwidth parameter h. See Figure <ref type="figure" target="#fig_2">2</ref> for another example, with P = 5. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Linear multiscale kernel</head><p>The CP cost of calculating the linear kernel values for all the N 2 sample site pairs is O(N 2 ). In other words, the use of the linear kernel implies a failure to achieve lineartime GWR estimation. To reduce the cost, we use a multiscale kernel, specified as 𝑔 ",/ (𝑏, 𝛼) = 𝛼 + , 𝑏 5 9 5'(</p><formula xml:id="formula_6">𝑔 ",/ (&lt;) (ℎ $ ) : ) ! ⁄ ,<label>(6)</label></formula><p>where (&lt;) is the distance between the i-th site and the Q-th nearest neighbor. 𝛼 and 𝑏 are parameters estimated by a LOOCV, which will be explained later, whereas ℎ $ , 𝑃, and 𝑄 are given a priori. The linear multiscale kernel is defined by the sum of a global weight (𝛼) and a local weight (∑ 𝑏 5 9 5'( 𝑔 ",/ (ℎ $ ) : ) ! ⁄ ) for the Q-nearest neighbors. The local weights are calculated only for the Q-nearest neighbors of each site. As a result, the complexity of calculating all 𝑔 ",/ (𝑏, 𝛼)s is only O(QN), which is trivial as long as 𝑄 is small (e.g., 50). Furthermore, as we explain below, the resulting GWR estimator, which is known to suffer from multicollinearity <ref type="bibr" target="#b45">(Wheeler and Tiefelsdorf 2005)</ref>, is stabilized by using this kernel. For these reasons, we prefer the multiscale kernel. Note that a multiscale kernel is similar with an adaptive kernel (with hard thresholding) (see <ref type="bibr" target="#b15">Fotheringham, Brunsdon, and Charlton 2002)</ref> in terms of assigning geographical weights only to the Q-nearest neighbors. However, unlike an adaptive kernel, a multiscale kernel assumes the same decay speed across the study area.</p><formula xml:id="formula_7">𝑔 ",/ (&lt;) (ℎ $ ) = ^𝑔",/ (ℎ $ ) 𝑖𝑓 𝑑 ",/ ≤ 𝐷 " (&lt;) 0 𝑜𝑡ℎ𝑒𝑟𝑤𝑖𝑠𝑒 ,<label>where 𝐷 "</label></formula><p>We need to determine the value of the fixed ℎ $ a priori. To capture local heterogeneity, the kernel must decay sufficiently within the Q-nearest neighbors. At the same time, to avoid a singular fit, the decay cannot be too fast. Given these points, the value of 𝑏 0 is defined so that the effective bandwidth (see <ref type="bibr" target="#b5">Cressie 1993)</ref>, which is the distance at which 95% of the kernel weight vanishes, equals the median of the Q-the nearest neighbor distances, 𝐷 &gt;?@ (&lt;) . If 𝑔 ",/ (ℎ $ ) is the Gaussian kernel, the effective bandwidth equals √3ℎ $ . Thus, we assume ℎ $ = 𝐷 &gt;?@ (&lt;) √3 ⁄ (which is obtained by setting ) ). Similarly, we assume 𝐷 &gt;?@ (&lt;) = 3ℎ $ for the exponential kernel. Because 𝑏 replaces ℎ $ as illustrated in Figure <ref type="figure" target="#fig_2">2</ref>, the ScaGWR estimator is likely to be less sensitive to ℎ $ although a sensitivity analysis is an important future research topic.</p><formula xml:id="formula_8">√3ℎ $ = 𝐷 &gt;?@ (<label>&lt;</label></formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Coefficients estimator</head><p>The ScaGWR model is identical to the standard GWR estimator, except for the kernel specification. Thus, the coefficients estimator becomes (see Eq. 2)</p><formula xml:id="formula_9">𝛃 &gt; " = [𝐗′𝐆 " (𝑏, 𝛼)𝐗] -( 𝐗′𝐆 " (𝑏, 𝛼)𝐲,<label>(7)</label></formula><p>where 𝐆 " (𝑏, 𝛼) is a diagonal matrix whose j-th entry is 𝑔 ",/ (𝑏, 𝛼). By substituting Eq.</p><p>(6) into Eq. ( <ref type="formula" target="#formula_9">7</ref>), the estimator can be rewritten as</p><formula xml:id="formula_10">𝛃 &gt; " = [𝛼𝐗′𝐗 + 𝐗′𝐆 " (&lt;) (𝑏)𝐗] -( [𝛼𝐗′𝐲 + 𝐗′𝐆 " (&lt;) (𝑏)𝐲],<label>(8)</label></formula><p>where 𝐆 " (&lt;) (𝑏) is a diagonal matrix whose j-th entry is ∑ 𝑏 5 9 5'(</p><formula xml:id="formula_11">𝑔 ",/ (&lt;) (ℎ $ ) : ) ! ⁄ . Based on</formula><p>Eq. ( <ref type="formula" target="#formula_10">8</ref>), 𝛃 &gt; " can be viewed as an empirical Bayes estimator with prior distribution</p><formula xml:id="formula_12">𝛃 5A"6A ~𝑁(𝛃 &gt; 012 , 𝛼 -( (𝐗′𝐗) -( ).</formula><p>In other words, ScaGWR stabilizes the GWR estimator by shrinking it toward the OLS estimator, and α determines the degree of shrinkage.</p><p>The OLS prior imposes a stronger regularization to the coefficients that take extreme values. Therefore, ScaGWR estimates are less likely to produce extreme or singular values whereas classical GWR often produces extreme coefficient estimates (e.g., <ref type="bibr">Farber and Yeatest, 2006;</ref><ref type="bibr" target="#b4">Cho et al. 2009</ref>).</p><p>Once the parameters {𝑏, 𝛼} are specified given, 𝛃 &gt; " is easily estimated. The next section describes our LOOCV procedure, which minimizes the CV score in Eq. ( <ref type="formula" target="#formula_3">4</ref>) to optimize {𝑏, 𝛼}.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>LOOCV for optimizing parameters {𝒃, 𝜶}</head><p>To calculate the CV score for the LOOCV, we need to calculate 𝛃 &gt; -" for each i repeatedly:</p><formula xml:id="formula_13">𝛃 ! -𝑖 = [𝐗′𝐆 -𝑖 (𝑏, 𝛼)𝐗] -1 𝐗′𝐆 -𝑖 (𝑏, 𝛼)𝐲,<label>(9)</label></formula><p>where 𝐆 -" (𝑏, 𝛼) is equal to 𝐆 " (𝑏, 𝛼) with zero values in the i-th diagonal. We introduce matrix manipulation to make the calculation in Eq. ( <ref type="formula" target="#formula_13">9</ref>) computationally efficient. The idea is to pre-process 𝐗′𝐆 -" (𝑏, 𝛼)𝐗 and 𝐗′𝐆 -" (𝑏, 𝛼)𝐲 before the LOOCV. As explained in Appendix 1, Eq. ( <ref type="formula" target="#formula_13">9</ref>) is equivalent to the following matrix expression:</p><formula xml:id="formula_14">𝛃 &gt; -" = n𝛼𝐌 -" ($) + , 𝑏 5 𝐌 -" (<label>5</label></formula><formula xml:id="formula_15">) 9 5'( p -( n𝛼𝐦 -" ($) + , 𝑏 5 𝐦 -" (<label>5</label></formula><formula xml:id="formula_16">) 9 5'( p,<label>(10)</label></formula><p>where 𝐌 -" ($) and 𝐌 -" (5) are 𝐾 × 𝐾 matrices whose (k, k')-th elements are ∑ 𝑥 /,% 𝑥 /,%.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>/E"</head><p>and</p><formula xml:id="formula_17">∑ 𝑔 ",/ (ℎ $ ) : ) ! ⁄ 𝑥 /,% 𝑥 /,%. /E"</formula><p>, respectively, whereas 𝐦 -" ($) and 𝐦 -" (5) are 𝐾 × 1 vectors</p><formula xml:id="formula_18">whose k-th elements are ∑ 𝑥 /,% 𝑦 / /E" and ∑ 𝑔 ",/ (ℎ $ ) : ) ! ⁄ 𝑥 /,% 𝑦 / /E"</formula><p>, respectively.</p><p>Importantly, because the 𝐌 -" ∈ {𝐌 -" ($) , 𝐌 -" (5) , 𝐦 -" ($) , 𝐦 -" (5) } do not include any parameters, they can be calculated before the LOOCV. Given these elements, the computational complexity of calculating 𝛃 &gt; -" is only O(K 3 ). Thus, the cost of estimating the coefficients for all the sample sites is O(K 3 N). If the golden section algorithm with an expected number of iterations of O(log(N)) is used, and K is assumed as fixed, the complexity of the LOOCV is O(Nlog(N)), which is a quasi-linear computational complexity with respect to N. This complexity is considerably smaller than that of fast GWR algorithms, whose complexity is O(N 2 log(N)) at best.</p><p>On the other hand, during the LOOCV, our algorithm needs to store 𝐌 -" for 𝑖 ∈ {1, ⋯ , 𝑁}, with a total number of N(P + 1)(K 2 + K) elements. Thus, although the required memory for ScaGWR and fast GWR <ref type="bibr" target="#b31">(Lu et al. 2019</ref>) are both linear with respect to N, ScaGWR consumes larger memory than fast GWR, whose memory consumption is of the order of NK. Reduction of memory usage is an important future research task.</p><p>The ScaGWR modeling procedure can be summarized as follows:</p><p>(I) Pre-processing : 𝐌 -" is calculated for each i.</p><p>(II) LOOCV: {𝑏, 𝛼} are optimized by LOOCV, in which the CV score is calculated by substituting the inner products in 𝐌 -" into Eq. ( <ref type="formula" target="#formula_16">10</ref>). As explained above, the complexity of this step is only O(Nlog(N)) (see Figure <ref type="figure" target="#fig_3">3</ref>).</p><p>(III) Estimation: 𝛃 &gt; " is estimated by substituting the estimated {𝑏, 𝛼} into Eq. ( <ref type="formula" target="#formula_21">11</ref>), which is equivalent to Eq. ( <ref type="formula" target="#formula_10">8</ref>):</p><formula xml:id="formula_19">𝛃 &gt; " = n𝛼𝐌 ($) + , 𝑏 5 𝐌 " (<label>5</label></formula><formula xml:id="formula_20">) 9 5'( p -( n𝛼𝐦 ($) + , 𝑏 5 𝐦 " (<label>5</label></formula><formula xml:id="formula_21">) 9 5'( p,<label>(11)</label></formula><p>where the (k, k')-th elements of the matrices 𝐌</p><p>($) and 𝐌 " (5) are given by ∑ 𝑥 /,% 𝑥 /,%. / and, ∑ 𝑔 ",/ (ℎ $ ) : ) ! ⁄ 𝑥 /,% 𝑥 /,%. / respectively, and the k-th elements of the vectors 𝐦 ($) and 𝐦 " (5) by ∑ 𝑥 /,% 𝑦 / / and ∑ 𝑔 ",/ (ℎ $ ) : ) ! ⁄ 𝑥 /,% 𝑦 / / , respectively. It is possible to calculate the standard errors of the coefficients, degrees of freedom, and other statistics to obtain the modeling results in linear time. It is also possible to This article has been accepted for publication in Annals of the American Association of Geographers, published by Taylor &amp; Francis.</p><p>13 calibrate the parameters by maximizing the corrected Akaike information criterion (AICc). See Appendix 2 and 3 for further details. vectors whose sizes depend on N, and red squares represent the other small elements.</p><p>Our multiscale kernel 𝐠 -" (&lt;) 𝐛 + 𝛼𝟏 includes parameters α and 𝑏 , optimized by the LOOCV. 𝐠 -" (&lt;) is a matrix of P polynomials and 𝐛 = [𝑏 ( , ⋯ , 𝑏 9 ]′ is the vector consisting of their coefficients.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Properties of ScaGWR</head><p>Comparison with a practical alternative Basic GWR achieves linear-time LOOCV (or AICc minimization) if the observations other than the Q-nearest neighbors are ignored. GWR in the Spatial Statistics Toolbox in ArcGIS (<ref type="url" target="https://www.esri.com/en-us/home">https://www.esri.com/en-us/home</ref>) adopts this approach and considers only the 1,000 nearest neighbors by default. The computational complexity for each LOOCV iteration is O(NK 2 Q) as it involves performing weighted least-squares estimation N times for Q sub-samples (each sub-sample has complexity</p><formula xml:id="formula_22">O(K 2 Q)).</formula><p>Therefore, the complexity depends on Q.</p><p>In contrast, due to the pre-processing in step (I), which eliminates matrices with dimensions depending on Q, a single LOOCV iteration in or algorithm requires only O(NK 3 ), which is independent of Q. Thus, our LOOCV is considerably faster than that of the practical approach. For example, if K = 4 and Q = 1,000, which is a typical setting, our cost for a single LOOCV iteration is only 0.004 (=4 3 /(4 2 ×1000)) times that of the practical GWR.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Relationship with geostatistical approaches</head><p>In geostatistics, local and global approaches have been developed for large-scale spatial modeling. ScaGWR is related to local approaches that consider only neighboring observations. Representative local approaches include covariance tapering <ref type="bibr" target="#b17">(Furrer, Genton, and Nychka 2006)</ref> and nearest-neighbor Gaussian processes <ref type="bibr" target="#b7">(Datta et al. 2016)</ref>.</p><p>Generally, these approaches accurately estimate local spatial variations due to their local modeling scheme. On the other hand, the global geostatistical approach uses a smooth function for spatial process modeling. This approach has been extended for</p><p>This article has been accepted for publication in Annals of the American Association of Geographers, published by Taylor &amp; Francis. 15 SVCs modeling (see Introduction section). However, this approach tends to underestimate local variations (see Stein 2014); our approach is likely to be more accurate than these global SVC approaches.</p><p>For fast CP, when applying a local approach, it is standard to determine the number of neighbors Q being considered (or other parameter specifying local subsamples) a priori. This is because Furrer, Genton, and Nychka (2006), Datta et al.</p><p>(2016), and others have suggested that local approaches are highly accurate, irrespective of the value of Q. Thus, our pre-determining of Q is reasonable.</p><p>However, we still need to verify whether ScaGWR is insensitive to the choice of Q. The next section examines this through a simulation study.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Monte Carlo simulation experiment 1</head><p>Below, we perform three Monte Carlo experiments. This section explains the first The X and Y coordinates of the sample sites were randomly determined using two standard multivariate normal distributions, 𝑁(𝟎, 𝐈). At each site, the true data were generated through Eq. ( <ref type="formula" target="#formula_23">12</ref>):</p><formula xml:id="formula_23">𝐲 = 𝛃 $ + 𝐱 ( • 𝛃 ( + 𝐱 ) • 𝛃 ) + 𝛆 𝛆~𝑁(𝟎, 𝜎 ) 𝐈), 𝛃 0 ~𝑁 $𝟏, 0.5 2 𝐆%, 𝛃 1 ~𝑁 $𝟏, 2 2 𝐆%, 𝛃 2 ~𝑁 $𝟏, 0.5 2 𝐆%,<label>(12)</label></formula><p>where " • " is the element-wise product. 𝛃 ( , whose variance is 2 2 , explains more spatial variations than 𝛃 $ and 𝛃 ) , whose variances are 0.5 2 . Subsequently, we refer to 𝛃 ( as strong SVCs and to {𝛃 $ , 𝛃 ) } as weak SVCs. The (i, j)-th element of G is 𝑔~𝑑 ",/ • = 𝑒𝑥𝑝~-𝑑 ",/ ) •, suggesting a Gaussian kernel with true bandwidth value of 1.0. ScaGWR was applied for 𝑁 ∈ {500, 1,000, 3,000, 5,000, 7,000, 10,000, 20,000, 40,000, 60,000, 80,000} whereas GWR was applied in the six cases with 𝑁 ≤ 10,000 . For each N, the estimation included 200 iterations. LOOCV (see Figure <ref type="figure" target="#fig_0">1</ref>) was used for bandwidth selection in GWR whereas another LOOCV, illustrated in Figure <ref type="figure" target="#fig_2">2</ref>, was used to select α and 𝑏, which are substituted for the bandwidth parameters in ScaGWR.</p><p>To calculate the SVCs estimation error, we used root mean squared error (RMSE):</p><p>This article has been accepted for publication in Annals of the American Association of Geographers, published by Taylor &amp; Francis.</p><formula xml:id="formula_24">𝑅𝑀𝑆𝐸[𝛽 W ",% ] = † 1 200𝑁 , ,(𝛽 W ",% "G?A -𝛽 ",% ) ) 3 "'( )$$ "G?A'( ,<label>(13)</label></formula><p>where 𝛽 W ",% "G?A is the estimated coefficient in the iter-th iteration.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Results</head><p>Figures 4 and 5 summarize the RMSEs for small to moderate samples (𝑁 ≤ 10,000)</p><p>and larger samples (80,000 ≤ 𝑁), respectively. They show that the strong and weak</p><p>SVCs have different tendencies.</p><p>The ScaGWR estimates for the strong SVCs (𝛃 ( ) become more accurate as P and Q become smaller. Small P and Q reduce the effective number of parameters in the ScaGWR model; a smaller P reduces the number of polynomials whereas a smaller Q reduces the share of local weights. The result that a parsimonious specification yields more accuracy is reasonable because GWR tends to suffer from local collinearity, which implies a redundancy in the model. As N increases, the accuracy of the ScaGWR estimates for the strong SVCs improves and, approximately when 10,000 ≤ 𝑁, the RMSE values were similar across values of P and Q.</p><p>In contrast to the estimates of the strong SVCs, those of the weak SVCs  Figure 5. RMSEs of SVCs (80,000 ≤ N).</p><p>Among the ScaGWR specifications, we prefer P = 4 and Q = 100 because it achieves reasonable estimation accuracy regardless of whether N is small or large.</p><p>Table 1 compares the mean RMSE values from ScaGWR with P = 4 and Q = 100, with those from GWR. ScaGWR exhibited smaller mean RMSE values in all cases with 𝑁 ≥ 3,000, confirming the improved accuracy of the ScaGWR. Specifically, for the strong SVCs (β1), ScaGWR resulted in smaller RMSEs in all the 200 × 4 experiments with 𝑁 ∈ {3,000, 5,000, 7,000, 10,000} . For the weak SVCs (β2), ScaGWR exhibited smaller RMSE values than GWR in the 94%, 93%, 91%, and 95% of trials in each 200 experiments in the four cases. ScaGWR's higher accuracy is due to the fact that ScaGWR estimates both the local and global structures using 𝑏 and 𝛼 whereas GWR considers only the former. The higher accuracy can also be attributed to our empirical Bayes estimator, which mitigates multicollinearity, whereas the usual GWR estimator is simply a least-squares (non-Bayesian) estimator.  used for ScaGWR.</p><p>Figure <ref type="figure" target="#fig_7">6</ref> plots the true and estimated SVCs in the first iterations when 𝑁 ∈ {500, 5,000, 80,000}. This figure confirms that ScaGWR with P = 4 and Q = 100 accurately estimates the SVCs. ScaGWR successfully captures small-scale variations even if N = 80,000 whereas GWR is not feasible because of the large sample size.</p><p>Figure <ref type="figure" target="#fig_8">7</ref> shows the standard deviations (SDs) of the estimated SVCs. In Eq. ( <ref type="formula" target="#formula_23">12</ref>), we used {0.5, 2.0, 0.5} as the true SDs for {𝛃 $ , 𝛃 ( , 𝛃 ) }, respectively. GWR tends to underestimate the SDs for strong SVCs while overestimating the SDs for weak SVCs.</p><p>Unfortunately, the latter upward bias does not decrease even if N increases to 10,000.</p><p>On the other hand, ScaGWR tends to underestimate the SDs for all the SVCs when N is small. This is because our empirical Bayes estimator strongly shrinks the estimates toward the OLS estimator for small samples. However, this bias rapidly decreases as N increases. This result demonstrates that ScaGWR successfully estimates the different amounts of variation of SVCs in large samples. ScaGWR. The dashed line denotes the true values. prediction accuracy. This figure suggests that ScaGWR is faster but as accurate as standard GWR in terms of spatial prediction. Finally, Figure 9 summarizes the average CP times. The CP time of standard GWR rapidly increased with N. It took 240.2 seconds when N = 10,000. By contrast, the CP time of ScaGWR increased only linearly with N. On average, ScaGWR with Q = 100 and P = 4 took 6.6 seconds for execution when N = 10,000, and 89.8 seconds when N = 80,000. Even when N = 1,000,000, ScaGWR took only 1,637 seconds on average in five trials without parallelization.  In summary, ScaGWR with Q = 100 and P = 4 is faster than basic GWR. In addition, ScaGWR tends to have a higher coefficient estimation accuracy, especially when 𝑁 ≥ 3,000.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Monte Carlo experiment 2</head><p>Outline Although we have shown that ScaGWR accurately estimates the coefficients when Q = 100, this might not hold if the true SVCs have larger-or smaller-scale spatial patterns. To investigate this, we performed another experiment using 2.0 and 0.5 as the bandwidth values for the true SVCs (see Figure <ref type="figure" target="#fig_13">10</ref> for the map patterns). Recall that, in the previous experiment, we had set both values to 1.0. As same as the previous experiment, we used Q = 100 and P = 4. The other simulation settings were the same as those in the previous section.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Results</head><p>Figure <ref type="figure" target="#fig_13">10</ref> shows a plot of the GWR and ScaGWR estimates in the first iteration when N=5,000, together with the true SVCs. This plot demonstrates that GWR and ScaGWR accurately estimate SVCs, irrespective of the true scale. Therefore, our scale parameter 𝑏 successfully acts as an alternative to the usual bandwidth parameter.  are 2.0, 1.0, and 0.5. P = 4 and Q = 100 were used for ScaGWR. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Monte Carlo experiment 3</head><p>Outline While Sections 4 and 5 describe the LOOCV-based ScaGWR, this section presents the performance of the AICc-based ScaGWR. The other simulation settings were the same as those of Monte Carlo experiment 2.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Results</head><p>We first compared the estimation accuracy of ScaGWR with that of the AICc-based GWR for cases with 𝑁 ≤ 10,000 . Table <ref type="table" target="#tab_1">2</ref> summarizes the resulting AICc values.</p><p>ScaGWR has a smaller AICc when 𝑁 ≥ 3,000, which confirms ScaGWR's higher accuracy for large samples. Table <ref type="table" target="#tab_2">3</ref>, which compares the RMSEs of the estimated coefficients, shows that ScaGWR's estimation accuracy exceeds that of classical GWR in four out of the six cases with 𝑁 &lt; 3,000 and for all the cases with 𝑁 ≥ 3,000.    Finally, the computational times of the two ScaGWR specifications are compared in Figure 13. Our AICc minimization successfully achieves a linear-time estimation. However, the computational time is slightly longer than that for the LOOCV when 𝑁 ≥ 40,000 because of the additional calculations, as explained in Appendix 3. Based on these results, LOOCV might be a better choice for very large samples whereas the AICc-based approach is suitable for likelihood-based inference. RMSE N N CP time We expect the influence of Univ to be positive. This is because people who are university graduates have a greater chance of obtaining white-collar or professional jobs.</p><p>Eng is also expected to have a positive impact since higher English skills allow people to communicate and interact with a wider variety of business partners. Regarding Age, we expect its influence to become either positive or negative depending on the region. This is because older workers tend to have higher earnings due to their longer-term working experience whereas younger workers tend to have greater earnings because they are more familiar with recent technologies and facilities/devices and knowledge of these can increase earnings. Given the considerable heterogeneity of income across the United States, the influences of these three variables are likely to vary across space.</p><p>Therefore, ScaGWR is suitable for this analysis.</p><p>All the data were obtained from the 2015 US census using the tidycensus package (<ref type="url" target="https://cran.r-project.org/web/packages/tidycensus/index.html">https://cran.r-project.org/web/packages/tidycensus/index.html</ref>). </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Results</head><p>ScaGWR takes 20.6 seconds on the PC mentioned in Section 4.</p><p>Table 4 compares the ScaGWR estimates with those from OLS. With OLS, Univ and Age have a statistically significant positive impact whereas Eng is statistically nonsignificant. The ScaGWR estimates suggest considerable spatial variation in the regression coefficients whereas the medians are similar to their OLS estimates. Both the adjusted R 2 values and the AICc values are improved when considering the aforementioned spatial variation. The ScaGWR estimates are more reliable. Figure <ref type="figure" target="#fig_19">15</ref> summarizes the estimated SVCs. Here, colors are used only for census tracts whose coefficients are statistically significant at the 5 % level. Following <ref type="bibr" target="#b37">Nakaya's (2007)</ref> suggestion that spatially varying intercepts should not be interpreted because the estimates are highly dependent on the local correlations among the explanatory variables, we do not display the estimated β0 here. βUniv indicates a large positive impact near cities with populations exceeding 0.5 million, suggesting that highly educated people living in large cities earn higher incomes. Given the concentration of white-collar and professional workers in large cities, this result is reasonable. βEng also indicates large positive values around major cities. Because speaking English is important for white-collar workers to extend their jobs through national or international contacts, this result is also reasonable. βEng also suggests that speaking English increases earnings on the north side of the United States. By contrast, the coefficient becomes small or negative on the south side of the United States. Based on the low income levels in the south (see Figure <ref type="figure" target="#fig_18">14</ref>), this result suggests that residents in the southeast area tend to have lower incomes irrespective of whether they speak English. Although βAge had a positive impact in the eastern United States, its value tends to be small near major cities on a local scale. Based on this result, older workers, who tend to be long-term or veteran workers, have higher earnings in eastern suburban areas. whose coefficients are statistically significant at the 5 % level.</p><p>This article has been accepted for publication in Annals of the American Association of Geographers, published by Taylor &amp; Francis.</p><p>32 AICc-based ScaGWR was also applied to the data. The spatial distribution of βUniv, which is plotted in Figure <ref type="figure" target="#fig_20">16</ref>, exhibits almost the same pattern as the one in the LOOCV-based results. This suggests robustness of the results to the calibration approach used. Finally, LOOCV-based ScaGWR with Q = 500 was applied, and the estimated βUniv is plotted in Figure <ref type="figure" target="#fig_21">17</ref>. The plot confirms that the spatial pattern of the estimates becomes similar even if the Q value is changed. In summary, this section empirically verifies that ScaGWR successfully captures local-scale spatial patterns in the regression coefficients. Recall that other fast SVCs modeling approaches relying on a smooth function for modeling SVCs tend to fail to capture such local variations (see the introduction section). Furthermore, ScaGWR's CP time was quite short whereas classical GWR was not feasible for this large dataset without sampling, aggregation, or another effort to reduce the sample size. ScaGWR, which was fast and accurate, can be useful for a wide variety of large-scale spatial modeling. whose coefficients are statistically significant at the 5 % level. whose coefficients are statistically significant at the 5 % level.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Concluding remarks</head><p>As the size of spatial data becomes increasingly larger, computational efficiency also becomes increasingly important in spatial modeling. Because large samples imply a greater chance of capturing heterogeneity over geographical space, the assumption of spatial stationarity, which is a standard assumption in geostatistics, is appropriate for modeling large spatial datasets.</p><p>Given this background, this study proposed ScaGWR. Unlike existing GWR algorithms, ScaGWR achieves quasi-linear computational complexity, as illustrated in Figure <ref type="figure" target="#fig_11">9</ref>. This property allows us to estimate SVCs from millions of observations, even without parallelization.</p><p>Most fast alternatives, which model SVCs using smooth functions, cannot capture small-scale map patterns (this is the degeneracy problem; see <ref type="bibr" target="#b43">Stein 2014)</ref>. By contrast, our local modeling approach does not suffer from this problem, as confirmed by the results in Figure <ref type="figure" target="#fig_7">6</ref>. Thus, ScaGWR satisfies the requirements listed in the introduction section, namely, (i) a linear-time computational burden and (ii) avoidance of the degeneracy problem.</p><p>In practice, ScaGWR is superior for large samples (e.g., 𝑁 ≥ 3,000). Based on our simulation study, ScaGWR with Q = 100 and P = 4 should be the default choice if 𝑁 ≤ 100,000. This choice of Q and P will be sensible for even larger values of N for the following reasons: these values are sufficiently small to handle larger samples because these parameters have direct impacts only on the Q-nearest neighbors.</p><p>Therefore, if 𝑄 ≪ 𝑁, the performance of ScaGWR will be similar even if N is very large.</p><p>A drawback of standard GWR is its tendency to suffer from local multicollinearity. Even if a regularization parameter is imposed, GWR, which considers only samples within a kernel window, might be unstable if the number of observations within the window is small. By contrast, ScaGWR implicitly imposes</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>𝛃</head><p>5A"6A ~𝑁(𝛃 &gt; 012 , 𝛼 -( (𝐗′𝐗) -( ) as a prior (see the "Coefficients estimator" section).</p><p>Therefore, even if the kernel window is small (i.e., 𝑏 is small), the estimator, which shrinks to the OLS estimator, is likely to be stable. The robustness of ScaGWR needs to be studied in future work. Another important topic is the absence of the bandwidth parameter, which is useful for interpreting the estimated SVCs. The development of a spatial scale measure for ScaGWR will be useful for large-scale exploratory analyses.</p><p>Comparing ScaGWR with fast alternatives using very large samples (e.g., in the order of millions of observations) is an important future topic. The GWR based on the 1,000 nearest neighbors, implemented in the Spatial Statistics Toolbox in ArcGIS, and the fast GWR implemented in mgwr <ref type="bibr">(Oshan et al. 2019a</ref>), a Python module in PySAL (Rey 2019), are also available for large-scale GWR modeling.</p><p>Extending ScaGWR is also an interesting subject for future research. Its computational efficiency might be preserved even if it is extended to multiscale GWR <ref type="bibr" target="#b16">(Fotheringham, Yang, and Kang 2017;</ref><ref type="bibr" target="#b31">Lu et al. 2019;</ref><ref type="bibr">Oshan et al. 2019b)</ref>, such as GWR with parameter-specific distance matrices <ref type="bibr" target="#b29">(Lu et al. 2017</ref><ref type="bibr" target="#b30">(Lu et al. , 2018))</ref>, GWR with a flexible bandwidth <ref type="bibr" target="#b47">(Yang 2014;</ref><ref type="bibr">Murakami et al. 2019)</ref>, and conditional GWR <ref type="bibr" target="#b23">(Leong and Yue 2017)</ref>. Furthermore, ScaGWR might be important in combining GWR with a global model (see <ref type="bibr" target="#b18">Geniaux and Martinetti 2018;</ref><ref type="bibr" target="#b21">Harris 2019</ref>). The ScaGWR model can be considered an integration of the GWR model and a global linear regression model.</p><p>The linear regression model can be potentially replaced with a mixed effects model, additive model, temporal model, and so on. Such multi-model integration is an interesting development toward a fast, stable, and flexible reformulation of GWR.</p><p>ScaGWR was implemented in the R package scgwr (<ref type="url" target="https://cran.r-">https://cran.r-</ref>project.org/web/packages/scgwr/). We also implemented ScaGWR, which was embedded into C++ code via the Rcpp package, in the GWmodel package (<ref type="url" target="https://cran.r-project.org/web/packages/GWmodel/">https://cran.r-project.org/web/packages/GWmodel/</ref>).</p><p>5'( 𝑚 -",&amp;,𝐲 (5) ⎦ ⎥ ⎥ ⎥ ⎥ ⎥ ⎤ . (A4)</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure 1</head><label>1</label><figDesc>Figure1summarizes the LOOCV procedure for the basic GWR. Matrices or</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Figure 1 .</head><label>1</label><figDesc>Figure 1. LOOCV routine in standard GWR. Grey squares represent matrices and</figDesc><graphic coords="6,95.45,467.41,404.15,238.05" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Figure 2 .</head><label>2</label><figDesc>Figure 2. Example of a polynomial kernel with P = 5 and 𝑏 = 10.</figDesc><graphic coords="8,107.77,535.15,379.05,157.75" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Figure 3 .</head><label>3</label><figDesc>Figure 3. LOOCV routine in ScaGWR. Grey squares represent large matrices and</figDesc><graphic coords="13,85.05,191.04,424.95,258.80" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><figDesc>experiment comparing ScaGWR and GWR in various settings. As a supplement, the second experiment, in the next section, compares the sensitivity of ScaGWR and GWR to the spatial scale of SVCs. This experiment is important as ScaGWR assumes a fixed bandwidth value for the base kernel whereas GWR estimates it. Although these experiments use the LOOCV-based ScaGWR, the third experiment compares the LOOCV-based specification with an AICc-based specification.OutlineThis section compares the estimation accuracies and CP times of GWR and ScaGWR through a Monte Carlo simulation. For ScaGWR, we considered the following cases: number of neighbors 𝑄 ∈ {50, 100,200} and number of polynomials 𝑃 ∈ {1,2,3,4, 6}. A Gaussian kernel was used in GWR and the same kernel was employed as the base kernel 𝑔 ",/ (ℎ $ ) in ScaGWR. We used a Mac Pro (3.5 GHz, 6-Core Intel Xeon E5 processor with 64 GB of memory) for the CP, R (version 3.6.2; https://cran.rproject.org/) for model estimation, and the R package GWmodel (version 2.1-3; seeLu   et al. 2014b;<ref type="bibr" target="#b19">Gollini et al. 2015</ref>) for GWR calibration. The code for ScaGWR was embedded into C++ code via the Rcpp package<ref type="bibr" target="#b10">(Eddelbuettel 2013)</ref> and implemented in the GWmodel package. Note that we did not parallelize the computation.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>(</head><figDesc>𝛃 $ , 𝛃 ) ) exhibited better accuracy when P and Q were large. Large P and Q values increase the effective number of parameters. This suggests that to identify weak spatially varying signals, a larger number of parameters are needed. Based on Figure5, Q determined the scalability of the estimation accuracy. Specifically, Q = 50, 100, and 200 yielded slower, moderate, and faster decays of RMSE values as N increased. To estimate weak SVCs accurately from large samples, a large Q is desirable. However, Q = 100 achieved reasonable accuracy across the different cases (see Figure5).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>Figure 4 .Figure 5 .</head><label>45</label><figDesc>Figure 4. RMSEs of SVCs (10,000 ≤ N)</figDesc><graphic coords="18,77.85,133.13,437.67,528.20" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><head>Figure 6 .</head><label>6</label><figDesc>Figure 6. True and estimated SVCs (𝛃 ( ) in each first iteration. P = 4 and Q = 100 were</figDesc><graphic coords="20,92.90,343.83,347.24,308.15" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8"><head>Figure 7 .</head><label>7</label><figDesc>Figure 7. Standard deviations of estimated SVCs. P = 4 and Q = 100 were used for</figDesc><graphic coords="21,85.05,463.49,397.56,189.26" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_9"><head>Figure 8</head><label>8</label><figDesc>Figure8compares the CV scores, which are a measure of the out-of-sample</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_10"><head>Figure 8 .</head><label>8</label><figDesc>Figure 8. CV scores of GWR (black line) and ScaGWR (colored lines).</figDesc><graphic coords="22,138.03,542.40,313.52,190.50" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_11"><head>Figure 9 .</head><label>9</label><figDesc>Figure 9. Computation times of LOOCV-based GWR and ScaGWR calibrations.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_12"><figDesc>Figure 11 shows a comparison of the mean RMSEs from the simulations. Both GWR and ScaGWR improve their estimation accuracy as the scale of the true SVCs increases because large-scale SVCs have simpler map patterns and are easier to estimate. Based on the results, ScaGWR's estimation accuracy is as robust as that of classical GWR to the scale of SVCs.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_13"><head>Figure 10 .</head><label>10</label><figDesc>Figure 10. Examples of true and estimated SVCs (N = 5,000) when the true bandwidths</figDesc><graphic coords="24,78.33,163.45,436.38,446.12" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_14"><head>Figure 11 .</head><label>11</label><figDesc>Figure 11. RMSEs of SVCs (N = 5,000 and 𝑏 ∈ {0.5, 1.0, 2.0}).</figDesc><graphic coords="25,80.55,77.15,424.95,183.45" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_15"><head>Figurebased</head><figDesc>ScaGWR and the LOOCV-based ScaGWR. This figure demonstrates that the accuracies of these two methods are quite similar.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_16"><head>Figure 12 .</head><label>12</label><figDesc>Figure 12. RMSE of β1 for LOOCV-based and AICc-based ScaGWR (N = 5,000).</figDesc><graphic coords="27,120.51,87.52,371.76,157.27" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_17"><head>Figure 13 .</head><label>13</label><figDesc>Figure 13. Computation times (LOOCV-based versus AICc-based ScaGWR).</figDesc><graphic coords="27,138.24,348.25,358.60,151.33" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_18"><head>Figure 14 .</head><label>14</label><figDesc>Figure 14. Tract-level median household income in 2015.</figDesc><graphic coords="29,85.05,135.85,424.95,216.75" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_19"><head>Figure 15 .</head><label>15</label><figDesc>Figure 15. Estimated SVCs (Q = 100; LOOCV). Colors are drawn only on census tracts</figDesc><graphic coords="31,108.20,163.45,378.65,539.97" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_20"><head>Figure 16 .</head><label>16</label><figDesc>Figure 16. Estimated SVCs (Q = 500; LOOCV). Colors are drawn only on census tracts</figDesc><graphic coords="33,85.05,80.65,424.95,222.90" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_21"><head>Figure 17 .</head><label>17</label><figDesc>Figure 17. Estimated SVCs (Q = 100; AICc). Colors are drawn only on census tracts</figDesc><graphic coords="33,85.05,373.73,424.95,221.25" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_22"><graphic coords="19,85.05,80.65,425.20,178.50" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1 .</head><label>1</label><figDesc>Improvement ratios of the RMSEs for ScaGWR with P = 4 and Q = 100 relative to the RMSEs for GWR ([Mean RMSE value of ScaGWR]/[Mean RMSE value of GWR]).</figDesc><table><row><cell>N</cell><cell>β0</cell><cell>β1</cell><cell>β2</cell></row><row><cell>500</cell><cell>0.89 (0.79)</cell><cell>1.54 (0.06)</cell><cell>0.84 (0.92)</cell></row><row><cell>1000</cell><cell>0.82 (0.93)</cell><cell>1.24 (0.30)</cell><cell>0.76 (0.96)</cell></row><row><cell>3000</cell><cell>0.81 (0.94)</cell><cell>0.94 (1.00)</cell><cell>0.72 (0.94)</cell></row><row><cell>5000</cell><cell>0.79 (0.81)</cell><cell>0.79 (1.00)</cell><cell>0.68 (0.93)</cell></row><row><cell>7000</cell><cell>0.72 (0.69)</cell><cell>0.72 (1.00)</cell><cell>0.65 (0.91)</cell></row><row><cell>10000</cell><cell>0.69 (0.71)</cell><cell>0.71 (1.00)</cell><cell>0.60 (0.94)</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 2 .</head><label>2</label><figDesc>Comparison of the mean AICc values.</figDesc><table><row><cell>Sample size</cell><cell>GWR</cell><cell>ScaGWR (Q = 100, P = 4)</cell></row><row><cell>500</cell><cell>1411</cell><cell>1555</cell></row><row><cell>1,000</cell><cell>2686</cell><cell>2783</cell></row><row><cell>3,000</cell><cell>7655</cell><cell>7616</cell></row><row><cell>5,000</cell><cell>12601</cell><cell>12485</cell></row><row><cell>7,000</cell><cell>17583</cell><cell>17245</cell></row><row><cell>10,000</cell><cell>25066</cell><cell>24487</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2"><head>Table 3 .</head><label>3</label><figDesc>Comparison of the mean RMSEs between AICc-based GWR and ScaGWR.</figDesc><table><row><cell>Sample size</cell><cell>GWR</cell><cell>β0</cell><cell>ScaGWR</cell><cell cols="2">β1 GWR ScaGWR</cell><cell cols="2">β2 GWR ScaGWR</cell></row><row><cell>500</cell><cell>0.35</cell><cell></cell><cell>0.26</cell><cell>0.69</cell><cell>0.81</cell><cell>0.37</cell><cell>0.28</cell></row><row><cell>1,000</cell><cell>0.28</cell><cell></cell><cell>0.22</cell><cell>0.45</cell><cell>0.56</cell><cell>0.33</cell><cell>0.22</cell></row><row><cell>3,000</cell><cell>0.26</cell><cell></cell><cell>0.16</cell><cell>0.39</cell><cell>0.35</cell><cell>0.40</cell><cell>0.17</cell></row><row><cell>5,000</cell><cell>0.28</cell><cell></cell><cell>0.15</cell><cell>0.42</cell><cell>0.30</cell><cell>0.32</cell><cell>0.16</cell></row><row><cell>7,000</cell><cell>0.21</cell><cell></cell><cell>0.14</cell><cell>0.35</cell><cell>0.26</cell><cell>0.26</cell><cell>0.15</cell></row><row><cell>10,000</cell><cell>0.21</cell><cell></cell><cell>0.14</cell><cell>0.39</cell><cell>0.24</cell><cell>0.32</cell><cell>0.14</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_3"><head>Table 4 .</head><label>4</label><figDesc>Comparison of the coefficients estimated from OLS and ScaGWR.</figDesc><table><row><cell></cell><cell></cell><cell>OLS</cell><cell></cell><cell></cell><cell cols="2">ScaGWR</cell><cell></cell><cell></cell></row><row><cell></cell><cell>Est.</cell><cell>t-value</cell><cell>Min.</cell><cell cols="2">1st Median</cell><cell>Mean</cell><cell>3rd</cell><cell>Max.</cell></row><row><cell>Intercept</cell><cell>7,931</cell><cell>37.6 ***1)</cell><cell cols="2">-99,750 -6,379</cell><cell>6,297</cell><cell cols="2">2,682 15,042</cell><cell>49,810</cell></row><row><cell>Univ</cell><cell cols="2">48,963 333.9 ***</cell><cell cols="2">-11,223 33,237</cell><cell cols="4">41,902 42,493 50,486 142,370</cell></row><row><cell>Eng</cell><cell>204</cell><cell>1.4</cell><cell cols="2">-64,610 -2,338</cell><cell>4,941</cell><cell cols="2">5,553 12,719</cell><cell>76,826</cell></row><row><cell>Age</cell><cell>189</cell><cell>33.4 ***</cell><cell>-1,618</cell><cell>-80</cell><cell>185</cell><cell>251</cell><cell>526</cell><cell>2,907</cell></row><row><cell>Adj. R 2</cell><cell cols="2">0.626</cell><cell></cell><cell></cell><cell>0.802</cell><cell></cell><cell></cell><cell></cell></row><row><cell>AICc</cell><cell cols="2">1,487,283</cell><cell></cell><cell></cell><cell cols="2">1,444,063</cell><cell></cell><cell></cell></row><row><cell cols="4">1)*** denotes statistical significance of 1 %</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row></table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" xml:id="foot_0"><p>Eq. (A4) is identical to Eq. (10).</p></note>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div><head>Acknowledgement</head><p>This work was supported by the <rs type="funder">Japan Society for the Promotion of Science</rs> under Grant <rs type="grantNumber">17H02046</rs>, <rs type="grantNumber">18H01556</rs>, and <rs type="grantNumber">18H03628</rs>; the <rs type="funder">Joint Support Center for Data Science Research</rs> under Grant <rs type="grantNumber">006RP2018</rs> and <rs type="grantNumber">004RP2019</rs>.</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_pgjWumV">
+					<idno type="grant-number">17H02046</idno>
+				</org>
+				<org type="funding" xml:id="_FfwXmuY">
+					<idno type="grant-number">18H01556</idno>
+				</org>
+				<org type="funding" xml:id="_4Cxnhbq">
+					<idno type="grant-number">18H03628</idno>
+				</org>
+				<org type="funding" xml:id="_tbUBcnm">
+					<idno type="grant-number">006RP2018</idno>
+				</org>
+				<org type="funding" xml:id="_WaxQXGb">
+					<idno type="grant-number">004RP2019</idno>
+				</org>
+			</listOrg>
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Appendix 1. Derivation of Eq. (10)</head><p>This appendix shows the derivation of Eq. ( <ref type="formula" target="#formula_47">10</ref>) by expanding 𝐗′𝐆 -" (𝑏, 𝛼)𝐗 and 𝐗′𝐆 -" (𝑏, 𝛼)𝐲 from Eq. ( <ref type="formula" target="#formula_43">9</ref>). The (k, k')-th element of 𝐗′𝐆 -" (𝑏, 𝛼)𝐗 is analytically </p><p>where 𝑚 -",%,%.</p><formula xml:id="formula_26">($) = ∑ 𝑥 /,% 𝑥 /,%. /E"</formula><p>and 𝑚 -",%,%.</p><p>(</p><formula xml:id="formula_27">) = ∑ 𝑔 ",/ (ℎ $ ) : ) ! ⁄ 𝑥 /,% 𝑥 /,%. /E"<label>5</label></formula><p>. Similarly, the kth element of 𝐗′𝐆 " (𝑏, 𝛼)𝐲 is given by</p><formula xml:id="formula_28">∑ 𝑔 𝑖,𝑗 (𝑏, 𝛼)𝑥 𝑗,𝑘 𝑦 𝑗 𝑗≠𝑖 = 𝛼𝑚 -𝑖,𝑘,𝐲 (0) + ∑ 𝑏 𝑝 𝑃 𝑝=1 𝑚 -𝑖,𝑘,𝐲 (𝑝) ,<label>(A3)</label></formula><p>where</p><formula xml:id="formula_29">𝑚 -",%,𝐲 ($) = ∑ 𝑥 /,% 𝑦 / /E"</formula><p>and 𝑚 -",%,𝐲</p><formula xml:id="formula_30">= ∑ 𝑔 ",/ (ℎ $ ) : ) ! ⁄ 𝑥 /,% 𝑦 / /E"<label>(5)</label></formula><p>. By substituting Eqs.</p><p>(11) and ( <ref type="formula">12</ref>) into Eq. ( <ref type="formula" target="#formula_43">9</ref>), the expression for 𝛃 &gt; -" becomes:</p><formula xml:id="formula_31">𝛃 &gt; -" = ⎣ ⎢ ⎢ ⎢ ⎢ ⎢ ⎡ 𝛼𝑚 -",(,(<label>($)</label></formula><p>+ , 𝑏 5 9 5'( 𝑚 -",(,(</p><p>⋯ 𝛼𝑚 -",(,&amp;</p><p>+ , 𝑏 5 9 5'(</p><formula xml:id="formula_34">𝑚 -",(,&amp;<label>(5)</label></formula><formula xml:id="formula_35">⋮ ⋱ ⋮ 𝛼𝑚 -",&amp;,(<label>($)</label></formula><p>+ , 𝑏 5 9 5'(</p><formula xml:id="formula_36">𝑚 -",&amp;,(<label>(5)</label></formula><p>⋯ 𝛼𝑚 "-,&amp;,&amp; ($) + , 𝑏 5 9 5'( 𝑚 -",&amp;,&amp; (5) ⎦ ⎥ ⎥ ⎥ ⎥ ⎥ ⎤ -( ⎣ ⎢ ⎢ ⎢ ⎢ ⎢ ⎡ 𝛼𝑚 -",(,𝐲 ($) + , 𝑏 5 9 5'( 𝑚 -",(,𝐲 (5) ⋮ 𝛼𝑚 -",&amp;,𝐲 ($) + , 𝑏 5</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Appendix 2. Diagnostic statistics for ScaGWR</head><p>Because the ScaGWR model is equivalent to basic GWR with a multiscale kernel, its diagnostics are the same as well. The effective sample size for the ScaGWR model, which is required to evaluate the standard errors of the coefficients, is defined as in WR as</p><formula xml:id="formula_37">𝑁 * = 𝑁 -2𝑡𝑟[𝐒] + 𝑡𝑟[𝐒′𝐒],<label>(A5)</label></formula><p>where S is the design matrix of the ScaGWR model, specified as</p><formula xml:id="formula_38">𝐒 = " 𝑠 (,( 𝑠 (,) 𝑠 ),( 𝑠 ),) ⋯ 𝑠 (,3 ⋯ 𝑠 ),3 ⋮ ⋮ 𝑠 3,( 𝑠 3,) ⋱ ⋮ ⋯ 𝑠 3,S " = " 𝐬′ ( 𝐬′ ) ⋮ 𝐬′ 3 " = ⎣ ⎢ ⎢ ⎡ 𝐱 ( (𝐗′𝐆 ( (𝑏, 𝛼)𝐗) -( 𝐗′𝐆 ( (𝑏, 𝛼) 𝐱 ) (𝐗′𝐆 ) (𝑏, 𝛼)𝐗) -( 𝐗′𝐆 ) (𝑏, 𝛼) ⋮ 𝐱 3 (𝐗′𝐆 3 (𝑏, 𝛼)𝐗) -( 𝐗′𝐆 3 (𝑏, 𝛼)⎦ ⎥ ⎥ ⎤ .<label>(A6)</label></formula><p>S is a large matrix (N × N) that cannot be stored for large values of N. However, 𝑡𝑟 <ref type="bibr">[𝐒]</ref> can be calculated without explicitly processing S as follows:</p><formula xml:id="formula_39">𝑡𝑟[𝐒] = , 𝑠 "," " = , 𝐱 " (𝐗′𝐆 " (𝑏, 𝛼)𝐗) -( 𝐱′ " 𝑔 "," (𝑏, 𝛼) " = , 𝐱 " n𝛼𝐌 ($) + , 𝑏 5 𝐌 " (<label>5</label></formula><formula xml:id="formula_40">) 9 5'( p -( 𝐱′ " 𝑔 "," (𝑏, 𝛼) " ,<label>(A7)</label></formula><p>where ?𝛼𝐌</p><p>($) + ∑ 𝑏 5 𝐌 " (5) 9 5'( C -( is a small matrix (K × K) that has already been calculated when estimating 𝛃 &gt; " . Thus, through Eq. (A7), calculating tr[S] is computationally efficient. Likewise, 𝑡𝑟[𝐒′𝐒] can be calculated without processing the large matrix 𝐒′𝐒, by using 𝑡𝑟[𝐒′𝐒] = ∑ ∑ 𝑠 ",/ ) / " as follows: 𝑡𝑟[𝐒′𝐒] = , , 𝑠 ",/ ) / " = , 𝐬′ " 𝐬 " " = , 𝐱 " n𝛼𝐌 ($) + , 𝑏 5 𝐌 " (5) 9 5'( p -( 𝐗 . 𝐆 " (𝑏, 𝛼) ) 𝐗 n𝛼𝐌 ($) " + , 𝑏 5 𝐌 " (5) 9 5'( p -( 𝐱′ " = , 𝐱 " n𝛼𝐌 ($) + , 𝑏 5 𝐌 " (5) 9 5'( p -( 𝐗′(𝛼𝐈 " + 𝐆 " (&lt;) (𝑏)) ) 𝐗 n𝛼𝐌 ($) + , 𝑏 5 𝐌 " (5) 9 5'( p -( 𝐱′ " = , 𝐱 " n𝛼𝐌 ($) + , 𝑏 5 𝐌 " (5) 9 5'( p -( (𝛼 ) 𝐗′𝐗 + 2𝛼𝐗′𝐆 " (&lt;) (𝑏)𝐗 " + 𝐗′𝐆 " (&lt;) (𝑏) ) 𝐗) n𝛼𝐌 ($) + , 𝑏 5 𝐌 " (5) 9 5'( p -( 𝐱′ " = , 𝐱 " n𝛼𝐌 ($) + , 𝑏 5 𝐌 " (5) 9 5'( p -( (𝛼 ) 𝐌 ($) + 2𝛼 , 𝑏 5 𝐌 " (5) 9 5'( " + , 𝑏 )5 𝐌 " ()5) 9 5'( ) n𝛼𝐌 ($) + , 𝑏 5 𝐌 " (5) 9 5'( p -( 𝐱′ " .</p><p>Although we also need to calculate 𝐌 " ()5) , a K × K matrix whose (k, k')-th element is</p><formula xml:id="formula_42">∑ 𝑔 ",/ (ℎ $ ) T ) ! ⁄ 𝑥 /,% 𝑥 /,%. /</formula><p>, the computational complexity is identical to that of 𝐌 " (5) . Thus, the calculation is still trivial.</p><p>This article has been accepted for publication in Annals of the American Association of Geographers, published by Taylor &amp; Francis.</p><p>Given 𝑁 * , the unbiased estimate of the residual variance is</p><formula xml:id="formula_43">𝜎 -) = 1 𝑁 * ,~𝑦 " -𝐱 " 𝛃 &gt; " • ) &amp; %'( ,<label>(A9)</label></formula><p>which is equivalent to Eq. ( <ref type="formula">13</ref>). The variance estimates for the SVCs are derived as</p><formula xml:id="formula_44">𝑉𝑎𝑟[𝛃 &gt; " ] = 𝜎 -) (𝐗′𝐆 " (𝑏, 𝛼)𝐗) -( 𝐗′𝐆 " (𝑏, 𝛼) ) 𝐗(𝐗′𝐆 " (𝑏, 𝛼)𝐗) -( , = 𝜎 -) n𝛼𝐌 ($) + , 𝑏 5 𝐌 " (<label>5</label></formula><formula xml:id="formula_45">) 9 5'( p -( ™𝛼 ) 𝐌 ($) + 2𝛼 , 𝑏 5 𝐌 " (<label>5</label></formula><formula xml:id="formula_46">) 9 5'( + , 𝑏 )5 𝐌 " ()5) 9 5'( š n𝛼𝐌 ($) + , 𝑏 5 𝐌 " (<label>5</label></formula><formula xml:id="formula_47">) 9 5'( p -( ,<label>(A10)</label></formula><p>which is again trivial to calculate. Thus, diagnostics for ScaGWR are available for large samples. Note that the CP time presented in Section 4 includes the time taken to estimate both 𝛃 &gt; " and 𝑉𝑎𝑟[𝛃 &gt; " ].</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Appendix.3. AICc-based approach to optimize {𝒃, 𝜶}</head><p>The parameters {𝑏, 𝛼} can also be estimated using AICc, which is widely accepted for bandwidth estimation in GWR (e.g., <ref type="bibr" target="#b38">Nakaya et al. 2005)</ref>. The AICc-based procedure consists of the same steps, (I), (II), and (III), except that the second step is replaced with the minimization of the AICc, whose formula is</p><formula xml:id="formula_48">AICc = 𝑁𝑙𝑜𝑔(𝜎 -) ) + 𝑁𝑙𝑜𝑔(2𝜋) + 𝑁 𝑁 + 𝑡𝑟[𝐒] 𝑁 -2 -𝑡𝑟[𝐒] .<label>(A11)</label></formula><p>𝐒 is the N × N design matrix whose i-th row equals 𝐱 " (𝐗′𝐆 " (𝑏, 𝛼)𝐗) -( 𝐗 . 𝐆 " (𝑏, 𝛼), where 𝐱 " is the i-th row of X. 𝜎 -) is the variance estimator, given by</p><p>This article has been accepted for publication in Annals of the American Association of Geographers, published by Taylor &amp; Francis. 𝜎 -) = 1 𝑁 -2𝑡𝑟[𝐒] + 𝑡𝑟[𝐒′𝐒] ,~𝑦 " -𝐱 " 𝛃 &gt; " • ) &amp; %'( . (A12) Furthermore, the traces 𝑡𝑟[𝐒] and 𝑡𝑟[𝐒′𝐒] can be calculated without explicitly processing the large S matrix, by using the following expressions (see Appendix 2): 𝑡𝑟[𝐒] = , 𝐱 " n𝛼𝐌 ($) + , 𝑏 5 𝐌 " (5) 9 5'( p -( 𝐱′ " 𝑔 "," (𝑏, 𝛼) " , (A13) 𝑡𝑟[𝐒′𝐒] = , 𝐱 " n𝛼𝐌 ($) + , 𝑏 5 𝐌 " (5) 9 5'( p -( " ™𝛼 ) 𝐌 ($) + 2𝛼 , 𝑏 5 𝐌 " (5) 9 5'( + , 𝑏 )5 𝐌 " ()5) 9 5'( š n𝛼𝐌 ($) + , 𝑏 5 𝐌 " (5) 9 5'(</p><p>where 𝐌 " ()5) = 𝐌 " (5) 𝐌 " ( <ref type="formula" target="#formula_27">5</ref>) is evaluated before the iterations for the AICc minimization.</p><p>The most challenging additional CP required for the AICc minimization is the product of the 𝐾 × 𝐾 matrices in 𝑡𝑟 <ref type="bibr">[𝐒′𝐒]</ref>. Given 𝐌 " (5) and 𝐌 ($) in step (I), the complexity is independent of N. Thus, the AICc-based approach achieves a linear-time estimation as well.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_23"><head>&amp;</head><figDesc>𝑔 𝑖,𝑗 (𝑏, 𝛼)𝑥 𝑗,𝑘 𝑥 𝑗,𝑘′ 𝑗≠𝑖 (A1) By substituting Eq. (6) into Eq. (10), it is further expanded as&amp; &amp; $𝛼 + 𝑏 𝑝 𝑔 𝑖,𝑗 (𝑄) (ℎ 0 ) 4 2 𝑝 ⁄ % 𝑃 𝑝=1 𝑥 𝑗,𝑘 𝑥 𝑗,𝑘′ 𝑗≠𝑖 = 𝛼 &amp; 𝑥 𝑗,𝑘 𝑥 𝑗,𝑘′ 𝑗≠𝑖 + &amp; 𝑏 𝑝 𝑃 𝑝=1 &amp; 𝑔 𝑖,𝑗 (ℎ 0 ) 4 2 𝑝 ⁄ 𝑥 𝑗,𝑘 𝑥 𝑗,𝑘′ 𝑗≠𝑖 ,</figDesc></figure>
+			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Gaussian predictive process models for large spatial data sets</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Banerjee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">O</forename><surname>Finley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Sang</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/j.1467-9868.2008.00663.x</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society: Series B (Statistical Methodology)</title>
+		<imprint>
+			<biblScope unit="volume">70</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="825" to="848" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Geographically Weighted Regression</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/1467-9884.00145</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society: Series D (The Statistician)</title>
+		<imprint>
+			<biblScope unit="volume">47</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="431" to="443" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Using geographically weighted regression to explore local crime patterns</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Cahill</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Mulligan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Social Science Computer Review</title>
+		<imprint>
+			<biblScope unit="volume">25</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="174" to="193" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Generating models by the expansion method: applications to geographical research</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>Casetti</surname></persName>
+		</author>
+		<idno type="DOI">10.1177/0894439307298925</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical analysis</title>
+		<imprint>
+			<biblScope unit="volume">4</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="81" to="91" />
+			<date type="published" when="1972">1972</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Extreme coefficients in geographically weighted regression and their effects on mapping</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Cho</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">M</forename><surname>Lambert</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">G</forename><surname>Kim</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Jung</surname></persName>
+		</author>
+		<idno type="DOI">10.2747/1548-1603.46.3.273</idno>
+	</analytic>
+	<monogr>
+		<title level="j">GIScience &amp; Remote Sensing</title>
+		<imprint>
+			<biblScope unit="volume">46</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="273" to="288" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<monogr>
+		<title level="m" type="main">Statistics for Spatial Data</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Cressie</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1993">1993</date>
+			<publisher>John Willy and Sons</publisher>
+			<pubPlace>New York</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Fixed rank kriging for very large spatial data sets</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Cressie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Johannesson</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/j.1467-9868.2007.00633.x</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society: Series B (Statistical Methodology)</title>
+		<imprint>
+			<biblScope unit="volume">70</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="209" to="226" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Hierarchical nearestneighbor Gaussian process models for large geostatistical datasets</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Datta</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Banerjee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">O</forename><surname>Finley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+		<idno type="DOI">10.1080/01621459.2015.1044091</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">111</biblScope>
+			<biblScope unit="issue">514</biblScope>
+			<biblScope unit="page" from="800" to="812" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Geographically weighted regression models for ordinal categorical response variables: An application to georeferenced life satisfaction data</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Dong</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Nakaya</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.compenvurbsys.2018.01.012</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Computers, Environment and Urban Systems</title>
+		<imprint>
+			<biblScope unit="volume">70</biblScope>
+			<biblScope unit="page" from="35" to="42" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Spatial modelling: a comprehensive framework for principal coordinate analysis of neighbor matrices (PCNM)</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Dray</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Legendre</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">R</forename><surname>Peres-Neto</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.ecolmodel.2006.02.015</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Ecological Modelling</title>
+		<imprint>
+			<biblScope unit="volume">196</biblScope>
+			<biblScope unit="issue">3-4</biblScope>
+			<biblScope unit="page" from="483" to="493" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<monogr>
+		<author>
+			<persName><forename type="first">D</forename><surname>Eddelbuettel</surname></persName>
+		</author>
+		<title level="m">Seamless R and C++ Integration with Rcpp</title>
+		<meeting><address><addrLine>New York</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">The era of big spatial data: A survey</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Eldawy</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">F</forename><surname>Mokbel</surname></persName>
+		</author>
+		<idno type="DOI">10.11185/imt.10.305</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Foundations and Trends in Databases</title>
+		<imprint>
+			<biblScope unit="volume">6</biblScope>
+			<biblScope unit="issue">3-4</biblScope>
+			<biblScope unit="page" from="163" to="273" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">A comparison of localized regression models in a hedonic house price context</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Farber</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Yeates</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Canadian Journal of Regional Science</title>
+		<imprint>
+			<biblScope unit="volume">29</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="405" to="420" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Comparing spatially-varying coefficients models for analysis of ecological data with non-stationary and anisotropic residual dependence</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">O</forename><surname>Finley</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/j.2041-210X.2010.00060.x</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Methods in Ecology and Evolution</title>
+		<imprint>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="143" to="154" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">The credibility of volunteered geographic information</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">J</forename><surname>Flanagin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">J</forename><surname>Metzger</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/s10708-008-9188-y</idno>
+	</analytic>
+	<monogr>
+		<title level="j">GeoJournal</title>
+		<imprint>
+			<biblScope unit="volume">72</biblScope>
+			<biblScope unit="issue">3-4</biblScope>
+			<biblScope unit="page" from="137" to="148" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<monogr>
+		<title level="m" type="main">Geographically Weighted Regression: The Analysis of Spatially Varying Relationships</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2002">2002</date>
+			<publisher>Wiley</publisher>
+			<pubPlace>New York</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Multiscale geographically weighted regression (mgwr)</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Yang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Kang</surname></persName>
+		</author>
+		<idno type="DOI">10.1080/24694452.2017.1352480</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of the American Association of Geographers</title>
+		<imprint>
+			<biblScope unit="volume">107</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1247" to="1265" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Covariance tapering for interpolation of large spatial datasets</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Furrer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">G</forename><surname>Genton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Nychka</surname></persName>
+		</author>
+		<idno type="DOI">10.1198/106186006X132178</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Computational and Graphical Statistics</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="502" to="523" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">A new method for dealing simultaneously with spatial autocorrelation and spatial heterogeneity in regression models</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Geniaux</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Martinetti</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.regsciurbeco.2017.04.001</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">72</biblScope>
+			<biblScope unit="page" from="74" to="85" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">GWmodel: an R Package for Exploring Spatial Heterogeneity using Geographically Weighted Models</title>
+		<author>
+			<persName><forename type="first">I</forename><surname>Gollini</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Lu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Harris</surname></persName>
+		</author>
+		<idno type="DOI">10.18637/jss.v063.i17</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Statistical Software</title>
+		<imprint>
+			<biblScope unit="volume">63</biblScope>
+			<biblScope unit="page" from="1" to="50" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Grid-enabling geographically weighted regression: a case study of participation in higher education in England</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Harris</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Singleton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Grose</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Longley</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/j.1467-9671.2009.01181.x</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Transactions in GIS</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="43" to="61" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">A simulation study on specifying a regression model for spatial data: Choosing between autocorrelation and heterogeneity effects</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Harris</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/gean.12163</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">51</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="151" to="181" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">A case study competition among methods for analyzing large spatial data</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">J</forename><surname>Heaton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Datta</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">O</forename><surname>Finley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Furrer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Guinness</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Guhaniyogi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Gerber</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">B</forename><surname>Gramacy</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Hammerling</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Katzfuss</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Lindgren</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">W</forename><surname>Nychka</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Sun</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Zammit-Mangion</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/s13253-018-00348-w</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Agricultural, Biological and Environmental Statistics</title>
+		<imprint>
+			<biblScope unit="volume">24</biblScope>
+			<biblScope unit="page" from="398" to="425" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">A modification to geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">Y.-Y</forename><surname>Leong</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">C</forename><surname>Yue</surname></persName>
+		</author>
+		<idno type="DOI">10.1186/s12942-017-0085-9</idno>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Health Geographics</title>
+		<imprint>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="page">11</biblScope>
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Fast Geographically Weighted Regression (FastGWR): a scalable algorithm to investigate spatial process heterogeneity in millions of observations</title>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Oshan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Geographical Information Science</title>
+		<imprint>
+			<biblScope unit="volume">33</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="155" to="175" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">When Gaussian process meets big data: A review of scalable GPs</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><forename type="middle">S</forename><surname>Ong</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Shen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Cai</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/TNNLS.2019.2957109</idno>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Transactions on Neural Networks and Learning Systems</title>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Geographically weighted regression with a non-Euclidean distance metric: a case study using hedonic house price data</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Lu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Harris</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<idno type="DOI">10.1080/13658816.2013.865739</idno>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Geographical Information Science</title>
+		<imprint>
+			<biblScope unit="volume">28</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="660" to="681" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">The GWmodel R package: further topics for exploring spatial heterogeneity using geographically weighted models</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Lu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Harris</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Brunsdon</forename><forename type="middle">C</forename></persName>
+		</author>
+		<idno type="DOI">10.1080/10095020.2014.917453</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Geo-spatial Information Science</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="page" from="85" to="101" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">The Minkowski approach for choosing the distance metric in geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Lu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Harris</forename><forename type="middle">P</forename></persName>
+		</author>
+		<idno type="DOI">10.1080/13658816.2015.1087001</idno>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Geographical Information Science</title>
+		<imprint>
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="page" from="351" to="368" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">Geographically weighted regression with parameter-specific distance metrics</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Lu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Harris</surname></persName>
+		</author>
+		<idno type="DOI">10.1080/13658816.2016.1263731</idno>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Geographical Information Science</title>
+		<imprint>
+			<biblScope unit="volume">31</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="982" to="998" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Improvements to the calibration of a geographically weighted regression with parameter-specific distance metrics and bandwidths</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Lu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Yang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Ge</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Harris</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.compenvurbsys.2018.03.012</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Computers, Environment and Urban Systems</title>
+		<imprint>
+			<biblScope unit="volume">71</biblScope>
+			<biblScope unit="page" from="41" to="57" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">A response to &apos;A comment on geographically weighted regression with parameter-specific distance metrics</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Lu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Harris</surname></persName>
+		</author>
+		<idno type="DOI">10.1080/13658816.2019.1585541</idno>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Geographical Information Science</title>
+		<imprint>
+			<biblScope unit="volume">33</biblScope>
+			<biblScope unit="issue">7</biblScope>
+			<biblScope unit="page" from="1300" to="1312" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">Estimation and inference in spatially varying coefficient models</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Mu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Wang</surname></persName>
+		</author>
+		<idno type="DOI">10.1002/env.2485</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Environmetrics</title>
+		<imprint>
+			<biblScope unit="volume">29</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page">2485</biblScope>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">Spatially varying coefficient modeling for large datasets: Eliminating N from spatial regressions</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Murakami</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Griffith</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.spasta.2019.02.003</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Spatial Statistics</title>
+		<imprint>
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="page" from="39" to="64" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<analytic>
+		<title level="a" type="main">A memory-free spatial additive mixed modeling for big spatial data</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Murakami</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Griffith</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/s42081-019-00063-x</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Japanese Journal of Statistics and Data Science</title>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<analytic>
+		<title level="a" type="main">The importance of scale in spatially varying coefficient modeling</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Murakami</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Lu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Harris</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Nakaya</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Griffith</surname></persName>
+		</author>
+		<idno type="DOI">10.1080/24694452.2018.1462691</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of the American Association of Geographers</title>
+		<imprint>
+			<biblScope unit="volume">109</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="50" to="70" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<analytic>
+		<title level="a" type="main">A Moran coefficient-based mixed effects approach to investigate spatially varying relationships</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Murakami</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Yoshida</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Seya</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Griffith</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Yamagata</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.spasta.2016.12.001</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Spatial Statistics</title>
+		<imprint>
+			<biblScope unit="volume">19</biblScope>
+			<biblScope unit="page" from="68" to="89" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<analytic>
+		<title level="a" type="main">Geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Nakaya</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Encyclopaedia of Geographical Information Science</title>
+		<editor>
+			<persName><forename type="first">K</forename><surname>Kemp</surname></persName>
+		</editor>
+		<meeting><address><addrLine>Los Angles</addrLine></address></meeting>
+		<imprint>
+			<publisher>Sage Publications</publisher>
+			<date type="published" when="2007">2007</date>
+			<biblScope unit="page" from="179" to="184" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<analytic>
+		<title level="a" type="main">Geographically weighted Poisson regression for disease association mapping</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Nakaya</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+		<idno type="DOI">10.1002/sim.2129</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Statistics in Medicine</title>
+		<imprint>
+			<biblScope unit="volume">24</biblScope>
+			<biblScope unit="issue">17</biblScope>
+			<biblScope unit="page" from="2695" to="2717" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<analytic>
+		<title level="a" type="main">2019a. mgwr: A Python implementation of multiscale geographically weighted regression for investigating process spatial heterogeneity and scale</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Oshan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Kang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">J</forename><surname>Wolf</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<idno type="DOI">10.3390/ijgi8060269</idno>
+	</analytic>
+	<monogr>
+		<title level="j">ISPRS International Journal of Geo-Information</title>
+		<imprint>
+			<biblScope unit="volume">8</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page">269</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b40">
+	<analytic>
+		<title level="a" type="main">A comment on geographically weighted regression with parameter-specific distance metrics</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Oshan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">J</forename><surname>Wolf</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Kang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Yu</surname></persName>
+		</author>
+		<idno type="DOI">10.1080/13658816.2019.1572895</idno>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Geographical Information Science</title>
+		<imprint>
+			<biblScope unit="volume">33</biblScope>
+			<biblScope unit="issue">7</biblScope>
+			<biblScope unit="page" from="1289" to="1299" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b41">
+	<analytic>
+		<title level="a" type="main">Moving window approaches for hedonic price estimation: an empirical comparison of modelling techniques</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Páez</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Long</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Farber</surname></persName>
+		</author>
+		<idno type="DOI">10.1177/0042098008091491</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Urban Studies</title>
+		<imprint>
+			<biblScope unit="volume">45</biblScope>
+			<biblScope unit="issue">8</biblScope>
+			<biblScope unit="page" from="1565" to="1581" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b42">
+	<analytic>
+		<title level="a" type="main">PySAL: the first 10 years</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">J</forename><surname>Rey</surname></persName>
+		</author>
+		<idno type="DOI">10.1080/17421772.2019.1593495</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Spatial Economic Analysis</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="273" to="282" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b43">
+	<analytic>
+		<title level="a" type="main">Limitations on low rank approximations for covariance matrices of spatial data</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">L</forename><surname>Stein</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.spasta.2013.06.003</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Spatial Statistics</title>
+		<imprint>
+			<biblScope unit="volume">8</biblScope>
+			<biblScope unit="page" from="1" to="19" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b44">
+	<analytic>
+		<title level="a" type="main">Large-scale geographically weighted regression on Spark</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">T</forename><surname>Tran</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">T</forename><surname>Nguyen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><forename type="middle">T</forename><surname>Tran</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/KSE.2016.7758041</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 2016 Eighth International Conference on Knowledge and Systems Engineering 127-132</title>
+		<meeting>the 2016 Eighth International Conference on Knowledge and Systems Engineering 127-132</meeting>
+		<imprint>
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b45">
+	<analytic>
+		<title level="a" type="main">Multicollinearity and correlation among local regression coefficients in geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Wheeler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Tiefelsdorf</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/s10109-005-0155-6</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Geographical System</title>
+		<imprint>
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="161" to="187" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b46">
+	<analytic>
+		<title level="a" type="main">Single and multiscale models of process spatial heterogeneity</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">J</forename><surname>Wolf</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Oshan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/gean.12147</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">50</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="223" to="246" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b47">
+	<monogr>
+		<title level="m" type="main">An extension of geographically weighted regression with flexible bandwidths</title>
+		<author>
+			<persName><forename type="first">W</forename><surname>Yang</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2014">2014</date>
+		</imprint>
+		<respStmt>
+			<orgName>University of St Andrews</orgName>
+		</respStmt>
+	</monogr>
+	<note type="report_type">Doctoral dissertation</note>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

@@ -1,0 +1,1235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Spatial Homogeneity Pursuit of Regression Coefficients for Large Datasets</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability  status="unknown">
+					<licence/>
+				</availability>
+				<date type="published" when="2018-08-31">August 31, 2018</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">Furong</forename><surname>Li</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department" key="dep1">School of Mathematical Sciences</orgName>
+								<orgName type="department" key="dep2">Department of Statistics</orgName>
+								<orgName type="institution" key="instit1">Ocean University of China</orgName>
+								<orgName type="institution" key="instit2">Texas A&amp;M University</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Huiyan</forename><surname>Sang</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department" key="dep1">School of Mathematical Sciences</orgName>
+								<orgName type="department" key="dep2">Department of Statistics</orgName>
+								<orgName type="institution" key="instit1">Ocean University of China</orgName>
+								<orgName type="institution" key="instit2">Texas A&amp;M University</orgName>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Spatial Homogeneity Pursuit of Regression Coefficients for Large Datasets</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2018-08-31">August 31, 2018</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">31AFA2E6F58C0035B4BF0204D9CED15A</idno>
+					<idno type="DOI">10.1080/01621459.2018.1529595</idno>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-29T10:21+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>Fused lasso</term>
+					<term>Minimum spanning tree</term>
+					<term>Penalized least squares</term>
+					<term>Spatially clustered coefficient</term>
+					<term>Varying coefficient regression. 2</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Spatial regression models have been widely used to describe the relationship between a response variable and some explanatory variables over a region of interest, taking into account the spatial dependence of the observations. In many applications, relationships between response variables and covariates are expected to exhibit complex spatial patterns. We propose a new approach, referred to as SCC, to detect spatially clustered patterns in the regression coefficients. It incorporates spatial neighborhood information through a carefully constructed regularization to automatically detect change points in space and to achieve computational scalability. Our numerical studies suggest that SCC works very effectively, capturing not only clustered coefficients, but also smoothly varying coefficients because of its strong local adaptivity. This flexibility allows researchers to explore various spatial structures in regression coefficients. We also establish theoretical properties of SCC. We use SCC to explore the relationship between the temperature and salinity of sea water in the Atlantic basin; this can provide important insights about the evolution of individual water masses and the pathway and strength of meridional overturning circulation in oceanography.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>Numerous problems today in the environmental, earth, and biological sciences involve large amounts of spatial data that are obtained from remote sensors, satellite images, scientific climate computer models, and so forth. In many such applications, a main problem of interest is investigation of the relationship between a response variable and a set of explanatory variables over a region of interest, taking into account the spatial dependence of the observations. Spatial regression models such as Gaussian process regression <ref type="bibr" target="#b8">(Cressie, 1993)</ref> or spatial generalized linear regression models <ref type="bibr" target="#b9">(Diggle et al., 1998)</ref> have been widely adopted for this problem; these account for spatial dependence by adding a spatial random effect to the (generalized) linear regression models or, equivalently, by assuming a spatially varying intercept that absorbs a spatial random effect. The effects of explanatory variables in such models are often assumed to be constant across the entire region. However, for data that are collected from a large region, relationships between response variables and covariates may exhibit complex spatially dynamic patterns that cannot be captured by constant regression coefficients. In particular, relationships among spatial variables may abruptly change across the boundaries of adjacent clusters but stay relatively homogeneous within clusters.</p><p>The need to detect such clusters arises in many biological, ecological, agricultural, environmental, and real estate applications, to name a few. Detecting these clusters allows straightforward interpretations of local associations between response variables and covariates. For example, climate/environmental conditions on the ground often exhibit abrupt changes across certain topological boundaries. Housing prices per square footage can differ substantially on opposite sides of a street. Neuroscientists are interested in finding clusters of human brain subregions that react to certain stimuli. Relationships among 3 A c c e p t e d M a n u s c r i p t underground geophysical properties as well as atmospheric properties are also expected to change abruptly because both the underground and the atmosphere consist of complex and heterogeneous multiple layers.</p><p>Our specific motivating problem comes from an important scientific question in geoscience. Geophysical fluids (i.e., air and sea water) consist of distinct fluid masses <ref type="bibr" target="#b35">(Talley, 2011)</ref>. Within each fluid mass, the physical and chemical properties are relatively homogeneous, but they change rapidly across the narrow boundaries (termed fronts in geoscience) between adjacent fluid masses. This phenomenon is a result of the nonlinear nature of geophysical fluid dynamics and is ubiquitous in the atmosphere and the ocean <ref type="bibr" target="#b40">(Vallis, 2006)</ref>.</p><p>The relationships between different characteristics of fluids are likely to change abruptly across fronts. One notable instance is the relationship between the temperature and the salinity of sea water (referred to hereafter as the T-S relationship). In oceanography, temperature and salinity are two important features of water masses that strongly affect ocean currents <ref type="bibr" target="#b35">(Talley, 2011)</ref>. Knowledge of the spatial distribution of the T-S relationship in the ocean can provide important information about the evolution of individual water masses.</p><p>Such information can be further used to monitor the pathway and strength of the meridional overturning circulation (MOC), which plays a key role in the global climate system.</p><p>In the context of spatial statistics, various models have been developed to capture spatially varying regression coefficients. Geographically Weighted Regression (GWR) <ref type="bibr" target="#b16">(Fotheringham et al., 2003)</ref> and Spatially Varying Coefficients (SVC) models <ref type="bibr" target="#b20">(Gelfand et al., 2003)</ref> are two popular methods of this type. GWR extends the ordinary least square regression by fitting a local regression model at each observation. Assuming a linear model with y denoting the response variable and X the design matrix, the regression coefficient at the i-th location is estimated from β i = (X T W i X) -1 X T W i y, where W i is a diagonal weight matrix defined by a kernel function of distance to point i. Such weighting schemes make 4 A c c e p t e d M a n u s c r i p t the GWR method more efficient to deal with smoothly varying than clustered regression coefficients. In <ref type="bibr" target="#b20">Gelfand et al. (2003)</ref>, spatially varying regression coefficients are modeled as a multivariate spatial Gaussian process. It fits into the Bayesian paradigm with posterior inference attainable for all model parameters and thus provides a richer inferential framework. Such an advantage comes at the cost of a large computational burden due to its requirement of the Metropolis algorithm. Recent advances in dealing with large spatial datasets such as the predictive process <ref type="bibr" target="#b1">(Banerjee et al., 2008)</ref> and the Gaussian Markov Random Field approximation <ref type="bibr" target="#b25">(Lindgren et al., 2011)</ref> could be utilized in the SVC models to alleviate its computational burden. Although the SVC models offer flexibility in modeling spatially varying coefficients through the choice of covariance/cross-covariance functions, to our knowledge, there are very limited existing covariance/cross-covariance functions appropriate to capture arbitrary clustered patterns.</p><p>We seek to develop a spatial modeling approach that is directly applicable for detecting spatially contiguous clusters in regression coefficients. One potential solution would be motivated by the studies on the homogeneity pursuit of regression coefficients in highdimensional data analysis. In these studies (e.g., <ref type="bibr" target="#b23">Ke et al., 2015;</ref><ref type="bibr" target="#b38">Tibshirani et al., 2005)</ref>, pairwise coefficient differences are penalized to encourage homogeneity among coefficients.</p><p>A key ingredient is the appropriate selection of sets of pairs on which to impose penalties. When a complete order of regression coefficients is available, such as in time series problems, we could construct fusion penalties <ref type="bibr" target="#b38">(Tibshirani et al., 2005)</ref> on successive differences between coefficients in order to encourage similarity in adjacent coefficients. Then the problem can be transformed to lasso regularization <ref type="bibr" target="#b37">(Tibshirani, 1996)</ref>, an optimization problem for which efficient algorithms are available. However, this strategy is not applicable to spatial data, as they do not have a natural order. For cases where there is no prior information on the order of coefficients, several recent studies propose establishing 5 A c c e p t e d M a n u s c r i p t a coefficient order based on preliminary coefficient estimates <ref type="bibr" target="#b23">(Ke et al., 2015;</ref><ref type="bibr" target="#b36">Tang and Song, 2016)</ref>. Clearly, such methods require adequate sample replicates to obtain reliable preliminary coefficient estimates for ordering. But in spatial statistics, it is common to have spatial observations from only one snapshot or spatio-temporal observations with a strong dependence in time. Independent replicates are unavailable in both of these cases.</p><p>In this paper, we propose a new spatial regression modeling approach, called Spatially Clustered Coefficient (SCC) regression, to estimate regression coefficients when there are spatial patterns, especially clustered patterns, in the relationship between a response variable and explanatory variables. SCC imposes penalties on the difference between regression coefficients at any two locations connected in an edge set. To address the challenge of selecting an edge set that incorporates spatial information while maintaining computational efficiency, we propose using a minimum spanning tree (MST). An MST is a subgraph that connects all vertices of an undirected graph with no cycles and with minimum total edge weights. For a spatial problem, an MST can be constructed efficiently based on spatial locations with distances between locations serving as the edge weights. It compactly represents a spatial topology of observed points: two locations that are connected by an MST tend to be close in space. Therefore, the penalties on the edges of an MST encourage spatial homogeneity of the coefficients at proximate locations. Moreover, such a choice of the edge set facilitates computation: after a linear reparameterization, the estimation problem is reduced to the usual lasso-type optimization, which has a highly scalable algorithm suitable for large datasets. SCC has several other advantages. It allows the investigation of different clustered patterns in different regression coefficients. The number of clusters estimated from SCC is completely data driven. Furthermore, although designed for clustered coefficients, our numerical studies show that the SCC model has strong local adaptivity and can also suc-6 A c c e p t e d M a n u s c r i p t cessfully capture a highly spatially variable pattern.</p><p>The rest of the article is organized as follows. Section 2 details the SCC model and discusses its theoretical properties. In Section 3, we present simulation studies to illustrate the performance of SCC. An application of the method is shown in Section 4 using the aforementioned temperature and salinity data in the Atlantic basin. Section 5 summarizes the major conclusions of this study followed by discussion. Related proof, more simulation results, and codes are provided in the supplementary materials.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">Methodology</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1">Spatially Clustered Coefficient Model</head><p>Suppose a set of spatial data {(x(s i ), y (s i )), i = 1, ... , n} is observed at locations s 1 , ... , s n ∈ R 2 , where the response variable y (s i ) is assumed to be spatially correlated and x(s i ) = (x 1 (s i ), ... , x p (s i )) T is the p-dimensional vector of explanatory variables for the observation located at s i . Consider the standard linear regression, y (s i ) = p k=1 x k (s i )β k + (s i ), where β k , k = 1, 2, ... , p are the regression coefficients and (s i ) are independently identically distributed random noises with mean 0 and variance σ 2 . Without loss of generality, we assume that the explanatory variables are standardized to have mean 0 and unit variance.</p><p>The extension of the linear regression model to allow spatially varying regression coefficients is straightforward,</p><formula xml:id="formula_0">y (s i ) = p k=1 x k (s i )β k (s i ) + (s i ).<label>(1)</label></formula><p>In many spatial datasets, it is very common to observe only one or a limited number of replicates at each location, making the model (1) ill-posed if without any assumptions 7 A c c e p t e d M a n u s c r i p t on β k (s i ). For example, with only one spatial realization {(x(s i ), y (s i )), i = 1, ... , n} at n observed locations, the regression model (1) can be written in the matrix form y = Xβ + .</p><p>Here, we stack all the coefficients into a vector β = (β 1 (s 1 ), ... , β 1 (s n ), ... , β p (s 1 ), ... , β p (s n )) T , and the design matrix X = [diag (x 1 ), ... , diag (x p )] is an n × np matrix with x k = (x k (s 1 ), ... , x k (s n )) T . Clearly, this regression problem needs to be regularized since there are more variables than observations. For spatial problems, it is expected that association between a response variable and explanatory variables at nearby locations is highly homogeneous. This motivates us to assign a regularization function for β reflecting such spatial homogeneity patterns.</p><p>Specifically, we propose to estimate β by minimizing the following objective function</p><formula xml:id="formula_1">1 n n i=1 {y (s i ) - p k=1 x k (s i )β k (s i )} 2 + p k=1 (i,j)∈E P λ (β k (s i ) -β k (s j )).<label>(2)</label></formula><p>Here, E is the edge set of a graph consisting of n vertices, where each vertex corresponds to one observed spatial location. The term P λ is a penalty function to encourage homogeneity between two regression coefficients if their corresponding locations s i and s j are connected by an edge in E. λ is a tuning parameter determining the strength of penalization. The selections of the penalty function P λ , the edge set E and the tuning parameter λ are the three ingredients of the model (2). Below, we discuss strategies to choose them.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1.1">Selection of the penalty function P λ</head><p>There are various forms of penalty functions encouraging sparsity in the literature of variable selection. The simplest and perhaps the most widely adopted one is the lasso (Tib-8 A c c e p t e d M a n u s c r i p t shirani, 1996) that employs L 1 -penalty of the form</p><formula xml:id="formula_2">P λ (t) = λ|t|.<label>(3)</label></formula><p>As the penalty in (3) is a convex function, efficient convex optimization algorithms can be readily applied. In this case, the L 1 penalty P λ (β k (s i ) -β k (s j )) enforces sparsity of the difference in two edge-connected coefficients. This allows the estimation of regression coefficients with a spatially piecewise constant (i.e., clustered pattern) if edge sets are selected appropriately to incorporate spatial information. The non-zero elements of |β k (s i ) -β k (s j )| correspond to boundary points, whereas any two edge-connected coefficients with zero difference belong to the same cluster. Naturally, spatial clusters for each explanatory variable can be automatically detected. However, as lasso assigns large penalties to large values of t, it tends to underestimate t, in our case, the difference in two regression coefficients, when its true value is large. To remedy this flaw, various penalty functions have been proposed, including adaptive lasso <ref type="bibr" target="#b46">(Zou, 2006)</ref>, smoothly clipped absolute deviation (SCAD) <ref type="bibr" target="#b14">(Fan and Li, 2001)</ref>, minimax concave penalty (MCP) <ref type="bibr" target="#b43">(Zhang, 2010)</ref>, and reciprocal L 1regularization (rlasso) <ref type="bibr" target="#b33">(Song and Liang, 2015)</ref>. Adaptive lasso assigns larger weights to the terms with small values in the L 1 penalty. SCAD and MCP adopt some concave functions that converge to constants as the penalized term becomes large. The rlasso uses a class of penalty functions that are decreasing in (0, ∞) with a discontinuity at 0 and converging to infinity when the penalized term approaches zero. These forms have smaller estimation errors compared to lasso, which, however, is at the expense of considerable increase in computational cost. In practice, penalty functions are often selected by weighing a trade-off between statistical efficiency and computational complexity for specific problems.</p><p>It should be noted that the reduction of computational burden is critically important in spatial analysis as large datasets have become common in diverse fields such as geoscience, 9</p><p>A c c e p t e d M a n u s c r i p t ecology, and econometrics. In this study, we mainly focus on the lasso penalty to demonstrate the power of SCC for its computational simplicity. We remark that SCC can adopt other forms of penalty functions which may further improve its performance.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1.2">Edge selections based on minimum spanning tree</head><p>The edge set E is the key ingredient in the SCC model since it reflects the prior assumption about the structure of regression coefficients. However, as mentioned in the Introduction, unlike temporal data, spatial data do not have a natural order, which makes it challenging to construct the set E.</p><p>We note that in many spatial problems, regression coefficients at proximate locations are likely to be similar due to their homogeneous properties within a certain subregion. It is therefore desirable to construct E such that only proximate coordinate pairs are included in order to reflect spatial homogeneity among coefficients.</p><p>A common choice of an edge set E that satisfies this criterion is the set consisting of neighboring coordinate pairs, i.e., E = {(s i , s j ) : i = 1, ... , n; s j ∈ N s i }, where N s i is the set of neighbors of s i . The neighboring set N s i can be defined in many different ways, for example, the k nearest neighbors of s i or neighbors within a certain radius. Although such selections of E seem natural, they suffer from two evident deficiencies. Firstly, E defined as above does not necessarily connect all the points in irregular spatial locations, resulting in isolated points. In such a case, (2) will not reduce to a constant regression coefficient model when λ → ∞. Secondly, and more problematically, the penalties on the pairwise differences based on this choice of E include many redundant terms, and the computation is very challenging when solving the optimization problem for a graph with large numbers of nodes and edges (see <ref type="bibr" target="#b36">Tang and Song (2016)</ref>). Specifically, given an edge set E, the 10 A c c e p t e d M a n u s c r i p t</p><p>corresponding model can be formulated as a generalized lasso problem as follows:</p><formula xml:id="formula_3">1 n n i=1 {y (s i ) - p k=1 x k (s i )β k (s i )} 2 + λ p k=1 Hβ k 1 ,<label>(4)</label></formula><p>where H is an m × n matrix constructed from the edge set E with m edges. For an edge connecting two locations s i and s j , we represent the penalty term</p><formula xml:id="formula_4">|β k (s i )-β k (s j )| as |H m β k |,</formula><p>where H m is a row vector of H and contains only two nonzero elements, 1 at the i-th index and -1 at the j-th.</p><p>For most graphs constructed by k-nearest neighbors or neighbors within a certain radius such that all points are connected, the number of edges is greater than the number of nodes.</p><p>Path-following algorithms <ref type="bibr" target="#b0">(Arnold and Tibshirani, 2016;</ref><ref type="bibr" target="#b31">Shen and Huang, 2010)</ref> and the alternating direction method of multipliers (ADMM) <ref type="bibr" target="#b3">(Boyd, 2011;</ref><ref type="bibr" target="#b45">Zhu, 2017)</ref> have been developed to solve the generalized lasso problem for this case. Nevertheless, for an arbitrary H with m &gt; n for large m and n, these algorithms are computationally very costly. Indeed, the computational complexities of these algorithms are typically at least O(n 3 ) for the problem we are considering here, which is far slower than solving a lasso problem.</p><p>The previous discussion suggests that for large-scale problems, an appropriate choice for E that balances model accuracy and computational efficiency should only include coordinate pairs close to each other, should lead to connectivity of all data points, and should have no redundant pairs. One choice of E that satisfies all three of these criteria is the edge set of an MST. Given an undirected graph G = (V, E 0 ) with a weight function d(e) that assigns a weight to each edge e in an edge set E 0 , an MST is defined as the subgraph</p><formula xml:id="formula_5">T = (V, E), E ⊆ E 0 that</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>connects all vertices without any cycles and minimizes e∈E d(e).</head><p>It is known that an MST has |V| vertices and |V| -1 edges.</p><p>MSTs were originally motivated by applications in the optimal design of networks, such as computer networks, telecommunications networks, and transportation networks.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>11</head><p>A c c e p t e d M a n u s c r i p t</p><p>Another important application of MSTs is clustering <ref type="bibr" target="#b22">(Grygorash et al., 2006)</ref>, where the MST for a given point set and distance measure is first constructed, and then some edges are removed from the MST according to certain criteria to form clusters of points. In particular, MSTs have a close connection with the single-linkage agglomerative clustering algorithm. The clusters obtained from removing the edges in the MST whose weights are greater than a given threshold are the same as those obtained from applying the same threshold as a cut-off distance for a single-linkage dendrogram. Indeed, this is the result of a unique property of MSTs, referred to as the cut property. It is known that for any cut of a given connected graph G , the minimum-weight edge that crosses the cut is in the MST for G .</p><p>Based on this property, efficient algorithms for constructing MSTs have been developed</p><p>(Section 2.2 provides the computation details), with a computational complexity close to O(nlogn), where n is the number of vertices in a 2D Euclidean space. In addition to their computational advantages, MST-based clustering algorithms are also known to be effective in detecting clusters with irregular boundaries, due to the fact that they do not rely on the assumption of a spherically shaped cluster structure for the underlying data.</p><p>In our application, taking a given set of n spatial locations as vertices and the Euclidean distances between locations as the edge weights, we can construct an MST, T = (V, E), consisting of n -1 edges with all n locations connected. By the construction, T provides a connected, acyclic graph that compactly represents the spatial topology of the n observed points, and is thus an appropriate choice satisfying the aforementioned desired properties for edge set selections. In this case, H is a full row rank matrix encoding the n -1 penalty terms on the coefficients β k .</p><p>An illustration of an MST based on 1,000 spatial locations is provided in Figure <ref type="figure" target="#fig_0">1(a)</ref>.</p><p>By penalizing the coefficients at two locations connected in the edge set of the MST, the 12 A c c e p t e d M a n u s c r i p t s h 0 0.2 0.4 0.6 0.8 1 s v 0 0.2 0.4 0.6 0.8 1 s h 0 0.2 0.4 0.6 0.8 1 s v 0 0.2 0.4 0.6 0.8 1 s h 0 0.2 0.4 0.6 0.8 1 s v 0 0.2 0.4 0.6 0.8 1 (b) (c) (a) Minimum Spannning Tree Illustration estimated coefficients form different clusters (see Figure 1(b)). Within each cluster, the vertices (spatial locations) remain connected and the corresponding coefficients take the same value, while across different clusters, the connection is cut and the coefficients take different values.</p><p>Finally, we remark that for data observed on a regular lattice, all spanning trees are also MSTs, as all edges have the same weight. To ensure that edges are selected such that the MST properly represents the spatial topology, we can consider a so-called random MST <ref type="bibr" target="#b4">(Braunstein et al., 2007</ref>) that is formed by assigning random weights to the edges of a lattice graph using a uniform distribution from 0 to 1. As the weights are drawn from a continuous distribution, the probability of having a tie between two edge weights becomes zero, and the resulting MST is unique <ref type="bibr" target="#b11">(Dobrin and Duxbury, 2001)</ref>. See Figure <ref type="figure" target="#fig_0">1</ref>(c) for an example of the MST on a regular lattice. 13 A c c e p t e d M a n u s c r i p t</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1.3">Selection of tuning parameter λ</head><p>The tuning parameter λ controls the number of clusters in regression coefficients in our context. When λ → ∞, the model (2) yields a constant regression coefficient; when λ = 0, it reduces to the ordinary least square with all different coefficients across the region. With an appropriate choice of λ, the penalized least square model (2) produces clustered regression coefficients. In practice, the optimal λ can be determined via some data-dependent model selection criteria, such as generalized cross-validation (GCV) <ref type="bibr" target="#b21">(Golub et al., 1979)</ref>, Akaike information criterion (AIC), Bayesian information criterion (BIC) <ref type="bibr" target="#b30">(Schwarz et al., 1978)</ref> and extended Bayesian information criterion (EBIC) <ref type="bibr">(Chen and</ref><ref type="bibr">Chen, 2008, 2012)</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2">Computation</head><p>The model fitting of SCC involves two major computation steps: construction of the MST based on the spatial locations of the dataset and regularized optimization in (2) for the given MST.</p><p>In the first step, we use Prim's algorithm developed from the cut property of the MST. The computational complexity of this algorithm is O(m + nlogn) on a graph with n vertices and m edges (m = n(n -1)/2 for a complete graph). For Euclidean MSTs, that is, MSTs using Euclidean distance as the edge weight function, computation can be further reduced by using Delaunay triangulation <ref type="bibr" target="#b27">(March et al., 2010)</ref>. Given n points in two-dimensional space, a Delaunay triangulation forms a connected graph. Prim's algorithm is then applied We remark that for data on a sphere, we can use a so-called geodesic MST, in which the great circle distance is used as the distance metric, i.e., the edge weight function, between any two locations (nodes). <ref type="bibr" target="#b12">Dolan et al. (1991)</ref> have developed algorithms for computing the Delaunay triangulation and geodesic MST for a graph on a sphere, with the computational complexity remaining at O(nlogn).</p><p>Once the MST is constructed, the resulting penalties no longer contain redundant terms and hence can be easily transformed into a lasso, or lasso-type problem after suitable reparameterization. Define new parameters θ k , k = 1, ... , p as</p><formula xml:id="formula_6">θ k =   H 1 n 1 T   β k = Hβ k .</formula><p>The new design matrix can be written as X = [diag (x 1 ) H -1 , ... , diag (x p ) H -1 ]. Note that H is an n × n invertible matrix since H has full row rank, and thus there is a one-to-one transformation between β k and θ k . Then the SCC model in (4) can be rewritten as</p><formula xml:id="formula_7">1 n y -Xθ 2 2 + λ ℓ∈B |θ ℓ |,<label>(5)</label></formula><p>where θ = (θ T 1 , ... , θ T p ) T , a vector of size np, and B represents the index set B = {ℓ : mod (ℓ, n) = 0, for ℓ = 1, • • • , np} excluding every n-th element. Henceforth, we will denote ℓ∈B |θ ℓ | as θ B 1 for neatness.</p><p>Therefore, the solution to the SCC model (2) with a lasso penalty can be obtained by solving the lasso problem in (5) with respect to the parameters θ. Estimators for β are then given by β k = H -1 θ k , for k = 1, • • • , p. Many efficient lasso solvers, such as the LARS <ref type="bibr" target="#b13">(Efron et al., 2004)</ref>, coordinate decent <ref type="bibr" target="#b19">(Friedman et al., 2010)</ref>, and stochastic Frank-Wolfe <ref type="bibr" target="#b18">(Frandi et al., 2016)</ref> algorithms, can be readily applied to the SCC model for large datasets.</p><p>For example, using the stochastic Frank-Wolfe algorithm, the lasso optimization with a size of up to one million penalties can be handled within a minute.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>15</head><p>A c c e p t e d M a n u s c r i p t</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3">Theoretical Properties</head><p>In this subsection, we consider theoretical results concerning the behavior of SCC. We provide error bounds for its estimation and prediction, as well as its performance in detecting spatially clustered patterns of unknown regression coefficients. As there is a one-to-one transformation between β k and θ k , we present theorem in terms of θ k .</p><p>Assumptions 1 (a) There is a positive constant C 1 so that n -1 n i=1 X 2 i,ℓ ≤ C 1 for any n &gt; 0 and ℓ ∈ {1, ..., np}.</p><p>(b) There is a positive constant Φ so that for any vector u ∈ R np satisfying u A c 1 ≤ 3 u A 1 where A = {ℓ : θ ℓ = 0, ℓ ∈ B} ∪ B c and |A| denotes its cardinality, we have</p><formula xml:id="formula_8">1 n u T ( X T X)u ≥ Φ||u|| 2 2 .<label>(6)</label></formula><p>Assumption 1(a) requires the random variables V ℓ = n -1 n i=1 X i,ℓ ε i to be sub-Gaussian for any ℓ ∈ {1, ..., np}. Assumption 1(b) is known as the restricted eigenvalue condition <ref type="bibr" target="#b39">(Tibshirani et al., 2015)</ref> .</p><p>Theorem 1 Suppose that Assumption 1 holds. If λ n n/log(n) ≥ 4 (1 + C 2 )2C 2 1 σ 2 where C 2 is a positive constant for any n &gt; 0, the following inequalities hold with probability tending to unity as n → ∞</p><formula xml:id="formula_9">1 n || Xθ -X θ|| 2 2 ≤ 9λ 2 n |A| 4Φ ,<label>(7)</label></formula><formula xml:id="formula_10">θ -θ 2 ≤ 3λ n |A| 2Φ .<label>(8)</label></formula><p>The detailed proof for ( <ref type="formula" target="#formula_9">7</ref>) and ( <ref type="formula" target="#formula_10">8</ref>) is provided in the supplementary materials. Assuming that |A| grows with a rate as o(n/logn), the right hand sides of ( <ref type="formula" target="#formula_9">7</ref>) and ( <ref type="formula" target="#formula_10">8</ref> In many applications, the possible range of θ M could be known a priori, i.e., θ l M ≤ θ M ≤ θ u M . According to Corollary 1, δ = θ l M can be used as a threshold for θ ℓ to detect clusters.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">Simulation Studies</head><p>In this section, we present two simulation studies to illustrate the robust performance of the SCC method under two different scenarios. The true regression coefficients in Study 1 are designed to have clustered patterns. In practice, we may not know whether the true regression coefficients are clustered or smoothly varying. To examine the behavior of SCC in capturing spatially highly variable patterns even under unfavorable scenarios, we design Study 2 in which the true regression coefficients are generated from a spatial Gaussian process.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>17</head><p>A c c e p t e d M a n u s c r i p t</p><p>In both studies, we randomly generate 1,000 spatial locations in the square domain</p><formula xml:id="formula_11">[0, 1] × [0, 1].</formula><p>Then the response at each location is generated according to</p><formula xml:id="formula_12">y (s i ) = β 1 (s i )x 1 (s i ) + β 2 (s i )x 2 (s i ) + β 3 (s i ) + (s i ),<label>(9)</label></formula><p>where (s i ) iid ∼ N(0, σ 2 ). We set σ to be 0.1.</p><p>Numerical data analyses in previous work often generated values of predictors from a white noise process (e.g., <ref type="bibr" target="#b15">Finley, 2011;</ref><ref type="bibr" target="#b41">Wheeler and Calder, 2007)</ref>. However, in geoscience studies, many variables serving as predictors of a regression model have evident spatial structures <ref type="bibr" target="#b35">(Talley, 2011)</ref>. Therefore, we generate covariates from spatial processes to mimic real situations in the numerical studies. Let {z 1 (s i )} and {z 2 (s i )} denote the two independent realizations of a spatial Gaussian process with mean zero and a covariance matrix defined from an isotropic exponential function: Cov{z k (s i ), z k (s j )} = exp(-s i -s j /φ), k = 1, 2, where φ is the range parameter. We generate two covariates x 1 (s) and x 2 (s) by linearly transforming z 1 (s) and z 2 (s). Specifically, we set</p><formula xml:id="formula_13">x 1 (s i ) = z 1 (s i ) and x 2 (s i ) = r z 1 (s i ) + √ 1 -r 2 z 2 (s i ),</formula><p>allowing dependence between the two spatially varying predictors. In the following analysis, we set r = 0.75, corresponding to moderate collinearity, and we consider three range parameters φ = 0.1, 0.3, 1 corresponding to weak, moderate, and strong spatial correlations. For each value of φ, we run 100 simulations to examine the behavior of SCC in parameter estimation.</p><p>As indicated in the Introduction, GWR and SVC are two popular existing spatially varying coefficient models. Previous studies suggest that SVC typically produces results that are comparable to GWR <ref type="bibr" target="#b15">(Finley, 2011)</ref> since it can be viewed as a model-based version of GWR <ref type="bibr" target="#b24">(LeSage, 2004)</ref>. Therefore, we compare the results for SCC with those of GWR.</p><p>To quantify the performance of each method in estimation, we consider the mean squared 18 A c c e p t e d M a n u s c r i p t error of estimation (MSE β ), defined as:</p><formula xml:id="formula_14">MSE β = 1 np n i=1 p k=1 (β k (s i )-β k (s i )) 2 .</formula><p>For SCC, the tuning parameter λ is chosen using BIC. Our numerical experiments (see the supplementary materials) indicate that the performances of AIC and BIC are comparable in terms of MSE β while EBIC performs much worse. Indeed, previous studies <ref type="bibr" target="#b17">(Foygel and Drton, 2010;</ref><ref type="bibr" target="#b33">Song and Liang, 2015)</ref> suggest that EBIC tends to produce oversparsity in the penalized term (the difference of regression coefficients in our model). For the GWR method, we employ an exponential kernel function with the optimal bandwidth chosen by the cross-validation method.</p><p>We use the package glmnet to solve the lasso optimization and the package gwr to implement GWR (both packages are available in R and Matlab), and we use the Matlab function graphminspantree and the R function mst in the igraph package to find the MST.</p><p>We use the R function admm.genlasso in the penreg package to solve the generalized lasso problem for comparisons. The computations were performed on a Mac Pro with a 3.0GHz eight-core processor and 64GB of memory.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1">Study 1: Clustered Coefficients</head><p>The true regression coefficients in this study are set to be spatially clustered. As shown in the top panel of Figure <ref type="figure" target="#fig_3">2</ref>, each of the coefficients β 1 (s i ), β 2 (s i ), and β 3 (s i ) is assigned a distinct cluster pattern to reveal the ability of SCC in detecting various patterns.</p><p>The first part of the simulation study compares the performance of the GWR and SCC methods using an MST as the edge set. The coefficients estimated from the GWR and SCC methods in one simulation are plotted in Figure <ref type="figure" target="#fig_3">2(d-i</ref>). It can be seen that the spatial patterns of the coefficients derived by SCC, as shown in the bottom panel of Figure 2, 19 A c c e p t e d M a n u s c r i p t s h 0 0.2 0.4 0.6 0.8 1 s v 0 0.2 0.4 0.6 0.8 1 s h 0 0.2 0.4 0.6 0.8 1 s v 0 0.2 0.4 0.6 0.8 1 s h 0 0.2 0.4 0.6 0.8 1 s v 0 0.2 0.4 0.6 0.8 1 s h 0 0.2 0.4 0.6 0.8 1 s v 0 0.2 0.4 0.6 0.8 1 s h 0 0.2 0.4 0.6 0.8 1 s v 0 0.2 0.4 0.6 0.8 1 -5 -4 -3 -2 -1 0 1 2 3 4 5 s h 0 0.2 0.4 0.6 0.8 1 s v 0 0.2 0.4 0.6 0.8 1 s h 0 0.2 0.4 0.6 0.8 1 s v 0 0.2 0.4 0.6 0.8 1 -5 -4 -3 -2 -1 0 1 2 3 4 5 s h 0 0.2 0.4 0.6 0.8 1 s v 0 0.2 0.4 0.6 0.8 1 s h 0 0.2 0.4 0.6 0.8 1 s v 0 0.2 0.4 0.6 0.8 1 -5 -4 -3 -2 -1 0 1 2 3 4 5 are highly consistent with the true regression coefficients shown in the top panel. SCC successfully captures the cluster structure in the regression coefficients and detects the abrupt changes across the boundaries of adjacent clusters. In contrast, the coefficients estimated from GWR do not exhibit a clear cluster structure. Specifically, GWR produces poor estimations of regression coefficients both within clusters and near their boundaries.</p><formula xml:id="formula_15">β 2 β 3 β 1 (b) (a) (d) (g) (h) (i) (<label>e</label></formula><p>We further examine the performance of SCC in terms of parameter estimation. ably smaller values of MSE β in all three settings. As the spatial correlation in the covariates becomes stronger, the performance of GWR degrades substantially, whereas the SCC estimates are relatively more stable. For instance, the mean MSE β for the GWR estimates over 100 simulations is 0.36 when spatial correlation among the covariates is weak (φ=0.1) but increases to 3.73 in the case of strong spatial correlation (φ=1). In contrast, the mean MSE β for the SCC estimates changes by less than a factor of three. Therefore, SCC provides more robust inferences for the regression coefficients, especially in the presence of strong spatial correlation in the covariates.</p><p>We end the first part of Study 1 by examining the performance of SCC in recovering clusters of coefficients.   All of the SCC-based methods achieve much smaller MSE β values than GWR, with SCC-MST outperforming GWR in terms of both computation time and parameter estimation accuracy. Among the SCC methods using different edge sets, there is clearly a trade-off between statistical efficiency and computational efficiency. Both SCC-RNN and SCC-KNN produced a more accurate parameter estimation than SCC-MST, with about a 50% reduction in MSE β , which is not surprising since RNN and KNN graphs are denser than MSTs and hence allow more edges to be checked to detect changes among nodes. However, as mentioned above, the improvement in statistical efficiency from using denser graphs comes with a substantially greater computational burden; for example, the computation time for SCC-KNN with four neighbors was nearly 700 times greater than that of SCC-MST. These results suggest that for a small to medium-size dataset-say, when the number of the nodes is less than a few thousand-a denser graph such as KNN or RNN can be used to implement the SCC method to achieve more accurate parameter estimation.</p><p>But for a 22 A c c e p t e d M a n u s c r i p t SCC-MST SCC-RNN SCC-KNN GWR MSE β 10 -2 10 -1 10 0 972.0s 961.9s 1.4s 7.5s larger dataset size, such as the real data example with 10,000 locations shown in Section 4, SCC-MST has a strong computational advantage, as it becomes computationally too expensive to implement SCC-RNN or SCC-KNN.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2">Study 2: Smoothly varying coefficients</head><p>The design of this study is similar to Study 1, except that the regression coefficients are independently generated from a Gaussian spatial process. Here all the coefficient processes have a zero mean and an anisotropic exponential covariance function:</p><formula xml:id="formula_16">cov(β k (s i ), β k (s j )) = σ 2 β exp - (s h,i -s h,j ) 2 φ 2 h,k + (s v ,i -s v ,j ) 2 φ 2 v ,k , k = 1, 2, 3, where (φ h,k , φ v ,k )</formula><p>is the anisotropic range parameter and σ 2 β is the variance parameter. σ 2 β is fixed at 4, and (φ h , φ v ) is set to be (3, 1)</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>23</head><p>A c c e p t e d M a n u s c r i p t for β 1 (s i ), (1, 3) for β 2 (s i ), and (2, 2) for β 3 (s i ).</p><p>s h 0 0.2 0.4 0.6 0.8 1 s v 0 0.2 0.4 0.6 0.8 1 s h 0 0.2 0.4 0.6 0.8 1 s v 0 0.2 0.4 0.6 0.8 1 s h 0 0.2 0.4 0.6 0.8 1 s v 0 0.2 0.4 0.6 0.8 1 s h 0 0.2 0.4 0.6 0.8 1 s v 0 0.2 0.4 0.6 0.8 1 -5 -4 -3 -2 -1 0 1 2 3 4 5 s h 0 0.2 0.4 0.6 0.8 1 s v 0 0.2 0.4 0.6 0.8 1 s h 0 0.2 0.4 0.6 0.8 1 s v 0 0.2 0.4 0.6 0.8 1 -5 -4 -3 -2 -1 0 1 2 3 4 5 s h 0 0.2 0.4 0.6 0.8 1 s v 0 0.2 0.4 0.6 0.8 1 s h 0 0.2 0.4 0.6 0.8 1 s v 0 0.2 0.4 0.6 0.8 1 -5 -4 -3 -2 -1 0 1 2 3 4 5 s h 0 0.2 0.4 0.6 0.8 1 s v 0 0.2 0.4 0.6 0.8 1 The estimated coefficients from GWR and SCC in one simulation are displayed in Figure 4. The spatial pattern of coefficients derived by SCC agrees reasonably well with that of the true model. The estimates from GWR are, however, quite noisy, with artificially large coefficient values in some parts of the domain. This is partly because the isotropic kernel function used for GWR is too restrictive when fitting an anisotropic spatial field. In contrast, an advantage of SCC is its strong local adaptivity. The use of a local pairwise penalty function allows the fitting of a spatial field that is homogeneous in one direction 24 A c c e p t e d M a n u s c r i p t</p><formula xml:id="formula_17">β 2 β 3 β 1 (b) (a) (d) (g) (h) (i) (e) (<label>c</label></formula><p>but highly varying in the other. Comparisons of MSE β for the two methods further confirm the superiority of SCC in estimating smoothly varying coefficients. For instance, in the presence of strong spatial correlation in the predictors, MSE β for SCC is only 1/6 of that for GWR (Table <ref type="table" target="#tab_3">3</ref>). </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.3">Summary of simulation results</head><p>In both cases, SCC is capable of capturing the spatial pattern in coefficients, and it outperforms GWR with a considerably smaller estimation error. It should be noted that Study 1</p><p>and Study 2 can be treated as two distinct scenarios of spatial patterns of coefficients. The former is consistent with the assumption underpinning the SCC method, while the latter favors the setting of the GWR method. Simulations for a hybrid scenario with β 1 (s i ) and β 2 (s i ) clustered but β 3 (s i ) smoothly varying are included in the supplementary materials, which also reveals the superiority of SCC over GWR. The results of simulation studies show that even under misspecified models, SCC is capable of producing reasonable estimates, illustrating its robustness and strong adaptivity.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>25</head><p>A c c e p t e d M a n u s c r i p t 4 Real Data Analysis</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1">Dataset</head><p>In this section, we use the SCC method for the detection of the Antarctic Intermediate Waterway (AAIW) <ref type="bibr" target="#b35">(Talley, 2011)</ref> by investigating the temperature-salinity (T-S) relationship in the Atlantic Ocean, along with a comparative analysis using the GWR method. The AAIW, formed and subducted at the high midlatitudes of the Southern Ocean, is moved northward by the upper limb of the Atlantic Meridional Overturning Circulation (AMOC), which has a major influence on Earth's climate system and acts as an effective sink of anthropogenic CO 2 <ref type="bibr" target="#b29">(Sabine et al., 2004)</ref>. Knowledge of the extent of the AAIW can help in inferring the strength of the AMOC <ref type="bibr" target="#b5">(Came et al., 2008;</ref><ref type="bibr" target="#b28">Oppo and Curry, 2012;</ref><ref type="bibr" target="#b42">Xie et al., 2012)</ref>. The AAIW is characterized by a negative T-S relationship, which is different from other water masses, so that the AAIW can be identified from the T-S relationship.</p><p>We obtained temperature and salinity records from the World Atlas 2013, version 2 (WOA 13 V2) <ref type="bibr" target="#b26">(Locarnini et al., 2013;</ref><ref type="bibr" target="#b47">Zweng et al., 2013)</ref>, which is archived at the Na- domly distributed but have well-organized spatial structures. Specifically, the temperature is generally higher at lower latitudes and in the upper ocean as a result of solar radiation. The spatial distribution of salinity is somewhat more complicated. Near the sea surface, the salinity values peak around 30 • S and 30 • N due to the low precipitation rates at these latitudes. In addition, there is a pronounced low-salinity tongue originating from the sea surface around 50 • S to 60 • S and extending northward and downward. This low-salinity tongue corresponds to the AAIW. The AAIW's encounter with a high-salinity water mass centered at 30 • S leads to a strong salinity front. 27 A c c e p t e d M a n u s c r i p t s h ' -0.5 -0.4 -0.3 -0.2 -0.1 0 0.1 0.2 0.3 0.4 0.5 s v ' -1 -0.9 -0.8 -0.7 -0.6 -0.5 -0.4 -0.3 -0.2 -0.1 0 -0.2 -0.15 -0.1 -0.05 0 0.05 0.1 0.15 0.2 s h ' -0.5 -0.4 -0.3 -0.2 -0.1 0 0.1 0.2 0.3 0.4 0.5 s v ' -1 -0.9 -0.8 -0.7 -0.6 -0.5 -0.4 -0.3 -0.2 -0.1 0 -0.2 -0.15 -0.1 -0.05 0 0.05 0.1 0.15 0.2 (b) (a) Figure 6: The T-S relationship β 1 estimated from (a) SCC and (b) GWR. The black dashed line in (a) is the contour of β 1 = 0. Note that the colorbar in (b) is saturated. The largest positive and negative values of the GWR estimates are 17.02 and -12.34, respectively. Data points with |β 1 | &gt; 2 are marked by grey circles.</p><p>The second notable feature is that the temperature and salinity are highly anisotropic.</p><p>The temperature and salinity gradients in the vertical direction are several orders of magnitude larger than those in the horizontal direction. The anisotropy is essentially a result of the ocean's geometry. It has a width of around 20,000 km but a thickness of about 4 km.</p><p>To account for the geometry of the ocean, oceanic studies typically adopt the nondimensional coordinates (s h , s v ) = (s 0 h /L, s 0 v /H), where s h (s v ) is the nondimensional horizontal (vertical) coordinate transformed from the original coordinate s 0 h (s 0 v ), and L (H) is the horizontal (vertical) length of the ocean <ref type="bibr" target="#b40">(Vallis, 2006)</ref>. In the nondimensional coordinates, the horizontal and vertical gradients are at the same order of magnitude, largely eliminating the anisotropy. In this study, we follow the convention of oceanic studies and adopt this scaling technique.</p><p>The third notable feature is that the distributions of temperature and salinity appear to be nonstationary. As mentioned above, there is a strong salinity gradient around the front formed by the AAIW and the high-salinity water mass centered at 30 • S. In addition, there is also a strong temperature gradient near the sea surface around 40 • S and 40 • N.</p><p>These temperature fronts are maintained by the energetic eastward ocean currents through the thermal wind relation. Furthermore, the gradients of both temperature and salinity are generally stronger in the upper ocean than in the abyss. This is because the turbulent mixing, a process that homogenizes the fluid properties, dominates the evolution of temperature and salinity in the abyss <ref type="bibr" target="#b40">(Vallis, 2006)</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>29</head><p>A c c e p t e d M a n u s c r i p t</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2">Analysis Results</head><p>To detect the spatial structure of the T-S relationship, we construct the regression model as follows:</p><formula xml:id="formula_18">S(s i ) = β 1 (s i )T (s i ) + β 0 (s i ) + (s i ).</formula><p>where the response variable S(s i ) denotes salinity at location (s h,i , s v ,i ), T (s i ) denotes temperature, the regression coefficient β 1 (s i ) measures the T-S relationship of interest, and</p><formula xml:id="formula_19">β 0 (s i ) is the intercept.</formula><p>The coefficient surface of β 1 (s i ) estimated from SCC is shown in Figure <ref type="figure">6</ref>(a). As discussed above, the boundary of the AAIW can be identified as the contour of β 1 = 0.</p><p>Its encompassing region covers the well-recognized generation site of the AAIW and the low-salinity tongue that is believed to be associated with the AAIW <ref type="bibr" target="#b35">(Talley, 2011)</ref>. To investigate the change rate of the T-S relationship around the boundary, we compute the magnitude of the spatial difference quotient of the T-S relationship <ref type="bibr" target="#b32">(Simmonds, 2012)</ref> derived by SCC defined as:</p><formula xml:id="formula_20">D(s i ) = (β 1 (s i ) -β 1 (s i 1 )) 2 d 2 1 sin 2 γ + (β 1 (s i ) -β 1 (s i 2 )) 2 d 2 2 sin 2 γ -2 (β 1 (s i ) -β 1 (s i 1 ))(β 1 (s i ) -β 1 (s i 2 ))cosγ d 1 d 2 sin 2 γ ,</formula><p>where s i 1 and s i 2 are the two nearest points of s i , γ is the angle between vectors (s h,i 1 - This feature is consistent with the geophysical fluid dynamics, as different water masses are formed at different sites and characterized by distinct T-S relationships <ref type="bibr" target="#b35">(Talley, 2011)</ref>, giving us confidence regarding the good performance of SCC.</p><formula xml:id="formula_21">s h,i , s v ,i 1 -s v ,i ) and (s h,i 2 -s h,i , s v ,i 2 -s v ,i ),</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>30</head><p>A c c e p t e d M a n u s c r i p t</p><p>The GWR estimates, on the other hand, is quite noisy with occasional outliers (Figure <ref type="figure">6(b)</ref>). We note that the noisy estimates similarly occurred in the simulation studies (see Section 3), which strongly suggests that such noise in estimation is perhaps not due to an actual feature of this dataset but probably due to the GWR method's deficiency in cases with spatially correlated explanatory variables. Indeed, the noise, especially in the abyss, is not consistent with the fluid dynamics, since there is no dynamical process that can lead to changes of the T-S relationship over such a short distance in the abyssal ocean <ref type="bibr" target="#b35">(Talley, 2011)</ref>. According to the above heuristic interpretation of the results with regard to fluid dynamics, the SCC method seems to produce a more reasonable estimate for the T-S relationship than the GWR method.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5">Conclusions and Discussion</head><p>This article presents a new spatial regression approach, called the spatially clustered coefficient (SCC) method, to capture spatial patterns, especially clustered patterns in regression coefficients. SCC accommodates spatial dependence through structured coefficients and employs penalized least squares for estimation; the penalty function is carefully specified to encourage similarity in coefficients between locations connected by an MST. The estimation algorithms of SCC are easy to implement and allow highly scalable computation, as the penalized optimization can be transformed into a lasso (or lasso-type) problem. Although SCC is designed to detect a cluster structure in coefficients, our numerical studies show that it also works reasonably well in capturing a wide range of spatial patterns. Thus, SCC is a robust and flexible tool that will allow researchers to explore spatial patterns in regression coefficients without any priori information. We apply the SCC method to the analysis of a large temperature and salinity dataset for the Atlantic Ocean. The estimated 31 A c c e p t e d M a n u s c r i p t regression coefficients reveal a spatially clustered pattern in the relationship between temperature and salinity. Our statistical findings are consistent with the interpretations from ocean dynamics.</p><p>SCC could be potentially improved from several aspects. As an MST is determined by spatial locations and may not be fully compatible with cluster structures of regression coefficients, it tends to miscluster especially for small sample sizes. A potential remedy suggested by an anonymous reviewer is to employ a two-step approach, using the SCC method to obtain an initial estimate of β, and then obtaining a refined SCC estimator using a new edge set E constructed based on both the initial estimate of β and spatial information.</p><p>Alternatively, clusters could be refined by thresholding the estimated coefficients according to some criteria. Such a thresholding idea may also be applied to GWR and SVC to create clusters. Furthermore, the random errors in (1) are currently assumed to be independent, and we rely on the spatially varying intercept to capture some of the spatial dependence that is unexplained by the covariates. In future work, we may consider a model with a spatially dependent random error.</p><p>Finally, as pointed by an anonymous reviewer regarding the theoretical side, more attention needs to be paid to the validity of condition (6) for the design matrix. This restricted eigenvalue condition is a commonly used regularity condition on the design matrix for lasso regressions. However, its verification can be very challenging in practice <ref type="bibr" target="#b10">(Dobriban and Fan, 2016)</ref>. For many spatial problems, covariates may show strong spatial dependence within each covariate as well as cross-dependence among covariates, so that both rows and columns of the design matrix become dependent. In this case, the distribution of the and several other previous studies <ref type="bibr" target="#b34">(Sun et al., 2016;</ref><ref type="bibr" target="#b44">Zhu et al., 2010)</ref>, further theoretical investigations are needed for this random and dependent design. One could assume a stationary multivariate Gaussian process for the covariates and follow a similar idea to that in <ref type="bibr" target="#b2">Basu et al. (2015)</ref> for a time series context in order to establish conditions using multivariate spectral properties. We are currently investigating these topics.</p><p>A c c e p t e d M a n u s c r i p t A c c e p t e d M a n u s c r i p t A c c e p t e d M a n u s c r i p t</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure 1 :</head><label>1</label><figDesc>Figure 1: A schematic diagram for the MST constructed for (a) 1000 spatial irregular locations and (c) 50 × 50 regular grids. The points of different colors in (b) belong to different clusters with the cut edges marked by red circles.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><figDesc>to the Delaunay triangulation to find the corresponding MST. Note that the construction of a Delaunay triangulation requires O(nlogn) time and O(n) storage, and the number of edges in a Delaunay triangulation is O(n). The final algorithm that combines Prim's algorithm and the Delaunay triangulation method takes O(nlogn) time and O(n) space. 14 A c c e p t e d M a n u s c r i p t</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><figDesc>as n → ∞. We note that such an assumption for |A| is generally satisfied under infilling domain asymptotics in which case the number of clusters is often fixed.Finally, we demonstrate in Corollary 1 how the estimation error bound (8) can be used to guide the detection of clusters in practice. Define θ M = min(|θ ℓ |, ℓ ∈ S) where S = {ℓ : θ ℓ = 0, ℓ ∈ B} . We have the following corollary based on Theorem 1: Corollary 1 Assuming that |A| grows with a rate as o(n/logn) and the conditions in Theorem 1 hold, the following statement holds with probability tending to unity as n → ∞| θ ℓ | &lt; δ ⇐⇒ ℓ / ∈ Sfor any ℓ ∈ B and any 0 &lt; δ ≤ θ M</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Figure 2 :</head><label>2</label><figDesc>Figure 2: Study 1: spatial structures of (a-c) true coefficients β 1 , β 2 and β 3 ; the estimated coefficient surfaces from (d-f) GWR and (g-i) SCC in one simulation with the spatial range parameter φ = 0.3 for predictors.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><figDesc>Figure3shows the computation time and the boxplots of MSE β for each method for the case where the spatial correlation among the covariates is weak. Looking first at computation time, SCC-MST took an average of 1.4 seconds to compute solutions for 200 values of λ. In comparison, GWR took an average of 7.5 seconds, SCC-RNN an average of 972.0 seconds, and SCC-KNN an average of 961.9 seconds to compute 200 solutions for the same dataset.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>Figure 3 :</head><label>3</label><figDesc>Figure3: Study 1: the boxplots of MSE β for SCC-MST, SCC-RNN, SCC-KNN and GWR based on 100 simulated datasets. Computation times are reported above each method's label.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>Figure 4 :</head><label>4</label><figDesc>Figure4: Study 2: spatial structures of (a-c) true coefficient β 1 , β 2 and β 3 ; the estimated coefficient surfaces from (d-f) GWR and (g-i) SCC in one simulation with the spatial range parameter φ = 0.3 for predictors. Note that the color scale is nonlinear to accommodate outliers in the GWR estimation.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><head>tionalFigure 5 :Figure 6 :</head><label>56</label><figDesc>Figure 5: Spatial distributions of (a) temperature in • C and (b) salinity in PSU along the meridional segment 25 • W.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8"><head>Figure 7 :</head><label>7</label><figDesc>Figure7: The magnitude of spatial difference quotient of T-S relationship and the contour of β 1 = 0 (black dashed). Note that the values less than 2.5 are masked by light pink.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_9"><figDesc>and d 1 (d 2 ) is the distance between s i 1 (s i 2 ) and s i . The value of D(s i ) exhibits evident enhancement around the identified boundary of the AAIW (Figure7), indicating a rapid change of the T-S relationship across the boundary.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_10"><head>A</head><figDesc>design matrix depends not only on the number of locations but also on their point pattern distributions in space, among a few other determining factors. Although L 1 -methods still work very well in practice in spatial settings, as evidenced by our numerical examples 32</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1 compares</head><label>1</label><figDesc>MSE β for GWR and SCC under three different settings of spatial correlation for</figDesc><table><row><cell>M a n u s c r i p t</cell></row><row><cell>the covariates. For coefficient estimation, SCC clearly outperforms GWR, with consider-20 A c c e p t e d</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 1 :</head><label>1</label><figDesc>Table2lists the individual Rand index for the SCC estimates, β 1 (s i ), β 2 (s i ), and β 3 (s i ) averaged over 100 simulations. The values of the Rand index range from 0.72 to 0.85. In particular, the Rand index does not degenerate as the spatial correlation among predictors becomes stronger, suggesting that SCC is robust for detecting clusters in regression coefficients.Summary of Study 1 (clustered coefficients): the mean MSE β for the SCC and GWR methods over 100 simulations, under various spatial correlations for predictors.</figDesc><table><row><cell>Spatial correlation M a n u s c r i p t MSE β</cell></row><row><cell>GWR SCC 0.36 0.09 1.07 0.12 3.73 0.22 For the second part of the study, our goal is to examine the performance of SCC using Weak Moderate Strong different choices of edge sets, including the MST (denoted as "SCC-MST"), the radius-based nearest-neighbor graph (denoted as "SCC-RNN")-using 0.05 as the radius since it is the smallest threshold that guarantees that each node has at least one neighbor, and the 21 A c c e p t e d</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2"><head>Table 2 :</head><label>2</label><figDesc>Rand index for the SCC method in Study 1</figDesc><table><row><cell cols="2">Rand Index β 1</cell><cell>β 2</cell><cell>β 3</cell></row><row><cell>Weak</cell><cell cols="3">0.72 0.82 0.85</cell></row><row><cell>Moderate</cell><cell cols="3">0.72 0.82 0.85</cell></row><row><cell>Strong</cell><cell cols="3">0.73 0.83 0.85</cell></row><row><cell cols="3">four-nearest-neighbor graph (denoted as "SCC-KNN").</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_3"><head>Table 3 :</head><label>3</label><figDesc>Summary of Study 2 (smoothly varying coefficients): the mean MSE β for the SCC and GWR methods over 100 simulations, under various spatial correlations for predictors.</figDesc><table><row><cell>Spatial correlation</cell><cell>MSE β</cell></row><row><cell></cell><cell>GWR SCC</cell></row><row><cell>Weak</cell><cell>0.18 0.17</cell></row><row><cell>Moderate</cell><cell>0.58 0.22</cell></row><row><cell>Strong</cell><cell>2.04 0.34</cell></row></table></figure>
+		</body>
+		<back>
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>SUPPLEMENTARY MATERIALS</head><p>Data and Codes: Data and codes to reproduce the numerical results are posted on Github page (<ref type="url" target="https://github.com/furong-tamu/Supplementary-files-for-SCC">https://github.com/furong-tamu/Supplementary-files-for-SCC</ref>).</p><p>Supplementary Numerical Results: Auxiliary numerical simulation results: (a) influence of the selection criteria for the tuning parameter λ on the MSE β derived from SCC, (b) comparisons of the MSE β derived from GWR using different bandwidths, (c) performance of SCC on regular grids, and (d) performance of SCC for a hybrid scenario with clustered coefficients and a smoothly varying intercept (or equivalently, a spatially random effect).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Supplementary Proof: Proof of Theorem 1.</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>33</head><p>A c c e p t e d M a n u s c r i p t</p></div>			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Efficient implementations of the generalized lasso dual path algorithm</title>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">B</forename><surname>Arnold</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J</forename><surname>Tibshirani</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Computational and Graphical Statistics</title>
+		<imprint>
+			<biblScope unit="volume">25</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1" to="27" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Gaussian predictive process models for large spatial data sets</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Banerjee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">O</forename><surname>Finley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Sang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society: Series B (Statistical Methodology)</title>
+		<imprint>
+			<biblScope unit="volume">70</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="825" to="848" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Regularized estimation in sparse high-dimensional time series models</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Basu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Michailidis</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">43</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="1535" to="1567" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Alternating direction method of multipliers</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Boyd</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Talk at NIPS Workshop on Optimization and Machine Learning</title>
+		<imprint>
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Optimal path and minimal spanning trees in random weighted networks</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">A</forename><surname>Braunstein</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Wu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">V</forename><surname>Buldyrev</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Kalisky</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Sreenivasan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Cohen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>López</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Havlin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">E</forename><surname>Stanley</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Bifurcation and Chaos</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="issue">07</biblScope>
+			<biblScope unit="page" from="2215" to="2255" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Deglacial variability in the surface return flow of the atlantic meridional overturning circulation</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">E</forename><surname>Came</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">W</forename><surname>Oppo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">B</forename><surname>Curry</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Lynch-Stieglitz</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Paleoceanography</title>
+		<imprint>
+			<biblScope unit="volume">23</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Extended bayesian information criteria for model selection with large model spaces</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Chen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometrika</title>
+		<imprint>
+			<biblScope unit="volume">95</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="759" to="771" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Extended bic for small-n-large-p sparse glm</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Chen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistica Sinica</title>
+		<imprint>
+			<biblScope unit="volume">22</biblScope>
+			<biblScope unit="page" from="555" to="574" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<monogr>
+		<title level="m" type="main">Statistics for Spatial Data</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Cressie</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1993">1993</date>
+			<publisher>John Wiley &amp; Sons</publisher>
+			<pubPlace>New York</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Model-based geostatistics</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">J</forename><surname>Diggle</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Tawn</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Moyeed</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society: Series C (Applied Statistics)</title>
+		<imprint>
+			<biblScope unit="volume">47</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="299" to="350" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Regularity properties for sparse regression</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>Dobriban</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Fan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Communications in Mathematics and Statistics</title>
+		<imprint>
+			<biblScope unit="volume">4</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1" to="19" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Minimum spanning trees on random networks</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Dobrin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Duxbury</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Physical Review Letters</title>
+		<imprint>
+			<biblScope unit="volume">86</biblScope>
+			<biblScope unit="issue">22</biblScope>
+			<biblScope unit="page">5076</biblScope>
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Minimal length tree networks on the unit sphere</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Dolan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Weiss</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename><surname>Smith</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of Operations Research</title>
+		<imprint>
+			<biblScope unit="volume">33</biblScope>
+			<biblScope unit="issue">7</biblScope>
+			<biblScope unit="page" from="501" to="535" />
+			<date type="published" when="1991">1991</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Least angle regression</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Efron</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Hastie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><surname>Johnstone</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Tibshirani</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="407" to="499" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Variable selection via nonconcave penalized likelihood and its oracle properties</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Fan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Li</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">96</biblScope>
+			<biblScope unit="issue">456</biblScope>
+			<biblScope unit="page" from="1348" to="1360" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Comparing spatially-varying coefficients models for analysis of ecological data with non-stationary and anisotropic residual dependence</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">O</forename><surname>Finley</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Methods in Ecology and Evolution</title>
+		<imprint>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="143" to="154" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<monogr>
+		<title level="m" type="main">Geographically Weighted Regression</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2003">2003</date>
+			<publisher>John Wiley &amp; Sons</publisher>
+			<pubPlace>Chichester</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Extended bayesian information criteria for gaussian graphical models</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Foygel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Drton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Advances in neural information processing systems</title>
+		<imprint>
+			<date type="published" when="2010">2010</date>
+			<biblScope unit="page" from="604" to="612" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Fast and scalable lasso via stochastic frank-wolfe methods with a convergence guarantee</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>Frandi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Ñanculef</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Lodi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Sartori</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">A</forename><surname>Suykens</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Machine Learning</title>
+		<imprint>
+			<biblScope unit="volume">104</biblScope>
+			<biblScope unit="issue">2-3</biblScope>
+			<biblScope unit="page" from="195" to="221" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Regularization paths for generalized linear models via coordinate descent</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Friedman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Hastie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Tibshirani</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Statistical Software</title>
+		<imprint>
+			<biblScope unit="volume">33</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page">1</biblScope>
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Spatial modeling with spatially varying coefficient processes</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H.-J</forename><surname>Kim</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Sirmans</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Banerjee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">98</biblScope>
+			<biblScope unit="issue">462</biblScope>
+			<biblScope unit="page" from="387" to="396" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Generalized cross-validation as a method for choosing a good ridge parameter</title>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">H</forename><surname>Golub</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Heath</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Wahba</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Technometrics</title>
+		<imprint>
+			<biblScope unit="volume">21</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="215" to="223" />
+			<date type="published" when="1979">1979</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Minimum spanning tree based clustering algorithms</title>
+		<author>
+			<persName><forename type="first">O</forename><surname>Grygorash</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Zhou</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Jorgensen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Tools with Artificial Intelligence, 2006. ICTAI&apos;06. 18th IEEE International Conference on</title>
+		<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2006">2006</date>
+			<biblScope unit="page" from="73" to="81" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<author>
+			<persName><forename type="first">Z</forename><forename type="middle">T</forename><surname>Ke</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Fan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Wu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Homogeneity pursuit</title>
+		<imprint>
+			<date type="published" when="2015">2015</date>
+			<biblScope unit="volume">110</biblScope>
+			<biblScope unit="page" from="175" to="194" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">A family of geographically weighted regression models</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Lesage</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Advances in spatial econometrics</title>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2004">2004</date>
+			<biblScope unit="page" from="241" to="264" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">An explicit link between gaussian fields and gaussian markov random fields: the stochastic partial differential equation approach</title>
+		<author>
+			<persName><forename type="first">F</forename><surname>Lindgren</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Rue</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Lindström</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society: Series B (Statistical Methodology)</title>
+		<imprint>
+			<biblScope unit="volume">73</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="423" to="498" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">World ocean atlas</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Locarnini</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Mishonov</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Antonov</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Boyer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Garcia</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">O</forename><surname>Baranova</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Zweng</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Paver</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Reagan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Johnson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Temperature. NOAA Atlas NESDIS</title>
+		<imprint>
+			<biblScope unit="volume">1</biblScope>
+			<date type="published" when="2013">2013. 2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">Fast euclidean minimum spanning tree: algorithm, analysis, and applications</title>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">B</forename><surname>March</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Ram</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">G</forename><surname>Gray</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 16th ACM SIGKDD international conference on Knowledge discovery and data mining</title>
+		<meeting>the 16th ACM SIGKDD international conference on Knowledge discovery and data mining</meeting>
+		<imprint>
+			<publisher>ACM</publisher>
+			<date type="published" when="2010">2010</date>
+			<biblScope unit="page" from="603" to="612" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Deep atlantic circulation during the last glacial maximum and deglaciation</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Oppo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Curry</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Nature Education Knowledgel</title>
+		<imprint>
+			<biblScope unit="volume">3</biblScope>
+			<biblScope unit="issue">10</biblScope>
+			<biblScope unit="page">1</biblScope>
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">The oceanic sink for anthropogenic co2</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">L</forename><surname>Sabine</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">A</forename><surname>Feely</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Gruber</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">M</forename><surname>Key</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">L</forename><surname>Bullister</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Wanninkhof</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Wong</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">W</forename><surname>Wallace</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Tilbrook</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Science</title>
+		<imprint>
+			<biblScope unit="volume">305</biblScope>
+			<biblScope unit="issue">5682</biblScope>
+			<biblScope unit="page" from="367" to="371" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Estimating the dimension of a model</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Schwarz</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">6</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="461" to="464" />
+			<date type="published" when="1978">1978</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">Grouping pursuit through a regularization solution surface</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Shen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H.-C</forename><surname>Huang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">105</biblScope>
+			<biblScope unit="issue">490</biblScope>
+			<biblScope unit="page" from="727" to="739" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<monogr>
+		<title level="m" type="main">A brief on tensor analysis</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">G</forename><surname>Simmonds</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2012">2012</date>
+			<publisher>Springer Science &amp; Business Media</publisher>
+			<pubPlace>New York</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">High-dimensional variable selection with reciprocal ℓ 1regularization</title>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Song</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Liang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">110</biblScope>
+			<biblScope unit="issue">512</biblScope>
+			<biblScope unit="page" from="1607" to="1620" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<analytic>
+		<title level="a" type="main">Fused adaptive lasso for spatial and temporal quantile function estimation</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Sun</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">J</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Fuentes</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Technometrics</title>
+		<imprint>
+			<biblScope unit="volume">58</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="127" to="137" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<monogr>
+		<title level="m" type="main">Descriptive Physical Oceanography: An Introduction</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">D</forename><surname>Talley</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2011">2011</date>
+			<publisher>Academic Press</publisher>
+			<pubPlace>London</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<analytic>
+		<title level="a" type="main">Fused lasso approach in regression coefficients clusteringlearning parameter heterogeneity in data integration</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Tang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">X</forename><surname>Song</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Machine Learning Research</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="issue">113</biblScope>
+			<biblScope unit="page" from="1" to="23" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<analytic>
+		<title level="a" type="main">Regression shrinkage and selection via the lasso</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Tibshirani</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society. Series B (Methodological)</title>
+		<imprint>
+			<biblScope unit="volume">58</biblScope>
+			<biblScope unit="page" from="267" to="288" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<analytic>
+		<title level="a" type="main">Sparsity and smoothness via the fused lasso</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Tibshirani</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Saunders</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Rosset</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Zhu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Knight</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society: Series B (Statistical Methodology)</title>
+		<imprint>
+			<biblScope unit="volume">67</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="91" to="108" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<monogr>
+		<title level="m" type="main">Statistical learning with sparsity: the lasso and generalizations</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Tibshirani</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Wainwright</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Hastie</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2015">2015</date>
+			<publisher>Chapman and Hall/CRC</publisher>
+			<pubPlace>Boca Raton</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b40">
+	<monogr>
+		<title level="m" type="main">Atmospheric and Oceanic Fluid Dynamics: Fundamentals and Largescale Circulation</title>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">K</forename><surname>Vallis</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2006">2006</date>
+			<publisher>Cambridge University Press</publisher>
+			<pubPlace>Cambridge</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b41">
+	<analytic>
+		<title level="a" type="main">An assessment of coefficient accuracy in linear regression models with spatially varying coefficients</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">C</forename><surname>Wheeler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">A</forename><surname>Calder</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Geographical Systems</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="145" to="166" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b42">
+	<analytic>
+		<title level="a" type="main">Deglacial variability of antarctic intermediate water penetration into the north atlantic from authigenic neodymium isotope ratios</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">C</forename><surname>Xie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Marcantonio</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">W</forename><surname>Schmidt</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Paleoceanography</title>
+		<imprint>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page">27</biblScope>
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b43">
+	<analytic>
+		<title level="a" type="main">Nearly unbiased variable selection under minimax concave penalty</title>
+		<author>
+			<persName><forename type="first">C.-H</forename><surname>Zhang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">38</biblScope>
+			<biblScope unit="page" from="894" to="942" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b44">
+	<analytic>
+		<title level="a" type="main">On selection of spatial linear models for lattice data</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Zhu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H.-C</forename><surname>Huang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">E</forename><surname>Reyes</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society: Series B (Statistical Methodology)</title>
+		<imprint>
+			<biblScope unit="volume">72</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="389" to="402" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b45">
+	<analytic>
+		<title level="a" type="main">An augmented admm algorithm with application to the generalized lasso problem</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Zhu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Computational and Graphical Statistics</title>
+		<imprint>
+			<biblScope unit="volume">26</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="195" to="204" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b46">
+	<analytic>
+		<title level="a" type="main">The adaptive lasso and its oracle properties</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Zou</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">101</biblScope>
+			<biblScope unit="issue">476</biblScope>
+			<biblScope unit="page" from="1418" to="1429" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b47">
+	<analytic>
+		<author>
+			<persName><forename type="first">M</forename><surname>Zweng</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Reagan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Antonov</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Locarnini</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Mishonov</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Boyer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Garcia</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">O</forename><surname>Baranova</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Johnson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Seidov</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">World ocean atlas</title>
+		<imprint>
+			<date type="published" when="2013">2013. 2013</date>
+			<biblScope unit="volume">2</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

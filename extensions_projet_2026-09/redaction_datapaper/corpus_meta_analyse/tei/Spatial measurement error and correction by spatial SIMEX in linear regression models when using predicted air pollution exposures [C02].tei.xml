@@ -1,0 +1,1292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Spatial measurement error and correction by spatial SIMEX in linear regression models when using predicted air pollution exposures</title>
+				<funder ref="#_xrpFHgZ">
+					<orgName type="full">National Cancer Institute</orgName>
+				</funder>
+				<funder ref="#_PN9YpGR #_rZdSqdV">
+					<orgName type="full">National Institutes of Health</orgName>
+					<orgName type="abbreviated">NIH</orgName>
+				</funder>
+				<funder ref="#_zd2Q3NW">
+					<orgName type="full">USEPA</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author role="corresp">
+							<persName><forename type="first">Stacey</forename><forename type="middle">E</forename><surname>Alexeeff</surname></persName>
+							<email>salexeeff@ucar.edu</email>
+							<affiliation key="aff0">
+								<orgName type="department">Institute for Mathematics Applied to Geosciences</orgName>
+								<orgName type="institution">National Center for Atmospheric Research, Boulder</orgName>
+								<address>
+									<region>CO</region>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Raymond</forename><forename type="middle">J</forename><surname>Carroll</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="department">Department of Statistics</orgName>
+								<orgName type="institution">Texas A &amp; M University</orgName>
+								<address>
+									<settlement>College Station</settlement>
+									<region>TX</region>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Brent</forename><surname>Coull</surname></persName>
+							<affiliation key="aff2">
+								<orgName type="department">Department of Biostatistics</orgName>
+								<orgName type="institution">Harvard School of Public Health</orgName>
+								<address>
+									<settlement>Boston</settlement>
+									<region>MA</region>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Spatial measurement error and correction by spatial SIMEX in linear regression models when using predicted air pollution exposures</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<idno type="MD5">C9186FC2D015D017B774FE3EBCC54D56</idno>
+					<idno type="DOI">10.1093/biostatistics/&quot;Spatial</idno>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-17T13:18+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>air pollution</term>
+					<term>birthweight</term>
+					<term>environmental epidemiology</term>
+					<term>kriging</term>
+					<term>model uncertainty</term>
+					<term>spatial model</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Spatial modeling of air-pollution exposures has become widespread in air pollution epidemiology research as a way to improve exposure assessment. However, there are key sources of exposure model uncertainty when air pollution is modeled, including estimation error and model misspecification. We examine the use of predicted air pollution levels in linear health effect models under a measurement error framework. For the prediction of air pollution exposures, we consider a universal kriging framework, which may include land use regression terms in the mean function and a spatial covariance structure for the residuals. We derive the bias induced by estimation error and by model misspecification in the exposure model, and we find that a misspecified exposure model can induce asymptotic bias in the effect estimate of air pollution on health. We propose a new spatial SIMEX procedure, and we demonstrate that the procedure has good performance in correcting this asymptotic bias. We use a bootstrap procedure to estimate the standard errors in the spatial SIMEX method. We illustrate the spatial SIMEX</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">Introduction</head><p>There is strong evidence in reviews of epidemiological studies that both short-term and long-term exposures to air pollution are related to cardiovascular morbidity and mortality <ref type="bibr">(Brook and others, 2010)</ref>. Spatial modeling of air-pollution levels using ordinary kriging and universal kriging methods is now commonplace in air pollution epidemiology research. Existing pollution monitoring networks are used to collect data on regional air pollution concentrations, and spatial prediction models are then used to estimate location-specific exposures at the home address of each subject in a study. However, air pollution levels are typically measured only at a small number of monitors, while the air pollution surface varies over space and the overall regional heterogeneity may be difficult to characterize. For example, ambient levels of PM 2.5 have been shown to vary considerably within a given city region, in part due to traffic sources <ref type="bibr" target="#b3">(Brauer and others, 2003;</ref><ref type="bibr">Clougherty and others, 2008)</ref>. This measurement error setting where exposure is predicted at a set of exposure locations of interest that does not match the set of measured exposure locations is called spatial misalignment <ref type="bibr">(Gryparis and others, 2009)</ref>. The most common use of predicted exposures in a health effects analysis is the direct plug-in of the individual-specific exposure estimates. This approach treats the exposures as known, without acknowledgement of the uncertainty in the prediction process. Ignoring measurement error can lead to biased health effect estimates and overstated confidence in the resulting risk assessments <ref type="bibr">(Carroll and others, 2006)</ref>. The issue of spatial misalignment measurement error in air pollution epidemiology has received considerable attention in recent literature <ref type="bibr">(Szpiro and others, 2011;</ref><ref type="bibr" target="#b27">Szpiro and Paciorek, 2013;</ref><ref type="bibr">Madsen and others, 2008;</ref><ref type="bibr">Lopiano and</ref><ref type="bibr">others, 2011, 2013;</ref><ref type="bibr">Gryparis and others, 2009;</ref><ref type="bibr" target="#b24">Peng and Bell, 2010;</ref><ref type="bibr">Bergen and others, 2013)</ref>. However, the role of spatial exposure model misspecification has not formally been investigated.</p><p>The work presented here adds to this existing literature in two ways. First, almost all of these existing studies focus on the impact of uncertainty associated with estimation of unknown parameters in a known exposure model, not on the impact of model misspecification. In this work, we explicitly evaluate the impact of model misspecification, which in reality will always be an issue given the spatial-temporal complexity of pollutions emissions and the atmospheric fate and transport of these emissions. Second, we propose methods that can be implemented in settings in which the exposure prediction algorithm is a complex process that does not yield uncertainties for the exposure model parameter estimates.</p><p>Examples of such approaches that have recently appeared in the environmental science literature include a daily kriging model implemented in ArcGIS that does not yield uncertainties for the kriging variance component estimates <ref type="bibr">(Liao and others, 2006)</ref> and multi-stage model fitting and missing data imputation schemes that make it difficult to propagate the uncertainty associated with each stage through to the final exposure predictions <ref type="bibr">(Kloog and</ref><ref type="bibr">others, 2012, 2014;</ref><ref type="bibr">Nordio and others, 2013)</ref>. This article investigates two factors of exposure estimation that may affect resulting health effect estimates: estimation error and model misspecification. In practice, spatial air pollution models are fit with sparse monitoring data. Hence, we examine the effects of estimation error in the kriging model parameters under small sample size. In addition, the underlying exposure model that generates air pollution levels in any given region is not known. Thus, we investigate the impact of model misspecification in the spatial model by omitting a spatial covariate. To correct for bias in the health effect estimates, we introduce a spatial version of the simulation extrapolation method (SIMEX). To our knowledge, our proposed spatial SIMEX procedure is the first treatment of SIMEX allowing for spatially correlated measurement errors.</p><p>The remainder of this paper is arranged as follows. In Section 2 we introduce our modeling framework and the specific exposure models of interest under universal kriging. In Section 3 we examine the bias analytically for each of the exposure models of interest and we derive the probability limits of the misspecified parameters and the resulting classical error variance. In Section 4 we propose a new spatial SIMEX correction method where correlated classical error is added to the exposure predictions to correct for bias. In Section 5 we present a simulation study to investigate the degree of bias induced by each of the exposure models of interest and to demonstrate the performance of our spatial SIMEX correction method. We then illustrate the spatial SIMEX correction in a study of air pollution and birthweight in the greater Boston area in Section 6. We end with a concluding discussion in Section 7.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.">Spatial Exposure Models in Air Pollution and Health Studies</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1">Model Framework</head><p>Let the health effect model of interest be a simple linear regression model, Y i = β 0 + β X X i + i , for each subject i = 1, . . . , n, where Y i is a continuous health outcome, X i is the continuous air pollution exposure of interest, and i are independent and identically distributed (i.i.d.) with mean 0 and variance σ 2 . The goal of the analysis is to estimate β X , the parameter measuring the association between the health outcome and the air pollution exposure.</p><p>Let X denote the n-length vector of true unmeasured air pollution exposures corresponding to the subject's address location. Let X * denote the m-length vector of measured air pollution levels at m monitor sites spread throughout the same geographic region, where m n. We assume the setting of spatial misalignment, where the n subject address locations needed for the health model do not match any of the m monitor locations.</p><p>We consider a universal kriging model for the exposure which may include covariates as part of the mean model. Suppose the true pollution process, X = (X, X * ), is generated by a Gaussian Random Field, and that the realizations of this process take a parametric form. Specifically, denote the length K vector of parameters for the mean model as α = (α 1 , . . . , α K ), and denote the length J vector of parameters for the variance model as ψ = (ψ 1 , . . . , ψ J ), and let θ = (α, ψ). Then a realization of one surface follows a Multivariate Normal distribution,</p><formula xml:id="formula_0">   X X *    ∼ N         µ X (α) µ X * (α)    ,    Σ XX (ψ) Σ XX * (ψ) Σ X * X (ψ) Σ X * X * (ψ)         . (2.1)</formula><p>The kriging estimator for X conditional on the observed monitor data X * is defined as</p><formula xml:id="formula_1">g X (θ; X * ) = µ X (α) + Σ XX * (ψ)Σ -1 X * X * (ψ) {X * -µ X * (α)} . (2.2)</formula><p>We now consider two spatial exposure model scenarios in this study.</p><p>Scenario I: Universal kriging model. Consider equation (2.2) and assume that the variance Σ X (ψ) follows a Matérn family with variance parameters ψ = (φ, σ 2 , ν), where φ is the range, ν is the smoothness, and σ 2 is the variance (see Appendix in Supplementary Material for explicit Matérn covariance function). Universal kriging assumes a spatial correlation structure for the variance, and allows the mean model to depend linearly on a set of covariates or to be constant. For the mean model we consider two scenarios. First, we consider a constant mean model, µ X (α) = α, which we refer to as Scenario IA.</p><p>Second, we consider a mean model that depends linearly on covariates, µ X (α</p><formula xml:id="formula_2">) = α 0 + α 1 S 1 + α 2 S 2 ,</formula><p>where we assume covariates, S 1 , S 2 represent spatially-varying land-use characteristics. This type of model is often called a "land-use regression" model, which we refer to as Scenario 1B. Land-use covariates for air pollution models include measures such as percentages of residential land, greenspace, and industry, population size, distances to major roads, and traffic intensity <ref type="bibr">(Ross and others, 2007;</ref><ref type="bibr">Eeftens and others, 2012)</ref>.</p><p>Scenario II: Misspecified universal kriging model. Scenario II considers a misspecified universal kriging model. We assume that the true exposure is generated under the universal kriging model defined above, and that the fitted exposure model is misspecified by omitting S 2 . Thus, the misspecified expo-</p><formula xml:id="formula_3">sure model that is fit is g X θ N ; X * = µ X (α N ) + Σ XX * (ψ N ) Σ -1 X * X * (ψ N ) {X * -µ X * (α N )} (2.3)</formula><p>where α N = (α 0,N , α 1,N , 0), µ X (α) = α 0,N 1 + α 1,N S 1 , and ψ N = φ N , σ 2 N , ν N , with the subscript N denoting the naive parameters from the misspecified model. Here we also assume that S 1 and S 2 are each spatially correlated, generated from their own Gaussian Processes.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2">Decomposition into Berkson and Classical error components</head><p>We now review and extend the decomposition of exposure measurement error into Berkson and Classical components for each of these three scenarios. The mean and variance parameters can be estimated jointly via maximum likelihood. Let θ be the vector of maximum likelihood estimates of θ for the true model and let θ N be the vector of maximum likelihood estimates of θ N in the naive misspecified model. A general measurement error framework can be used to characterize the difference between the true unobserved exposures X and the predicted exposures g X ( θ; X * ). The decomposition of errors into Berkson and classical type measurement error components follows the development of <ref type="bibr">Gryparis and others (2009)</ref> and <ref type="bibr">Szpiro and others (2011)</ref>, where Gryparis and others (2009) considers a Bayesian Gaussian Process model with constant mean, and <ref type="bibr">Szpiro and others (2011)</ref> considers a universal kriging model where the mean depends on several spatial covariates. We now extend this viewpoint to our models of interest defined in Secion 2.1.</p><p>For scenario I, the predicted exposures, g X ( θ; X * ), have the form</p><formula xml:id="formula_4">g X ( θ; X * ) = µ X α + Σ XX * ψ Σ -1 X * X * ψ {X * -µ X * ( α)} . (2.4)</formula><p>We decompose the error into Berkson and classical components,</p><formula xml:id="formula_5">X -g X θ; X * = X -g X θ; X * + g X θ; X * -g X θ; X * . (2.5)</formula><p>The Berkson error term, U b = X -g X θ; X * , represents the difference between the true measurements and the expectation of X conditional on X * . The classical error term, U c = g X θ; X * -g X θ; X * , represents the difference between the true model and the estimated model. Thus, we can call this classical error estimation error. In scenario I, this kriging estimator fit under the correct model is the best linear unbiased predictor (BLUP) <ref type="bibr" target="#b8">(Cressie, 1993)</ref>.</p><formula xml:id="formula_6">For scenario II, the predicted exposures, g X ( θ N ; X * ), have the form g X θ N ; X * = µ X α N + Σ XX * ψ N Σ -1 X * X * ψ N {X * -µ X * ( α N )} . (2.6)</formula><p>Decomposing the error into Berkson and classical components,</p><formula xml:id="formula_7">X -g X θ N ; X * = X -g X θ; X * U b + g X θ; X * -g X θ N ; X * Uc, model misspecification + g X θ N ; X * -g X θ N ; X * . Uc, estimation error (2.7)</formula><p>In Scenario II, there are two classical measurement error components. The first is attributed to choosing the incorrect model, and the second is due purely to estimation error of the parameters.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.">Analysis of bias in health effect estimates induced by exposure models</head><p>Now, with the measurement error framework established, we study the impact of measurement error in the predicted exposures on bias of the coefficient β X representing the association between air pollution exposure and the health outcome. First we investigate bias in the case of estimation error only in Scenario I analytically, focusing on the small-sample bias properties not previously addressed in other studies. Next, we study the asymptotic bias in the case of model misspecification error in Scenario II by deriving the probability limits of the MLEs in the misspecified model and deriving the particular form of the classical error variance. Later, in Section 5, we will complement this analysis with a simulation study.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1">Bias Analysis for Scenario I</head><p>To study the estimation error bias in Scenario I, we introduce notation for the least squares estimators.</p><p>Without loss of generality we assume centered variables. Let M ( • ; X * , Y) be the function for the least squares estimate of β X given monitoring data, spatial covariates, and observed health outcomes. Our notation explicitly shows the dependence on X * and Y, but implicitly this also depends on S * , S as well. Specifically, define</p><formula xml:id="formula_8">M (θ; X * , Y) ≡ g X (θ; X * ) T Y/ g X (θ; X * ) T g X (θ; X * ) (3.8)</formula><p>for n×1 vector Y, (J +K)×n matrix S, and (J +K)×1 vector θ. Then let β X,θ denote the least squares estimate of β X based on the exposure model using the true parameters θ, so β X,θ = M (θ; X * , Y).</p><p>Similarly, let β X, θ denote the least squares estimate of β X based on the exposure model using the estimated exposure model parameters θ, so β X, θ = M ( θ; X * , Y).</p><p>First, we note that the Berkson error component does not induce any bias in the estimate of β X .</p><p>Hence, any bias in the estimator comes from the classical error component. Using a second order Taylor</p><formula xml:id="formula_9">expansion of M ( θ; X * , Y) around M (θ; X * , Y) the approximate bias of β X, θ is E β X,θ -β X, θ ≈ γE θ -θ + 1 2 trace ΛVar θ -θ + 1 2 E θ -θ T ΛE θ -θ (3.9) where γ = E ∂ ∂θ M (θ; X * , Y, S) T and Λ = E ∂ 2 ∂θ∂θ T M (θ; X * , Y, S)</formula><p>. Equation (3.9) illustrates that when the number of monitors m is large, then E( θθ) → 0, resulting in an asymptotically unbiased estimator for β X . However, in practice when m is small, then Jensen's inequality gives us the result</p><formula xml:id="formula_10">that E β X, θ = β X because M (•; X * , Y)</formula><p>is a nonlinear function of the exposure model covariance parameters. This is true even under the condition of an unbiased estimate of the covariance parameters, E( θ) = θ. Specifically, following a similar argument to Zimmerman and Cressie (1992), Jensen's inequality says that if M (•) is strictly concave, then</p><formula xml:id="formula_11">E β X, θ = E{M ( θ; X * , Y)} &lt; M {E( θ; X * , Y)} = M (θ; X * , Y) = β X . (3.10)</formula><p>Similarly, if M (•; X * , Y) is strictly convex, the resulting bias is upward and only linearity of M (•; X * , Y) yields an unbiased estimator. Supplementary Figure <ref type="figure">1</ref> shows an example of M (•; X * , Y) as a concave function for a particular choice of covariance matrix and set of covariates. Although we know that M (•; X * , Y) is a nonlinear function of the exposure model covariance parameters, its form depends on the spatial covariance function, the distances of the monitors from each other and the distances of the subject addresses from the monitors, all of which affect the matrix multiplications of the covariances to generate g X (θ; X * ). The scale of the nonlinear functions shown in Supplementary Figure <ref type="figure">S1</ref> suggest that this bias may be small. Thus, in practice, we expect to see some small sample bias in β X, θ due to a small number of monitors m. We investigate this small sample bias further in a simulation study in Section 5.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2">Bias Analysis for Scenario II</head><p>Scenario II contains the additional component of error due to model misspecification,</p><formula xml:id="formula_12">g X (θ; X * ) - g X (θ N ; X * ).</formula><p>To understand the bias induced by this component, we first consider the asymptotic be-havior of the naive model parameter estimates. Following Wang and others (1998), the MLE's θ N will be the solutions to the score equations based on the Multivariate Normal likelihood for Equation (2.3), and thus will converge in probability to the solutions of the following equations:</p><formula xml:id="formula_13">E S * T N V -1 N (X * -S * N α N ) = 0 (3.11) 1 2 E X * -S * N α N T V -1 N ∂V N ∂ψ l,N V -1 N X * -S * N α N -tr V -1 N ∂V N ∂ψ l,N = 0 (3.12)</formula><p>where</p><formula xml:id="formula_14">S * N = (1, S * 1 ), the m×2 subset of spatial covariates in the misspecified model, V -1 N = Σ -1 X * X * (ψ N ),</formula><p>and l = (1, 2, 3) indexes the variance parameters. Solving these equations for θ N yileds the asymptotic relationship between θ N and θ, as shown in the Supplementary Material Appendix. Closed-form solutions exist for the naive model mean parameters, but for the variance parameters we derive equations which can be only be solved numerically. In general, the solutions depend on the joint distribution of the correlated spatial covariates.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.">SIMEX for correlated Berkson and Classical Errors</head><p>The simulation extrapolation method (SIMEX) has been developed as a flexible method to correct for the effect of classical measurement errors on the estimation of a parameter of interest <ref type="bibr" target="#b7">(Cook and Stefanski, 1994)</ref>. SIMEX is a functional method which uses resampling techniques and has several attractive properties, including placing minimal assumptions on the underlying distribution of the exposures.</p><p>SIMEX has two steps: a simulation step (SIM), where simulated error is added to the mismeasured exposures in increasing amounts, and an extrapolation step (EX), where a trend is fit to the mean of the parameter estimates over the increasing error levels and extrapolated back to the case of no error.</p><p>It has been suggested that SIMEX may be suitable for several exposures with correlated classical errors when the correlations of the errors are known or estimable <ref type="bibr">(Carroll and others, 2006)</ref>. We now present the spatial SIMEX procedure, an extension of SIMEX that allows the classical measurement errors to be correlated over space.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1">Spatial SIMEX procedure</head><p>The spatial SIMEX procedure is implemented as follows. Let R and L be given positive integers, and let (λ 1 , . . . , λ L ) be an increasing sequence of nonnegative numbers starting with λ 1 = 0.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Simulation Step.</head><p>For each λ ∈ (λ 1 , . . . , λ L ) and r = 1, . . . R, we generate a pseudo-dataset for the vector of exposures, W (r) </p><formula xml:id="formula_15">(λ) = X + √ λ U (r)</formula><p>c , where U </p><p>X (λ) estimates the association between the pseudo-exposures W (r) (λ) and the outcome Y.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Extrapolation Step.</head><p>We obtain an estimate of β X for each λ by averaging over the R simulations,</p><formula xml:id="formula_17">β X (λ) = 1 R R r=1 β (r)</formula><p>X (λ). We then fit a trend to β X (λ) versus λ using a linear or quadratic model.</p><p>The predicted value of this trend at λ = -1 is the spatial SIMEX corrected estimate of the parameter, β X,SIMEX , estimating the health effect parameter under no measurement error.</p><p>Spatial SIMEX can be implemented with a bootstrap standard error estimate, following the same general bootstrap approach used for one-dimensional SIMEX <ref type="bibr">(Carroll and others, 2006)</ref>. To implement the bootstrap standard error, we first estimate β X,SIMEX . Then, for k = 1, ..., K bootstrap samples:</p><p>(1) resample monitor locations with replacement, (2) fit the initial exposure model to the new sample of monitoring data, (3) predict the exposures at the health locations, and (4) repeat the entire SIMEX procedure using these new predictions to obtain β (k) X,SIMEX . The standard error estimate is then computed by the standard deviation of the K bootstrap SIMEX estimates, ŝ .e.(</p><formula xml:id="formula_18">β X,SIMEX ) = (K -1) -1 K k=1 β (k) X,SIMEX -β X,SIMEX 2 .</formula><p>In general, the asymptotic results of and <ref type="bibr" target="#b7">Cook and Stefanski (1994)</ref> for the unbiasedness of the point estimate apply when (i) the bias in the naive estimator is a continuous function of the measurement error variance, (ii) the measurement error variance is known, and (iii) the true extrapolant function based on the bias function is known. In practice, the measurement error variance and the true extrapolant function are often unknown. Still, even an approximate exrapolant function can help reduce bias <ref type="bibr">(Carroll and others, 2006)</ref>. In addition, the degree of fit to the error-inflated parameters can be assessed, and if the trend in bias is unclear the number of SIMEX samples R can be increased as well as the number of λ's, L. The next subsection discusses how to estimate the classical measurement error variance needed for SIMEX.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2">Estimation of spatial measurement error variance parameters</head><p>The simulation step of spatial SIMEX relies on generating random samples of error from the multivariate classical error distribution. Based on the derivations in our bias analysis of Section 3, the only component of error that leads to asymptotic bias is the model misspecification component of classical error. Thus, only the model misspecification variance is needed to generate these pseudo-datasets in the SIMEX procedure to asymptotically correct for the bias. The classical error due to model misspecification has the distribution</p><formula xml:id="formula_19">U c,model mis ∼ N (0, Σ c ), Σ c = α 2 2 Σ S2S2 -α 2 Σ S2S * 2 A T -α 2 AΣ S * 2 S2 + BΣ X * X * B T + AΣ S * 2 S * 2 A T , A = Σ XX * (ψ)Σ -1 X * X * (ψ) -Σ XX * (ψ N ) Σ -1 X * X * (ψ N ) , B = Σ XX * (ψ N ) Σ -1 X * X * (ψ N ) , (4.13)</formula><p>as showin in the Supplementary Material. Equation (4.13) shows that Σ c depends on the spatial covariances of the exposures under both the true parameters and the naive parameters as well as the spatial covariance of the unobserved spatial covariate S 2 . In practice, these spatial covariances would not be known and thus the true Σ c would not be known. In that case, Σ c can be approximated by using external validation data from held-out monitors. First, we fit the spatial exposure model and predict the exposure at the held-out monitor locations. Then, we subtract the predicted exposures form the observed exposures at the held-out monitor locations to obtain the residuals at those locations. We then fit a spatial model to the set of residuals to estimate the total spatial covariance. In practice, we use a Matérn covariance structure for the spatial model of the residuals.</p><p>One key issue issue which has been discussed in previous studies is the nonidentifiability of the proportion of measurement error that is Berkson versus classical in models with both Berkson and classical measurement error <ref type="bibr">(Mallick and others, 2002;</ref><ref type="bibr">Li and others, 2007)</ref>. While external validation data allows the estimation of the total error variance, the relative proportions of Berkson and classical errors cannot be determined. These previous studies consider the case where both the Berkson errors and the Classical errors are assumed to be i.i.d. Normal in one dimension. To deal with the identifiability issue in a practical application, the authors perform sensitivity analyses regarding the percentage of variance assumed to be classical versus Berkson. We take a similar approach, estimating the total spatial covariance Σ total by using external validation data. We then use compute Σ c = p Σ total , where p represents the proportion the total spatial error attributable to Classical error, with the remaining error as Berkson.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.">Simulation Study</head><p>We conduct a simulation study to explore the degree of bias for small sample estimation error when the exposure model is correctly specified. We consider a small number of monitors, m = 20 and m = 40. In scenario IA, we assume a constant mean model, so all of the exposure variability comes from the spatially correlated residuals. First, we consider a smooth surface that satisfies the smoothness conditions needed in our Taylor expansion. For our Matérn covariance function, we chose covariance parameters φ = 0.2 for the range and σ 2 = 0.5 for the variance, and we consider a smooth surface with a smoothness of ν = 3, and a rough surface with a smoothness of ν = 1, with examples shown in Figure <ref type="figure">S2</ref> in the Supplement. Note that the a rough surface does not satisfy the smoothness conditions needed in our</p><p>Taylor expansion because it only has first derivatives. Scenario IB assumes that the mean depends on two spatial covariates, and for the residuals we use the same parameter values for the smooth and rough surface as in Scenario I.</p><p>The results for the smooth and rough exposure surfaces for Scenario I are given in Table <ref type="table" target="#tab_0">1</ref>. For the smooth surface, even for small numbers of monitors we observe negligible bias. The rough surface is a particularly difficult case to estimate because we use a small number of monitors to estimate the form of a rough surface. We see a small amount of bias in the case of Scenario IA with only 20 monitors.</p><p>Interestingly, the direction of this bias here is upward, which may be an artifact of using a particularly sparse dataset and a rough surface. As expected, the Berkson error underestimates the standard error, leading to insufficient coverage of the confidence intervals.</p><p>We conduct a simulation study to explore the degree of bias in the model misspecification scenario and evaluate performance of the spatial SIMEX correction method. To generate the exposure model, we use the same setup as Scenario IB with two spatial covariates and smooth residuals. To fit the exposure model under model misspecification, we omit the second spatial covariate. We also assume first that Σ c is known, and in later simulations we relax this assumption.</p><p>The results for Scenario II are given in Table <ref type="table" target="#tab_1">2</ref>. We observe substantial bias toward the null. Results</p><p>show that the bias in the health effect parameter is approximately corrected by spatial SIMEX. We see a difference in performance between the two extrapolation functions used for spatial SIMEX, where the linear extrapolation function under corrects the bias. In the simulation step of the spatial SIMEX procedure, we use the derived covariance matrix with true parameter values to sample random error to generate txhe pseudo-datasets. We implement the bootstrap standard error as described in Section 4.3 using K = 200 bootstrap resampling steps.</p><p>We conducted a simulation study to evaluate performance of the SIMEX correction method when Σ c is estimated using the available monitoring data. In Section 4 we describe our approach to estimate Σ c using held-out monitors. This simulation assumes held-out monitors are not available, so we remove one third of the available monitors to use as a held-out dataset. The estimate of Σ c also depends on the assumed proportion of Classical to Berkson error. We know that most of the error is Classical, but there is also some correlated Berkson error. We choose proportions of 80% Classical error and 90% Classical error as realistic approximations. To examine how robust the spatial SIMEX estimator is to the choice of p, we also use more extreme values of 100% Classical error and 50% Classical error. The results of this simulation are given in Table <ref type="table" target="#tab_2">3</ref>.</p><p>We find that the spatial SIMEX procedure still works well even when approximating Σ c . The best performance is seen when p is 0.80. In the extreme case assuming 100% Classical error, the spatial SIMEX procedure using the quadratic extrapolation appears to over-correct the bias. In the other extreme case assuming 50% Classical error, both the linear and quadratic extrapolations under-correct the bias. Although there is sensitivity to the choice of p, all the spatial SIMEX estimates noticeably reduce the bias. There is slight under-coverage in the 95% CI estimates produced by spatial SIMEX across all choices of p.</p><p>In practice, the true exposure surface may exhibit non-Gaussian distributions. To explore the performance of our spatial SIMEX method when our Gaussian assumptions are not satisfied, we considered simulation settings where the spatial covariates were generated from spatial log-normal distributions, with results given in Supplementary Material, Table <ref type="table" target="#tab_0">S1</ref>. Overall, results are as expected, where spatial SIMEX corrects adequately for bias or may over-correct, yielding effect estimates that could have slight upward bias. The standard errors in this scenario are over-estimated, leading to CIs that are wider than necessary and coverage greater than 99%.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.">Data Example: Association between air pollution and low birthweight</head><p>We applied our spatial SIMEX method to a study of birthweight and particulate matter exposure during pregnancy in Massachusetts. The objective of the study was to estimate the association between birthweight and PM 2.5 exposure during the second and third trimesters.</p><p>The study population included all singleton live births in Massachusetts from the Massachusetts Birth Registry during 2008 (January 1 to December 31), a total of 70,340 births. Individual-level data on the mother and baby come from the Massachusetts Birth Registry. Confounders in the health model include maternal age, gestational age, number of cigarettes smoked during and before pregnancy, chronic conditions of mother or conditions of pregnancy (lung disease, hypertension, gestational diabetes and non-gestational diabetes), and socioeconomic measures (mother's race, mother's years of education, and the Kotelchuck index of adequacy of prenatal care utilization). Area-level socioeconomic status is controlled by census-tract median household income using data from the United States Census Bureau of 2000 for each census tract in Massachusetts. These covariates are consistent with the published literature on birthweight and particulate matter <ref type="bibr" target="#b9">(Dadvand and others, 2013)</ref>. Some studies also adjust for co-pollutant exposures, such as ozone, although the need for this may vary by region, where studies in the northeast have found similar effect sizes after this adjustment <ref type="bibr">(Bell and others, 2007)</ref>.</p><p>PM 2.5 measurements during 2007 and 2008 were obtained from 40 monitoring sites in Massachusetts as part of the EPA (Environmental Protection Agency) and IMPROVE (Interagency Monitoring of Protected Visual Environments) monitoring networks <ref type="bibr">(Kloog and others, 2011)</ref>. The residential address of each mother at time of birth was geocoded as described in <ref type="bibr">Kloog and others (2012)</ref>. To predict PM 2.5</p><p>at the home address of the mother for each birth, a universal kriging model is assumed, with a Matérn covariance structure for the residuals. The mean function for the kriging model includes a linear trend for three land use covariates: distance to primary highway, distance to known particulate matter emission source, and average traffic density, as described in <ref type="bibr">Kloog and others (2011)</ref>. Separate models are fit for each month using the monthly average PM 2.5 concentrations at the monitoring sites during 2007 and 2008. Exposures during the second and third trimesters of pregnancy are estimated by averaging the monthly PM 2.5 concentrations prior to the delivery date.</p><p>We fit linear health effect models for each exposure of interest, second trimester PM 2.5 and third trimester PM 2.5 , adjusting for confounders. This model yields a naive effect estimate that is not corrected for measurement error. We also apply our proposed spatial SIMEX correction method using a quadratic extrapolation function and assuming that 80% of the correlated spatial error is classical. We use 50 SIMEX simulation steps to correct the bias and 50 bootstrap resampling steps to estimate the standard error. Further description of our implementation of spatial SIMEX for this application is given in the Supplementary Material.</p><p>Without correcting for measurement error, we find negative associations between birthweight and each PM 2.5 exposure, and the estimated effect size is larger when we apply spatial SIMEX. Specifically, the change in birthweight per 1 µg/m 3 second trimester PM 2.5 exposure is estimated to be -5.04 grams, 95% CI (-8.02, -2.05), without accounting for measurement error. When corrected by spatial SIMEX, this association is estimated to be -7.90 grams per 1 µg/m 3 PM 2.5 exposure in the second trimester, 95% CI (-8.20, -7.61). For the third trimester, the change in birthweight per 1 µg/m 3 PM 2.5 is estimated to be -3.49 grams, 95% CI (-6.08, -0.89), without any measurement error correction. Applying spatial SIMEX, we estimate an association of -4.91 grams per 1 µg/m 3 third trimester PM 2.5 exposure, 95% CI (-5.17, -4.66). In the Supplementary Material, Figure <ref type="figure">S4</ref> and Table <ref type="table" target="#tab_1">S2</ref>, we report results from sensitivity analyses varying the assumed percentage of classical error and using both linear and quadratic extrapolation functions.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="7.">Discussion and Conclusions</head><p>In this paper, we have conducted a bias analysis of several key scenarios in exposure modeling of air pollution. We have shown that when the exposure model is misspecified by omitting an important covariate, notable downward bias in the health effect estimate can occur in addition to the underestimation of the standard errors. We have proposed a new spatial SIMEX approach to adjust for bias and standard error estimation in the presence of model misspecification. We demonstrated that this bias due to exposure model misspecification can be approximately corrected by this spatial SIMEX procedure. We have also shown analytically and via simulation the presence of small-sample bias due to estimation error in the case of a correctly specified exposure model, although the degree of bias in practice is typically negligible. Hence, this work has demonstrated that with respect to bias, model misspecification is a much bigger problem than parameter estimation.</p><p>Previous research in this area has suggested that using the plug-in estimator typically induces little bias, and authors have advocated for using the plug-in estimator to estimate the effect size and then adjusting the standard errors to account for the additional variability in using the exposure predictions <ref type="bibr">(Szpiro and others, 2011;</ref><ref type="bibr">Madsen and others, 2008;</ref><ref type="bibr">Lopiano and others, 2011;</ref><ref type="bibr">Gryparis and others, 2009)</ref>. However, those papers investigate bias in simulation studies primarily by fitting the correct exposure model used to generate the data. Our findings in Section 3 for the bias of exposure model scenario I are consistent with these previous studies, as we also found in simulations that the degree of bias is small when the correct exposure model is specified. Our findings are also consistent with a recent study investigating exposure model misspecification via simulation that illustrated bias induced in health effect estimates when universal kriging exposure models had poor fit <ref type="bibr">(Alexeeff and others, 2014)</ref>.</p><p>In practice, the underlying exposure model that generates air pollution levels in any given region is not exactly known. In addition, current approaches for correcting the standard errors of estimates also rely on the assumption that the exposure model is correctly specified <ref type="bibr">(Szpiro and others, 2011;</ref><ref type="bibr">Madsen and others, 2008)</ref>. We have approached this problem using both analytical methods and simulation studies, and we have presented a more thorough bias analysis than what has been considered in previous work.</p><p>In particular, we have extended existing work to the case of model misspecification, which is important since exposure models are typically complex and no single statistical model is likely to be correct.</p><p>This work also points to a few practical considerations which are important in order to help with the implementation of this spatial SIMEX method in a realistic setting. As in other SIMEX procedures, the classical error variance is needed to generate the simulated re-measurements for the bias correction, and that variance is assumed to be known. In Section 3, we derived the particular form of the classical error variance for scenario II, but in practice the exact classical error variance would not be known and finding a way to estimate that variance may be difficult. The other key practical consideration in the estimation of the classical error variance is the nonidentifiability issue created by the mixture of Berkson and classical errors. Typically in measurement error problems, external validation data with measurements of both the true exposure and the mismeasured exposure are used to estimate the measurement error variance. However, previous studies looking at mixtures of independent and identically distributed Berkson and classical errors have noted that the amount of uncertainty that is Berkson versus classical is not identifiable <ref type="bibr">(Mallick and others, 2002;</ref><ref type="bibr">Li and others, 2007)</ref>. While external validation data would allow the estimation of the total error variance, the relative proportions of Berkson and classical errors cannot be determined. In <ref type="bibr">Li and others (2007)</ref>, the authors perform sensitivity analyses by considering a range of values for the percentage of variance assumed to be classical versus Berkson to deal with the identifiability issue.</p><p>Our work points several areas of future research interest. First, model misspecification in land use regression and kriging models for air pollution exposure should be examined further. We have considered one scenario of model misspecification, and we observed notable bias induced in that case. Many other scenarios of model misspecification may also be of interest to study, for example the case where the omitted covariate is actually a confounder of the other predictors. In addition, it would be helpful to study the practical issues of the implementation, including methods for estimating the classical error variance given the issue of identifiability, as mentioned above, as well as the robustness of spatial SIMEX to incorrect estimation of the classical error variance.</p><p>One advantage of SIMEX is that the general methodology can be adapted to cases in which the measurement error biases cannot be derived in closed-form, including logistic regression and Poisson regression <ref type="bibr">(Carroll and others, 2006)</ref>. SIMEX can also be extended to the multi-pollutant setting in which more than one exposure covariate is measured with measurement error <ref type="bibr">(Carroll and others, 2006)</ref>.</p><p>In the multi-pollutant case, we can use the same cross-validation procedure to estimate prediction errors for all pollutants at each location. We can then fit a covariance structure model for these spatially correlated multivariate errors, such as the kronecker product of a multi-pollutant covariance matrix for prediction errors measured at the location and parametric (e.g. exponential) spatial correlation structures for predictions errors for a given pollutant measured at different locations. Therefore, our proposed spatial SIMEX approach would be applicable to the multi-pollutant setting as long as all the pollutants are jointly measured. In addition, SIMEX can be adapted when the measurement error itself follows a different form, for example multiplicative log-Gaussian errors <ref type="bibr">(Eckert and others, 1997)</ref>.</p><p>This work examines aspects of exposure modeling of air pollution for health effect studies and provides some insight into the role of estimation error and model misspecification in the estimation of health effects. Understanding these impacts when constructing land use regression and kriging models is of fundamental importance to studies of air pollution and health. In particular, these results should be taken into account when interpreting the results of air pollution epidemiology studies that use land use regression and kriging models for exposure estimation. The spatial SIMEX procedure provides one possible measurement error correction strategy which may be beneficial to correct for bias induced by model misspecification.  </p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>c</head><figDesc>∼N (0, Σ c ). Adding the error creates pseudo datasets equal to the unbiased exposure plus an error component with covariance of (1 + λ)Σ c . This allows exploration of how the health effect parameter is biased as a function of increasing measurement error variance. For each λ and r, we estimate the parameter of interest β (r) X (λ) by fitting the linear health model using the pseudo-dataset. Thus, β</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1 .</head><label>1</label><figDesc>Simulation results for smooth and rough exposure surfaces for Scenario I with different number of monitors m Wang, N., Lin, X., Gutierrez, R.G. and Carroll, R.J. (1998). Bias analysis and simex approach in generalized linear mixed measurement error models. Journal of the American Statistical Association 93, 249-261. Zimmerman, D. L. and Cressie, N. (1992). Mean squared prediction error in the spatial linear model with estimated covariance parameters. Annals of the Institute of Statistical Mathematics 44, 27-43.</figDesc><table><row><cell>Scenario</cell><cell>m Exposure</cell><cell cols="4">Bias empir SE model SE MSE Coverage</cell></row><row><cell cols="2">IA Smooth 20 True X</cell><cell>0.001</cell><cell>0.082</cell><cell>0.076 0.007</cell><cell>94.200</cell></row><row><cell cols="2">IA Smooth 20 g(θ; X  *  )</cell><cell>-0.003</cell><cell>0.108</cell><cell>0.078 0.012</cell><cell>86.400</cell></row><row><cell cols="2">IA Smooth 20 g( θ; X  *  )</cell><cell>0.004</cell><cell>0.111</cell><cell>0.080 0.012</cell><cell>85.200</cell></row><row><cell cols="2">IA Smooth 40 True X</cell><cell>-0.000</cell><cell>0.086</cell><cell>0.076 0.007</cell><cell>94.000</cell></row><row><cell cols="2">IA Smooth 40 g(θ; X  *  )</cell><cell>0.001</cell><cell>0.088</cell><cell>0.076 0.008</cell><cell>93.000</cell></row><row><cell cols="2">IA Smooth 40 g( θ; X  *  )</cell><cell>0.002</cell><cell>0.088</cell><cell>0.076 0.008</cell><cell>93.000</cell></row><row><cell cols="2">IB Smooth 20 True X</cell><cell>0.001</cell><cell>0.044</cell><cell>0.043 0.002</cell><cell>94.990</cell></row><row><cell cols="2">IB Smooth 20 g(θ; X  *  )</cell><cell>0.002</cell><cell>0.055</cell><cell>0.044 0.003</cell><cell>89.379</cell></row><row><cell cols="2">IB Smooth 20 g( θ; X  *  )</cell><cell>0.002</cell><cell>0.059</cell><cell>0.044 0.003</cell><cell>87.976</cell></row><row><cell cols="2">IB Smooth 40 True X</cell><cell>0.002</cell><cell>0.043</cell><cell>0.043 0.002</cell><cell>94.400</cell></row><row><cell cols="2">IB Smooth 40 g(θ; X  *  )</cell><cell>0.003</cell><cell>0.044</cell><cell>0.043 0.002</cell><cell>93.600</cell></row><row><cell cols="2">IB Smooth 40 g( θ; X  *  )</cell><cell>0.003</cell><cell>0.045</cell><cell>0.043 0.002</cell><cell>93.800</cell></row><row><cell>IA Rough</cell><cell>20 True X</cell><cell>-0.001</cell><cell>0.057</cell><cell>0.055 0.003</cell><cell>93.865</cell></row><row><cell>IA Rough</cell><cell>20 g(θ; X  *  )</cell><cell>-0.007</cell><cell>0.179</cell><cell>0.080 0.032</cell><cell>63.190</cell></row><row><cell>IA Rough</cell><cell>20 g( θ; X  *  )</cell><cell>0.058</cell><cell>0.220</cell><cell>0.089 0.052</cell><cell>57.055</cell></row><row><cell>IA Rough</cell><cell>40 True X</cell><cell>-0.000</cell><cell>0.057</cell><cell>0.054 0.003</cell><cell>94.990</cell></row><row><cell>IA Rough</cell><cell>40 g(θ; X  *  )</cell><cell>0.002</cell><cell>0.104</cell><cell>0.067 0.011</cell><cell>80.962</cell></row><row><cell>IA Rough</cell><cell>40 g( θ; X  *  )</cell><cell>0.024</cell><cell>0.114</cell><cell>0.070 0.014</cell><cell>78.557</cell></row><row><cell>IB Rough</cell><cell>20 True X</cell><cell>0.002</cell><cell>0.038</cell><cell>0.038 0.001</cell><cell>94.400</cell></row><row><cell>IB Rough</cell><cell>20 g(θ; X  *  )</cell><cell>0.002</cell><cell>0.040</cell><cell>0.038 0.002</cell><cell>93.600</cell></row><row><cell>IB Rough</cell><cell>20 g( θ; X  *  )</cell><cell>0.002</cell><cell>0.042</cell><cell>0.038 0.002</cell><cell>92.200</cell></row><row><cell>IB Rough</cell><cell>40 True X</cell><cell>0.002</cell><cell>0.038</cell><cell>0.038 0.001</cell><cell>95.000</cell></row><row><cell>IB Rough</cell><cell>40 g(θ; X  *  )</cell><cell>0.002</cell><cell>0.038</cell><cell>0.038 0.001</cell><cell>95.000</cell></row><row><cell>IB Rough</cell><cell>40 g( θ; X  *  )</cell><cell>0.002</cell><cell>0.038</cell><cell>0.038 0.001</cell><cell>94.600</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 2 .</head><label>2</label><figDesc>Simulation results for Scenario II, misspecified exposure model, and correction by spatial SIMEX when spatial measurement error variance is known.</figDesc><table><row><cell cols="2">Scenario m Exposure</cell><cell cols="4">Bias empirical SE model SE MSE Coverage</cell></row><row><cell>II</cell><cell>50 True X</cell><cell>0.000</cell><cell>0.036</cell><cell>0.034 0.001</cell><cell>93.6</cell></row><row><cell>II</cell><cell>50 g(θ; X  *  )</cell><cell>0.000</cell><cell>0.036</cell><cell>0.034 0.001</cell><cell>93.6</cell></row><row><cell>II</cell><cell>50 g( θN ; X  *  )</cell><cell>-0.203</cell><cell>0.182</cell><cell>0.039 0.074</cell><cell>22.2</cell></row><row><cell>II</cell><cell cols="2">50 spatial SIMEX, linear -0.072</cell><cell>0.211</cell><cell>0.241 0.050</cell><cell>90.6</cell></row><row><cell>II</cell><cell>50 spatial SIMEX, quad</cell><cell>0.026</cell><cell>0.254</cell><cell>0.285 0.065</cell><cell>91.9</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2"><head>Table 3 .</head><label>3</label><figDesc>Simulation results for Scenario II, misspecified exposure model, and correction by spatial SIMEX when spatial measurement error variance parameters are estimated, for different proportions, p, of Classical error</figDesc><table><row><cell>Scenario</cell><cell>p Exposure</cell><cell cols="4">Bias empirical SE model SE MSE Coverage</cell></row><row><cell>II</cell><cell>True X</cell><cell>0.001</cell><cell>0.036</cell><cell>0.034 0.001</cell><cell>93.6</cell></row><row><cell>II</cell><cell>g(θ; X  *  )</cell><cell>0.001</cell><cell>0.036</cell><cell>0.034 0.001</cell><cell>93.6</cell></row><row><cell>II</cell><cell>g( θN ; X  *  )</cell><cell>-0.200</cell><cell>0.180</cell><cell>0.039 0.072</cell><cell>22.4</cell></row><row><cell>II</cell><cell>1.00 spatial SIMEX, linear</cell><cell>-0.068</cell><cell>0.213</cell><cell>0.228 0.050</cell><cell>91.3</cell></row><row><cell>II</cell><cell>1.00 spatial SIMEX, quadratic</cell><cell>0.067</cell><cell>0.322</cell><cell>0.336 0.108</cell><cell>87.2</cell></row><row><cell>II</cell><cell>0.90 spatial SIMEX, linear</cell><cell>-0.075</cell><cell>0.211</cell><cell>0.228 0.050</cell><cell>91.1</cell></row><row><cell>II</cell><cell>0.90 spatial SIMEX, quadratic</cell><cell>0.044</cell><cell>0.308</cell><cell>0.331 0.097</cell><cell>87.8</cell></row><row><cell>II</cell><cell>0.80 spatial SIMEX, linear</cell><cell>-0.076</cell><cell>0.208</cell><cell>0.227 0.049</cell><cell>91.6</cell></row><row><cell>II</cell><cell>0.80 spatial SIMEX, quadratic</cell><cell>0.028</cell><cell>0.294</cell><cell>0.324 0.087</cell><cell>89.1</cell></row><row><cell>II</cell><cell>0.50 spatial SIMEX, linear</cell><cell>-0.112</cell><cell>0.200</cell><cell>0.225 0.053</cell><cell>89.6</cell></row><row><cell>II</cell><cell cols="2">0.50 spatial SIMEX, quadratic -0.058</cell><cell>0.247</cell><cell>0.304 0.064</cell><cell>91.3</cell></row></table></figure>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div><head>Acknowledgements</head><p>This work was supported by <rs type="funder">USEPA</rs> grant <rs type="grantNumber">834798</rs> and <rs type="funder">NIH</rs> grants <rs type="grantNumber">ES020871</rs> and <rs type="grantNumber">ES000002</rs>. This publication's contents are solely the responsibility of the grantee and do not necessarily represent the official views of the US EPA. Further, US EPA does not endorse the purchase of any commercial products or services mentioned in the publication. Carroll's research was supported by a grant from the <rs type="funder">National Cancer Institute</rs> (<rs type="grantNumber">R37-CA057030</rs>).</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_zd2Q3NW">
+					<idno type="grant-number">834798</idno>
+				</org>
+				<org type="funding" xml:id="_PN9YpGR">
+					<idno type="grant-number">ES020871</idno>
+				</org>
+				<org type="funding" xml:id="_rZdSqdV">
+					<idno type="grant-number">ES000002</idno>
+				</org>
+				<org type="funding" xml:id="_xrpFHgZ">
+					<idno type="grant-number">R37-CA057030</idno>
+				</org>
+			</listOrg>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Consequences of kriging and land use regression for pm2.5 predictions in epidemiologic analyses: insights into spatial variability using high-resolution satellite data</title>
+		<author>
+			<persName><forename type="first">Stacey</forename><forename type="middle">E</forename><surname>Alexeeff</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Schwartz</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Joel</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Kloog</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Itai</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Alexandra</forename><surname>Chudnovsky</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Petros</forename><surname>Koutrakis</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Brent</forename><forename type="middle">A</forename><surname>Coull</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Exposure Science and Environmental Epidemiology</title>
+		<imprint>
+			<biblScope unit="page" from="1" to="7" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Ambient air pollution and low birth weight in connecticut and massachusetts</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">L</forename><surname>Bell</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Ebisu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Belanger</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environmental Health Perspectives</title>
+		<imprint>
+			<biblScope unit="volume">115</biblScope>
+			<biblScope unit="page" from="1118" to="1124" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">A national prediction model for pm2.5 component exposures and measurement error-corrected health effect inference</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Bergen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Sheppard</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">D</forename><surname>Sampson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">Y</forename><surname>Kim</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Richards</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Vedal</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">D</forename><surname>Kaufman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">A</forename><surname>Szpiro</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environmental Health Perspectives</title>
+		<imprint>
+			<biblScope unit="volume">121</biblScope>
+			<biblScope unit="page" from="1017" to="1025" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Estimating long-term average particulate air pollution concentrations: application of traffic indicators and geographic information systems</title>
+		<author>
+			<persName><forename type="first">Michael</forename><surname>Brauer</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Hoek</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Van</forename><surname>Gerard</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Vliet</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Patricia</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Meliefste</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Kees</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Fischer</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Paul</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Ulrike</forename><surname>Gehring</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Joachim</forename><surname>Heinrich</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Cyrys</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Josef</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Bellander</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Tom</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Marie</forename><surname>Lewne</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Epidemiology</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="228" to="239" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">A.h.a. scientific statement. particulate matter air pollution and cardiovascular disease</title>
+		<author>
+			<persName><forename type="first">Robert</forename><forename type="middle">D</forename><surname>Brook</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Rajagopalan</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Sanjay</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">Arden</forename><surname>Iii</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Pope</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Jeffrey</forename><forename type="middle">R</forename><surname>Brook</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Bhatnagar</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Aruni</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Ana</forename><forename type="middle">V</forename><surname>Diez-Roux</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Holguin</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Fernando</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Hong</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Yuling</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Russell</forename><forename type="middle">V</forename><surname>Luepker</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Murray</forename><forename type="middle">A</forename><surname>Mittleman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Annette</forename><surname>Peters</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Siscovick</surname></persName>
+		</author>
+		<author>
+			<persName><surname>David</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Sidney</forename><forename type="middle">C</forename><surname>Jr</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Smith</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Circulation</title>
+		<imprint>
+			<biblScope unit="volume">121</biblScope>
+			<biblScope unit="page" from="2331" to="2378" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+	<note>Whit-REFERENCES sel, Laurie and others</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<monogr>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J</forename><surname>Carroll</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Ruppert</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">A</forename><surname>Stefanski</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">M</forename><surname>Crainiceanu</surname></persName>
+		</author>
+		<title level="m">Measurement Error in Nonlinear Models: A Modern Perspective, 2nd edition</title>
+		<meeting><address><addrLine>New York, New York</addrLine></address></meeting>
+		<imprint>
+			<publisher>Chapman &amp; Hall</publisher>
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Land use regression modeling of intra-urban residential variability in multiple traffic-related air pollutants</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">E</forename><surname>Clougherty</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J</forename><surname>Wright</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">K</forename><surname>Baxter</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">I</forename><surname>Levy</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environ Health</title>
+		<imprint>
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="issue">17</biblScope>
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Simulation-extrapolation estimation in parametric measurement error models</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">R</forename><surname>Cook</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">A</forename><surname>Stefanski</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">89</biblScope>
+			<biblScope unit="page" from="1314" to="1328" />
+			<date type="published" when="1994">1994</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Statistics for Spatial Data</title>
+		<author>
+			<persName><forename type="first">Noel</forename><surname>Cressie</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="s">Wiley Series in Probability and Statistics</title>
+		<imprint>
+			<date type="published" when="1993">1993</date>
+		</imprint>
+	</monogr>
+	<note>Revised edition</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Maternal exposure to particulate air pollution and term birth weight: A multi-country evaluation of effect and heterogeneity</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Dadvand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Parker</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">L</forename><surname>Bell</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Bonzini</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Brauer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">A</forename><surname>Darrow</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">U</forename><surname>Gehring</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">V</forename><surname>Glinianaia</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Gouveia</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Ha</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">H</forename><surname>Leem</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">H</forename><surname>Van Den Hooven</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Jalaludin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">M</forename><surname>Jesdale</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Lepeule</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Morello-Frosch</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">G</forename><surname>Morgan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">C</forename><surname>Pesatori</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><forename type="middle">H</forename><surname>Pierik</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Pless-Mulloli</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">Q</forename><surname>Rich</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Sathyanarayana</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Seo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Slama</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Strickland</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Tamburic</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Wartenberg</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">J</forename><surname>Nieuwenhuijsen</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Others</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environmental Health Perspectives</title>
+		<imprint>
+			<biblScope unit="volume">121</biblScope>
+			<biblScope unit="page" from="367" to="373" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Transformations to additivity in measurement error models</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">S</forename><surname>Eckert</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J</forename><surname>Carroll</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Wang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometrics</title>
+		<imprint>
+			<biblScope unit="volume">53</biblScope>
+			<biblScope unit="page" from="262" to="272" />
+			<date type="published" when="1997">1997</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<author>
+			<persName><forename type="first">Marloes</forename><surname>Eeftens</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Rob</forename><surname>Beelen</surname></persName>
+		</author>
+		<author>
+			<persName><surname>De Hoogh</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Kees</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Bellander</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Tom</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Cesaroni</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Giulia</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Cirach</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Marta</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Christophe</forename><surname>Declercq</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Ddel</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Audrius</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Dons</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Evi</surname></persName>
+		</author>
+		<author>
+			<persName><surname>De Nazelle</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Audrey</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Dimakopoulou</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Konstantina</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Eriksen</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Kirsten</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Falq</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Grgoire</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Fischer</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Paul</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Galassi</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Claudia</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Grauleviien</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Regina</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Joachim</forename><surname>Heinrich</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Barbara</forename><surname>Hoffmann</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Jer-Rett</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Michael</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Keidel</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Dirk</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Korek</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Michal</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Lanki</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Timo</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Lindley</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Sarah</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Madsen</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Christian</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Mlter</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Anna</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Ndor</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Gizella</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Nieuwenhuijsen</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Mark</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Nonnemacher</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Michael</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Pedeli</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Xanthi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Ole</forename><surname>Raaschou-Nielsen</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Patelarou</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Evridiki</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Quass</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Ulrich</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Andrea</forename><surname>Ranzi</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Schindler</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Christian</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Stempfelet</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Morgane</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Stephanou</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Euripides</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Sugiri</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Dorothea</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Ming</forename><forename type="middle">-</forename><surname>Tsai</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Yi</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Yli-Tuomi</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Tarja</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Varr</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Mihly</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Vienneau</surname></persName>
+		</author>
+		<idno type="PMID">22963366</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Development of land use regression models</title>
+		<editor>
+			<persName><forename type="first">Klot</forename><surname>Danielle</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">Stephanie</forename><surname>Von</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">Kathrin</forename><surname>Wolf</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">Bert</forename><surname>Brunekreef</surname></persName>
+		</editor>
+		<editor>
+			<persName><surname>Others</surname></persName>
+		</editor>
+		<imprint>
+			<date type="published" when="2012">2012</date>
+			<biblScope unit="volume">46</biblScope>
+			<biblScope unit="page" from="11195" to="11205" />
+		</imprint>
+	</monogr>
+	<note>for pm2.5, pm2.5 absorbance, pm10 and pmcoarse in 20 european study areas; results of the escape project</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Measurement error caused by spatial misalignment in environmental epidemiology</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Gryparis</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">J</forename><surname>Paciorek</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Zeka</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Schwartz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">A</forename><surname>Coull</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biostatistics</title>
+		<imprint>
+			<biblScope unit="volume">10</biblScope>
+			<biblScope unit="page" from="258" to="274" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">A new hybrid spatio-temporal model for estimating daily multi-year pm2.5 concentrations across northeastern usa using high resolution aerosol optical depth data</title>
+		<author>
+			<persName><forename type="first">I</forename><surname>Kloog</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">A</forename><surname>Chudnovsky</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">C</forename><surname>Just</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Nordio</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Francesco</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Koutrakis</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">A</forename><surname>Coull</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Lyapustin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><forename type="middle">J</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Schwartz</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Atmospheric Environment</title>
+		<imprint>
+			<biblScope unit="volume">95</biblScope>
+			<biblScope unit="page" from="581" to="590" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Temporally and spatially resolved pm2. 5 exposures for epidemiological studies using satellite aerosol optical depth measurements</title>
+		<author>
+			<persName><forename type="first">I</forename><surname>Kloog</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Koutrakis</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">A</forename><surname>Coull</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">J</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Schwartz</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Atmospheric Environment</title>
+		<imprint>
+			<biblScope unit="volume">45</biblScope>
+			<biblScope unit="page" from="6267" to="6275" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Using new satellite based exposure methods to study the association between pregnancy pm2.5 exposure, premature birth and birth weight in massachusetts</title>
+		<author>
+			<persName><surname>Kloog</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Melly</forename><surname>Itai</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Steven</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">William</forename><forename type="middle">L</forename><surname>Ridgway</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Brent</forename><forename type="middle">A</forename><surname>Coull</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Joel</forename><surname>Schwartz</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environmental Health</title>
+		<imprint>
+			<biblScope unit="volume">11</biblScope>
+			<biblScope unit="page">40</biblScope>
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Incorporating local land use regression and satellite aerosol optical depth in a hybrid model of spatiotemporal pm2.5 exposures in the mid-atlantic states</title>
+		<author>
+			<persName><forename type="first">I</forename><surname>Kloog</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Nordio</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Francesco</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">A</forename><surname>Coull</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Schwartz</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environmental Science and Technology</title>
+		<imprint>
+			<biblScope unit="volume">46</biblScope>
+			<biblScope unit="page" from="11913" to="11921" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Guolo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">O</forename><surname>Hoffman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J</forename><surname>Carroll</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Shared uncertainty in measurement error problems, with application to nevada test site fallout data</title>
+		<imprint>
+			<date type="published" when="2007">2007</date>
+			<biblScope unit="volume">63</biblScope>
+			<biblScope unit="page" from="1226" to="1236" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Gis approaches for the estimation of residential-level ambient pm concentrations</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">P</forename><surname>Liao</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">J</forename><surname>Peuquet</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><forename type="middle">K</forename><surname>Duan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">A</forename><surname>Whitsel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">W</forename><surname>Dou</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">L</forename><surname>Smith</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">M</forename><surname>Lin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">C</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Heiss</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environmental Health Perspectives</title>
+		<imprint>
+			<biblScope unit="volume">114</biblScope>
+			<biblScope unit="page" from="1374" to="1380" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">A comparison of errors in variables methods for use in regression models with spatially misaligned data</title>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">K</forename><surname>Lopiano</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">J</forename><surname>Young</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">A</forename><surname>Gotway</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistical Methods in Medical Research</title>
+		<imprint>
+			<biblScope unit="volume">20</biblScope>
+			<biblScope unit="page" from="29" to="47" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Estimated generalized least squares in spatially misaligned regression models with berkson error</title>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">K</forename><surname>Lopiano</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">J</forename><surname>Young</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">A</forename><surname>Gotway</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biostatistics</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="page" from="737" to="751" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Regression with spatially misaligned data</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Madsen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Ruppert</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">S</forename><surname>Altman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environmetrics</title>
+		<imprint>
+			<biblScope unit="volume">19</biblScope>
+			<biblScope unit="page" from="453" to="467" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Semiparametric regression modeling with mixtures of berkson and classical error, with application to fallout from the nevada test site</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Mallick</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">O</forename><surname>Hoffman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J</forename><surname>Carroll</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometrics</title>
+		<imprint>
+			<biblScope unit="volume">58</biblScope>
+			<biblScope unit="page" from="13" to="20" />
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Estimating spatiotemporal resolved pm10 aerosol mass concentrations using modis satellite data and land use regression over lombardy</title>
+		<author>
+			<persName><forename type="first">Francesco</forename><surname>Nordio</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><surname>Kloog</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">A</forename><surname>Coull</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Schwartz</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">italy. Environmental Science and Technology</title>
+		<imprint>
+			<biblScope unit="volume">74</biblScope>
+			<biblScope unit="page" from="227" to="236" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Spatial misalignment in time series studies of air pollution and health data</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">D</forename><surname>Peng</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">L</forename><surname>Bell</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biostatistics</title>
+		<imprint>
+			<biblScope unit="volume">11</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="720" to="740" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">A land use regression for predicting fine particulate matter concentrations in the new york city region</title>
+		<author>
+			<persName><forename type="first">Zev</forename><surname>Ross</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Jerrett</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Michael</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Ito</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Kazuhiko</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Barbara</forename><surname>Tempalski</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">George</forename><forename type="middle">D</forename><surname>Thurston</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Atmospheric Environment</title>
+		<imprint>
+			<biblScope unit="volume">41</biblScope>
+			<biblScope unit="issue">11</biblScope>
+			<biblScope unit="page" from="2255" to="2269" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Efficient measurement error correction with spatially misaligned data</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">A</forename><surname>Szpiro</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Sheppard</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Lumley</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biostatistics</title>
+		<imprint>
+			<biblScope unit="volume">12</biblScope>
+			<biblScope unit="page" from="610" to="623" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">Measurement error in two-stage analyses, with application to air pollution epidemiology</title>
+		<author>
+			<persName><forename type="first">Adam</forename><forename type="middle">A</forename><surname>Szpiro</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Christopher</forename><forename type="middle">J</forename><surname>Paciorek</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environmetrics</title>
+		<imprint>
+			<biblScope unit="volume">24</biblScope>
+			<biblScope unit="issue">8</biblScope>
+			<biblScope unit="page" from="501" to="517" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

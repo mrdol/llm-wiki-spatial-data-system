@@ -1,0 +1,911 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">RESTRICTED SPATIAL REGRESSION METHODS: IMPLICATIONS FOR INFERENCE</title>
+				<funder ref="#_JppQGwf">
+					<orgName type="full">Ohio State University&apos;s Mathematical Biosciences Institute (NSF</orgName>
+				</funder>
+				<funder ref="#_nC2xHdu">
+					<orgName type="full">NIH NICHD</orgName>
+				</funder>
+				<funder ref="#_3bM5D7B">
+					<orgName type="full">unknown</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability  status="unknown">
+					<licence/>
+				</availability>
+				<date type="published" when="2020-08-18">18 Aug 2020</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">Kori</forename><surname>Khan</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department" key="dep1">Department of Statistics</orgName>
+								<orgName type="department" key="dep2">Department of Statistics and Data Sciences</orgName>
+								<orgName type="institution" key="instit1">The Ohio State University</orgName>
+								<orgName type="institution" key="instit2">University of Texas at Austin</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Catherine</forename><forename type="middle">A</forename><surname>Calder</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department" key="dep1">Department of Statistics</orgName>
+								<orgName type="department" key="dep2">Department of Statistics and Data Sciences</orgName>
+								<orgName type="institution" key="instit1">The Ohio State University</orgName>
+								<orgName type="institution" key="instit2">University of Texas at Austin</orgName>
+							</affiliation>
+						</author>
+						<title level="a" type="main">RESTRICTED SPATIAL REGRESSION METHODS: IMPLICATIONS FOR INFERENCE</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2020-08-18">18 Aug 2020</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">0A8D40CA30C749364D5B984FFFBDBF6F</idno>
+					<idno type="arXiv">arXiv:1905.09371v3[stat.ME]</idno>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-28T15:59+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>Confounding</term>
+					<term>Spatial Statistics</term>
+					<term>Bayesian</term>
+					<term>Dimension Reduction</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The issue of spatial confounding between the spatial random effect and the fixed effects in regression analyses has been identified as a concern in the statistical literature.</p><p>Multiple authors have offered perspectives and potential solutions. In this paper, for the areal spatial data setting, we show that many of the methods designed to alleviate spatial confounding can be viewed as special cases of a general class of models. We refer to this class as Restricted Spatial Regression (RSR) models, extending terminology currently in use. We offer a mathematically based exploration of the impact that RSR methods have on inference for regression coefficients for the linear model. We then explore whether these results hold in the generalized linear model setting for count data using simulations. We show that the use of these methods have counterintuitive consequences which defy the general expectations in the literature. In particular, our results and the accompanying simulations suggest that RSR methods will typically perform worse than non-spatial methods. These results have important implications for dimension reduction strategies in spatial regression modeling.</p><p>Specifically, we demonstrate that the problems with RSR models cannot be fixed with a selection of "better" spatial basis vectors or dimension reduction techniques.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">Introduction</head><p>In our increasingly data rich world, large spatial data sets are becoming abundant. A booming field of research involves incorporating spatial dependence into models in a computationally efficient way. As is often the case with spatial statistics, much of this research has initially focused on developing and analyzing methods for spatial process models: models developed to make predictions at unobserved locations (e.g., <ref type="bibr" target="#b0">Banerjee et al., 2008;</ref><ref type="bibr">Wikle, 2010;</ref><ref type="bibr" target="#b13">Fuentes, 2007;</ref><ref type="bibr" target="#b30">Stein, 2014)</ref>. There have been few attempts to understand how these methods impact inference on regression coefficients.</p><p>Recently, however, there has been a line of work designed to efficiently incorporate spatial dependence into regression models when the primary interest is on inference for the regression coefficients. In many ways, this set of work mirrors the work done in the spatial process model research. For some examples, in the context of areal data, <ref type="bibr" target="#b20">Hughes and Haran (2013)</ref> presented a reduced-rank approach, <ref type="bibr" target="#b27">Prates et al. (2019)</ref> developed a sparse approximation technique, and <ref type="bibr" target="#b6">Burden et al. (2015)</ref> introduced an approximate likelihood method. <ref type="bibr" target="#b5">Bradley et al. (2015)</ref> extended ideas of basis selection techniques to multivariate spatio-temporal mixed effects models, while <ref type="bibr" target="#b22">Murakami and Griffith (2015)</ref> incorporate spatial dependence through eigen-vector spatial filtering. More recently, <ref type="bibr" target="#b31">Thaden and Kneib (2018)</ref> introduced a structural equation approach for estimating regression coefficients when there is an unobserved spatially dependent covariate.</p><p>In contrast to the work in the spatial process model realm, these methods are either designed or inspired by methods designed to alleviate "spatial confounding." The first explicit reference to spatial confounding is often attributed to <ref type="bibr" target="#b7">Clayton et al. (1993)</ref>, who observed what they referred to as "confounding by location": the situation where estimates of a regression coefficient associated with a spatially-structured covariate are affected by the presence of a spatial random effect in the model. In recent work, the phenomenon is often explained as the presence of multicollinearity between the covariates, X, and the spatial random effect <ref type="bibr" target="#b27">(Prates et al., 2019;</ref><ref type="bibr" target="#b15">Hanks et al., 2015;</ref><ref type="bibr" target="#b31">Thaden and Kneib, 2018;</ref><ref type="bibr" target="#b16">Hefley et al., 2017)</ref>. <ref type="bibr" target="#b28">Reich et al. (2006)</ref> and <ref type="bibr" target="#b18">Hodges and Reich (2010)</ref> brought recent attention to the issue (see also, <ref type="bibr" target="#b24">Paciorek, 2010</ref>, for a study on the effects of spatial confounding on inference for regression coefficients). These works highlighted for the first time that in the presence of spatial confounding, not only can the estimates for regression coefficients change, but the uncertainty associated with these estimates can be "overinflated." To address these dual concerns, <ref type="bibr" target="#b28">Reich et al. (2006)</ref> proposed a method employing synthetic predictors to smooth orthogonally to the fixed effects. <ref type="bibr" target="#b20">Hughes and Haran (2013)</ref> then extended this work by suggesting the use of eigenvectors of the Moran operator as synthetic predictors. They argued these basis functions would allow for dimension reduction through the selection of only those synthetic predictors associated with "attractive" spatial dependence (as opposed to "repulsive" spatial dependence). The intuitive appeal of this set of work inspired a series of follow-up investigations <ref type="bibr" target="#b27">(Prates et al., 2019;</ref><ref type="bibr" target="#b6">Burden et al., 2015;</ref><ref type="bibr" target="#b5">Bradley et al., 2015;</ref><ref type="bibr" target="#b31">Thaden and Kneib, 2018)</ref>. However, it has been observed that these methods can lead to elevated levels of Type-S errors, the Bayesian analogue of Type I error <ref type="bibr" target="#b27">(Prates et al., 2019;</ref><ref type="bibr" target="#b15">Hanks et al., 2015</ref>, the latter paper suggested a posterior predictive approach to address this concern). Recently, <ref type="bibr" target="#b15">Hanks et al. (2015)</ref> and <ref type="bibr" target="#b27">Prates et al. (2019)</ref> have noted that there is a need to better understand when it is appropriate to utilize such methods. Indeed, with the exception of <ref type="bibr" target="#b28">Reich et al. (2006)</ref>, there has been a lack of mathematical formalism to assess the impact of smoothing orthogonally to the fixed effects has on inference for regression coefficients.</p><p>In this work, we propose to fill that void. To do so, we consider a Bayesian analysis of Gaussian areal spatial data. We show that with respect to inference on regression coefficients, the current methods proposed to smooth orthogonally to the fixed effects can be thought of as a subset of a larger class of models. Extending the terminology currently in use for these proposed methods, we will refer to this larger class as Restricted Spatial Regression (RSR) models. We find that RSR models transform a mixed-effects model into an overfit linear model. Specifically, any of these models will produce a posterior mean for the regression coefficients which is equivalent to the posterior mean obtained in the corresponding non-spatial model. The various approaches to smoothing orthogonally to fixed effects were designed to ensure that all the marginal posterior variances of the regression coefficients are greater than the corresponding posterior variances of the non-spatial model. However, we show that the exact opposite is often true. The reduction in the posterior variances is caused solely by the addition of the spatial basis functions. Furthermore, our analytic results and the included simulation studies indicate that sufficiently large credible intervals for the regression coefficients will generally be nested within the corresponding credible intervals from the non-spatial model. Importantly, these results are invariant to the spatial structure of the covariates and any spatial structure in the residuals. In short, our results indicate that with respect to coverage and Type-S error, one would be better off fitting a nonspatial model than any RSR model. Furthermore, simulations indicate that when there is spatial dependence unexplained by the covariates, RSR models for Gaussian data exasperate the decrease in coverage and increase in Type-S rates -even if the true unexplained spatial dependence in the response variable is generated orthogonally to the covariates. A simulation study and example application of RSR models suggest similar results might hold for count data.</p><p>The rest of the paper proceeds as follows: Section 2 provides an overview of deriving inference on regression coefficients in a spatial random effects model and a discussion of the methods developed to alleviate spatial confounding. Section 3 contains the results of this paper. Section 4 includes simulation studies, and Section 5 compares various approaches on the Slovenia stomach cancer data set. The proofs for all theorems are contained in Appendix B.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.">Background</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1.">Inference on Regression Coefficients in Random Effects Models.</head><p>The spatial generalized linear mixed model (SGLMM), popularized by <ref type="bibr" target="#b10">Diggle et al. (1998)</ref>, assumes that Y = {y i , . . . , y n } T is a realization from a random field where y i is observed at spatial location s i , i = 1 . . . n. The vector of transformed conditional means Z = {g(E(y 1 |η(s 1 ))), . . . , g(E(y n |η(s n ))} T for a given link function g is then related to fixed effects and a spatial random effect:</p><p>(1) Z = 1β 0 + Xβ X + η.</p><p>Here, 1 is the n × 1 column vector of 1's, X = [X 1 , . . . , X p ] is the n × p design matrix whose ith row consists of the p covariates associated with Z i , β * = (β 0 , β X ) ∈ R p+1 is a vector of regression parameters, and η = (η 1 , . . . , η n ) T is a zero-mean random effect with a spatial covariance matrix Σ(θ) parameterized by θ ∈ R m . In this paper, the notation denoting dependence on location will be dropped when the meaning is unambiguous. We</p><formula xml:id="formula_0">define X * ≡ [1 X].</formula><p>The distinction between X and X * is important when we compare different models. However, unless otherwise stated, the points about one in this section are true for both.</p><p>Historically, much of the statistical community's intuition for the behavior of estimates of regression coefficients is based on work for the linear model when g is the identity mapping.</p><p>A non-spatial (NS) analysis in this case would correspond to an assumption that Σ(θ) ∝ I.</p><p>In this setting, the best linear unbiased estimator for the regression coefficients is the wellknown ordinary least squares (OLS) estimator β * N S = (X * T X * ) -1 X * T Y . Classical statistics textbooks remind us that if the assumption of i.i.d error structure is not met, these OLS estimates will be inefficient. Instead, if θ were known, the most efficient estimator would be the generalized least squares estimator (GLS</p><formula xml:id="formula_1">) β * GLS = (X * T Σ -1 (θ)X * ) -1 X * T Σ(θ) -1 Y .</formula><p>The two estimates will generally not be the same. However, in spatial statistics there is often an assumption that the addition of a spatial random effect should not change the point estimates of the regression coefficients. This expectation seems to be driven by the fact that geostatistical software developed to facilitate spatial process modeling often only implemented ordinary kriging and not universal kriging, the former allowing for an unknown, but constant mean and the latter allowing the mean to be an unknown linear combination of covariates associated with points in space <ref type="bibr">(Waller and Gotway, 2004, pg. 344)</ref>. Conventional wisdom in the spatial statistics literature suggests that if there is spatial dependence unexplained by the covariates (i.e, processes in which things near in space are assumed to be more similar than things far away in space), the naive use of β * N S will underestimate the variance of this estimator. This intuition is driven by well-understood examples which illustrate that ignoring spatial dependence will result in an underestimate of the variance of the mean of a spatial process (see, e.g., <ref type="bibr">Cressie, 1993, pages 13-15)</ref>. <ref type="bibr" target="#b24">Paciorek (2010)</ref> pointed out that there is a lack of formal quantification of this belief for regression coefficients in general. Working in a setting where X is stochastic, <ref type="bibr" target="#b24">Paciorek (2010)</ref> showed that generally the naive variance estimator Var( βX OLS ) will underestimate the uncertainty estimate of the correct variance estimator Var( βX GLS ), thereby lending support to the common expectation in spatial statistics. In any case, the expectation that the estimates of the variance associated with regression coefficient estimators will increase in models accounting for the presence of residual spatial dependence extends beyond the linear model. In practice this expectation is often true, but there are examples in the literature where it does not hold (for an example, see <ref type="bibr" target="#b1">Banerjee et al., 2003)</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2.">Spatial Confounding.</head><p>The term spatial confounding is used to describe the effect that multicollinearity between the fixed covariates X and the spatial random effect η has on the point estimates and variance of the regression coefficient estimates. Most of the work in spatial confounding involves a fully Bayesian analysis where the point estimates for the regression coefficients are defined to be the posterior mean E(β X |Y ) and the variances of interest are the diagonal entries of Var(β X |Y ) <ref type="bibr" target="#b28">(Reich et al., 2006;</ref><ref type="bibr" target="#b20">Hughes and Haran, 2013;</ref><ref type="bibr" target="#b16">Hefley et al., 2017;</ref><ref type="bibr" target="#b15">Hanks et al., 2015;</ref><ref type="bibr" target="#b27">Prates et al., 2019)</ref>. Efforts have been made to propose statistics designed to detect the presence of spatial confounding <ref type="bibr" target="#b28">(Reich et al., 2006;</ref><ref type="bibr" target="#b16">Hefley et al., 2017;</ref><ref type="bibr" target="#b27">Prates et al., 2019)</ref>. <ref type="bibr" target="#b31">Thaden and Kneib (2018)</ref> provided a formalization of spatial confounding that assumes the multicollinearity between X and the spatial random effect occurs because of the absence of another unobserved spatially varying covariate. However, there is not currently a formal definition of spatial confounding in a more general setting, in part because it is a difficult concept to quantify. It is easier to define what spatial confounding is not, and so that is what we do in Definition 1. As will be seen shortly, all the methods designed to address spatial confounding are designed in the hopes of achieving the properties in Definition 1.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Definition 1.</head><p>A method which results in posterior mean E(β X |Y ) and marginal posterior variances Var(β X i |Y ), i = 1, . . . , p alleviates spatial confounding if the following conditions are met:</p><formula xml:id="formula_2">(1) E(β X |Y ) = E(β X N S |Y ), and (2) Var(β X N S, i |Y ) ≤ Var(β X i |Y ) ≤ Var(β X Spatial, i |Y ) for i = 1, . . . , p,</formula><p>where β X N S are the regression coefficients of the corresponding non-spatial model and β X Spatial are the regression coefficients from an unrestricted spatial random effect.</p><p>Hodges and <ref type="bibr" target="#b18">Reich (2010)</ref> argued that spatial confounding can be a concern whenever a spatial random effect is included in a model. However, most of the proposed methods to address spatial confounding are developed in the context of Gaussian areal spatial data <ref type="bibr" target="#b28">(Reich et al., 2006;</ref><ref type="bibr" target="#b18">Hodges and Reich, 2010;</ref><ref type="bibr" target="#b20">Hughes and Haran, 2013;</ref><ref type="bibr" target="#b27">Prates et al., 2019)</ref>. In the areal data setting, spatial dependence is described by the introduction of an underlying, undirected graph G = (V, E). Non-overlapping spatial regions that partition the study area are represented by vertices, V = {1, . . . , n}, and edges E defined so that each pair (i, j) represents the proximity between region i and region j. We represent G by its n × n binary adjacency matrix A with entries defined such that diag(A) = 0 and A i,j = 1 (i,j)∈E,i =j .</p><p>In models designed to address spatial confounding, the spatial random effect is typically assumed to follow the intrinsic conditional autoregressive (ICAR) model/prior <ref type="bibr" target="#b2">(Besag et al., 1991)</ref>. We will refer to models utilizing this prior as ICAR models.</p><p>For Gaussian areal data, we observe that the ICAR model, the non-spatial model, and models designed to alleviate spatial confounding such as those proposed by <ref type="bibr" target="#b28">Reich et al. (2006)</ref> (RHZ), <ref type="bibr" target="#b20">Hughes and Haran (2013)</ref> (HH), and Prates et al. (2019) (PAR) are all special cases of the following more general form:</p><formula xml:id="formula_3">Y = Xβ X + W δ + (2) p(δ|τ s ) ∝ τ rank(F )/2 s exp{ -τ s 2 δ T F δ},</formula><p>where ∼ N (0, τ I), and τ and τ s are precision parameters. W is a n × q set of basis vectors such that q ≤ n -p, and F is a symmetric, non-negative definite matrix. Table <ref type="table">1</ref> illustrates how the three proposed RSR methods can be considered special cases of the form (2).</p><p>Table <ref type="table">1</ref>. Special Cases of ( <ref type="formula">2</ref>)</p><formula xml:id="formula_4">Model Design Matrix W F NS X * 0 0 ICAR X I Q RHZ X * L L T QL HH X * M q M T q QM q PAR X I Q ⊥</formula><p>The distinction between the use of X and X * in Table <ref type="table">1</ref> is a direct consequence of the impropriety of the ICAR prior. The ICAR model captures spatial dependence through a Gaussian Markov Random Field (GMRF). The precision matrix is the graph Laplacian Q = diag(A1)-A. Because the adjacency matrix A is defined to be the zero/one adjacency matrix on G, Q is the graph Laplacian of a simple graph. A well-known fact from spectral graph theory is that the kernel of Q will be constant on each connected component of G <ref type="bibr" target="#b32">Von Luxburg, 2007)</ref>. This fact means that the prior p(δ|τ s ) will include an implicit intercept for each connected component of the graph in Bayesian analysis. For simplicity, this paper will assume that the G is connected and therefore there is a single global intercept included in the ICAR prior. <ref type="bibr" target="#b28">Reich et al. (2006)</ref> investigated in depth the effect multicollinearity between X and the spatial random effect induced by the ICAR prior has on E(β X |Y ) and Var(β X |Y ) using a re-parameterization of the ICAR model:</p><formula xml:id="formula_5">(</formula><formula xml:id="formula_6">Y = Xβ X + V δ + , (3) p(δ|τ s ) ∝ τ κ s exp -τ s 2 δ T Λδ ,</formula><p>where V ΛV T is the eigendecomposition of Q, and Λ = diag(λ 1 , . . . , λ n ) where λ 1 ≥ λ 2 , . . . ≥ λ n . Under the assumptions of this paper (i.e., that G is connected), κ = n-1 2 . Using a Bayesian approach with flat priors on β X and independent gamma priors on τ s , τ s , Reich <ref type="formula">et al. (2006) and Hodges and Reich (2010)</ref></p><formula xml:id="formula_7">illustrated that E[β X |Y, τ s , τ ] = E[β X N S |Y ] in</formula><p>the presence of multicollinearity between X and V . When regression coefficients are of primary interest, they argued that spatial random effects are added merely to account for spatial correlation in residuals when computing the posterior variance. Under this reasoning, the spatial random effect should not change the point estimates of the fixed effects.</p><p>Furthermore, <ref type="bibr" target="#b28">Reich et al. (2006)</ref> suggested that this multicollinearity causes "overinflation" of the posterior variance of the regression coefficients. This overinflation was noted to be exacerbated when X was correlated with low frequency eigenvectors of the graph Laplacian.</p><p>In spatial regression, <ref type="bibr" target="#b28">Reich et al. (2006)</ref> argued that two factors can lead to an increase in the posterior variance of regression coefficients as compared to the NS model: 1) collinearity with the spatial random effects and 2) a reduction in the effective number of observations because of spatial clustering. They proposed a model that they claimed would eliminate the former of these factors while preserving the latter. In other words, the RHZ model was designed to alleviate spatial confounding according to Definition 1:</p><formula xml:id="formula_8">(1) E(β X RHZ |Y ) = E(β X N S |Y ) (2) Var(β X N S, i |Y ) ≤ Var(β X RHZ, i |Y ) ≤ Var(β X ICAR, i |Y ) for i = 1, . . . , p.</formula><p>The authors provided theoretical support for first inequality of the second claim. 2 To accomplish these goals, the authors proposed using synthetic predictors which are orthogonal to the column space of X. Define P X = X(X T X) -1 X T to be the projection matrix onto the column space of X, and P X ⊥ = I -P X to be its orthogonal complement. Let L be the n × (n -p) matrix composed of the eigenvectors of P X ⊥ associated with an eigenvalue of 1 and let K be the n × p matrix composed of the eigenvectors associated with an eigenvalues of 0. Model (3) can be re-written as a function of δ 1 = L T V δ and δ 2 = K T V δ. The RSR method proposed by <ref type="bibr" target="#b28">Reich et al. (2006)</ref> involves setting δ 2 = 0. Using this notation, the RHZ model can be expressed as:</p><formula xml:id="formula_9">Y = Xβ X + Lδ 1 + , (4) p(δ 1 |τ s ) ∝ τ κ s exp{ -τ s 2 δ T 1 Q s δ 1 },</formula><p>where Q s = L T QL. <ref type="bibr" target="#b18">Hodges and Reich (2010)</ref> explained that this solution assigns all variability explained by both V and X to X by restricting spatial smoothing to the orthogonal complement of the fixed effects.</p><p>Hughes and Haran (2013) also argued that variance inflation caused by spatial confounding is a concern in the SGLMM. However, they stated that the RHZ model (4) fails to account for the underlying graph in the construction of L, thereby permitting structure in the spatial random effects that corresponds to negative spatial dependence. <ref type="bibr" target="#b20">Hughes and Haran (2013)</ref> suggested such negative spatial dependence should not be expected in the context in which spatial models are generally fit. They developed a model (hereafter the HH model) that they stated would eliminate negative dependence while alleviating the impact of spatial confounding on the marginal posterior variances. Utilizing a Bayesian framework with proper 2 Section 3 of <ref type="bibr" target="#b28">Reich et al. (2006)</ref> provides a mathematical argument that this should be true. However, the argument appears to rely on the stochastic ordering of a gamma distribution. It appears the authors assume they are using a gamma distribution with a scale parameter-which is stochastically increasing in the scale. Their work suggests they are instead working with a rate parameterization-which is stochastically decreasing in the rate parameter.</p><p>priors on the regression coefficients, they suggested that rather than using L, one should instead use M q , where M q is the n × q matrix composed of the eigenvectors of what they referred to as the Moran operator P X ⊥ AP X ⊥ . In support of the argument that M q should be preferred to L, the authors pointed out that the column vectors of M q had more spatial structure than the column vectors of L.</p><p>Hughes and Haran (2013) also stated that this model naturally lent itself to dimension reduction. The Moran operator is the numerator of a generalization of the Moran's I statistic, a popular non-parametric measure of spatial dependence introduced by <ref type="bibr" target="#b21">Moran (1950)</ref>. We will refer to this generalization of the Moran's I as I X (A). Relying on work on the original Moran's I statistic in the context of bounded regular tessellations by <ref type="bibr" target="#b4">Boots and Tiefelsdorf (2000)</ref>, <ref type="bibr" target="#b20">Hughes and Haran (2013)</ref> noted the (standardized) spectrum of the Moran operator comprises all possible values of I X (A) and its eigenvectors comprise of all possible mutually distinct patterns of clustering after accounting for X and the graph. Importantly, they argued that choosing only "attractive" eigenvectors (those associated with positive eigenvalues) of the Moran operator would improve the inference on regression coefficients by eliminating patterns of "repulsive" spatial dependence (eigenvectors associated with negative eigenvalues). Furthermore, they suggested that for most graphs only selecting the first .1n eigenvectors should be sufficient to perform well for regression. The work in <ref type="bibr" target="#b20">Hughes and Haran (2013)</ref> relied on simulations to illustrate the points made.</p><p>A downside to both the RHS and HH models is a loss of some of the computational efficiency inherent in the ICAR prior utilized in (3). ICAR models capture spatial dependence through a Gaussian Markov Random Field (GMRF). This is appealing because the precision matrix for the random field is very sparse, which allows the use of sparse matrix routines to facilitate efficient computations <ref type="bibr" target="#b29">(Rue and Held, 2005;</ref><ref type="bibr" target="#b23">Paciorek, 2009)</ref>. The matrix Q s need not be, and generally is not, sparse. Furthermore, the RHZ and HH methods do not extend naturally to spatial models that do not utilize the ICAR prior. Recent work by <ref type="bibr" target="#b27">Prates et al. (2019)</ref> attempts to to overcome the computational limitations of RSR methods.</p><p>Their work suggests projecting the vertices of the graph G onto the orthogonal space of the design matrix X. Using the projected vertices, they then construct a new sparse precision matrix Q ⊥ for use in analysis. This model is referenced as the PAR model in Table <ref type="table">1</ref>. <ref type="bibr" target="#b14">Guan and Haran (2018)</ref> also suggested a projection based approach to approximate covariance matrices of spatial random effects to improve the computational efficiency of RSR methods.</p><p>This method can also be extended to spatial models beyond the ICAR model.</p><p>RSR methods are not universally accepted; some find the assumption that the spatial random effect operates orthogonally to the fixed effects to be too strong (See e.g., <ref type="bibr" target="#b24">Paciorek, 2010)</ref>. Furthermore, recent work has highlighted that RSR methods can suffer from elevated rates of Type-S errors under model misspecification <ref type="bibr" target="#b15">(Hanks et al., 2015;</ref><ref type="bibr" target="#b27">Prates et al., 2019)</ref>.</p><p>Type-S error is the Bayesian analogue to Type I error, and we define it to occur when the equal-tailed 95% credible interval for a regression coefficient that is truly 0 does not include 0. The model misspecification studied has involved a generating model which include spatial random effects that do not operate orthogonally to the fixed effects. Currently, the prevalent belief is that the elevated Type-S error is caused by such misspecification. However, in this paper we will show that the phenomena occurs even without it.</p><p>It remains an open question when RSR methods should be preferred over traditional spatial models. Understanding when RSR methods perform well is important because RSR methods can lead to a very different interpretations of the effect of regression coefficients <ref type="bibr" target="#b15">(Hanks et al., 2015)</ref>. Attempts to understand when RSR methods are appropriate have led to suggestions that when X is correlated with low frequency eigenvectors of the graph Laplacian, RSR methods should be preferred <ref type="bibr">(Reich et</ref>  <ref type="formula">al. (2006</ref> </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.">Consequences of Orthogonal Smoothing</head><p>In this section, we investigate the impact that methods designed to alleviate spatial confounding have on inference for regression coefficients. Formally, we state the following definition of a RSR model:</p><p>Definition 2. A Restricted Spatial Regression Model is any model of the form (2) with W chosen such that C(W ) ⊥ C(X).</p><p>Here and throughout the paper C(•) denotes the column space of a matrix. Both the RHZ and HH models are special cases of this class of models. Note that the ICAR model is not a special case of a RSR model. For RSR models, any results stated for β X (relying on X)</p><p>are also true for β * (by replacing X with X * ). Since the PAR model is an attempt to approximate these methods, we will not spend time directly investigating its performance.</p><p>All of the following results assume a Bayesian analysis that uses flat priors on the regression coefficients and independent gamma priors on the precision parameters τ s and τ with respective shape parameters a s , a &gt; 0 and scale parameters b s , b &gt; 0.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1.">Properties of Marginal Posterior Distribution.</head><p>To begin to investigate the impact RSR models have on inference for regression coefficients, we consider the mean and variance of the marginal posterior distribution of β X . As previously noted, RSR models are developed in the areal data setting with the expectation that the marginal posterior mean of β X will be (X T X) -1 X T Y . Working in a geostatistical setting and utilizing an empirical Bayes approach, <ref type="bibr" target="#b15">Hanks et al. (2015)</ref> observed this would be the case for a RSR method in that context as well. However, all of the previous work has relied either on observations regarding distributions of β X conditional on the precision parameters (for example, <ref type="bibr" target="#b28">Reich et al. (2006)</ref>; <ref type="bibr" target="#b18">Hodges and Reich (2010)</ref>) or on the full conditional distribution of β X <ref type="bibr" target="#b15">(Hanks et al. (2015)</ref>).</p><p>Theorem 1 offers the first rigorous proof of the existence of the mean and variance of the marginal posterior distributions of β X in RSR models, as well as the forms these moments take. It illustrates that the point estimates obtained from RSR models will be the same as the non-spatial point estimates. It also shows the variance of the distribution looks functionally similar to the variance we would have obtained in the non-spatial model. For the rest of the paper, we adopt the following notational shortcut: σ = 1 τ .</p><p>Theorem 1. Under conditions A.1[1]-A.1[5], a RSR model with W a n × q matrix will give rise to the marginal posterior distributions of β X such that:</p><formula xml:id="formula_10">E[β X |Y ] = (X T X) -1 X T Y Var[β X |Y ] = (X T X) -1 E[ 1 τ RSR |Y ] = (X T X) -1 E[σ RSR |Y ].</formula><p>Proof : See Appendix Section B.1.</p><p>An immediate consequence of Theorem 1 is that the dimension of W will not impact the point estimates for the regression coefficients. Thus, any choice of q linearly independent column vectors which are orthogonal to C(X) will give the same point estimates as a HH model using M q . Of course, incorporating spatial dependence in a model is a computationally expensive and often theoretically complicated endeavor. If the concern were simply to obtain point estimates from a non-spatial model, there would be no need to use a spatial model. As noted previously, the focus in fitting a spatial model is often to account for spatial correlation in residuals when computing the posterior variance. Hence, our interest lies in Var[</p><formula xml:id="formula_11">β X |Y ], which Theorem 1 illustrates is a function of E[σ RSR |Y ].</formula><p>The prevalent expectation is that the marginal posterior variances of the regression coefficients in RHZ and HH models will be greater than the marginal posterior variances obtained in the non-spatial model. In settings where RSR models are currently recommended for use, Theorem 2 illustrates that for a broader class of RSR models including the RHZ and HH model, the opposite is true. In the statement of Theorem 2, r = τs τ is the inverse of the signal-to-noise ratio.</p><p>Theorem 2. Under conditions A.1[1]-A.1[4], a RSR model with W a n × q matrix with orthonormal columns and F a positive definite and symmetric matrix will always result in a marginal posterior variance for β X i , i = 1, . . . , p that is less than or equal to that of the posterior variance that would have been obtained in the non-spatial model whenever the following holds:</p><formula xml:id="formula_12">E[r|Y ] E[τ s ] &lt; E 1 τ N S |Y = E σ N S |Y ,</formula><p>where E[τ s ] is the prior expectation of τ s under the RSR model.</p><p>Proof : See Appendix Section B.2.</p><p>As a practical matter, the conditions set forth in Theorem 2 will often be met. To see this, consider that spatial regression models, including RSR models, are typically used in settings in which the Xβ X in the NS model does not explain nearly all the variability in Y (i.e., when E σ N S |Y is not nearly zero). Spatial confounding is thought to be problematic in settings where r is "small" for traditional spatial regression models (see e.g., <ref type="bibr" target="#b28">Reich et al. 2006 and</ref><ref type="bibr" target="#b17">Hodges and</ref><ref type="bibr" target="#b18">Reich 2010)</ref>. "Small" is usually taken to mean substantially less than 1 (see e.g., <ref type="bibr" target="#b28">Reich et al. 2006 and</ref><ref type="bibr" target="#b27">Prates et al. 2019</ref> who consider values of r = .1 and .2 respectively). This corresponds to situations where there is residual spatial dependence unexplained by X (and hence larger E σ N S |Y ). The better a RSR model is at explaining this residual spatial dependence, the smaller E(r|Y ) will be. Finally, in the literature, E[τ s ] ranges in value from 1 (see e.g., <ref type="bibr" target="#b18">Hodges and Reich, 2010)</ref> to 1, 000 (see e.g., <ref type="bibr" target="#b20">Hughes and Haran, 2013)</ref>.</p><p>Thus, the conditions in Theorem 2 will typically be satisfied for prominent examples of RSR models.</p><p>Theorem 2 offers the first fully rigorous proof detailing the bounds on the variance of the marginal posterior distribution of β X for RSR models. Working in a geostatistical setting with an empirical Bayesian analysis, <ref type="bibr" target="#b15">Hanks et al. (2015)</ref> stated without proof that the inequality related to posterior variances in Theorem 2 should hold for a particular RSR model. However, perhaps because of the difference in settings, this observation has not been perceived as contradicting the expectations for the more commonly studied RHZ and HH models, which are precisely the opposite. Interestingly, the work in <ref type="bibr" target="#b15">Hanks et al. (2015)</ref> is often reported as illustrating that RSR methods can have elevated Type-S error rates under model misspecification <ref type="bibr" target="#b27">(Prates et al., 2019;</ref><ref type="bibr" target="#b25">Page et al., 2017)</ref>. <ref type="bibr" target="#b27">Prates et al. (2019)</ref> further noted that these elevated Type-S error rates were exacerbated in settings in which r is small. Yet, Theorem 2 suggests that RSR models will have elevated Type-S error rates in the absence of model misspecification. In a frequentist setting, the OLS estimators would be normally distributed and an ordering of variance with the same mean would suggest that the 100(1 -α)% confidence intervals would be nested (with the interval of the distribution with less variance completely contained in the other). In that setting, Theorem 2 would indicate that any RSR model would have higher rates of Type I error and lower rates of Type II error than the non-spatial model. Since the non-spatial model yields estimators with sampling distributions whose coverage probability matches the nominal coverage probability, this indicates that the RSR coverage probability would always be less than the nominal coverage probability under the conditions of Theorem 2. Hence, Theorem 2 would explain the elevated levels of Type-S error observed for RSR models, and it would mean these elevated levels could exist even without model misspecification.</p><p>In Bayesian analysis, when inference on regression coefficients is of primary interest, practitioners typically utilize an equal-tail credible interval. This is especially true in settings like those of this paper where improper priors preclude the use of Bayes factors. Because the marginal posterior distribution f (β X |Y ) is not normal for any of the models discussed, the variance ordering in Theorem 2 need not necessarily indicate a relationship between the credible intervals.</p><p>Investigating the relationship between equal-tailed credible intervals for the non-spatial model and a RSR model for all possible choices of graph, data, and spatial basis vectors is difficult because these distributions will not generally be available in closed form. However, for the case that β X ∈ R, it is possible to make some observations that shed light on the relationship between the credible intervals of a RSR model and the NS model. This is formalized in Theorem 3.</p><p>Theorem 3. Assume β X ∈ R, A.1 <ref type="bibr">[3] holds, and A.1[5]</ref> holds. Let g(β X |Y ) be the marginal posterior probability distribution (pdf) from a RSR model with choice of F which is a symmetric and positive definite q × q matrix. Let h(β X |Y ) be the marginal posterior pdf from the non-spatial model. Then, g(β X |Y ) = O(h(β X |Y )) as β X → ∞ and β X → -∞.</p><p>Proof : See Appendix Section B.3.</p><p>An immediate corollary to this result is the following.</p><p>Corollary 1. Define G and H to be the respective cumulative distribution functions of g(β X |Y ) and h(β X |Y ). ∃ C &gt; 0 such that:</p><p>(1) lim sup</p><formula xml:id="formula_13">β X →-∞ G(β X |Y ) H(β X |Y ) ≤ C, (2) lim sup β X →∞ 1-G(β X |Y ) 1-H(β X |Y ) ≤ C Furthermore, for D * g and K(C q , D h ) as defined in the proof in Appendix B, if D * g &gt; K(C q , D h ), then ∃ β * &gt; 0, β * &lt; 0 such that: (1) G(β|Y ) ≤ H(β|Y ) ∀β &lt; β * (2) 1 -G(β|Y ) ≤ 1 -H(β|Y ) ∀β &gt; β * Proof : See Appendix Section B.3.</formula><p>Generally, what these results indicate is that the tails of the marginal posterior distribution for the non-spatial model and the tails of the marginal posterior distribution for RSR models decay roughly at the same rate. The combination of Theorem 1 and Theorem 3 suggests that that RSR models offer inference very similar to a non-spatial model with respect to regression coefficients. Importantly, these results are invariant to the choice of graph, data, and spatial basis vectors. To see how the inference will be similar, note the posterior distribution f (β X N S |Y ) is symmetric about its mean. While, f (β X RSR |Y ) is not symmetric about its mean, two applications of Jensen's inequality can bound the distance between a mean and median by the standard deviation. In practice, the standard deviation for a RSR model is always quite small. Thus, RSR and NS models produce marginal posterior distributions with a similar medians and similar tail decay. This result is important because RSR models are not offering much beyond what an NS model offers, yet they are much more computationally expensive. For example, <ref type="bibr" target="#b20">Hughes and Haran (2013)</ref> reported that a NS model took under a minute, while their dimension reductions technique took over 6 hours.</p><p>If the condition put forth in Corollary (1) holds, it also means that for sufficiently large credible intervals, the credible interval for the RSR model will be completely contained in the corresponding credible interval for the non-spatial model. Importantly, these results</p><p>require no assumptions about E(r|Y ). Just as in the frequentist setting, this means that RSR methods will only capture the regression coefficient if the non-spatial model does.</p><p>Furthermore, the RSR methods will always have higher rates of Type-S error than the nonspatial model -even if there is no spatial confounding. However, in practice determining whether the condition in Corollary ( <ref type="formula">1</ref>) is satisfied will be impractical. Therefore, we further the investigation with simulation studies in Section 4.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2.">Implications for Inference.</head><p>The premise of RSR models is that incorporating spatial dependence will yield better inference on the regression coefficients. In particular, the HH model and those influenced by it have emphasized choosing spatial basis vectors which are spatially smooth. This emphasis is inherited from work on dimension reduction techniques developed for spatial process modelling where this technique is quite useful (See e.g., Cressie and Wikle, 2015, pages 353-354). Recall our definition of RSR models includes both models designed to capture spatial dependence as well as models with arbitrary choices of W and F . Yet, the results of Theorem 1 -Theorem 3 hold whether the models are designed to incorporate spatial dependence or not. A natural question then is: For RSR models, do choices of W (and perhaps F ) which exhibit spatial patterns behave any differently than those which do not?</p><p>Theorem 4 begins to explore the answer to this question. Recall that one of the criticisms of the RHZ model ( <ref type="formula">4</ref>) is that the basis vectors L do not appear to be spatially smooth.</p><p>Theorem 4 states that when F is of the form W T QW , the inference on the regression coefficients will be invariant to C(W ). This result suggests that the choice of basis vectors which exhibit spatial patterns (such as those from the Moran operator) does not affect inference on regression coefficients in the ways expected. As an example, for moderate q,</p><p>given a selection of spatially smooth basis vectors, we could pick a different basis of the column space (which may not appear spatially smooth), and inference for β X would be equivalent.</p><p>Theorem 4. A RSR model with W 1 a n × q matrix with orthonormal columns and</p><formula xml:id="formula_14">F 1 = W T</formula><p>1 BW 1 for arbitrary non-null symmetric B will yield the same marginal posterior distribution f (β X |Y ) as any other choice W 2 with orthonormal columns such that C(W 1 ) = C(W 2 ) and F 2 = W T 2 BW 2 .</p><p>Proof : See Appendix Section B.4.</p><p>Theorem 4 suggests that the assumptions underlying the development of RSR models may be worth re-evaluating. The addition of the spatial basis vectors in RSR models is assumed to make the regression coefficient estimates less biased and more precise. However, further investigation into RSR models indicates that by choosing these spatial basis vectors to be orthogonal to the column space of X, RSR models are effectively transforming a mixedeffects model into an overfit fixed effects model. Thus, RSR models may not be aiding in inference for regression coefficients as expected.</p><p>To understand the intuition behind this last claim, it is instructive to take a moment to review the non-spatial Gaussian model. The method of ordinary least squares makes the assumption that all the variability in the direction of X can be described by the linear combination of Xβ X . This assumption results in fitted values which are simply a projection of Y onto the column space of X. In other words, the point estimates are βX = (X T X) -1 X T Y .</p><p>Importantly, this assumption is also reflected in the estimated variance of these point estimators. This can be seen in the familiar form for the estimated variance of the OLS estimators,</p><formula xml:id="formula_15">where the i th regression coefficient βX i is simply the (i, i) element of (X T X) -1 σNS : Var( βX i ) = (X T X) -1 ii σNS = (X T X) -1 ii ||P X ⊥ Y || 2 n -p .</formula><p>The first component reflects the relationship between the different covariates, which is not of interest in this paper. The second term, however, is a consequence of the assumption that the variation in the direction of X can be explained by Xβ X . Here, σNS is simply a function of the magnitude of the component of Y unexplained by any linear combination of the column space of X.</p><p>In Bayesian analysis, the assumption that all the variability in the direction of X can be explained by a linear combination of the columns of X has analogous implications. For the non-spatial model, the point estimates for the regression coefficients will simply be those of the OLS model. The associated posterior variance for the i th regression coefficient</p><formula xml:id="formula_16">β X i will be the (i, i) element of (X T X) -1 E(σ N S |Y ): (5) Var[β X N S,i |Y ] = (X T X) -1 ii E(σ N S |Y ) = (X T X) -1 i,i b -1 + .5||P X ⊥ Y || 2 (a -1) + .5(n -p) .</formula><p>Although a bit messier than the OLS setting, this relationship again shows that the uncertainty associated with the regression coefficients is a function of the magnitude of the component of Y unexplained by the the column space of X. For n p and the typical choices of hyper-parameters (a , b -1 &lt; 1), this will in fact be quite similar to the estimate obtained via OLS.</p><p>In a fixed effects model, researchers are well aware that overfitting the model with the addition of synthetic predictors can distort the true relationship between Y and X. For example, consider the non-spatial model with new design matrix T = [X W ], with C(X) ⊥ C(W ). Because W is constructed to belong to the orthogonal complement of the columns space of X, the point estimates remain unchanged. If W was a n × (n -p) matrix of rank n -p, T would be a basis of R n . Thus, by construction, P T ⊥ Y = 0. More generally, because (T T T ) -1 is a block diagonal matrix with diagonals (X T X) -1 and (W T W ) -1 , the following will be true:</p><formula xml:id="formula_17">Var( βX i ) = (X T X) -1 ii σT = (X T X) -1 ii ||P T ⊥ Y || 2 n -p -q .</formula><p>For fixed X, ||P T ⊥ Y || 2 is monotonically decreasing as a function of the number of columns of W . If we add enough (linearly independent) columns to W , we will eventually explain the variation in Y . Of course, the n -p -q in the denominator ensures that σT is not monotonically decreasing as the number of columns of W increases. However, a basis for the orthogonal complement to C(X) can still be added in such a way as to ensure that σT will be very, very close to zero (see Appendix C.1 for an example). Thus, even if there is truly no relationship between Y and X, with enough synthetic covariates this approach can essentially ensure that the covariates are deemed "significant" (assuming that the columns X are not very strongly correlated). Of course, as noted this problem is well-understood in fixed effect models, and this approach is not considered acceptable in the practice of regression analysis.</p><p>Returning to RSR models, Theorem 1 illustrates that like the NS model, the point estimates for these models assume that all the variation in the direction of X can be explained by the linear combination Xβ X . However, Theorem 2 suggests that when it comes to the posterior variance, RSR models are going beyond this assumption. In RSR models, F and τ s act as regularization parameters that can smooth some of the elements of δ to 0. These</p><p>terms make it difficult to find a closed form expression for E[σ RSR |Y ]. However, we can still gain intuition by looking at the behavior of E[σ RSR |Y , r], where r = τs τ is again the inverse of the signal-to-noise ratio. Straightforward calculations show that E[σ RSR |Y , r] can be expressed as:</p><formula xml:id="formula_18">1 b + r bs + .5Y T (P X ⊥ -W (I + rF ) -1 W T )Y a + a s + .5(n -p) -1 .</formula><p>Note that the (n -p) term in the denominator will remain unchanged no matter how many columns are added to the spatial basis matrix W . If we consider the behavior of E[σ RSR |Y , r]</p><p>as the signal-to-noise ratio increases (i.e., r → 0) for W a n × (n -p) matrix of full rank,</p><formula xml:id="formula_19">then lim r→0 E[σ RSR |Y , r] = 1 b (a + a s + .5(n -p) -1)</formula><p>.</p><p>For moderate p (relative to n) and the typical choices of a and b , this value will be quite small. Note that this is slightly smaller than the value that would be obtained in a Bayesian NS model if the fixed effects X alone completely explained the variation in Y (see Eq. ( <ref type="formula">5</ref>)</p><p>for the case when ||P X ⊥ Y || 2 = 0). However, this reduction is a function of how well the additional columns of W explain the variability in Y , and the signal-to-noise ratio will tend to increase as "useful" columns are added to W . In other words, if X did a poor job of explaining the variability of Y , the addition of columns to W will lead to a more dramatic decrease in E[σ RSR |Y ] and hence Var[β X |Y ]. Because of the regularization induced by F and τ s , this decrease will not necessarily be monotonic.</p><p>To understand the implications of this discussion as well as Theorem 4 on inference, we analyze a real world dataset with a series of RSR models. We consider the SAT data originally analyzed by <ref type="bibr" target="#b33">Wall (2004)</ref>. We use the data set provided as an example in <ref type="bibr" target="#b3">Bivand et al. (2008)</ref>.</p><p>The data include statewide averaged verbal scores on the SAT and the percent of students eligible to take the test in 1999 for the 48 contiguous states of the United States. Let y i denote the statewide averaged SAT verbal score for the ith state and Y = (y i , . . . , y 48 ). If X 1 = Percent of students eligible to take the exam, then we consider a model with covariates</p><formula xml:id="formula_20">X * = [1 X 1 X 2 1 ]</formula><p>with associated regression coefficients β 0 , β 1 , β 2 . We fit a series of HH models for various M q , q = 1, . . . , 45. For all these analyses, a s = .5, b s = 2000 as suggested by <ref type="bibr" target="#b20">Hughes and Haran (2013)</ref>.</p><p>In Fig. <ref type="figure" target="#fig_1">1</ref>, we plot the marginal posterior variance for β 0 , β 1 , and β 2 for each of the various HH models. The green in the graphs represents vectors which are "attractive" and the red represents vectors which are "repulsive." All RSR models result in approximately the same point estimates as those obtained as in the non-spatial model (590.5, -2.84, .022) and have marginal posterior variances less than those obtained in the non-spatial model. Based on the discussion above, we expect that as the number of columns of W increases, the posterior variances should tend to decrease. And in fact, that seems to be the general pattern. Since the "attractive" vectors are added to the model first, these tend to have a larger variance than models that include both "attractive" vectors and "repulsive" vectors. Note that this same pattern can be obtained by adding arbitrary synthetic covariates to a non-spatial model (see, Appendix C.1).</p><p>However, note, that the distinction between "attractive" and "repulsive" eigenvectors is not directly linked to the posterior variances otherwise. For example, the posterior variance obtained for the set of "attractive" vectors proposed by <ref type="bibr" target="#b20">Hughes and Haran (2013)</ref> is achieved again for choices that include up to 14 "repulsive" vectors, but is not obtained with the recommended dimension reduction to .1n. A restriction to "attractive" eigenvectors was originally proposed as a way to approximate the inference from the RHZ model (See, Section 7 of <ref type="bibr" target="#b20">Hughes and Haran, 2013)</ref>. However, there is no clear association between the variances that are obtained via the RHZ model and those obtained restricting the spatial basis vectors to "attractive" ones. constructed using the ggplot2 R package <ref type="bibr" target="#b35">(Wickham, 2016)</ref>.</p><p>It has been claimed that RSR models assume that all the variability in the direction of X can be described by the linear combination Xβ X <ref type="bibr" target="#b18">(Hodges and Reich, 2010;</ref><ref type="bibr" target="#b15">Hanks et al., 2015)</ref>. In this section, we point out that the NS already makes this assumption. In order to gain an intuitive understanding of why the posterior variances are RHZ models are always bounded above by the posterior variance of the corresponding NS model, we offer an alternative interpretation which indicates the the reduction in the posterior variance for RHZ models is akin to what would be observed an overfit fixed effects model. When this intuition holds, we would expect that RHZ models would always have a higher Type-S error rate than NS models even in the absence of model misspecification. Importantly, these problems cannot be resolved by selecting different spatial basis vectors within the class of RSR models, and dimension reduction techniques designed to mimic smoothing orthogonally to the fixed effects will likely suffer from the same problems. However, just as is the case for the implications of Theorem 3, exploring this rigorously is impractical. Therefore, in the next section we use simulations to further our investigation.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.">Simulation Studies</head><p>In this set of simulations, we investigate the relative performances of the ICAR model, the RHZ model, and the NS model for continuous areal data and count areal data. In particular, we explore how and when the RHZ model offers inference different than the inference which would have been obtained with a NS model. We also explore whether RHZ models improve the inference for regression coefficients relative to the ICAR model in the presence of spatial confounding.</p><p>Currently, spatial confounding is thought to be a concern when X is spatially dependent and there is residual spatial dependence unexplained by the covariates. Therefore, all of the following simulations involve covariates which are spatially dependent and residual spatial dependence (either with a spatial random effect or with "unobserved" covariate). To simulate the covariates, we rely on previous work in spatial confounding. In the context of areal data, statistics developed by <ref type="bibr" target="#b28">Reich et al. (2006)</ref> and <ref type="bibr" target="#b27">Prates et al. (2019)</ref> essentially define spatial dependence in X to be the existence of correlation between X and low frequency eigenvectors of the graph Laplacian. These statistics reflect a common assumption in the literature that the eigenvectors of the graph Laplacian Q associated with low eigenvalues exhibit spatially smooth patterns while those associated with high eigenvalues oscillate rapidly. In the continuous case, this phenomenon can be formalized. For the low frequency eigenfunctions, Bernstein estimates show smoothness (see e.g., Zelditch (2017) Theorem 5.17); whereas for high frequency eigenfunctions, rapid oscillation can be shown using upper bounds on the size of nodal domains (see e.g., Zelditch (2017) Theorem 13.1). We are not aware of any formalization of the phenomenon in the discrete case. However it does seem true in practice, and we will utilize this assumption in the following work. Therefore, in the following simulations we generate covariates that are correlated with low frequency eigenvectors of the graph Laplacian. To do so, we utilize the fact that on a connected graph, any column vector l ∈ R n can be written as follows:</p><formula xml:id="formula_21">s l √ n -1V ρ lV + 1 l (6)</formula><p>where s l and l are the sample standard deviation and sample mean of l, ρ lV = (ρ l,V i , . . . , ρ l,V n-1 , 0) T is a column vector where ρ l,V i is the correlation between l and the</p><formula xml:id="formula_22">i th column of V .</formula><p>In the following simulation studies, all models are fit using Markov Chain Monte Carlo algorithms with Gibbs updates and/or Metropolis-Hastings random-walk updates. Gibbs updates are used for all parameters in the Gaussian models and for τ s in the Poisson model.</p><p>For the Poisson model, the β X are updated as in <ref type="bibr" target="#b20">Hughes and Haran (2013)</ref> using a random walk with proposal β X [j+1] ∼ N (β X [j] , U -1 ) where U is the estimated asymptotic covariance matrix from the non-spatial model, and δ is updated with multivariate random walks with a spherical normal proposal. For all models, where applicable, a = a s = .01 and b = b s = 100.</p><p>For the Gaussian models, β X has a flat prior and for the Poisson model β X has a normal prior with standard deviation of 1000.</p><p>To ensure that the Monte Carlo standard errors were sufficiently small, trial simulations were run until a sample path length was found that ensured all models had Monte Carlo standard error &lt; .01. For the Gaussian models, a sample path of 80, 000 was sufficient; while for the Poisson models, a sample path of 1, 000, 000 was sufficient. Monte Carlo standard errors were calculated using batch means <ref type="bibr" target="#b11">(Flegal et al., 2008</ref><ref type="bibr" target="#b12">(Flegal et al., , 2012))</ref>. 4.1. Simulation 1: Gaussian Model. For this set of simulations we consider Gaussian models of the form (2) for the graph of the 48 contiguous states. We generate data from three models. All generating models are of the form Y = 1β 0 + X 1 β X + ν + where ∼ N (0, I), β 0 = 1, β X = 2, and X 1 is randomly generated to be correlated with .2n of the eigenvectors associated with the lowest non-zero eigenvalues. The vector ν is one of three options: 0 (i.e., the model is a non-spatial linear model), a realization from Lδ with δ ∼ N (0, L T QL) (the RHZ model ( <ref type="formula">4</ref>)), or a realization from the ICAR prior with τ s = 1 (realizations from the ICAR random effect are generated using Algorithm 2.6 in <ref type="bibr" target="#b29">Rue and Held (2005)</ref>). For each of the choices of ν we simulated 1000 realizations of Y and fit the NS model, RHZ model, and the ICAR model.</p><p>Table <ref type="table" target="#tab_0">2</ref> lists these coverage probabilities based on 95% credible intervals with equal tail weights. 98% of the credible intervals from an analysis using the RHZ model were nested within the corresponding credible intervals derived from the NS model. To explore how the RHZ analysis model differs from the NS analysis model, we consider how the coverage differed for each data set in Table <ref type="table" target="#tab_1">3</ref>. We consider three outcomes:</p><p>(1) The credible intervals for both models either both contained the true value of β X or both failed to contain it (Agree)</p><p>(2) the credible interval of the RHZ model contained the true value of β X and the NS model did not (RHZ +)</p><p>(3) The credible interval of the NS model contained the true value of β X and the RHZ model did not (NS +).</p><p>With respect to coverage, both the ICAR model and the NS model obtain higher coverage rates than the RHZ model, even when the data is generated from the RHZ model. When the data is generated from a NS or RHZ model, the differences between the three models are not substantial. These differences are driven primarily by the widths of the credible intervals.</p><p>The ICAR model tends to have the largest width and the RHZ model tends to have the narrowest credible intervals.</p><p>Arguably, the setting of primary interest for this and the simulation studies that follow is when the data is generated with an ICAR prior. This setting is often thought to be most closely related to what would be seen in the real world. When the generating model is the ICAR model, both the RHZ model and the NS model achieve their lowest coverage rates. This suggests, as observed in <ref type="bibr" target="#b27">Prates et al. (2019)</ref> and <ref type="bibr" target="#b15">Hanks et al. (2015)</ref>, that the RHZ model may suffer poor coverage in the presence of spatial random effects which do not operate orthogonally to the fixed effects. In investigating the cause of this poor performance, we found that it was a combination of bias and narrow credible intervals. Here, we define bias as β X -E[β X |Y ]. In Appendix C.2.1, we find that the bias for the point estimates for the RHZ and NS models is at its highest when the generating model is an ICAR model.</p><p>Since by Theorem 1, the point estimates of the RHZ and NS models are the same, the further reduction in coverage rates for the RHZ are caused by narrower credible intervals. There is not a single case in which the credible interval of the RHZ model obtained coverage when the NS model did not.  </p><formula xml:id="formula_23">= 1β 0 +X 1 β X 1 +X 2 β X 2 +</formula><p>ν + where ∼ N (0, I), β 0 = 1, β X 1 = 2, and β X 2 = 0. X 1 is again randomly generated by the process described above to be correlated with .2n of the eigenvectors associated with the lowest non-zero eigenvalues, and X 2 is independently generated to be correlated with the .5n eigenvectors with the lowest non-zero eigenvalues. Once again, ν is one of the three options listed in Simulation 1.</p><p>With respect to inference on β X 1 , we again consider coverage rates. For inference on β X 2 we now consider the Type-S error rate: the proportion of times a credible interval does not contain zero. As in Simulation 1, we use 95% equal-tailed credible intervals. We are interested in Type-S errors in the context of data which have spatial variation unexplained by the fixed effects. When the generating model is the RHZ or the ICAR model, ν itself provides such variation. In the context of a non-spatial model, the only way to achieve such dependence is by omitting a spatially varying covariate. Thus, when the generating model is the RHZ or ICAR, we use a design matrix of</p><formula xml:id="formula_24">X * = [1 X 1 X 2 ].</formula><p>When the generating model is the non-spatial model, we use X * = [1 X 2 ], omitting the spatially varying X 1 . Recall that the associated X will always be used when fitting the ICAR model.</p><p>The results are contained in Table <ref type="table" target="#tab_2">4</ref>-Table <ref type="table" target="#tab_5">7</ref>. Both the ICAR model and the NS model have higher coverage rates than the RHZ model in every scenario. As before, there is not a single synthetic data set in which the resulting credible interval obtained coverage for β X 1 under the RHZ model and the NS model did not. The RHZ model once again suffers from poor coverage when the generating model is the ICAR model. The differences in the coverage rates are driven by the same factors as discussed in Section 4.1. In Table <ref type="table" target="#tab_4">6</ref>, the RHZ model has extremely inflated Type-S error rates -even when the data is generated from a RHZ model. Notably, the RHZ model performs the worst with respect to Type-S errors when a spatially varying covariate is omitted from the design matrix. In Appendix C.2.2, we find that the bias for the NS and RHZ point estimates is at its highest in this setting. This bias leads to the elevated Type-S error rates for the NS model. The extreme inflation from the RHZ model relative to the NS model is caused by narrow credible intervals. We also compare the performance of the RHZ and NS analysis models for each synthetic data set with respect to Type-S error in Table <ref type="table" target="#tab_5">7</ref>. Every data set for which the NS model resulted in a Type-S error, the RHZ model did as well. However, there were a a number of data sets for which the RHZ model resulted in a Type-S error, and the NS model did not. For this set of simulations, we use the graph of 194 Slovenia municipalities considered in <ref type="bibr" target="#b28">Reich et al. (2006)</ref> and <ref type="bibr" target="#b27">Prates et al. (2019)</ref>. We consider count data generated from a</p><p>Poisson model of the form Z = β 0 + X 1 β X 1 + X 2 β X 2 + ν using the log link function. The coefficients are defined as follows: β 0 = 1, β X 1 = 1, and β X 2 = 0. We generate 100 datasets for each scenario. The set-up of the simulation study is otherwise the same as in Section 4.2.</p><p>Fitting the RHZ model for the Poisson model is different from that of the Gaussian model.</p><p>The details of the RHZ model in the non-linear context are given in Appendix A.2.</p><p>It should be noted that the credible intervals from the RHZ model are nearly always the same as the credible intervals from the NS model. As an example, Fig. <ref type="figure" target="#fig_2">2</ref> shows the credible intervals associated with 25 of the 300 simulated datasets. In Table <ref type="table" target="#tab_6">8</ref> and Table <ref type="table" target="#tab_7">9</ref> we see that that the RHZ model performs essentially the same as the NS model. There are three cases in which the RHZ credible intervals lead to different conclusions than the NS credible intervals. In these cases, the respective bounds for the NS and RHZ credible intervals are within .05 of one another.</p><p>Unlike in the Gaussian case, the performance of the NS model suffers greatly in the presence of spatial variation unexplained by the covariates. This poor coverage seems to be driven by both bias and very narrow credible intervals. In Appendix C.2.3, we find that the bias for point estimates obtained by the RHZ and NS models is always greater than that of the ICAR model, regardless of the generating model. This phenomena is distinct from the patterns observed in the Gaussian case. With respect to coverage rates and Type-S error, the bias is compounded with very narrow credible intervals for the RHZ and NS models, as illustrated by Table <ref type="table" target="#tab_7">9</ref>. Although the Poisson model has not been heavily studied in simulations, we note that <ref type="bibr" target="#b20">Hughes and Haran (2013)</ref> observed a similar phenomenon with a single simulated dataset. In that setting, the data was simulated from a HH model.</p><p>The widths of the 95% credible intervals obtained from a NS, HH and ICAR models were, respectively, .24, .24, and 1.84. It is not clear why the credible intervals of the NS model are so narrow.  R package <ref type="bibr" target="#b35">(Wickham, 2016)</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.">Application to Slovenia Data</head><p>In light of our findings, we now revisit the dataset which motivated the creation of RSR models. <ref type="bibr" target="#b28">Reich et al. (2006)</ref> and <ref type="bibr" target="#b18">Hodges and Reich (2010)</ref> used the Slovenia stomach cancer data as an example of how spatial confounding could distort inference on regression coefficients when they observed that the 95% credible interval for the NS model did not contain 0 and the respective credible interval for the ICAR model did contain 0.</p><p>They believed that this discrepancy occurred because E[β X ICAR |Y ] is biased and Var[β X ICAR |Y ] is overinflated when X displays spatial dependence. This perspective and the Slovenia dataset has continued to influence subsequent research (See e.g., Prates et al. (2019)). However, the results of this paper offer an alternative interpretation of why there is a discrepancy between the NS and ICAR models. To explore this, we now introduce the data and corresponding models in more detail. The data was collected from 1995 to 2001 for each of the 194 municipalities in Slovenia. A full description of the data is available in Hodges (2016). The response variable Y is defined so that y i is the observed count of stomach cancer cases for the ith municipality. We will let E i be the expected count of stomach cancer cases and X = [x 1 , . . . , x 194 ] be the vector of standardized socioeconomic scores for the municipalities (see, Hodges and Reich, 2010, for a description). We consider five Poisson models for this model: 1) the non-spatial, 2) the RHZ model, 3) the HH model with all the attractive eigenvectors chosen, 4) the HH model with q = 19, and 5) the ICAR model. In other words, we assume that the y i are conditionally independent Poisson random variables with rate parameter λ i . For the nonspatial model, log(λ i ) = log(E i ) + β 0 + x i β X . The RHZ model and the HH models are of the form: log(λ i ) = log(E i )+β 0 +x i β X +(W δ) i . The details of the choices of W and the prior for δ are given in Appendix A.2. The ICAR model takes the form log(</p><formula xml:id="formula_25">λ i ) = log(E i ) + x i β X + δ i</formula><p>where δ is assumed to have the ICAR prior. For all models, a normal prior with mean 0 and standard deviation 1,000 is given to the regression coefficients and τ s is given a gamma prior with shape and scale, respectively, .01 and 100. Thus, if there is residual spatial dependence unexplained by X, the NS and RSR models will likely offer poor inference for β X .</p><p>Unfortunately, the ICAR model also has drawbacks in this setting. Note unlike in Section 4.3, the point estimates in Table <ref type="table" target="#tab_8">10</ref> are quite small. In this setting, the ICAR model will still have smaller bias and higher rates of coverage than the NS and RHZ models (see Appendix C.6). However, the Bayesian analogue of power, which we define as percentage of time that the 95% credible interval does not contain 0, will be very low for the ICAR model (see again Appendix C.6). Pratically speaking, Theorem 1 -Theorem 3 suggest that RSR models give essentially the same inference as the NS model in the Gaussian case, and Section 4.3 seems to support this insight extends to count data. In particular, we note that for each of the RSR models, the 95% credible intervals are nested within (or equivalent to) the credible interval obtained with the NS model. While it may not be clear when the NS or ICAR model should be preferred, it does seem likely that RSR models will typically be a more computationally intensive method of arriving at the same inference as the NS model with respect to bias and coverage rates.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.">Discussion</head><p>In this paper we examine the impact that methods designed to alleviate spatial confounding have on inference for regression coefficients of areal SGLMMs. We emphasis that our inferential focus is limited to assessing whether there is a linear association between the response and the covariates in settings where an assumption of (spatial) independence for the errors is apparently invalid (e.g., evidence of residual spatial dependence in the non-spatial model). We note that the distinction between inference related to a linear association and causal inference is often blurred in the literature related to spatial confounding. For instance, the work in <ref type="bibr" target="#b24">Paciorek (2010)</ref> and <ref type="bibr" target="#b31">Thaden and Kneib (2018)</ref> is arguably more closely related to concerns in causal inference. Teasing apart whether common expectations for regression coefficients in spatial models come from an interest in inference for causal relationships or a linear association will likely be important in future related work. However, the implications of RSR methods for formal causal inference are beyond the scope of the current paper.</p><p>The results of Section 3 reexamine the intuition that prompted the development of RSR methods. Despite the expectation that RSR methods will result in marginal posterior variances that are greater than would have been obtained in a non-spatial model, we have shown the opposite is usually true. Recently, there has been a call for more research to understand when the RSR methods should be used. This interest is driven in part by the fact that some RSR methods have high rates of Type-S error, particularly when τs τ is small. Currently, RSR methods are recommended when the covariates X are correlated with low-frequency eigenvectors of the graph Laplacian. Section 3 and Section 4 illustrate how and why the elevated Type-S error rates are occurring for Gaussian RSR models. In particular, these results indicate that it is not the spatial structure of the covariates that drives the performance of RSR models. Rather, the posterior distribution of the regression coefficients for RSR models is primarily a function of how well the spatially varying W (in RSR models) explains the residual spatial dependence. The question of when the RSR models should be preferred is typically asked with the implicit comparison is to that of a traditional spatial model. Surprisingly, our results indicate that in all cases studied, one would always be better off using a Gaussian non-spatial model than a Gaussian RSR model. For the count data, the RHZ model and non-spatial model result in almost equivalent inference for the regression coefficients and both perform poorly in the presence of spatial variation unexplained by the covariates. This work also shows that the ICAR model can provide poor inference as well, particularly in the context of small effect sizes.</p><p>In spatial statistics, expectations regarding dimension reduction strategies for areal data models have largely been shaped by work in the spatial process modeling realm. For example, in the process model setting, choosing "attractive" spatial vectors of the Moran operator is analogous to modeling low frequency components of spatial variation. This is the basic premise of approaches such as reduced rank approaches in spatial process modeling. It is quite likely that this method performs well for spatial process modeling. However, this paper shows that insights from spatial process modeling can lead to misleading and counterintuitive results when the interest is no longer on predicting the spatial process. Thus, this work has important implications for dimension reduction when the primary interest is deriving inference about covariate effects. Wikle, C. K. (2010). Low-rank representations for spatial processes. In Handbook of spatial statistics, pages 114-125. CRC Press.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Zelditch, S. (2017). Eigenfunctions of the Laplacian on a Riemannian Manifold. CBMS Regional Conference Series in Mathematics. Conference Board of the Mathematical Sciences.</head><p>detailed in Section 4.3 is simply a reduced case of this model excluding the heterogeneity effect . In particular the model is:</p><formula xml:id="formula_26">Z = β 0 + X 1 β X 1 + X 2 β X 2 + Ĥ-1/2 Lδ δ ∼ N (0, τ s L T Ĥ1/2 Q Ĥ1/2 L)</formula><p>In the application section of <ref type="bibr" target="#b20">Hughes and Haran (2013)</ref>, the authors defined the Moran operator to be P R ⊥ AP R ⊥ and M * q to be the eigenvectors of this Moran operator, where <ref type="bibr" target="#b19">Hughes and Cui (2018)</ref>, the matrix R is defined to be a diagonal matrix with (i, i)th entry given to be 1/w i where w i are the weights from the last iteration of the IWLS algorithm in the non-spatial model. Although not explicitly stated it appears that <ref type="bibr" target="#b20">Hughes and Haran (2013)</ref> then assumed a model of the following form:</p><formula xml:id="formula_27">P R ⊥ = I -R 1/2 X(X T RX) -1 X T R 1/2 . In</formula><formula xml:id="formula_28">Z = β 0 + X 1 β X 1 + X 2 β X 2 + M * q δ δ ∼ N (0, τ s M * T QM * )</formula><p>Since this also appears to be the model used in <ref type="bibr" target="#b19">Hughes and Cui (2018)</ref> and studied in <ref type="bibr" target="#b27">Prates et al. (2019)</ref>, we utilize this in Section 5.</p><formula xml:id="formula_29">Var[β X |Y ] = Var E β X |δ, τ s , τ , Y |Y + E Var β X |δ, τ s , τ , Y |Y = E (τ X T X) -1 |Y = (X T X) -1 E 1 τ |Y</formula><p>The integrals computed above rely on two assumptions:</p><formula xml:id="formula_30">(1) δ,τs,τ f (δ, τ s , τ |Y )dτ dτ s dδ &lt; ∞ (2) δ,β,τs,τ 1 τ f (β, δ, τ s , τ |Y )dτ dτ s dδdβ &lt; ∞</formula><p>To show that these conditions both hold, it is sufficient to note the following:</p><formula xml:id="formula_31">β,δ,τs,τ 1 τ f (β, δ, τ s , τ |Y )dτ dτ s dδdβ = β,δ,τs,τ 1 τ f (β, δ, τ s , τ |Y )dτ dτ s dδdβ ∝ τ ,τs exp -τ b exp -τ s b s τ s Aτ s τ Aτ 1 |W T W + τs τ F | exp -τ 2 Y T Σ τ ,τs Y dτ dτ s<label>(8)</label></formula><p>where</p><formula xml:id="formula_32">(1) Σ τ ,τs = P X ⊥ -W W T W + τs τ F -1 W T (2) A τs = rank(F )/2 + a s -1 (3) A τ = a + n/2 -p/2 -q/2 -2</formula><p>The final integral is finite, which verifies the two assumptions above. To show this, the general strategy is the following. The final exponential term can be bounded by a constant using the non-negative definiteness of Σ τ ,τs . We first fix τ , then for τ s &gt; 1, convergence occurs due to the exponential decay of the Gamma priors. For τ s &lt; 1, we can ignore the exponential term in τ s . Doing so, we can use the determinant estimate listed below, Holder's inequality, and Fubini's theorem to directly integrate with respect to τ s . After applying some standard estimates, we bound the remaining integral with respect to τ by separating it into two cases and bounding each by the sum of independent convergent gamma kernels.</p><p>Lemma 1 (Determinant Estimate). Let F be a non-negative-definite and symmetric q × q matrix and W T W be a positive definite q × q matrix which commutes with F . Then for τs τ &gt; 0 and j = 1, . . . , rank(F ), we have the following estimate on W T W + τs τ F :</p><formula xml:id="formula_33">W T W + τ s τ F &gt; W T W + C j τ s τ j .</formula><p>Here C j &gt; 0 is a constant which depends on j (and F ).</p><p>This lemma can be proven by using the following observation. Since W T W and F commute, there exists an invertible matrix P such that W T W = P ΩP -1 and F = P ΨP -1 , where both Ω and Ψ are diagonal matrices. Let ω 1 , . . . , ω q be the eigenvalues of W T W (i.e., the diagonal of Ω) and let ψ 1 , . . . , ψ rank(F ) be the non-zero eigenvalues of F (i.e., the non-zero diagonal entries of Ψ). For j = 1, . . . , rank(F ), we observe the following:</p><formula xml:id="formula_34">W T W + τ s τ F = rank(F ) i=1 ω i + τ s τ ψ i q i=rank(F )+1 ω i . Lemma 2 (Non-negative Definiteness of Σ τ ,τs ). Σ τ ,τs = P X ⊥ -W (W T W + τs τ F ) -1 W T is non-negative definite.</formula><p>This lemma can be proven using the following observations.</p><p>(1) Because W T W and F are simultaneously diagonalizable and</p><formula xml:id="formula_35">W T W is positive definite, (W T W ) -1 -(W T W + λF ) -1 is non-negative definite for all λ ≥ 0.</formula><p>(2) For any two matrices A and B, if C(B) ⊂ C(A), then</p><formula xml:id="formula_36">||P A Y || 2 -||P B Y || 2 ≥ 0. (3) If q = n -p, then P X ⊥ = W (W T W ) -1 W T . Hence by observation 1, P X ⊥ - W (W T W + λF ) -1 W T is non-negative definite for λ ≥ 0. (4) If q &lt; n -p, then P X ⊥ -W (W T W + λF ) -1 W T = P X ⊥ -P W + P W -W (W T W + λF ) -1 W T</formula><p>. By observations 2 and 3, this is the sum of two non-negative definite matrices and hence non-negative definite.</p><p>With these lemmas in hand, we now return to the problem of showing (8) is finite. Using the non-negative definiteness of Σ τ ,τs , we note the following:</p><formula xml:id="formula_37">τ ,τs exp -τ b exp -τ s b s τ s Aτ s τ Aτ 1 |W T W + τs τ F | exp -τ 2 Y T Σ τ ,τs Y dτ dτ s ≤ τ ,τs exp -τ b exp -τ s b s τ s Aτ s τ Aτ 1 |W T W + τs τ F | dτ dτ s</formula><p>In the following steps, we will use to mean there exists D &gt; 0 such that LHS ≤ D RHS.</p><p>Case 1: τ s &gt; 1. By the Lemma 1 above we can conclude the following</p><formula xml:id="formula_38">∞ 1 ∞ 0 exp -τ b exp -τ s b s τ s Aτ s τ Aτ 1 |W T W + τs τ F | dτ dτ s ∞ 1 ∞ 0 exp -τ b exp -τ s b s τ s Aτ s τ Aτ 1 1 + τs τ rank(F ) dτ dτ s ≤ ∞ 1 ∞ 0 exp -τ b exp -τ s b s τ s Aτ s τ Aτ 1 1 τ rank(F ) dτ dτ s = ∞ 1 ∞ 0 exp -τ b exp -τ s b s τ s Aτ s τ Aτ +rank(F )/2 dτ dτ s</formula><p>Note that the integrand is the product of two gamma kernels: one with shape parameter A τs + 1 = rank(F )/2 + a s &gt; 0 and scale parameter b s &gt; 0; the second with shape parameter A τ + rank(F )/2 + 1 = a + n/2 -p/2 -q/2 -1 + rank(F )/2 and scale parameter b &gt; 0.</p><p>Note that if rank(F ) ≥ 2, then A τ +rank(F )/2 &gt; 0. If rank(F ) = 1 and a +n/2-p/2-q/2 &gt; 1/2, then A τ + rank(F )/2 &gt; 0. Thus, under our assumptions this integral is finite.</p><p>Case 2: τ s &lt; 1. Again utilizing the determinant estimate:</p><formula xml:id="formula_39">1 0 ∞ 0 exp -τ b exp -τ s b s τ s Aτ s τ Aτ 1 |W T W + τs τ F | dτ dτ s 1 0 ∞ 0 exp -τ b exp -τ s b s τ s Aτ s τ Aτ 1 1 + τs τ rank(F ) dτ dτ s &lt; 1 0 ∞ 0 exp -τ b τ s Aτ s τ Aτ 1 1 + τs τ rank(F ) dτ dτ s</formula><p>Then using Fubini's theorem, reorganizing terms, and substituting the value of A τs back in:</p><formula xml:id="formula_40">= ∞ 0     1 0 τ s as-1/2 τ s rank(F )/2-1/2 1 + τs τ rank(F ) dτ s     τ Aτ exp -τ b dτ</formula><p>Then using Hölder's inequality,</p><formula xml:id="formula_41">≤ ∞ 0 1 0 τ s 2as-1 dτ s 1/2    1 0 τ s rank(F )-1 1 + τs τ rank(F ) dτ s    1/2 τ Aτ exp -τ b dτ = ∞ 0 1 √ 2a s τ rank(F ) rank(F ) log 1 + 1 τ rank(F ) 1/2 τ Aτ exp -τ b dτ ∞ 0 log 1 + 1 τ rank(F ) τ Aτ +rank(F )/2 exp -τ b dτ</formula><p>Now we consider two cases, the first being that τ &lt; 1. In this case, note that:</p><formula xml:id="formula_42">log 1 + 1 τ rank(F ) ≤ log 2 τ rank(F ) = -rank(F ) log τ 2 1 rank(F ) Note that there exists C 1 (a ) ≥ 0 such that -log τ 2 1 rank(F ) &lt; τ -a /2 + C 1 (a ) ∀ τ &lt; 1.</formula><p>Using this inequality,</p><formula xml:id="formula_43">1 0 log 1 + 1 τ rank(F ) τ Aτ +rank(F )/2 exp -τ b dτ 1 0 τ -a /2 + C 1 (a )τ Aτ +rank(F )/2 exp -τ b dτ 1 0 τ -a /2 + 1 τ Aτ +rank(F )/2 exp -τ b dτ</formula><p>Note the integrand is the sum of the kernel of two gammas: one with shape parameter A τ + rank(F )/2 -a /2 + 1 = a /2 + n/2 -p/2 -q/2 + rank(F )/2 -1 and scale parameter b ;</p><p>the second has shape parameter A τ + rank(F )/2 + 1 = a + n/2 -p/2 -q/2 -1 + rank(F )/2 with the same scale parameter. Under our assumptions, the shape parameters are positive and hence the integral is finite.</p><p>If τ &gt; 1, then by the concavity of log, log 1 + 1 τ rank(F ) ≤ 1 τ rank(F ) and:</p><formula xml:id="formula_44">∞ 0 log 1 + 1 τ rank(F ) τ Aτ +rank(F )/2 exp -τ b dτ ∞ 1 1 τ rank(F ) τ Aτ +rank(F )/2 exp -τ b dτ = ∞ 1 τ Aτ exp -τ b dτ &lt; ∞ 1 τ Aτ +1 exp -τ b dτ</formula><p>Note the integrand is the kernel of a gamma with shape parameter A τ + 2 = a + n/2p/2 -q/2 &gt; 0 and scale parameter b . Thus the integral is finite.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>B.2. Proof of Theorem 2.</head><p>Proof. Because the marginal posterior variance of the regression coefficients for a model of form 2 under the conditions of Theorem 1 is of the form Var(β</p><formula xml:id="formula_45">X ) = (X T X) -1 E(σ RSR |Y ), it is sufficient to show that E(σ RSR |Y ) ≤ E(σ N S |Y ).</formula><p>In the following proof, we offer a sufficient condition for this inequality to hold. Note that, as in the paper, r = τs τ . Basic calculations lead to the following:</p><formula xml:id="formula_46">f (σ N S |Y ) ∼ Inv-Gamma(a + .5(n -p), 1 b + .5Y T P X ⊥ Y ) f (σ RSR |Y , r) ∼ Inv-Gamma(a + a s + .5(n -p), 1 b + r b s + .5Y T (P X ⊥ -W (I + rF ) -1 W T )Y )</formula><p>Above, we assume a shape-scale parameterization. Note, then, that by properties of the inverse-gamma distribution, we know that:</p><formula xml:id="formula_47">E(σ N S |Y ) = 1 b + .5Y T P X ⊥ Y a + .5(n -p) -1 E(σ RSR |Y , r) = 1 b + r bs + .5Y T (P X ⊥ -W (I + rF ) -1 W T )Y a + a s + .5(n -p) -1</formula><p>By iterated expectations, we can conclude:</p><formula xml:id="formula_48">E(σ RSR |Y ) = 1 b + E(r|Y ) bs + .5Y T P X ⊥ Y -E(Y T W (I + rF ) -1 W T Y )|Y ) a + a s + .5(n -p) -1</formula><p>In using iterated expectations, we rely on the assumption that the moments exist. To see this assumption holds note that it can be shown that E(r|Y ) exists by adding a power of 1 to τ s in the integral in line Eq. ( <ref type="formula" target="#formula_31">8</ref>) in the proof of Theorem 1 and then following the same argument used there. We adopt the notation A = E(Y T W (I + rF ) -1 W T Y )|Y ) and note that A ≥ 0. This expectation can be written as the finite sum of terms of r each of which is bounded between 0 and 1, and therefore the integral converges. To show that Theorem 2 holds, we then use the following auxiliary function M (x):</p><formula xml:id="formula_49">M (x) = 1 b + E(r|Y )x + .5Y T P X ⊥ Y a + kx + .5(n -p) -1 ,</formula><p>where k &gt; 0. We consider M (x) on the interval [0, 1 b ]. We note that M (0) = E(σ N S |Y ). For the case that k = a s b s , M ( 1 bs ) = E(σ RSR |Y ) + A a +as+.5(n-p)-1 . As previously noted, A ≥ 0, and conditions A.1[1]-A.1[4] ensure that a + a s + .5(n -p) -1 &gt; 0. We now consider the first derivative of M (x):</p><formula xml:id="formula_50">M (x) = E(r|Y ) [a + .5(n -p) -1] -k 1 b + .5Y T P X ⊥ Y [a + kx + .5(n -p) -1] 2 = E(r|Y ) -kE(σ N S |Y ) [a + .5(n -p) -1] [a + kx + .5(n -p) -1] 2 Note that M (x) is monotonically decreasing on [0, 1 bs ] whenever: E(r|Y ) k &lt; E(σ N S |Y )</formula><p>Now, in the case that k = a s b s , the result follows. As a final note, we observe that E(σ N S |Y ) is a non-trivial upper bound (i.e., the moment exists) only in the case that a + .5(n -p) &gt; 1.</p><p>We offer a final comment that the result will hold under less restrictive assumptions. We</p><p>focus on a weaker result here because it is more intuitive and relevant to the settings in which RSR models are fit. Intuitively, the more general result suggests that E(σ RSR |Y ) ≤ E(σ N S |Y ) whenever a spatial precision matrix F is chosen such that components of P W Y which are large are not smoothed to zero by the prior on δ. In other words, if the spatial basis vectors do a good job of explaining the variability in Y and the prior on δ does not assume this cannot be true, E(σ RSR |Y ) ≤ E(σ N S |Y ). To prove this more general result, we combine the above estimates with a lower bound on the term denoted A using Jensen's inequality. The latter term, in turn, is a function of the decomposition of P W Y in terms of the eigenvectors and eigenvalues of F and the posterior first moment of r, which makes the result more technical. B.3. Proof of Theorem 3 and Corollary 1.</p><p>Proof. The general strategy is as follows: we can directly calculate the form of h(β X |Y ).</p><p>We find an upper bound for g(β X |Y ) by bounding an exponential of a non-negative definite matrix by 1, using Lemma 1, and basic inequalities. Doing so allows us to bound the ratio of g(β X |Y ) h(β X |Y ) by the ratio of polynomials of the same (even) order. The use of L'Hospital's Rule then allows us to draw the conclusions about the tail behavior of the two distributions stated in the theorem.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Form of h(β X |Y )</head><p>In the univariate case, with the help of Mathematica, it is possible to express h(</p><formula xml:id="formula_51">β X |Y ) in closed form. h(β X |Y ) = 1 D h (Y -Xβ X ) T (Y -Xβ X ) 2 + 1 b -a -n/2 where D h = X T X 2 -a -n/2 Γ(d-1/2) Γ(d) c 1/2-d √ π is defined such that (1) c = 2 X T X Y T Y 2 -(X T Y ) 2 2X T X + 1 b (2) d = a + n/2 Note further that: h(β X |Y ) = f (β X |Y , τ )f (τ )dτ f (β X |Y , τ )f (τ )dτ dβ X = (2π) -n/2 Γ(n/2+a ) Γ(a )b a (Y -Xβ X ) T (Y -Xβ X ) 2 + 1 b -a -n/2 (2π) -n/2 Γ(n/2+a ) Γ(a )b a D h (<label>9</label></formula><formula xml:id="formula_52">) Form of g(β X |Y ) g(β X |Y ) = f (β X |Y , δ, τ )f (δ|τ s )f (τ )f (τ s )dδdτ dτ s f (β X |Y , δ, τ )f (δ|τ s )f (τ )f (τ s )dδdτ dτ s dβ X (10)</formula><p>For the moment we will focus on the numerator of (10).</p><formula xml:id="formula_53">f (β X |Y , δ, τ )f (δ|τ s )f (τ )f (τ s )dδdτ dτ s = (2π) -n/2-q/2 τ n/2 τ s q/2 f (τ s )f (τ ) exp -τ 2 (Y -Xβ X -W δ) T (Y -Xβ X -W δ) × exp -τ s 2 δ T F δ dδdτ dτ s</formula><p>We first integrate out δ. To do so, with some manipulation, we can recognize a Gaussian kernel and complete the square with:</p><formula xml:id="formula_54">exp τ 2 (Y T W (W T W + τ s τ F ) -1 W T Y )</formula><p>After which we are left with:</p><formula xml:id="formula_55">(2π) -n/2 τ n/2-q/2 τ s q/2 f (τ s )f (τ ) exp -τ 2 (β X T X T Xβ X -β X T X T Y -Y T Xβ X ) × exp -τ 2 Y T (I -W (W T W + τ s τ F ) -1 W T )Y W T W + τ s τ F -1/2 dτ dτ s Note that I -W (W T W + τs τ F ) -1 W T is non-negative definite. To see this observe that I -W (W T W + τ s τ F ) -1 W T = I -P W + P W -W (W T W + τ s τ F ) -1 W T .</formula><p>W T W and F commute, and we can use the set of observations in the proof of Lemma 2 to conclude that this is the sum of two non-negative definite matrices and hence non-negative definite. Therefore, we can bound the exponential term with this matrix by 1.</p><formula xml:id="formula_56">≤ (2π) -n/2 τ n/2-q/2 τ s q/2 f (τ s )f (τ ) exp -τ 2 (β X T X T Xβ X -β X T X T Y -Y T Xβ X ) × W T W + τ s τ F -1/2 dτ dτ s</formula><p>Again relying on Lemma 1 we can conclude that ∃ C q &gt; 0 such that |W T W + τs τ F | &gt; C q 1 + τ q s τ q . Therefore, we have the following bound:</p><formula xml:id="formula_57">≤ (2π) -n/2 τ n/2-q/2 τ s q/2 f (τ s )f (τ ) exp -τ 2 (β X T X T Xβ X -β X T X T Y -Y T Xβ X ) × C q 1 + τ q s τ q -1/2 dτ dτ s = 1 C q (2π) -n/2 1 Γ(a )b a 1 Γ(a s )b as s τ n/2+a -1 τ q/2+as-1 s exp -τ b exp -τ s b s 1 √ τ q + τ q s × exp -τ 2 (β X T X T Xβ X -β X T X T Y -Y T Xβ X ) dτ dτ s</formula><p>Now let m(τ ) be the pdf of a gamma distribution with shape parameter n/2 + a and scale parameter .5(β</p><formula xml:id="formula_58">X T X T Xβ X -β X T X T Y -Y T Xβ X ) + 1 b -1 . Denote µ(β X ) = (β X T X T Xβ X -β X T X T Y -Y T Xβ X ). Substituting in m(τ ), we find = 1 C q (2π) -n/2 Γ(n/2 + a ) Γ(a )b a .5µ(β X ) + 1 b -a -n/2 Γ(a s )b as s 1 √ τ q + τ q s m(τ ) exp -τ s b s τ q/2+as-1 s dτ dτ s</formula><p>Note that τ q + τ q s ≥ τ q s , therefore we can construct another upper bound:</p><formula xml:id="formula_59">= 1 C q (2π) -n/2 Γ(n/2 + a ) Γ(a )b a .5µ(β X ) + 1 b -a -n/2 Γ(a s )b as s m(τ ) exp -τ s b s τ as-1 s dτ dτ s = 1 C q (2π) -n/2 Γ(n/2 + a ) Γ(a )b a .5µ(β X ) + 1 b -a -n/2 Γ(a s )b as s exp -τ s b s τ as-1 s dτ s = 1 C q (2π) -n/2 Γ(n/2 + a ) Γ(a )b a .5µ(β X ) + 1 b -a -n/2</formula><p>Considering Ratios of pdfs</p><p>Consider the following, if we let</p><formula xml:id="formula_60">D * g = f (β X |Y , δ, τ )f (δ|τ s )f (τ )f (τ s )dδdτ dτ s dβ X g(β X |Y ) h(β X |Y ) ≤ 1 √ Cq (2π) -n/2 Γ(n/2+a ) Γ(a )b a .5µ(β X ) + 1 b -a -n/2 (2π) -n/2 Γ(n/2+a ) Γ(a )b a .5(µ(β X ) + Y T Y ) + 1 b -a -n/2 (2π) -n/2 Γ(n/2+a ) Γ(a )b a D h D * g = .5µ(β X ) + 1 b -a -n/2 .5(µ(β X ) + Y T Y ) + 1 b -a -n/2 (2π) -n/2 Γ(n/2+a ) Γ(a )b a D h C q D * g Because µ(β X</formula><p>) is a polynomial of even order, this allows us to conclude the following: lim sup</p><formula xml:id="formula_61">β X →∞ g(β X |Y ) h(β X |Y ) = lim sup β X →-∞ g(β X |Y ) h(β X |Y ) ≤ (2π) -n/2 Γ(n/2+a ) Γ(a )b a D h C q D * g</formula><p>Implications for Tail Behavior Note then by the use of L'Hospital's Rule: lim sup</p><formula xml:id="formula_62">β X →∞ 1 -G(β X |Y ) 1 -H(β X |Y ) , lim sup β X →-∞ G(β X |Y ) H(β X |Y ) ≤ (2π) -n/2 Γ(n/2+a ) Γ(a )b a D h C q D * g . Note that if K(C q , D h ) = (2π) -n/2 Γ(n/2+a ) Γ(a )b a D h √ Cq &lt; D * g , then: lim sup β X →∞ 1 -G(β X |Y ) 1 -H(β X |Y ) , lim sup β X →-∞ G(β X |Y ) H(β X |Y ) &lt; 1 B.4. Proof of Theorem 4.</formula><p>Proof. In the framework of model ( <ref type="formula">2</ref>), Bayes theorem indicates that the marginal posterior distribution for β X will be the same for choices of f, g such that:</p><formula xml:id="formula_63">f (Y |β X , τ s , τ ) ∝ g(Y |β X , τ s , τ ).</formula><p>To see this note, that by Bayes Theorem:</p><formula xml:id="formula_64">f (β X , δ, τ s , τ |Y ) ∝ f (Y |β X , τ , δ)f (δ|τ s )f (τ s )f (τ )f (β X ).</formula><p>So, integrating over δ implies that:</p><formula xml:id="formula_65">f (β X , δ, τ s , τ |Y )dδ ∝ f (Y |β X , τ , δ)f (δ|τ s )f (τ s )f (τ )f (β X )dδ.</formula><p>By the assumption of a priori independent prior distributions, then:</p><formula xml:id="formula_66">f (β X , τ s , τ |Y ) ∝ f (τ s )f (τ )f (β X ) f (Y |β X , τ , δ)f (δ|τ s )dδ f (β X , τ s , τ |Y ) ∝ f (τ s )f (τ )f (β X )f (Y |β X , τ s , τ ) Hence, substituting f (Y |β X , τ s , τ ) with g(Y |β X , τ s , τ ) will yield an equivalent f (β X |Y ).</formula><p>Straightforward calculations indicate that f (Y |β X , τ s , τ ) will be proportional to:</p><formula xml:id="formula_67">τ n/2 τ s rank(F )/2 |τ (W T W + τs τ F )| 1/2 exp -τ 2 (Y -Xβ X ) T I -W [W T W + τ s τ F ] -1 W T (Y -Xβ X )</formula><p>Assuming that X and Y are fixed, this term will be equivalent for the stated choices of W i , F i , i = 1, 2. To see this it is sufficient to show the following:</p><p>(1) rank(F 1 ) = rank(F 2 )</p><p>(2)</p><formula xml:id="formula_68">W T 1 W 1 + τs τ F 1 = W T 2 W 2 + τs τ F 2 (3) W 1 W T 1 W 1 + τs τ F 1 -1 W T 1 = W 2 W T 2 W 2 + τs τ F 2 -1 W T 2</formula><p>To see 1, note: rank(F 1 ) = rank(W 1 ) = rank(W 2 ) = rank(F 2 ). Conditions 2 and 3 are a consequence of the fact that there exists O ∈ O(q) (i.e., an orthogonal matrix) such that W 1 = W 2 O and W 2 = W 1 O T . This fact results in the following straightforward observation.</p><formula xml:id="formula_69">det W 1 T W + τ s τ W T 1 BW 1 = det O T W T 2 W 2 O + τ s τ O T W T 2 BW 2 O = det W T 2 W 2 + τ s τ W T 2 BW 2</formula><p>The third condition can be shown with the application of two variants of the Woodbury identity given in lines 156 and 157 of <ref type="bibr" target="#b26">Petersen and Pedersen (2012)</ref>.</p><formula xml:id="formula_70">W 1 I + τ s τ W T 1 BW 1 -1 W T 1 = W 2 O I + τ s τ O T W T 2 BW 2 O -1 O T W T 2 = W 2 O   I -O T I + τ s τ W T 2 QW 2 -1 -1 O   O T W T 2 = W 2   I -I + τ s τ W T 2 QW 2 -1 -1   W T 2 = W 2 I + τ s τ W T BW 2 -1 W T 2 .</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Appendix C. Additional Summaries and Simulations</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>C.1.</head><p>An Overfit NS model for the SAT dataset. In this subsection, we return to the SAT dataset introduced in Section 3.2. We now fit a series of fixed effect models. We start with a model that includes just X * (the NS model). We then sequentially add additional synthetic covariates which are columns chosen from an arbitrary basis of P X ⊥ . To do so, we order (in decreasing value) the columns by their correlation with P X ⊥ Y . We add the synthetic covariates in this order to dominate the effect of the n-p-q in the denominator that would be present in Eq. ( <ref type="formula">5</ref>). We do this until there is insufficient data to update the prior on τ for a final model including 43 synthetic covariates and X * . As before, a s = .5, b s = 2000.</p><p>In Fig. <ref type="figure" target="#fig_3">3</ref>, we plot the marginal posterior variance for for β 0 , β 1 , and β 2 for each of the series of fixed effect models. As we expect from the discussion in Section 3.2, all models result in approximately the same point estimates of (590.5, -2.84, .022) as additional synthetic covariates and the posterior variances tend to decrease as additional synthetic covariates are added. The relative smoothness of this decrease is due to the fact that we have reduced the impact of the n -p -q term in the denominator of Eq. ( <ref type="formula">5</ref>). For RSR models, such a tactic is no longer necessary because irregardless of the dimension of W , the corresponding term will be n -p. coefficients as additional vectors from the basis of C(X) ⊥ are added. These figures were constructed using the ggplot2 R package <ref type="bibr" target="#b35">(Wickham, 2016)</ref>.</p><p>C.2. Bias and MSE Results for Simulations 1 to 3. In the spatial confounding literature, there is an belief that using the ICAR model results in "poor" point estimates of the regression coefficients (See e.g., <ref type="bibr" target="#b28">Reich et al., 2006;</ref><ref type="bibr" target="#b18">Hodges and Reich, 2010;</ref><ref type="bibr" target="#b27">Prates et al., 2019)</ref>. In looking at the performance of the point estimates, most of the work falls into two groups. First, some work considers the point estimates of the ICAR model to be performing poorly when they differ from the point estimates that would have been obtained in the NS model <ref type="bibr" target="#b28">(Reich et al., 2006;</ref><ref type="bibr" target="#b18">Hodges and Reich, 2010)</ref>. Other work investigates the poor performance with simulation studies. In this work, poor performance is typically assessed by the difference of the point estimates obtained by the ICAR model and the "true" (generating) value of the regression coefficients <ref type="bibr" target="#b20">(Hughes and Haran, 2013)</ref>.</p><p>Almost all of the previous work has focused on the Gaussian case. Although seldom remarked upon, the magnitude of the difference between the point estimates obtained from an ICAR model and the OLS estimates is often very small. For instance, the Slovenia stomach cancer data set has influenced much of the concern with the poor performance of point estimates of the regression coefficients (See e.g., <ref type="bibr" target="#b28">Reich et al., 2006;</ref><ref type="bibr" target="#b18">Hodges and Reich, 2010;</ref><ref type="bibr" target="#b31">Thaden and Kneib, 2018;</ref><ref type="bibr" target="#b27">Prates et al., 2019)</ref>. As shown in Section 5, the absolute value of the difference between the point estimate obtained in the ICAR model and the point estimate obtained in the NS model is .119. Similar results are found when assessing the performance of point estimates with simulations <ref type="bibr" target="#b20">(Hughes and Haran, 2013;</ref><ref type="bibr" target="#b27">Prates et al., 2019)</ref>.</p><p>In the following subsections, we investigate the performance of the ICAR point estimates in more detail. We find that the difference between the point estimates obtained in the ICAR model and the generating value tends to have small magnitude. We also find that the point estimates of the ICAR model perform better than that of the NS and RHZ models for count data. Although this latter finding contradicts the expectations of the spatial confounding literature, it is not unprecedented. <ref type="bibr" target="#b20">Hughes and Haran (2013)</ref> observed something similar in the context of a simulated example.</p><p>Although not previously noted, the simulation results for Section 4.1-Section 4.3 support Theorem 2: in the Gaussian case, the posterior variance for a given regression coefficient for the RHZ model is always less than or equal to that of the posterior variance for the NS model (we considered the results rounded to the 2nd decimal place). As Theorem 1 indicates we should expect, the point estimates for regression coefficients for the NS and RHZ model are the same for the Guassian models (we defined same as the absolute difference being less than .01). Because Theorem 1 and Theorem 2 were only proven for the Gaussian case, we look to the simulation studies to assess whether similar results hold for the Poisson case.</p><p>Unlike in the Gaussian case, the marginal posterior means of β X are not always exactly the same for the NS and RHZ models. However, they are always quite close. The maximum difference is approximately .06 across all simulations. In all but one case, the variance of the marginal posterior distribution for the RHZ model was less than (or equal to) the variance of the marginal posterior distribution for the NS model. This lends support that the findings in Theorem 2 may extend in some fort to non-Gaussian cases. The point estimates of the NS and RHZ models are similar enough that bias and mean standard error (MSE) results are the same in almost all cases. Thus, we omit separate categories for the RHZ and NS models in the following discussions of bias and MSE summaries. C.2.1. Simulation 1. In this section, we consider the bias where we define bias as</p><formula xml:id="formula_71">β X - E[β X |Y ].</formula><p>To give a sense of the spread of bias in each setting, we calculate the bias for each of the 1000 simulated data sets. Table <ref type="table" target="#tab_9">11</ref> then illustrates the 10th and 90th percentiles of the resulting bias measurements. In Table <ref type="table" target="#tab_10">12</ref>, we consider the average MSE, where the average is taken across the 1,000 simulated data sets.</p><p>The results indicate that the bias for the ICAR model tends to be larger than the NS/RHZ model when the data is generated from the RHZ model. If the data is generated with an ICAR random effect, then the bias for the ICAR analysis model tends to be less than the the bias for the NS and RHZ analysis models. The results for the average MSE indicate that there are not large differences in the performance of the various models with respect to this measure. This is not surprising given the relatively small magnitude of the bias for all models. The ICAR analysis model performs marginally better with respect to the MSE than the NS/RHZ model when the data is generated with an ICAR random effect.  <ref type="table" target="#tab_1">13</ref> shows the NS/RHZ model performs better with respect to bias for β X 1 when the data is generated under an RHZ model. Similarly, the ICAR model performs better when the data is generated with an ICAR random effect. Again, Table <ref type="table" target="#tab_2">14</ref> demonstrates that the average MSEs are relatively small. Note, that under a RHZ generating model the 10th percentile of the bias differed slightly for the NS (.195) and RHZ (.194) models. However, for convenience we still rounded both to .20 in Table <ref type="table" target="#tab_1">13</ref>.</p><p>with regression coefficients of absolute value 1. To investigate the impact of spatial confounding in a setting with small effect sizes, we repeat Simulations 1-3. Now, though, we simulate the response (Y or Z) by replacing β 0 = 1 and β X = β X 1 = 2 with β 0 = .1 and</p><formula xml:id="formula_72">β X = β X 1 = .2.</formula><p>For the Gaussian cases, the summaries of bias and MSE typically remain very similar to the results observed in Appendix C.2.1 and Appendix C.2.2. Given the smaller effect sizes, now the magnitude of the bias is more of a concern. Despite this, the coverage rates observed in Section 4.1-Section 4.2 remain quite similar. In the following discussions, we omit repeating the coverage, bias, and MSE results for the Gaussian simulations absent a difference from prior results. For both the Gaussian and Poisson models, the results for the Type-S error rates change from Section 4.1-Section 4.3. The impact of the smaller effect size can also be seen in the Bayesian analogue of power, which we define as percentage of time that the 95% credible interval does not contain 0. In Section 4.1-Section 4.3, the power was 100% for all analysis models in every setting. Unsurprisingly, the power suffers with for all models in the context of the smaller effect sizes. We now discuss the results in more detail. C.4. Simulation 1. Table <ref type="table" target="#tab_11">17</ref> indicates the RHZ model always has the highest power. This difference is most pronounced when the data is generated with an ICAR random effect. The ICAR model always has the lowest power. Our investigations indicate these differences are explained primarily by the widths of the 95% credible intervals (as opposed to the impact of bias pushing point estimates away from 0).  Table <ref type="table" target="#tab_7">19</ref> indicates that when the data is generated from a NS model, the Type-S error is much lower than it was in Table <ref type="table" target="#tab_4">6</ref> for both the RHZ and NS analysis models. This change is primarily driven by a reduction in the bias for β X 2 . For the larger effect sizes, Appendix C.2.2 indicated the 10th and 90th percentiles of the bias were (-.56, .54). Here, the corresponding percentiles are (-.2, .2). The bias for other settings remained largely unchanged. As with the Gaussian data, a reduction in the bias for the NS/RHZ model corresponds to a reduction in the Type-S error rates, as indicated in Table <ref type="table" target="#tab_14">24</ref>. </p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><figDesc>);Prates et  al. (2019), Hefley et al. (2017)).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Figure 1 .</head><label>1</label><figDesc>Figure 1. These graphs depict the posterior variance of each of the regression coefficients. Green indicates spatial basis vectors which are "attractive." Red indicates spatial basis vectors which are "repulsive." These figures were</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Figure 2 .</head><label>2</label><figDesc>Figure 2. Credible intervals for β X 1 . This figure was made using the ggplot2</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Figure 3 .</head><label>3</label><figDesc>Figure 3. These graphs depict the posterior variance of each of the regression</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 2 .</head><label>2</label><figDesc>Coverage of β X</figDesc><table><row><cell>Analysis</cell><cell></cell><cell cols="2">Generating Model</cell></row><row><cell>Model</cell><cell></cell><cell></cell><cell></cell></row><row><cell></cell><cell>NS</cell><cell>RHZ</cell><cell>ICAR</cell></row><row><cell>NS</cell><cell>94.4%</cell><cell>98.5%</cell><cell>84.6%</cell></row><row><cell>RHZ</cell><cell>93.1%</cell><cell>93.8%</cell><cell>72.5%</cell></row><row><cell>ICAR</cell><cell>97.0%</cell><cell>99.4%</cell><cell>95.3%</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 3 .</head><label>3</label><figDesc>Comparison of Coverage of the RHZ and NS modelsSimulation 2: Type-S Error in the Gaussian Model. For this set of simulations we consider Gaussian models of the form (2) for the graph of the 48 contiguous states. We again generate data from three models. All models are of the form Y</figDesc><table><row><cell>Comparisons</cell><cell></cell><cell cols="2">Generating Model</cell></row><row><cell></cell><cell>NS</cell><cell>RHZ</cell><cell>ICAR</cell></row><row><cell>Agree</cell><cell>98.7%</cell><cell>95.3%</cell><cell>87.9%</cell></row><row><cell>RHZ +</cell><cell>0.0%</cell><cell>0.0%</cell><cell>0.0%</cell></row><row><cell>NS +</cell><cell>1.3%</cell><cell>4.7%</cell><cell>12.1%</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2"><head>Table 4 .</head><label>4</label><figDesc>Coverage of β X</figDesc><table><row><cell>1</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_3"><head>Table 5 .</head><label>5</label><figDesc>Comparison of β X1 coverage of the RHZ and NS models</figDesc><table><row><cell>Comparisons</cell><cell></cell><cell>Generating Model</cell></row><row><cell></cell><cell>RHZ</cell><cell>ICAR</cell></row><row><cell>Agree</cell><cell>93.0%</cell><cell>87.6%</cell></row><row><cell>RHZ +</cell><cell>0.0%</cell><cell>0.0%</cell></row><row><cell>NS +</cell><cell>7.0%</cell><cell>12.4%</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_4"><head>Table 6 .</head><label>6</label><figDesc>Type-S Error of β X</figDesc><table><row><cell>2</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_5"><head>Table 7 .</head><label>7</label><figDesc>Comparison of Type-S of the RHZ and NS modelsSimulation Study 3: Investigating Type-S Error in Poisson Model. Much of the research in the literature as well as the results of this paper focus on Gaussian models.However, in practice most of the models discussed are typically used for areal count data.It is not altogether clear whether work in the linear case can be translated into results for the non-linear case. In this set of simulations, we attempt to investigate whether the results for the linear case are relevant for count data. To our knowledge, this is the first extensive simulation study of count data for RSR methods.</figDesc><table><row><cell>Comparisons</cell><cell></cell><cell cols="2">Generating Model</cell></row><row><cell></cell><cell>NS</cell><cell>RHZ</cell><cell>ICAR</cell></row><row><cell>Agree</cell><cell>33.7%</cell><cell>90.5%</cell><cell>88.6%</cell></row><row><cell>RHZ +</cell><cell>0.0%</cell><cell>0.0%</cell><cell>0.0%</cell></row><row><cell>NS +</cell><cell>66.3%</cell><cell>9.5%</cell><cell>11.4%</cell></row><row><cell>4.3.</cell><cell></cell><cell></cell><cell></cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_6"><head>Table 8 .</head><label>8</label><figDesc>Coverage of β X</figDesc><table><row><cell>1</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_7"><head>Table 9 .</head><label>9</label><figDesc>Type-S Error of β X</figDesc><table><row><cell>2</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_8"><head>Table 10 .</head><label>10</label><figDesc>Summaries of Posterior Distribution β XIn Table10, the ICAR model's credible interval is the only one to include zero. In applications, researchers would typically conclude that the socioeconomic scores were not significant for the ICAR model but were significant in the other models. The prevailing belief in spatial confounding literature is that the RSR and NS models offer better inference than the ICAR model for this dataset. However, in Section 4.3, we observed that if there is residual spatial dependence (either through a missing spatially varying covariate or through a spatial random effect), the NS and RSR models tend to have more biased point estimates than the ICAR models. Similarly, the NS and RSR models suffer from low coverage rates in this setting.</figDesc><table><row><cell>Model</cell><cell cols="2">Posterior Mean 95% Credible Interval</cell></row><row><cell>NS</cell><cell>-.137</cell><cell>(-.175, -.098)</cell></row><row><cell>RHZ</cell><cell>-.137</cell><cell>(-.175, -.098)</cell></row><row><cell>HH 19</cell><cell>-.118</cell><cell>(-.161, -.074)</cell></row><row><cell cols="2">HH all pos. -.101</cell><cell>(-.151, -.049)</cell></row><row><cell>ICAR</cell><cell>-.018</cell><cell>(-.096, .065)</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_9"><head>Table 11 .</head><label>11</label><figDesc>10th and 90th Percentiles of Bias for β X</figDesc><table><row><cell>Analysis</cell><cell></cell><cell cols="2">Generating Model</cell></row><row><cell>Model</cell><cell></cell><cell></cell><cell></cell></row><row><cell></cell><cell>NS</cell><cell>RHZ</cell><cell>ICAR</cell></row><row><cell>NS/RHZ</cell><cell>(-.19,.19)</cell><cell>(-.18,.18)</cell><cell>(-.32,.33)</cell></row><row><cell>ICAR</cell><cell>(-.19,.20)</cell><cell>(-.22,.23)</cell><cell>(-.27,.29)</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_10"><head>Table 12 .</head><label>12</label><figDesc>Average MSE of β X Simulation 2. We again consider the same summaries of bias and MSE as in Appendix C.2.1. As before, Table</figDesc><table><row><cell>Analysis</cell><cell></cell><cell cols="2">Generating Model</cell></row><row><cell>Model</cell><cell></cell><cell></cell><cell></cell></row><row><cell></cell><cell>NS</cell><cell>RHZ</cell><cell>ICAR</cell></row><row><cell>NS/RHZ</cell><cell>.02</cell><cell>.02</cell><cell>.07</cell></row><row><cell>ICAR</cell><cell>.02</cell><cell>.03</cell><cell>.05</cell></row><row><cell>C.2.2.</cell><cell></cell><cell></cell><cell></cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_11"><head>Table 17 .</head><label>17</label><figDesc>Simulation 1: Power for β X Simulation 2. As in Appendix C.4, Table18indicates that the RHZ model always has the highest power and the ICAR model always has the lowest.</figDesc><table><row><cell>Analysis</cell><cell></cell><cell cols="2">Generating Model</cell></row><row><cell>Model</cell><cell></cell><cell></cell><cell></cell></row><row><cell></cell><cell>NS</cell><cell>RHZ</cell><cell>ICAR</cell></row><row><cell>NS</cell><cell>27.0%</cell><cell>15.1%</cell><cell>26.1%</cell></row><row><cell>RHZ</cell><cell>30.7%</cell><cell>29.4%</cell><cell>40.0%</cell></row><row><cell>ICAR</cell><cell>18.6%</cell><cell>7.8%</cell><cell>10.6%</cell></row><row><cell>C.5.</cell><cell></cell><cell></cell><cell></cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_12"><head>Table 18 .</head><label>18</label><figDesc>Simulation 2: Power for β X</figDesc><table><row><cell>1</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_13"><head>Table 23 .</head><label>23</label><figDesc>Average MSE of β X</figDesc><table><row><cell>1</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_14"><head>Table 24 .</head><label>24</label><figDesc>Type-S Error of β X</figDesc><table><row><cell>2</cell></row></table></figure>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div><head>Acknowledgements</head><p>Gabriel Khan is credited for suggesting the clever use of Hölder's Inequality in Theorem 1, which resulted in a relatively cleaner proof. The authors were partially supported by grant <rs type="funder">NIH NICHD</rs> <rs type="grantNumber">R01-HD088545</rs>. They also acknowledge the support of The <rs type="funder">Ohio State University's Mathematical Biosciences Institute (NSF</rs> <rs type="grantNumber">DMS-1440386</rs>) and the <rs type="grantName">Institute for Population Research</rs> (<rs type="grantNumber">NIH NICHD P2C-HD058484-10</rs>).</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_nC2xHdu">
+					<idno type="grant-number">R01-HD088545</idno>
+				</org>
+				<org type="funding" xml:id="_JppQGwf">
+					<idno type="grant-number">DMS-1440386</idno>
+					<orgName type="grant-name">Institute for Population Research</orgName>
+				</org>
+				<org type="funding" xml:id="_3bM5D7B">
+					<idno type="grant-number">NIH NICHD P2C-HD058484-10</idno>
+				</org>
+			</listOrg>
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Appendix A.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A.1. Conditions.</head><p>(1) F is a q × q non-negative definite and symmetric matrix.</p><p>(2) Either rank(F ) ≥ 2 or rank(F ) = 1 and a /2 + n/2 -p/2 -q/2 &gt; 1/2.</p><p>(3) rank(W ) = q ≤ n -p.</p><p>(4) rank(X) = p &lt; n.</p><p>(5) F and W T W commute.</p><p>A.2. Details of RHZ and HH Models for Count Data. Section 4 of the <ref type="bibr" target="#b28">Reich et al. (2006)</ref> details the construction of a model which smooths orthogonally to the fixed effects for non-linear link functions. In particular, they considered data distributed such that y i are independent given θ i and the probability distribution function is of the form:</p><formula xml:id="formula_73">f (y i |θ i ) exp{y i θ i -b(θ i ) + c(y i )} g(µ i ) = θ i = X i β X + (V δ) i + i</formula><p>where E(y i |θ i ) = µ i , and g is a link function. Using this observation and the logic from the Gaussian case, they suggested the following adjustment to address spatial confounding.</p><formula xml:id="formula_74">θ = Xβ X + Ĥ-1/2 Lδ 1 + Ĥ-1/2 L 1 δ 1 = L T Ĥ1/2 V δ ∼ N (0, τ s L T Ĥ1/2 Q Ĥ1/2 L) 1 = L T Ĥ1/2 ∼ N (0, τ L T ĤL)</formula><p>where now L are the eigenvectors associated with eigenvalues of 1 from P X ⊥ *</p><formula xml:id="formula_75">P X ⊥ * = I -Ĥ1/2 X(X T ĤX) -1 X T Ĥ1/2 (7)</formula><p>and Ĥ is a diagonal matrix with the (ii)th element defined to be Var(y i |β X , δ, ) evaluated at the mode of p(β X , δ, |τ , τ s , Y ). In all relevant code, following the choice in <ref type="bibr" target="#b19">Hughes and Cui (2018)</ref> Proof. Under these assumptions, straightforward calculations give the following,</p><formula xml:id="formula_76">f (β X |δ, τ s , τ , Y ) ∼ N (X T X) -1 X T Y , (τ X T X) -1</formula><p>where (τ X T X) -1 is the covariance rather than the precision. This allows us to conclude the following: This observation is inconsistent with the general beliefs in the spatial confounding literature (See e.g., <ref type="bibr" target="#b18">Hodges and Reich, 2010)</ref>. However, a similar result was seen in an analysis of a single simulated dataset in <ref type="bibr" target="#b20">Hughes and Haran (2013)</ref>. The bias and MSE summaries for β X 2 are similar to those observed for β X 1 , and therefore omitted.</p><formula xml:id="formula_77">E[β X |Y ] = E E β X |δ, τ s , τ , Y |Y = E (X T X) -1 X T Y |Y = (X T X) -1 X T Y ,</formula><p>C.3. Impact of Small Effect Sizes. As the previous subsections indicate, the magnitude of the bias is relatively small for all analysis models. In the context of Section 4.1-Section 4.3, where the effect sizes are all modest (1 or 2), the bias may not seem terribly concerning. That said, it should be noted that given the very narrow credible intervals of the NS and RHZ models for count data, even a small magnitude of bias can help explain the poor coverage rates and elevated Type-S errors.</p><p>There are many areas of spatial statistics, such as in environmental epidemiology, where small effect sizes are important. Here, to be clear, we define small effect sizes to be associated  For the count data, the effect size appears to have a more direct impact on the coverage rates, bias, and MSE summaries than it did for the Gaussian data. Table <ref type="table" target="#tab_21">21</ref> indicates that the coverage rates of β X 1 are greatly improved compared to when the generating value of β X 1 was larger (see Table <ref type="table">8</ref>). The driving factor in this reduction appears to be a reduction in the bias for the NS and RHZ models. Table <ref type="table" target="#tab_22">22</ref> indicates that the bias for the NS and RHZ models have decreased significantly compared to when the data was generated with larger effect sizes (see Table <ref type="table" target="#tab_17">15</ref>).</p><p>Table <ref type="table">23</ref> shows that a similar reduction in the average MSE for these models. The summaries for the bias and MSE measures for β X 2 are once again quite similar to those for β X 1 and thus omitted. </p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><figDesc>, Ĥ is calculated using the values for the parameters in the last iteration of the Iterated Reweighted Least Squares (IWLS) Algorithm for the non-spatial model. The model Appendix B. Proofs of Theorems B.1. Proof of Theorem 1.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_15"><head>Table 13 .</head><label>13</label><figDesc>10th and 90th Percentiles of Bias of β X</figDesc><table><row><cell>1</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_16"><head>Table 14 .</head><label>14</label><figDesc>Average MSE of β X .2.3. Simulation 3. In Table15and Table16, we consider the same summaries of bias and MSE as in Appendix C.2.2 for β X 1 . Note that under the RHZ generating model and with rounding, the 10 th percentile in Table15is -.26 for the NS model and -.27 for the RHZ model. For brevity, we just include one case still. Unlike in the Gaussian case, the ICAR model tends to have smaller bias than NS/RHZ models regardless of the generating model.</figDesc><table><row><cell>1</cell></row></table><note><p>1 , and therefore omitted. The exception occurs when the generating model is the NS model. In this setting the 10th and 90th percentiles for the bias for the NS/RHZ model are (-.56, .54) and the average MSE is .19. The results for the ICAR model remain similar seen for the settings explored in Table13 and Table 14.</p><p>C</p></note></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_17"><head>Table 15 .</head><label>15</label><figDesc>10th and 90th Percentiles of Bias of β X</figDesc><table><row><cell>1</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_18"><head>Table 16 .</head><label>16</label><figDesc>Average MSE of β X</figDesc><table><row><cell>1</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_19"><head>Table 19 .</head><label>19</label><figDesc>Type-S Error of β X Simulation 3. For the count data, the power depends heavily on how the data was generated. As Table20indicates, when the data is generated with an IID random variable, all models have exceptionally poor power. The RHZ and NS models have relatively high power (compared to the Gaussian model) when the data is generated with a spatial random effect.</figDesc><table><row><cell>2</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_20"><head>Table 20 .</head><label>20</label><figDesc>Simulation 3: Power for β X</figDesc><table><row><cell>1</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_21"><head>Table 21 .</head><label>21</label><figDesc>Coverage of β X</figDesc><table><row><cell>1</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_22"><head>Table 22 .</head><label>22</label><figDesc>10th and 90th Percentiles of Bias of β X</figDesc><table><row><cell>1</cell></row></table></figure>
+			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Gaussian predictive process models for large spatial data sets</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Banerjee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">O</forename><surname>Finley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Sang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society: Series B (Statistical Methodology)</title>
+		<imprint>
+			<biblScope unit="volume">70</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="825" to="848" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Frailty modeling for spatially correlated survival data, with application to infant mortality in minnesota</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Banerjee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">M</forename><surname>Wall</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">P</forename><surname>Carlin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biostatistics</title>
+		<imprint>
+			<biblScope unit="volume">4</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="123" to="142" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Bayesian image restoration, with two applications in spatial statistics</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Besag</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>York</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Mollié</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of the Institute of Statistical Mathematics</title>
+		<imprint>
+			<biblScope unit="volume">43</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1" to="20" />
+			<date type="published" when="1991">1991</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<monogr>
+		<title level="m" type="main">Applied Spatial Data Analysis with R</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">S</forename><surname>Bivand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">J</forename><surname>Pebesma</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Gómez-Rubio</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">J</forename><surname>Pebesma</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2008">2008</date>
+			<publisher>Springer</publisher>
+			<biblScope unit="volume">747248717</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Global and local spatial autocorrelation in bounded regular tessellations</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Boots</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Tiefelsdorf</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Geographical Systems</title>
+		<imprint>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="319" to="348" />
+			<date type="published" when="2000">2000</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Multivariate spatio-temporal models for high-dimensional areal data with application to longitudinal employer-household dynamics</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">R</forename><surname>Bradley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">H</forename><surname>Holan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">K</forename><surname>Wikle</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Annals of Applied Statistics</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="1761" to="1791" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">The SAR model for very large datasets: a reduced rank approach</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Burden</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Cressie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Steel</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">3</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="317" to="338" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Spatial correlation in ecological analysis</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">G</forename><surname>Clayton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Bernardinelli</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Montomoli</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Epidemiology</title>
+		<imprint>
+			<biblScope unit="volume">22</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1193" to="1202" />
+			<date type="published" when="1993">1993</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<monogr>
+		<title level="m" type="main">Statistics for Spatial Data</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Cressie</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1993">1993</date>
+			<publisher>Wiley</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<monogr>
+		<author>
+			<persName><forename type="first">N</forename><surname>Cressie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">K</forename><surname>Wikle</surname></persName>
+		</author>
+		<title level="m">Statistics for Spatio-temporal Data</title>
+		<imprint>
+			<publisher>John Wiley &amp; Sons</publisher>
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Model-based geostatistics</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">J</forename><surname>Diggle</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Tawn</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Moyeed</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society: Series C (Applied Statistics)</title>
+		<imprint>
+			<biblScope unit="volume">47</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="299" to="350" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Markov chain monte carlo: Can we trust the third significant figure?</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename><surname>Flegal</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Haran</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">L</forename><surname>Jones</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistical Science</title>
+		<imprint>
+			<biblScope unit="page" from="250" to="260" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">mcmcse: Monte carlo standard errors for MCMC</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename><surname>Flegal</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Hughes</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Vats</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Dai</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">R package version</title>
+		<meeting><address><addrLine>Riverside, CA and Minneapolis, MN</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="2012">2012</date>
+			<biblScope unit="page" from="1" to="1" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Approximate likelihood for large irregularly spaced spatial data</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Fuentes</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">102</biblScope>
+			<biblScope unit="issue">477</biblScope>
+			<biblScope unit="page" from="321" to="331" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">A computationally efficient projection-based approach for spatial generalized linear mixed models</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Guan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Haran</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Computational and Graphical Statistics</title>
+		<imprint>
+			<biblScope unit="volume">27</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="701" to="714" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Restricted spatial regression in practice: geostatistical models, confounding, and robustness under model misspecification</title>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">M</forename><surname>Hanks</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">M</forename><surname>Schliep</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">B</forename><surname>Hooten</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">A</forename><surname>Hoeting</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environmetrics</title>
+		<imprint>
+			<biblScope unit="volume">26</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="243" to="254" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">The bayesian group lasso for confounded spatial data</title>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">J</forename><surname>Hefley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">B</forename><surname>Hooten</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">M</forename><surname>Hanks</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">E</forename><surname>Russell</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">P</forename><surname>Walsh</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Agricultural, Biological and Environmental Statistics</title>
+		<imprint>
+			<biblScope unit="volume">22</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="42" to="59" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<monogr>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">S</forename><surname>Hodges</surname></persName>
+		</author>
+		<title level="m">Richly Parameterized Linear Models: Additive, Time Series, and Spatial Models using Random Effects</title>
+		<imprint>
+			<publisher>Chapman and Hall/CRC</publisher>
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Adding spatially-correlated errors can mess up the fixed effect you love</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">S</forename><surname>Hodges</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">J</forename><surname>Reich</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The American Statistician</title>
+		<imprint>
+			<biblScope unit="volume">64</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="325" to="334" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">ngspatial: Fitting the Centered Autologistic and Sparse Spatial Generalized Linear Mixed Models for Areal Data</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Hughes</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Cui</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">R package version</title>
+		<meeting><address><addrLine>Denver, CO</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="2018">2018</date>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="page" from="2" to="3" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Dimension reduction and alleviation of confounding for spatial generalized linear mixed models</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Hughes</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Haran</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society: Series B (Statistical Methodology)</title>
+		<imprint>
+			<biblScope unit="volume">75</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="139" to="159" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Notes on continuous stochastic phenomena</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">A</forename><surname>Moran</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometrika</title>
+		<imprint>
+			<biblScope unit="volume">37</biblScope>
+			<biblScope unit="issue">1/2</biblScope>
+			<biblScope unit="page" from="17" to="23" />
+			<date type="published" when="1950">1950</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Random effects specifications in eigenvector spatial filtering: a simulation study</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Murakami</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Griffith</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Geographical Systems</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="311" to="331" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<monogr>
+		<title level="m" type="main">Technical vignette 5: Understanding intrinsic gaussian markov random field spatial models, including intrinsic conditional autoregressive models</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Paciorek</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+	<note type="report_type">Technical report</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">The importance of scale for spatial-confounding bias and precision of spatial regression estimators</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">J</forename><surname>Paciorek</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistical Science: A Review Journal of the Institute of Mathematical Statistics</title>
+		<imprint>
+			<biblScope unit="volume">25</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page">107</biblScope>
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Estimation and prediction in the presence of spatial confounding for spatial linear models</title>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">L</forename><surname>Page</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>He</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Sun</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Scandinavian Journal of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">44</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="780" to="797" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">The matrix cookbook</title>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">B</forename><surname>Petersen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">S</forename><surname>Pedersen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Technical University of Denmark</title>
+		<imprint>
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="issue">15</biblScope>
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">Alleviating spatial confounding for areal data problems by displacing the geographical centroids</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">O</forename><surname>Prates</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">M</forename><surname>Assunção</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">C</forename><surname>Rodrigues</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Bayesian Anal</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="623" to="647" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Effects of residual smoothing on the posterior of the fixed effects in disease-mapping models</title>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">J</forename><surname>Reich</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">S</forename><surname>Hodges</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Zadnik</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometrics</title>
+		<imprint>
+			<biblScope unit="volume">62</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="1197" to="1206" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<monogr>
+		<author>
+			<persName><forename type="first">H</forename><surname>Rue</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Held</surname></persName>
+		</author>
+		<title level="m">Gaussian Markov Random Fields: Theory and Applications</title>
+		<imprint>
+			<publisher>CRC press</publisher>
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Limitations on low rank approximations for covariance matrices of spatial data</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">L</forename><surname>Stein</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Spatial Statistics</title>
+		<imprint>
+			<biblScope unit="volume">8</biblScope>
+			<biblScope unit="page" from="1" to="19" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">Structural equation models for dealing with spatial confounding</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Thaden</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Kneib</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The American Statistician</title>
+		<imprint>
+			<biblScope unit="volume">72</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="239" to="252" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">A tutorial on spectral clustering</title>
+		<author>
+			<persName><forename type="first">Von</forename><surname>Luxburg</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">U</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistics and Computing</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="395" to="416" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">A close look at the spatial structure implied by the CAR and SAR models</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">M</forename><surname>Wall</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Statistical Planning and Inference</title>
+		<imprint>
+			<biblScope unit="volume">121</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="311" to="324" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<monogr>
+		<title level="m" type="main">Applied Spatial Statistics for Public Health Data</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">A</forename><surname>Waller</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">A</forename><surname>Gotway</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2004">2004</date>
+			<publisher>John Wiley &amp; Sons</publisher>
+			<biblScope unit="volume">368</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<monogr>
+		<title level="m" type="main">ggplot2: Elegant Graphics for Data Analysis</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Wickham</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2016">2016</date>
+			<publisher>Springer-Verlag</publisher>
+			<pubPlace>New York</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

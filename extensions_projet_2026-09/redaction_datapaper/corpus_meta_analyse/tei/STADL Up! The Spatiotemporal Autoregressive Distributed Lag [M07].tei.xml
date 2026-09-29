@@ -1,0 +1,1324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">STADL Up! The Spatiotemporal Autoregressive Distributed Lag Model for TSCS Data Analysis</title>
+				<funder ref="#_vFKq3Ye">
+					<orgName type="full">National Science Foundation [NSF</orgName>
+				</funder>
+				<funder ref="#_4BEsGSm">
+					<orgName type="full">unknown</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">Scott</forename><forename type="middle">J</forename><surname>Cook</surname></persName>
+							<email>sjcook@tamu.edu</email>
+						</author>
+						<author>
+							<persName><roleName>Professor,</roleName><forename type="first">Jude</forename><forename type="middle">C</forename><surname>Hays</surname></persName>
+							<idno type="ORCID">0000-0003-2069-3038</idno>
+						</author>
+						<author>
+							<persName><roleName>Professor,</roleName><forename type="first">Robert</forename><forename type="middle">J</forename><surname>Franzese</surname><genName>Jr</genName></persName>
+							<email>franzese@umich.edu</email>
+							<idno type="ORCID">0000-0002-6614-4213</idno>
+						</author>
+						<author>
+							<affiliation key="aff0">
+								<orgName type="institution">Texas A&amp;M University</orgName>
+								<address>
+									<country key="US">United States</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<affiliation key="aff1">
+								<orgName type="institution">University of Pittsburgh</orgName>
+								<address>
+									<country key="US">United States</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<affiliation key="aff2">
+								<orgName type="institution">ROBERT J. FRANZESE</orgName>
+								<address>
+									<region>JR</region>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<affiliation key="aff3">
+								<orgName type="department">Scott J. Cook</orgName>
+								<orgName type="institution">University of Michigan</orgName>
+								<address>
+									<country key="US">United States</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<affiliation key="aff4">
+								<orgName type="department">Department of Political Sci- ence</orgName>
+								<orgName type="institution">Texas A&amp;M University</orgName>
+								<address>
+									<country key="US">United States</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<affiliation key="aff5">
+								<orgName type="department">Department of Political Science</orgName>
+								<orgName type="institution">Univer- sity of Pittsburgh</orgName>
+								<address>
+									<country key="US">United States</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<affiliation key="aff6">
+								<orgName type="department">Department of Political Science</orgName>
+								<orgName type="institution">University of Michigan</orgName>
+								<address>
+									<country key="US">United States</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">STADL Up! The Spatiotemporal Autoregressive Distributed Lag Model for TSCS Data Analysis</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<idno type="MD5">FBAECA380EF5F7BF3DE6817502FB71FF</idno>
+					<idno type="DOI">10.1017/S0003055422000272</idno>
+					<note type="submission">Received: July 14, 2020; revised: March 08, 2021; accepted: February 22, 2022. First published online: April 21, 2022.</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-28T15:59+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>T ime-series cross-section (TSCS) data are prevalent in political science, yet many distinct challenges presented by TSCS data remain underaddressed. We focus on how dependence in both space and time complicates estimating either spatial or temporal dependence, dynamics, and effects. Little is known about how modeling one of temporal or cross-sectional dependence well while neglecting the other affects results in TSCS analysis. We demonstrate analytically and through simulations how misspecification of either temporal or spatial dependence inflates estimates of the other dimension's dependence and thereby induces biased estimates and tests of other covariate effects. Therefore, we recommend the spatiotemporal autoregressive distributed lag (STADL) model with distributed lags in both space and time as an effective general starting point for TSCS model specification. We illustrate with two example reanalyses and provide R code to facilitate researchers' implementation-from automation of common spatial-weights matrices (W) through estimated spatiotemporal effects/response calculations-for their own TSCS analyses.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>INTRODUCTION S</head><p>timson (1985) introduced political science to the promise and peril of "regression in space and time," heralding a boom in research using space-time data. During the 35þ years since, panel and time-series cross-section (TSCS) data have come to dominate quantitative empirical analyses in political science. Figure <ref type="figure" target="#fig_0">1</ref> illustrates with yearly counts of keyword text-identified TSCS articles appearing in American Political Science Review, American Journal of Political Science, and Journal of Politics from 1980 to 2019. <ref type="bibr">1</ref> In recent years, 2012-2019, at least 201 articles, nearly 1 of every 8, contained TSCS data analysis, yet very few of these analyses of data in "space and time" seem to meaningfully consider both temporal and spatial dependence.</p><p>Our manual review of these 201 TSCS articles found only 94 that model temporal dependence directly, via the inclusion of time lags; 2 only about 23 model spatial dependence directly, using spatial lags, 3 and merely 12, less than 6%, model both temporal and spatial dependence directly. The dearth of TSCS studies directly addressing space and time is especially problematic because, as we will demonstrate, proper accounting of both is crucial for accurate estimation of, and valid inference regarding, spatiotemporal dynamics and covariate effects.</p><p>Applied researchers are not alone in neglecting to address spatial and temporal dependence jointly; many of the unique statistical challenges of TSCS data analysis remain un-or underaddressed in methodological research too. In particular, inadequate attention has been paid to the methodological challenges presented in modeling spatial-temporal dependence in TSCS data. Current understandings of the problems arising from neglecting temporal or spatial/cross-unit dependence derive from considerations of one-way time-serial or cross-sectional data or stylized two-way TSCS data, with dependence assumed in only one dimension. As a result, researchers have largely borrowed strategies from time-serial or spatial-statistical methods designed for unidimensional data, with little consideration of two-dimensional spatial-temporal dependence and its implications for diagnostics, specification, estimation, and inference. <ref type="bibr">4</ref> We show that when both spatial and temporal dependence are present, as in most real-world TSCS data, a more complex set of relationships manifests because temporal and spatial dependence are necessarily related, and, therefore, cannot generally be safely considered separately. Consequently, one cannot simply import strategies from time-series or cross-sectional analysis but instead must directly confront the timeseries-cross-sectional nature of the data-that is, address both time and space. Failing to do so will bias estimates of all dependence parameters, which in turn will induce biases also in estimates of the other covariates' coefficients and their dynamic and total effects, and such mismodeled spatiotemporal dependence thereby also compromises standard diagnostic tests used to guide model specification. To list briefly our conclusions, as demonstrated analytically and in simulation below: inadequate address of spatial or temporal dependence (1) biases the estimated coefficients on both temporal and spatial lags, with the better-specified process overestimated and the less-well-specified underestimated, which (2) induces omitted-variable bias in other covariates' coefficient-estimates, and these biased dependence parameters and covariate coefficients combine to bias (3) the estimated spatiotemporal effects and (4) the diagnostic and specification tests derived from them. In sum, therefore, careful specification of both temporal and spatial dependence is essential for accurate estimates and valid inferences in TSCS data analysis.</p><p>Furthermore, far from being a purely methodological exercise, crucial political science substance is at stake in thusly modeling well both the temporal and spatial processes inherent in TSCS data. Consider, for instance, the well-known "development and democracy" (Lipset 1959) and "democratic dominoes" (Starr 1991) propositions. We know that more-developed political economies are more likely to become, and far more likely to remain, democracies (Przeworski  et al. 2000; Robinson 2006), indicating temporal dependence. We also know that democracy clusters spatially: "the probability that a randomly chosen nation would be a democracy is about 0.75 if a majority of its neighbors are democracies, but only 0.14 if a majority of its neighbors are non-democracies" (Gleditsch and Ward  2006, 916), suggesting spatial dependence. However, simply knowing outcomes persist in time or cluster in space is insufficient for model specification, as one must determine the source of the observed spatial or temporal dependence. Spatiotemporal patterns of association may arise from spatiotemporal dependence in the outcome itself, spatial spillovers or temporal 'spillforwards' in the observed covariates, spatiotemporal dependence in the unobserved/unmodeled residual, or any combination thereof (see Cook, Hays, and  Franzese 2020). These different sources correspond to very different theories of our phenomena of interest, motivate distinct empirical models, and imply substantively importantly different effects. Consider our development-and-democracy example; temporal dependence may be present because (1) democracies persist because accumulating experience with democracy reinforces its institutionalization (i.e., autodependence in the outcome); (2) economic development causes democracy contemporaneously and economic 0 10 20 30 40 1980 1990 2000 2010 2020</p><p>Year Articles Type TSCS Temporal Spatial does not generally hold, and none explore the issues emphasized here. This paper emphasizes proper simultaneous specification of temporal and spatial dependence, i.e., on the dimension, space and/or time, of (inter)dependence in TSCS data. Cook, Hays, and Franzese  (2020) instead emphasize proper specification of the source of (primarily) spatial interdependence, i.e., in y, X, and/or ε.</p><p>development persists or (3) past economic development produces present democracy (i.e., spill-forwards in covariates); and/or (4) some unobserved/unmodeled covariate of democracy, culture perhaps, persists or has a persistent effect on democracy (i.e., serial dependence in the residuals). Analogously, the observed spatial association or clustering of democracy may arise because (1) economic development causes democracy and development clusters spatially (i.e., spatial clustering in observed covariates), (2) developed or underdeveloped neighbors spur democracy at home (i.e., spillovers in covariates), (3) clustering occurs through unobserved/unmodeled external or foreign factors (i.e., clustered unobservables or spatially correlated errors), <ref type="bibr">5</ref> and/or (4) foreign democracy directly influences domestic democracy, as argued in the democratic dominoes literature (i.e., contagion or interdependence).</p><p>Empirically distinguishing between these theoretically competing sources of spatial or temporal dependence is difficult, even confining attention to a single dimension, time or space, because spatial or temporal lags of one type-for example, spatial lags of the outcome-have power against alternative spatial processes-for example, spatial spillovers in covariates. <ref type="bibr">6</ref> The empirical distinction is further complicated in TSCS data, as dependence processes modeled in one dimension, say spatial, will have power against dependence processes in the other dimension, temporal, and vice versa. For example, if democracies are both serially autodependent (persist in time) and spatially interdependent (contagious) for the reasons given above, then any omitted spatial lag of the outcome would also be serially autodependent and any omitted temporal lag would also be spatially interdependent. As a result, the included or better-modeled one of the dependence processes would have power against the other omitted or poorer-modeled process and so suffer omitted-variable bias. This is why researchers must jointly model the spatiotemporal process: when both spatial and temporal dependence are present, obtaining accurate estimates of one dimension of dependence while neglecting the other is impossible.</p><p>Accurately distinguishing and estimating both spatial and temporal dependence is also essential for obtaining good estimates and tests of "the effect of x on y," even if researchers have little interest in theoretically understanding the spatiotemporal process itself. First, as the spatiotemporal processes of the outcome y and of the included x's are generally related, any failure to sufficiently model spatiotemporal autodependence will bias covariate coefficient estimates on which tests of causal-effect existence rely. Second, in the presence of spatiotemporal lags of outcomes and/or covariates, the coefficients on x alone are not the sought effect of x on y. As Franzese and Hays (2007; 2008a; 2008b) and Cook, Hays, and Franzese (2020) show, different forms of spatiotemporal dependence imply substantively importantly different effects, meaning how outcomes, y, respond across units over time to hypothetical or counterfactual "shocks" in covariates, dx. <ref type="bibr">7</ref> Temporal and/or spatial dependence in outcomes y are autoregressive processes, which imply geometrically fading dynamics and long-run steady-state multipliers. For example, a democratization event in one country at some time propagates forward in time infinitely, fading geometrically, and reverberates around through neighboring countries, and then neighbors of neighbors, and neighbors of neighbors' neighbors, and so on infinitely, again fading geometrically. This is distinct from the effects of x on y if the spatiotemporal dependence arises instead from spatial spillovers or temporal spill-forwards in x, where shocks only affect directly adjacent neighbors or periods, or spatiotemporal autoregression in the unobserved or unmodeled errors, where shocks in x only affect the specific unit-time shocked. Thus, good estimates of how development affects democracy, to continue our example, will require proper specification of both spatial and temporal dependencies.</p><p>Our suggested Spatiotemporal Autoregressive Distributed Lag (STADL) model, which follows on and builds from Elhorst (2001; 2014), spans these dependence source and dimension possibilities-that is, the STADL nests within it most common spatial, temporal, and spatiotemporal specifications-enabling proper address of both spatial and temporal dependence and therefore valid statistical tests and good substantive estimates of spatiotemporal dynamic effects, making the STADL an effective starting point for researchers' TSCS data analyses.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>SPATIAL, TEMPORAL, AND SPATIOTEMPORAL DEPENDENCE</head><p>Spatial and temporal dependence have received considerable attention elsewhere, separately, including by political scientists (e.g., Box-Steffensmeier et al. 2014;  Franzese and Hays 2007; 2008a), so readers likely have some familiarity with both the statistical importance and the practical challenges of accounting for dependence in political-science TSCS data. Accordingly, this section is brief in reviewing these conventional separate understandings of spatial and temporal dependence, focusing primarily on identifying and modeling the source(s) of this dependence. We then demonstrate that spatial and temporal dependencies are necessarily intertwined and therefore spatiotemporal dependence <ref type="bibr">5</ref> Conceptually, spatial dependence in unobservables or errors can also arise from clustering, spillovers, and/or contagion, but the specific modality of unobserved dynamics in unobserved factors is difficult to discern empirically. <ref type="bibr">6</ref> The order of the dependencies, i.e., the number of temporal or spatial lags, is also important but not a focus here (nor in Cook, Hays,  and Franzese 2020). Time periodization of most TSCS data analyses in political science is annual, and at that coarse temporal granularity first-order time lags seem to suffice in most applications. Multiple spatial-lag models bring greater complications, also not discussed here (see Hays, Kachi, and Franzese 2010). <ref type="bibr">7</ref> As in Franzese (2020), we define effects dy dx , and not just as</p><formula xml:id="formula_0">impulses ∂y ∂x = β x .</formula><p>is best considered jointly simultaneously. The next section offers the STADL as a practical and effective strategy for doing so.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Spatial Dependence</head><p>Cross-sectional or spatial dependence-meaning "nearby" units have more-similar or less-similar realizations than expected by chance alone-will manifest whenever multiple units are observed in nonrandom samples. For instance, with nearby defined geographically, mappings of almost any variable-for example, the level of democracy-will exhibit geospatial clustering of so-called hotspots or coldspots. As previously noted, however, such spatial dependence can arise by several subtly, but substantively importantly, distinct reasons: common traits among spatially proximate units; exogenous spillovers in covariates across units; interdependence/contagion in outcomes between units; and/or due to clustering, spillovers, or interdependence in unobservables. <ref type="bibr">8</ref> Whether by clustering, spillovers, or contagion, we can expect spatial (cross-unit) dependence to manifest across the entire substantive range of political science-intergovernmental diffusion of policies and institutions among nations or subnational jurisdictions (e.g., Graham, Shipan, and Volden 2013); international diffusion of democracy (e.g., Starr 1991); parties', representatives', and citizens' votes and other behaviors in legislatures and elections (e.g., Baybeck  and Huckfeldt 2002; Kirkland 2011; Tam Cho and  Fowler 2010); interdependence in globalization studies (e.g., Simmons and Elkins 2004); contextual/neighborhood effects in microbehavioral research (e.g., Huckfeldt and Sprague 1987); wars, coups, riots, civil wars, revolutions, terrorism (e.g., Buhaug and Gleditsch 2008)-and many more. Indeed, interdependence across units is a defining characteristic of the social sciences, where its study is prominent also in geography and environmental sciences; in regional, urban, and real-estate economics; in public health and epidemiology; in education, psychology, sociology, and social psychology; and beyond. Spatial dependence, in short, is everywhere, empirically and theoretically. Applied researchers almost always, perhaps unknowingly, account for some clustering in regression models simply through the inclusion of exogenous covariates, which are also often spatially clustered. We call this clustering in observed covariates and note that its corresponding model is nonspatial (NON): y it = x it β þ ε it :<ref type="foot" target="#foot_1">foot_1</ref> Insofar as these spatially clustered x are omitted or are inadequate to account for all of the spatial dependence in the dependent variable, the remainder will manifest as spatially correlated errors, as anything omitted from the systematic component is shunted to the residual component. As shown elsewhere (Franzese and Hays 2007; 2008a), left unaddressed, such spatial dependence risks inefficiency at best and typically bias as well.</p><p>Often, though, additional sources of spatial correlation-correlated unobservables, exogenous spillovers, and/or outcome interdependence-are also present. When other manifest sources are omitted, including spatially correlated x regressors not only fails to fully address spatial dependence but can actually further compromise our understanding of the data-generating process. These included x have power against the unmodeled spatial processes, which biases their coefficient estimates following the familiar omitted-variable bias (OVB) formula and logic (Franzese and Hays  2007; 2008a). Accordingly, political scientists have increasingly sought to model these other spatial processes directly also, using the workhorse models of spatial econometrics-spatial-error model (SEM), spatially-lagged x model (SLX), and spatial-lag (of y) model (SAR)-each of which assumes and reflects a single additional source of cross-unit dependencecorrelated unobservables, exogenous spillovers, and outcome interdependence, respectively-via an additional modeling device, the spatial lag, to bring "neighboring" values of ε, x, or y into the model. A brief summary of these models will help familiarize concepts and notation.</p><p>Each of these spatial models, and indeed any spatial analysis whatsoever, must begin with specifying the connectivity or spatial-weights matrix, W, an N Â N matrix with elements w ij reflecting the relative connection, tie, distance, or potential influence, from unit j to unit i. This prespecification of W is primary to any spatial analysis (Neumayer and Plümper 2016), being essential for everything from preliminary descriptives and diagnostics through model specification and estimation to effects calculation. Any relational data (e.g., trade, alliance comembership) can undergird W, and theory and substance should always be paramount in this indispensable foundational step of spatial analysis. Absent strong theory, though, researchers often use geographic proximity because geography correlates with so many other potential bases for interconnection (e.g., economic interchange, cultural and linguistic similarities, and flows of people and information). <ref type="bibr">10</ref> Different specifications of W allow researchers to study alternative substantive/theoretical bases of crossunit relations. <ref type="bibr">11</ref> The researcher defines the relevant concept of space and metric of distance for her application-again, geographic distance or contiguity is a convenient and powerful default and will be ours here -and then usually normalizes this W in some way to ease interpretation, reduce dependence on scale factors, ensure the invertibility of the spatial multiplier, etc. The most-common row normalization divides each w ij by the row-sum P j w ij , which makes spatial lags equal to weighted averages and thereby facilitates direct interpretation of lag coefficients. <ref type="bibr">12</ref> With W specified and normalized, it then premultiplies a vector-ε, x, or y-to produce so-called spatial lags-Wε, Wx, or Wy, which are weighted averages of neighbors' errors, covariates, or outcomes-for use in preliminary measures and tests of spatial correlation, in specification and estimation of spatial models, and in interpretation of spatial effects.</p><p>Quickly reviewing the baseline spatial models, the spatial error model (SEM) assumes spatially autocorrelated residuals, which are orthogonal to the included regressors. Spatial-error processes result in nonspherical error variance-covariance matrices and consequently inefficient ordinary least squares estimates with incorrect standard errors, but coefficient estimates remain unbiased. In the democracy-development example, spatial error dependence may occur due to unmodeled country-specific determinants of democracy-for example cultural/historical legacies (Acemoglu et al. 2008)-or from unmodeled spatially correlated heterogeneity across countries in the effect of development on democracy. Formally, the SEM model is 13</p><formula xml:id="formula_1">y = xβ þ u, with u = λWu þ ε,<label>(1)</label></formula><p>with W the N Â N connectivity matrix defined above and λ the strength of spatial autocorrelation propagated in this predetermined pattern, W.</p><p>Next, cross-unit spillovers or externalities in exogenous observed factors (regressors, x) can also produce spatial dependence in outcomes. In our democracydevelopment example, exogenous spillovers occur if economic development in a country influences not only its own democracy but also that of neighboring countries, perhaps via development spurring the emergence of transnational advocacy networks as Keck and Sikkink (1998) propose. Alternatively, conflict or public health in neighboring countries, x j , may influence democratic emergence or stability at home, y i . The spatial-lag x or SLX model captures exogenous spillovers like these:</p><formula xml:id="formula_2">y = xβ þ Wxθ þ ε:<label>(2)</label></formula><p>Here, the spatial lag of regressor, Wx, introduces neighboring (as per W) values of x j6 ¼i into the model for y i . <ref type="bibr">14</ref> With x exogenous, Wx is too, so SLX models can be estimated efficiently by ordinary least squares, with b θ giving the strength of these exogenous spatial spillovers. Halleck Vega, and Elhorst (2015) and Wimpy,  Whitten, and Williams (2021) offer further discussions of SLX.</p><p>Finally, where theory and/or substance indicate interdependence or contagion in outcomes, a process autoregressive in y like the increasingly widely used SAR model is called for:</p><formula xml:id="formula_3">y = ρWy þ xβ þ ε:</formula><p>(</p><p>This spatial-lag y model may be most familiar to readers, having quickly become the dominant model of applied spatial work in political science. In the democracy-development example, Starr's (1991) democratic dominoes notion implicates such spatial autoregression directly: democracy is contagious; neighboring democracies cause democracy at home. Mechanisms for causal contagion could be suasion, diplomacy, foreign policy, or demonstration effects: being surrounded by democracies could reveal much to domestic actors about the workings, requisites, benefits, and costs of democracy (Elkink 2011). The primary substantive differences of spatial-autoregressive processes compared with the alternative sources are its aforementioned exponentially reverberating dynamic and steady-state effects. The main methodological difference is that the spatial lag, Wy, being other units' outcomes, is an endogenous regressor. Thus, consistent estimation of SAR models requires instrumental variables (spatial two-stage least-squares or generalized method-of-moments) or systems maximum likelihood (spatial ML). We suspect SAR's popularity among these single-source spatial models owes, first, to its substantive resonance in political science, where outcomes are often social and/or strategic behaviors wherein some units' outcomes/choices directly influence others' outcomes/choices. Second, the other single-source models imply that clustering or spillovers occur only in observed/modeled or only in unobserved/ unmodeled components, which seems generally less plausible than that dependence would operate in both as in SAR. <ref type="bibr">15</ref> In any case, these single-source models can be combined in whatever pairs may be substantively/ than ignoring spatial dependence outright (Betz, Cook, and Hollenbach 2020). <ref type="bibr">12</ref> Some other common normalizations include spectral or min-max, which have other convenient properties. Neumayer and Plümper  (2016) further discuss W specification and normalization issues, the most important being that the choice of whether and how to normalize crucially affects the substantive interpretation of the lag variable and its coefficient. <ref type="bibr">13</ref> This SEM assumes spatial-autoregressive errors, though movingaverage (spillover) or spatial-hierarchical (clustered) versions also exist. The distinctions are not easily discerned empirically, being unobserved processes in unobserved factors. Fortunately, the distinctions are also immaterial to effects as defined here.</p><p>theoretically implicated. <ref type="bibr">16</ref> For example, if one expects spillovers in observed covariates (SLX) and in unobserved features (SEM), but not necessarily to the same extent or autoregressively as SAR implies, this SLX þ SEM combination gives the so-called spatial Durbin error model (SDEM):</p><formula xml:id="formula_5">y = xβ þ Wxθ þ u, with u = λWu þ ε:<label>(4)</label></formula><p>These multisource models are advantageous in that they allow researchers to simultaneously account for alternative spatial processes, here exogenous spatial spillovers and spatial error autocorrelation. This is significant because spatial-model specifications often have power against incorrect alternative spatial processes: SAR, SLX, or SEM lag-coefficients or tests will pick up unmodeled SLX, SEM, or SAR processes. <ref type="bibr">17</ref> As a consequence, modeling one source of spatial dependence (e.g., SAR) while neglecting others (e.g., SEM) risks inaccurate estimates of the included dependence parameter. Therefore, researchers are advised to condition on these potential alternative processes when performing diagnostic tests (Anselin et al. 1996) or specifying their empirical models (Cook, Hays, and  Franzese 2020). Below we build on this, demonstrating that in TSCS data different spatial models have power against not only alternative spatial processes but also alternative temporal processes. This motivates our suggested STADL model, which combines multiple dependence sources across both spatial and temporal dimensions.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Temporal Dependence</head><p>Many readers may be more familiar with the timeseries analogs to the spatial processes/models just described, owing to discussions in Keele and Kelly  (2006) and elsewhere, so we will be very brief here.</p><p>As with space, temporal dependence or serial correlation may arise from four sources: y t may correlate with y t-1 simply because exogenous covariates x correlate over time, because unobserved/unmodeled factors ε exhibit serial correlation, because past values of x t-s have lagged effects on current outcomes y t , and/or because past outcomes y t-s themselves continue to shape current outcomes y t -that is, outcomes are persistent, exhibiting inertia. Also as with space, these alternative sources correspond to distinct substantive/ theoretical processes and model specifications.</p><p>Identical to the nonspatial model is the static model, y t = x t β þ ε t ; here, democracy exhibits serial correlation simply because the exogenous-covariate development does. The SEM analog is the classic serially correlated errors (SCE) model, y t = x t β þ u t with u t = δu t-1 þ ε t , 18 which reflects persistence in unobserved/unmodeled factors, such as cultural-historical legacies, perhaps. The finite distributed-lag (FDL) model, y t = x t β þ x t-1 γ þ ε t , corresponds to the SLX model; substantively this would reflect that past development directly affects present democracy, perhaps through long-term structural changes whose effects materialize later. Finally, in the temporal autoregressive outcome process-the lagged-dependent-variable (LDV) model-y t = ϕy t-1 þ x t β þ ε t , past democracy directly influences present democracy, a persistent or inertial process, which here substantively may reflect democratic institutionalization wherein experience with democracy itself yields increasingly entrenched or consolidated democracy (Alexander 2001; Diamond  1994). Again in parallel with the spatial context, effects of x on y in the static or SCE model are static: dy t dx t = β and dy s dx t = 0 ∀s 6 ¼ t , whereas effects are dynamic in the FDL and LDV models, decaying discretely and persisting only to the lag-length order in FDL models but persisting infinitely with exponential/ geometric decay, implying long-run steady-state (LRSS) multipliers, 1 1-ϕ , and cumulative LRSS effects, 1 1-ϕ Á dx Á β, in the autoregressive LDV model. <ref type="bibr">19</ref> </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Spatiotemporal Dependence</head><p>With readers (re)familiarized with the base temporal and spatial dependence models/processes, we turn next to illustrating how these spatial and temporal dependencies are necessarily related. Start with the simple static/nonspatial linear-regression model, now indexed by unit i and time t:</p><formula xml:id="formula_6">y it = β 0 þ β 1 x it þ u it ,<label>(5)</label></formula><p>except here assume that some residual dependence may result from omitted y i,t-1 , y j,t , or both:</p><formula xml:id="formula_7">u it = ϕ y y i,t-1 þ ρ y X N n = 1 w ij y j6 ¼i,t þ ε it , with ε it $ N 0, σ 2 À Á ,<label>(6)</label></formula><p>where</p><formula xml:id="formula_8">P N n = 1 w ij y j6 ¼i,t</formula><p>is the scalar representation of spatial lag y presented above in matrix form: Wy. Furthermore, let x be stochastic, exogenous, and follow its own spatiotemporal process:</p><formula xml:id="formula_9">x it = ϕ x x i,t-1 þ ρ x X N n = 1 w ij x j6 ¼i,t þ e it , with e it $N 0, σ 2 À Á :</formula><p>(7) <ref type="bibr">16</ref> Even the three-source model is estimable, albeit with great fragility, being identified by functional-form differences across the lag-y, lag-x, and lag-ε processes (Cook, Hays, and Franzese 2020; Elhorst  2014). <ref type="bibr">17</ref> Rüttenauer (2019) and Cook, Hays, and Franzese (2020) explore the similarities and differences among these alternative specifications in the purely spatial (cross-sectional) context. <ref type="bibr">18</ref> As before, we proceed with first-order, i.e., one-period, lags for expositional simplicity (see footnote 6). <ref type="bibr">19</ref> Also analogously (see footnote 21), the question of the effect of x on y in temporally dynamic contexts requires more precise statement of both the hypothetical/counterfactual, dx, and the effect, dy, refining to specify dx when? in what period(s) is x "shocked"? and dy when? in what period(s) do we want to know the response of y thereto?</p><p>Given all standard regression assumptions otherwise, we now walk through the relationship between spatial and temporal dependence (also depicted visually in Figures <ref type="figure">2</ref><ref type="figure">3</ref><ref type="figure">4</ref><ref type="figure">5</ref>).</p><p>First, restricting both ϕ y = 0 and ρ y = 0 produces i.i.d. residuals u it , so the nonspatial, static Equation <ref type="formula" target="#formula_6">5</ref>depicted in Figure <ref type="figure">2</ref> fully accurately models the relationship of x to y. Relaxing one restriction, say ϕ y 6 ¼ 0, but keeping the other, ρ y = 0, induces time-serial dependence in the residuals u, which biases b β in the static model if ϕ x 6 ¼ 0. This situation, depicted in Figure <ref type="figure">3</ref>, is textbook omitted-variable bias (OVB)with Cov x t , y t-1 ð Þincreasing in ϕ x -and is easily remedied by including time-lagged y (LDV model) as is commonly done. Similarly, freeing ρ y 6 ¼ 0 while keeping ϕ y = 0 also threatens OVB in the static model. Again, OVB arises if x has dependence in the same dimension as y, here if ρ x 6 ¼ 0 as depicted in Figure <ref type="figure">4</ref>, so that Covðx i y j Þ 6 ¼ 0 , and the simple remedy, increasingly common in applied work, adds spatial lag y to form the spatially dynamic SAR model.</p><p>This is all familiar: with single-dimensional dependence, purely cross-sectional/spatial or time-serial modeling suffices. However, if both ϕ y 6 ¼ 0 and ρ y 6 ¼ 0 as in Figure <ref type="figure">5</ref> so that both temporal and spatial dependence manifest, researchers must model dependence in both dimensions adequately. Omitting/mismodeling spatial dynamics, for example, will leave residual time-serial correlation because the omitted/mismodeled spatial lag y jt is serially correlated with y j,t-1 , which in turn exhibits that same omitted/mismodeled spatial relation to the included time lag y i,t-1 . Symmetrically, failing to model temporal dynamics adequately will leave spatial autocorrelation, as the missed aspect of the past, y i,t-1 , has the same spatial relation to y j,t-1 as does y it to the included spatial lag, y jt .</p><p>To see that spatiotemporal dependence causes bias (OVB) when only one of spatial or temporal dependence is modeled, consider the spatiotemporal-lag model: y t = βx t þ ρWy t þ ϕy t-1 þ ε t (which is also Equation <ref type="formula" target="#formula_30">20</ref>), as depicted in Figure <ref type="figure">5</ref>. If the truth is Equation 20 but one omits ϕy t-1 to estimate SAR or omits ρWy t to estimate LDV, then OVB arises if ρϕCov Wy t , y t-1 À Á 6 ¼ 0. This covariance is necessarily nonzero because spatial dependence implies Wy t $ y t and temporal dependence implies y t-1 ! y t , so y t-1 ! y t $ Wy t , meaning that Cov Wy t , y t-1 À Á = Cov f y t À Á , y t-1 À Á 6 ¼ 0. The sign and magnitude of these OVB can be seen in Achen's  (2000) derivation of the biased b ϕ y and b β in an LDV model when additional, unmodeled dynamics ϕ e remain in the residual:</p><formula xml:id="formula_10">FIGURE 2. Static Relationship x y β FIGURE 3. Time-serial Dependence x t y t x t-1 y t-1 β β φ x φ y FIGURE 4. Cross-Sectional Dependence x i y i x j y j β β ρ x ρ y FIGURE 5</formula><p>. Space-Time Dependence</p><p>x i,t y i,t</p><p>x i,t-1 y i,t-1</p><p>x j,t y j,t</p><formula xml:id="formula_11">x j,t-1 y j,t-1 β β β β φ x φ x φ y φ y ρ x ρ x ρ y ρ y plim b ϕ y = ϕ y þ ϕ e σ 2 1-ϕ e ϕ y s 2 2 4 3 5 ,<label>(8)</label></formula><p>and</p><formula xml:id="formula_12">plim b β = 1- ϕ x g 1-ϕ x ϕ y " # β,<label>(9)</label></formula><p>where s 2 = σ 2 y t-1 ,x and g = plim b ϕ y -ϕ y (see also Keele   and Kelly 2006). As Achen (2000) notes, any ϕ e &gt; 0 inflates b ϕ y and attenuates b β estimates, and as just proven, any unmodeled spatial dependence necessarily produces precisely these same conditions because y i,t = ϕ y y i,t-1 þ x i,t β þ u i,t y j,t = ϕ y y j,t-1 þ x j,t β þ u j,t :Therefore, any ρ y 6 ¼ 0 produces ϕ e &gt; 0 and "Achen's LDV-bias" manifests. By the usual OVB logic, it follows also that omission or underestimation of ρ y induces primarily overestimation (inflation bias) of b ϕ y , being the coefficient on the included regressor most related to the omitted/mismeasured Wy, and those two biases in turn induce partially compensatory bias of b β x , with the resultant direction depending on whether the spatial or temporal dependence in x is stronger and resembles more-closely those dependencies in y.</p><p>These biases arise because, in TSCS analysis with temporal dependence modeled but spatial dependence excluded, for instance, the factor among the included that is most like the omitted "today's democracy abroad"-say German democracy today, y j,t , as omitted explanator of French democracy today, y i,t -is "yesterday's democracy at home"-that is, French democracy yesterday, time-lagged y i,t-1 . Intuitively, this is because insofar as, "Germany yesterday" relates to "France yesterday"-spatial dependence is present-and "Germany yesterday" relates to "Germany today"-temporal dependence is also present-the omitted "Germany today" relates to the included "France yesterday". Of course, all of the analogous holds also in the other direction, regarding the omission or relatively inadequate address of temporal dependence. <ref type="bibr">20</ref> In sum, even if Stimson's (1985) "inherent" temporal autocorrelation is accurately modeled, misspecification of the spatial dynamics sets off a chain of biases: the primary attenuation bias (or "zeroing" if omitted) of ρ y induces overestimation/inflation bias (OVB) of ϕ y , which combine to induce misestimation of β x , usually attenuation because temporal dependence is generally stronger than spatial. Naturally, these biased coefficient estimates mean any related causal-inference tests are biased too, as are estimates of the dynamic and total causal effects of x on y. Specifically regarding effect estimates, typically, the initial "impulses" from x to y (β x ) are underestimated and the spatiotemporal dynamics misconstrued as "toopersistent" if spatial dependence is the mismodeled process and, conversely, initial impulses overestimated and spatiotemporal dynamics "too-contagious" if temporal dependence is the mismodeled process. In either case, long-run steady-state effect estimates are biased also.</p><p>Given that inadequate address of spatiotemporal dependence will bias inferential tests and estimates of coefficients, dynamics, and steady-state effects, even researchers for whom spatiotemporal dynamics and dependencies are a nuisance cannot neglect giving them their careful attention. Furthermore, these biases induced by relative neglect of spatial or, less commonly, temporal dependence are of central substantive-theoretical importance as well. In our development-and-democracy terms, relative inadequacy in addressing spatial dependence-inadequate account in the model that, and by what process, democracy clusters-yields estimates that imply inaccurately greater temporal persistence of democracy-for example, an overestimate of democraticinstitutionalization and democratic-consolidation effects. If democratic persistence derives from a temporally autoregressive process as such arguments imply, this overestimated temporal dependence will mean smaller immediate-effect estimates-that is, smaller b β x , with slower decay and so larger long-run-steady-state multipliers in other covariates' effects on democracy. Beyond these misestimated dynamic and steady-state effects, the biased b β x means that hypothesis tests about the effects of x on y will be biased too, likely increasing false negatives (failure to reject when should). <ref type="bibr">21</ref> Applied researchers also commonly deploy unit and/or period fixed effects to account for spatial or temporal dependence. Unit or period dummies or random effects do address particular forms of spatiotemporal dependence (Elhorst 2014), but they often fail to adequately capture the spatiotemporal dependence typically present in TSCS data. Unit indicators absorb longrun, fixed or constant, spatial clustering in outcomes, plus any other time-invariant unmodeled unit-specific factors. However, these captured "effects" are additive mean shifts, time-invariant clustering, and not autoregressive or distributed-lag in form. Unit-specific effects also cannot account time-varying unmodeled effects, such as evolving spatially clustered sociocultural or institutional factors. Analogously, period fixed effects/timedummies account for spatially invariant, uniform shocks common across all units. These too are fixed, additive mean shifts, and so they cannot well-account autoregressive or distributed-lag processes or unit or regional variation in clustered additive shocks, such as influences diffusing among members of regional organizations. <ref type="bibr">20</ref> In practice, given the typically greater strength of temporal than of spatial dependence, omitted spatial factors' relation to included temporal factors is usually by far the strongest of the OVB formula's partial correlations, meaning inadequate address of spatial dependence induces the largest inflation biases on temporal-dependence parameters and secondary induced biases in other covariate coefficients. Conversely, included or better-specified spatial dependence being typically considerably weaker than omitted or more-poorly specified temporal dependence and the temporal persistence of other exogenous covariates being likewise stronger than their spatial association, the OVB biases of temporal-dependence misspecification tend to be more-evenly distributed across included parameters. <ref type="bibr">21</ref> Notice also that, in spatiotemporally dynamic contexts, the usual statement of the causal estimand, "the effect of x on y," is itself underspecified. For the question to be fully enunciated given spatiotemporal interdependence, we need to ask about "the effect of x when? and where? on y when? and where?"</p><p>Finally, given the substantively and statistically critical importance of adequately addressing spatiotemporal dependence, researchers will want to conduct appropriate and effective specification testing. In principle, one can conduct specification searches from specific-to-general, starting with sparse spatiotemporal models and determining, using Lagrange-Multiplier (LM) tests, whether to add spatiotemporal-lag terms, or general-to-specific (Hendry  1995), starting with a more-general specification and using Wald or likelihood-ratio (LR) tests to decide whether some spatiotemporal-lag terms may safely be omitted. However, in practice in this context, LM tests of underspecified models will have power against incorrect alternatives (Anselin 1988): for example, LM tests may reject the nonspatial model indicating missing spatial lag y (SAR) or spatial-lag error (SEM) when actually temporal dependence is the missing/poorly-specified process. LM tests can be adjusted using cross-partial gradients of the fuller-specification likelihood to prevent such false/misleading rejections, but these robust-LM tests (Anselin  et al. 1996) as-yet exist for very few combinations of spatiotemporal processes. Instead, we suggest the (firstorder) spatiotemporal autoregressive-distributed-lag (STADL) model as a convenient and effective moregeneral starting point (see footnote 6), and "testing down." Researchers can test down using either Wald tests or fit statistics and loss-of-fit tests, such as likelihood and LR tests (Juhl 2021) or R 2 and F-tests of ΔR 2 , but fittesting may be preferred given that Wald-testing can be sensitive to reparameterization. <ref type="bibr">22</ref> Perhaps better still, researchers can use Akaike or Bayesian-Schwartz Information Criteria (AIC or BIC) fit statistics, which penalize more appropriately for degrees of freedom consumed/ excess paramterization than do LR or F and also enable nonnested model comparison, the latter being particularly important given the many alternative models contained within STADL to compare.</p><p>In summary, as we will further demonstrate by simulation and in reanalyses of real-world applications below, TSCS analyses that relatively neglect spatial (temporal) dependence will estimate greater temporal (spatial) dependence than is actually present and correspondingly misestimate spatiotemporal dynamic and cumulative effects, yielding biased tests and erroneous inferences regarding substantive theoretical propositions. The more-general STADL model offers an effective alternative for applied TSCS analyses.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>THE STADL MODEL</head><p>The workhorse cross-sectional and time-serial models from spatial and time-series econometrics were introduced above. To review compactly, the baseline spatial-econometric models correspond to the different potential sources for observed spatial association: nonspatial models (NON) for spatially clustered exogenous covariates (including fixed effects), spatial error (SEM) for clustering in unobservables, spatially lagged covariates (SLX) for exogenous spillovers/externalities, and spatial-lag/spatial-autoregressive (SAR) models for endogenous contagion/interdependence:</p><formula xml:id="formula_13">Clustered Covariates ¼ NON : y t ¼ x t β þ ε t , with x t spatially correlated: (<label>10</label></formula><formula xml:id="formula_14">)</formula><formula xml:id="formula_15">Clustered Unobservables ¼ SEM : y t ¼ x t β þ u t , with u t ¼ λWu t þ ε t :<label>(11)</label></formula><formula xml:id="formula_16">Spillovers=Externalities = SLX : y t = x t β þ Wx t θ þ ε t :<label>(12)</label></formula><formula xml:id="formula_17">Interdependence=Contagion = SAR : y t = ρWy t þ x t β þ ε t :<label>(13)</label></formula><p>Vectors y t , x t , and ε t are N Â 1; the matrix W is N Â N. Notice, crucially, that "the effect of x" differs importantly across these models/sources/processes. With clustered exogenous covariates (NON),</p><formula xml:id="formula_18">dy it dx it = β,<label>and</label></formula><formula xml:id="formula_19">dy js dx it = 0 ∀ j 6 ¼ i, s 6 ¼ t.</formula><p>Likewise with spatial dependence confined to the orthogonal unobserved component (SEM), the effect of x on y is merely dy it dx it = β, and</p><formula xml:id="formula_20">dy js dx it = 0 ∀ j 6 ¼ i, s 6 ¼ t.</formula><p>In both of these models, with respect to the effect of x on y, "What happens in France stays in France." With exogenous externalities-that is, in the spatial distributed-lag model (SLX)-"What happens in France spills over into Germany (and France's other first-order neighbors according to W)," and the story ends there: dy = W Á dx t Á θ + dx t Á β. Notice that both the hypothetical/counterfactual, dx t , and the effect, dy t , are vectors, not scalars: with spatial spillovers, the effect of x differs depending on which units are shocked, and these effects manifest not only in y i of the shocked unit(s) but also in their first-order neighbors. <ref type="bibr">23</ref> In the spatial-autoregressive (SAR) model corresponding to interdependent/contagious contexts, "What happens in France also influences Germany and France's other neighbors, which in turn influence their neighbors, including France, which influences those neighbors' neighbors' neighbors, including Germany again, and so on," with the effect of dx t on y t reverberating outward and back thusly in an exponentiating series:</p><formula xml:id="formula_21">dy t = I |{z} self þ ρW |{z} neighbors þ ρ 2 W 2 |fflffl{zfflffl} neighbors'neighbors þ ρ 3 W 3 |fflffl{zfflffl} neighs'neighs'neighs þ ρ 4 W 4 |fflffl{zffl ffl} neighbors 4 þ … ! Á dx t Á β = X ∞ m=0 ρ m W m ! Á dx t Á β = I-ρW ð Þ -1 |fflfflfflfflfflffl{zfflfflfflfflfflffl} spatial multiplier Á dx t |{z} shock Á β |{z} impulse (<label>14</label></formula><formula xml:id="formula_22">)</formula><p>Again, insofar as researchers omit or misspecify the spatial-dependence process, say Wy, ρ is underestimated (b ρ = 0 if omitted), and the OVB formula and intuition implies inflated b β, with those biases distributed proportionately across the b β x according to those x's partial association with the misspecified/omitted Wy, meaning larger induced biases will accrue to the b β x whose x cluster spatially more similarly to the pattern implied by W.</p><p>The time-series analogs, also first-order, are compactly expressed using the lag operator, L s y t y t-s ∀t &gt; s, or the matrix equivalent, Ly t (see footnote 26), as the serially correlated errors (SCE), finite distributed lag (FDL), and lagged dependent variable (LDV) models, along with the static model (StM) with serially correlated exogenous covariates, including time-period fixed effects:</p><p>StM : y t = x t β þ u t , with x t serially correlated:</p><p>(15)</p><formula xml:id="formula_23">SCE : y t = x t β þ u t , with u t = δLu t þ ε t :<label>(16)</label></formula><formula xml:id="formula_24">FDL : y t = x t β þ Lx t γ þ ε t :<label>(17)</label></formula><p>LDV : y t = ϕLy t þ x t β þ ε t :</p><p>Notice again the dynamics, or lack thereof, of the effects of x on y in these time-series models. In the static and serially correlated errors models, the effect of x t is confined to y t ; there are no temporal dynamics:</p><formula xml:id="formula_26">dy t dx t = β<label>and</label></formula><formula xml:id="formula_27">dy s dx t = 0 ∀ s 6 ¼ t.</formula><p>In distributed-lag or autoregressive processes, contrarily, and again paralleling the spatial case, we need first specify dx when? and expand our question to be about the effect on y when? In the distributed-lag case, the effects of x simply spill forward the number of periods equal to the lag-order, dy t = L Á dx t Á β, and are completely dissipated beyond that: dy tþs dx t = 0 ∀ s &gt; p. Temporally autoregressive processes, finally, imply exponentiating decay for temporary shocks, or decaying accumulation for permanent shocks, of long-run steady-state effects going forward infinitely in time, like so:</p><formula xml:id="formula_28">dy ∞ |{z} LRSS response ¼ βdx |{z} period 0 þ ϕβdx |ffl{zffl} period 1 þ ϕ 2 βdx |fflffl{zfflffl} period 2 þ ϕ 3 βdx |fflffl{zfflffl} period 3 þ … ¼ X ∞ s¼0 ϕ s βdx |fflfflfflfflffl ffl{zfflfflfflfflffl ffl} if 0 &lt; ϕ &lt; 1, ) ¼ 1 1-ϕ |fflfflffl ffl{zfflfflffl ffl} LR multiplier Â β |{z} impulse Â dx |{z} perm: shock (<label>19</label></formula><formula xml:id="formula_29">)</formula><p>From these differing expressions of the effects of x on y implied by the range of possible spatial and temporal processes, one can see how omissions or misspecifications of either temporal or spatial dependence will yield inaccurate tests and estimates of the substantive effects of interest. Given this critical substantive and statistical importance of allowing the estimation model to express the spatiotemporal dependence inherent to TSCS data in the manner that it manifests, we suggest a combined spatiotemporal autoregressive-distributed-lag (STADL) model of order sy 0 , sx 0 , se 0 ; ty 1 , tx 1 , te 1 À Á , where the s or t indicate spatial or temporal lag, the y, x, e indicate which terms are lagged, and the superscript indicates the temporal order of the lag. <ref type="bibr">24</ref> We recommend labeling only the terms actually used, so STADL(sy 0 , ty 1 ) would indicate a first-order spatiotemporal-lag model:</p><formula xml:id="formula_30">y t = ρWy t þ ϕLy t þ x t β þ ε t ,<label>(20)</label></formula><p>whereas the general version of the STADL (ty p , tx q , te r , sy P , sx Q , sx R ) is</p><formula xml:id="formula_31">My t = Fx t þ Aε t , (<label>21a</label></formula><formula xml:id="formula_32">) M I-ϕ 1 L-…-ϕ p L p -ρ 0 W-…-ρ P-1 W P-1 , (<label>21b</label></formula><formula xml:id="formula_33">) F Iβ þ Lγ 1 þ … þ L q γ q þ Wθ 0 þ … þ W Q-1 θ Q-1 ,<label>(21c)</label></formula><p>and</p><formula xml:id="formula_34">A I-δ 1 L-…-δ r L r -λ 0 W-…-λ R-1 W R-1 À Á -1 ,<label>(21d)</label></formula><p>where, M, F, and A are the space-time filters of the outcome, predictors, and residuals, respectively. <ref type="bibr">25</ref> We express a first-order STADL conveniently for interpretation of spatiotemporal effects as</p><formula xml:id="formula_35">y = ϕLy þ ρWy þ xβ þ Lxγ þ Wxθ þ I-δL-λW ð Þ -1 ε,<label>(22a)</label></formula><formula xml:id="formula_36">y = I-ϕL-ρW ð Þ -1 xβ þ Lxγ þ Wxθ þ I-δL-λW ð Þ -1 ε ,<label>(22b)</label></formula><p>where I, L, and W are NT Â NT; y, x, and ε are NT Â 1; and L creates a one-period time lag of variables it premultiplies. <ref type="bibr">26</ref> Recall that in spatiotemporal analyses <ref type="bibr">24</ref> For multiple spatial-weights matrices, W, the Ws can be subscripted numerically or mnemonically; likewise, x can be subscripted in cases where only some regressors X are lagged. Researchers writing for audiences more-familiar with ADL and/or spatial notation, could use SAR/SLX/SEMþADL(p,q) notation instead. <ref type="bibr">25</ref> Although not a focus here, the STADL model can also easily incorporate recursive spatial processes (Anselin 2001) with time-lagged spatial lags (TLSL; Drolc, Gandrud, and Williams 2021). Like y i,t-1 or Wx, TLSLs are predetermined in the system of equations, meaning they can be treated as exogenous regressors. For interpretation, the W in Equation <ref type="formula" target="#formula_35">22</ref>for TLSL will have its nonzero w ij in the off-diagonal elements of the lower block first-minor. (See also footnote 26.) <ref type="bibr">26</ref> Spatiotemporal TSCS analyses order the data as all N units in period 1, all N units in period 2, … . L's N Â N first block has all-0 elements, reflecting the omitted N first-period observations. All other of the effect of x, one must specify which units are shocked and when-this is the "treatment"-and, correspondingly, the responses or "effects" will be across all units over all time-periods as determined by the spatiotemporal process given in W and L. In time-series analysis, one must specify when shock dx occurs, and the default shocks are temporary, a one-period shockdx = þ1 in period t 0 with x reverting to its previous level thereafter-and permanent-dx = þ1 in time t 0 with the higher x persisting infinitely. In spatial analysis, one must specify where dx occurs, and the analogous defaults are dx = þ1 in one unit and dx = þ1 in all units. In space-time analysis, the combined spatial and temporal defaults yield four default shocks: {unit-i or all-units}Â{1-period or permanent}. <ref type="bibr">27</ref> A convenient way to express Equation <ref type="formula" target="#formula_35">22</ref>for differentiation by x to track responses over time across all units to some series of hypothetical/counterfactual shocks in N units over T periods, is to create a NT Â 1 vector, dx, containing the desired spatiotemporal series of shocks:</p><formula xml:id="formula_37">dy = I-ϕL-ρW ð Þ -1 Á Iβ þ Lγ þ Wθ ð Þ Á dx:<label>(23)</label></formula><p>The NT Â 1 vector dy gives the response across all N units period-by-period to this series of shocks, dx. So, for instance, the 1-period, 1-unit default shock is a 1 in that unit's row of the first N Â 1 vector and 0 elsewhere. The 1-unit permanent shock repeats this N Â 1 vector down T periods. The all-units 1-period shock starts with an N Â 1 vector of ones, and all subsequent elements are 0. The all-units permanent shock is an NT Â 1 vector of ones. Beyond these defaults, any set of substantive hypothetical/counterfactual shocks across units over time that researchers may wish to consider may simply be entered as that dx. Indeed, multiple columns of hypothetical shocks can be offered and responses calculated at once, with say NT Â N matrices dX and dY. We suggest N columns here to facilitate the scalar summaries of spatial effects that LeSage and Pace (2009) call impacts. Working in a single-period cross-section, they suggest a set of shocks across units given by the N Â N identity matrix, which corresponds to shocking each unit alone-that is, the 1-unit default shock, one at a time, column-by-column. For TSCS data, the other T -1 N Â N blocks are all-zeros for the 1-period shock, and the I N repeats over all T for the permanent shock. In a cross-section, the average of the diagonal elements of the N Â N dY gives LeSage and Pace's (2009) average direct effect (ADE) of unit on itself, inclusive of spatiotemporal feedback, and the sum of the off-diagonal elements divided by N gives the average indirect effects (AIE), a summary of the spillover effects. With dX just the identity matrix I N , it may be dropped from Equation <ref type="formula" target="#formula_37">23</ref>and the elements of the multiplier times coefficients matrices may simply be summed and averaged in these ways as LeSage and Pace (2009) do. Long-run steady-state (LRSS) responses in all N units to some permanent N Â 1 set of shocks, dx, is found by returning to Equation 22a, setting y t-1 = y t and x t-1 = x t by definition of LRSS, to obtain</p><formula xml:id="formula_38">dy = I-ϕI-ρW ð Þ -1 Iβ þ Iγ þ Wθ ð Þ Á dx:<label>(24)</label></formula><p>Note both the shocks/treatments dx and responses/ effects dy reference all N Â 1 units i. <ref type="bibr">28</ref> STADL models can be estimated via maximumlikelihood (or Bayesian) methods, with likelihoods (posteriors) given in Elhorst (2001) and LeSage and  Pace (2009) and maximization detailed in Anselin  (1988). <ref type="bibr">29 , 30</ref> Even previous works that discuss spatiotemporal models and their estimation have neither discussed or derived analytically, as above, nor evaluated through simulation as next, the biases from omitting or mismodeling one of the dependence dimensions in estimates of the other dependence parameters, the covariate coefficients, and the dynamic and total effects. elements are 0 too, except the diagonal of the lower block first-minor (the N Â N blocks immediately below the N Â N block primediagonal); those prime-diagonal elements of the lower block-minor are all 1. <ref type="bibr">27</ref> Notice the ambiguity that arises here surrounding comparable treatments and effects in static models versus in temporally, spatially, and spatiotemporally dynamic models/processes: in static-nonspatial models, all of x's effects incur exclusively in the unit-time shocked; in spatiotemporal models, contrarily, x it has effects also in unit-times j 6 ¼ i, s 6 ¼ t. Thus, in comparison to the static case, and to empirical realism, the hypothetical of a one-unit or one-period dX shock radically understates both a typical "treatment" and a typical "effect" of x because the spatiotemporal model correctly distributes the total influence of dX on dy across space and time, whereas the static model incorrectly aggregates those unit-time differentiated relationships into one summary relation. By the same token, hypothetical all-unit permanent dX shocks overstate both a realistic dX and the staticmodel dx effect estimates. Perhaps most realistic, and what staticmodel estimates would be approximating, with bias due to misspecifcation, would be a dX that followed its empirical spatiotemporal average in the sample.</p><p>28 I and W in Equation <ref type="formula" target="#formula_38">24</ref>are N Â N. Implicitly, some long-run, permanently operant, W must be set. <ref type="bibr">29</ref> Instrumental-variables estimators exist for some, but not all, STADL model variations as well. <ref type="bibr">30</ref> As with the three-source spatial model (see footnote 16), the threesource temporal and STADL models are identified, but only frailly, when all three sources are included (e.g., an unrestricted first-order STADL model). Given this, researchers will want to use design (Gibbons and Overman 2012) or theory (Cook, Hays, and Franzese  2020) to restrict some spatial and temporal parameters ex ante. In Cook, Hays, and Franzese (2020), we suggest that researchers should generally consider including terms capturing spillovers in the mean component (either Wy or Wx) plus spatial error autocorrelation. Similarly, a time-series model including a time-lagged outcome and a correction for serially correlated errors would be robust to the concerns of Achen (2000). Taken together, we believe applied researchers with TSCS will be well served by including outcome lags (Wy and Ly) or covariate lags (Wx and Lx)-whichever is best motivated by their theory-and spatial and temporal error lags (Wε and Lε).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>MONTE CARLO ANALYSIS OF DYNAMIC TSCS MODELS</head><p>Our Monte Carlo analyses demonstrate that the biases shown analytically above are of substantively important magnitudes in spatiotemporal TSCS data with properties designed to be representative of common political-science application contexts.</p><p>Given the combinatorically vast number of STADLmodel variations-2 6 = 64 first-order models alonewe focus on evaluating the two currently most-widely used in political science: LDV and SAR-that is, STADL(ty 1 ) and STADL(sy 0 ). LDV and SAR model performance under various forms of temporal or spatial dependence is well known, but we know little as yet about how either one-way model performs under spatiotemporal dependence in both dimensions. Therefore, we generate data from a STADL(sy 0 , ty 1 )-that is, the first-order spatiotemporal autoregressive model-with the exogenous covariate x also following a STADL(sy 0 , ty 1 ) process, for realism and so induced biases will manifest entirely in b β:</p><formula xml:id="formula_39">y t = ϕ y y t-1 þ ρ y Wy t þ x t β þ ε y ,<label>(25a)</label></formula><p>and</p><formula xml:id="formula_40">x t = ϕ x x t-1 þ ρ x Wx t þ ε x , (<label>25b</label></formula><formula xml:id="formula_41">)</formula><p>with x 0 , ε y , and ε x drawn independent standard-normal.</p><p>To focus comparisons, we fix several conditions across all simulations: N = 50 and T = 20, giving balanced panels with common sampling dimensions (e.g., U.S. states over 20 years); W generated as k-nearestneighbor binary-contiguity (k = 5), row-normalized, based on xy-coordinate locations for each unit drawn U(0,100); and parameters β=2, ϕ x = 0:6 , and ρ x =0.3. We vary the strength of temporal, ϕ y , and spatial, ρ y , dependence in the outcome y (further design details in the Appendix). <ref type="bibr">31</ref> Figures 6 and 7 present simulation results for the LDV-model estimates. Figure <ref type="figure" target="#fig_1">6</ref> shows that temporallag coefficient-estimate b ϕ y suffers inflation bias for all true spatial-lag coefficients ρ y &gt; 0, with the bias magnitude increasing in both ρ y and ϕ y . Even when ϕ y = 0, substantial bias obtains-b ϕ y reaches 0.18 at the modest maximum spatial dependence considered here: ρ y = .3 -and this bias grows as ϕ y increases, the very condition making account of temporal dependence more important. The intuition is simple: the modeled temporal dependence can partially compensate for the missing (or, by extension, mismodeled) spatial dependence, in omitted-variable-bias fashion.</p><p>Although the strength of temporal dependence is important in itself, researchers often have greater interest in b β for testing and for estimating the effects of covariates x. Figure <ref type="figure" target="#fig_2">7</ref> shows how the inflated b ϕ y estimate generally attenuates the b β estimate, with this induced attenuation bias also quite sizable and increasing in ρ y and ϕ y . This is striking given that, with ρ y &gt; 0 and Cov x, Wy À Á &gt; 0, textbook discussion on omitting the spatial lag indicates inflationary OVB in b β . The opposite obtains here because that textbook inflationary bias manifests so strongly in b ϕ y as to induce a countervailing deflationary bias in b β , underscoring 0.0 0.1 0.2 0.3 0.0 0.1 0.2 0.3 ρ Y f ^ -f f Y 0 0.1 0.2 0.3 0.4 0.5 31 The Appendix reports results with a first-order spatiotemporal autoregressive error, i.e., STADL(se 0 , te 1 ), DGP, so as to explore the performance of commonly used outcome-lag models, LDV and SAR, and our STADL model, under spatiotemporal error autocorrelation. Results indicate the LDV and SAR models produce biased estimates under spatiotemporal error autocorrelation, whereas STADL performs well under all conditions.</p><p>how conventional understandings from single-dimensional analyses do not extend straightforwardly to TSCS contexts. <ref type="bibr">32</ref> Furthermore, the unmodeled spatial dependence also undermines standard LM tests for serial correlation in the LDV-model estimation residuals, producing an unacceptably high false-positive rate, meaning that using "remaining residual autocorrelation" to assess the adequacy of the LDV in addressing dependence will fail to guide specification properly (see Appendix).</p><p>In summary, with spatiotemporal dependence, LDV underestimates the "impulse" effect of x t , ∂y t ∂x t = β, but overestimates ϕ y . Thus, researchers may wonder how well these biases offset in long-run steady-state effectestimates. In the LDV, the LRSS effect on unit i of permanent dx i , is</p><formula xml:id="formula_42">dy i,ss dx i = β 1-ϕ y and dy i,ss dx j = 0 ∀ j 6 ¼ i,<label>(26)</label></formula><p>whereas the contemporaneous spatial steady-state effects of one-unit dx on y in the SAR model are</p><formula xml:id="formula_43">dy dx = I -ρW ð Þ -1 β,<label>(27)</label></formula><p>which is an N Â N matrix of the effects, column-bycolumn, of dx i in that column-unit i on y in all units.</p><p>Thus, the single estimated LRSS effect of x on y from the LDV, or any other nonspatial model, is not even in the correct dimensionality of the spatial effects (plural) of dx on dy. As emphasized above, spatial dynamics imply changes in x in any unit have effects across all connected units and changes in x in different units have different effects because units are differently connected to each other. LeSage and Pace's (2009) average direct effects (ADE) scalar summary of the average across i of</p><formula xml:id="formula_44">dx i dy i</formula><p>, inclusive of spatial dynamics, can be obtained, but even the ADE will not compare closely to the LDV's LRSS because the LDV's temporal dynamics are quite imperfect substitutes for SAR's spatial dynamics.</p><p>The correctly spatiotemporal dynamic and LRSS effects of dX in the general first-order STADL, inclusive of both spatial and temporal dynamics and feedback, are given in Equations 23 and 24. Their simplifications to this STADL(sy 0 , ty 1 ) model are STADL sy 0 , ty 1 À Á LRSS Effects :</p><formula xml:id="formula_45">dY = I-ϕI-ρW ð Þ -1 Á dX Á β,<label>(28a)</label></formula><p>and STADL sy 0 , ty 1 À Á Dynamic Effects :</p><formula xml:id="formula_46">dY ¼ I-ϕL-ρW ð Þ -1 Á dX Á β:<label>(28b)</label></formula><p>As explained above, for shocks to one unit at a time, column-by-column, dX is the N Â N identity matrix, I N , in the LRSS-effects Equation 28a, and, in the dynamiceffects Equation 28b, dX is that I N stacked vertically T times for permanent shocks, and only in the first N Â N block for 1-period shocks. Each (N Â 1) column of the resulting dY in Equation 28a gives the LRSS effects in all N units to shocking the column-unit. In Equation 28b, these N Â N blocks of effects in dY evolve period-by-period T times vertically. The scalar summaries of LRSS or period-by-period ADE and AIE are found by averaging across the N Â N effectsblock's diagonals or over all its off-diagonal elements as </p><formula xml:id="formula_47">-0.6 -0.4 -0.2 0.0 0.0 0.1 0.2 0.3 U Y E ^LDV -E f Y 0 0.1 0.2 0.3 0.4 0.5 32</formula><p>The nearly monotonically negative bias in b β seen in Figure <ref type="figure" target="#fig_2">7</ref> is the resultant of a direct positive OVB of ρ y Â Reg Wy on xjLy À Á and a negative bias induced in compensation for the direct OVB in b ϕ y . The net of these competing biases in b β can manifest differently than seen in Figure <ref type="figure" target="#fig_2">7</ref> depending on W and parameter values (See Appendix). Beyond these biases in b β and b ϕ y , their standard errors are also notably off: average reported SE for b β considerably overstate the standard deviation of b β, and yet, given the large biases in b β, the estimated 95% confidence intervals never bound the true value in our simulations, i.e., coverage is zero.</p><p>before. Given all this, clearly, even if the LDV model accurately recovered the LRSS ADE-we will show it does not-it would still produce biased estimates of these unit-specific responses. Figures <ref type="figure" target="#fig_3">8</ref> and <ref type="figure" target="#fig_4">9</ref> illustrate all this, for single-unit shocks under one set of conditions: ϕ y = 0:5 and ρ y =0.3. Figure <ref type="figure" target="#fig_3">8</ref> compares the N marginal period-byperiod incremental response paths-that is, impulseresponse functions, also known as the responses to temporary (1-period) shocks-using Equation 28b of (i) the true STADL model: N gray thinner responselines, and heavier black response-line average; (ii) the estimated LDV model: one dashed response-line; and (iii) the estimated static-model: one dotted responseline. <ref type="bibr">33</ref> Labeled "Direct" are effects of shocks to unit i on outcomes in unit i; "Indirect" are summed responses in units j 6 ¼ i to shocks in unit i; and "Total" sums Direct and Indirect. Figure <ref type="figure" target="#fig_4">9</ref> plots the analogous cumulative response paths to permanent single-unit shocks. <ref type="bibr">34</ref> As shown analytically above, the LDV substantially underestimates the contemporaneous effect for all N units, and it overestimates the temporal persistence, giving incorrectly slower decay. Thus, the LDV estimates one smaller, but more-persistent, effect than the true STADL's heterogeneous, larger, quicker-decaying correct effects. The LDV also overestimates (underestimates) the cumulative LRSS direct (total) effect at 6.41, to which it arrives more slowly, compared with the average cumulative LRSS direct effect of 4.39 and total effect of 10.0 from the correct STADL, to which the STADL responses arrive more quickly. The static model, meanwhile, radically overstates direct (and total) contemporaneous effect and badly mischaracterizes (and understates) the direct (and total) cumulative effects. In sum, even on average-that is, disregarding the unit-specific variation-the LDV model performs poorly, and the static nonspatial model very poorly. 0 1 2 3 4 5 t t+5 t+10 t+15 Period Response of y 0.0 0.5 1.0 1.5 t t+5 t+10 t+15 Period Response of y 0 1 2 3 4 5 t t+5 t+10 t+15 Period Response of y Note: dotted line = Static; dashed line = LDV; gray lines = STADL unit-by-unit; black line = STADL average. 2 4 6 t t+5 t+10 t+15 Period Response of y 0 3 6 9 t t+5 t+10 t+15 Period Response of y 4 8 12 16 t t+5 t+10 t+15 Period Response of y Note: dotted line = Static; dashed line = LDV; gray lines = STADL unit-by-unit; black line = STADL average. <ref type="bibr">33</ref> To compare the LDV and static models against the true results, we use the STADL response paths generated from the generating process (i.e., β =2, ϕ = 0:5, and ρ = 0.3). However, using the estimated STADL response paths would produce effectively identical results as it is an unbiased estimator of these paramaters (i.e., E b</p><formula xml:id="formula_48">β h i = 2:0009, E b ϕ h i = 0:5003, E b ρ ½ = 0:2996). See the Appendix for greater detail.</formula><p>The analogous explorations of SAR-model estimation performance show (Figure <ref type="figure" target="#fig_5">10</ref>) the expected inflation bias in b ρ y when temporal dependence is present but unmodeled. When ϕ y = 0:5, for example, the b ρ y estimates from the SAR model average more than two times (!) the true value of ρ y . As researchers more commonly attach theoretic importance to their spatial-dependence specifications than to temporal dependence-selecting connectivity matrices to test competing theories of diffusion, for example-this is per se more substantively concerning than in the LDV case. Researchers interested in evaluating spatial theories must attend equally highly carefully to accurately modeling temporal dynamics. Even with spatial processes well-specified, and W and the spatial-lag terms correct and well-measured in the model, failing to adequately address temporal dependence can produce wildly inaccurate understandings of the spatial processes actually operating in the data. <ref type="bibr">35</ref> Regarding b β , Figure <ref type="figure" target="#fig_0">11</ref> reveals the expected inflationary bias from failing to model temporal dependence, and this bias increases in the unmodeled ϕ y . However, this bias does not also increase with ρ y . Why? First, temporal dependence often, as in our simulation, far exceeds spatial dependence. Therefore, the inflationary bias in b β from the unmodeled temporal dynamics weighs more heavily against the downward 0.0 0.1</p><formula xml:id="formula_49">0.2 0.0 0.1 0.2 0.3 U Y U ^-U f Y 0 0.1 0.2 0.3 0.4 0.5 FIGURE 11. SAR Performance with Temporal Dependence -Bias in β 0.0 0.5 1.0 1.5 0.0 0.1 0.2 0.3 U Y β ^SAR -β f Y 0 0.1 0.2 0.3 0.4 0.</formula><p>5 <ref type="bibr">35</ref> The Appendix shows that, as with the LDV estimation-model case above, average reported standard errors in SAR applied to STADL (s 0 y, t 1 y) exceed actual standard deviations of coefficient estimates across simulation trials and yet 95% confidence intervals rarely contain true coefficient values; whenever ρ y 6 ¼ 0 and ϕ y 6 ¼ 0, coverage probabilities are far below 95%, due to the coefficient-estimate bias.</p><p>bias from overestimated b ρ y than in the reverse scenario. Second, our simulation parameters, again realistically, set x also to manifest greater temporal than spatial dependence: ϕ x = 0:6 versus ρ x = 0.3. Thus, the correlation between x i,t and y i,t-1 , and so the bias from omitting the latter, is greater than the bias induced by overestimating b ρ y and the correlation of x i,t and y j,t . <ref type="bibr">36</ref> Although the b β estimate is inflated in proportion solely to the temporal-dependence misspecification, that bias plus the inflation bias also in b ρ y seriously compromises the effects estimates. Recall that in spatial-autoregressive models, as in all models beyond the purely linearadditive and separable, the effect of x on y is not β, which is merely the pre-spatiotemporal impulse, but instead the effects are given by Equations 23 and 24. For scalar summaries of these multidimensional effects, we use the average-direct and average-indirect effects, ADE and AIE, described above. Comparing the values estimated by the incorrect SAR with those from the true STADL, we find that SAR overestimates the single-unitshock responses, SAR ADE = 3.96 versus STADL ADE = 2.03, and radically overestimates the AIE, SAR AIE = 6.76 versus STADL AIE = 0.82, and so the average total effects (ATE), SAR ATE = 10.72 versus STADL ATE = 2.85. Furthermore, despite the absence of temporal dynamics from the estimation model, the long-run steady-state (LRSS) total effects are also modestly overestimated: SAR LRSS ATE = 10.72 versus STADL LRSS ATE = 10.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>EMPIRICAL REANALYSES</head><p>To demonstrate the importance of modeling spatiotemporal dependence appropriately in applied TSCS data analysis, we conduct two brief reanalyses of prominent recent studies. First, we revisit Acemoglu et al. (2008)  to evaluate empirically the development-democracy connection, our running illustration. Particularly apt for our purposes, they include temporal autoregressive dependence and fixed unit and period effects, but they otherwise neglect spatial dependence. Second, we analyze data from Lührmann, Marquardt, and Mechkova (2020), who develop several new country-year indices of vertical, horizontal, and diagonal political accountability, plus an overall accountability index. The article focuses on demonstrating the content, convergent, and construct validity of these measures, but includes analyses of accountability and infant morality in which they account for spatial dependence and include fixed unit and period effects while omitting autoregressive temporal dependence. These reanalyses also nicely parallel our simulation studies: one models temporal dependence while relatively neglecting spatial dependence; the other models spatial dependence while relatively neglecting temporal dependence.</p><p>Reanalysis of Acemoglu et al. (2008) on Development and Democracy Acemoglu et al.'s (2008) main finding is that the otherwise robust positive relation of economic development with democratization disappears with country fixed effects included. Table <ref type="table" target="#tab_0">1</ref> reports five models using their data to regress Polity IV Democracy on lagged real GDP per capita (RGDPpc), plus various combinations of fixed effects and autoregressive lags, with column 4 replicating their main two-way-fixed-effects regression. The results starkly highlight how these specification choices affect one's analysis and inferences.</p><p>The column 1 model includes a spatial lag created with a row-standardized nearest-neighbor weights matrix (autogenerated by our tscsdep R package). With this spatial autoregression the only spatiotemporal dependence in model 1, the positive and significant spatial-lag coefficient may be an overestimate. Column 2 adds fixed year-effects. Because democracy trends globally over the sample period, this addition greatly improves model fit: log likelihood increases over 30% (-162.34 to -129.62) and BIC decreases from 351.7 to 340.2. The coefficient estimates are affected only slightly, but notably b ρ becomes larger and more significant.</p><p>Column 3 adds country fixed effects, and column 4 replaces the spatial lag with a temporal lag, the latter replicating Acemoglu et al.'s (2008) Table <ref type="table">3</ref>, column 2. These results reflect the contribution from their analysis: the statistical significance of the RGDPpc coefficient estimate disappears with country fixed effects added. The spatial-lag coefficient also becomes insignificant in column 3, with the country fixed effects apparently absorbing sizable time-invariant spatial clustering in both RGDPpc and democracy. However, the influence on model fit is less clear. LL improves greatly, but the BIC fit statistic, which penalizes for overparameterizing the model and overfitting the sample, gets much worse, increasing almost 40% (340.2 to 472.3). Scholars can reasonably disagree about the model-selection implications of these comparisons, but BIC strongly indicates that the LL improvement from the country dummies does not merit the 133 degrees of freedom they consume. Acemoglu et al.'s (2008) column 4 model improves on 2 and 3 in terms of both coefficient significance and model fit, underscoring the crucial importance of temporally autoregressive dynamics in democratic development. The final column 5 presents results from the model with by far the best BIC (-406.6) and LL close to model 3 despite 132 fewer estimated parameters. The likelihood-ratio test of Model 5, which includes both temporal and spatial lag, and period fixed effects, versus Model 3 yields a chi-square statistic of 12.06, which with 132 degrees of freedom overwhelmingly fails to reject: p≈1:0 . The STADL(s 0 y , t 1 y ) plus time dummies model is therefore overwhelmingly preferred by our model-selection criteria. The coefficients on RGDPpc, the temporal lag, and the spatial lag are all statistically significant. The comparison of the STADL s 0 y , t 1 y plus time dummies 5 with Acemoglu et al.'s temporally autoregressive two-way fixed-effects model 4 is similar to the comparison of the models in columns 3 and 2: the inclusion of country fixed effects leads to a significant improvement in LL, but if we penalize for overparameterizing and overfitting, the BIC concludes emphatically that the LL increase does not remotely justify the cost in parsimony terms (consumed degrees of freedom).</p><p>Comparing the coefficient estimates across these models also nicely illustrates in real-data application the conclusions drawn above in our analytics and simulations. Failing to include a temporal lag in model 2 results in larger estimates of b ρ and b β relative to model 5, where temporal dependence is directly accounted. This parallels our simulations' findings that SAR (here model 2) suffers inflation bias in b ρ and b β when temporal dependence is present but unmodeled. In the simulations, the SAR model b ρ averaged about twice the true STADL ρ; similarly here, b ρ from model 5 is 0.091, whereas model 2 b ρ is roughly 1.8 times larger at 0.167.</p><p>This also has substantively important implications for how development is estimated to affect democracy across space and time. The positive, significant temporal-lag and spatial-lag coefficients in our preferred model 5 indicate that development effects on democracy in one country at one time reverberate autoregressively both forward in time and across countries in space. We can calculate summaries of these average short-run (first-period) and long-run direct, indirect, and total effects (ADE, AIE, ATE) as shown in Equations 28a and 28b. Using model 5 coefficient estimates, a one-unit single-country shock to RGDPpc has contemporaneous ADE of þ0.053 on democracy in that same country and AIE of þ0.005 on democracy in other countries, for a combined ATE of þ0.058. The respective long-run cumulative estimates are LRSS ADE = þ0.209, LRSS AIE = þ0.021, and LRSS ATE = þ0.230. These differ considerably from model (2), where the estimated effects have no temporal dynamics and are instead instantaneous at ADE = þ0.237, AIE = þ0.036, and ATE = þ0.273. Although these latter static SAR-model estimated effects might seem not too dissimilar from the long-run effects from spatiotemporally dynamic STADL model 5-differences of ADE þ.028 ≈ 13%, AIE þ .015 ≈ 71%, and ATE = þ.043 ≈ 19%-the effects from model 2 incur immediately and fully, so the same-country, sameperiod effects from a change in development on democracy is ADE = þ0.053 in model 5 versus ADE = þ0.237 in model 2, more than a fourfold (≈447%) difference.</p><p>In short, the choice of spatiotemporal model dramatically affects one's conclusions both of whether and of how development relates to democracy.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Reanalysis of Lührmann, Marquardt, and Mechkova (2020) on Accountability and Infant Mortality</head><p>In their recent APSR article, Lührmann, Marquardt, and Mechkova (2020) demonstrate construct validity for their overall index of political accountability (in part) by verifying its negative correlation with infant-mortality rates. They estimate four time-seriescross-sectional regressions, both in isolation and in combination with alternative measures of accountability taken from the World Bank and Freedom House. We reanalyze one of their primary regressions: MODEL 1 in their Figure <ref type="figure" target="#fig_3">8</ref>. The model includes the new overall accountability index and a large set of controls, including country and year fixed effects as some account of spatial and temporal dependence, plus a regional-average infant-mortality variable. This regional-average variable is actually a kind of spatial lag, being the average dependent variable among regional neighbors, but it is treated as an exogenous regressor. Beyond the time-period indicators, temporal dependence and dynamics are not modeled.</p><p>The country indicators account for fixed (long-run) additive spatial clustering in the outcome, infant mortality rates. Fixed here means constant over the entire sample period (1960-2010). Additive means the clustering manifests as a single mean shift, as opposed to a multiplicative effect on some observed or unobserved covariate or an autoregressive spatially dynamic process. The regional-average variable, which instead gives a spatial-autoregressive process, accounts for potential time-varying (long-run) spatial clustering. If there are multiple regional equilibria over time (e.g.,  Southeast Asia 1961-1980; Southeast Asia 1981-2000;  Southeast Asia 2001-2010), though, the regional-average spatial lag cannot account for this. Country fixed effects cannot either.</p><p>The year fixed effects can account for "short-run" (unique year-by-year) common shocks that are global in scope. Again, these are additive: some mean shift each year that is common across all countries. The same infant-mortality shock, equal to that year's single timedummy coefficient, hits every country. Year fixed effects cannot account for common shocks that are regional or otherwise subglobal in nature-for example an infant-mortality shock specific to Southeast Asia. If the relevant regions or groups of countries were known preanalysis, regional-period shock indicators (e.g., Southeast Asia 1987) could be included in regression models, but the relevant spatiotemporal units are rarely known, and this strategy quickly overloads degrees of freedom.</p><p>An alternative strategy to account for regional common shocks is to add spatial lags in first differences to regression models. Because spatial lags represent autoregression in space-countries influence first-, second-, and third-order (etc.) neighbors with geometrically decaying influence-they provide a certain flexibility with respect to identifying the geographical boundaries of shocks that regional indicators do not. The spatial-weights matrix could connect k-nearest neighbors-for example, around each country (automatically generated using tscsdep), whereas regions must be preidentified for indicatorvariable strategies. Spatial lags are also more parsimonious than regional-period indicators because a single spatial lag defines a "neighborhood" for every sample-unit.</p><p>More generally, in STADL models, time-differenced right-hand-side variables produce only shortrun effects in left-hand-side outcomes, whereas regressors in levels produce long-run effects through temporal multipliers. Lührmann, Marquardt, and Mechkova's (2020) MODEL 1 includes a de facto endogenous spatial lag in the regional averages, which, for our reanalysis purposes, we will retain as an (erroneously) exogenous regressor and will assume to reasonably proxy the true spatial-dependence process. MODEL 1 also includes country and year fixed effects, but no temporal dynamics, a stark omission given that infant-mortality rates are highly persistent temporally. We also think heterogeneous regional infant-mortality shocks are highly plausible. Therefore, we add to our reanalysis model a temporal lag and a time-differenced nearest-neighbor spatial lag:</p><formula xml:id="formula_50">y it = x it β þ ϕy it-1 þ ρw i Δy t þ f i þ g t þ ε it ,<label>(29)</label></formula><p>with y it being infant mortality in unit i in year t, x it a 1 Â k vector of exogenous covariates for unit-year it, β a k Â 1 vector of coefficients, ρ the spatial-lag coefficient, w i unit-i's 1 Â N vector of spatial weights on units j, Δy t the time-t N Â 1 vector of differenced outcomes, f i a fixedunit effect, g t a fixed-period effect, and ε it an i:i:d: disturbance for unit-time it. Some algebraic manipulation rewrites this with a differenced outcome (more convenient for expressing the likelihood):</p><formula xml:id="formula_51">Δy it = x it β þ ϕ-1 ð Þy it-1 þ ρw i Δy t þ f i þ g t þ ε it : (30)</formula><p>Although the regional-average variable (treated as exogenous still for comparability) incorporates some spatial dependence, its coefficient is likely overestimated because temporal dependence, likely very high in infant mortality, is omitted, beyond the year effects -and year effects, due to regional concentration in infant-mortality shocks, likely miss considerable spatiotemporal dependence also. Our analyses above suggest that the unfortunate consequence of this misestimation of the spatiotemporal dependence is that Lührmann, Marquardt, and Mechkova (2020) may have underestimated the strength of their political-accountability measure's relationship to infant mortality. Table <ref type="table" target="#tab_1">2</ref> column 1 replicates their original results. Then, with tscsdep, we create a nearest-neighbor spatial-weights matrix and estimate the spatiotemporalautoregressive STADL sy 0 , ty 1 À Á model incorporating spatially and temporally lagged dependent-variable regressors, reported in the second column. The LRSS effects 37 of each covariate x in x it are given in the third column. Comparing the implicit spatial steady state implied by the regional-average variable in the original regression, which ignores temporal (autoregressive) dynamics, with our estimate of the spatial steady-state effect, we estimate that the former overstates the extent of spatial dependence by nearly 44% in this comparison. More simply and starkly, comparing the first and third columns, we estimate that the spatiotemporal LRSS effect of Lührmann, Marquardt, and Mechkova's (2020) political accountability on infant mortality rates (-9:500) is more than double the effect they reported b β = -4:339</p><p>, which mostly ignores these important spatial and temporal dynamic dependencies.</p><p>In column 4 (model 3), we drop the country dummies from model 2. In contrast with the analysis in Table <ref type="table" target="#tab_0">1</ref>, we find that the inclusion of country fixed effects here leads to unambiguous improvement in model fit by either LL or BIC. Model 2 is clearly the preferred model among this set. <ref type="bibr">37</ref> These LRSS use only the temporal multiplier as Lührmann, Marquardt, and Mechkova do not interpret their implicit spatial-lag regional-average as such and our added spatial lag is in changes, not levels.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>CONCLUSION</head><p>This paper considers the implications of the multidimensional dependence, dynamics in both space and time, that typically manifests in TSCS data. With both spatial and temporal dependence present, we have shown that modeling dependence in only one dimension while neglecting the other biases estimates of all dependence parameters, usually resulting in inflation bias in the parameter(s) of the included or better-specified dimension. Not only does this risk misunderstandings about whether the observed spatiotemporal patterns are due to temporal or spatial dependence; it can also threaten researchers' ability to effectively discriminate between competing sources of dependence-dependent outcomes, covariates, or unobservables-along either dimension. These biases in the dependence parameter estimates also induce biases in the covariate coefficient estimates. With these dependence parameter and covariate coefficient estimates both biased, spatiotemporal-dynamic and long-run-steady-state effects are biased too, as are hypothesis tests and inferences made using these estimates. Furthermore, we demonstrate that these estimation biases with dependence in both space and time differ from those considered heretofore in textbook treatments of temporal or spatial dependence alone. For example, usually omitted spatial interdependence results in partially offsetting inflationary bias in the covariate coefficients. However, we showed that in TSCS analyses, if a time-lagged outcome is included in the model, then the inflationary bias from the omitted spatial lag will primarily manifest in this temporal lag, and that in turn induces partially offsetting attenuation in the covariate coefficients. Thus, researchers' previous methodological understandings, which derived from single-dimensional studies, can sometimes provide poor guidance when analyzing TSCS data. Given these concerns, we propose that researchers instead use a spatiotemporal model, the first-order STADL, as an effective starting point that nests many of the most-widely used space-time specifications in political science (e.g., the first-order LDV, ADL, SAR, and SDM) and combinations thereof. We suggested that beginning with this more-general STADL specification and using model-restriction tests and goodness-of-fit statistics to guide model refinement reduces the risk of unmodeled dynamics, and so of biased estimation and invalid inferences. Although estimating these models is not significantly more difficult than estimating single-dimensional analogs, interpretation of the results raises considerable challenges because the meanings of both β x and the calculation of dy dx changes for different STADL models. Therefore, we have discussed at length the varieties of spatiotemporally dynamic effects that different STADL specifications entail. To better enable researchers to adopt the strategies presented here, we developed R package tscsdep (see Appendix for detail; GitHub to download <ref type="url" target="https://github.com/judechays/STADL">https://github.com/judechays/STADL</ref>) to automate the construction of common weights matrices, W, including for unbalanced panels, estimation of the first-order STADL model, and calculation of STADL dynamic and LRSS effects.</p><p>We see several priorities for expanding upon our recommended STADL approach for TSCS data analysis. First, we have not addressed the topic of order specification, focusing instead on source specification. Second, we did not raise the possibility of overfitting STADL models to sample idiosyncrasies. Finally, we have not discussed the implications of measurement error, particularly with respect to W, in spatiotemporally interdependent data. We believe effective approaches to these challenges extend naturally from time-series and spatial econometrics. For instance, autocorrelation and partial autocorrelation (AC, PAC) functions used to guide time-series order specification might be extended to spatiotemporal AC and PAC functions. Likewise, cross-validation and out-ofsample performance are the gold-standard safeguards against overfitting and are similarly extendable to spatiotemporal TSCS contexts. On measurement error, various Bayesian strategies of model averaging (Juhl  2020) and/or combining measurement and estimation models seem most promising to us. These projects head our research agenda going forward.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>FIGURE 1 .</head><label>1</label><figDesc>FIGURE 1. Count of Articles Using TSCS Data in the "Top-3" General PS Journals, 1980-2019</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>FIGURE 6 .</head><label>6</label><figDesc>FIGURE 6. LDV Performance with Spatial Dependence-Bias in b ϕ y</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>FIGURE 7 .</head><label>7</label><figDesc>FIGURE 7. LDV Performance with Spatial Dependence-Bias in b β</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>FIGURE 8 .</head><label>8</label><figDesc>FIGURE 8. Response-Path Estimates of LDV Model with Spatial Dependence</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>FIGURE 9 .</head><label>9</label><figDesc>FIGURE 9. Cumulative Response-Path Estimates of LDV Model with Spatial Dependence</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>FIGURE 10 .</head><label>10</label><figDesc>FIGURE 10. SAR Performance with Temporal Dependence-Bias in ρ y</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>TABLE 1 .</head><label>1</label><figDesc>Reanalysis of Development and Democracy inAcemoglu et al. (2008)   </figDesc><table><row><cell></cell><cell></cell><cell cols="3">Dependent variable: Democracy (Polity IV)</cell><cell></cell></row><row><cell></cell><cell>(1)</cell><cell>(2)</cell><cell>(3)</cell><cell>(4)</cell><cell>(5)</cell></row><row><cell>Lagged RGDP per capita</cell><cell>0.237***</cell><cell>0.228***</cell><cell>-0.011</cell><cell>-0.006</cell><cell>0.053***</cell></row><row><cell></cell><cell>(0.01)</cell><cell>(0.01)</cell><cell>(0.027)</cell><cell>(.027)</cell><cell>(.0.008)</cell></row><row><cell>Temporal lag</cell><cell></cell><cell></cell><cell></cell><cell>0.449***</cell><cell>0.746***</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell>(.034)</cell><cell>(0.021)</cell></row><row><cell>Spatial lag</cell><cell>0.134**</cell><cell>0.144***</cell><cell>0.040</cell><cell></cell><cell>0.092***</cell></row><row><cell></cell><cell>(0.06)</cell><cell>(0.058)</cell><cell>(0.050)</cell><cell></cell><cell>(0.043)</cell></row><row><cell>Observations</cell><cell>854</cell><cell>854</cell><cell>854</cell><cell>854</cell><cell>854</cell></row><row><cell>Fixed country effects</cell><cell>No</cell><cell>No</cell><cell>Yes</cell><cell>Yes</cell><cell>No</cell></row><row><cell>Fixed year effects</cell><cell>No</cell><cell>Yes</cell><cell>Yes</cell><cell>Yes</cell><cell>Yes</cell></row><row><cell>LL</cell><cell>-162.48</cell><cell>-129.62</cell><cell>253.20</cell><cell>345.07</cell><cell>247.24</cell></row><row><cell>DoF (parameters)</cell><cell>850 (4)</cell><cell>842 (12)</cell><cell>709 (145)</cell><cell>709 (145)</cell><cell>841 (13)</cell></row><row><cell>BIC</cell><cell>351.96</cell><cell>340.45</cell><cell>472.35</cell><cell>302.09</cell><cell>-406.74</cell></row><row><cell cols="2">Note: *p &lt; 0.10, **p &lt; 0.05, ***p &lt; 0.01.</cell><cell></cell><cell></cell><cell></cell><cell></cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>TABLE 2 .</head><label>2</label><figDesc>Reanalysis of the Accountability/Infant Mortality Regression inLührmann, Marquardt, and  Mechkova (2020)   </figDesc><table><row><cell></cell><cell></cell><cell cols="2">Dependent variable: Infant mortality</cell><cell></cell><cell></cell></row><row><cell></cell><cell>(1)</cell><cell>(2)</cell><cell>LRSS</cell><cell>(3)</cell><cell>LRSS</cell></row><row><cell>Accountability</cell><cell>-4.339***</cell><cell>-0.190***</cell><cell>-9.500</cell><cell>0.095***</cell><cell>5.588</cell></row><row><cell></cell><cell>(0.350)</cell><cell>(0.038)</cell><cell></cell><cell>(0.001)</cell><cell></cell></row><row><cell>Foreign aid</cell><cell>-0.048</cell><cell>0.016***</cell><cell>0.800</cell><cell>0.010***</cell><cell>0.588</cell></row><row><cell></cell><cell>(0.031)</cell><cell>(0.003)</cell><cell></cell><cell>(0.001)</cell><cell></cell></row><row><cell>GDP/capita (ln)</cell><cell>-10.551***</cell><cell>0.797***</cell><cell>39.85</cell><cell>0.071**</cell><cell>4.176</cell></row><row><cell></cell><cell>(0.771)</cell><cell>(0.086)</cell><cell></cell><cell>(.036)</cell><cell></cell></row><row><cell>Economic growth</cell><cell>0.035</cell><cell>-0.019***</cell><cell>-0.950</cell><cell>-0.022***</cell><cell>-1.294</cell></row><row><cell></cell><cell>(0.023)</cell><cell>(0.003)</cell><cell></cell><cell>(0.003)</cell><cell></cell></row><row><cell>Resource dependence</cell><cell>0.040*</cell><cell>0.013***</cell><cell>0.650</cell><cell>0.008***</cell><cell>0.471</cell></row><row><cell></cell><cell>(0.022)</cell><cell>(0.002)</cell><cell></cell><cell>(0.002)</cell><cell></cell></row><row><cell>Economic inequality</cell><cell>-0.072**</cell><cell>0.006</cell><cell>0.300</cell><cell>0.001</cell><cell>0.059</cell></row><row><cell></cell><cell>(0.031)</cell><cell>(0.003)</cell><cell></cell><cell>(0.002)</cell><cell></cell></row><row><cell>Population (ln)</cell><cell>-17.743***</cell><cell>0.706***</cell><cell>35.30</cell><cell>0.014</cell><cell>0.824</cell></row><row><cell></cell><cell>(1.606)</cell><cell>(0.178)</cell><cell></cell><cell>(.015)</cell><cell></cell></row><row><cell>Urbanization</cell><cell>-0.125***</cell><cell>0.023***</cell><cell>1.150</cell><cell>-0.006***</cell><cell>-0.353</cell></row><row><cell></cell><cell>(0.023)</cell><cell>(0.003)</cell><cell></cell><cell>(.001)</cell><cell></cell></row><row><cell>Political violence</cell><cell>0.332***</cell><cell>-0.016</cell><cell>-0.800</cell><cell>-0.006</cell><cell>-0.353</cell></row><row><cell></cell><cell>(0.128)</cell><cell>(0.014)</cell><cell></cell><cell>(.011)</cell><cell></cell></row><row><cell>Communist</cell><cell>0.387</cell><cell>-0.746</cell><cell>-8.750</cell><cell>0.151</cell><cell>8.882</cell></row><row><cell></cell><cell>(1.620)</cell><cell>(0.175)</cell><cell></cell><cell>(0.115)</cell><cell></cell></row><row><cell>Infant mortality</cell><cell>0.646***</cell><cell>0.009***</cell><cell>0.450</cell><cell>0.010***</cell><cell>0.588</cell></row><row><cell>(regional average)</cell><cell>(0.020)</cell><cell>(0.002)</cell><cell></cell><cell>(.001)</cell><cell></cell></row><row><cell>Political corruption index</cell><cell>-3.400*</cell><cell>-0.254</cell><cell>-12.70</cell><cell>-0.374***</cell><cell>-22.00</cell></row><row><cell></cell><cell>(1.902)</cell><cell>(0.206)</cell><cell></cell><cell>(.094)</cell><cell></cell></row><row><cell>Temporal lag (level)</cell><cell></cell><cell>-0.020***</cell><cell></cell><cell>-0.017***</cell><cell></cell></row><row><cell></cell><cell></cell><cell>(0.002)</cell><cell></cell><cell>(0.001)</cell><cell></cell></row><row><cell>Spatial lag (difference)</cell><cell></cell><cell>0.033*</cell><cell></cell><cell>0.223***</cell><cell></cell></row><row><cell></cell><cell></cell><cell>(0.020)</cell><cell></cell><cell>(0.019)</cell><cell></cell></row><row><cell>Observations</cell><cell>4,354</cell><cell>4,312</cell><cell></cell><cell>4,312</cell><cell></cell></row><row><cell>Dependent variable</cell><cell>Level</cell><cell>Diff.</cell><cell></cell><cell>Diff.</cell><cell></cell></row><row><cell>Fixed country effects</cell><cell>Yes</cell><cell>Yes</cell><cell></cell><cell>No</cell><cell></cell></row><row><cell>Fixed Year Effects</cell><cell>Yes</cell><cell>Yes</cell><cell></cell><cell>Yes</cell><cell></cell></row><row><cell>LL</cell><cell>-15,466.54</cell><cell>-5,809.74</cell><cell cols="2">-6,656.38</cell><cell></cell></row><row><cell>DoF (parameters)</cell><cell>4,149 (205)</cell><cell>4,105 (207)</cell><cell cols="2">4,251 (61)</cell><cell></cell></row><row><cell>BIC</cell><cell>32,659.1</cell><cell>13,351.9</cell><cell cols="2">13,823.3</cell><cell></cell></row></table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="8" xml:id="foot_0"><p>We sidestep here issues of spatial-unit aggregation, i.e., the MAUP: Modifiable Areal Unit Problem<ref type="bibr" target="#b19">(Fotheringham and Wong 1991)</ref>, which are similar to, but more complex than, the more-familiar issue of temporal granularity/aggregation affecting time-serial dependence<ref type="bibr" target="#b23">(Freeman 1989;</ref><ref type="bibr" target="#b47">Stram and Wei 1986)</ref>. We also do not emphasize crucial specification issues regarding W, the matrix of relative connectivity or distance between the units, i.e., the network by which spatial association manifests (see, e.g.,Franzese and Hays 2008b;<ref type="bibr" target="#b40">Neumayer and Plümper 2016)</ref>.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="9" xml:id="foot_1"><p>We assume linear-additive separable mean and stochastic component here solely for ease of exposition.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="10" xml:id="foot_2"><p>Given uncertainty over the relevant ties/network, a Bayesian model-averaging approach to estimating W simultaneously with a model of its effect seems promising<ref type="bibr" target="#b31">(Juhl 2020)</ref>.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="11" xml:id="foot_3"><p>Although misspecified W necessarily reduces the accuracy and power of spatial-association tests/measurements and spatial-model estimates, research shows the consequences of errors in W are often less severe than feared (LeSage and Pace 2014) and clearly better Scott J. Cook, Jude C. Hays, and Robert J. Franzese</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="14" xml:id="foot_4"><p>To simplify exposition, we use a single covariate and lag; the generalization to multiple covariates and lags is straightforward.<ref type="bibr" target="#b51">Wimpy, Whitten, and Williams (2021)</ref> discuss several advantages of this general SLX model.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="15" xml:id="foot_5"><p>SAR does impose equal, autoregressive processes in observed and unobserved components, though, which may seem restrictive; multiple-source models relax this restriction.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="22" xml:id="foot_6"><p><ref type="bibr" target="#b32">Juhl (2021)</ref> shows Wald tests of alternative equivalent specifications can yield different results and so argues strongly for LR testing, which is insensitive to such reparameterization. We agree but would also note that Wald and LR tests rely on different estimates: parameters and standard errors versus likelihood fit. Researchers may have greater confidence in one or the other, such as when using robust standard errors, which usage indicates lesser confidence in likelihood or fit. In any case, LM testing upward is clearly dominated.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="23" xml:id="foot_7"><p>Higher-order SLX models can capture some neighbor-of-neighbor, etc., effects<ref type="bibr" target="#b49">(Whitten, Williams, and Wimpy 2021)</ref>.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="34" xml:id="foot_8"><p>The responses to all-unit shocks differ only for spatially aware models, and follow the same patterns as seen in Figures8 and 9, at roughly N-times greater scale.Scott J. Cook, Jude C. Hays, and Robert J. Franzese</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="36" xml:id="foot_9"><p>The Appendix verifies this: reversing the strengths of the dependencies in x to ϕ x = 0.3 and ρ x = 0.6, the relative magnitude of the bias in b β is reduced, and the extent of the bias is affected more noticeably by the level of ρ.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" xml:id="foot_10"><p>Note: *p &lt; 0.10, **p &lt; 0.05, ***p &lt; 0.01.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" xml:id="foot_11"><p>Sciences. Cambridge: Cambridge University Press.</p></note>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div><head>ACKNOWLEDGMENTS</head><p>We thank the organizers and participants of the workshop conference on "<rs type="programName">Modeling Politics and Policy in Time and Space</rs>" held at <rs type="institution">Texas A&amp;M University</rs>, where the earliest seeds of this research were sown in April 2017. We are also extremely grateful to the editor and three anonymous reviewers for tremendously constructive comments, criticisms, and suggestions.</p></div>
+			</div>
+			<div type="funding">
+<div><head>FUNDING STATEMENT</head><p>This research was funded by the <rs type="funder">National Science Foundation [NSF</rs> <rs type="grantNumber">DMS-1925119</rs> to SJC].</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_4BEsGSm">
+					<orgName type="program" subtype="full">Modeling Politics and Policy in Time and Space</orgName>
+				</org>
+				<org type="funding" xml:id="_vFKq3Ye">
+					<idno type="grant-number">DMS-1925119</idno>
+				</org>
+			</listOrg>
+
+			<div type="availability">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>DATA AVAILABILITY STATEMENT</head><p>Research documentation and data that support the findings of this study are openly available at the Amercian Political Science Review Dataverse: <ref type="url" target="https://doi.org/10.7910/DVN/DBMJQZ">https://  doi.org/10.7910/DVN/DBMJQZ</ref>.</p></div>
+			</div>
+
+
+			<div type="conflict">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>CONFLICT OF INTEREST</head><p>The authors declare no ethical issues or conflicts of interest in this research.</p></div>
+			</div>
+
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>SUPPLEMENTARY MATERIALS</head><p>To view supplementary material for this article, please visit <ref type="url" target="http://doi.org/10.1017/S0003055422000272">http://doi.org/10.1017/S0003055422000272</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>ETHICAL STANDARDS</head><p>The authors affirm this research did not involve human subjects.</p><p>Downloaded from <ref type="url" target="https://www.cambridge.org/core">https://www.cambridge.org/core</ref>. INRAE -Tours, on 28 Sep 2026 at 15:34:17, subject to the Cambridge Core terms of use, available at <ref type="url" target="https://www.cambridge.org/core/terms">https://www.cambridge.org/core/terms</ref>. <ref type="url" target="https://doi.org/10.1017/S0003055422000272">https://doi.org/10.1017/S0003055422000272</ref> </p></div>			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Income and Democracy</title>
+		<author>
+			<persName><forename type="first">Daron</forename><surname>Acemoglu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Simon</forename><surname>Johnson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">James</forename><forename type="middle">A</forename><surname>Robinson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Pierre</forename><surname>Yared</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">American Economic Review</title>
+		<imprint>
+			<biblScope unit="volume">98</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="808" to="842" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Why Lagged Dependent Variables Can Suppress the Explanatory Power of Other Independent Variables</title>
+		<author>
+			<persName><forename type="first">Christopher</forename><forename type="middle">H</forename><surname>Achen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Paper presented at the Annual Meeting for the Society of Political Methodology</title>
+		<imprint>
+			<publisher>UCLA</publisher>
+			<date type="published" when="2000">2000</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Institutions, Path Dependence, and Democratic Consolidation</title>
+		<author>
+			<persName><forename type="first">Gerard</forename><surname>Alexander</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Theoretical Politics</title>
+		<imprint>
+			<biblScope unit="volume">13</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="249" to="269" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<monogr>
+		<author>
+			<persName><forename type="first">Luc</forename><surname>Anselin</surname></persName>
+		</author>
+		<title level="m">Spatial Econometrics: Methods and Models</title>
+		<meeting><address><addrLine>Dordrecht, NL</addrLine></address></meeting>
+		<imprint>
+			<publisher>Kluwer Academic Publishers</publisher>
+			<date type="published" when="1988">1988</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Spatial Econometrics</title>
+		<author>
+			<persName><forename type="first">Luc</forename><surname>Anselin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Chap. 14 in A Companion to Theoretical Econometrics</title>
+		<editor>
+			<persName><forename type="first">H</forename><surname>Badi</surname></persName>
+		</editor>
+		<editor>
+			<persName><surname>Baltagi</surname></persName>
+		</editor>
+		<meeting><address><addrLine>Malden, MA</addrLine></address></meeting>
+		<imprint>
+			<publisher>Blackwell</publisher>
+			<date type="published" when="2001">2001</date>
+			<biblScope unit="page" from="310" to="330" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Simple Diagnostic Tests for Spatial Dependence</title>
+		<author>
+			<persName><surname>Anselin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Anil</forename><forename type="middle">K</forename><surname>Luc</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Raymond</forename><surname>Bera</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Mann</forename><forename type="middle">J</forename><surname>Florax</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Yoon</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">26</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="77" to="104" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Spatially Dispersed Ties among Interdependent Citizens: Connecting Individuals and Aggregates</title>
+		<author>
+			<persName><forename type="first">Brady</forename><surname>Baybeck</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Robert</forename><surname>Huckfeldt</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Political Analysis</title>
+		<imprint>
+			<biblScope unit="volume">10</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="261" to="275" />
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Modeling Dynamics in Time-Series-Cross-Section Political Economy Data</title>
+		<author>
+			<persName><forename type="first">Nathaniel</forename><surname>Beck</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Jonathan</forename><forename type="middle">N</forename><surname>Katz</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annual Review of Political Science</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="page" from="331" to="352" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">What to Do (and Not to Do) with Time-Series Cross-Section Data</title>
+		<author>
+			<persName><forename type="first">Nathaniel</forename><surname>Beck</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Jonathan</forename><forename type="middle">N</forename><surname>Katz</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">American Political Science Review</title>
+		<imprint>
+			<biblScope unit="volume">89</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="634" to="647" />
+			<date type="published" when="1995">1995</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Spatial Interdependence and Instrumental Variable Models</title>
+		<author>
+			<persName><surname>Betz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Scott</forename><forename type="middle">J</forename><surname>Timm</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Florian</forename><forename type="middle">M</forename><surname>Cook</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Hollenbach</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Political Science Research and Methods</title>
+		<imprint>
+			<biblScope unit="volume">8</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="646" to="661" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Time Series Analysis for the Social</title>
+		<author>
+			<persName><forename type="first">Janet</forename><forename type="middle">M</forename><surname>Box-Steffensmeier</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>John</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Matthew</forename><forename type="middle">P</forename><surname>Freeman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Jon</forename><forename type="middle">C W</forename><surname>Hitt</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Halvard</forename><surname>Pevehouse ; Buhaug</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Kristian</forename><forename type="middle">Skrede</forename><surname>Gleditsch</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Contagion or Confusion? Why Conflicts Cluster in Space</title>
+		<imprint>
+			<date type="published" when="2008">2014. 2008</date>
+			<biblScope unit="volume">52</biblScope>
+			<biblScope unit="page" from="215" to="233" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Model Specification and Spatial Interdependence</title>
+		<author>
+			<persName><forename type="first">Scott</forename><forename type="middle">J</forename><surname>Cook</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Jude</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Robert</forename><forename type="middle">J</forename><surname>Hays</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Franzese</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Chap. 39 in The SAGE Handbook of Research Methods in Political Science and International Relations</title>
+		<editor>
+			<persName><forename type="first">Luigi</forename><surname>Curini</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">Robert</forename><surname>Franzese</surname></persName>
+		</editor>
+		<meeting><address><addrLine>London</addrLine></address></meeting>
+		<imprint>
+			<publisher>SAGE Publications</publisher>
+			<date type="published" when="2020">2020</date>
+			<biblScope unit="page" from="730" to="747" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<monogr>
+		<author>
+			<persName><forename type="first">Scott</forename><forename type="middle">J</forename><surname>Cook</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Jude</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Robert</forename><surname>Hays</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Franzese</surname><genName>Jr</genName></persName>
+		</author>
+		<title level="m">Replication Data for: STADL Up! The Spatiotemporal Autoregressive Distributed Lag Model for TSCS Data Analysis</title>
+		<imprint>
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Harvard Dataverse</title>
+		<author>
+			<persName><forename type="first">V</forename></persName>
+		</author>
+		<idno type="DOI">10.7910/DVN/DBMJQZ</idno>
+		<ptr target="https://doi.org/10.7910/DVN/DBMJQZ" />
+	</analytic>
+	<monogr>
+		<title level="j">Dataset</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Rethinking Civil Society: Toward Democratic Consolidation</title>
+		<author>
+			<persName><forename type="first">Larry</forename><surname>Diamond</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Democracy</title>
+		<imprint>
+			<biblScope unit="volume">5</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="4" to="17" />
+			<date type="published" when="1994">1994</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Taking Time (and Space) Seriously: How Scholars Falsely Infer Policy Diffusion from Model Misspecification</title>
+		<author>
+			<persName><forename type="first">Cody</forename><forename type="middle">A</forename><surname>Drolc</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Christopher</forename><surname>Gandrud</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Laron</forename><forename type="middle">K</forename><surname>Williams</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Policy Studies Journal</title>
+		<imprint>
+			<biblScope unit="volume">49</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="484" to="515" />
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Dynamic Models in Space and Time</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Elhorst</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Paul</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">33</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="119" to="140" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<monogr>
+		<author>
+			<persName><forename type="first">J</forename><surname>Elhorst</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Paul</surname></persName>
+		</author>
+		<title level="m">Spatial Econometrics: From Cross-Sectional Data to Spatial Panels</title>
+		<meeting><address><addrLine>New York</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">The International Diffusion of Democracy</title>
+		<author>
+			<persName><forename type="first">Johan</forename><forename type="middle">A</forename><surname>Elkink</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Comparative Political Studies</title>
+		<imprint>
+			<biblScope unit="volume">44</biblScope>
+			<biblScope unit="issue">12</biblScope>
+			<biblScope unit="page" from="1651" to="1674" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">The Modifiable Areal Unit Problem in Multivariate Statistical Analysis</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">David</forename><forename type="middle">W S</forename><surname>Stewart</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Wong</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environment and Planning A</title>
+		<imprint>
+			<biblScope unit="volume">23</biblScope>
+			<biblScope unit="issue">7</biblScope>
+			<biblScope unit="page" from="1025" to="1044" />
+			<date type="published" when="1991">1991</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<monogr>
+		<title level="m" type="main">Econometric Modeling: From Measurement, Prediction, and Causal Inference to Causal-Response Estimation</title>
+		<author>
+			<persName><forename type="first">Robert</forename><forename type="middle">J</forename><surname>Franzese</surname></persName>
+		</author>
+		<editor>Luigi Curini and Robert Franzese</editor>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+			<publisher>SAGE Publications</publisher>
+			<biblScope unit="page" from="577" to="598" />
+			<pubPlace>London</pubPlace>
+		</imprint>
+	</monogr>
+	<note>Chap. 31 in The SAGE Handbook of Research Methods in Political Science and International Relations</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Chap. 25 in Oxford Handbook of Political Methodology</title>
+		<author>
+			<persName><forename type="first">Robert</forename><forename type="middle">J</forename><surname>Franzese</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Jude</forename><forename type="middle">C</forename><surname>Hays ; Franzese</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Robert</forename><forename type="middle">J</forename></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Jude</forename><forename type="middle">C</forename><surname>Hays</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Interdependence in Comparative Politics: Substance, Theory, Empirics, Substance</title>
+		<editor>
+			<persName><forename type="first">Janet</forename><forename type="middle">M</forename><surname>Box-Steffensmeier</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">Henry</forename><forename type="middle">E</forename><surname>Brady</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">David</forename><surname>Collier</surname></persName>
+		</editor>
+		<meeting><address><addrLine>Oxford</addrLine></address></meeting>
+		<imprint>
+			<publisher>Oxford University Press</publisher>
+			<date type="published" when="2008">2008. 2008</date>
+			<biblScope unit="volume">41</biblScope>
+			<biblScope unit="page" from="742" to="780" />
+		</imprint>
+	</monogr>
+	<note>Empirical Models of Spatial Interdependence</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Spatial Econometric Models of Cross-Sectional Interdependence in Political Science Panel and Time-Series-Cross-Section Data</title>
+		<author>
+			<persName><forename type="first">Robert</forename><forename type="middle">J</forename><surname>Franzese</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Jude</forename><forename type="middle">C</forename><surname>Hays</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Political Analysis</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="140" to="164" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Systematic Sampling, Temporal Aggregation, and the Study of Political Relationships</title>
+		<author>
+			<persName><forename type="first">John</forename><forename type="middle">R</forename><surname>Freeman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Political Analysis</title>
+		<imprint>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="page" from="61" to="98" />
+			<date type="published" when="1989">1989</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Mostly Pointless Spatial Econometrics?</title>
+		<author>
+			<persName><forename type="first">Stephen</forename><surname>Gibbons</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Henry</forename><forename type="middle">G</forename><surname>Overman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Regional Science</title>
+		<imprint>
+			<biblScope unit="volume">52</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="172" to="191" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Diffusion and the International Context of Democratization</title>
+		<author>
+			<persName><forename type="first">Kristian</forename><surname>Gleditsch</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Michael</forename><forename type="middle">D</forename><surname>Skrede</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Ward</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Organization</title>
+		<imprint>
+			<biblScope unit="volume">60</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="911" to="933" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">The Diffusion of Policy Diffusion Research in Political Science</title>
+		<author>
+			<persName><forename type="first">Erin</forename><forename type="middle">R</forename><surname>Graham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Charles</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Craig</forename><surname>Shipan</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Volden</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">British Journal of Political Science</title>
+		<imprint>
+			<biblScope unit="volume">43</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="673" to="701" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">The SLX model</title>
+		<author>
+			<persName><forename type="first">Halleck</forename><surname>Vega</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">Paul</forename><surname>Solmaria</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Elhorst</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Regional Science</title>
+		<imprint>
+			<biblScope unit="volume">55</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="339" to="363" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">A Spatial Model Incorporating Dynamic, Endogenous Network Interdependence: A Political Science Application</title>
+		<author>
+			<persName><forename type="first">Jude</forename><forename type="middle">C</forename><surname>Hays</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Aya</forename><surname>Kachi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Robert</forename><forename type="middle">J</forename><surname>Franzese</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistical Methodology</title>
+		<imprint>
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="406" to="428" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<monogr>
+		<title level="m" type="main">Dynamic Econometrics</title>
+		<author>
+			<persName><forename type="first">David</forename><forename type="middle">F</forename><surname>Hendry</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1995">1995</date>
+			<publisher>Oxford University Press</publisher>
+			<pubPlace>Oxford</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Networks in Context: The Social Flow of Political Information</title>
+		<author>
+			<persName><forename type="first">Robert</forename><surname>Huckfeldt</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">John</forename><surname>Sprague</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">American Political Science Review</title>
+		<imprint>
+			<biblScope unit="volume">81</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="1197" to="1216" />
+			<date type="published" when="1987">1987</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">The Sensitivity of Spatial Regression Models to Network Misspecification</title>
+		<author>
+			<persName><forename type="first">Sebastian</forename><surname>Juhl</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Political Analysis</title>
+		<imprint>
+			<biblScope unit="volume">28</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1" to="19" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">The Wald Test of Common Factors in Spatial Model Specification Search Strategies</title>
+		<author>
+			<persName><forename type="first">Sebastian</forename><surname>Juhl</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Political Analysis</title>
+		<imprint>
+			<biblScope unit="volume">29</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="193" to="211" />
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<monogr>
+		<author>
+			<persName><forename type="first">Margaret</forename><forename type="middle">E</forename><surname>Keck</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Kathryn</forename><surname>Sikkink</surname></persName>
+		</author>
+		<title level="m">Activists beyond Borders: Advocacy Networks in International Politics</title>
+		<meeting><address><addrLine>Ithaca, NY</addrLine></address></meeting>
+		<imprint>
+			<publisher>Cornell University Press</publisher>
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<analytic>
+		<title level="a" type="main">Dynamic Models for Dynamic Theories: The Ins and Outs of Lagged Dependent Variables</title>
+		<author>
+			<persName><forename type="first">Luke</forename><surname>Keele</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Nathan</forename><forename type="middle">J</forename><surname>Kelly</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Political Analysis</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="186" to="205" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<analytic>
+		<title level="a" type="main">The Relational Determinants of Legislative Outcomes: Strong and Weak Ties between Legislators</title>
+		<author>
+			<persName><forename type="first">Justin</forename><forename type="middle">H</forename><surname>Kirkland</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Politics</title>
+		<imprint>
+			<biblScope unit="volume">73</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="887" to="898" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<monogr>
+		<author>
+			<persName><forename type="first">James</forename><surname>Lesage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Robert</forename><surname>Kelley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Pace</forename></persName>
+		</author>
+		<title level="m">Introduction to Spatial Econometrics</title>
+		<meeting><address><addrLine>Boca Raton, FL</addrLine></address></meeting>
+		<imprint>
+			<publisher>CRC press</publisher>
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<analytic>
+		<title level="a" type="main">The Biggest Myth in Spatial Econometrics</title>
+		<author>
+			<persName><forename type="first">James</forename><forename type="middle">P</forename><surname>Lesage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">Kelley</forename><surname>Pace</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="217" to="249" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<analytic>
+		<title level="a" type="main">Some Social Requisites of Democracy: Economic Development and Political Legitimacy</title>
+		<author>
+			<persName><forename type="first">Seymour</forename><surname>Lipset</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Martin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">American Political Science Review</title>
+		<imprint>
+			<biblScope unit="volume">53</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="69" to="105" />
+			<date type="published" when="1959">1959</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<analytic>
+		<title level="a" type="main">Constraining Governments: New Indices of Vertical, Horizontal, and Diagonal Accountability</title>
+		<author>
+			<persName><forename type="first">Anna</forename><surname>Lührmann</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Kyle</forename><forename type="middle">L</forename><surname>Marquardt</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Valeriya</forename><surname>Mechkova</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">American Political Science Review</title>
+		<imprint>
+			<biblScope unit="volume">114</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="811" to="820" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b40">
+	<analytic>
+		<title/>
+		<author>
+			<persName><forename type="first">Eric</forename><surname>Neumayer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Thomas</forename><surname>Plümper</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Political Science Research and Methods</title>
+		<imprint>
+			<biblScope unit="volume">4</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="175" to="193" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b41">
+	<monogr>
+		<author>
+			<persName><forename type="first">Adam</forename><surname>Przeworski</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">Michael</forename><surname>Alvarez</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Michael</forename><forename type="middle">E</forename><surname>Alvarez</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Jose</forename><surname>Antonio Cheibub</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Fernando</forename><surname>Limongi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Fernando</forename><surname>Papaterra</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Limongi</forename><surname>Neto</surname></persName>
+		</author>
+		<title level="m">Democracy and Development: Political Institutions and Well-Being in the World</title>
+		<meeting><address><addrLine>Cambridge</addrLine></address></meeting>
+		<imprint>
+			<publisher>Cambridge University Press</publisher>
+			<date type="published" when="2000">2000</date>
+			<biblScope unit="page" from="1950" to="1990" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b42">
+	<analytic>
+		<title level="a" type="main">Economic Development and Democracy</title>
+		<author>
+			<persName><forename type="first">James</forename><forename type="middle">A</forename><surname>Robinson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annual Review of Political Science</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="page" from="503" to="527" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b43">
+	<analytic>
+		<title level="a" type="main">Spatial Regression Models: A Systematic Comparison of Different Model Specifications Using Monte Carlo Experiments</title>
+		<author>
+			<persName><forename type="first">Tobias</forename><surname>Rüttenauer</surname></persName>
+		</author>
+		<idno type="DOI">10.1177/0049124119882467</idno>
+		<ptr target="https://doi.org/10.1177/0049124119882467" />
+	</analytic>
+	<monogr>
+		<title level="j">Sociological Methods &amp; Research</title>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b44">
+	<analytic>
+		<title level="a" type="main">The Globalization of Liberalization: Policy Diffusion in the International Political Economy</title>
+		<author>
+			<persName><forename type="first">Beth</forename><forename type="middle">A</forename><surname>Simmons</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Zachary</forename><surname>Elkins</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">American Political Science Review</title>
+		<imprint>
+			<biblScope unit="volume">98</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="171" to="189" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b45">
+	<analytic>
+		<title level="a" type="main">Democratic Dominoes: Diffusion Approaches to the Spread of Democracy in the International System</title>
+		<author>
+			<persName><forename type="first">Harvey</forename><surname>Starr</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Conflict Resolution</title>
+		<imprint>
+			<biblScope unit="volume">35</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="356" to="381" />
+			<date type="published" when="1991">1991</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b46">
+	<analytic>
+		<title level="a" type="main">Regression in Space and Time: A Statistical Essay</title>
+		<author>
+			<persName><forename type="first">James</forename><forename type="middle">A</forename><surname>Stimson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">American Journal of Political Science</title>
+		<imprint>
+			<biblScope unit="volume">29</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="914" to="947" />
+			<date type="published" when="1985">1985</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b47">
+	<analytic>
+		<title level="a" type="main">Temporal Aggregation in the ARIMA Process</title>
+		<author>
+			<persName><forename type="first">Daniel</forename><forename type="middle">O</forename><surname>Stram</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">William</forename><forename type="middle">W S</forename><surname>Wei</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Time Series Analysis</title>
+		<imprint>
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="279" to="292" />
+			<date type="published" when="1986">1986</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b48">
+	<analytic>
+		<title level="a" type="main">Legislative Success in a Small World: Social Network Analysis and the Dynamics of Congressional Legislation</title>
+		<author>
+			<persName><forename type="first">Tam</forename><surname>Cho</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Wendy</forename><forename type="middle">K</forename></persName>
+		</author>
+		<author>
+			<persName><forename type="first">James</forename><forename type="middle">H</forename><surname>Fowler</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Politics</title>
+		<imprint>
+			<biblScope unit="volume">72</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="124" to="135" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b49">
+	<analytic>
+		<title level="a" type="main">Interpretation: The Final Spatial Frontier</title>
+		<author>
+			<persName><forename type="first">Guy</forename><forename type="middle">D</forename><surname>Whitten</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Laron</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Cameron</forename><surname>Williams</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Wimpy</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Political Science Research and Methods</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="140" to="156" />
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b50">
+	<analytic>
+		<title level="a" type="main">A Lot More to Do: The Sensitivity of Time-Series Cross-Section Analyses to Simple Alternative Specifications</title>
+		<author>
+			<persName><forename type="first">Sven</forename><forename type="middle">E</forename><surname>Wilson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Daniel</forename><forename type="middle">M</forename><surname>Butler</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Political Analysis</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="101" to="123" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b51">
+	<analytic>
+		<title level="a" type="main">X Marks the Spot: Unlocking the Treasure of Spatial-X Models</title>
+		<author>
+			<persName><forename type="first">Cameron</forename><surname>Wimpy</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Guy</forename><forename type="middle">D</forename><surname>Whitten</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Laron</forename><forename type="middle">K</forename><surname>Williams</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Politics</title>
+		<imprint>
+			<biblScope unit="volume">83</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="722" to="739" />
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

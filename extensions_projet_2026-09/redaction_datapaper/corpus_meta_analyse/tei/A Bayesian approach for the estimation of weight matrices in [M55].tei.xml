@@ -1,0 +1,964 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">A Bayesian approach for the estimation of weight matrices in spatial autoregressive models</title>
+				<funder ref="#_UjesZa9">
+					<orgName type="full">Oesterreichische Nationalbank (Austrian National Bank)</orgName>
+				</funder>
+				<funder ref="#_K85MuJj">
+					<orgName type="full">Austrian Science Fund (FWF)</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability  status="unknown">
+					<licence/>
+				</availability>
+				<date type="published" when="2022-07-22">22 Jul 2022.</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author role="corresp">
+							<persName><forename type="first">Tamás</forename><surname>Krisztin</surname></persName>
+							<email>krisztin@iiasa.ac.at</email>
+							<affiliation key="aff0">
+								<orgName type="department">International Institute for Applied Systems Analysis (IIASA)</orgName>
+								<address>
+									<settlement>Laxenburg</settlement>
+									<country key="AT">Austria</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Philipp</forename><surname>Piribauer</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="institution">Austrian Institute of Economic Research (WIFO)</orgName>
+								<address>
+									<settlement>Vienna</settlement>
+									<country key="AT">Austria</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">A Bayesian approach for the estimation of weight matrices in spatial autoregressive models</title>
+					</analytic>
+					<monogr>
+						<idno type="ISSN">Print</idno>
+						<imprint>
+							<date type="published" when="2022-07-22">22 Jul 2022.</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">329ED7F77FCF37BB5E6E0A7FDF6AA8C1</idno>
+					<idno type="DOI">10.1080/17421772.2022.2095426</idno>
+					<note type="submission">Received 2 September 2021; in revised form 11 May 2022</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-28T15:57+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>estimation of spatial weight matrix</term>
+					<term>spatial econometric model</term>
+					<term>Bayesian Markov chain Monte Carlo (MCMC) estimation</term>
+					<term>Monte Carlo simulations</term>
+					<term>COVID-19 pandemic JEL C11</term>
+					<term>C21</term>
+					<term>C23</term>
+					<term>C51 HISTORY</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>We develop a Bayesian approach to estimate weight matrices in spatial autoregressive (or spatial lag) models. Datasets in regional economic literature are typically characterized by a limited number of time periods T relative to spatial units N. When the spatial weight matrix is subject to estimation severe problems of over-parametrization are likely. To make estimation feasible, our approach focusses on spatial weight matrices which are binary prior to row-standardization. We discuss the use of hierarchical priors which impose sparsity in the spatial weight matrix. Monte Carlo simulations show that these priors perform very well where the number of unknown parameters is large relative to the observations. The virtues of our approach are demonstrated using global data from the early phase of the COVID-19 pandemic.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">INTRODUCTION</head><p>Spatial econometrics deals with the study of cross-sectional dependence and interactions among (spatial) observations. A particularly popular spatial econometric model is the spatial autoregressive (or spatial lag) specification, where spatial interdependence between observations is governed by a so-called spatial weight matrix. The spatial weight matrix is typically assumed non-negative, row-standardized and exogenously given, with spatial weights based on some concept of neighbourhood. Geographic neighbourhood is often preferred due to exogeneity assumptions. However, when relying on geographical information, several competing approaches exist for constructing the weight matrix (for a thorough discussion, see LeSage &amp; Pace, 2009). Recently, Kelejian and Piras (2014), Qu and Lee (2015), Han and Lee (2016), and Hsieh and Lee (2016)  use alternative measures, such as (socio-)economic proximity. Another strand of the literature focuses on the uncertainty associated with the choice of neighbourhood structures by selecting or combining alternative weight matrices (e.g., Debarsy &amp; LeSage, 2018; Piribauer &amp; Cuaresma,  2016).</p><p>Since direct estimation of a spatial weight matrix requires estimating at least (N -1)N parameters (ignoring the other model parameters), only few approaches target direct estimation of spatial weight matrices. Recently, Ahrens and Bhattacharjee (2015) and Lam and Souza (2020)  tackled this problem through Least Absolute Shrinkage and Selection Operator (LASSO)-based approaches (Tibshirani, 1996), which involve (a priori) expert knowledge about the interactions between spatial units, while allowing the final estimates of the spatial weights to slightly deviate from it. <ref type="bibr">1</ref> However, for regional economic panels, where the time dimension T is often limited relative to the number of spatial observations N , estimation results in a deleterious proliferation of the number of parameters.</p><p>In this paper we describe a novel and flexible Bayesian approach for estimation of spatial weight matrices. Our definition of spatial weight matrices fulfils the typical assumptions employed in the vast majority of the spatial econometric literature. The resulting spatial weight matrices are assumed non-negative and specific requirements to identification of the parameters can be easily implemented in a Markov chain Monte Carlo (MCMC) sampling strategy. Although our primary focus is on row-standardized spatial weight matrices, weights without row-standardization are also implementable. To make our estimation approach applicable to spatial panels where the number of time periods T is limited as compared with the number of spatial units N , we focus on spatial weight matrices which are binary prior to potential rowstandardization.</p><p>In this paper we primarily focus on scenarios where no a priori information on the spatial structure is available. However, we also discuss how a priori spatial information can be implemented in a very simple and transparent way. For cases where the number of unknown parameters is large relative to the number of observations, we discuss hierarchical prior set-ups which impose sparsity in the weight matrix. In a Monte Carlo study, we show that these sparsity priors perform particularly well when the number of spatial observations N is large relative to the time periods T .</p><p>We show that our approach can be implemented in an efficient Gibbs sampling algorithm, which implies that the estimation strategy can be easily extended to other spatial econometric specifications. Among several others, such extensions include shrinkage estimation to avoid overparameterization (Piribauer &amp; Cuaresma, 2016), more flexible specifications of the innovation process (LeSage, 1997), controlling for unobserved spatial heterogeneity (Cornwall &amp; Parent,  2017; Piribauer, 2016), or allowing for non-linearity in the slope parameters (Basile, 2008; Krisztin, 2017). Moreover, it is worth noting that the proposed approach can be easily adapted to matrix exponential spatial specifications (LeSage &amp; Pace, 2007), spatial error specifications (LeSage &amp; Pace, 2009), or local spillover models (Vega &amp; Elhorst, 2015).</p><p>The rest of the paper is organized as follows. The next section outlines the panel version of the considered spatial lag model. The following section discusses the Bayesian estimation approach of the spatial weights along with several potential prior set-ups. The next section presents the Bayesian MCMC estimation algorithm and also discusses how to efficiently deal with the computational difficulties when updating the spatial weights in the MCMC sampler. The accuracy of the sampling procedure via a Monte Carlo simulation study is assessed in the following section. Next, we illustrate our approach using data on global infection rates of the very first phase of the recent COVID-19 pandemic. The final section concludes.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.">ECONOMETRIC FRAMEWORK</head><p>We consider a panel version of a global spillover spatial autoregressive model (SAR) of the form: 2</p><formula xml:id="formula_0">y t = rWy t + m + t t + Z t b 0 + 1 t , t = 1, . . . , T<label>(1)</label></formula><p>where y t denotes an N × 1 vector of observations on the dependent variable measured at period t; m and t t represent parameters associated with fixed effects for the N spatial units and T time periods, respectively; Z t is an N × q 0 full rank matrix of explanatory variables, with corresponding q 0 × 1 vector of slope parameters b 0 ; and 1 t is a standard N × 1 disturbance term 1 t N (0, s 2 I N ).</p><p>The N × N matrix W denotes a spatial weight matrix and r is a (scalar) spatial dependence parameter. W is non-negative with w ij . 0 if observation j is considered as a neighbour to i, and w ij = 0 otherwise. A vital assumption is also that w ii = 0, in order to avoid the case that an observation is assumed as a neighbour to itself. A frequently made assumption amongst practitioners is that W is row-stochastic with rows summing to unity. In this paper we mainly present results relating to row-stochastic weight matrices. However, as the decision on row-standardizing W depends on the empirical application, it is worth noting that the proposed approach may be easily adapted to problems without row-standardization of W . <ref type="bibr">3</ref> The reduced form of the SAR model is given by:</p><formula xml:id="formula_1">y t = (I N -rW ) -1 (m + t t + Z t b 0 + 1 t ),<label>(2)</label></formula><p>where (I N -rW ) -1 = 1 r=0 r r W r is a so-called spatial multiplier matrix. To ensure that (I N -rW ) is invertible, appropriate stability conditions need to be imposed. For row-stochastic spatial weight matrices, a sufficient stability condition for the spatial autoregressive parameter often employed is r [ (-1, 1) (e.g., LeSage &amp; Pace, 2009).</p><p>In most cases, the elements of W are typically treated as known. In the spatial econometric literature, there are various ways to construct such a spatial weight matrix. In this study we focus on the estimation of weight matrices which are binary prior to row-standardization. We therefore assume that the typical element of our spatial weight matrix can be obtained from an unknown N × N spatial adjacency matrix V (with typical element v ij ). <ref type="bibr">4</ref> We therefore define W = f (V), where f ( • ) denotes the row-standardization function: 5</p><formula xml:id="formula_2">w ij = v ij / N j=1 v ij if N j=1 v ij . 0 0 otherwise. ⎧ ⎪ ⎨ ⎪ ⎩ (<label>3</label></formula><formula xml:id="formula_3">)</formula><p>The elements of the adjacency matrix V are assumed as unknown binary indicators, which are subject to estimation. It is worth noting that the assumption of a binary V covers a wide range of specifications commonly used in the literature such as contiguity, distance band or nearest neighbours (e.g., LeSage &amp; Pace, 2009).</p><p>To alleviate further notation, we collect the respective dummy variables associated with the fixed effects along with the explanatory variables in an N × q matrix X t with corresponding</p><formula xml:id="formula_4">q × 1 parameter vector b. Moreover, define Y = [y ′ 1 , . . . , y ′ T ] ′ , X = [X ′ 1 , . . . , X ′ T ]</formula><p>′ and S = I T ⊗ (I N -rW ) and D = {Y , X } denotes the data. The Gaussian likelihood p(D| †) is then given by:</p><formula xml:id="formula_5">p(D| †) = 1 (2ps 2 ) NT |S| exp - 1 2s 2 (SY -X b) ′ (SY -X b) .<label>(4)</label></formula><p>When the elements of the spatial weight matrix are subject to estimation, the number of unknown parameters is likely much larger than the number of observations. Since spatial economic panels often feature limited T relative to N , the proposed estimation approach has to address the issue of over-parametrization. We discuss different ways to tackle this problem.</p><p>First and foremost, one may reduce the dimensionality of the problem by imposing a priori information on spatial weights or assuming symmetry of the spatial neighbourhood structure. Alternatively, we consider hierarchical prior set-ups which impose sparsity in the weight matrix.</p><p>When estimating spatial weights in addition to the spatial and slope parameters, identification issues are more complicated as compared with models assuming exogenous spatial weights. We therefore follow De Paula et al. (2019), who provide a thorough discussion on parameter identification for rather general SAR model specifications. As mentioned above, we consider spatial weight matrices which are non-negative and w ii = 0 for all i. Further standard assumptions include N j=i |rw ij | , 1 ∀i, |r| , 1 and ||W || , C for some positive C [ N, as well as b 0 r = 0. As an additional identifying assumption, it is important that the main diagonal elements of W 2 are not proportional to a vector of ones. <ref type="bibr">6</ref> Sufficient conditions for global identification are fulfilled if we make the additional assumption of r . 0 (De Paula et al., 2019, corollary 3). Without this additional restriction on r, De Paula et al. (2019) show that a strongly connected spatial network for global identification is needed. Since strong a priori information on the spatial weight matrix is often not available (or desired), we therefore assume r [ (0, 1) and only consider positive spatial autocorrelation, which is a typical assumption for empirical applications. 7</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.">BAYESIAN ESTIMATION OF W</head><p>In this paper we use a Bayesian estimation approach to obtain estimates and inference on the unknown quantities r, b, s 2 , as well as the elements of V. After eliciting suitable priors for the unknown parameters, we employ a computationally efficient MCMC algorithm.</p><p>Let p(v ij = 1) denote the prior belief in including the ijth element of the spatial weight matrix. Conversely, for a proper prior specification the prior probability of exclusion is then simply given by p(v ij = 0) = 1p(v ij = 1). With V -ij denoting the elements of the neighbourhood matrix without v ij , the posterior probabilities of v ij = 1 and v ij = 0 conditional on all other parameters are given by:</p><formula xml:id="formula_6">p(v ij = 1|V -ij , b, s 2 , r, D) / p(v ij = 1)|S 1 | exp - 1 2s 2 (S 1 Y -X b) ′ (S 1 Y -X b) p(v ij = 0|V -ij , b, s 2 , r, D) / p(v ij = 0)|S 0 | exp - 1 2s 2 (S 0 Y -X b) ′ (S 0 Y -X b) ,<label>(5)</label></formula><p>where S 1 and S 0 are given by S through updating the spatial weight matrix W via setting v ij = 1 and v ij = 0, respectively. <ref type="bibr">8</ref> Using the law of total probability, it is straightforward to show that the resulting conditional posterior for v ij is Bernoulli:</p><formula xml:id="formula_7">p(v ij |V -ij , b, s 2 , r, D) BER p (1) ij p (0) ij + p (1) ij , (<label>6</label></formula><formula xml:id="formula_8">) with p (1) ij = p(v ij = 1|V -ij , b, s 2 , r, D) and p (0) ij = p(v ij = 0|V -ij , b, s 2 , r, D)</formula><p>given in equation ( <ref type="formula" target="#formula_6">5</ref>). Since the conditional posterior follows a convenient and well-known form, efficient Gibbs sampling can be employed.</p><p>A Bayesian estimation framework requires elicitation of a prior on V. Obvious candidates are independent Bernoulli priors on the unknown indicators v ij :</p><formula xml:id="formula_9">p(v ij ) BER( p ij ),<label>(7)</label></formula><p>where p ij denotes the prior inclusion probability of v ij , p(v ij = 1) = p ij . Conversely, the prior probability of exclusion then simply takes the form p(v ij = 0) = 1p ij .</p><p>A natural prior choice would involve setting p ij = p = 1/2 for i = j, and 0 otherwise, which implies that each off-diagonal element in V has an equal prior chance of being included. However, in many cases a researcher has possible a priori information on the underlying structure of the spatial weight matrix. The following stylized examples demonstrate how to incorporate such information in a flexible and straightforward way.</p><p>Figure <ref type="figure" target="#fig_0">1</ref> illustrates the flexibility of prior elicitation for V in the case of a 'linear city' with N = 15 equidistant regions. Case A shows a prior specification without any prior uncertainty on the elements of W by setting p ij = 1 if i and j are considered as neighbours and 0 otherwise. Notes: Alternative prior set-ups for a linear city of N = 15 spatial observations. Case A shows a prior specification without any prior uncertainty on the spatial links. This set-up implies an exogenous W and no estimation of the weights is involved. Case B involves no spatial prior information and each element has a prior probability of inclusion p ij = 1/2∀i = j. Case C shows uncertainty of the linkages in W only within a certain spatial domain. Case D is a stylized prior specification considering uncertainty among two (or more) weight matrices, with setting p ij = 1 in regions where the two matrices overlap.</p><p>In this case, no estimation on the spatial links is involved and the model reduces to a standard SAR model with an exogenously given W (in this example, a distance band specification).</p><p>Case B depicts the opposite case where no prior spatial information is available. Specifically, this case considers full estimation of all N 2 -N potential links with respective prior inclusion probability p ij = 1/2 for i = j. Subplots C and D in Figure <ref type="figure" target="#fig_0">1</ref> depict prior set-ups where a priori spatial information is available to the researcher, but associated with uncertainty. Case C illustrates a prior where the general spatial domain is assumed as being a priori known, but uncertainty over specific linkages exists. In empirical practice, spatial weight matrices based on geographical information are often viewed as being preferable due to exogeneity assumptions to (socio-)economic data. The illustrated prior specification follows this idea by still allowing for uncertainty and flexibility among the spatial neighbourhood.</p><p>Recent contributions to spatial econometric literature propose selecting (Piribauer &amp; Cuaresma, 2016) or combining (Debarsy &amp; LeSage, 2018) multiple exogenous spatial weight matrices. Case D follows a similar idea by depicting a mixture of a distance band and a contiguity matrix (i.e., neighbourhood if regions share a common border). The intersecting elements of the two spatial structures (resulting in a contiguity matrix) are assumed as being included by setting p ij = 1.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1.">Hierarchical prior set-ups and sparsity</head><p>The prior structure in equation ( <ref type="formula" target="#formula_9">7</ref>) involves fixed inclusion probabilities p, which implies that the number of neighbours of observation i follows a Binomial distribution</p><formula xml:id="formula_10">N -1 l=1 v il BN (N -1, p)</formula><p>with a prior expected number of neighbours of (N -1) p. However, such a prior structure has the potential undesirable effect of promoting a relatively large number of neighbours. For example, when p = 1/2, the prior expected number of neighbours is (N -1)/2, since combinations of v ij resulting in such a neighbourhood size are dominant in number.</p><p>To put more prior weight on parsimonious neighbourhood structures and therefore promote sparsity in the adjacency matrix, one may explicitly account for the number of linkages in each row of the adjacency matrix</p><formula xml:id="formula_11">v i = [v i1 , . . . , v iN ] ′ .</formula><p>We consider a flexible prior structure on the number of neighbours v i that corresponds to a beta-binomial distribution BB(N -1, a v , b v ) with two prior hyperparameters a v , b v . 0. The beta-binomial distribution is the result of treating the prior inclusion probability p as random (rather than being fixed) by placing a hierarchical beta prior on it. For v ij , the resulting prior can be written as follows:</p><formula xml:id="formula_12">p(v ij ) / G(a w + v i )G(b v + (N -1) - v i ),<label>(8)</label></formula><p>where G( • ) denotes the Gamma function, and a v and b v are prior hyperparameters.</p><p>In the case of a v = b v = 1, the prior takes the form of a discrete uniform distribution over the number of neighbours. By fixing a v = 1, we follow Ley and Steel (2009) and anchor the prior expected number of neighbours m via b</p><formula xml:id="formula_13">v = [(N -1) -m]/m.</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.">BAYESIAN MCMC ESTIMATION OF THE MODEL</head><p>This section presents the Bayesian MCMC estimation algorithm for the proposed modelling framework. Estimation is carried out using an efficient Gibbs sampling scheme. The only exception is the sampling step for the spatial (scalar) autoregressive parameter r, where we propose using a standard Griddy-Gibbs step. <ref type="bibr">9</ref> The sampling scheme involves the following steps:</p><p>. Set starting values for the parameters (e.g., by sampling from the prior distributions).</p><p>. Sequentially update the parameters by subsequently sampling from the conditional posterior distributions presented in this section.</p><p>The second step is repeated for B times after discarding the first B 0 draws as burn-ins.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1.">Sampling b and s 2</head><p>For the slope parameters b and the error variance s 2 we use common Normal and inverted Gamma prior specifications, respectively. Specifically, p(b) N (0, V b ) and p(s 2 ) IG(a s 2 , b s 2 ), where V b , a s 2 and b s 2 denote prior hyperparameters.</p><p>The resulting conditional posterior distribution is Gaussian and of well-known form (e.g., LeSage &amp; Pace, 2009):</p><formula xml:id="formula_14">p(b|s 2 , r, V, D) N (b b , V b ) b b = s -2 V b X ′ SY V b = (s -2 X ′ X + V -1 b ) -1 . (<label>9</label></formula><formula xml:id="formula_15">)</formula><p>The conditional posterior of s 2 is inverted Gamma:</p><formula xml:id="formula_16">p(s 2 |b, r, V, D) IG( a s 2 , b s 2 ) a s 2 = a s 2 + NT /2 b s 2 = b s 2 + (SY -X b) ′ (SY -X b).<label>(10)</label></formula><p>4.2. Sampling r For the spatial parameter r, we use a standard Beta distribution (LeSage &amp; Pace, 2009, p. 142).</p><p>The conditional posterior is given by:</p><formula xml:id="formula_17">p(r|b, s 2 , V, D) / p(r)|S| exp - 1 2s 2 (SY -X b) ′ (SY -X b) . (<label>11</label></formula><formula xml:id="formula_18">)</formula><p>Note that the conditional posterior for r does not follow a well-known form and thus requires alternative sampling techniques. We follow LeSage and Pace (2009) and use a Griddy-Gibbs step (Ritter &amp; Tanner, 1992) to sample r. 10</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.3.">Sampling the elements of the adjacency matrix V</head><p>As discussed in the previous section, we propose two alternative prior specifications for the unknown indicators of the spatial weight matrix v ij . First, an independent Bernoulli prior structure with fixed inclusion probabilities (7). Second, a hierarchical prior structure which treats the inclusion probabilities as random (8). After eliciting the prior, the binary indicators v ij can be sequentially sampled in random order from a Bernoulli distribution with conditional posterior given in (6).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.4.">Fast computation of the determinant terms</head><p>For the Bayesian MCMC algorithm, it is worth noting that repeated sampling from equation ( <ref type="formula" target="#formula_7">6</ref>) is required. However, this requires evaluating the conditional probabilities p(v ij = 1| • ) and p(v ij = 0| • ) in equation ( <ref type="formula" target="#formula_6">5</ref>). The main computational difficulty lies in the calculation of the determinants |S 0 | and |S 1 |, which has to be carried out per Gibbs sampling step for the N 2 -N unknown elements of the spatial adjacency matrix. The computational costs associated with direct calculation of these determinants steeply rises with Nin fact by a factor of O(N 3 ).</p><p>This makes direct evaluation of the determinant prohibitively expensive, especially for large values of N . To avoid direct evaluation, we provide computationally efficient updates for the determinant, allowing for estimation of models with larger sample sizes.</p><p>It is worth noting that it is not necessary to directly calculate the determinant of the NT × NT matrix S z (with z [ {0, 1}). Only the determinant of the N × N matrix A z = I N -rW z needs to be updated, since</p><formula xml:id="formula_19">|S z | = |I T ⊗ A z | = |A z | T .</formula><p>Here, W z denotes the spatial weight matrix obtained by setting v ij = 1 and v ij = 0, respectively.</p><p>Direct evaluation of |A z | can be largely avoided, since updating v ij changes only the i-th row of A, if we do not restrict V to be symmetric (we will address this case shortly). To illustrate, let V (c) denote the currentto be updatedspatial adjacency matrix, and W (c) the associated spatial weight matrix with determinant |A (c) | = |I N -rW (c) |. Using the so-called matrix determinant lemma, we can efficiently calculate:</p><formula xml:id="formula_20">|A z | = |A (c) + n i d ′ i | = {1 + d ′ i (A (c) ) -1 n i }|A (c) |.</formula><p>Where n i is an N × 1 vector of zeros, except for its i-th entry, which is unity. The N × 1 vector d i contains the differences between the i-th row of A z and the i-th row of A <ref type="bibr">(c)</ref> . It becomes clear that equation ( <ref type="formula">12</ref>) provides a computationally cheap way for updating the determinant |A z |, conditional on |A (c) | and (A (c) ) -1 . This implies that during the MCMC procedure, for each update of v ij , we have to keep track of the determinant (for which equation 12 provides a simple update) and the inverse of A z . Direct evaluation of A -1 z issimilar to direct evaluation of the determinantprohibitively expensive for moderate to large N , since it has to be carried out for each unknown element of V. However, we can rely on the so-called Sherman-Morrison formula to avoid direct evaluation of the matrix inverse:</p><formula xml:id="formula_21">A -1 z = (A (c) + n i d ′ i ) -1 = (A (c) ) -1 - (A (c) ) -1 n i d ′ i (A (c) ) -1 1 + d ′ i (A (c) ) -1 n i . (<label>13</label></formula><formula xml:id="formula_22">)</formula><p>Combining the formulas in equations ( <ref type="formula">12</ref>) and ( <ref type="formula" target="#formula_21">13</ref>) thus provides a numerically cheap and viable way to update the elements of the spatial adjacency matrix. <ref type="bibr">11</ref> The binary nature of v ij can be exploited for additional computational gains. Either A 0 or A 1 always exactly equals A <ref type="bibr">(c)</ref> and thus its determinant and inverse is already known. This only necessitates calculating |A z | and (A z ) -1 for only z = 1 or for z = 0, but not both.</p><p>If a symmetric spatial adjacency matrix V is assumed, the update process remains generally the same, however the determinant and matrix inverse updates have to be performed iteratively. In this case, both v ij and v ji (for i = j) are set to either 1 or 0. Thus, both the i-th and the j-th row of A z differ from A <ref type="bibr">(c)</ref> . Following the notation in the non-symmetric case, let us denote the differences between these rows as d i and d j . To obtain an update of |A z | and A -1 z , we first evaluate equations ( <ref type="formula">12</ref>) and ( <ref type="formula" target="#formula_21">13</ref> and <ref type="figure">(A (c</ref>) ) -1 . Using the resulting determinant and matrix inverse, as well as n j , and d j , we again evaluate equations ( <ref type="formula">12</ref>) and ( <ref type="formula" target="#formula_21">13</ref>), which yield |A z | and A -1 z .</p><formula xml:id="formula_23">), based on d i , n i , |A (c) |,</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.">SIMULATION STUDY</head><p>To assess the accuracy of our proposed approach, we evaluate its performance in a Monte Carlo study. Our benchmark data generating process comprises two randomly generated explanatory variables, as well as spatial unit and time fixed effects:</p><formula xml:id="formula_24">y t = r W y t + m + tt + Z t b 0 + 1 t .</formula><p>To maintain succinct notation, we denote the simulated values in the Monte Carlo study with a tilde. The matrix of explanatory variables Z t is defined as Z t = [z 1t , z2t ], where both z1t and z2t are normally distributed with 0 mean and variance of 1, q 0 = 2. The corresponding vector of coefficients is defined as b 0 = [ -1, 1] ′ . The vector of residuals 1 t is generated from a normal distribution with 0 mean and s2 = 0.5. The fixed effects parameters m and tt are randomly generated from a standard normal distribution.</p><p>The row-stochastic spatial weight matrix W is based on an adjacency matrix Ṽ, which is generated from an N /20 nearest neighbour specification, by additionally assuming symmetry of the weight matrix prior to row-standardization. <ref type="bibr">12</ref> The nearest-neighbour specification is based on a randomly generated spatial location pattern, sampled from a normal distribution with 0 mean and unity variance. In the Monte Carlo study we vary T [ {10, 40} and N [ {20, 100}. Additionally, we vary the strength of spatial dependence r [ {0.3, 0.5, 0.8}.</p><p>For the Monte Carlo simulation study, we compare the following prior set-ups:</p><p>. Fixed ( p = 1/2) prior, which corresponds to the fixed Bernoulli prior specification in equation ( <ref type="formula" target="#formula_9">7</ref>), where we set p = 1/2.</p><p>. Sparsity (m = (N-1)/2) prior, which is analogous to the prior set-up in equation ( <ref type="formula" target="#formula_12">8</ref>), with</p><formula xml:id="formula_25">a v = b v = 1.</formula><p>This prior set-up corresponds to a discrete uniform distribution over the number of neighbours. . Sparsity (m = N /10) prior set-up, which corresponds to equation ( <ref type="formula" target="#formula_12">8</ref>), with a v = 1 and b v = [(N -1)m]/m. We set the number of a priori expected neighbours to m = N /10. This prior set-up thus imposes more sparsity in V as compared with the former.</p><p>For all prior specifications under scrutiny, we consider two alternative estimation set-ups by assuming that the adjacency matrix is either symmetric or non-symmetric. <ref type="bibr">13</ref> We moreover report the predictive performance of two alternative specifications using exogenous weight matrices. In these cases the employed weights are based on the true (symmetric) adjacency matrix by fixing the accuracy to the 99% and 95% level, respectively. We simulate such cases by randomly switching 1% and 5% of the elements in the true binary adjacency matrix Ṽ, respectively. The resulting exogenous adjacency matrices thus result in exactly 99% and 95% overlap in the binary observations with the true adjacency matrix, while maintaining the same level of sparsity.</p><p>The prior set-up for our remaining parameters is as follows. We assume a Gaussian prior for b with 0 mean and a variance of 100. We use an inverse gamma prior for s 2 with rate and shape parameters 0.01. The prior for the spatial autoregressive parameter r is a symmetric Beta specification with shape and rate parameters equal to 1.01. The chosen priors can thus be considered highly non-informative.</p><p>In Table <ref type="table" target="#tab_0">1</ref> we use several criteria to evaluate the performance of the alternative specifications. For the spatial autoregressive and the slope parameters we report the well-known root mean squared error (RMSE). For assessing the ability to estimating the spatial adjacency matrix, we use the measure of accuracy. The accuracy measure is defined as the sum of correctly identified unknown elements, divided by the number of total elements to be estimated. This measure is calculated separately for each posterior draw. The reported value is an average over all posterior draws and Monte Carlo iterations.</p><p>Table <ref type="table" target="#tab_0">1</ref> summarizes the results of our Monte Carlo simulation. For all combinations of N , T , r under scrutiny, it presents the respective RMSE for both the slope coefficients b and the spatial autoregressive parameter. The third block shows the accuracy of the estimated adjacency matrix V. Lower values in terms of RMSEs indicate outperformance. Conversely, for accuracy in V higher values indicate outperformance. The best performance among the three employed prior scenarios within a subgroup is highlighted in bold. In addition, the last two columns in Table A Bayesian approach for the estimation of weight matrices in spatial autoregressive models 1 show the results for the benchmark SAR models using exogenous randomly perturbed adjacency matrices with accuracy fixed at the 99% and 95% levels, respectively. Intuitively, the precision of the estimation improves as the number of observations NT increases in proportion to the number of unknown parameters. <ref type="bibr">14</ref> The results in Table <ref type="table" target="#tab_0">1</ref> largely confirm this intuition. The performance indicators for both r and V also clearly improve for high levels of spatial autocorrelation (r = 0.8). In scenarios where the number of unknown parameters is smaller than the number of observations our approach even manages to outperform both rather hard benchmarks using exogenous spatial weight matrices close to the true Data Generating Process (DGP). This relative outperformance appears particularly pronounced when the strength of spatial dependence r is large. In these settings, symmetric specifications (which resemble the true DGP) even manage to produce accuracy in the adjacency matrix close to unity.</p><p>Particularly interesting results appear in the most challenging Monte Carlo scenarios, where the number of unknown parameters is particularly large relative to the number of observations (N = 100 and T = 10). In these scenarios, the number of parameters to be estimated exceeds the number of observations by a factor of more than 10. In these cases, prior specifications without using shrinkage appear to fail estimating the underlying spatial structure by producing rather poor accuracy measures. However, when employing sparsity priors, Table <ref type="table" target="#tab_0">1</ref> reveals that our approach still manages to produce relatively accurate predictive results. In the existence of pronounced spatial autocorrelation, the sparsity specifications even manage to closely track the predictive performance of the rather tough exogenous benchmarks.</p><p>Note that the symmetric specifications (where we impose v ij = v ji ) typically outperform their non-symmetric counterparts due to their resemblance to the true DGP. However, for settings where the number of unknown parameters is smaller than the number of observations both scenarios track each other closely. Among the alternative prior specifications under scrutiny, Table <ref type="table" target="#tab_0">1</ref> shows rather similar results (no clear best specification emerges) in scenarios where N is small relative to T . However, for particularly over-parametrized settings (high N and low T ) the proposed sparsity priors particularly outperform the fixed set-ups. Specifically, even in the scenario with N = 100 and T = 10, the sparsity priors still perform comparatively well. <ref type="bibr">15</ref> </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.">EMPIRICAL ILLUSTRATION</head><p>To illustrate our proposed approach using real data, we estimate spatial panel specifications based on country-specific daily infection rates in the very early phase of the coronavirus pandemic. We use the COVID-19 data set provided by Johns Hopkins University (Dong et al., 2020). The database contains information on (official) daily infections for a large panel of countries around the globe. For the empirical illustration, we focus on the very beginning of the outbreak by using data from 17 February to 20 April 2020.</p><p>The starting date of our sample marks the beginning of the pandemic in major countries, such that large parts of Asia, Europe and North America can be included. <ref type="bibr">16</ref> The choice of the end date is motivated by the results of Krisztin et al. (2020), where the degree of spatial dependence among infections rates becomes insignificant after 20 April, when the majority of countries in the sample implemented lockdown policies.</p><p>For the empirical application we use data for the following countries: Australia (AUS), Bahrain (BHR), Belgium (BEL), Canada (CAN), China (CHN), Finland (FIN), France (FRA), Germany (DEU), Iran (IRN), Iraq (IRQ), Israel (ISR), Italy (ITA), Japan (JPN), Kuwait (KWT), Lebanon (LBN), Malaysia (MYS), Oman (OMN), Republic of Korea (KOR), Russian Federation (RUS), Singapore (SGP), Spain (ESP), Sweden (SWE), Thailand (THA), United Arab Emirates (ARE), United Kingdom (GBR), United States of America (USA) and Viet Nam (VNM).</p><p>By including a biweekly time lag, our resulting panel thus comprises N = 27 countries across the globe for a period of T = 19 days. <ref type="bibr">17</ref> We follow the work of Guliyev (2020), Krisztin et al.  (2020) and Han et al. (2021), among others, and use panel versions of a spatial growth specification for the country-specific COVID-19 infections:</p><formula xml:id="formula_26">y t = m + t t + rWy t-r + x t-14 b + Z t-14 b 0 + 1 t ,<label>(14)</label></formula><p>where y t = x tx t-14 , and x t is an N × 1 vector comprising the (logged) daily number of official cases per 100,000 inhabitants per country for time period t = 1, . . . , T . 18 m and t t represent fixed effects for the countries and the time periods, respectively. W denotes the spatial weight matrix with spatial autoregressive parameter r as defined before. We again primarily focus on row-stochastic weight matrices. Results based on spatial weight matrices without row-standardization are presented in the Appendix in the supplemental data online.</p><p>We also consider alternative model specifications using contemporaneous as well as temporal lags of the spatial lag (Wy t-r with r [ {0, 14}). A plethora of recent studies exploit the contemporaneous spatial information (r = 0) for modelling the spread of COVID-19 infections (e.g., Guliyev, 2020; Han et al., 2021; Jaya &amp; Folmer, 2021; Kosfeld et al., 2021; Krisztin et al.,  2020). Using contemporaneous spatial information appears reasonable when the primary interest lies in quantifying spatial co-movements of infection rates. However, for many questions of interest, a temporal spatial lag Wy t-r (r . 0) might be an interesting alternative since it reflects the notion that the spatial process of virus transmission takes some time to manifest (Elhorst,  2021; Mitze &amp; Kosfeld, 2022). Since our proposed estimation approach can be easily applied to these alternative specifications, we provide estimates for both specifications. <ref type="bibr">19</ref> In addition to the Initial infections variable x t-14 , matrix Z t-14 contains three explanatory variables on a daily basis. Several studies emphasize the importance of climatic condition on the COVID-19 virus spread. For a survey on the effects of climate on the spread of the COVID-19 pandemic, see Briz-Redón and Serrano-Aroca (2020). We therefore use daily data on the country specific maximum measured temperature (Temperature) and precipitation levels (Precipitation) as additional covariates. Both variables stem from a daily database of</p><p>Table 2 country-specific data, which was compiled via the Dark Sky API. <ref type="bibr">20</ref> As a third variable, we also include the well-known stringency index (Stringency) put forward by Hale et al. (2020), which summarizes country-specific governmental policy measures to contain the spread of the virus. In this application, we use the biweekly average of the reported stringency index. Since all these influences arguably require some time to be reflected in the official infection figures, we use a biweekly lag of 14 days (in accordance with r in alternative variants). <ref type="bibr">21</ref> Table <ref type="table" target="#tab_1">2</ref> presents a summary of the estimation results. The left part shows results for specifications using a contemporaneous spatial lag Wy t , while the right part summarizes results for the case Wy t-14 .</p><p>For each specification, the first rows contain the posterior mean and standard deviations for the slope parameters followed by estimates of r and s 2 . Posterior quantities which appear significantly different from zero using a 90% posterior credible interval are depicted in bold.  moreover presents the average posterior expected number of neighbours, which is given by the average row sum of the matrix of posterior inclusion probabilities based on p(v ij = 1|D). This measure can be viewed as a measure of sparsity in the estimated matrix of linkages. All specifications moreover contain fixed effects for both N and T . <ref type="bibr">22</ref> Table <ref type="table" target="#tab_1">2</ref> shows rather similar r and s 2 posterior quantities for the flat and the sparsity prior. However, there appear some marked differences between the specifications Wy t and Wy t-14 . In all cases, spatial dependence appears strong and precisely estimated, but appears particularly high in the temporal lag specification Wy t-14 . However, Table <ref type="table" target="#tab_1">2</ref> similarly reveals higher estimates for the nuisance parameter s 2 for the temporal spatial lag models. It shows rather precise and negative coefficients for the initial infections variable, indicating conditional convergence patterns. For most model variants, Table <ref type="table" target="#tab_1">2</ref> moreover suggests a significant negative impact of the stringency index on infection growth. The majority of the slope parameter estimates associated with the variables temperature and precipitation appear more muted and insignificant. Overall, Table 2 moreover clearly demonstrates that a hierarchical prior set-up can enforce sparsity in the resulting adjacency matrix. Both sparsity specifications result in an average number of neighbours smaller than the models with fixed prior specifications.</p><p>Figure <ref type="figure" target="#fig_1">2</ref> depicts the posterior inclusion probabilities p(v ij = 1|D) for the considered specifications. To better visualize the results we have reordered the countries by their longitudes, starting with Canada and the United States and ending with Southeast Asian countries, Australia and Japan. Clusters along the main diagonal thus roughly indicate geographic spatial linkages. For the sake of visualization, we distinguish between negligible evidence for inclusion (, 0.50; white colour), moderate evidence (0.50 -0.75; grey colour), and strong evidence (. 0.75; black colour).</p><p>The two upper plots in Figure <ref type="figure" target="#fig_1">2</ref> depict posterior inclusion probabilities p(v ij = 1|D) for the specifications involving a contemporaneous spatial lag Wy t , while the lower part shows temporal spatial lag specifications Wy t-14 . In both cases, the left subplots present results based on independent prior inclusion probabilities of p = 1/2. The right plots are based on sparsity priors using m = 7. The columns in the subplots indicate marginal posterior importance of the countries as predictors of coronavirus infections in linked countries. Conversely, rows depict the countries to be predicted. The results using sparsity priors generally produce similar patterns as the fixed prior specifications and clearly demonstrate its ability of dimension reduction in the connectivity structure. For the contemporaneous spatial lag specification (upper plots), Figure <ref type="figure" target="#fig_1">2</ref> suggests a slightly more pronounced regional dependency structure as compared with the temporal spatial lags. Moreover, it reveals marked spill-out effects from Asian countries, as well as from Iran and Italy. <ref type="bibr">23</ref> Results based on a biweekly temporal spatial lag Wy t-14 show even more pronounced spill-out effects from Asian countries (most notably China, Republic of Korea and Singapore). <ref type="bibr">24</ref> For European countries, results similarly suggest Italy as a further important source country of spatial virus transmission. The estimated spatial linkages are thus in close agreement with the actual origins of the overall virus transmission for the very early period of the global outbreak of the pandemic.</p><p>To showcase convergence of the posterior MCMC chains, Figure <ref type="figure" target="#fig_2">3</ref> depicts trace plots for r, s 2 , and slope parameters. Overall, the trace plots show rather good mixing and convergence properties. Convergence of the chains have moreover been checked using the diagnostics proposed by Geweke (1992) implemented in the R package coda (Plummer et al., 2006). Results moreover appear rather robust concerning alternative modelling frameworks. Estimation results of these alternative specifications are presented in the Appendix in the supplemental data online. <ref type="bibr">25</ref> </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="7.">CONCLUSIONS</head><p>In this paper we propose a Bayesian approach for estimation of weight matrices in spatial econometric models. A particular advantage of our approach is the simple integration into a standard Bayesian MCMC algorithm. The proposed framework can therefore be adapted and extended in a simple and computationally efficient way to cover a large number of alternative spatial specifications prevalent in recent literature. Our approach may thus be easily extended to cover inter alia non-Gaussian models such as spatial probit (LeSage et al., 2011) or logit specifications (Krisztin  &amp; Piribauer, 2021), local spillover models (Vega &amp; Elhorst, 2015), or spatial error models (LeSage &amp; Pace, 2009).</p><p>Our approach does not necessarily rely on specific prior information for the spatial linkages. Spatial information, however, can be easily implemented in a flexible and transparent way. We moreover motivate the use of hierarchical priors which impose sparsity in the resulting spatial weight matrix. These sparsity priors are particularly useful in applications where the number of unknown parameters exceeds those of the observations. The virtues of our approach comes at the price that we focus on spatial neighbourhood structures which are binary (prior to row-standardization). However, this assumption is implicitly assumed in many spatial applications in the regional economic literature where spatial weight matrices are constructed based on concepts of contiguity, distance band or nearest neighbours.</p><p>Based on Monte Carlo simulations, we show that our approach appears particularly promising when the number of spatial observations N is large relative to the time dimension T , which is a rather common characteristic of data sets in the regional science literature. We moreover demonstrate the usefulness of our approach using real data on the outbreak of the COVID-19 pandemic. The results of this empirical application corroborate the findings in the Monte Carlo simulation study that the proposed approach performs well even in the cases of high over-parametrization. <ref type="bibr">9</ref> A random walk Metropolis-Hastings step for r might be employed as an alternative. <ref type="bibr">10</ref> Since the support for r is limited, the Griddy-Gibbs approach (or sometimes inversion approach) relies on univariate numerical integration techniques of the conditional posterior for r and uses the cumulative density function for producing draws of r. A Metropolis-Hastings step may be used as a standard alternative, but these typically produce less efficient draws with poorer mixing properties (see also LeSage &amp; Pace, 2009). <ref type="bibr">11</ref> Note the implication that an update of r necessitates a direct evaluation of the determinant |A| and the matrix inverse A -1 , as in this case no convenient equations exist. An update of r, however, has to be performed only once per Gibbs step, as opposed to the N 2 -N updates necessary for V, thus justifying the relatively higher computational costs. <ref type="bibr">12</ref> More specifically, Ṽ = ( Ṽ′ 0 + Ṽ0 )/2, where Ṽ0 is a N /20 nearest neighbour adjacency matrix. <ref type="bibr">13</ref> However, a direct comparison of the results between symmetric and non-symmetric specifications does not appear reasonable, since the adjacency matrix in the data-generating process is assumed symmetric. <ref type="bibr">14</ref> The number of unknown parameters amounts to N 2 + T + q 0 + 2 and N (N -1)/2 + N + T + q 0 + 2 for non-symmetric and symmetric spatial weight matrices, respectively. <ref type="bibr">15</ref> Figure <ref type="figure">A4</ref> in the Appendix in the supplemental data online illustrates the convergence properties of a random Monte Carlo sample for the case of N = 20 and T = 10. This case was chosen because it is similar to the settings in the empirical applications. <ref type="bibr">16</ref> Countries without any (official) infections in the starting period have been excluded from the sample. Moreover, we exclude India as a clear outlier from the sample due to its particular small (official) infection rates throughout the observation period. <ref type="bibr">17</ref> With a biweekly time lag, the dependent variable thus captures data from 2 to 20 April (T = 19). For a better comparison, we have fixed the time period captured by y t for all alternative specifications. Moreover, it is worth noting that a notable earlier starting date would result in relatively few (cross-sectional) observations. However, our results are rather robust when considering a longer time horizon. <ref type="bibr">18</ref> The spatial growth regression in (14) may be alternatively specified in levels rather than in log-differences by setting y t = x t . Results using this alternative specification are very similar and are presented in the Appendix in the supplemental data online. <ref type="bibr">19</ref> In the special case of r . 0, computational efficiency is tremendously increased, as no logdeterminant calculations are required in the MCMC algorithm. The sampling strategy for these cases is presented in the Appendix in the supplemental data online. <ref type="bibr">20</ref> See <ref type="url" target="https://www.kaggle.com/datasets/vishalvjoseph/weather-dataset-for-covid19-predictions/">https://www.kaggle.com/datasets/vishalvjoseph/weather-dataset-for-covid19-predictions/</ref>. <ref type="bibr">21</ref> As robustness checks, we also tried a shorter lag length of one week. The estimated spatial structures appeared very similar to the biweekly benchmarks. All these additional robustness checks, along with the R codes, are available from the authors upon request. <ref type="bibr">22</ref> For the benchmark specifications, the number of unknown parameters and observations amounts to 753 and 513, respectively. <ref type="bibr">23</ref> The regional dependency structure appears particularly pronounced when a level specification of the infection dynamics is imposed. Sensitivity checks based on this alternative specification are presented in Figure <ref type="figure" target="#fig_0">A1</ref> in the Appendix in the supplemental data online. <ref type="bibr">24</ref> When comparing the results, it is important to note that for all specifications under scrutiny, we have fixed the time period in the dependent variable (y t from 2 to 20 February, i.e., T = 19). The biweekly temporal spatial lag specification thus inherently comprises spatial information prior to the period in y t . <ref type="bibr">25</ref> Estimates when using a smaller time lag of seven days also appear very similar. Results along with the R codes used are available from the authors upon request.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure 1 .</head><label>1</label><figDesc>Figure1. Some stylized prior examples for W in a linear city. Notes: Alternative prior set-ups for a linear city of N = 15 spatial observations. Case A shows a prior specification without any prior uncertainty on the spatial links. This set-up implies an exogenous W and no estimation of the weights is involved. Case B involves no spatial prior information and each element has a prior probability of inclusion p ij = 1/2∀i = j. Case C shows uncertainty of the linkages in W only within a certain spatial domain. Case D is a stylized prior specification considering uncertainty among two (or more) weight matrices, with setting p ij = 1 in regions where the two matrices overlap.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Figure 2 .</head><label>2</label><figDesc>Figure 2. Posterior inclusion probabilities for benchmark specifications. Note: Posterior inclusion probabilities of spatial links are based on 5000 MCMC draws. Inclusion probabilities 0.50-0.75 (little evidence for inclusion) are coloured grey. Strong evidence for inclusion (&gt; 0.75) coloured black.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Figure 3 .</head><label>3</label><figDesc>Figure3. Trace plots for benchmark specifications. Note: Posterior draws are based on 5000 MCMC draws, where the first 2500 were discarded as burnins.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1 .</head><label>1</label><figDesc>Monte Carlo simulation results.Results are based on 1000 Monte Carlo iterations. For each, the corresponding sampling algorithms are run using 500 draws, where the initial 500 were discarded as burn-in. The values given for RMSE(b) and RMSE(r) correspond to the average root mean squared error over all Monte Carlo iterations. Bold values denote the best performing specification within a section (symmetric or non-symmetric). The exogenous V specifications correspond to classic SAR models with randomly perturbed exogenous adjacency matrices, which have an accuracy of 99% and 95% compared with the true adjacency matrix. For RMSEs, lower values indicate outperformance. Conversely, for the accuracy indicators of V, higher values indicate outperformance.</figDesc><table><row><cell>SPATIAL ECONOMIC ANALYSIS</cell><cell>RMSE(b)</cell><cell>N 20</cell><cell>T 40 10</cell><cell>r 0.3 0.5 0.8 0.3 0.5</cell><cell>Fixed p = 1/2 0.193 0.172 0.169 0.234 0.257</cell><cell>Non-symmetric Sparsity m = N/2 0.161 0.173 0.169 0.207 0.210</cell><cell>Sparsity m = N/10 0.163 0.172 0.169 0.198 0.206</cell><cell>Fixed p = 1/2 0.162 0.170 0.165 0.203 0.189</cell><cell>Symmetric Sparsity m = n/2 0.163 0.169 0.166 0.182 0.191</cell><cell>Sparsity m = n/10 0.164 0.171 0.167 0.181 0.190</cell><cell cols="2">Exogenous W 0.99 0.95 0.168 0.176 0.179 0.216 0.287 0.553 0.192 0.204 0.206 0.253</cell><cell>10 Tamás Krisztin and Philipp Piribauer</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell>0.8</cell><cell>0.217</cell><cell>0.216</cell><cell>0.217</cell><cell>0.205</cell><cell>0.204</cell><cell>0.206</cell><cell>0.371</cell><cell>0.658</cell></row><row><cell></cell><cell></cell><cell>100</cell><cell>40</cell><cell>0.3</cell><cell>0.098</cell><cell>0.099</cell><cell>0.097</cell><cell>0.099</cell><cell>0.099</cell><cell>0.098</cell><cell>0.079</cell><cell>0.080</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell>0.5</cell><cell>0.144</cell><cell>0.088</cell><cell>0.083</cell><cell>0.145</cell><cell>0.114</cell><cell>0.076</cell><cell>0.084</cell><cell>0.086</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell>0.8</cell><cell>0.154</cell><cell>0.087</cell><cell>0.088</cell><cell>0.073</cell><cell>0.081</cell><cell>0.081</cell><cell>0.089</cell><cell>0.141</cell></row><row><cell></cell><cell></cell><cell></cell><cell>10</cell><cell>0.3</cell><cell>0.111</cell><cell>0.112</cell><cell>0.111</cell><cell>0.111</cell><cell>0.111</cell><cell>0.112</cell><cell>0.092</cell><cell>0.093</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell>0.5</cell><cell>0.135</cell><cell>0.118</cell><cell>0.104</cell><cell>0.135</cell><cell>0.136</cell><cell>0.118</cell><cell>0.088</cell><cell>0.094</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell>0.8</cell><cell>0.346</cell><cell>0.143</cell><cell>0.140</cell><cell>0.254</cell><cell>0.102</cell><cell>0.102</cell><cell>0.100</cell><cell>0.151</cell></row><row><cell></cell><cell>RMSE(r)</cell><cell>20</cell><cell>40</cell><cell>0.3</cell><cell>0.199</cell><cell>0.029</cell><cell>0.031</cell><cell>0.030</cell><cell>0.029</cell><cell>0.030</cell><cell>0.034</cell><cell>0.060</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell>0.5</cell><cell>0.035</cell><cell>0.040</cell><cell>0.042</cell><cell>0.035</cell><cell>0.035</cell><cell>0.035</cell><cell>0.039</cell><cell>0.083</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell>0.8</cell><cell>0.021</cell><cell>0.021</cell><cell>0.022</cell><cell>0.018</cell><cell>0.018</cell><cell>0.018</cell><cell>0.084</cell><cell>0.177</cell></row><row><cell></cell><cell></cell><cell></cell><cell>10</cell><cell>0.3</cell><cell>0.237</cell><cell>0.152</cell><cell>0.094</cell><cell>0.291</cell><cell>0.147</cell><cell>0.106</cell><cell>0.058</cell><cell>0.080</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell>0.5</cell><cell>0.155</cell><cell>0.060</cell><cell>0.054</cell><cell>0.109</cell><cell>0.053</cell><cell>0.051</cell><cell>0.059</cell><cell>0.114</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell>0.8</cell><cell>0.027</cell><cell>0.032</cell><cell>0.032</cell><cell>0.028</cell><cell>0.028</cell><cell>0.029</cell><cell>0.097</cell><cell>0.179</cell></row><row><cell></cell><cell></cell><cell>100</cell><cell>40</cell><cell>0.3</cell><cell>0.280</cell><cell>0.283</cell><cell>0.277</cell><cell>0.279</cell><cell>0.283</cell><cell>0.287</cell><cell>0.027</cell><cell>0.033</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell>0.5</cell><cell>0.447</cell><cell>0.109</cell><cell>0.101</cell><cell>0.446</cell><cell>0.353</cell><cell>0.220</cell><cell>0.021</cell><cell>0.054</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell>0.8</cell><cell>0.148</cell><cell>0.044</cell><cell>0.047</cell><cell>0.049</cell><cell>0.024</cell><cell>0.024</cell><cell>0.034</cell><cell>0.097</cell></row><row><cell></cell><cell></cell><cell></cell><cell>10</cell><cell>0.3</cell><cell>0.242</cell><cell>0.256</cell><cell>0.268</cell><cell>0.245</cell><cell>0.252</cell><cell>0.274</cell><cell>0.050</cell><cell>0.062</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell>0.5</cell><cell>0.373</cell><cell>0.176</cell><cell>0.141</cell><cell>0.371</cell><cell>0.391</cell><cell>0.404</cell><cell>0.041</cell><cell>0.074</cell></row></table><note><p>Note:</p></note></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 2 .</head><label>2</label><figDesc>Estimation results for benchmark specifications.Posterior quantities based on 5000 MCMC draws, where the first 2500 were discarded as burn-ins. Values in bold denote significance under a 90% posterior credible interval.</figDesc><table><row><cell></cell><cell></cell><cell>Wy t</cell><cell></cell><cell></cell><cell></cell><cell cols="2">Wy t-14</cell></row><row><cell></cell><cell>Fixed</cell><cell></cell><cell cols="2">Sparsity</cell><cell>Fixed</cell><cell></cell><cell cols="2">Sparsity</cell></row><row><cell></cell><cell>Mean</cell><cell>SD</cell><cell>Mean</cell><cell>SD</cell><cell>Mean</cell><cell>SD</cell><cell>Mean</cell><cell>SD</cell></row><row><cell>Initial infections</cell><cell cols="8">-0.8761 0.0117 -0.9244 0.0117 -0.9533 0.0126 -0.9911 0.0114</cell></row><row><cell>Stringency</cell><cell cols="6">-0.4566 0.0736 -0.5661 0.0451 -0.2503 0.0858</cell><cell cols="2">0.0616 0.0410</cell></row><row><cell>Precipitation</cell><cell cols="4">0.0365 0.0339 -0.0444 0.0335</cell><cell cols="2">0.0541 0.0608</cell><cell cols="2">0.0483 0.0511</cell></row><row><cell>Temperature</cell><cell cols="8">-0.0014 0.0015 -0.0016 0.0015 -0.0032 0.0026 -0.0017 0.0025</cell></row><row><cell>r</cell><cell cols="2">0.6319 0.0129</cell><cell cols="2">0.5592 0.0101</cell><cell cols="2">0.9618 0.0110</cell><cell cols="2">0.9481 0.0139</cell></row><row><cell>s 2</cell><cell cols="2">0.0187 0.0013</cell><cell cols="2">0.0209 0.0014</cell><cell cols="2">0.0401 0.0034</cell><cell cols="2">0.0516 0.0036</cell></row><row><cell>Average no. of</cell><cell>7.8370</cell><cell></cell><cell>3.6083</cell><cell></cell><cell>4.2849</cell><cell></cell><cell>2.8082</cell></row><row><cell>neighbours</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>Fixed effects</cell><cell>Yes</cell><cell cols="2">Yes</cell><cell></cell><cell>Yes</cell><cell></cell><cell>Yes</cell></row><row><cell>N</cell><cell>27</cell><cell cols="2">27</cell><cell></cell><cell>27</cell><cell></cell><cell>27</cell></row><row><cell>T</cell><cell>19</cell><cell cols="2">19</cell><cell></cell><cell>19</cell><cell></cell><cell>19</cell></row></table><note><p>Note:</p></note></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" xml:id="foot_0"><p>SPATIAL ECONOMIC ANALYSIS</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="1" xml:id="foot_1"><p><ref type="bibr" target="#b0">Ahrens and Bhattacharjee (2015)</ref> consider the case of sparsity in the spatial weights by employing shrinkage towards the zero matrix.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="2" xml:id="foot_2"><p>We also consider specifications with a spatial lag of the temporally lagged dependent variable. Sampling strategies for these cases are presented in the Appendix in the supplemental data online.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="3" xml:id="foot_3"><p>For thorough discussions of the implications of row-standardization, see<ref type="bibr" target="#b32">Plümper and Neumayer (2010)</ref> and<ref type="bibr" target="#b27">Liu et al. (2014)</ref>.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="4" xml:id="foot_4"><p>Equation (3) implies some observations may have zero neighbours. However, priors on the number of neighbours can be easily elicited to rule out such situations. Moreover, a researcher might easily abstain from row-standardization by neglecting the transformation in equation (3).</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="5" xml:id="foot_5"><p>The function f ( • ) may simply be dropped when considering models without row-standardization of W .</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="6" xml:id="foot_6"><p>The most obvious case where this assumption would be violated is a fully connected W with w ij = 1/N for all i = j.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="7" xml:id="foot_7"><p>These assumptions can be checked during estimation by using standard rejection sampling techniques in the MCMC sampling steps (e.g.,<ref type="bibr" target="#b25">LeSage &amp; Pace, 2009;</ref><ref type="bibr" target="#b16">Koop, 2003)</ref>. Rejection sampling rejects draws of parameter combinations that do not fulfil these assumptions.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="8" xml:id="foot_8"><p>To reduce the dimensionality of the parameter space, an interesting alternative might be the assumption of a symmetric V, which halves the number of free elements in the spatial weight matrix. This assumption can be imposed by simply simultaneously updating v ij = v ji , respectively.</p></note>
+		</body>
+		<back>
+
+			
+			<div type="acknowledgement">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>ACKNOWLEDGMENTS</head><p>This article is based on an earlier working paper.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>DISCLOSURE STATEMENT</head><p>No potential conflict of interest was reported by the authors.</p></div>
+			</div>
+
+
+			<div type="funding">
+<div><head>FUNDING</head><p><rs type="person">Tamás Krisztin</rs> was supported by funds from the <rs type="funder">Oesterreichische Nationalbank (Austrian National Bank)</rs> [grant number <rs type="grantNumber">18690</rs>]; and <rs type="person">Philipp Piribauer</rs> was supported by the <rs type="funder">Austrian Science Fund (FWF)</rs>[grant number <rs type="grantNumber">ZK 35</rs>].</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_UjesZa9">
+					<idno type="grant-number">18690</idno>
+				</org>
+				<org type="funding" xml:id="_K85MuJj">
+					<idno type="grant-number">ZK 35</idno>
+				</org>
+			</listOrg>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Two-step lasso estimation of the spatial weights matrix</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Ahrens</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Bhattacharjee</surname></persName>
+		</author>
+		<idno type="DOI">10.3390/econometrics3010128</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">3</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="128" to="155" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Regional economic growth in Europe: A semiparametric spatial dependence approach</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Basile</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/j.1435-5957.2008.00175.x</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Papers in Regional Science</title>
+		<imprint>
+			<biblScope unit="volume">87</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="527" to="544" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">The effect of climate on the spread of the COVID-19 pandemic: A review of findings, and statistical and modelling techniques</title>
+		<author>
+			<persName><forename type="first">Á</forename><surname>Briz-Redón</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Á</forename><surname>Serrano-Aroca</surname></persName>
+		</author>
+		<idno type="DOI">10.1177/0309133320946302</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Progress in Physical Geography: Earth and Environment</title>
+		<imprint>
+			<biblScope unit="volume">44</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="591" to="604" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Embracing heterogeneity: The spatial autoregressive mixture model</title>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">J</forename><surname>Cornwall</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">O</forename><surname>Parent</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.regsciurbeco.2017.03.004</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">64</biblScope>
+			<biblScope unit="page" from="148" to="161" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<monogr>
+		<title level="m" type="main">Identifying network ties from panel data: Theory and an application to tax competition</title>
+		<author>
+			<persName><forename type="first">Á</forename><surname>De Paula</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><surname>Rasul</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Souza</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:1910.07452</idno>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Flexible dependence modeling using convex combinations of different types of connectivity structures</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Debarsy</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Lesage</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.regsciurbeco.2018.01.001</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">69</biblScope>
+			<biblScope unit="page" from="48" to="68" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">An interactive web-based dashboard to track COVID-19 in real time</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>Dong</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Du</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Gardner</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/S1473-3099(20)30120-1</idno>
+	</analytic>
+	<monogr>
+		<title level="j">The Lancet Infectious Diseases</title>
+		<imprint>
+			<biblScope unit="volume">20</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="533" to="534" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">The dynamic general nesting spatial econometric model for spatial panels with common factors: Further raising the bar</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Elhorst</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/s10037-021-00163-w</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Review of Regional Research</title>
+		<imprint>
+			<biblScope unit="page" from="1" to="19" />
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Evaluating the accuracy of sampling-based approaches to the calculation of posterior moments</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Geweke</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Bayesian Statistics</title>
+		<editor>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename><surname>Bernardo</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">J</forename><forename type="middle">O</forename><surname>Berger</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">A</forename><forename type="middle">P</forename><surname>Dawid</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">A</forename><forename type="middle">F M</forename><surname>Smith</surname></persName>
+		</editor>
+		<meeting><address><addrLine>Oxford</addrLine></address></meeting>
+		<imprint>
+			<publisher>Clarendon Press</publisher>
+			<date type="published" when="1992">1992</date>
+			<biblScope unit="volume">4</biblScope>
+			<biblScope unit="page" from="169" to="193" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Determining the spatial effects of COVID-19 using the spatial panel data model</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Guliyev</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.spasta.2020.100443</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Spatial Statistics</title>
+		<imprint>
+			<biblScope unit="volume">38</biblScope>
+			<biblScope unit="page">100443</biblScope>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<monogr>
+		<title level="m" type="main">Variation in government responses to COVID-19</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Hale</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Petherick</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Phillips</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Webster</surname></persName>
+		</author>
+		<idno type="DOI">10.1038/s41562-021-01079-8</idno>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+			<biblScope unit="volume">31</biblScope>
+			<biblScope unit="page" from="2020" to="2011" />
+		</imprint>
+	</monogr>
+	<note type="report_type">Blavatnik School of Government Working Paper</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Bayesian analysis of spatial panel autoregressive models with time-varying endogenous spatial weight matrices, common factors, and random coefficients</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Han</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Lee</surname></persName>
+		</author>
+		<idno type="DOI">10.1080/07350015.2016.1167058</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Business &amp; Economic Statistics</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="642" to="660" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Quantifying COVID-19 importation risk in a dynamic network of domestic cities and international countries</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Han</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Xu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Fan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Huang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Xu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Gao</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Proceedings of the National Academy of Sciences</title>
+		<imprint>
+			<biblScope unit="volume">118</biblScope>
+			<biblScope unit="page">31</biblScope>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">A social interactions model with endogenous friendship formation and selectivity</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">S</forename><surname>Hsieh</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Lee</surname></persName>
+		</author>
+		<idno type="DOI">10.1002/jae.2426</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Applied Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">31</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="301" to="319" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Bayesian spatiotemporal forecasting and mapping of COVID-19 risk with application to west Java province, Indonesia</title>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">G N M</forename><surname>Jaya</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Folmer</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/jors.12533</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Regional Science</title>
+		<imprint>
+			<biblScope unit="volume">61</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="849" to="881" />
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Estimation of spatial models with endogenous weighting matrices, and an application to a demand model for cigarettes</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Piras</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.regsciurbeco.2014.03.001</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">46</biblScope>
+			<biblScope unit="page" from="140" to="149" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<monogr>
+		<author>
+			<persName><forename type="first">G</forename><surname>Koop</surname></persName>
+		</author>
+		<title level="m">Bayesian econometrics</title>
+		<imprint>
+			<publisher>John Wiley &amp; Sons Ltd</publisher>
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">The COVID-19 containment effects of public health measures: A spatial difference-in-differences approach</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Kosfeld</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Mitze</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Rode</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Wälde</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/jors.12536</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Regional Science</title>
+		<imprint>
+			<biblScope unit="volume">61</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="799" to="825" />
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">The determinants of regional freight transport: A spatial, semiparametric approach</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Krisztin</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/gean.12125</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">49</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="268" to="308" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">A Bayesian spatial autoregressive logit model with an empirical application to European regional FDI flows</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Krisztin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Piribauer</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/s00181-020-01856-w</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Empirical Economics</title>
+		<imprint>
+			<biblScope unit="volume">61</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="231" to="257" />
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">The spatial econometrics of the coronavirus pandemic</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Krisztin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Piribauer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Wögerer</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/s12076-020-00254-1</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Letters in Spatial and Resource Sciences</title>
+		<imprint>
+			<biblScope unit="volume">13</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="209" to="218" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Estimation and selection of spatial weight matrix in a spatial lag model</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Lam</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">C</forename><surname>Souza</surname></persName>
+		</author>
+		<idno type="DOI">10.1080/07350015.2019.1569526</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Business &amp; Economic Statistics</title>
+		<imprint>
+			<biblScope unit="volume">38</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="693" to="710" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Bayesian estimation of spatial autoregressive models</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Lesage</surname></persName>
+		</author>
+		<idno type="DOI">10.1177/016001769702000107</idno>
+	</analytic>
+	<monogr>
+		<title level="j">International Regional Science Review</title>
+		<imprint>
+			<biblScope unit="volume">20</biblScope>
+			<biblScope unit="issue">1-2</biblScope>
+			<biblScope unit="page" from="113" to="129" />
+			<date type="published" when="1997">1997</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">New Orleans business recovery in the aftermath of Hurricane Katrina</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Lesage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Kelley Pace</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Lam</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Campanella</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Liu</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/j.1467-985X.2011.00712.x</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society: Series A (Statistics in Society)</title>
+		<imprint>
+			<biblScope unit="volume">174</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="1007" to="1027" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">A matrix exponential spatial specification</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Lesage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">K</forename><surname>Pace</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.jeconom.2006.09.007</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">140</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="190" to="214" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<monogr>
+		<title level="m" type="main">Introduction to spatial econometrics</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Lesage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">K</forename><surname>Pace</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2009">2009</date>
+			<publisher>CRC Press</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">On the effect of prior assumptions in Bayesian model averaging with applications to growth regression</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>Ley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">F</forename><surname>Steel</surname></persName>
+		</author>
+		<idno type="DOI">10.1002/jae.1057</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Applied Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">24</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">Endogenous peer effects: Local aggregate or local average</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Patacchini</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Zenou</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.jebo.2014.03.025</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Economic Behavior &amp; Organization</title>
+		<imprint>
+			<biblScope unit="volume">103</biblScope>
+			<biblScope unit="page" from="39" to="59" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">The propagation effect of commuting to work in the spatial transmission of COVID-19</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Mitze</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Kosfeld</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/s10109-021-00349-3</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Geographical Systems</title>
+		<imprint>
+			<biblScope unit="volume">24</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="5" to="31" />
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">Heterogeneity in spatial growth clusters</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Piribauer</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/s00181-015-1023-y</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Empirical Economics</title>
+		<imprint>
+			<biblScope unit="volume">51</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="659" to="680" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Bayesian variable selection in spatial autoregressive models</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Piribauer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">C</forename><surname>Cuaresma</surname></persName>
+		</author>
+		<idno type="DOI">10.1080/17421772.2016.1227468</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Spatial Economic Analysis</title>
+		<imprint>
+			<biblScope unit="volume">11</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="457" to="479" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">CODA: Convergence diagnosis and output analysis for MCMC</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Plummer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Best</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Cowles</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Vines</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">R News</title>
+		<imprint>
+			<biblScope unit="volume">6</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="7" to="11" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">Model specification in the analysis of spatial dependence</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Plümper</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Neumayer</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/j.1475-6765.2009.01900.x</idno>
+	</analytic>
+	<monogr>
+		<title level="j">European Journal of Political Research</title>
+		<imprint>
+			<biblScope unit="volume">49</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="418" to="442" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">Estimating a spatial autoregressive model with an endogenous spatial weight matrix</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Qu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Lee</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.jeconom.2014.08.008</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">184</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="209" to="232" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<analytic>
+		<title level="a" type="main">Facilitating the Gibbs sampler: The Gibbs stopper and the Griddy-Gibbs sampler</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Ritter</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">A</forename><surname>Tanner</surname></persName>
+		</author>
+		<idno type="DOI">10.1080/01621459.1992.10475289</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">87</biblScope>
+			<biblScope unit="issue">419</biblScope>
+			<biblScope unit="page" from="861" to="868" />
+			<date type="published" when="1992">1992</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<analytic>
+		<title level="a" type="main">Regression shrinkage and selection via the lasso</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Tibshirani</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/j.2517-6161.1996.tb02080.x</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society: Series B (Methodological)</title>
+		<imprint>
+			<biblScope unit="volume">58</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="267" to="288" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<analytic>
+		<title level="a" type="main">The SLX model</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">S</forename><surname>Vega</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Elhorst</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/jors.12188</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Regional Science</title>
+		<imprint>
+			<biblScope unit="volume">55</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="339" to="363" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

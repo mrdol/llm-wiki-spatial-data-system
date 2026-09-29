@@ -1,0 +1,718 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">The Sensitivity of Spatial Regression Models to Network Misspecification</title>
+				<funder ref="#_cqM2yX6">
+					<orgName type="full">German Research Foundation (DFG)</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability  status="unknown">
+					<licence/>
+				</availability>
+				<date>March</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author role="corresp">
+							<persName><forename type="first">Sebastian</forename><surname>Juhl</surname></persName>
+							<email>sebastian.juhl@gess.uni-mannheim.de</email>
+							<idno type="ORCID">0000-0002-7123-5398</idno>
+						</author>
+						<author>
+							<persName><forename type="first">Jeff</forename><surname>Gill</surname></persName>
+						</author>
+						<author>
+							<persName><forename type="first">Thomas</forename><surname>Bräuninger</surname></persName>
+						</author>
+						<author>
+							<persName><forename type="first">Roni</forename><surname>Lehrer</surname></persName>
+						</author>
+						<author>
+							<persName><forename type="first">Eric</forename><surname>Neumayer</surname></persName>
+						</author>
+						<author>
+							<persName><forename type="first">Katrin</forename><surname>Paula</surname></persName>
+						</author>
+						<author>
+							<persName><forename type="first">Thomas</forename><surname>Plümper</surname></persName>
+						</author>
+						<author>
+							<persName><forename type="first">Richard</forename><surname>Traunmüller</surname></persName>
+						</author>
+						<author>
+							<persName><forename type="first">Laron</forename><surname>Williams</surname></persName>
+						</author>
+						<author>
+							<affiliation key="aff0">
+								<orgName type="institution" key="instit1">University of Mannheim</orgName>
+								<orgName type="institution" key="instit2">Collaborative Research Center</orgName>
+								<orgName type="institution" key="instit3">B , -, Room</orgName>
+								<address>
+									<settlement>Mannheim</settlement>
+									<country key="DE">Germany</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<affiliation key="aff1">
+								<orgName type="department">Graduate School of Economic and Social Sciences (GESS)</orgName>
+								<orgName type="institution">University of Mannheim&apos;</orgName>
+							</affiliation>
+						</author>
+						<title level="a" type="main">The Sensitivity of Spatial Regression Models to Network Misspecification</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published">March</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">3AE71107A0F5BEE0C90D3011D0A96CC6</idno>
+					<idno type="DOI">10.1017/pan.2019.12</idno>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-28T15:59+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>Bayesian model averaging</term>
+					<term>network uncertainty</term>
+					<term>spatial econometrics</term>
+					<term>W</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Spatial econometric models become increasingly popular in various subfields of political science. However, the necessity to specify the underlying network of dependencies, denoted by W, prior to estimation is a prevalent source of criticism since the true dependence structure is rarely known and theories mostly provide insufficient guidance. The present study investigates the effects of this network uncertainty which is a special case of model uncertainty that arises from uncertainty about the correct specification of W. It advocates Bayesian model averaging (BMA) as a superior approach to this problem, located at the intersection of theory and empirics. Conducting Monte Carlo experiments, I demonstrate that, while the effect estimates are robust toward a misspecification in the functional form of W, uncertainty in the neighborhood definition can bias the effect estimates derived from spatial autoregressive models. In contrast to alternative techniques, BMA directly addresses network uncertainty, correctly identifies the true network structure in the set of feasible alternatives, and provides unbiased effect estimates. Two replication studies from different subfields of the discipline illustrate the benefits of this approach for applied research.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Introduction</head><p>Spatial regression techniques have matured into standard tools in many subfields of political science. Their particular appeal arises from the circumstance that, in contrast to standard regression methods, they do not assume the units of analysis to be independent but allow for cross-sectional interdependence <ref type="bibr">(Beck, Gleditsch, and Beardsley ; Darmofal )</ref>. Rapid advances in spatial estimation techniques further spurred their popularity (e.g., <ref type="bibr">Franzese and Hays ; LeSage and Pace ; Hays, Kachi, and Franzese )</ref>. Despite the econometric progress, the necessity to specify the connectivity matrix , denoted by W, which captures the network of dependencies prior to the estimation, constitutes an outstanding problem for applied research. Since theories of spatial dependence in political science rarely provide sufficient guidance to unambiguously determine the underlying network, its specification frequently appears to be somewhat arbitrary <ref type="bibr">(Kostov , ; Darmofal )</ref>. Consequently, there is a great concern about the effects of a misspecified W for the validity of statistical inferences. What is more, since model uncertainty is primarily a theoretical problem, there is no genuine econometric solution to this issue. As a result, researchers employing spatial techniques in their empirical work are o en confronted with the criticism that their substantive findings crucially hinge on the predefined W (e.g., <ref type="bibr">Arbia and Fingleton ; Parent and LeSage ; Plümper and Neumayer ; Neumayer and Plümper )</ref>. At the same time, it is not well understood how the specification of the connectivity matrix affects the substantive conclusions derived from spatial models. Whereas LeSage and Pace consider the notion of the estimated effects being sensitive to the specification of a particular W as "the biggest myth about spatial regression models" ( , ), Neumayer and Plümper ( , ) stress the importance of specification issues for the validity of inferences in the context of spatial autoregressive (SAR) models (see also <ref type="bibr">Plümper and Neumayer )</ref>. This disagreement only exacerbates the confusion about the severity of model misspecification and, most likely, hampers the application of spatial econometric techniques in applied research.</p><p>In order to offer a practical solution to the necessity to specify the network of dependencies in the absence of sufficient theoretical guidance, I propose Bayesian model averaging (BMA) as a superior approach for political science applications. In contrast to alternative techniques, BMA provides a coherent framework to incorporate network uncertainty, which is the uncertainty about the specific network structure, in empirical models. It also relaxes the restrictive assumption that researchers know the exact network structure prior to estimation and assumes instead that at least one network in the set of feasible structures sufficiently resembles the true underlying W. Using Monte Carlo experiments, I examine the effect of two common sources of network uncertainty, (i) uncertainty in the neighborhood definition and (ii) in the weighting scheme or the functional form of W (e.g., <ref type="bibr">Kostov</ref> ; Neumayer and Plümper ), on the estimates. Two replication studies from different subfields of political science-International Relations and International Political Economy-exemplify the added value of BMA for applied research.</p><p>The results show that, whereas only the spatial parameter estimates but not the effect estimates are sensitive toward a misspecification in the functional form, uncertainty in the neighborhood definition can bias the effect estimates derived from SAR models, especially if the interdependence is strong. The simulations further demonstrate that, in contrast to standard model fit statistics, BMA correctly identifies the true network structure that generated the data even without prior knowledge about the relative likelihood of each network in the set of feasible alternatives. Since it also provides accurate effect estimates, BMA is a powerful tool to obtain valid inferences from spatial models, even if the underlying theory provides unsatisfactory guidance on the specification of W.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>What is Network Uncertainty and Where Does it Come From?</head><p>The reduction of complex, inherently unobservable, and unknown real-world processes which generate observable outputs of interest to simple mathematical expressions lies at the core of quantitative analyses. In order to deductively evaluate theories, researchers set up statistical models and assume that they closely resemble the unknown data-generating process (DGP). Inferences are based on parameter estimates that indicate the relative contribution of each exogenous covariate included in the model to the observable outcome. Apparently, the validity of these inferences crucially hinges on the assumption that the model adequately represents the true DGP since the parameter estimates are conditional on the model (e.g., Bartels ; Young ; <ref type="bibr">Barker and Link )</ref>. How can we be certain that a specific model appropriately represents the true DGP? The sobering fact is: we cannot. In order to address the inevitable uncertainty associated with model choice, researchers typically conduct model comparisons via several goodness-of-fit statistics and select the model that is most supported by the sampled data. Subsequent inferences are then solely based on model M that provides the best fit. However, there is always the possibility that the alternative model M , which also fits reasonably well, is the model that actually generated the data. Especially if the substantive conclusions obtained from M and M differ, basing inferences exclusively on either model has the potential to undermine the validity of the findings. Consequently, statistical inferences are always afflicted with some degree of model uncertainty (e.g., Hoeting et al.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>; Wasserman ; Barker and Link</head><p>). In the context of spatial regression models, model uncertainty can arise from three different sources (Parent and LeSage , ). For the purpose of exposition, consider the following general form of an SAR model:</p><formula xml:id="formula_0">y = αι n + ρWy + Xβ + ∼ N (0, σ 2 I n ), ( )</formula><p>where y is an n × 1 vector of observations on the outcome variable, ι n is a constant term vector of ones with the parameter α, X is an n × r dimensional matrix of exogenous covariates with their associated coefficient vector β, and I n is an identity matrix of size n. The vector consists of normally distributed disturbances with zero mean, a constant variance of σ 2 , and zero covariance. Finally, the product of an exogenously specified connectivity matrix W and the vector y constitutes the spatial lag with the associated spatial parameter ρ reflecting the strength of interdependence conditional on W.</p><p>The first two sources of model uncertainty concern the specification of X and . First, the choice of a specific statistical distribution for the error terms from the set of applicable distributions can be afflicted with uncertainty. Second, the decision which explanatory variable to include in X and which to disregard can also cause model uncertainty. Furthermore, the simultaneous choice of model specification and the connectivity matrix which enters the model prior to estimation introduces a third form of model uncertainty <ref type="bibr">(Mueller and Loomis</ref> ; Parent and LeSage ). By way of distinction and for the sake of conceptual and terminological clarity, I refer to this type of model uncertainty as network uncertainty. More precisely, network uncertainty is a special case of model uncertainty arising from incertitude associated with the selection of one specific network of dependencies, represented by W, from a finite set of possible alternative network specifications identified by the theory. This conceptual definition sets network uncertainty apart from other forms of model uncertainty and facilitates a precise investigation of its effects (e.g., Neumayer and Plümper</p><p>). Kostov ( ) further distinguishes between two related sources of network uncertainty. First, network uncertainty can stem from uncertainty in the neighborhood definition. When specifying the network, researchers must decide which units are connected to each other by assigning nonzero values to the respective cells in W. Second, since researchers also have to define the relative strength of the units' connections by specifying the relative values of W, network uncertainty might also be attributable to uncertainty in the weighting scheme or the functional form (see also Williams</p><p>). While uncertainty in the neighborhood definition can be regarded as a special case of uncertainty in the weighting scheme, this conceptual distinction facilitates the discussion of network uncertainty because, depending on the substantive theory, each of these sources plagues applied research to a varying degree.</p><p>The definition presented above implies that the term network uncertainty encompasses a variety of specification choices. For example, the potentially important issue of the spatial effect's directionality discussed by <ref type="bibr">Neumayer and Plümper (</ref> ) is a form of network uncertainty as it represents uncertainty about the signs of the cell entrances in W. Heterogeneity in the units' responsiveness to a spatial stimulus, as analyzed by <ref type="bibr">Neumayer and Plümper ( )</ref>, is also a form of network uncertainty given that it can be incorporated in spatial models by interacting W with a variable indicating the units' responsiveness. Hence, network uncertainty subsumes these specification choices as they constitute instances of uncertainty in the values of the cells in W. One exception is that this definition of network uncertainty does not address the possibility of multidimensional connectivity <ref type="bibr">(Neumayer and Plümper )</ref>. Still, the possible forms of network uncertainty faced by researchers implementing spatial regression models are manifold and depend upon the studies' theoretical foundations. Hence, just like other forms of model uncertainty, network uncertainty is a theoretical problem that cannot be alleviated easily by econometric solutions (e.g., <ref type="bibr">Plümper and Neumayer ; Barker and Link )</ref>. In contrast to alternative approaches, BMA provides a way to quantify this uncertainty and to combine parameter estimates from different and possibly non-nested model specifications based on their posterior model probabilities in order to obtain valid inferences despite uncertainty in the network structure.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>BMA for Spatial Econometric Models</head><p>The application of BMA in the context of spatial econometrics is not unprecedented. Numerous studies in different disciplines, especially in ecology and regional science, utilize this approach in their empirical work in order to account for model uncertainty occurring in spatial regression models (e.g., Hepple ; LeSage and Parent ; LeSage and Pace ; Mueller and Loomis ; <ref type="bibr">Barker and Link</ref> ). Yet, the transfer from these disciplines to political science is still pending. This article attempts to facilitate this transfer and shows how BMA can be used to address the pressing issue of network uncertainty in political science applications.</p><p>BMA constitutes a natural extension to the basic logic of Bayesian updating. It provides a coherent and sound framework to appropriately account for uncertainty in the model specification and a systematic scheme for robustness testing (Hepple ; Montgomery and Nyhan ; Parent and LeSage ; <ref type="bibr">Neumayer and Plümper )</ref>. From a Bayesian perspective, all inferences about the model parameters of interest θ in spatial econometric models are derived by summarizing the conditional posterior distribution p(θ D, W), where W is the network of dependencies among the units, D = (y, X) is the data matrix consisting of the dependent variable vector y and the matrix of explanatory variables X. Since there is inherent uncertainty about the true W, suppose the theory only identifies a set of feasible network configurations W = {W 1 , . . . , W m }, where m is the number of theoretically plausible network structures. Applying Bayes' theorem, the posterior density of the parameters θ conditional on one specific W k ∈ W is obtained by combining the likelihood p(D θ, W k ) with the prior beliefs about the parameters, represented by p(θ W k ):</p><formula xml:id="formula_1">p(θ D, W k ) = p(D θ, W k )p(θ W k ) p(D W k ) ,<label>( )</label></formula><p>where p(D W k ) is the likelihood of the data given W k and serves as a normalizing constant. It is o en referred to as marginal likelihood or integrated likelihood and is of central importance for BMA (Hepple ; Parent and LeSage ). It is given by:</p><formula xml:id="formula_2">p(D W k ) = p(D θ, W k )p(θ W k ) d θ. ( )</formula><p>By applying Bayes' theorem to this marginal distribution, it is possible to calculate posterior model probabilities for each of the m different networks in W . The posterior model probability I thank Reviewer for clarifying the scope of this definition. An exhaustive review of Bayesian statistics is well beyond the scope of this article. Interested readers may be referred to Gill ( ) who also presents a technical treatment of BMA.</p><p>for one network W k can be computed by:</p><formula xml:id="formula_3">π(W k D) = p(D W k )p(W k ) m j =1 p(D W j )p(W j ) ,<label>( )</label></formula><p>where p(W k ) and p(W j ) represent prior model probabilities. A common choice representing little prior knowledge is to assign a prior probability of 1/m to all models <ref type="bibr">(Hoeting et al. )</ref>. Since the set of feasible networks is discrete, the denominator in Equation ( ) is summed rather than integrated. Note also that this quantity is of interest for both, model selection and model averaging since it represents the relative support for one specific network as compared to the alternative network specifications in W , given the data. For model selection, the network with the highest posterior model probability is selected. For model averaging, the posterior model probabilities serve as weights for the parameter estimates of all models. The averaged estimate of one parameter θ l is obtained by summing over all models' parameter estimates weighted by the respective posterior model probability:</p><formula xml:id="formula_4">E (θ l av g D) = m j =1 π j E (θ l D, W j ).</formula><p>( )</p><p>The variance of θ l av g , which is unconditional on a specific network, consists of two parts. The first part is the weighted average of the posterior variances under each model. The second part is a weighted average of the squared deviations between each model's posterior mean and the BMA estimate (Bartels , -):</p><formula xml:id="formula_5">Var(θ l av g D) = m j =1 π j Var(θ l D, W j ) + m j =1 π j (E (θ l D, W j ) -E (θ l av g D)) 2 . ( )</formula><p>Whereas in most instances it is not necessary to compute the marginal likelihood since it is possible to drop the normalizing constant and use the proportionality of p(θ D) ∝ p(D θ)p(θ), this quantity is central to BMA. One way to handle this complication is to approximate the posterior model probabilities with transdimensional Markov Chain Monte Carlo (MCMC) methods, for example, the MCMC model composition (M C 3 ) technique (e.g., Hepple</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>; LeSage and Parent</head><p>). These methods simultaneously explore the parameter space and the model space. However, the implementation of these methods is a nontrivial task since it requires a careful specification of priors in order to ensure that the MCMC algorithm mixes well so that it explores the entire model space. To circumvent these practical problems, I use a method developed by Chib ( ) for obtaining the marginal likelihood. Before proceeding, it is important to discuss the weaknesses of BMA. Since it requires the identification of a set of feasible models and is computationally demanding, BMA becomes increasingly impractical as the set of feasible alternatives grows. It is therefore almost impossible to test all possible combinations of covariates and all assumptions necessary to specify a model since the size of the model space quickly exceeds beyond the limits of implementability <ref type="bibr">(Neumayer and Plümper , )</ref>. By the same token, BMA is difficult to implement for complex model structures (e.g., Cranmer, Rice, and Siverson</p><p>). It is not the most powerful tool for model selection as there are alternative algorithms that can handle complex model structures in a fast and efficient manner (e.g., <ref type="bibr">Piribauer and Crespo Cuaresma )</ref>. Finally, while BMA relaxes the restrictive assumption implicitly underlying most empirical studies that one model adequately represents the true DGP, the results are conditional on the model space. Consequently, BMA requires some prior knowledge as it assumes that at least one model in the predefined set of feasible models represents the DGP reasonably well <ref type="bibr">(Barker and Link )</ref>.</p><p>While acknowledging these limitations, I argue that the BMA approach has a special appeal for dealing with network uncertainty frequently encountered in political science applications of spatial econometric techniques. In most instances, it is not necessary to relax all assumptions required to specify a model at once. Instead, researchers can successively relax one assumption at a time and investigate the results' sensitivity toward these slight modifications. As I argue above, network uncertainty is only one aspect of model uncertainty but it frequently triggers skepticism and causes a great deal of confusion about possible effects of network misspecification (e.g., <ref type="bibr">Arbia and Fingleton ; LeSage and Pace ; Neumayer and Plümper )</ref>. In this specific scenario, BMA can quantify the effect of different and o en arbitrary specification choices in W. Furthermore, it does not require the theory to exactly determine every detail of the spatial effect-an expectation that hardly will ever be met <ref type="bibr">(Plümper and Neumayer , )</ref>. Instead, it suffices if the theory identifies a set of feasible alternatives. A er all, the assumption that at least one network in the feasible set adequately represents the true system of dependencies is considerably less restrictive than assuming that the one W specified in a single model is an accurate depiction of the true but unobservable network. Hence, BMA strikes a balance between assuming perfect prior knowledge about the true network structure, as conventional spatial regression models do, and assuming the complete absence of any theoretical guidance, as purely data-oriented procedures do.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Alternative Approaches to Network Uncertainty</head><p>The necessity to specify W prior to model estimation is an outstanding methodological problem that attracts considerable scholarly attention by spatial econometricians (e.g., Hays, Kachi, and Franzese ; Kostov ; Mueller and Loomis ; Darmofal ). Perhaps unsurprisingly, the literature offers a variety of different approaches to mitigate the apparent arbitrariness in the specification of W.</p><p>Zhukov and Stewart ( ), for example, develop a three-step procedure to select a single best performing network structure among a predefined candidate pool. Their approach essentially relies on a combination of parameter-level and model-level diagnostics, where the researcher selects the W that exhibits a significant autocorrelation parameter and provides the best fit to the data based on statistics like the R 2 or the Akaike Information Criterion (AIC). In a similar vein, <ref type="bibr">Kostov ( , )</ref> proposes component-wise model-boosting to find the appropriate network structure among a predefined set of candidate networks. This algorithm has the appeal that it is comparatively fast and efficient which makes it a powerful tool for model selection <ref type="bibr">(Cranmer, Rice, and Siverson</ref> ). Yet, these techniques have some important limitations. Above all, they are exclusively suited for model selection. Model selection refers to the problem of choosing a model out of a set of candidate models. Once a model is selected, inferences are based on this model as if it has generated the data. In contrast, model averaging is the process by which a researcher combines the estimates from different models in a specific way to obtain inferences from multiple models. Thereby, model averaging adequately reflects model uncertainty in the estimates (Bartels ; Wasserman ). Thus, if the task is to evaluate and quantify the amount of uncertainty associated with different and equally plausible specifications of W, these procedures are of limited utility. Furthermore, Kostov ( , ) also notes that there is no guarantee that these techniques will unambiguously identify one single best performing network structure. Goodnessof-fit measures may not be able to clearly identify a best fitting model. A er all, if the theory regards multiple network structures as equally likely, considering only a single W is hardly justifiable, irrespective of how good it fits the sampled data.</p><p>Also note that a good fit to the sampled data does not necessarily imply that the model resembles the true DGP.</p><p>Alternatively, <ref type="formula">Neumayer and Plümper (   ,</ref>) propose a semiparametric approach. Since theories of spatial dependence rarely provide sufficient information on how the spatial effect varies between different levels of connectivity, they suggest that researchers divide the connectivity variable into several discrete categories and estimate a spatial parameter for each category. Thereby, the spatial effect can vary with connectivity. Researchers do not impose a functional form on the units' connectivity but rather estimate it from the data. At the same time, the semiparametric approach does not rule out arbitrariness in model specification as the researcher decides on the number of categories and the location of the thresholds which renders robustness tests indispensable. Practical estimation problems can also arise due to correlation between the spatial variables which will result in a loss of efficiency (Neumayer and Plümper , ). Regarding network uncertainty, the strategy most similar to the BMA approach is the multiparametric spatiotemporal autoregressive (m-STAR) model developed by Hays, Kachi, and Franzese (</p><p>) which includes all theoretically reasonable spatial lags in a single regression equation. While the BMA estimate of ρ is the weighted average of this parameter's posterior distributions under each candidate network, the m-STAR model estimates a separate parameter for each network configuration. Thereby, it directly accounts for the possibly multidimensional nature of connectivity. However, if the alternative network structures are similar-i.e., because connectivity is unidimensional-the spatial lags might be highly collinear, which inflates the standard errors or entirely impedes the estimation of the spatial parameters in the m-STAR model. In contrast, since the BMA approach features a single spatial lag in each regression equation, multicollinearity does not cause estimation problems.</p><p>While all of the procedures discussed so far-including BMA-rely on some theoretical considerations, e.g., to identify a set of feasible networks, other approaches attempt to address network uncertainty from a purely data-oriented perspective. Bhattacharjee and Jensen-Butler ( ), for example, develop an estimator that uses the observed spatial autocovariance to estimate the elements of W. In a similar vein, Ahrens and Bhattacharjee (</p><p>) propose a two-step least absolute shrinkage and selection operator (LASSO) to estimate the unknown network structure. Although procedures to estimate W from the data do not require prior knowledge of the network of dependencies, their practical utility for social science research is restricted by some notable limitations. Political scientists employing spatial econometric techniques to test theoretical expectations are interested in assessing the empirical support for theories of interdependence instead of merely fitting a model as closely as possible to sampled data. Insofar as researchers wish to draw conclusions with respect to these theories, estimating W does not constitute a valuable solution to the problem of network uncertainty as it only provides information about empirical patterns of spatial autocorrelation. Neither does it permit meaningful inferences concerning the validity of theories of interdependence nor can researchers differentiate between potential causes of spatial dependence without further analyses <ref type="bibr">(Bhattacharjee and Jensen-Butler , )</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Monte Carlo Experiments</head><p>To investigate the effects of different forms of misspecification in W relevant for applied research and to assess the performance of BMA, this section presents two Monte Carlo studies. The true Of course, it is possible to incorporate multidimensional connectivity in the BMA approach as well. Given that BMA is also used to select predictors that belong to the true DGP from a set of candidates, it can produce posterior probabilities reflecting the likelihood that multiple spatial lags produced the observable outcome vector y (e.g., Hoeting et al. , ).</p><p>Sep 2026 at 15:36:47, subject to the Cambridge Core terms of use, available at DGP in the simulations is the standard SAR model in its reduced form:</p><formula xml:id="formula_6">y = (I n -ρW) -1 (αι n + xβ ) + (I n -ρW) -1 .</formula><p>( ) By way of illustration, I only include a single regressor. Using Equation ( ), I generate , simulations of y with a sample size of n = 100. Like the residual vector , the covariate vector x contains n i.i.d. draws from a standard normal distribution. The coefficients α = 3 and β = 2 are held constant across all Monte Carlos while I separately simulate a scenario featuring low and high levels of cross-sectional dependence: ρ = {0.2; 0.8}. Due to the endogeneity present in the model, the interpretation of substantive effects becomes more complex compared to standard linear regression models. The partial derivative of y with respect to x is not simply β but ∂y/∂x = (I n -ρW) -1 β . This partial derivatives matrix contains the direct impact of a one-unit change in x i on y i on its diagonal as well as its indirect impact on all other units y j i on its off-diagonal. The sum of these quantities yields the total impact for unit i . As LeSage and Pace ( , ) suggest, I report average impacts as summary statistics in the Monte Carlo studies:</p><formula xml:id="formula_7">Direct = n -1 tr((I n -ρW) -1 β ), Indirect = n -1 [ι n ((I n -ρW) -1 β )ι n -tr((I n -ρW) -1 β )].</formula><p>( ) I conduct two experiments which are designed to resemble different forms of network uncertainty commonly encountered in empirical studies, including both replication studies presented below: (i) uncertainty about the neighborhood definition and (ii) uncertainty about the functional form or the weighting scheme (e.g., Kostov ; Williams ).</p><p>. Study : misspecification in the neighborhood definition</p><p>In many applications of spatial econometric techniques, researchers are uncertain about which units are connected to each other (e.g., Beck, Gleditsch, and Beardsley ; Gleditsch and Ward ; Darmofal ). Thus, understanding the consequences of misspecifying the units' neighborhood is of great practical importance. Assuming that the units are ordered on one dimension, I specify the true binary connectivity matrix such that its elements w i ,j take on a value of if unit j belongs to i 's five nearest neighbors on each side and zero otherwise. To make the estimates comparable across the network specifications and to ensure the invertibility of W, I employ a min-max normalization and divide each cell in W by the constant τ = min{max(r ), max(c)}, where max(r ) is the largest row sum and max(c) is the largest column sum (Kelejian and Prucha , ). In order to investigate the bias induced by uncertainty about the number of neighbors, I construct ten different connectivity matrices, W 1 to W 10 , where W 1 connects each unit to its adjacent neighbor on both sides, W 2 connects each unit to the two closest neighbors on each side, and so on. Before estimating the SAR model in Equation ( ) using the different matrices and the artificially generated data, I apply the min-max normalization.</p><p>While these quantities are useful to summarize the wealth of information provided by the partial derivatives matrix, this aggregation potentially obscures variation in individual impacts across different specifications of W.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>The replication code for the Monte Carlo simulations and the replication studies is retrievable from the Political Analysis Dataverse (Juhl</head><p>). Since the elements of all Ws only indicate whether units are connected or not, the distance between units is irrelevant for this simulation study. In empirical applications, this scenario resembles the popular k -nearest neighbors connectivity criteria or, assuming similar distances between units, the thresholding approach (e.g., <ref type="bibr">Gleditsch and Ward ; Zhukov and Stewart ; Darmofal )</ref>. In contrast to conventional row-standardization, this transformation does not change the relative importance of a sender for each recipient and does not impose the assumption of homogeneous total exposure while ensuring matrix nonsingularity <ref type="bibr">(Neumayer and Plümper )</ref>. In the presence of spatial autocorrelation, Franzese and Hays ( ) already show that nonspatial ordinary least squares (OLS) is biased. Therefore, I exclude the case that ignores cross-sectional dependencies.  simulations.</p><p>By taking the popular R 2 as an example, Figure exemplifies the inability of classical goodnessof-fit measures to identify W 5 as the true network structure. Even in the high-dependency scenario, there are only minor differences between the specifications which complicates the selection of the correct W and inhibits the successful application of the three-step procedure discussed in Section . Additionally, Figure reports the means of the average direct and indirect impacts across the , simulations together with the respective % highest density area and compares them to the true effects, represented by the dashed horizontal lines. In the low-dependency scenario, there are only minor differences between the alternative Ws. While the estimated direct impact remains almost identical, considering too few neighbors downwardly biases the estimate of the average indirect impact. At the same time, applying a broad neighborhood definition that includes more units than the true underlying network does not bias the substantive effect estimates. In the high-dependency scenario, the differences between the ten network specifications become more pronounced. If the neighborhood definition is too narrow, the estimated direct impact will be upwardly biased and the indirect impact downwardly biased. Again, considering too many units as being part of a unit's neighborhood does not bias the estimates. Yet, it increases the variation in the estimates of the average indirect impact across the simulation trials, making inferences more vulnerable to random fluctuations.</p><p>To evaluate the performance of BMA, suppose that a researcher interested in the effect of x on the artificial outcome vector y is uncertain about the correct number of neighbors. Since her theory considers each of the ten network specifications as equally likely, she assigns an uninformative prior probability of . to each of them. The upper part of Figure presents the average posterior model probabilities together with the density of the effect estimates across all simulations for the low-dependency scenario. Although BMA correctly identifies W 5 as the most likely network, it is on average only . % more likely than W 6 . Yet, given that the effect estimates of all models in the set of feasible alternatives do not notably differ, BMA provides accurate estimates of the substantive effects. In the case of strong cross-sectional dependence, as depicted in the lower part of Figure , BMA unambiguously identifies W 5 as the true network. Still, the effect estimates are slightly inflated as a result of the simultaneity bias which is especially severe if the interdependence is strong ( <ref type="formula">Franzese and Hays</ref>). The le part of Figure <ref type="figure">also</ref> demonstrates the effect of incorporating prior knowledge about the likelihood of each W. Instead of considering each of the candidate networks as equally likely, suppose the researcher's prior belief that the true network is either W 4 , W 5 , or W 6 is . . While this more informative prior changes the average posterior model probability of the true network W 5 Supplementary Material B presents a table of the substantive effects shown here.  from . % to % in the low-dependency scenario, it hardly affects the posterior probability in the high-dependency scenario. The effect of prior model probabilities decreases as ρ increases.</p><p>In sum, the importance of correctly specifying W increases with the strength of the cross-sectional dependence in the data. This Monte Carlo experiment shows that defining the neighborhood too narrowly attenuates the estimates of the average indirect impact. A broad neighborhood definition does not bias the estimates but increases their variability. Overall, however, the effect of a misspecification in the neighborhood definition on the estimated substantive effects is rather small and BMA provides correct effect estimates.</p><p>. Study : misspecification in the weighting scheme Another source of network uncertainty frequently encountered in empirical applications concerns the strength of the cross-sectional dependence (e.g., <ref type="bibr">Plümper and Neumayer</ref> ; Williams ; Juhl ). The necessity to specify W prior to estimation requires researchers to conceptualize the strength of the relationships among the units and to define their functional form or their weighting scheme <ref type="bibr">(Kostov , )</ref>. This Monte Carlo study investigates the effect of network uncertainty stemming from uncertainty in the functional form of W.</p><p>Suppose that the n = 100 units are ordered on a single dimension with an equal distance of d = 10 on an arbitrary scale between adjacent units. Furthermore, assume that the true network structure in the DGP connects all units within a radius of d = 50 and that the true weighting scheme is the inverse distance between two connected units: w i ,j = 1/d i ,j d i ,j ≤ 50. However, while the theory correctly predicts interdependencies within a radius of d = 50, it does not specify the exact functional form of W. Therefore, I define six different weighting schemes, including all schemes applied by <ref type="bibr">Plümper and Neumayer ( )</ref>. In line with the theory, the matrices connect all units within a radius of d = 50 and only differ in the specification of the connections' relative strengths. Besides the true inverse distance specification, the set of alternative networks consists of a binary connectivity matrix, a contiguity matrix, an inverse logarithmic distance specification, Thereby, I hold the degree of connectivity in the networks constant since Farber, Páez, and Volz ( ) and Stakhovych and Bijmolt ( ) show that this affects the behavior of several test statistics. simulations. an inverse reversed distance specification, and an inverse squared distance specification. Again, to ease interpretation and to assure the invertibility of W, all matrices are min-max normalized.</p><p>The le part of Figure shows the estimate of the spatial parameter across all alternative specifications. Clearly, the varying ρ in both the low-dependency but especially in the highdependency scenario suggests that model misspecification can severely distort inferences. Yet, as LeSage and Pace ( ) emphasize, differences in ρ do not necessarily imply differences in the substantive effects. In fact, the right part of Figure illustrates that, despite differences in ρ, the estimated average total impact of the regressor is almost identical across the specifications in both scenarios. Except for the simple contiguity matrix which also implies a different neighborhood definition, these results suggest that this type of network uncertainty does not bias the substantive effect estimates.</p><p>Unsurprisingly, Figure shows that BMA also performs well in this second Monte Carlo study. Irrespective of the strength of the cross-sectional dependence, the correctly specified W has the highest posterior model probability-although three specifications are almost equally likely in the low-dependency scenario, given that all specifications have the same prior probability. More importantly, despite uncertainty about the functional form of the dependence, BMA provides Again, Supplementary Material B contains a table reporting the estimates of the substantive effects. accurate effect estimates in this simulation study as well. Similar to the results presented in the first Monte Carlo experiment, BMA reliably recovers the true effect size.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Sebastian Juhl Political Analysis</head><p>Taken together, and in line with the analytical results presented by LeSage and Pace ( ), both Monte Carlo experiments performed here indicate that network uncertainty is a less severe concern than commonly expected in applied settings. While the parameter estimates depend on W, the substantive effect estimates are little affected by a misspecification in the network structure. Moreover, these simulations also provide evidence for the ability of BMA to accommodate network uncertainty and to derive unbiased effect estimates even in a situation where single network specifications yield biased estimates.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Political Science Applications</head><p>In order to demonstrate the utility of the BMA approach in political science applications using spatial econometric techniques, this section presents two replication studies from different subfields of the discipline. It also considers the alternative approaches advocated by Zhukov and Stewart ( ) and Neumayer and Plümper ( ) discussed in Section and illustrates how BMA compensates the weaknesses of these approaches.</p><p>The first example replicates a study by Gleditsch and Ward ( ) on the international diffusion of democratization and shows how BMA performs under different neighboring criteria commonly employed in the subfield of International Relations. The second example is a reexamination of a study conducted by Plümper and Neumayer ( ), who show how spatial parameter estimates are sensitive to different specifications of the weighting scheme. Besides their publication in influential journals and the availability of excellently documented replication materials, different substantive and illustrative considerations motivate the selection of these specific studies.</p><p>First, the studies are located in different subfields of the discipline-International Relations and International Political Economy-and feature different forms of network uncertainty that can be considered archetypical. Second, the authors are explicit about the problems they face when specifying W and discuss their choices. Finally, each of the articles identifies a set of feasible network specifications based on theoretical considerations. This is important since, as discussed in Section , the composition of the set of alternative models is a crucial step in the BMA approach (see also <ref type="bibr">Barker and Link ; Cranmer, Rice, and Siverson )</ref>.</p><p>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Application I: the diffusion of democratization</head><p>By replicating the influential study by Gleditsch and Ward ( ), I demonstrate the effect of uncertainty about the neighborhood definition-a situation regularly encountered by scholars working in the field of International Relations.</p><p>Starting with the observation that democratic regimes and transitions to democracy cluster geographically, the authors are interested in transnational spillover effects of regime types. Their theoretical expectation is that autocratic regimes are more likely to become democratic if the share of democratic countries in their neighborhood increases and if at least one neighboring country undergoes a transition to democracy. In order to test these propositions, <ref type="bibr">Gleditsch and Ward (</ref> ) analyze changes in regime type as a first-order Markov process with a binary outcome and estimate a transition model that contains spatial lags with the following transition matrix:</p><formula xml:id="formula_8">T = Pr(D → D ) Pr(D → A) Pr(A → D ) Pr(A → A) . ( )</formula><p>Additionally, Supplementary Material A uses simulated data as well as the replication of Plümper and Neumayer ( ) as an applied example and compares the performance of the m-STAR and the BMA approach with respect to the spatial parameter estimates. The authors use a probit model to estimate the transition probabilities from time t -1 to t for each observation i conditional on the covariate vector x i ,t :</p><formula xml:id="formula_9">Pr(y i ,t = 1 y i ,t -1 , x i ,t , W i ,t ) = Φ(x i ,t β + ρ 1 W i ,t y t -1 + y i ,t -1 x i ,t α + y i ,t -1 ρ 2 W i ,t y t -1 ), ( )</formula><p>where y i ,t = 1 if country i is autocratic at time t . The covariate vector also contains an indicator variable signifying whether a transition to democracy takes place in at least one country in the neighborhood network W i ,t . Since W is row-standardized, the spatial lag represents the proportion of democratic countries in the neighborhood. In their model, each parameter in the coefficient vector β indicates the effect of the respective covariate on a democracy's transition probability to autocracy: Pr(D → A). The covariates' effect on the probability of remaining an autocratic regime is given by γ = α + β. Since the probabilities for all possible outcomes at time t must sum to unity, the probability of a transition from autocracy to democracy can be calculated by 1 -Pr(A → A).</p><p>Yet, the definition of a country's "regional context" or "neighborhood" is ambiguous which complicates the specification of W and gives rise to concerns about network uncertainty. While noting the arbitrariness of their choice, Gleditsch and Ward ( , -) define the states' neighborhood by the countries within a radius of km. In order to investigate whether the spatial parameter estimates are sensitive toward this threshold, I reanalyze Model and test alternative distance thresholds.</p><p>To implement the semiparametric approach suggested by Neumayer and Plümper ( ), I arbitrarily divide the connectivity variable-geographical distance-into five discrete categories, where each category spans km, and estimate a spatial parameter for each of them. The cells of the five Ws take on a value of if the distance to another country falls between the two boundary thresholds (i.e., to km for the first W, to km for the second, and so on) and zero otherwise. As suggested by Neumayer and Plümper ( , ) I decide to specify five distance categories as a compromise between the flexibility of allowing the estimated parameters to differ and practical feasibility since zero inflation in the spatial variables can cause estimation problems. In accordance with Gleditsch and Ward ( ), I row-standardize all connectivity matrices.</p><p>Figure reports the parameter estimates for the proportion of neighboring democracies at the different distance levels. Although row-standardization facilitates the comparison of the estimates, the simultaneous estimation of parameters for different distance categories complicates their interpretation. The individual spatial parameters represent the effect of the proportion of neighboring democracies within the boundaries of the respective distance category, controlling for the effect of countries within the other categories. Acknowledging this difficulty, the results presented in Figure raise doubts about the conclusion derived by Gleditsch and Ward ( ) concerning the transnational diffusion of regime type. Indeed, based on this approach, we would be skeptical about the existence of spillover effects since zero is a credible value for all This distance-based approach also requires the specification of a distance metric like interborder distance, intercapital distance, or centroid-to-centroid distance (e.g., Zhukov and Stewart</p><p>). Here, I use the distance between two capitals in order to solely focus on the effect of changing the threshold. Supplementary Material C presents the parameter estimates obtained by replicating the original study. Note that there are reasonable concerns about the plausibility of using geographical distance as a measure for connectedness (e.g., <ref type="bibr">Baybeck and Huckfeldt ; Beck, Gleditsch, and Beardsley ; Neumayer and Plümper )</ref>. In their replication of Gleditsch and Ward ( ), Zhukov and Stewart ( ), for example, introduce their three-step procedure by evaluating alternative network specifications with different distance metrics and connectivity criteria. Since the aim pursued here is to study the effect of different distance thresholds in the specification of W, I limit the replication to geographical proximity. Supplementary Material D presents the posterior model probabilities of the alternative network specifications considered by Zhukov and Stewart ( ). Due to zero inflation, it is impossible to obtain parameter estimates for ten different spatial parameters. This illustrates nicely the practical problems that are associated with this approach.  spatial parameters. Moreover, as Neumayer and Plümper (</p><p>) also note, the semiparametric approach does not rule out the problems caused by the ad hoc specification of thresholds. In the end, it is the researcher's responsibility to determine the threshold values that eventually define the spatial lags.</p><p>In order to perform BMA, I specify ten different neighborhood networks using the thresholds from km to , km in steps of km and assign a prior probability of . to each of them. Notice that, in contrast to the semiparametric approach, these matrices take on a value of if a neighboring country is located within the radius limited by a certain threshold. Hence, if two countries are connected by W with a threshold of km, they also receive a value of for all matrices with thresholds larger than km. Again, I follow the original study and row-standardize all connectivity matrices. As the le part of Figure <ref type="figure">shows</ref>, the W with a threshold of km is most supported by the data. The posterior model probability for this network is . % while it is only . % for the second best network ( km threshold). Yet, all ten network specifications do not notably differ in terms of the estimated spatial parameter, as the right part of Figure illustrates. As Gleditsch and Ward ( ) report, and in contrast to the conclusion obtained with the semiparametric approach, the proportion of neighboring democracies negatively affects the probability that an autocratic regime will endure while it has no effect for democracies. The same holds for the effect of a neighboring country's transition to democracy. Moreover, the predicted probability for a democratic transition is almost not affected by the specific neighborhood definition employed.</p><p>In contrast to the semiparametric approach, BMA supports the conclusion about spatial spillover effects reached by <ref type="bibr">Gleditsch and Ward ( )</ref>. At the same time, it accurately accounts for network uncertainty in the estimates.</p><p>. Application II: international capital tax rate competition Located in the field of International Political Economy, the second example investigates uncertainty in the functional form of W. Although the original study was conducted by Hays ( , ), I reanalyze its replication by Plümper and Neumayer ( ) who demonstrate how small and theoretically reasonable changes in the specification of the original model lead to considerable differences in the estimates of the spatial parameter. By replicating this study, I aim to exemplify how BMA performs in a situation where it has been shown that model specification issues dramatically change the parameter estimates.</p><p>In the original analysis, Hays ( , ) studies the effective capital tax rates of twenty OECD countries with a model similar to the one shown in Equation ( ) plus an additional first-order temporally lagged dependent variable. In order to show how sensitive the estimate of the spatial parameter is to small and theoretically reasonable changes in the specification of the original model, <ref type="formula">Plümper and Neumayer (</ref>) estimate nine alternative model specifications (Model to Model in Plümper and Neumayer (</p><p>)). These models differ in whether or not they include (i) a temporally lagged dependent variable, (ii) unit and period fixed effects, (iii) whether or not W is row-standardized, and (iv) in the weighting scheme of W. Hence, the authors do not limit their attention to network uncertainty but investigate a broader range of model uncertainty. Since the focus here is on network uncertainty as a specific case of model uncertainty, the bold symbols in Figure facilitate the comparison of the estimates across different network specifications by indicating the models that only differ in W.</p><p>In order to compare the estimates across models with different weighting schemes, I apply the min-max normalization. As also shown by Plümper and Neumayer ( ), the upper right part of Figure illustrates that changes in model specification have a considerable impact on the estimated spatial parameter ρ. The size and even the sign of the estimate vary widely across the model specifications. Based on Model , for example, the probability that the estimate is negative is . %. There is also considerable variation in ρ even across the models that only differ in the specification of W <ref type="bibr">(Models , , , , and )</ref>. What is more, as the top le panel shows, goodness-of-fit statistics like the adjusted R 2 do not provide guidance to decide about the most appropriate model in this example. Consequently, model selection techniques which rely on these measures, including the three-step procedure developed by Zhukov and Stewart ( ), do not alleviate the problem of network uncertainty because they fail to eliminate candidate models. Only the two models that do not include the temporally lagged dependent variable exhibit a notably weaker fit. The obvious question, then, is what to infer about the countries' interdependencies in capital taxation from these results?</p><p>In a situation like this, BMA helps to evaluate the relative support for each model given the data and a set of possible model specifications. The bottom le panel in Figure <ref type="figure">shows</ref> that, The estimates for the second spatial parameter (neighboring transition to democracy) can be found in Supplementary Material E. Supplementary Material F presents the predicted probability for an autocratic regime to become democratic across different threshold values based on a scenario where all covariates are set to their respective means. Supplementary Material G presents a summary of the differences between the nine models. Note that, due to a typo, the labels of Model and Model are reversed in the tables presented in the original article. This finding is consistent with Stakhovych and Bijmolt ( ) who show that the probability of detecting the true network decreases as the connectivity in W increases. conditional on the model set and with equal prior probabilities for all models, the posterior model probability of Model is almost %. Hence, BMA essentially reduces to a model selection technique in this example because the weighted average of the estimate across all model specifications considered here is almost identical to the estimate obtained from Model . However, differences in ρ do not imply differences in the substantive effects (e.g., LeSage and Pace , ). The lower right part of Figure presents the average total impact of capital mobility as the main explanatory variable in the analysis. Clearly, although the parameter estimates vary to a notable degree, all models, except for the models omitting temporal dynamics, estimate a similar average total impact of a one-unit change in capital mobility on capital taxation, irrespective of the pre-specified connectivity matrix.</p><p>In conclusion, this replication study demonstrates that BMA identifies the model among a set of feasible alternative specifications that is most supported by the data even if classical model fit measures like the R 2 fail to unambiguously identify a single best fitting model. At the same time, and in line with the results of the second Monte Carlo study presented above, it also shows that the estimated effect of a regressor is less affected by the functional form of W than commonly expected by practitioners.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Conclusion</head><p>Political scientists working in various subfields of the discipline increasingly apply spatial regression techniques. However, a prevalent concern that hampers the application of these methods is that the inferences are sensitive toward small changes in the structure of the predefined network W (e.g., <ref type="bibr">Arbia and Fingleton ; Mueller and Loomis )</ref>. The present study investigates the effects of a misspecification in W and suggests BMA as a superior approach to address this concern. Two Monte Carlo experiments and two replication studies provide Note that Plümper and Neumayer ( ) use different measures for the unconditional and the interaction effects of capital mobility. Whereas Quinn's ( ) measure of capital account openness serves as a measure for the unconditional effect, the interactions are calculated with a deterministic time trend as measure for capital mobility. In order to replicate the analysis by Plümper and Neumayer ( ) as accurately as possible, the average total effect calculated here ignores all interactions since they use a different measure for capital mobility.</p><p>evidence for the benefits of BMA across a range of problems associated with the specification of W typically encountered in different subfields.</p><p>The results challenge the notion that network uncertainty considerably distort substantive inferences. While uncertainty in the neighborhood definition can lead to biased effect estimates when W is severely misspecified and the cross-sectional dependence is strong, uncertainty about the functional form or the weighting scheme of W only causes major differences in the spatial parameter estimates but not in the substantive effect estimates. Moreover, the results show that, whereas alternative techniques feature several notable deficits, BMA assesses the relative support for each of the alternative specifications and allows researchers to account for network uncertainty by conditioning the estimates on a set of theoretically plausible network structures. The simulation studies show that it correctly identifies the true underlying network and provides accurate effect estimates even without prior information about the likelihood of each network within the feasible set. Further advantages of BMA are its high flexibility, the ease of implementation, its applicability to non-nested model structures, and its coherent framework for statistical inference. Therefore, BMA is superior to alternative approaches that primarily focus on network selection or estimation.</p><p>At the same time, it is important to emphasize that BMA is by no means a surrogate for the theoretically motivated specification of W. Ideally, theory would unambiguously determine the correct specification of W. Despite the indubitable appeal of this ideal situation, it seems more than questionable that our theories of spatial dependence will ever be able to meet this desire and convincingly produce such detailed predictions necessary to unequivocally specify the underlying network. The identification of a finite set of possible network structures is perhaps the best we can ask from our theories.</p><p>The discussion of specification issues in W presented here focuses on the SAR model as the most popular class of spatial regression models and on the most common forms of network uncertainty encountered by political scientists. Therefore, it is by no means exhaustive. Subsequent work might investigate the consequences of network uncertainty and the utility of BMA in the context of other dependence structures like the more general spatial Durbin model, which allows for spatial dependence not only in the dependent variable but also in the regressors and the disturbances (e.g., LeSage and Pace ). In the absence of sufficient theoretical guidance on the precise network structure, BMA complements the empirical analysis of interdependencies by conditioning the parameter estimates on a set of feasible network structures instead of a single network typology. As such, BMA is a powerful and easily implementable approach to ameliorate the haphazard specification of W in the face of insufficient theoretical guidance.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><figDesc>www.cambridge.org/core/terms. https://doi.org/10.1017/pan.2019.12</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><figDesc>www.cambridge.org/core/terms.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Figure . R 2</head><label>2</label><figDesc>Figure . R 2 , average direct, and average indirect impacts across ,</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><figDesc>www.cambridge.org/core/terms.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Figure .</head><label>.</label><figDesc>Figure .BMA estimates: posterior model probabilities, average direct, indirect, and total impacts.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>Figure .</head><label>.</label><figDesc>Figure . Spatial parameter estimates and average total impacts across ,</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>Figure .</head><label>.</label><figDesc>Figure .BMA estimates: posterior model probabilities and average total impacts.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><figDesc>www.cambridge.org/core/terms. https://doi.org/10.1017/pan.2019.12</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8"><head>Figure .</head><label>.</label><figDesc>Figure .Spatial parameter estimates of the proportion of neighboring democracies (semiparametric approach).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_9"><head>Figure .</head><label>.</label><figDesc>Figure . Spatial parameter estimates of the proportion of neighboring democracies for different neighborhood criteria (BMA).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_10"><head>Figure .</head><label>.</label><figDesc>Figure . Adjusted R 2 , posterior model probabilities, normalized spatial parameter estimates, and average total impacts of capital mobility for different model specifications.</figDesc></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" xml:id="foot_0"><p>https://www.cambridge.org/core/terms. https://doi.org/10.1017/pan.2019.12</p></note>
+		</body>
+		<back>
+
+			<div type="funding">
+<div><p>, as well as the reviewers and the editor <rs type="person">Jeff Gill</rs> for providing excellent comments. Supplementary materials are available on the Political Analysis website and replication materials can be found on the Political Analysis Dataverse (Juhl ). This research was supported by the <rs type="funder">German Research Foundation (DFG)</rs> via the SFB on "The <rs type="projectName">Political Economy of Reforms</rs>" (Project C</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funded-project" xml:id="_cqM2yX6">
+					<orgName type="project" subtype="full">Political Economy of Reforms</orgName>
+				</org>
+			</listOrg>
+
+			<div type="availability">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p><ref type="url" target="https://www.cambridge.org/core">https://www.cambridge.org/core</ref>. INRAE -Tours, on 28 Sep 2026 at 15:36:47, subject to the Cambridge Core terms of use, available at <ref type="url" target="https://www.cambridge.org/core/terms">https://www.cambridge.org/core/terms</ref>. <ref type="url" target="https://doi.org/10.1017/pan.2019.12">https://doi.org/10.1017/pan.2019.12</ref> </p></div>
+			</div>
+
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Supplementary material</head><p>For supplementary material accompanying this paper, please visit <ref type="url" target="https://doi.org/10.1017/pan.2019.12">https://doi.org/</ref> .</p><p><ref type="url" target="https://doi.org/10.1017/pan.2019.12">/pan.  .</ref> . </p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_11"><figDesc>www.cambridge.org/core/terms. https://doi.org/10.1017/pan.2019.12</figDesc></figure>
+			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Two-Step Lasso Estimation of the Spatial Weights Matrix</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Ahrens</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Bhattacharjee</surname></persName>
+		</author>
+		<idno type="DOI">10.1017/pan.2019.12References</idno>
+		<ptr target="https://www.cambridge.org/core/terms.https://doi.org/10.1017/pan.2019.12References" />
+	</analytic>
+	<monogr>
+		<title level="j">Econometrics (</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">New Spatial Econometric Techniques and Applications in Regional Science</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Arbia</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Fingleton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Papers in Regional Science</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">AIC, and Multimodel Inference: A Bayesian Perspective</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J</forename><surname>Barker</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">A</forename><surname>Link</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">M</forename><surname>Bartels</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Baybeck</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Huckfeldt</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Spatially Dispersed Ties Among Interdependent Citizens: Connecting Individuals and Aggregates</title>
+		<imprint/>
+	</monogr>
+	<note>Truth, Models, Model Sets The Journal of Wildlife Management ( Specification Uncertainty and Model Averaging Political Analysis (</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Space Is More than Geography: Using Spatial Econometrics in the Study of Political Economy</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Beck</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">S</forename><surname>Gleditsch</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Beardsley</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Studies Quarterly (</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Estimation of the Spatial Weights Matrix Under Structural Constraints</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Bhattacharjee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Jensen-Butler</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Marginal Likelihood from the Gibbs Output</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Chib</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association (</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">What To Do About Atheoretic Lags</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">J</forename><surname>Cranmer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">R</forename><surname>Rice</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">M</forename><surname>Siverson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Political Science Research and Methods (</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Spatial Analysis for the Social Sciences</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Darmofal</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Analytical Methods for Social Research</title>
+		<imprint>
+			<publisher>Cambridge University Press</publisher>
+			<pubPlace>New York</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Topology and Dependency Tests in Spatial and Network Autoregressive Models</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Farber</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Páez</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Volz</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis (</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Spatial Econometric Models of Cross-Sectional Interdependence in Political Science Panel and Time-Series-Cross-Section Data</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J</forename><surname>Franzese</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">C</forename><surname>Hays</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Political Analysis ( ): -. Gill, J. . Bayesian Methods</title>
+		<imprint>
+			<publisher>Chapman &amp; Hall/CRC</publisher>
+			<pubPlace>Boca Raton, FL</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Diffusion and the International Context of Democratization</title>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">S</forename><surname>Gleditsch</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">D</forename><surname>Ward</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Organization (</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Globalization and Capital Taxation in Consensus and Majoritarian Democracies</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">C</forename><surname>Hays</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">World Politics (</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<monogr>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">C</forename><surname>Hays</surname></persName>
+		</author>
+		<title level="m">Globalization and the New Politics of Embedded Liberalism</title>
+		<meeting><address><addrLine>Oxford</addrLine></address></meeting>
+		<imprint>
+			<publisher>Oxford University Press</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">A Spatial Model Incorporating Dynamic, Endogenous Network Interdependence: A Political Science Application</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">C</forename><surname>Hays</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Kachi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J</forename><surname>Franzese</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistical Methodology (</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Bayesian Model Choice in Spatial Econometrics</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">W</forename><surname>Hepple</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Spatial and Spatiotemporal Econometrics</title>
+		<editor>
+			<persName><forename type="first">J</forename><surname>Lesage</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">R</forename><forename type="middle">Kelley</forename><surname>Pace</surname></persName>
+		</editor>
+		<meeting><address><addrLine>Oxford</addrLine></address></meeting>
+		<imprint>
+			<publisher>Elsevier Ltd</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Specification and Estimation of Spatial Autoregressive Models With Autoregressive and Heteroskedastic Disturbances</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">A</forename><surname>Hoeting</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Madigan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Ra</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">T</forename><surname>Volinsky</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Juhl</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Harvard Dataverse</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+		<idno type="DOI">10.7910/DVN/NAJIKB</idno>
+		<ptr target="https://doi.org/./DVN/NAJIKB" />
+	</analytic>
+	<monogr>
+		<title level="m">Measurement Uncertainty in Spatial Models: A Bayesian Dynamic Measurement Model</title>
+		<imprint/>
+	</monogr>
+	<note>Statistical Science ( ): -. Juhl, S. Bayesian Model Averaging: A Tutorial Replication Data for: The Sensitivity of Spatial Regression Models to Network Misspecification Political Analysis</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Model Boosting for Spatial Weighting Matrix Selection in Spatial Lag Models</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Kostov</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Environment and Planning B: Planning and Design</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Choosing the Right Spatial Weighting Matrix in a Quantile Regression Model</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Kostov</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Lesage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">O</forename><surname>Parent</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis (</title>
+		<imprint/>
+	</monogr>
+	<note>Bayesian Model Averaging for Spatial Econometric Models ISRN Economics</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<monogr>
+		<title level="m" type="main">Introduction to Spatial Econometrics</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Lesage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">K</forename><surname>Pace</surname></persName>
+		</author>
+		<imprint>
+			<publisher>CRC Press</publisher>
+			<pubPlace>Boca Raton</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title/>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Lesage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">K</forename><surname>Pace</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Biggest Myth in Spatial Econometrics.&quot; Econometrics (</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Bayesian Model Averaging: Theoretical Developments and Practical Applications</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename><surname>Montgomery</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Nyhan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Political Analysis (</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Bayesians in Space: Using Bayesian Methods to Inform Choice of Spatial Weights Matrix in Hedonic Property Analyses</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Mueller</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Loomis</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Review of Regional Studies</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Conditional Spatial Policy Dependence</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>Neumayer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Plümper</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Comparative Political Studies (</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title/>
+		<author>
+			<persName><forename type="first">E</forename><surname>Neumayer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Plümper</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Political Science Research and Methods (</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Robustness Tests for Quantitative Research</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>Neumayer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Plümper</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">O</forename><surname>Parent</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Lesage</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Handbook of Applied Spatial Analysis: So ware Tools, Methods and Applications</title>
+		<editor>
+			<persName><forename type="first">M</forename><forename type="middle">M</forename><surname>Fischer</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">A</forename><surname>Getis</surname></persName>
+		</editor>
+		<meeting><address><addrLine>Cambridge; Berlin, Heidelberg</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+		</imprint>
+	</monogr>
+	<note>Spatial Econometric Model Averaging Methodological Tools in the Social Sciences</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Bayesian Variable Selection in Spatial Autoregressive Models</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Piribauer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Crespo Cuaresma</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Spatial Economic Analysis (</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Model Specification in the Analysis of Spatial Dependence</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Plümper</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Neumayer</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">European Journal of Political Research</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">The Correlates of Change in International Financial Regulation</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Quinn</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">American Political Science Review (</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Specification of spatial models: A simulation study on weights matrices</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Stakhovych</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">H A</forename><surname>Bijmolt</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Papers in Regional Science</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">It&apos;s All Relative: Spatial Positioning of Parties and Ideological Shi s</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Wasserman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">K</forename><surname>Williams</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">European Journal of Political Research</title>
+		<imprint/>
+	</monogr>
+	<note>Bayesian Model Selection and Model Averaging Journal of Mathematical Psychology (</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Model Uncertainty in Sociological Research: An Application to Religion and Economic Growth</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Young</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><forename type="middle">M</forename><surname>Zhukov</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">M</forename><surname>Stewart</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Studies Quarterly (</title>
+		<imprint/>
+	</monogr>
+	<note>Choosing Your Neighbors: Networks of Diffusion in International Relations American Sociological Review (</note>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

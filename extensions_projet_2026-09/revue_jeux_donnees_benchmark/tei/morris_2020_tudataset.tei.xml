@@ -1,0 +1,2158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">TUDataset: A collection of benchmark datasets for learning with graphs</title>
+				<funder ref="#_6G4stt9">
+					<orgName type="full">Deutsche Forschungsgemeinschaft (DFG)</orgName>
+				</funder>
+				<funder ref="#_xMhQ6Um">
+					<orgName type="full">Vienna Science and Technology Fund (WWTF)</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author role="corresp">
+							<persName><forename type="first">Christopher</forename><surname>Morris</surname></persName>
+							<email>&lt;christopher.morris@tu-dortmund.de&gt;.</email>
+						</author>
+						<author>
+							<persName><forename type="first">Nils</forename><forename type="middle">M</forename><surname>Kriege</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Faculty of Computer Science</orgName>
+								<orgName type="institution">University of Vienna</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Franka</forename><surname>Bause</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="department">Department of Computer Science</orgName>
+								<orgName type="institution">TU Dortmund Uni- versity</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Kristian</forename><surname>Kersting</surname></persName>
+							<affiliation key="aff2">
+								<orgName type="laboratory">Machine Learning Group</orgName>
+								<orgName type="institution">TU Darmstadt</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Petra</forename><surname>Mutzel</surname></persName>
+							<affiliation key="aff3">
+								<orgName type="department">Department of Computer Science</orgName>
+								<orgName type="institution">University of Bonn</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Marion</forename><surname>Neumann</surname></persName>
+							<affiliation key="aff4">
+								<orgName type="department">Department of Computer Science and Engineering</orgName>
+								<orgName type="institution">Washington University in St. Louis</orgName>
+							</affiliation>
+						</author>
+						<title level="a" type="main">TUDataset: A collection of benchmark datasets for learning with graphs</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<idno type="MD5">0A20C1D27E05963056A2D01B14FFDC77</idno>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-25T16:07+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Recently, there has been an increasing interest in (supervised) learning with graph data, especially using graph neural networks. However, the development of meaningful benchmark datasets and standardized evaluation procedures is lagging, consequently hindering advancements in this area. To address this, we introduce the TUDATASET for graph classification and regression. The collection consists of over 120 datasets of varying sizes from a wide range of applications. We provide Python-based data loaders, kernel and graph neural network baseline implementations, and evaluation tools. Here, we give an overview of the datasets, standardized evaluation procedures, and provide baseline experiments. All datasets are available at <ref type="url" target="http://www.graphlearning.io">www.graphlearning.io</ref>. The experiments are fully reproducible from the code available at <ref type="url" target="http://www.github.com/chrsmrrs/tudataset">www.github.com/chrsmrrs/tudataset</ref>.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">Introduction</head><p>Graph-structured data is ubiquitous across application domains ranging from chemo-and bioinformatics <ref type="bibr" target="#b1">(Barabasi &amp; Oltvai, 2004;</ref><ref type="bibr" target="#b63">Stokes et al., 2020)</ref> to image <ref type="bibr" target="#b61">(Simonovsky &amp; Komodakis, 2017)</ref> and social network analysis <ref type="bibr" target="#b16">(Easley &amp; Kleinberg, 2010)</ref>. To develop successful machine learning models in these domains, we need techniques that can exploit the rich information inherent in the graph structure and the feature information contained within nodes and edges. In recent years, numerous approaches have been proposed for machine learning with graphs-most notably, approaches based on graph kernels <ref type="bibr" target="#b41">(Kriege et al., 2020)</ref> and graph neural networks (GNNs) <ref type="bibr" target="#b56">(Scarselli et al., 2009;</ref><ref type="bibr" target="#b23">Gilmer et al., 2017)</ref>. However, most papers, even recent ones, evaluate newly proposed architectures or methods on a fixed set of smallscale, non-diverse benchmarks, using non-standardized experimental protocols and baselines, hindering the comparison of results from different publications.</p><p>Present work. Here, we give an overview of TU-DATASET. The benchmark collection consists of over 120 datasets from a wide range of domains for supervised learning with graphs, i.e., classification and regression. All datasets are provided in a standard dataset format at <ref type="url" target="http://www.graphlearning.io">www.graphlearning.io</ref> and are easily accessible from popular graph learning frameworks such as PYTORCH GEOMETRIC <ref type="bibr" target="#b21">(Fey &amp; Lenssen, 2019)</ref> <ref type="foot" target="#foot_0">foot_0</ref> and DGL <ref type="bibr" target="#b70">(Wang et al., 2019)</ref> <ref type="foot" target="#foot_1">foot_1</ref> . To facilitate a standard comparison of kernel and neural approaches, we provide implementations of standard algorithms and easy-to-use evaluation procedures. Moreover, we report results on an experimental study comparing graph kernels and GNNs on a subset of the TUDATASET.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Related work.</head><p>There exist two main approaches to supervised learning with graphs, graph kernels and graph neural networks (GNNs). Graph kernels have been studied extensively in the past 15 years, see <ref type="bibr" target="#b41">(Kriege et al., 2020)</ref> for a thorough overview. Important approaches include random-walk and shortest paths based kernels <ref type="bibr" target="#b22">(Gärtner et al., 2003;</ref><ref type="bibr" target="#b64">Sugiyama &amp; Borgwardt, 2015;</ref><ref type="bibr">Borgwardt &amp; Kriegel, 2005;</ref><ref type="bibr" target="#b40">Kriege et al., 2019)</ref>, as well as the Weisfeiler-Lehman subtree kernel <ref type="bibr" target="#b59">(Shervashidze et al., 2011;</ref><ref type="bibr">Morris et al., 2017)</ref>. Further recent works focus on approaches based on assignments <ref type="bibr" target="#b37">(Kriege et al., 2016;</ref><ref type="bibr" target="#b48">Nikolentzos et al., 2017)</ref>, spectral properties <ref type="bibr" target="#b36">(Kondor &amp; Pan, 2016)</ref>, graph decomposition <ref type="bibr" target="#b49">(Nikolentzos et al., 2018)</ref>, randomized binning <ref type="bibr" target="#b25">(Heimann et al., 2019)</ref>, and the extension of kernels based on the Weisfeiler-Leman algorithm <ref type="bibr" target="#b65">(Togninalli et al., 2019;</ref><ref type="bibr" target="#b52">Rieck et al., 2019)</ref>. For a theoretical investigation of graph kernels, see <ref type="bibr">(Kriege et al., 2018b)</ref>. Recently, graph neural networks <ref type="bibr" target="#b23">(Gilmer et al., 2017;</ref><ref type="bibr" target="#b56">Scarselli et al., 2009)</ref> emerged as an alternative to graph kernels. Notable in-stances of this architecture include, e.g., <ref type="bibr" target="#b12">(Duvenaud et al., 2015;</ref><ref type="bibr" target="#b24">Hamilton et al., 2017;</ref><ref type="bibr" target="#b66">Velickovic et al., 2018)</ref>, and the spectral approaches proposed in, e.g., <ref type="bibr" target="#b4">(Bruna et al., 2014;</ref><ref type="bibr" target="#b10">Defferrard et al., 2016;</ref><ref type="bibr" target="#b32">Kipf &amp; Welling, 2017;</ref><ref type="bibr" target="#b43">Monti et al., 2017)</ref>-all of which descend from early work in <ref type="bibr" target="#b33">(Kireev, 1995;</ref><ref type="bibr" target="#b42">Merkwirth &amp; Lengauer, 2005;</ref><ref type="bibr" target="#b62">Sperduti &amp; Starita, 1997;</ref><ref type="bibr" target="#b56">Scarselli et al., 2009)</ref>. A survey of recent advancements in GNN techniques can be found, e.g., in <ref type="bibr" target="#b5">(Chami et al., 2020;</ref><ref type="bibr" target="#b71">Wu et al., 2019;</ref><ref type="bibr" target="#b76">Zhou et al., 2018)</ref>.</p><p>The papers <ref type="bibr" target="#b21">(Fey &amp; Lenssen, 2019;</ref><ref type="bibr">Chen et al., 2019b;</ref><ref type="bibr" target="#b17">Errica et al., 2019;</ref><ref type="bibr">Dwivedi et al., 2020)</ref> evaluate GNNs using a unified evaluation procedure, however, they only use small-or medium-scale datasets. Recently, <ref type="url" target="file://localhost/opt/grobid/grobid-home/tmp/ogb.stanford.edu">ogb.stanford.edu</ref>  <ref type="bibr" target="#b27">(Hu et al., 2020</ref>) launched, however, the provided datasets for graph classification focus on chemistry and bioinformatic applications, and the number is quite limited at this point. Moreover, the datasets proposed in <ref type="bibr" target="#b20">(Ferber et al., 2019)</ref> focuses on instances from planning competitions. Recent efforts to implement graph kernels in a common framework such as the GRAKEL library <ref type="bibr" target="#b60">(Siglidis et al., 2018)</ref> foster comparability, but do not solve the dataset related issues discussed above, and only focus on kernel approaches.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.">The TUDataset collection</head><p>The TUDATASET collection contains over 120 datasets provided at <ref type="url" target="http://www.graphlearning.io">www.graphlearning.io</ref>. The datasets, baseline methods and experimental evaluation tools can be conveniently accessed from the Python interface, see Appendix A for further details. Dataset statistics and further documentation is available at our website.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1.">Datasets</head><p>Our collection of datasets covers graphs from various domains, contributed by different authors. Therefore, they differ regarding the used graph model even within the same domain and the provided annotations, e.g., discrete or continuous node and edge attributes. Here, we give an overview of some representative domains and graph models. Small molecules. A common class of graph datasets consists of small molecules with class labels representing, e.g., toxicity or biological activity determined in drug discovery projects. Here, a graph represents a molecule, i.e., nodes take the places of atoms and edges that of chemical bonds. Consequently, the labels encode atom and bond types, possibly with additional chemical attributes. The graph models differ, e.g., in whether hydrogen atoms are represented explicitly by nodes, and bonds in aromatic rings are annotated accordingly.</p><p>Our collection contains small datasets commonly used in the early graph kernel literature such as MU-TAG <ref type="bibr" target="#b9">(Debnath et al., 1991)</ref> and PTC <ref type="bibr" target="#b26">(Helma et al., 2001)</ref>, medium-sized datasets, e.g., NCI1 and NCI109 <ref type="bibr" target="#b69">(Wale et al., 2008;</ref><ref type="bibr" target="#b59">Shervashidze et al., 2011)</ref>, as well as several large datasets derived from the TOX21 challenge 2014 or PUBCHEM <ref type="bibr" target="#b30">(Kim et al., 2018)</ref>. This includes the eleven datasets from anticancer screen tests with different cancer cell lines used by <ref type="bibr" target="#b74">Yan et al. (2008)</ref> to demonstrate the efficacy of classifiers based on significant graph patterns. These datasets, the largest of which contains more than 79k graphs, are typically not balanced and contain far more small molecules that are identified as inactive against cancer cells. Moreover, our collection also contains large-scale molecular regression tasks such as ALCHEMY <ref type="bibr">(Chen et al., 2019a)</ref>, QM9 <ref type="bibr" target="#b51">(Ramakrishnan et al., 2014)</ref>, and ZINC <ref type="bibr">(Dwivedi et al., 2020;</ref><ref type="bibr" target="#b29">Jin et al., 2018)</ref>. The first two contain 3D coordinates of the nodes, which should be taken into account in a rotation-invariant manner to benefit from the geometrical information.</p><p>Bioinformatics. The datasets DD, ENZYMES and PRO-TEINS represent macromolecules. <ref type="bibr">Borgwardt et al. (2005)</ref> introduced a graph model for proteins, where nodes represent secondary structure elements and are annotated by their type, i.e., helix, sheet, or turn, as well as several physical and chemical information. An edge connects two nodes if they are neighbors along the amino acid sequence or one of three nearest neighbors in space. Using this approach, the dataset ENZYMES was derived from the BRENDA database <ref type="bibr" target="#b57">(Schomburg et al., 2004)</ref>. Here, the task is to assign enzymes to one of the 6 EC top-level classes, which reflect the catalyzed chemical reaction. Similarly, the dataset PROTEINS was derived from <ref type="bibr" target="#b11">(Dobson &amp; Doig, 2003)</ref>, and the task is to predict whether a protein is an enzyme. The dataset DD used by <ref type="bibr" target="#b59">Shervashidze et al. (2011)</ref> is based on the same data, but contains graphs, where nodes represent individual amino acids and edges their spatial proximity.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Computer vision.</head><p>Graph-based methods are widely used in computer vision for various tasks using diverse graph models. Our collection provides several datasets originating from the IAM GRAPH DATABASE <ref type="bibr" target="#b53">(Riesen &amp; Bunke, 2008)</ref> such as LETTER and FINGERPRINT. Other datasets represent CUNEIFORM signs <ref type="bibr">(Kriege et al., 2018a)</ref>, 3D point clouds for robot grasping tasks (FIRSTMM_DB) and semantic image processing (MSRC) <ref type="bibr" target="#b47">(Neumann et al., 2016)</ref>.</p><p>Social networks. <ref type="bibr" target="#b75">Yanardag &amp; Vishwanathan (2015)</ref> introduced several graph classification datasets derived from social networks. In the REDDIT datasets, each graph represents a discussion thread, where nodes correspond to users, two of which are connected by an edge if one responded to a comment of the other. This graph model is used to derive several datasets, where the classification task is to distinguish either discussion-based and question/answerbased subreddits (REDDIT-BINARY) or predict the subreddit, where the thread was posted (REDDIT-MULTI-5K and REDDIT-MULTI-12K). COLLAB are datasets derived from scientific collaboration networks. Each graph is the ego-network of a researcher, and the task is to predict their research field, i.e., high energy, condensed matter, or astrophysics. Similarly, the IMDB datasets consist of ego-networks derived from actor collaborations, and the task is to predict the genre, e.g., Action vs. Romance. <ref type="bibr" target="#b54">Rozemberczki et al. (2020)</ref> used similar approaches to obtain more massive social network datasets. REDDIT_THREADS contains more than 200k graphs with the task to predict whether a thread is discussion-based. DEEZER_EGO_NETS and TWITCH_EGOS contain egonetworks derived from online services, and the task is to predict the gender and play behavior (single or multiple games) of the central user. GITHUB_STARGAZERS contains graphs representing the social networks of GitHub users divided into those who starred popular machine learning and web development repositories.</p><p>Recently, temporal graphs were considered by <ref type="bibr" target="#b50">Oettershagen et al. (2020)</ref>, where edges represent the contact or interaction between two individuals at a certain point in time. These graphs are of interest when studying dissemination processes such as the spreading of epidemics, rumours or fake news. We provide temporal graph classification datasets derived from TUMBLR <ref type="bibr" target="#b55">(Rozenshtein et al., 2016)</ref>, DBLP and FACEBOOK <ref type="bibr" target="#b68">(Viswanath et al., 2009)</ref> as well as contacts between students at the MIT <ref type="bibr" target="#b15">(Eagle &amp; Pentland, 2006)</ref>, in a HIGHSCHOOL and visitors at the INFECTIOUS exhibition <ref type="bibr" target="#b28">(Isella et al., 2011)</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Synthetic.</head><p>Several graph datasets were generated to demonstrate the strengths or weaknesses of specific methods. The datasets SYNTHETICNEW and SYNTHIE were created by <ref type="bibr" target="#b19">Feragen et al. (2013)</ref> (see Erratum) and <ref type="bibr" target="#b44">Morris et al. (2016)</ref>, respectively, to demonstrate the ability of kernels to operate on graphs with continuous attributes. <ref type="bibr" target="#b35">Knyazev et al. (2019)</ref> introduced the datasets COLORS and TRIANGLES, where the task is to count the number of nodes with a given one-hot-encoded color and the number of triangles, respectively.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2.">Baselines methods</head><p>To provide meaningful baselines, we provide implementations of common graph kernels as well as GNN architectures. We have implemented the Weisfeiler-Lehman Subtree <ref type="bibr" target="#b59">(Shervashidze et al., 2011)</ref>, Shortest-path <ref type="bibr">(Borgwardt &amp; Kriegel, 2005)</ref>, Graphlet <ref type="bibr" target="#b58">(Shervashidze et al., 2009)</ref> (using labeled sub-graphs with three nodes), Weisfeiler-Lehman Optimal Assignment <ref type="bibr" target="#b37">(Kriege et al., 2016)</ref> kernel in C ++ and made them accessible through the Python interface of TU-DATASET. Moreover, all GNN architectures provided by PYTORCH GEOMETRIC can be conveniently used as a baseline as well.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3.">Evaluation methods</head><p>To ensure a fair and meaningful comparison between methods, we propose the following evaluation procedures for kernels and GNNs. First, for kernels, we propose the established C-SVM implementation LIBSVM <ref type="bibr" target="#b6">(Chang &amp; Lin, 2011)</ref> for kernels that compute a Gram matrix, and the linear C-SVM implementation LIBLINEAR <ref type="bibr" target="#b18">(Fan et al., 2008)</ref> for kernels that can be computed based on sparse, explicit feature maps. We optimize GNNs end-to-end using ADAM <ref type="bibr" target="#b31">(Kingma &amp; Ba, 2015)</ref>. To compute classification accuracies, we propose to use 10-fold cross-validation, where we select 10% of each training fold uniformly at random as validation set to optimize hyperparameters, e.g., the number of iterations, C parameter, number of layers, feature dimension. We repeat the above evaluation ten times and report standard deviations over all ten repetitions, and additionally across all one hundred runs (i.e., ten repetitions with ten folds each). See Appendix B in the appendix for examples. For the large-scale molecule learning tasks, we either use random splits (80%/10%/10%) or the provided, fixed splits and report MAE (mean std. MAE, mean std. logMAE for multi-target regression, see <ref type="bibr" target="#b34">(Klicpera et al., 2020)</ref>), over five runs.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.">Experimental evaluation</head><p>Our intent here is to provide baseline experiments and compare graph kernels and GNNs. We used the following datasets, graph kernels, and GNN baselines.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Datasets.</head><p>We used the DEEZER_EGO_NETS, GITHUB_STARGAZERS, ENYMES, IMDB-BINARY, IMDB-MULTI, MCF-7, MOLT-4, NCI1, PROTEINS, REDDIT-BINARY, REDDIT_THREADS, TWITCH_EGOS, UACC257 graph classification datasets. Moreover, we used the ALCHEMY, QM9, ZINC (multi-target) regression datasets. See the website and Table <ref type="table" target="#tab_3">4</ref> in the appendix for dataset statistics. We opted for not using continuous node features of the small datasets (if available) and the 3D-coordinates of the ALCHEMY dataset to solely provide baseline results based on graph structure and discrete labels. In case of the QM9 dataset, we closely replicated the (continuous) node and edge features of <ref type="bibr" target="#b23">Gilmer et al. (2017)</ref>.</p><p>Graph kernels. As kernel baselines we used the Weisfeiler-Lehman Subtree (1-WL) <ref type="bibr" target="#b59">(Shervashidze et al., 2011)</ref>, Shortest-path (SP) <ref type="bibr">(Borgwardt &amp; Kriegel, 2005)</ref>, Graphlet (GR) <ref type="bibr" target="#b58">(Shervashidze et al., 2009)</ref>, Weisfeiler-Lehman Optimal Assigment (WL-OA) <ref type="bibr" target="#b37">(Kriege et al., 2016)</ref> included in the TUDATASET package. The C-parameter was selected from {10 -<ref type="foot" target="#foot_2">foot_2</ref> , 10 -2 , . . . , 10 2 , 10 3 } from the validation set.</p><p>For the larger datasets, we computed sparse feature vectors for each graph and used the linear C-SVM implementation of LIBLINEAR <ref type="bibr" target="#b18">(Fan et al., 2008)</ref>. The number of iterations of the 1-WL and WL-OA were selected from {0, . . . , 5}. 3</p><p>All kernel experiments were conducted on a workstation with an Intel Xeon E5-2690v4 with 2.60GHz and 384GB of RAM running Ubuntu 16.04.6 LTS using a single core. Moreover, we used the GNU C ++ Compiler 5.5.0 with the flag -O2.</p><p>GNNs. For comparison with kernel methods, we used GINε <ref type="bibr" target="#b73">(Xu et al., 2019)</ref> and GIN-ε-JK with jumping knowledge networks as neural baselines <ref type="bibr" target="#b72">(Xu et al., 2018)</ref>. For data with (continuous) edge features, we used a 2-layer MLP to map them to the same number of components as the node features and combined them using summation (GINEε and GINE-ε-JK). We used mean pooling to pool the learned node embeddings to a graph embedding and used a 2-layer MLP for the final classification, using a dropout layer with p = 0.5 after the first layer of the MLP. For the smaller datasets of Table <ref type="table" target="#tab_0">1</ref>, we optimized the number of hidden units from {32, 64, 128}, the number of layers from {1, 2, 3, 4, 5} using the validation set. For the mid-scale datasets, due to computation time constraints, we set the number of hidden units to 64 and the number of layers to 3. Moreover, for both, we use a learning rate decay of 0.5 with a patience parameter of 5, a starting learning rate of 0.01 and a minimum of 10 -6 , and a maximum epoch number of 200. For both methods, we used the evaluation procedure described in Section 2.3 to optimize hyperparameters and compute accuracies. See the appendix for details on the hyperparameter and evaluation protocols used for the larger molecular regression tasks (ZINC, and ALCHEMY, QM9).</p><p>Results and discussion. Tables <ref type="table" target="#tab_2">1 to 3</ref> summarize the results. On the small-scale datasets, see Table <ref type="table" target="#tab_0">1</ref>, the WL-OA performs best overall. However, it does not scale to large datasets, Table <ref type="table" target="#tab_1">2</ref>, as it relies on Gram matrix computation. Here, the 1-WL performs well on all datasets, excluding GITHUB_STARGAZERS, where the neural baselines perform best overall. <ref type="foot" target="#foot_3">4</ref> Our results show that despite the extensive research on GNNs in recent years, classical graph kernels in combination with SVMs are still highly competitive in graph classification tasks. On the large-scale molecular learning tasks, see Table <ref type="table" target="#tab_2">3</ref>, it becomes apparent that specialized architectures such as MPNN result in significant gains over the generic GINE-ε baseline.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.">Conclusion</head><p>We gave an overview of the TUDATASET collection, and reported on the results of an experimental study comparing graph kernels and GNNs on a subset of the data. We believe that our dataset collection will spark further progress in graph representation learning, and that our unified evaluation procedures will improve the comparability of results. We are looking forward to adding more datasets and are excited about contributions from the community, researchers, and practitioners from other areas. Future work includes a more extensive comparision of kernel and neural approaches on large-scale molecular regression tasks with continuous node and edge features.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A. Evaluation examples</head><p>See <ref type="url" target="http://www.graphlearning.io">www.graphlearning.io</ref> for further documentation.</p><p>Kernelized SVM for graph kernels based on Gram matrices</p><p>1 import auxiliarymethods.auxiliary_methods as aux 2 import auxiliarymethods.datasets as dp 3 import kernel_baselines as kb 4 from auxiliarymethods.kernel_evaluation import kernel_svm_evaluation 5 6 # Download dataset. 7 classes = dp.get_dataset("ENZYMES") 8 use_labels, use_edge_labels = True, False 9 10 all_matrices = [] 11 # Compute 1-WL kernel for 1 to 5 iterations. 12 for i in range(1, 6): 13 # Use node labels and no edge labels. 14 gm = kb.compute_wl_1_dense("ENZYMES", i, use_labels, use_edge_labels) 15 # Apply cosine normalization. 16 gm = aux.normalize_gram_matrix(gm) 17 all_matrices.append(gm) 18 19 # Perform 10 repetitions of 10-CV using LIBSVM. 20 print(kernel_svm_evaluation(all_matrices, classes, 21 num_repetitions=10, all_std=True)) Linear SVM for graph kernels based on sparse feature maps 1 import auxiliarymethods.auxiliary_methods as aux 2 import auxiliarymethods.datasets as dp 3 import kernel_baselines as kb 4 from auxiliarymethods.kernel_evaluation import linear_svm_evaluation 5 6 # Download dataset. 7 classes = dp.get_dataset("MOLT-4") 8 use_labels, use_edge_labels = True, True 9 10 all_matrices = [] 11 # Compute 1-WL kernel for 1 to 5 iterations. 12 for i in range(1, 6): 13 # Use node labels and edge labels. 14 gm = kb.compute_wl_1_sparse(dataset, i, use_labels, use_edge_labels) 15 # Apply \ell_2 normalization. 16 gm_n = aux.normalize_feature_vector(gm) 17 all_matrices.append(gm_n) 18 19 # Perform 10 repetitions of 10-CV using LIBINEAR. 20 print(linear_svm_evaluation(all_matrices, classes, 21 num_repetitions=10, all_std=True)) GNN evaluation 1 import auxiliarymethods.datasets as dp 2 from auxiliarymethods.gnn_evaluation import gnn_evaluation 3 from gnn_baselines.gnn_architectures import GIN 4 5 dataset = "PROTEINS" 6 use_labels = True 7 8 # Download dataset. 9 dp.get_dataset(dataset) 10 11 # Optimize the number of layers ({1,2,3,4,5} and 12 # the number of hidden features ({32,64,128}), C. Dataset statistics </p></div><figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1 .</head><label>1</label><figDesc>Classification accuracies in percent and standard deviations on small-scale datasets.</figDesc><table><row><cell></cell><cell></cell><cell></cell><cell>Dataset</cell><cell></cell><cell></cell></row><row><cell></cell><cell>Method</cell><cell>ENYZMES</cell><cell>IMDB-BINARY IMDB-MULTI</cell><cell>NCI1</cell><cell>PROTEINS</cell><cell>REDDIT-BINARY</cell></row><row><cell>Kernel</cell><cell>1-WL WL-OA GR SP</cell><cell cols="4">50.8 ±1.4 ± 7.1 72.4 ±0.7 ± 4.4 50.5 ±0.8 ± 3.6 84.2 ±0.3 ± 1.8 72.6 ±0.7 ± 3.4 56.4 ±1.1 ± 6.6 73.3 ±0.6 ± 4.2 49.9 ±0.6 ± 3.8 85.0 ±0.3 ± 1.8 73.4 ±0.9 ± 4.3 29.5 ±0.7 ± 5.4 59.8 ±1.1 ± 4.9 39.5 ±0.7 ± 4.0 66.0 ±0.4 ± 2.4 71.6 ±0.6 ± 4.0 39.3 ±1.8 ± 7.1 58.4 ±1.7 ± 5.3 39.4 ±0.8 ± 4.4 74.2 ±0.3 ± 2.1 75.6 ±0.7 ± 4.0</cell><cell>73.3 ±0.7 ± 3.0 88.3 ±0.4 ± 2.3 59.7 ±0.5 ± 3.8 84.5 ±0.2 ± 2.5</cell></row><row><cell>GNN</cell><cell cols="5">GIN-ε GIN-ε-JK 39.3 ±1.6 ± 6.7 73.0 ±1.1 ± 4.5 49.6 ±0.7 ± 4.0 78.3 ±0.3 ± 2.0 72.2 ±0.7 ± 4.6 38.7 ±1.5 ± 7.6 72.9 ±0.7 ± 4.7 49.7 ±0.7 ± 4.4 77.7 ±0.8 ± 2.3 72.2 ±0.6 ± 4.8</cell><cell>89.8 ±0.4 ± 2.2 90.4 ±0.4 ± 2.2</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 2 .</head><label>2</label><figDesc>Classification accuracies in percent and standard deviations on mid-scale datasets.±0.03 ± 0.6 92.4 ±0.07 ± 0.6 88.3 ±0.02 ± 0.4 66.8 ±0.17 ± 1.4 77.2 ±0.03 ± 0.3 GINE-ε-JK 91.8 ±0.03 ± 0.6 92.2 ±0.05 ± 0.4 88.2 ±0.02 ± 0.3 67.1 ±0.34 ± 1.1 77.3 ±0.04 ± 0.3</figDesc><table><row><cell></cell><cell></cell><cell></cell><cell></cell><cell>Dataset</cell><cell></cell></row><row><cell></cell><cell>Method</cell><cell>MCF-7</cell><cell>MOLT-4</cell><cell>YEAST</cell><cell>GITHUB_STAR</cell><cell>REDDIT_THREADS</cell></row><row><cell>Kernel</cell><cell>1-WL GR SP</cell><cell cols="4">94.5 ±0.02 ± 0.3 94.6 ±0.04 ± 0.4 89.2 ±0.01 ± 0.4 64.0 ±0.22 ± 1.4 91.7 &lt; 0.01 ± 0.5 92.1 ±0.01 ± 0.4 88.2 ±0.01 ± 0.3 53.6 ±0.20 ± 1.6 91.7 ±0.02 ± 0.6 92.1 &lt; 0.01 ± 0.4 88.2 ±0.01 ± 0.4 64.2 ±0.01 ± 1.3</cell><cell>77.0 ±0.01 ± 0.3 51.2 &lt; 0.01 ± 0.3 77.3 ±0.01 ± 0.2</cell></row><row><cell>GNN</cell><cell>GINE-ε</cell><cell>92.0</cell><cell></cell><cell></cell><cell></cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2"><head>Table 3 .</head><label>3</label><figDesc>Mean MAE (mean std. MAE, logMAE) on large-scale (multi-target) molecular regression tasks.</figDesc><table><row><cell></cell><cell></cell><cell>Dataset</cell><cell></cell></row><row><cell>Method</cell><cell>ZINC</cell><cell>ALCHEMY</cell><cell>QM9</cell></row><row><cell cols="4">GINE-ε 0.084 ±0.004 0.103 ±0.001 -2.956 ±0.029 0.081 ±0.003 -3.400 ±0.094</cell></row><row><cell>MPNN</cell><cell>-</cell><cell>-</cell><cell>0.034 ±0.001 -4.156±0.030</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_3"><head>Table 4 .</head><label>4</label><figDesc>Dataset statistics and properties, † -Continuous vertex labels following<ref type="bibr" target="#b23">(Gilmer et al., 2017)</ref>, the last three components encode 3D coordinates.Number of graphs Number of classes/targets ∅ Number of vertices ∅ Number of edges Vertex labels Edge labels</figDesc><table><row><cell></cell><cell></cell><cell></cell><cell>Properties</cell><cell></cell><cell></cell><cell></cell></row><row><cell>Dataset</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>ENZYMES</cell><cell>600</cell><cell>6</cell><cell>32.6</cell><cell>62.1</cell><cell>✓</cell><cell>✗</cell></row><row><cell>IMDB-BINARY</cell><cell>1 000</cell><cell>2</cell><cell>19.8</cell><cell>96.5</cell><cell>✗</cell><cell>✗</cell></row><row><cell>IMDB-MULTI</cell><cell>1 500</cell><cell>3</cell><cell>13.0</cell><cell>65.9</cell><cell>✗</cell><cell>✗</cell></row><row><cell>NCI1</cell><cell>4 110</cell><cell>2</cell><cell>29.9</cell><cell>32.3</cell><cell>✓</cell><cell>✗</cell></row><row><cell>NCI109</cell><cell>4 127</cell><cell>2</cell><cell>29.7</cell><cell>32.1</cell><cell>✓</cell><cell>✗</cell></row><row><cell>PTC_FM</cell><cell>349</cell><cell>2</cell><cell>14.1</cell><cell>14.5</cell><cell>✓</cell><cell>✗</cell></row><row><cell>PROTEINS</cell><cell>1 113</cell><cell>2</cell><cell>39.1</cell><cell>72.8</cell><cell>✓</cell><cell>✗</cell></row><row><cell>REDDIT-BINARY</cell><cell>2 000</cell><cell>2</cell><cell>429.6</cell><cell>497.8</cell><cell>✗</cell><cell>✗</cell></row><row><cell>MCF-7</cell><cell>27 770</cell><cell>2</cell><cell>26.4</cell><cell>28.5</cell><cell>✓</cell><cell>✓</cell></row><row><cell>MOLT-7</cell><cell>39 765</cell><cell>2</cell><cell>26.1</cell><cell>28.1</cell><cell>✓</cell><cell>✓</cell></row><row><cell>YEAST</cell><cell>79 601</cell><cell>2</cell><cell>21.5</cell><cell>22.8</cell><cell>✓</cell><cell>✓</cell></row><row><cell>GITHUB_STAR</cell><cell>12 725</cell><cell>2</cell><cell>113.8</cell><cell>234.6</cell><cell>✗</cell><cell>✗</cell></row><row><cell>REDDIT_THREADS</cell><cell>203 088</cell><cell>2</cell><cell>23.9</cell><cell>25.0</cell><cell>✗</cell><cell>✗</cell></row><row><cell>ZINC</cell><cell>249 456</cell><cell>12</cell><cell>23.1</cell><cell>24.9</cell><cell>✓</cell><cell>✓</cell></row><row><cell>ALCHEMY</cell><cell>202 579</cell><cell>12</cell><cell>10.1</cell><cell>10.4</cell><cell>✓</cell><cell>✓</cell></row><row><cell>QM9</cell><cell>129 433</cell><cell>12</cell><cell>18.0</cell><cell>18.6</cell><cell>✓(13+3D)  †</cell><cell>✓(4)</cell></row></table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="1" xml:id="foot_0"><p>https://pytorch-geometric.readthedocs.io/en/latest/mod</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="2" xml:id="foot_1"><p>https://docs.dgl.ai/en/0.4.x/api/python/data.html</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="3" xml:id="foot_2"><p>As already shown in<ref type="bibr" target="#b59">(Shervashidze et al., 2011)</ref>, choosing the number of iterations too large will lead to overfitting.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="4" xml:id="foot_3"><p>For the neural baselines unlike the kernel baselines, we used one-hot degree features for datasets that do not provide node labels.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="5" xml:id="foot_4"><p>Note that the full dataset is different from the contest dataset, e.g., it does not provide normalized targets, see https://alchemy.tencent.com/.</p></note>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div><head n="5.">Acknowledgement</head><p>We thank everybody who provided datasets for the TU-DATASET collection. This work has been partially funded by the <rs type="funder">Deutsche Forschungsgemeinschaft (DFG)</rs> within the <rs type="programName">Collaborative Research Center SFB 876</rs> "<rs type="projectName">Providing Information by Resource-Constrained Data Analysis</rs>", project <rs type="grantNumber">A6</rs> "<rs type="projectName">Resource-efficient Graph Mining</rs>". <rs type="person">Nils Kriege</rs> has been supported by the <rs type="funder">Vienna Science and Technology Fund (WWTF)</rs> through project <rs type="grantNumber">VRG19-009</rs>.</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funded-project" xml:id="_6G4stt9">
+					<idno type="grant-number">A6</idno>
+					<orgName type="project" subtype="full">Providing Information by Resource-Constrained Data Analysis</orgName>
+					<orgName type="program" subtype="full">Collaborative Research Center SFB 876</orgName>
+				</org>
+				<org type="funded-project" xml:id="_xMhQ6Um">
+					<idno type="grant-number">VRG19-009</idno>
+					<orgName type="project" subtype="full">Resource-efficient Graph Mining</orgName>
+				</org>
+			</listOrg>
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>13 # set the maximum nummber of epochs to 200, 14 # batch size to 64, 15 # starting learning rate to 0.01, and 16 # number of repetitions for 10-CV to 10. 17 print(gnn_evaluation(GIN, dataset, <ref type="bibr">[1,</ref><ref type="bibr">2,</ref><ref type="bibr">3,</ref><ref type="bibr">4,</ref><ref type="bibr">5]</ref>, <ref type="bibr">[32,</ref><ref type="bibr">64,</ref><ref type="bibr">128]</ref>, max_num_epochs=200, 18 batch_size=64, start_lr=0.01, num_repetitions=10, all_std=True))</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Loading graphs in NetworkX format</head><p>1 import auxiliarymethods.datasets as dp 2 from auxiliarymethods.reader import tud_to_networkx 3 4 dataset = "PROTEINS" 5 6 # Download dataset. 7 dp.get_dataset(dataset) 8 # Output dataset as a list of graphs. 9 graph_db = tud_to_networkx(dataset) B. Experimental protocol and hyperparameters for ZINC, ALCHEMY, QM9</p><p>For the larger molecular regression tasks, ZINC and ALCHEMY, 5 we closely followed the hyperparameters found in <ref type="bibr">(Dwivedi et al., 2020)</ref> and <ref type="bibr">(Chen et al., 2019a)</ref>, respectively, for the GINE-ε layers. That is, for ZINC, we used four GINE-ε layers with a hidden dimension of 256 followed by batch norm and a 4-layer MLP for the joint regression of the twelve targets, after applying mean pooling. For ALCHEMY and QM9, we used six layers with 64 (hidden) node features and a set2seq layer <ref type="bibr" target="#b67">(Vinyals et al., 2016)</ref> for graph-level pooling, followed by a 2-layer MLP for the joint regression of the twelve targets.</p><p>For ZINC, we used the given train, validation split, test split, and report the MAE over the test set. For the ALCHEMY and QM9 datasets, we uniformly and at random sampled 80% of the graphs for training, and 10% for validation and testing, respectively. Moreover, following <ref type="bibr">(Chen et al., 2019a;</ref><ref type="bibr" target="#b23">Gilmer et al., 2017)</ref>, we normalized the targets of the training split to zero mean and unit variance. We used a single model to predict all targets. Following <ref type="bibr" target="#b34">(Klicpera et al., 2020)</ref>, we report mean standardized MAE and mean standardized logMAE. We repeated each experiment five times (with different random splits in case of ALCHEMY and QM9) and report average scores and standard deviations. Moreover, we use a learning rate decay of 0.5 with a patience parameter of 5, and a starting learning rate of 0.001 with a minimum of 10 -6 .</p><p>For the QM9 dataset, we additionally used the MPNN <ref type="bibr" target="#b23">(Gilmer et al., 2017)</ref> architecture as a baseline, closely following the setup of <ref type="bibr" target="#b23">(Gilmer et al., 2017)</ref>. For the GINE-ε and the MPNN architecture, following Gilmer et al. <ref type="bibr" target="#b23">(Gilmer et al., 2017)</ref>, we used a complete graph, computed pairwise ℓ 2 distances based on the 3D-coordinates, and concatenated them to the edge features. We note here that our intent is not to beat the state-of-the-art, physical knowledge-incorporating architectures, e.g., DIMENET <ref type="bibr" target="#b34">(Klicpera et al., 2020)</ref> or CORMORANT <ref type="bibr" target="#b0">(Anderson et al., 2019)</ref>, but to solely provide baseline scores.</p><p>All neural experiments were conducted on a workstation with four Nvidia Tesla V100 GPU cards with 32GB of GPU memory running Oracle Linux Server 7.7.</p></div>			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Cormorant: Covariant molecular neural networks</title>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">M</forename><surname>Anderson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Hy</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Kondor</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Advances in Neural Information Processing Systems</title>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="page" from="14510" to="14519" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Network biology: Understanding the cellâ Ȃ Źs functional organization</title>
+		<author>
+			<persName><forename type="first">A.-L</forename><surname>Barabasi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><forename type="middle">N</forename><surname>Oltvai</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Nature Reviews Genetics</title>
+		<imprint>
+			<biblScope unit="volume">5</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="101" to="113" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Shortest-path kernels on graphs</title>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">M</forename><surname>Borgwardt</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H.-P</forename><surname>Kriegel</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">IEEE International Conference on Data Mining</title>
+		<imprint>
+			<date type="published" when="2005">2005</date>
+			<biblScope unit="page" from="74" to="81" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Protein function prediction via graph kernels</title>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">M</forename><surname>Borgwardt</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">S</forename><surname>Ong</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Schönauer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">V N</forename><surname>Vishwanathan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">J</forename><surname>Smola</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H.-P</forename><surname>Kriegel</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Bioinformatics</title>
+		<imprint>
+			<biblScope unit="volume">21</biblScope>
+			<biblScope unit="issue">Supplement 1</biblScope>
+			<biblScope unit="page" from="47" to="56" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Spectral networks and deep locally connected networks on graphs</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Bruna</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Zaremba</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Szlam</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Lecun</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">International Conference on Learning Representation</title>
+		<imprint>
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<monogr>
+		<title level="m" type="main">Machine learning on graphs: A model and comprehensive taxonomy</title>
+		<author>
+			<persName><forename type="first">I</forename><surname>Chami</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Abu-El-Haija</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Perozzi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Ré</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Murphy</surname></persName>
+		</author>
+		<idno>CoRR, abs/2005.03675</idno>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">LIBSVM: A library for support vector machines</title>
+		<author>
+			<persName><forename type="first">C.-C</forename><surname>Chang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C.-J</forename><surname>Lin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">ACM Transactions on Intelligent Systems and Technology</title>
+		<imprint>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="page">27</biblScope>
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<monogr>
+		<title level="m" type="main">Alchemy: A quantum chemistry dataset for benchmarking AI models</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Hsieh</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Liao</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Liao</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Qiu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Sun</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Tang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">S</forename><surname>Zemel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Zhang</surname></persName>
+		</author>
+		<idno>CoRR, abs/1906.09427</idno>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<monogr>
+		<title level="m" type="main">Are powerful graph neural nets necessary? A dissection on graph classification</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Bian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Sun</surname></persName>
+		</author>
+		<idno>CoRR, abs/1905.04579</idno>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Structure-activity relationship of mutagenic aromatic and heteroaromatic nitro compounds. correlation with molecular orbital energies and hydrophobicity</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">K</forename><surname>Debnath</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">L</forename><surname>Lopez De Compadre</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Debnath</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">J</forename><surname>Shusterman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Hansch</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Medicinal Chemistry</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="786" to="797" />
+			<date type="published" when="1991">1991</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Convolutional neural networks on graphs with fast localized spectral filtering</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Defferrard</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Vandergheynst</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Advances in Neural Information Processing Systems</title>
+		<imprint>
+			<date type="published" when="2016">2016</date>
+			<biblScope unit="page" from="3844" to="3852" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Distinguishing enzyme structures from non-enzymes without alignments</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">D</forename><surname>Dobson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">J</forename><surname>Doig</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Molecular Biology</title>
+		<imprint>
+			<biblScope unit="volume">330</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="771" to="783" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Convolutional networks on graphs for learning molecular fingerprints</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">K</forename><surname>Duvenaud</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Maclaurin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Iparraguirre</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Bombarell</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Hirzel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Aspuru-Guzik</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">P</forename><surname>Adams</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Advances in Neural Information Processing Systems</title>
+		<imprint>
+			<date type="published" when="2015">2015</date>
+			<biblScope unit="page" from="2224" to="2232" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<monogr>
+		<title level="m" type="main">Benchmarking graph neural networks</title>
+		<author>
+			<persName><forename type="first">V</forename><forename type="middle">P</forename><surname>Dwivedi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">K</forename><surname>Joshi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Laurent</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Bengio</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Bresson</surname></persName>
+		</author>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<monogr>
+		<title/>
+		<author>
+			<persName><surname>Corr</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2003">2003.00982, 2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Reality Mining: Sensing complex social systems</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Eagle</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Pentland</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Personal Ubiquitous Computing</title>
+		<imprint>
+			<biblScope unit="volume">10</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="255" to="268" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<monogr>
+		<author>
+			<persName><forename type="first">D</forename><surname>Easley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Kleinberg</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Networks</surname></persName>
+		</author>
+		<title level="m">Crowds, and Markets: Reasoning About a Highly Connected World</title>
+		<imprint>
+			<publisher>Cambridge University Press</publisher>
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">A fair comparison of graph neural networks for graph classification</title>
+		<author>
+			<persName><forename type="first">F</forename><surname>Errica</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Podda</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Bacciu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Micheli</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">International Conference on Learning Representation</title>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">LIBLINEAR: A library for large linear classification</title>
+		<author>
+			<persName><forename type="first">R.-E</forename><surname>Fan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K.-W</forename><surname>Chang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C.-J</forename><surname>Hsieh</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X.-R</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C.-J</forename><surname>Lin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Machine Learning Research</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="page" from="1871" to="1874" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Scalable kernels for graphs with continuous attributes</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Feragen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Kasenburg</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Petersen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">D</forename><surname>Bruijne</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">K</forename></persName>
+		</author>
+		<ptr target="http://image.diku.dk/aasa/papers/graphkernels_nips_erratum.pdf" />
+	</analytic>
+	<monogr>
+		<title level="m">Advances in Neural Information Processing Systems</title>
+		<imprint>
+			<date type="published" when="2013">2013</date>
+			<biblScope unit="page" from="216" to="224" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<monogr>
+		<title level="m" type="main">IPC: A benchmark data set for learning with graph-structured data</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Ferber</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Ma</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Huo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Katz</surname></persName>
+		</author>
+		<idno>CoRR, abs/1905.06393</idno>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<monogr>
+		<title level="m" type="main">Fast graph representation learning with PyTorch Geometric</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Fey</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">E</forename><surname>Lenssen</surname></persName>
+		</author>
+		<idno>CoRR, abs/1903.02428</idno>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">On graph kernels: Hardness results and efficient alternatives</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Gärtner</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Flach</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Wrobel</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Learning Theory and Kernel Machines</title>
+		<imprint>
+			<date type="published" when="2003">2003</date>
+			<biblScope unit="page" from="129" to="143" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Neural message passing for quantum chemistry</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Gilmer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">S</forename><surname>Schoenholz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">F</forename><surname>Riley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">O</forename><surname>Vinyals</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">E</forename><surname>Dahl</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">International Conference on Machine Learning</title>
+		<imprint>
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Inductive representation learning on large graphs</title>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">L</forename><surname>Hamilton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Ying</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Leskovec</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Advances in Neural Information Processing Systems</title>
+		<imprint>
+			<date type="published" when="2017">2017</date>
+			<biblScope unit="page" from="1025" to="1035" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Distribution of node embeddings as multiresolution features for graphs</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Heimann</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Safavi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Koutra</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">IEEE International Conference on Data Mining</title>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+			<biblScope unit="page" from="289" to="298" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">The predictive toxicology challenge 2000â Ȃ Ş</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Helma</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">D</forename><surname>King</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Kramer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Srinivasan</surname></persName>
+		</author>
+		<ptr target="http://www.predictive-toxicology.org/ptc/" />
+	</analytic>
+	<monogr>
+		<title level="j">Bioinformatics</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="107" to="108" />
+			<date type="published" when="2001">2001. 2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<monogr>
+		<title level="m" type="main">Open graph benchmark: Datasets for machine learning on graphs</title>
+		<author>
+			<persName><forename type="first">W</forename><surname>Hu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Fey</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Zitnik</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Dong</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Ren</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Catasta</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Leskovec</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+			<publisher>CoRR</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">What&apos;s in a crowd? Analysis of face-to-face behavioral networks</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Isella</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">'</forename><surname>Stehlãl</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Barrat</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Cattuto</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Pinton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J.-F</forename><surname>Van Den Broeck</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Theoretical Biology</title>
+		<imprint>
+			<biblScope unit="volume">271</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="166" to="180" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">Junction tree variational autoencoder for molecular graph generation</title>
+		<author>
+			<persName><forename type="first">W</forename><surname>Jin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Barzilay</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">S</forename><surname>Jaakkola</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">International Conference on Machine Learning</title>
+		<imprint>
+			<date type="published" when="2018">2018</date>
+			<biblScope unit="page" from="2328" to="2337" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">PubChem 2019 update: improved access to chemical data</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Kim</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Cheng</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Gindulyte</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>He</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>He</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">A</forename><surname>Shoemaker</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">A</forename><surname>Thiessen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Yu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Zaslavsky</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">E</forename><surname>Bolton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Nucleic Acids Research</title>
+		<imprint>
+			<biblScope unit="volume">47</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1102" to="D1109" />
+			<date type="published" when="2018">10 2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">A method for stochastic optimization</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">P</forename><surname>Kingma</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Ba</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Adam</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">International Conference on Learning Representations</title>
+		<imprint>
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">Semi-supervised classification with graph convolutional networks</title>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">N</forename><surname>Kipf</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Welling</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">International Conference on Learning Representation</title>
+		<imprint>
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">Chemnet: A novel neural network based method for graph/property mapping</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">B</forename><surname>Kireev</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Chemical Information and Computer Sciences</title>
+		<imprint>
+			<biblScope unit="volume">35</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="175" to="180" />
+			<date type="published" when="1995">1995</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<analytic>
+		<title level="a" type="main">Directional message passing for molecular graphs</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Klicpera</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Groß</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Günnemann</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">International Conference on Learning Representations</title>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<analytic>
+		<title level="a" type="main">Understanding attention and generalization in graph neural networks</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Knyazev</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">W</forename><surname>Taylor</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">R</forename><surname>Amer</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Neural Information Processing Systems</title>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+			<biblScope unit="page" from="4204" to="4214" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<analytic>
+		<title level="a" type="main">The multiscale Laplacian graph kernel</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Kondor</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Pan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Advances in Neural Information Processing Systems</title>
+		<imprint>
+			<date type="published" when="2016">2016</date>
+			<biblScope unit="page" from="2982" to="2990" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<analytic>
+		<title level="a" type="main">On valid optimal assignment kernels and applications to graph classification</title>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">M</forename><surname>Kriege</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P.-L</forename><surname>Giscard</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">C</forename><surname>Wilson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Advances in Neural Information Processing Systems</title>
+		<imprint>
+			<date type="published" when="2016">2016</date>
+			<biblScope unit="page" from="1615" to="1623" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<analytic>
+		<title level="a" type="main">Recognizing cuneiform signs using graph based methods</title>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">M</forename><surname>Kriege</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Fey</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Fisseler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Mutzel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Weichert</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">The International Workshop on Cost-Sensitive Learning</title>
+		<imprint>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+	<note>a</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<analytic>
+		<title level="a" type="main">A property testing framework for the theoretical expressivity of graph kernels</title>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">M</forename><surname>Kriege</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Morris</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Rey</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Sohler</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">International Joint Conference on Artificial Intelligence</title>
+		<imprint>
+			<date type="published" when="2018">2018</date>
+			<biblScope unit="page" from="2348" to="2354" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b40">
+	<analytic>
+		<title level="a" type="main">A unifying view of explicit and implicit feature maps of graph kernels</title>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">M</forename><surname>Kriege</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Neumann</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Morris</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Kersting</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Mutzel</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Data Minining and Knowledge Discovery</title>
+		<imprint>
+			<biblScope unit="volume">33</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1505" to="1547" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b41">
+	<analytic>
+		<title level="a" type="main">A survey on graph kernels</title>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">M</forename><surname>Kriege</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><forename type="middle">D</forename><surname>Johansson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Morris</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Applied Network Science</title>
+		<imprint>
+			<biblScope unit="volume">5</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page">6</biblScope>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b42">
+	<analytic>
+		<title level="a" type="main">Automatic generation of complementary descriptors with molecular graph networks</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Merkwirth</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Lengauer</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Chemical Information and Modeling</title>
+		<imprint>
+			<biblScope unit="volume">45</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="1159" to="1168" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b43">
+	<analytic>
+		<title level="a" type="main">Geometric deep learning on graphs and manifolds using mixture model CNNs</title>
+		<author>
+			<persName><forename type="first">F</forename><surname>Monti</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Boscaini</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Masci</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Rodolà</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Svoboda</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">M</forename><surname>Bronstein</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">IEEE Conference on Computer Vision and Pattern Recognition</title>
+		<imprint>
+			<date type="published" when="2017">2017</date>
+			<biblScope unit="page" from="5425" to="5434" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b44">
+	<analytic>
+		<title level="a" type="main">Faster kernel for graphs with continuous attributes via hashing</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Morris</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">M</forename><surname>Kriege</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Kersting</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Mutzel</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">IEEE International Conference on Data Mining</title>
+		<imprint>
+			<date type="published" when="2016">2016</date>
+			<biblScope unit="page" from="1095" to="1100" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b45">
+	<monogr>
+		<title/>
+		<author>
+			<persName><forename type="first">C</forename><surname>Morris</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Kersting</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Mutzel</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Glocalized</surname></persName>
+		</author>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b46">
+	<analytic>
+		<title level="a" type="main">Weisfeiler-Lehman kernels: Global-local feature maps of graphs</title>
+	</analytic>
+	<monogr>
+		<title level="m">IEEE International Conference on Data Mining</title>
+		<imprint>
+			<date type="published" when="2017">2017</date>
+			<biblScope unit="page" from="327" to="336" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b47">
+	<analytic>
+		<title level="a" type="main">Propagation kernels: Efficient graph kernels from propagated information</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Neumann</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Garnett</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Bauckhage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Kersting</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Machine Learning</title>
+		<imprint>
+			<date type="published" when="2016">2016</date>
+			<biblScope unit="volume">102</biblScope>
+			<biblScope unit="page" from="209" to="245" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b48">
+	<analytic>
+		<title level="a" type="main">Matching node embeddings for graph similarity</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Nikolentzos</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Meladianos</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Vazirgiannis</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">AAAI Conference on Artificial Intelligence</title>
+		<imprint>
+			<date type="published" when="2017">2017</date>
+			<biblScope unit="page" from="2429" to="2435" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b49">
+	<analytic>
+		<title level="a" type="main">A degeneracy framework for graph similarity</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Nikolentzos</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Meladianos</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Limnios</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Vazirgiannis</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">International Joint Conference on Artificial Intelligence</title>
+		<imprint>
+			<date type="published" when="2018">2018</date>
+			<biblScope unit="page" from="2595" to="2601" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b50">
+	<analytic>
+		<title level="a" type="main">Temporal graph kernels for classifying dissemination processes</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Oettershagen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">M</forename><surname>Kriege</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Morris</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Mutzel</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">SIAM International Conference on Data Mining</title>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+			<biblScope unit="page" from="496" to="504" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b51">
+	<analytic>
+		<title level="a" type="main">Quantum chemistry structures and properties of 134 kilo molecules</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Ramakrishnan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Dral</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">O</forename><surname>Rupp</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Lilienfeld</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">O</forename><forename type="middle">A</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Scientific Data</title>
+		<imprint>
+			<biblScope unit="volume">1</biblScope>
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b52">
+	<analytic>
+		<title level="a" type="main">A persistent Weisfeiler-Lehman procedure for graph classification</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Rieck</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Bock</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">M</forename><surname>Borgwardt</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">International Conference on Machine Learning</title>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+			<biblScope unit="page" from="5448" to="5458" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b53">
+	<analytic>
+		<title level="a" type="main">Iam graph database repository for graph based pattern recognition and machine learning</title>
+		<author>
+			<persName><forename type="first">K</forename><surname>Riesen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Bunke</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Structural, Syntactic, and Statistical Pattern Recognition: Joint IAPR International Workshop</title>
+		<imprint>
+			<date type="published" when="2008">2008</date>
+			<biblScope unit="page" from="287" to="297" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b54">
+	<monogr>
+		<title level="m" type="main">An API oriented open-source python framework for unsupervised learning on graphs</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Rozemberczki</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">O</forename><surname>Kiss</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Sarkar</surname></persName>
+		</author>
+		<idno>CoRR, abs/2003.04819</idno>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b55">
+	<analytic>
+		<title level="a" type="main">Reconstructing an epidemic over time</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Rozenshtein</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Gionis</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">A</forename><surname>Prakash</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Vreeken</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">ACM SIGKDD International Conference on Knowledge Discovery and Data Mining</title>
+		<imprint>
+			<date type="published" when="2016">2016</date>
+			<biblScope unit="page" from="1835" to="1844" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b56">
+	<analytic>
+		<title level="a" type="main">The graph neural network model</title>
+		<author>
+			<persName><forename type="first">F</forename><surname>Scarselli</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Gori</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">C</forename><surname>Tsoi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Hagenbuchner</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Monfardini</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Transactions on Neural Networks</title>
+		<imprint>
+			<biblScope unit="volume">20</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="61" to="80" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b57">
+	<analytic>
+		<title level="a" type="main">the enzyme database: updates and major new developments</title>
+		<author>
+			<persName><forename type="first">I</forename><surname>Schomburg</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Chang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Ebeling</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Gremse</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Heldt</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Huhn</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Schomburg</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Brenda</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Nucleic Acids Research</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="page" from="431" to="433" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b58">
+	<analytic>
+		<title level="a" type="main">Efficient graphlet kernels for large graph comparison</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Shervashidze</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">V N</forename><surname>Vishwanathan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">H</forename><surname>Petri</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Mehlhorn</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">M</forename><surname>Borgwardt</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">International Conference on Artificial Intelligence and Statistics</title>
+		<imprint>
+			<date type="published" when="2009">2009</date>
+			<biblScope unit="page" from="488" to="495" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b59">
+	<analytic>
+		<title level="a" type="main">Weisfeiler-Lehman graph kernels</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Shervashidze</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Schweitzer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">J</forename><surname>Van Leeuwen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Mehlhorn</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">M</forename><surname>Borgwardt</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Machine Learning Research</title>
+		<imprint>
+			<biblScope unit="volume">12</biblScope>
+			<biblScope unit="page" from="2539" to="2561" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b60">
+	<monogr>
+		<title level="m" type="main">Grakel: A graph kernel library in python</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Siglidis</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Nikolentzos</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Limnios</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Giatsidis</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Skianis</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Vazirgiannis</surname></persName>
+		</author>
+		<idno>CoRR, abs/1806.02193</idno>
+		<imprint>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b61">
+	<analytic>
+		<title level="a" type="main">Dynamic edgeconditioned filters in convolutional neural networks on graphs</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Simonovsky</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Komodakis</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">IEEE Conference on Computer Vision and Pattern Recognition</title>
+		<imprint>
+			<date type="published" when="2017">2017</date>
+			<biblScope unit="page" from="29" to="38" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b62">
+	<analytic>
+		<title level="a" type="main">Supervised neural networks for the classification of structures</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Sperduti</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Starita</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Transactions on Neural Networks</title>
+		<imprint>
+			<biblScope unit="volume">8</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="714" to="735" />
+			<date type="published" when="1997">1997</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b63">
+	<analytic>
+		<title level="a" type="main">A deep learning approach to antibiotic discovery</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Stokes</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Yang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Swanson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Jin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Cubillos-Ruiz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Donghia</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Macnair</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>French</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Carfrae</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Bloom-Ackerman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Tran</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Chiappino-Pepe</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Badran</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><surname>Andrews</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Chory</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Church</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Brown</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Jaakkola</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Barzilay</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Collins</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Cell</title>
+		<imprint>
+			<biblScope unit="volume">180</biblScope>
+			<biblScope unit="page">2</biblScope>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b64">
+	<analytic>
+		<title level="a" type="main">Halting in random walk kernels</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Sugiyama</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">M</forename><surname>Borgwardt</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Advances in Neural Information Processing Systems</title>
+		<imprint>
+			<date type="published" when="2015">2015</date>
+			<biblScope unit="page" from="1639" to="1647" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b65">
+	<analytic>
+		<title level="a" type="main">Wasserstein Weisfeiler-Lehman graph kernels</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Togninalli</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Ghisu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Llinares-López</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Rieck</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">M</forename><surname>Borgwardt</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Advances in Neural Information Processing Systems</title>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+			<biblScope unit="page" from="6436" to="6446" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b66">
+	<analytic>
+		<title level="a" type="main">Graph attention networks</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Velickovic</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Cucurull</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Casanova</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Romero</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Liò</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Bengio</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">International Conference on Learning Representations</title>
+		<imprint>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b67">
+	<analytic>
+		<title level="a" type="main">Order matters: Sequence to sequence for sets</title>
+		<author>
+			<persName><forename type="first">O</forename><surname>Vinyals</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Bengio</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Kudlur</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">International Conference on Learning Representations</title>
+		<imprint>
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b68">
+	<analytic>
+		<title level="a" type="main">On the evolution of user interaction in Facebook</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Viswanath</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Mislove</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Cha</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">P</forename><surname>Gummadi</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">In ACM Workshop on Online Social Networks</title>
+		<imprint>
+			<biblScope unit="page" from="37" to="42" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b69">
+	<analytic>
+		<title level="a" type="main">Comparison of descriptor spaces for chemical compound retrieval and classification</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Wale</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">A</forename><surname>Watson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Karypis</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Knowledge and Information Systems</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="347" to="375" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b70">
+	<analytic>
+		<title level="a" type="main">Deep graph library: Towards efficient and scalable deep learning on graphs</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Yu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Zheng</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Gan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Gai</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Ye</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Zhou</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Huang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Ma</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Huang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Guo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Lin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Zhao</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">J</forename><surname>Smola</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Zhang</surname></persName>
+		</author>
+		<ptr target="https://arxiv.org/abs/1909.01315" />
+	</analytic>
+	<monogr>
+		<title level="m">ICLR Workshop on Representation Learning on Graphs and Manifolds</title>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b71">
+	<monogr>
+		<title level="m" type="main">A comprehensive survey on graph neural networks</title>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Wu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Pan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Long</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">S</forename><surname>Yu</surname></persName>
+		</author>
+		<idno>CoRR, abs/1901.00596</idno>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b72">
+	<analytic>
+		<title level="a" type="main">Representation learning on graphs with jumping knowledge networks</title>
+		<author>
+			<persName><forename type="first">K</forename><surname>Xu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Tian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Sonobe</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Kawarabayashi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Jegelka</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">International Conference on Machine Learning</title>
+		<imprint>
+			<date type="published" when="2018">2018</date>
+			<biblScope unit="page" from="5453" to="5462" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b73">
+	<analytic>
+		<title level="a" type="main">How powerful are graph neural networks?</title>
+		<author>
+			<persName><forename type="first">K</forename><surname>Xu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Hu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Leskovec</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Jegelka</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">International Conference on Learning Representations</title>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b74">
+	<analytic>
+		<title level="a" type="main">Mining significant graph patterns by leap search</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Yan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Cheng</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Han</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">S</forename><surname>Yu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">ACM SIGMOD International Conference on Management of Data</title>
+		<imprint>
+			<date type="published" when="2008">2008</date>
+			<biblScope unit="page" from="433" to="444" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b75">
+	<analytic>
+		<title level="a" type="main">Deep graph kernels</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Yanardag</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">V N</forename><surname>Vishwanathan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">ACM SIGKDD International Conference on Knowledge Discovery and Data</title>
+		<imprint>
+			<publisher>ACM</publisher>
+			<date type="published" when="2015">2015</date>
+			<biblScope unit="page" from="1365" to="1374" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b76">
+	<monogr>
+		<title level="m" type="main">Graph neural networks: A review of methods and applications</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Zhou</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Cui</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Yang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Sun</surname></persName>
+		</author>
+		<idno>CoRR, abs/1812.08434</idno>
+		<imprint>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

@@ -1,0 +1,895 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Estimation of spatial autoregressive models with covariate measurement errors</title>
+				<funder ref="#_x9FpgDz">
+					<orgName type="full">National Natural Science Foundation of China</orgName>
+					<orgName type="abbreviated">NSFC</orgName>
+				</funder>
+				<funder ref="#_Qsqh63D">
+					<orgName type="full">Scientific Research Foundation for Young Talents of Department of Education of Guizhou Province</orgName>
+				</funder>
+				<funder ref="#_XBsNqRJ">
+					<orgName type="full">Scientific Research Foundation of Guizhou University of Finance and Economics</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability  status="unknown">
+					<licence/>
+				</availability>
+				<date type="published" when="2022-08-13">13 August 2022</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">Guowang</forename><surname>Luo</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">School of Mathematics and Statistics</orgName>
+								<orgName type="institution">Guizhou University of Finance and Economics</orgName>
+								<address>
+									<postCode>550025</postCode>
+									<settlement>Guiyang</settlement>
+									<country key="CN">China</country>
+								</address>
+							</affiliation>
+							<affiliation key="aff1">
+								<orgName type="laboratory">Guizhou Key Laboratory of Big Data Statistical Analysis No.[2019]5103)</orgName>
+								<address>
+									<postCode>550025</postCode>
+									<settlement>Guiyang</settlement>
+									<country key="CN">China</country>
+								</address>
+							</affiliation>
+						</author>
+						<author role="corresp">
+							<persName><forename type="first">Mixia</forename><surname>Wu</surname></persName>
+							<email>wumixia@bjut.edu.cn</email>
+							<affiliation key="aff2">
+								<orgName type="department" key="dep1">College of Statistics and Data Science</orgName>
+								<orgName type="department" key="dep2">Faculty of Science</orgName>
+								<orgName type="institution">Beijing University of Technology</orgName>
+								<address>
+									<postCode>100124</postCode>
+									<settlement>Beijing</settlement>
+									<country key="CN">China</country>
+								</address>
+							</affiliation>
+							<affiliation key="aff3">
+								<orgName type="institution">Beijing Institute for Scientific and Engineer Computing</orgName>
+								<address>
+									<postCode>100124</postCode>
+									<settlement>Beijing</settlement>
+									<country key="CN">China</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Zhen</forename><surname>Pang</surname></persName>
+							<affiliation key="aff4">
+								<orgName type="department">Department of Applied Mathematics</orgName>
+								<orgName type="institution">Hong Kong Polytechnic University</orgName>
+								<address>
+									<settlement>Hong Kong</settlement>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Estimation of spatial autoregressive models with covariate measurement errors</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2022-08-13">13 August 2022</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">F7768DEC8B6F116E891330DAC0D6C316</idno>
+					<idno type="DOI">10.1016/j.jmva.2022.105093</idno>
+					<note type="submission">Received 26 October 2021 Received in revised form 24 July 2022 Accepted 6 August 2022</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-29T12:13+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>primary 62F10 secondary 62M30 Spatial data Measurement error Instrumental variable Three-stage least squares (3SLS)</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>In this paper, linear spatial autoregressive (SAR) models with covariate measurement errors are studied. A three-stage least squares (3SLS) estimation method both with Berkson's and classical types of instrumental variables is proposed and asymptotic normality of the proposed estimator using each type of instrumental variables is derived under mild conditions. Simulation studies are conducted to investigate the finite sample performance of the proposed estimator. A real data example is used to illustrate the developed method.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">Introduction</head><p>Spatial autoregressive models are popular regression models for spatially distributed data, which take the dependence of the response variable of neighboring units into account. Theories and methods for estimation and inferences based on linear SAR models have been studied extensively in the literature and can be found in the books by Cliff and Ord <ref type="bibr" target="#b10">[11]</ref>, Anselin <ref type="bibr" target="#b1">[2]</ref> and Anselin and Bera <ref type="bibr" target="#b2">[3]</ref>. Existing methods mainly include maximum likelihood (ML; see, Ord <ref type="bibr" target="#b27">[28]</ref>), generalized two-stage least squares (2SLS; see, Kelejian and Prucha <ref type="bibr" target="#b17">[18]</ref>; Lee <ref type="bibr" target="#b19">[20]</ref>), method of moments (MM; see, Kelejian and Prucha <ref type="bibr" target="#b18">[19]</ref>; Lee <ref type="bibr" target="#b21">[22]</ref>) and quasi-maximum likelihood (QML; see Lee <ref type="bibr" target="#b20">[21]</ref>). By integrating semiparametric regression techniques, some methods were recently developed for semiparametric SAR models. Among them, Su and Jin <ref type="bibr" target="#b32">[33]</ref> proposed the profile quasi-maximum likelihood estimation approach for partially linear SAR models, Su <ref type="bibr" target="#b31">[32]</ref> investigated the semiparametric generalized method of moments (GMM) for semiparametric SAR models, and Ai and Zhang <ref type="bibr" target="#b0">[1]</ref> and Sun <ref type="bibr" target="#b33">[34]</ref>) extended the 2SLS method for partially specified spatial panel data models with fixed-effects and semiparametric varying-coefficient SAR models, respectively. These methods are for the scenario that the variables involved in models can be exactly observed or measured.</p><p>It is well known that measurement errors are ubiquitous in practice and statistical modeling that ignores these measurement errors may lead to seriously biased results, especially when measurement errors are contained in observed covariates. There is a large research literature on the classical regression models with measurement errors, for example, Dagenais and Dagenais <ref type="bibr" target="#b12">[13]</ref>, Reeves et al. <ref type="bibr" target="#b28">[29]</ref>, Liang et al. <ref type="bibr" target="#b25">[26]</ref>, Newey <ref type="bibr" target="#b26">[27]</ref>, Strauss et al. <ref type="bibr" target="#b30">[31]</ref>, Carroll and Ruppert <ref type="bibr" target="#b7">[8]</ref>, Gustafson <ref type="bibr" target="#b15">[16]</ref>, Li and Greene <ref type="bibr" target="#b22">[23]</ref>, Cui and Li <ref type="bibr" target="#b11">[12]</ref>, Liang <ref type="bibr" target="#b24">[25]</ref>, Datta et al. <ref type="bibr" target="#b13">[14]</ref>, Li and Huang <ref type="bibr" target="#b23">[24]</ref> and Zhang et al. <ref type="bibr" target="#b35">[36]</ref>, among other. Fuller <ref type="bibr" target="#b14">[15]</ref> presented a detailed study of linear models with measurement errors, Carroll et al. <ref type="bibr" target="#b8">[9]</ref> summarized much of the work for non-linear regression models with measurement errors. Buonaccorsi <ref type="bibr" target="#b5">[6]</ref> provided an overview of the main techniques for measurement errors and illustrates their application in more complex mixed and time series models. To the best of our knowledge, there is little literature on the statistical inference of spatial autoregressive models with measurement errors.</p><p>Note that measurement error in the dependent variable can be commonly incorporated into the random error term. Most aforementioned methods for SAR models or their extensions still work in SAR models with measurement errors in the dependent variable, while they usually fail in SAR models with measurement errors in covariate variables. For example, it can be proved that the 2SLS estimator is consistent in SAR models with measurement errors in the dependent variable but inconsistent in SAR models with covariate measurement errors. Our simulation results later show that its bias is large and does not reduce as the sample size increases. He and Hu <ref type="bibr" target="#b16">[17]</ref> considered the ML and the restricted maximum likelihood (REML) estimators for univariate SAR models with covariate measurement errors. A limitation of these two likelihood-based methods is that they require the ratio of the variances of the measurement error and the model error to be known. In addition, the Likelihood-based methods are not robust under distribution misspecifications. Therefore, it is of great theoretical significance and practical value to develop a robust estimation for SAR models with covariate measurement errors. With this motivation, we consider in this paper the SAR models with covariate measurement errors ⎧ ⎨</p><formula xml:id="formula_0">⎩ Y i = ρ ∑ j̸ =i w ij Y j + X T i β + ϵ i , V i = X i + ξ i ,<label>(1)</label></formula><p>where Y i is the dependent variable of unit i, ρ is a scalar autoregressive parameter, w ij (i, j ∈ {1, . . . , n}) denotes the spatial weight between units i and j, by definition w ii = 0. X i , i ∈ {1, . . . , n}, are exogenous covariates that cannot be observed directly, and the observed measure</p><formula xml:id="formula_1">of X i is denoted by V i . β is a p × 1 vector</formula><p>of unknown parameters. Here we assume that measurement errors ξ i , i ∈ {1, . . . , n} are independent and identically distributed and satisfy that E(ξ i |X i , ϵ i ) = 0 and Cov(ξ i |X i , ϵ i ) = Σ ξ , random errors ϵ i , i ∈ {1, . . . , n} are independent and identically distributed with E(ϵ i |X i ) = 0 and Var(ϵ i |X i ) = σ 2 .</p><p>Besides the ML-based methods, many estimation methods for regression models with covariate measurement errors can be found in the books by Fuller <ref type="bibr" target="#b14">[15]</ref>, Carroll et al. <ref type="bibr" target="#b8">[9]</ref> and Buonaccorsi <ref type="bibr" target="#b5">[6]</ref>. Among them, the moment corrected method and the simulation extrapolation (SIMEX) are two popular methods. However, they suffer from a similar limitation to that of the ML method. The covariance matrix Σ ξ of the measurement error is required to be known or can be estimated from an additional sample of V given X . The instrumental variable method is another general technique for obtaining consistent estimators and has been widely used in practice because it does not need to know or estimate the variance of the measurement error, see, Carter and Fuller <ref type="bibr" target="#b9">[10]</ref>, Buzas and Stefanski <ref type="bibr" target="#b6">[7]</ref>, Schennach <ref type="bibr" target="#b29">[30]</ref>, Gustafson <ref type="bibr" target="#b15">[16]</ref>, etc. In the literature, there are mainly two types of relationships between the variable X i measured with error and its instrumental variable. One is that X i is the regression function of the instrumental variable (see Fuller <ref type="bibr" target="#b14">[15]</ref>, Newey <ref type="bibr" target="#b26">[27]</ref>, Schennach <ref type="bibr" target="#b29">[30]</ref>), and the other is that the instrumental variable is the regression function of X i (see Carter and Fuller <ref type="bibr" target="#b9">[10]</ref>, Carroll et al. <ref type="bibr" target="#b7">[8]</ref>). Since these two cases correspond to the Berkson measurement error type and the classical measurement error type of X i , respectively, for convenience, these two types of instrumental variables are referred to as Berkson's type of instrumental variables and the classical type of instrumental variables, respectively.</p><p>In this paper, we propose a three-stage least squares estimation method for Model (1) by introducing Berkson's and classical types of instrumental variables, respectively. The proposed estimators are shown to be consistent and asymptotically normally distributed. Simulation results show that the proposed estimation procedure performs well no matter the instrumental variables come from Berkson's type instrumental variables or classical type instrumental variables. The biases and mean square errors of the 3SLS estimators in Model (1) are smaller than those of the 2SLS estimator and decrease quickly as the sample size increases.</p><p>The rest of this paper is organized as follows. Section 2 presents the estimation procedure. Section 3 derives the consistency and asymptotic normality of the proposed estimators. Simulation studies are carried out to evaluate the finitesample performance of the proposed estimators in Section 4. A real data example is presented in Section 5. Section 6 is the conclusion. The proofs of the main theorems are relegated to Appendix.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.">Estimation procedure</head><formula xml:id="formula_2">Denote Y = (Y 1 , . . . , Y n ) T , V = (V 1 , . . . , V n ) T , X = (X 1 , . . . , X n ) T , ξ = (ξ 1 , . . . , ξ n ) T , ϵ = (ϵ 1 , . . . , ϵ n ) T and e v = ϵ -ξβ.</formula><p>Then Model (1) can be rewritten in matrix form as</p><formula xml:id="formula_3">Y = ρWY + Vβ + e v , (<label>2</label></formula><formula xml:id="formula_4">)</formula><p>where W is an n × n spatial weight matrix with elements w ij , i, j ∈ {1, . . . , n}.</p><p>Let θ = (ρ, β T ) T and D V = (WY , V). Model (2) is further simplified as</p><formula xml:id="formula_5">Y = D V θ + ϵ v .</formula><p>(3) Since both WY and V in matrix D V are endogenous, the ordinary least squares (OLS) estimation method cannot be directly applied to Model (3). Therefore, we develop a 3SLS estimation method for Model (2) by virtue of instrumental variable for X i .</p><p>Assume that G i is a vector of random variables that is correlated with X i but not with ϵ i and ξ i . Then G i can be used as the instrumental variables for X i . Denote by G = (G 1 , . . . , G n ) the matrix of instrumental variables. It is common in practice that not all covariates in models can be exactly measured. If the jth covariate can be measured without error, that is, the jth column X .j (j ∈ {1, . . . , p}) of X can be exactly measured, then X .j does not need an instrumental variable. For convenience, it is stipulated that X .j measured without error serves as its own instrumental variable. And X .j measured without error is also one column of the matrix G of instrumental variables. Berkson's and classical types of instrumental variables are two main types of instrumental variables in the literature. Next, we consider the parameter estimation of Model (3) when instrumental variables for X i s come from Berkson's and classical types of instrumental variables, respectively. To avoid confusion with notation, we denote by G (1)i and G (2)i the Berkson's and classical types of instrumental variables in the following, respectively.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>For brevity, we denote by P A = A(A T A) -1 A T and A ⊗2</head><p>= AA T throughout this paper, where A is a real matrix.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1.">Estimation with Berkson's type of instrumental variables</head><p>Assume that G (1)i has a dimension greater than or equal to the dimension of X i , denoted by dim(G (1)i ) ≥ dim(X i ), and satisfies that</p><formula xml:id="formula_6">X = 1 n π (01) + G (1) π (1) + ζ (1) ,<label>(4)</label></formula><p>where</p><formula xml:id="formula_7">G (1) = (G (<label>1</label></formula><p>)1 , . . . , G (1)n ) T with full column rank, π (01) is the intercept part, π (1) is a matrix of parameters, ζ (1) = (ζ (1)1 , . . . , ζ (1)n ) T is independent of (ϵ i , ξ i , G (1)i ) for all i, and ζ (1)i s are also mutually independent with mean zero and covariance matrix Σ ζ (1) . In particular, (4) becomes the standard Berkson's measurement error model if dim(G (1)i ) = dim(X i ), π (01) = 0 T p and π (1) = I p , see Berkson [4]. With the matrix G (1) of the instrumental variables, we develop a 3SLS</p><p>estimation method for Model (3).</p><p>In the first stage, each</p><formula xml:id="formula_8">column V •j (j ∈ {1, . . . , p}) of V is regressed on G (01) = (1 n , G (1)</formula><p>). If a regressor X •j does not have measurement error, it is already (or should be) one of the columns of G (01) . In that case, since P G (01</p><formula xml:id="formula_9">) V •j = P G (01) X •j = X •j ,</formula><p>the first-stage regression is not needed, and we say that such a regressor serves as its own instrument. The fitted values from the first-stage regressions, plus the actual values of any regressors that serve as their own instruments, are collected to form the matrix P G (01) V.</p><p>In the second stage, let D (01) = (WY , P G (01) V) and suppose H (1) is an instrument of D (01) , which is composed of a subset of the linearly independent columns of (( Lee [20]. Then H (1) = (Q (1) , P G (01) V) is an instrument of D (01) . Each column D (01).j• (j ∈ {1, . . . , (p + 1)}) of D (01) is regressed on H <ref type="bibr" target="#b0">(1)</ref> . The fitted values from the second-stage regressions are used to form the matrix P H (1) D (01) .</p><formula xml:id="formula_10">WP G (01) V, W 2 P G (01) V, . . .), P G (01) V) or the best instruments (W(I - ρW) -1 P G (01) Vβ, P G (01) V) (since E(WY |P G (01) V) = W(I -ρW) -1 P G (01) Vβ), for detail, see</formula><p>Replacing D V in Model (3) with P H (1) D (01) , we obtain the third-stage regression model</p><formula xml:id="formula_11">Y = P H (1) D (01) θ + ε H (1) ,<label>(5)</label></formula><p>where ε H (1) is the regression residual term. The OLS estimator of θ in Model (5</p><formula xml:id="formula_12">) is θI = (D T (<label>01</label></formula><formula xml:id="formula_13">) P H (1) D (01) ) -1 D T (<label>01</label></formula><formula xml:id="formula_14">) P H (1) Y ,<label>(6)</label></formula><p>which is named as the 3SLS estimator of θ under Berkson's type of instrumental variables in this paper.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Remark 1.</head><p>In practice, instruments H (1) in ( <ref type="formula" target="#formula_14">6</ref>) can be constructed similar to Lee <ref type="bibr" target="#b19">[20]</ref>, which involves two steps. Firstly, we take H = (WP G (01) V, P G (01) V) as instruments of the 3SLS estimation (6) to obtain the initial estimate of (ρ, β), denote as ( ρ0 , β0 ). Secondly, replacing the unknown parameters (ρ, β) in the best instruments (W(I -ρW) -1 P G (01) Vβ, P G (01) V) with ( ρ0 , β0 ), we get a feasible best instruments</p><formula xml:id="formula_15">H (1) = (W(I -ρ0 W) -1 P G (01) V β0 , P G (01) V).</formula><p>Invoking (6) again obtains the final 3SLS estimate of (ρ, β).</p><p>Note that</p><formula xml:id="formula_16">E(Y i -ρ ∑ n i̸ =j w ij Y i -V T i β) 2 = σ 2 + β T Σ ξ β.</formula><p>If Σ ξ is known, we can also give an estimator of the error variance σ 2 by</p><formula xml:id="formula_17">σ 2 I = 1 n   Y -ρI WY -V βI    2 - βT I Σ ξ βI .<label>(7)</label></formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2.">Estimation with classical type of instrumental variables</head><p>Assume that the instrumental variable G (2)i has the same dimension as X i and satisfies</p><formula xml:id="formula_18">G (2) = 1 n π (02) + Xπ (2) + ζ (2) ,<label>(8)</label></formula><p>where Invoking the 3SLS estimation in Section 2.1, we can obtain an estimator of θ in Model ( <ref type="formula" target="#formula_3">2</ref>)</p><formula xml:id="formula_19">G (2) = (G (2)1 , . . . , G (2)n ) T with</formula><formula xml:id="formula_20">θII = (D T (<label>02</label></formula><formula xml:id="formula_21">) P H (2) D (02) ) -1 D T (02) P H (2) Y ,<label>(9)</label></formula><p>which is named as the 3SLS estimator of θ under classical type of instrumental variables, where</p><formula xml:id="formula_22">D (02) = (WY , P G (02) V), G (02) = (1 n , G (2)</formula><p>) and H (2) is an instrument of D (02) . Similar to H (1) in Section 2.1, H (2) is composed of a subset of the linearly independent columns of ((</p><formula xml:id="formula_23">WP G (02) V, W 2 P G (02) V, . . .), P G (02) V) or the best instruments (W(I-ρW) -1 P G (02) Vβ, P G (02) V).</formula><p>Following the steps in Section 2.1, we can also obtain a feasible best instruments H <ref type="bibr" target="#b1">(2)</ref> . when Σ ξ is known, we can also define an estimator of the error variance σ 2 as</p><formula xml:id="formula_24">σ 2 II = 1 n   Y -ρII WY -V βII    2 - βT II Σ ξ βII (<label>10</label></formula><formula xml:id="formula_25">)</formula><p>Remark 2. The naive 2SLS estimation of θ in Model (1) is obtained by ignoring the measurement error of the covariate X and directly using the 2SLS estimation method, denoted by θnaive 2SLS . The corresponding estimator of the variance of the error term can be obtained by</p><formula xml:id="formula_26">σ 2 naive2SLS = 1 n   Y -ρnaive2SLS WY -V βnaive2SLS    2 .</formula><p>Remark 3. The proposed 3SLS estimation is robust for distributions of random errors ϵ i s and ξ i s in Model (1) and ζ (1) in Model (4) (or ζ (2) in Model <ref type="bibr" target="#b7">(8)</ref>, which allows the random errors above to be non-normally distributed.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.">Large sample properties</head><p>We impose the following conditions for the derivation of the main results.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>C1</head><p>The matrix I -ρW is nonsingular with |ρ| &lt; 1. C2 The row and column sums of the matrices W and (I-ρW) -1 are bounded uniformly in absolute value for any |ρ| &lt; 1. C3 The elements of both X and G (k) (k = 1, 2) are uniformly bounded constants.</p><p>C4 For the given type of instrumentary variables, the corresponding H (k) and G (0k) satisfy that lim n→∞</p><formula xml:id="formula_27">1 n H T (k) H (k) and lim n→∞ 1 n {H T (k) (I -P G (0k) )} ⊗2 exist and both are non-singular, lim n→∞ 1 n H T (k) D(k) has full column rank, where D(k) = D(k) (θ) = (W(I -ρW) -1 P G (0k) Vβ, P G (0k) V), k ∈ {1, 2}.</formula><p>C1-C2 are required in the setting of spatial autoregressive model (see, Kelejian and Prucha <ref type="bibr" target="#b17">[18]</ref>, Lee <ref type="bibr" target="#b19">[20]</ref>). C3-C4 are used to achieve the asymptotic properties and the identifiability of θ. The non-stochastic X and its uniform boundedness conditions in C3 are for convenience. If the elements of X, are stochastic and have unbounded ranges, conditions in C3 can be replaced by some finite moment conditions <ref type="bibr" target="#b21">[22,</ref><ref type="bibr" target="#b34">35]</ref>.</p><formula xml:id="formula_28">Theorem 1. Under conditions C1-C4, it has √ n( θI -θ) D -→ N(0, Σ (1) ), where Σ (1) = Σ -1 (1)2 Σ (1)1 Σ -1 (1)2 with Σ (1)1 = lim n→∞ 1 n { DT (<label>1</label></formula><formula xml:id="formula_29">) P H (1) Ψ (1) P H (1) D(1) } , Σ (1)2 = lim n→∞ 1 n { DT (<label>1</label></formula><p>) P H (1) D(1) } , D(1) has been defined in C4, and Ψ (1) = ( σ 2 I + σ 2 (1) (I -P G (01) ) + σ 2 ξ P G (01) ) with σ 2 (1) = β T Σ ζ (1) β and σ 2 ξ = β T Σ ξ β. When Σ ζ (1) and Σ ξ are known or can be estimated, we can construct the confidence interval for θ by Theorem 1, in which the asymptotic covariance matrix Σ (1) can be estimated by Σ (1) = Σ (1)2 Σ (1)1 Σ (1)2 with Σ (1)1 = 1 n { DT (1) P H (1) Ψ (1) P H (1) D(1) } , Σ (1)2 = 1 n { DT (1) P H (1) D(1) } . Here D(1) has the same expression as D(1) except that θ in D(1) is replaced by θI , that is, D(1) = D(1) ( θI ), and Ψ (1) = ( σ 2 I I + σ 2 (1) (I -P G (01) ) + σ 2 ξ (1) P G (01) ) with σ 2 (1) = βT I Σ ζ (1) βI and σ 2 ξ (1) = βT I Σ ξ βI . Theorem 2. Under conditions C1-C4, it has</p><formula xml:id="formula_30">√ n( θII -θ) D -→ N(0, Σ (2) ),</formula><p>where Σ (2) = Σ -1 (2)2 Σ (2)1 Σ -1</p><p>(2)2 with</p><formula xml:id="formula_31">Σ (2)1 = lim n→∞ 1 n { DT (2) P H (2) Ψ (2) P H (2) D(2) } , Σ (2)2 = lim n→∞ 1 n { DT (2) P H (2) D(2) } , D(2) is defined in C4, Ψ (2) = ( σ 2 I + σ 2 (2) (I -P G (02) ) + σ 2 ξ P G (<label>02</label></formula><formula xml:id="formula_32">)</formula><formula xml:id="formula_33">) with σ 2 ξ = β T Σ ξ β and σ 2 (2) = β T (π -1 (2) ) T Σ ζ ′ (2) π -1 (2) β, Σ ζ ′ (2) = Σ ζ (2) -lim n→∞ 1 n { ζ T (2) P G (02) ζ (2) } .</formula><p>Similarly, we can construct the confidence interval for interest parameters θ by Theorem 2 if classical type of instrumental variables are available, in which Σ (2) can be estimated by Σ (2) = Σ (2)2 Σ (2)1 Σ (2)2 with</p><formula xml:id="formula_34">Σ (2)1 = 1 n { DT (2) P H (2) Ψ (2) P H (2) D(2) } , Σ (2)2 = 1 n { DT (2) P H (2) D(2)</formula><p>} .</p><p>Here D(2) = D(2</p><formula xml:id="formula_35">) ( θII ), Ψ (2) = ( σ 2 II I + σ 2 (2) (I -P G (02) ) + σ 2 ξ (2) P G (02) ) , σ 2 ξ (2) = βT II Σ ξ βII and σ 2 (2) = βT II ( π-1 (2) ) T Σ ζ ′ (2) π-1 (2) βII with π(2) = (0 p , I p )((1 n , V) T (1 n , V) -nΣ * ξ ) -1 (1 n , V) T G (2) , Σ * ξ = ( 0 0 T p 0 p Σ ξ</formula><p>) .</p><p>In fact, π(2) is the bias-corrected estimator of π (2) in Model (8) with measurement error V = X + ξ.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Corollary 1.</head><p>Under conditions C1-C4, both σ 2 I and σ 2 II are consistent estimators of σ 2 .</p><p>Using Slutsky's Theorem, we can easily derive that Σ (2) (or Σ (1) ) is a consistent estimator of Σ (2) (or Σ (1) ).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.">Simulations studies</head><p>In this section, we conduct some simulations to assess the performance of the proposed 3SLS procedure when instrumental variables for X i s come from Berkson's type of instrumental variables and classical type of instrumental variables, respectively.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1.">Instrumental variables for X i s from Berkson's type of instrumental variables</head><p>The data are generated from the model</p><formula xml:id="formula_36">⎧ ⎪ ⎪ ⎪ ⎪ ⎨ ⎪ ⎪ ⎪ ⎪ ⎩ Y i = ρ n ∑ j=1 w ij Y j + X T i β + ϵ i , V i = X i + ξ i , X i = π (01) + π T (1) G (1)i + ζ (1)i , i ∈ {1, . . . , n},<label>(11)</label></formula><p>where</p><formula xml:id="formula_37">β = (1, 1.2) T , ϵ i ∼ Uniform(- √ 3,<label>√</label></formula><p>3), ξ i has a uniform distribution on the square (-  T with G (1)i1 ∼ Uniform(-1, 2), G (1)ij ∼ N(1, 1), j ∈ {2, 3}. For comparison, we consider two choices for π (01) , i.e. π (01) = 0 = (0, 0) ′ and π (01) = (0.5, 1) T . Similar to Lee et al. <ref type="bibr" target="#b20">[21]</ref>, we take the spatial weight matrix W being</p><formula xml:id="formula_38">√ 3σ ξ 0 , √ 3σ ξ 0 ) × (- √ 3σ ξ 0 , √ 3σ ξ 0 ), ζ (</formula><formula xml:id="formula_39">) , G (1)i = (G (1)i1 , G (1)i2 , G (1)i3 )</formula><formula xml:id="formula_40">W = I d ⊗ Ω m</formula><p>Table 1</p><p>The averages of the biases, SDs, RMSEs and run-times (second) of the 3SLS estimates under Berkson's type of instrumental variables and the naive 2SLS estimates from 1000 simulation replications (π 01 = 0). σ</p><p>ξ 0 = 0.3 σ 2 ξ 0 = 0.8 n = 100 n = 300 n = 100 n = 300 ρ Naive 2SLS 3SLS Naive 2SLS 3SLS Naive 2SLS 3SLS Naive 2SLS 3SLS 0 ρ Bias 0.1475 -0.0018 0.1486 -0.0004 0.3035 0.0009 0.3067 -0.0034 SD 0.0925 0.1180 0.0548 0.0698 0.1014 0.1422 0.0597 0.0819 RMSE 0.1741 0.1180 0.1584 0.0698 0.3200 0.1421 0.3124 0.0819 β 1 Bias -0.1927 -0.0035 -0.1880 0.0004 -0.3873 -0.0084 -0.3874 0.0053 SD 0.1020 0.1477 0.0578 0.0840 0.1052 0.1857 0.0623 0.1086 RMSE 0.2180 0.1476 0.1967 0.0839 0.4013 0.1858 0.3923 0.1087 β 2 Bias -0.2240 -0.0066 -0.2278 -0.0018 -0.4635 -0.0023 -0.4647 -0.0025 SD 0.1033 0.1387 0.0612 0.0835 0.1063 0.1860 0.0588 0.1020 RMSE 0.2467 0.1388 0.2359 0.0834 0.4755 0.1859 0.4684 0.1020 σ 2 Bias 0.5636 -0.0241 0.5858 -0.0103 1.1815 -0.0543 1.2133 -0.0096 SD 0.2274 0.2454 0.1310 0.1390 0.3104 0.3959 0.1862 0.2204 RMSE 0.6077 0.2465 0.6002 0.1393 1.2216 0.3995 1.2275 0.2205 Run-time 0.0040 0.0055 0.0570 0.0756 0.0043 0.0065 0.0563 0.0835 ρ Bias 0.0935 -0.0027 0.0976 -0.0005 0.1969 0.0005 0.1951 -0.0018 SD 0.0616 0.0760 0.0340 0.0444 0.0656 0.0951 0.0358 0.0544 RMSE 0.1119 0.0760 0.1034 0.0444 0.2076 0.0950 0.1983 0.0544 β 1 Bias -0.1983 0.0006 -0.2024 0.0015 -0.4090 -0.0093 -0.4040 0.0032 SD 0.1071 0.1535 0.0617 0.0894 0.1086 0.2022 0.0593 0.1141 RMSE 0.2253 0.1534 0.2116 0.0894 0.4231 0.2023 0.4083 0.1141 β 2 Bias -0.2387 -0.0012 -0.2430 -0.0032 -0.4862 -0.0117 -0.4795 -0.0027 SD 0.1046 0.1426 0.0601 0.0817 0.1044 0.1868 0.0602 0.1056 RMSE 0.2606 0.1425 0.2503 0.0818 0.4973 0.1870 0.4832 0.1056 σ 2 Bias 0.5163 -0.0310 0.5401 -0.0081 1.0580 -0.0289 1.0798 -0.0252 SD 0.2045 0.2317 0.1220 0.1380 0.3041 0.3992 0.1749 0.2184 RMSE 0.5552 0.2336 0.5537 0.1382 1.1008 0.4001 1.0938 0.2197 Run-time 0.0044 0.0064 0.0634 0.0806 0.0049 0.0074 0.0553 0.1023</p><p>with Ω m = 1 m-1 (1 m 1 T m -I m ), where 1 m is a column vector with m elements all to 1, ⊗ is the Kronecker product, n = d ×m (m = 5 in simulation). Throughout the simulations, we take two different σ 2 ξ 0 and two spatial scalar parameters for comparison, i.e., σ 2 ξ 0 = 0.3, 0.8, and ρ = 0, 0.4. The matrix of the best instruments H (1) = (W(I -ρW) -1 P G (01) Vβ, P G (01) V), is used, and the unknown parameters involved are estimated by the method in Remark 2, similar to Lee <ref type="bibr" target="#b19">[20]</ref>. Meanwhile, in order to evaluate the performance of σ 2 I (or σ 2 II ), we assume that Σ ξ is known. For each fixed sample sizes n ∈ {100, 300}, we have 1000 simulation replicates for each case. We calculate the averages of the bias (Bias), the root mean squared error (RMSE) and standard deviation (SD) for each estimator of θ and σ 2 . We also list the run-time (second) for one replication of the simulation. The results of the simulations are summarized in Tables <ref type="table">1</ref> and <ref type="table" target="#tab_0">2</ref>   <ref type="table">1</ref> and <ref type="table" target="#tab_0">2</ref> also present the corresponding results of the naive 2SLS estimator.</p><p>It can be found from Tables <ref type="table">1</ref> and <ref type="table" target="#tab_0">2</ref> that the proposed 3SLS estimator performs significantly better than the naive 2SLS estimator. The bias of the 3SLS estimator is much smaller than that of the naive 2SLS estimator and decreases quickly as sample size n increases, especially when the measurement error is large (eg., σ 2 ξ 0 = 0.8). As a contrast, the bias of the naive 2SLS estimator changes little and its RMSE hardly decreases as sample size n increases, though its variance is smaller than that of the 3SLS estimator. This shows that the naive 2SLS estimator under Berkson's type of instrumental variables is inconsistent.</p><p>On the other hand, we find that different values of π 01 and ρ have little impact on the estimation. When ρ = 0, it implies that Model (11) becomes a classical linear regression model with measurement errors. This implies that the proposed method is robust even if the real model has no spatial dependence. Overall, the results in Tables <ref type="table">1</ref> and <ref type="table" target="#tab_0">2</ref> show that the proposed 3SLS estimator under Berkson's type of instrumental variables is consistent while the naive 2SLS estimator is inconsistent. Its run-time is just slightly longer than that of the naive 2SLS estimator since one more stage it requires is to project V i onto the space of the instrumental variables and 1 n , which is simple in computation.</p><p>Furthermore, we assume that Σ ζ (1) and Σ ξ are given in advance. Using the asymptotical normality of the 3SLS estimator established by Theorem 1, we construct the confidence intervals for interest parameters. We study the performance of the confidence intervals in terms of the coverage probabilities (CP) and average lengths, and list simulation results for θ in Table <ref type="table" target="#tab_1">3</ref>. We find that the corresponding CP approximates the nominal level of 95%, which verifies the result of Theorem 1 that proposed 3SLS estimator under Berkson's type of instrumental variables is asymptotically normally distributed.  </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2.">Instrumental variables for X i s from classical type of instrumental variables</head><p>The data are generated from the model</p><formula xml:id="formula_42">⎧ ⎪ ⎪ ⎪ ⎪ ⎨ ⎪ ⎪ ⎪ ⎪ ⎩ Y i = ρ n ∑ j=1 w ij Y j + X T i β + ϵ i , V i = X i + ξ i , G (2)i = π (02) + π T (<label>2</label></formula><formula xml:id="formula_43">) X i + ζ (2)i , i ∈ {1, . . . , n}, (<label>12</label></formula><formula xml:id="formula_44">)</formula><p>where ρ, w ij , β, ξ i , ϵ i , π (02) and ζ (2)i are set to be exactly the same as those in Model (11), while the patterns generated by X i and instrumental variables have changed, in which, X i1 ∼ Uniform(-1, 2), X i2 ∼ N(1, 1), π (2) = ( 1 0.5 0.5 1</p><p>) .</p><p>For each fixed sample sizes n ∈ {100, 300}, we calculate the averages of the bias (Bias), the root mean squared error (RMSE) and standard deviation (SD) for each estimator of θ and σ 2 from 1000 simulation replicates. The results</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Table 4</head><p>The averages of the biases, SDs, RMSEs and run-times (second) of the 3SLS estimates under classical type of instrumental variables and the naive 2SLS estimates from 1000 simulation replications (π 02 = 0). σ</p><p>ξ 0 = 0.3 σ 2 ξ 0 = 0.8 n = 100 n = 300 n = 100 n = 300 ρ Naive 2SLS 3SLS Naive 2SLS 3SLS Naive 2SLS 3SLS Naive 2SLS 3SLS 0 ρ Bias 0.1801 -0.0044 0.1802 0.0020 0.3468 -0.0099 0.3547 -0.0039 SD 0.0881 0.1001 0.0499 0.0566 0.0975 0.1363 0.0557 0.0745 RMSE 0.2005 0.1002 0.1870 0.0566 0.3602 0.1366 0.3591 0.0746 β 1 Bias -0.2624 -0.0047 -0.2562 -0.0006 -0.4810 0.0119 -0.4820 0.0022 SD 0.1208 0.2176 0.0694 0.1227 0.1174 0.2855 0.0652 0.1549 RMSE 0.2889 0.2175 0.2654 0.1226 0.4951 0.2856 0.4863 0.1548 β 2 Bias -0.2386 0.0006 -0.2341 0.0003 -0.4661 0.0027 -0.4738 0.0048 SD 0.1055 0.1633 0.0600 0.0928 0.1065 0.2104 0.0605 0.1176 RMSE 0.2608 0.1633 0.2416 0.0928 0.4781 0.2103 0.4777 0.1176 σ 2 Bias 0.5341 -0.0194 0.5669 -0.0064 1.0974 -0.0451 1.1382 -0.0083 SD 0.1925 0.2120 0.1117 0.1255 0.2875 0.3977 0.1672 0.2191 RMSE 0.5678 0.2128 0.5778 0.1256 1.1344 0.4000 1.1504 0.2192 Run-time 0.0039 0.0040 0.0410 0.0523 0.0046 0.0049 0.0537 0.0631 0.4 ρ Bias 0.1152 -0.0006 0.1159 -0.0009 0.2252 -0.0091 0.2244 -0.0007 SD 0.0553 0.0678 0.0322 0.0391 0.0643 0.0844 0.0341 0.0480 RMSE 0.1277 0.0678 0.1203 0.0391 0.2342 0.0848 0.2269 0.0480 β 1 Bias -0.2635 0.0053 -0.2694 0.0002 -0.4972 0.0263 -0.4967 0.0041 SD 0.1265 0.2294 0.0683 0.1209 0.1139 0.2925 0.0641 0.1643 RMSE 0.2923 0.2293 0.2780 0.1208 0.5101 0.2935 0.5008 0.1643 β 2 Bias -0.2482 -0.0017 -0.2502 0.0017 -0.5037 0.0048 -0.4965 -0.0030 SD 0.1088 0.1725 0.0632 0.0966 0.1133 0.2274 0.0620 0.1309 RMSE 0.2709 0.1725 0.2581 0.0966 0.5162 0.2273 0.5003 0.1309 σ 2 Bias 0.4924 -0.0181 0.5139 -0.0046 0.9770 -0.0046 0.9886 -0.0089 SD 0.1893 0.2266 0.1107 0.1268 0.2742 0.4234 0.1579 0.2189 RMSE 0.5274 0.2272 0.5257 0.1268 1.0147 0.4232 1.0011 0.2190 Run-time 0.0031 0.0033 0.0453 0.0473 0.0047 0.0048 0.0570 0.0587</p><p>of the simulations on the 3SLS estimator under classical type of instrumental variables and the naive 2SLS estimator are summarized in Tables <ref type="table">4</ref> and <ref type="table">5</ref>. It can be also found from Tables <ref type="table">4</ref> and <ref type="table">5</ref> that the proposed 3SLS estimator is consistent and superior to the naive 2SLS estimator in terms of having smaller bias and RMSE, especially, when the variance σ 2 ξ 0 of the measurement error is large.</p><p>The confidence intervals of parameters can be also constructed using Theorem 2 when Σ ζ (2) and Σ ξ are known. The empirical CP and average lengths of the confidence intervals at sample size n = 300 are listed in Table <ref type="table" target="#tab_2">6</ref>, which also shows that the empirical CP is close to the nominal level of 95% in all cases.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.">An empirical application</head><p>The Columbus data set is used to illustrate the proposed method. The data included the observations for 49 contiguous Planning Neighborhoods in Columbus, Ohio. Following Anselin <ref type="bibr" target="#b1">[2]</ref>, CRIME (The crime variable pertains to the combined total of residential burglaries and vehicle thefts per thousand households in the neighborhood) was taken as the dependent variable Y , INC (the income) and HOUSE (the housing values) were used to explain the variation in crime value (INC and HOUSE are in thousand dollars), then data set is fitted via the linear SAR model:</p><formula xml:id="formula_46">Y i = ρ n ∑ j̸ =i w ij Y j + β 0 + β 1 • INC i + β 2 • HOUSE i + ϵ i , i ∈ {1, . . . , n}, (<label>13</label></formula><formula xml:id="formula_47">)</formula><p>where the weight matrix W = (w ij ) n×n is the row-normalized sparse contiguity matrix used by Bivand <ref type="bibr" target="#b4">[5]</ref>.</p><p>To apply the proposed approach, we assume that ''INC i '' cannot be observed directly, the observed measure of '' (2)  i , where ξ (1)  i , ξ (2)   i ∼ N(0, 1). We use V (1)   i instead of INC i to obtain the naive 2SLS estimator, and use V</p><formula xml:id="formula_48">INC i '', denoted by V i . We generate V i by V i = INC i + ξ i , where ξ i is the measurement error term. Denote the first observation of ''INC i '' by V (1) i = INC i + ξ (1) i and the second observation of ''INC i '' by V (2) i = INC i + ξ</formula><p>(2) i as a classical type instrumental variables to obtain the 3SLS estimator. Table <ref type="table" target="#tab_3">7</ref> shows the average of the estimated values and the 95% confidence intervals of ρ, β 0 , β 1 and β 2 from 1000 replications. In comparison with the average naive 2SLS estimates</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Table 5</head><p>The averages of the biases, SDs, RMSEs and run-times (second) of the 3SLS estimates under classical type of instrumental variables and the naive 2SLS estimates from 1000 simulation replications (π 02 ̸ = 0).  of coefficients, the average coefficients estimated by the 3SLS method are closer to the corresponding 2SLS estimates under Model (13) based on the original data (without measurement error). This illustrates the validity of our proposed estimation.</p><formula xml:id="formula_49">σ 2 ξ 0 = 0.3 σ 2 ξ 0 = 0.8 n = 100 n = 300 n = 100 n = 300 ρ Naive 2SLS<label>3SLS</label></formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.">Conclusion</head><p>In this paper, by introducing instrumental variables, we proposed a robust estimation method for linear SAS models with covariate measurement errors. The consistency and asymptotical normality are derived for the proposed 3SLS estimators using Berkson's and classical types of the instrumental variables, respectively. The finite sample properties of the 3SLS estimators are investigated through a simulation study. The simulation results show that the proposed estimators perform well under both types of the instrumental variables considered. In comparison with the ML and REML methods of He and Hu <ref type="bibr" target="#b16">[17]</ref> for univariate SAR models with covariate measurement errors, the proposed 3SLS method has two advantages: one is that it is a robust distribution-free method, the other is that it can give a consistent estimator without the need to know the ratio of the variances of the measurement error and model error. In practical application, it is usually easier to find the instrumental variable G i than to require an additional sample to estimate the ratio of the variances. For example, a simple selection is to take another surrogate variable of X i as the instrumental variable of V i , while an additional sample often requires additional costs.</p><p>In addition, the proposed 3SLS method can be extended to semiparametric SAR models by integrating with semiparametric regression techniques. Further research is warranted to establish a robust estimation method for more flexible SAR models. </p><formula xml:id="formula_50">Y = ρWY + Vβ + (ξβ + ϵ) = ρWY + ( P G (01) + (I -P G (01) ) ) Vβ + (ξβ + ϵ) ≡ ρWY + P G (01) Vβ + e (1) ,<label>(14)</label></formula><p>and</p><formula xml:id="formula_52">Y = T -1 (ρ)P G (01) Vβ + T -1 (ρ)e (1) .<label>(16)</label></formula><p>When the instrumental variables for X i s come from classical type of instrumental variables, <ref type="bibr" target="#b1">2)</ref> . Similar to ( <ref type="formula" target="#formula_50">14</ref>), we have</p><formula xml:id="formula_53">G (2) = 1 n π (02) +Xπ (2) +ζ (2) , then V = -1 n π (02) π -1 (2) + G (2) π -1 (2) + ξ -ζ (2) π -1<label>(</label></formula><formula xml:id="formula_54">Y = ρWY + Xβ + ϵ = ρWY + (V -ξ)β + ϵ ≡ ρWY + P G (02) Vβ + e (2) ,<label>(17)</label></formula><p>and its two equivalent forms</p><formula xml:id="formula_55">Y = D (02) θ + e (2)<label>(18)</label></formula><p>and</p><formula xml:id="formula_56">Y = T -1 (ρ)P G (02) Vβ + T -1 (ρ)e (2) ,<label>(19)</label></formula><p>where</p><formula xml:id="formula_57">G (02) = (1 n , G (2) ), D (02) = (WY , P G (02) V) and e (2) = ϵ -(I -P G (02) )ζ (2) π -1 (2) β -P G (02) ξβ. Then Λ -1 2 n n ∑ i=1 c T i ε i D -→ N(0, 1), where Λ n = ( ∑ n i=1 c T i Σ ε c i ) -1 2 .</formula><p>The proof of Lemma 1 can be found in Fuller <ref type="bibr" target="#b14">[15]</ref>, so we omit it here.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Proof of Theorem 1.</head><p>According to ( <ref type="formula" target="#formula_51">15</ref>), the difference between θI and true value θ can be given by θIθ = (D T (01) P H (1) D (01) ) -1 D T (01) P H (1) Yθ = (D T (01) P H (1) D (01) ) -1 D T (01) P H (1) e (1) ,</p><p>where P H (1) = H (1) (H T With a simple calculation, we have According to Condition C3 that the elements of G (1) are uniformly bounded for all n, and G (1) has full column rank.</p><formula xml:id="formula_59">1 n H T (1) D (01) = 1 n H T (1) ( D(1) + ē(1) ) = 1 n H T (1) D(1) + 1 n H T (1) ē(1) . Let g = (g 1 , . . . , g n ) T = ζ (1) β and h = (h 1 , . . . , h n ) T = ξβ, with g i = β T ζ (</formula><p>Then P G (01) and I -P G (01) are uniformly bounded in both row and column sums.</p><p>Combining with the Conditions C1 and C2 that the row and column sums of the matrices W and (I -ρW) -1 are bounded uniformly in absolute value for any |ρ| &lt; 1, we have as n → ∞,</p><formula xml:id="formula_60">1 n H T (1) We (1) = 1 n H T (1) Wϵ + 1 n H T (1) W(I -P G (01) )g - 1 n H T (1) WP G (01) h = o p (1). (<label>21</label></formula><formula xml:id="formula_61">)</formula><p>That is, as n → ∞,</p><formula xml:id="formula_62">1 n H T (1) D (01) = 1 n H T (1) D(1) + o p (1), (<label>22</label></formula><formula xml:id="formula_63">)</formula><p>which converges to a well-defined limit with full rank under Condition C4. Therefore, we prove that ( 1 n D T (01) H (1) (H T (1) H (1) )</p><p>-1 H T (1) D (01) ) -1 converges in probability to a non-singular limiting matrix Σ -1 (1)2 , i.e., lim n→∞ ( 1 n D T (01) P H (1) D (01)</p><formula xml:id="formula_64">) -1 = Σ -1 (1)2 .<label>(23)</label></formula><p>Similar to ( <ref type="formula" target="#formula_60">21</ref>), we can prove that as n → ∞, <ref type="bibr" target="#b0">(1)</ref>.</p><formula xml:id="formula_65">1 n H T (1) e (1) = o p</formula><p>Combining Condition C4 and ( <ref type="formula" target="#formula_62">22</ref>), we have as n → ∞,</p><formula xml:id="formula_66">1 n D T (01) H (1) (H T (1) H (1) ) -1 H T (1) e (1) = o p (1). (<label>24</label></formula><formula xml:id="formula_67">)</formula><p>Thus, the consistency of the estimator θI follows from Slutsky's Lemma. Next, we prove the asymptotical normality of the estimator θI .</p><p>1</p><formula xml:id="formula_68">√ n H T (1) e (1) = 1 √ n H T (1) ϵ + 1 √ n H T (1) (I -P G (01) )g - 1 √ n H T (<label>1</label></formula><formula xml:id="formula_69">) P G (01) h.<label>(25)</label></formula><p>By Lemma 1, we have 1</p><formula xml:id="formula_70">√ n n ∑ i=1 ϱ i ϵ i D -→N ( 0, σ 2 (1) n -1 ϱ T ϱ ) ,</formula><p>where ϱ = (ϱ 1 , ϱ 2 , . . . , ϱ n ) T is an arbitrary vector such that ϱ T ϱ ̸ = 0. Therefore, 1</p><formula xml:id="formula_71">√ n H T (1) ϵ D -→ N ( 0, σ 2 lim n→∞ 1 n (H T (1) H (1) )</formula><p>) .</p><p>The same argument yields 1</p><formula xml:id="formula_73">√ n H T (1) (I -P G (01) )g D -→ N ( 0, σ 2 (1) lim n→∞ 1 n { H T (1) (I -P G (01) )H (1) } )<label>(27)</label></formula><p>and 1</p><formula xml:id="formula_74">√ n H T (<label>1</label></formula><formula xml:id="formula_75">) P G (01) h D -→ N ( 0, σ 2 ξ lim n→∞ 1 n { H T (<label>1</label></formula><formula xml:id="formula_76">) P G (01) H (1) } ) .<label>(28)</label></formula><p>Since ϵ, g and h are independent, we have 1</p><formula xml:id="formula_77">√ n H T (1) e (1) D -→ N ( 0, lim n→∞ 1 n { H T (1) (σ 2 I + σ 2 (1) (I -P G (01) ) + σ 2 ξ P G (01) )H (1) } ) .<label>(29)</label></formula><p>Together with (20), then the limiting distribution of the estimator θI is </p><p>Denote D(2) = ( WP G (02) Vβ, P G (02) V) and ē(2) = ( We (2) , 0). Then D (02) = D(2) + ē(2) ,</p><formula xml:id="formula_79">1 n H T (2) D (02) = 1 n H T (2) D(2) + 1 n H T (2) ē(2) . Let g ′ = (g ′ 1 , . . . , g ′ n ) T = ζ ′ (2) π -1 (2) β with ζ ′ (2) = (ζ ′ (2)i , . . . , ζ ′ (2)n ) T = (I -P G (02) )ζ (2) . Note that ζ ′<label>(2)</label></formula><p>i s are the independently and identically distributed (0, Σ ζ ′</p><p>). Thus g </p><formula xml:id="formula_81">′ i = β T (π -1 (2) ) T ζ ′<label>(2)</label></formula><p>Thus we obtain the consistency of the estimator θII .</p><p>Note that 1</p><formula xml:id="formula_83">√ n H T (2) e (2) = 1 √ n H T (2) ϵ - 1 √ n H T (2) (I -P G (02) )g ′ - 1 √ n H T (<label>2</label></formula><formula xml:id="formula_84">) P G (02) h,<label>(33)</label></formula><p>where h = ξβ. Using the same argument that leads to ( <ref type="formula" target="#formula_72">26</ref>)-( <ref type="formula" target="#formula_76">28</ref>), we have as n → ∞,</p><formula xml:id="formula_85">1 √ n H T (2) ϵ D -→ N ( 0, σ 2 lim n→∞ 1 n (H T (2) H (2) )</formula><p>) ,</p><formula xml:id="formula_86">1 √ n H T (2) (I -P G (02) )g ′ D -→ N ( 0, σ 2 (2) lim n→∞ 1 n ( H T (2) (I -P G (02) )H (2) ) )</formula><p>and 1</p><formula xml:id="formula_87">√ n H T (<label>2</label></formula><formula xml:id="formula_88">) P G (02) h D -→ N ( 0, σ 2 ξ lim n→∞ 1 n ( H T (<label>2</label></formula><formula xml:id="formula_89">) P G (02) H (<label>2</label></formula><formula xml:id="formula_90">)</formula><p>) ) .</p><p>Therefore, from the independence of ϵ, g ′ and h, we have as n → ∞,</p><formula xml:id="formula_91">1 √ n H T (2) e (2) D -→ N ( 0, lim n→∞ 1 n ( H T (<label>2</label></formula><formula xml:id="formula_92">) ( σ 2 I + σ 2 (2) (I -P G (02) ) + σ 2 ξ P G (<label>02</label></formula><formula xml:id="formula_93">) ) H<label>(2)</label></formula><p>) )</p><p>and</p><formula xml:id="formula_95">√ n( θII -θ) D -→ N(0, Σ (2) ).</formula><p>Proof of Corollary 1. Since E(Y i -ρ ∑ n i̸ =j w ij Y i -V T i β) 2 = σ 2 + β T Σ ξ β, using Slutsky's lemma we can easily derive that</p><formula xml:id="formula_96">σ 2 I = 1 n ( Y -ρI WY -V βI ) T ( Y -ρI WY -V βI ) - βT I Σ ξ βI .</formula><p>is a consistent estimator of σ 2 . Similarly, the consistency of σ 2 II can be obtained.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><figDesc>full column rank, π (02) is the intercept part, π (2) is a p × p invertible matrix of parameters, ζ (2) = (ζ (2)1 , . . . , ζ (2)n ) T . Here ζ (2)i , i ∈ {1, 2, . . . , n} are independent random vectors with mean vector 0 and covariance matrix Σ ζ (2) , and ζ (2)i is also independent of (ϵ i , ξ i , X i ) for all i. Model (8) degenerates to a standard classical measurement error model when π (2) = I p and π (02) = 0 T p .</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><figDesc>1)i has a uniform distribution on the square (-</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><figDesc>for Berkson's type of instrumental variables. To compare the proposed 3SLS estimator, Tables</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>where e ( 1 )</head><label>1</label><figDesc>= ϵ + (I -P G (01) )ζ (1) β -P G (01) ξβ, and G (01) = (1 n , G (1) ). Let T(ρ) = (I -ρW), D (01) = (WY , P G (01) V) and θ = (ρ, β T ) T . Furthermore, we can obtain another two equivalent forms of Model (14), Y = D (01) θ + e (1)</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>( 1 )</head><label>1</label><figDesc>H (1) ) -1 H T (1) . Let W = WT -1 (ρ). It follows by (16) that D (01) = (WY , P G (01) V) = D(1) + ē(1) , where D(1) = ( WP G (01) Vβ, P G (01) V) and ē(1) = ( We (1) , 0).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><figDesc>1)i and h i = β T ξ i . Then {g 1 , . . . , g n } and {h 1 , . . . , h n } are the sequences of independently and identically distributed random variables with mean zero and variances σ2  (1) and σ 2 ξ respectively, where σ 2 (1) = β T Σ ζ (1) β and σ 2 ξ = β T Σ ξ β. The reason is that ζ (1)i s and ξ i s are the independently and identically distributed p-dimensional random vectors with mean zero and covariance matrices Σ ζ (1) and Σ ξ , respectively.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>√</head><figDesc>n( θIθ) D -→ N(0, Σ (1) ). □ Proof of Theorem 2. Similar to (20), we have θIIθ = (D T (02) P H (2) D (02) ) -1 D T (02) P H (2) e (2) .</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><head>2 ( 2 )</head><label>22</label><figDesc>i , i ∈ {1, 2, . . . , n} are the sequence of independently and identically distributed (0, σ ) random variables.Under Conditions C1-C4, we can prove that as n → ∞,H (2) (H T (2) H (2) ) -1 H T (2) e (2) = o p<ref type="bibr" target="#b0">(1)</ref>.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 2</head><label>2</label><figDesc>The averages of the biases, SDs, RMSEs and run-times (second) of the 3SLS estimates under Berkson's type of instrumental variables and the naive 2SLS estimates from 1000 simulation replications (π 01 ̸ = 0).</figDesc><table><row><cell></cell><cell></cell><cell></cell><cell>σ 2 ξ 0 = 0.3</cell><cell></cell><cell></cell><cell></cell><cell>σ 2 ξ 0 = 0.8</cell><cell></cell><cell></cell><cell></cell></row><row><cell></cell><cell></cell><cell></cell><cell>n = 100</cell><cell></cell><cell>n = 300</cell><cell></cell><cell>n = 100</cell><cell></cell><cell>n = 300</cell><cell></cell></row><row><cell>ρ</cell><cell></cell><cell></cell><cell>Naive 2SLS</cell><cell>3SLS</cell><cell>Naive 2SLS</cell><cell>3SLS</cell><cell>Naive 2SLS</cell><cell>3SLS</cell><cell>Naive 2SLS</cell><cell>3SLS</cell></row><row><cell>0</cell><cell>ρ</cell><cell>Bias</cell><cell>0.1775</cell><cell>0.0025</cell><cell>0.1770</cell><cell>0.0010</cell><cell>0.3654</cell><cell>0.0102</cell><cell>0.3589</cell><cell>0.0011</cell></row><row><cell></cell><cell></cell><cell>SD</cell><cell>0.0763</cell><cell>0.0968</cell><cell>0.0416</cell><cell>0.0538</cell><cell>0.0781</cell><cell>0.1190</cell><cell>0.0455</cell><cell>0.0696</cell></row><row><cell></cell><cell></cell><cell>RMSE</cell><cell>0.1932</cell><cell>0.0968</cell><cell>0.1819</cell><cell>0.0538</cell><cell>0.3736</cell><cell>0.1194</cell><cell>0.3618</cell><cell>0.0696</cell></row><row><cell></cell><cell>β 1</cell><cell>Bias</cell><cell>-0.2028</cell><cell>-0.0029</cell><cell>-0.2036</cell><cell>-0.0027</cell><cell>-0.4061</cell><cell>-0.0046</cell><cell>-0.4021</cell><cell>-0.0086</cell></row><row><cell></cell><cell></cell><cell>SD</cell><cell>0.1077</cell><cell>0.1546</cell><cell>0.0629</cell><cell>0.0905</cell><cell>0.1090</cell><cell>0.2066</cell><cell>0.0611</cell><cell>0.1167</cell></row><row><cell></cell><cell></cell><cell>RMSE</cell><cell>0.2296</cell><cell>0.1545</cell><cell>0.2131</cell><cell>0.0905</cell><cell>0.4204</cell><cell>0.2065</cell><cell>0.4067</cell><cell>0.1170</cell></row><row><cell></cell><cell>β 2</cell><cell>Bias</cell><cell>-0.2061</cell><cell>-0.0001</cell><cell>-0.2088</cell><cell>-0.0022</cell><cell>-0.4402</cell><cell>-0.0168</cell><cell>-0.4361</cell><cell>0.0000</cell></row><row><cell></cell><cell></cell><cell>SD</cell><cell>0.1036</cell><cell>0.1407</cell><cell>0.0598</cell><cell>0.0792</cell><cell>0.1095</cell><cell>0.1856</cell><cell>0.0600</cell><cell>0.1002</cell></row><row><cell></cell><cell></cell><cell>RMSE</cell><cell>0.2306</cell><cell>0.1407</cell><cell>0.2172</cell><cell>0.0792</cell><cell>0.4536</cell><cell>0.1862</cell><cell>0.4402</cell><cell>0.1002</cell></row><row><cell></cell><cell>σ 2</cell><cell>Bias</cell><cell>0.5608</cell><cell>-0.0390</cell><cell>0.5919</cell><cell>-0.0097</cell><cell>1.1957</cell><cell>-0.0476</cell><cell>1.2198</cell><cell>-0.0212</cell></row><row><cell></cell><cell></cell><cell>SD</cell><cell>0.2228</cell><cell>0.2385</cell><cell>0.1291</cell><cell>0.1347</cell><cell>0.3171</cell><cell>0.3767</cell><cell>0.1874</cell><cell>0.2218</cell></row><row><cell></cell><cell></cell><cell>RMSE</cell><cell>0.6034</cell><cell>0.2415</cell><cell>0.6058</cell><cell>0.1350</cell><cell>1.2369</cell><cell>0.3795</cell><cell>1.2341</cell><cell>0.2227</cell></row><row><cell></cell><cell></cell><cell>Run-time</cell><cell>0.0045</cell><cell>0.0064</cell><cell>0.0562</cell><cell>0.0800</cell><cell>0.0049</cell><cell>0.0076</cell><cell>0.0703</cell><cell>0.0939</cell></row><row><cell>0.4</cell><cell>ρ</cell><cell>Bias</cell><cell>0.1162</cell><cell>0.0013</cell><cell>0.1141</cell><cell>0.0001</cell><cell>0.2288</cell><cell>-0.0002</cell><cell>0.2279</cell><cell>0.0009</cell></row><row><cell></cell><cell></cell><cell>SD</cell><cell>0.0471</cell><cell>0.0660</cell><cell>0.0264</cell><cell>0.0350</cell><cell>0.0510</cell><cell>0.0783</cell><cell>0.0274</cell><cell>0.0451</cell></row><row><cell></cell><cell></cell><cell>RMSE</cell><cell>0.1254</cell><cell>0.0660</cell><cell>0.1171</cell><cell>0.0350</cell><cell>0.2344</cell><cell>0.0783</cell><cell>0.2295</cell><cell>0.0451</cell></row><row><cell></cell><cell>β 1</cell><cell>Bias</cell><cell>-0.2185</cell><cell>-0.0026</cell><cell>-0.2147</cell><cell>-0.0018</cell><cell>-0.4214</cell><cell>-0.0010</cell><cell>-0.4193</cell><cell>0.0023</cell></row><row><cell></cell><cell></cell><cell>SD</cell><cell>0.1152</cell><cell>0.1696</cell><cell>0.0653</cell><cell>0.0936</cell><cell>0.1124</cell><cell>0.2101</cell><cell>0.0621</cell><cell>0.1188</cell></row><row><cell></cell><cell></cell><cell>RMSE</cell><cell>0.2470</cell><cell>0.1695</cell><cell>0.2244</cell><cell>0.0936</cell><cell>0.4361</cell><cell>0.2100</cell><cell>0.4239</cell><cell>0.1187</cell></row><row><cell></cell><cell>β 2</cell><cell>Bias</cell><cell>-0.2278</cell><cell>-0.0023</cell><cell>-0.2266</cell><cell>-0.0006</cell><cell>-0.4641</cell><cell>-0.0051</cell><cell>-0.4583</cell><cell>-0.0026</cell></row><row><cell></cell><cell></cell><cell>SD</cell><cell>0.1057</cell><cell>0.1509</cell><cell>0.0571</cell><cell>0.0762</cell><cell>0.1105</cell><cell>0.1850</cell><cell>0.0582</cell><cell>0.1061</cell></row><row><cell></cell><cell></cell><cell>RMSE</cell><cell>0.2511</cell><cell>0.1508</cell><cell>0.2336</cell><cell>0.0762</cell><cell>0.4770</cell><cell>0.1850</cell><cell>0.4620</cell><cell>0.1060</cell></row><row><cell></cell><cell>σ 2</cell><cell>Bias</cell><cell>0.5108</cell><cell>-0.0254</cell><cell>0.5295</cell><cell>-0.0162</cell><cell>1.0598</cell><cell>-0.0385</cell><cell>1.0734</cell><cell>-0.0295</cell></row><row><cell></cell><cell></cell><cell>SD</cell><cell>0.2205</cell><cell>0.2461</cell><cell>0.1216</cell><cell>0.1355</cell><cell>0.3013</cell><cell>0.3991</cell><cell>0.1801</cell><cell>0.2271</cell></row><row><cell></cell><cell></cell><cell>RMSE</cell><cell>0.5563</cell><cell>0.2473</cell><cell>0.5432</cell><cell>0.1364</cell><cell>1.1017</cell><cell>0.4007</cell><cell>1.0884</cell><cell>0.2289</cell></row><row><cell></cell><cell></cell><cell>Run-time</cell><cell>0.0047</cell><cell>0.0066</cell><cell>0.0522</cell><cell>0.0992</cell><cell>0.0043</cell><cell>0.0064</cell><cell>0.0700</cell><cell>0.0739</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 3</head><label>3</label><figDesc>The empirical coverage probabilities and average lengths of the 95% confidence intervals for θ constructed using the asymptotical normality of the 3SLS estimator under Berkson's type of instrumental variables from 1000 simulation replications (n = 300).</figDesc><table><row><cell></cell><cell></cell><cell></cell><cell cols="2">Coverage probabilities</cell><cell></cell><cell cols="2">Average lengths</cell><cell></cell></row><row><cell>ρ</cell><cell>Intercept</cell><cell>σ 2 ξ 0</cell><cell>ρ</cell><cell>β 1</cell><cell>β 2</cell><cell>ρ</cell><cell>β 1</cell><cell>β 2</cell></row><row><cell>0</cell><cell>π (01) = 0</cell><cell>0.3</cell><cell>0.944</cell><cell>0.956</cell><cell>0.944</cell><cell>0.2668</cell><cell>0.3343</cell><cell>0.3163</cell></row><row><cell></cell><cell></cell><cell>0.8</cell><cell>0.947</cell><cell>0.960</cell><cell>0.952</cell><cell>0.3229</cell><cell>0.4229</cell><cell>0.4130</cell></row><row><cell></cell><cell>π (01) ̸ = 0</cell><cell>0.3</cell><cell>0.955</cell><cell>0.951</cell><cell>0.938</cell><cell>0.2157</cell><cell>0.3559</cell><cell>0.3062</cell></row><row><cell></cell><cell></cell><cell>0.8</cell><cell>0.943</cell><cell>0.941</cell><cell>0.948</cell><cell>0.2676</cell><cell>0.4504</cell><cell>0.3959</cell></row><row><cell>0.4</cell><cell>π (01) = 0</cell><cell>0.3</cell><cell>0.944</cell><cell>0.960</cell><cell>0.954</cell><cell>0.1764</cell><cell>0.3546</cell><cell>0.3245</cell></row><row><cell></cell><cell></cell><cell>0.8</cell><cell>0.940</cell><cell>0.950</cell><cell>0.953</cell><cell>0.2121</cell><cell>0.4434</cell><cell>0.4184</cell></row><row><cell></cell><cell>π (01) ̸ = 0</cell><cell>0.3</cell><cell>0.951</cell><cell>0.951</cell><cell>0.960</cell><cell>0.1419</cell><cell>0.3686</cell><cell>0.3195</cell></row><row><cell></cell><cell></cell><cell>0.8</cell><cell>0.945</cell><cell>0.955</cell><cell>0.936</cell><cell>0.1765</cell><cell>0.4722</cell><cell>0.4117</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2"><head>Table 6</head><label>6</label><figDesc>The empirical coverage probabilities and average lengths of the 95% confidence intervals for θ constructed using the asymptotical normality of the 3SLS estimator under classical type of instrumental variables from 1000 simulation replications (n = 300).</figDesc><table><row><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell>Naive 2SLS</cell><cell>3SLS</cell><cell>Naive 2SLS</cell><cell>3SLS</cell><cell>Naive 2SLS</cell><cell>3SLS</cell></row><row><cell>0</cell><cell>ρ</cell><cell>Bias</cell><cell>0.1797</cell><cell></cell><cell>-0.0036</cell><cell>0.1787</cell><cell>-0.0010</cell><cell>0.3523</cell><cell>-0.0063</cell><cell>0.3506</cell><cell>-0.0047</cell></row><row><cell></cell><cell></cell><cell>SD</cell><cell>0.0915</cell><cell></cell><cell>0.1024</cell><cell>0.0503</cell><cell>0.0589</cell><cell>0.0968</cell><cell>0.1284</cell><cell>0.0573</cell><cell>0.0740</cell></row><row><cell></cell><cell></cell><cell>RMSE</cell><cell>0.2016</cell><cell></cell><cell>0.1024</cell><cell>0.1856</cell><cell>0.0589</cell><cell>0.3654</cell><cell>0.1285</cell><cell>0.3553</cell><cell>0.0741</cell></row><row><cell></cell><cell>β 1</cell><cell>Bias</cell><cell>-0.2571</cell><cell></cell><cell>0.0004</cell><cell>-0.2583</cell><cell>0.0001</cell><cell>-0.4831</cell><cell>0.0030</cell><cell>-0.4807</cell><cell>-0.0026</cell></row><row><cell></cell><cell></cell><cell>SD</cell><cell>0.1205</cell><cell></cell><cell>0.2127</cell><cell>0.0673</cell><cell>0.1200</cell><cell>0.1142</cell><cell>0.2844</cell><cell>0.0667</cell><cell>0.1580</cell></row><row><cell></cell><cell></cell><cell>RMSE</cell><cell>0.2839</cell><cell></cell><cell>0.2126</cell><cell>0.2669</cell><cell>0.1200</cell><cell>0.4964</cell><cell>0.2843</cell><cell>0.4853</cell><cell>0.1580</cell></row><row><cell></cell><cell>β 2</cell><cell>Bias</cell><cell>-0.2344</cell><cell></cell><cell>0.0057</cell><cell>-0.2345</cell><cell>-0.0029</cell><cell>-0.4751</cell><cell>-0.0024</cell><cell>-0.4705</cell><cell>0.0071</cell></row><row><cell></cell><cell></cell><cell>SD</cell><cell>0.1063</cell><cell></cell><cell>0.1645</cell><cell>0.0613</cell><cell>0.0917</cell><cell>0.1087</cell><cell>0.2208</cell><cell>0.0641</cell><cell>0.1169</cell></row><row><cell></cell><cell></cell><cell>RMSE</cell><cell>0.2574</cell><cell></cell><cell>0.1645</cell><cell>0.2424</cell><cell>0.0917</cell><cell>0.4874</cell><cell>0.2207</cell><cell>0.4748</cell><cell>0.1171</cell></row><row><cell></cell><cell>σ 2</cell><cell>Bias</cell><cell>0.5475</cell><cell></cell><cell>-0.0124</cell><cell>0.5653</cell><cell>-0.0063</cell><cell>1.1021</cell><cell>-0.0303</cell><cell>1.1342</cell><cell>-0.0092</cell></row><row><cell></cell><cell></cell><cell>SD</cell><cell>0.1973</cell><cell></cell><cell>0.2259</cell><cell>0.1148</cell><cell>0.1286</cell><cell>0.2885</cell><cell>0.4149</cell><cell>0.1574</cell><cell>0.2180</cell></row><row><cell></cell><cell></cell><cell>RMSE</cell><cell>0.5820</cell><cell></cell><cell>0.2261</cell><cell>0.5769</cell><cell>0.1287</cell><cell>1.1392</cell><cell>0.4158</cell><cell>1.1451</cell><cell>0.2181</cell></row><row><cell></cell><cell></cell><cell>Run-time</cell><cell>0.0046</cell><cell></cell><cell>0.0053</cell><cell>0.0579</cell><cell>0.0581</cell><cell>0.0043</cell><cell>0.0056</cell><cell>0.0521</cell><cell>0.0523</cell></row><row><cell>0.4</cell><cell>ρ</cell><cell>Bias</cell><cell>0.1138</cell><cell></cell><cell>-0.0031</cell><cell>0.1166</cell><cell>-0.0010</cell><cell>0.2247</cell><cell>-0.0069</cell><cell>0.2257</cell><cell>-0.0026</cell></row><row><cell></cell><cell></cell><cell>SD</cell><cell>0.0566</cell><cell></cell><cell>0.0683</cell><cell>0.0317</cell><cell>0.0380</cell><cell>0.0589</cell><cell>0.0881</cell><cell>0.0331</cell><cell>0.0465</cell></row><row><cell></cell><cell></cell><cell>RMSE</cell><cell>0.1271</cell><cell></cell><cell>0.0683</cell><cell>0.1208</cell><cell>0.0380</cell><cell>0.2323</cell><cell>0.0883</cell><cell>0.2281</cell><cell>0.0465</cell></row><row><cell></cell><cell>β 1</cell><cell>Bias</cell><cell>-0.2759</cell><cell></cell><cell>0.0038</cell><cell>-0.2724</cell><cell>0.0039</cell><cell>-0.4948</cell><cell>0.0116</cell><cell>-0.5008</cell><cell>0.0084</cell></row><row><cell></cell><cell></cell><cell>SD</cell><cell>0.1186</cell><cell></cell><cell>0.2229</cell><cell>0.0675</cell><cell>0.1192</cell><cell>0.1124</cell><cell>0.3051</cell><cell>0.0621</cell><cell>0.1556</cell></row><row><cell></cell><cell></cell><cell>RMSE</cell><cell>0.3003</cell><cell></cell><cell>0.2228</cell><cell>0.2806</cell><cell>0.1192</cell><cell>0.5074</cell><cell>0.3052</cell><cell>0.5046</cell><cell>0.1558</cell></row><row><cell></cell><cell>β 2</cell><cell>Bias</cell><cell>-0.2474</cell><cell></cell><cell>-0.0019</cell><cell>-0.2510</cell><cell>0.0002</cell><cell>-0.4982</cell><cell>0.0087</cell><cell>-0.4979</cell><cell>0.0030</cell></row><row><cell></cell><cell></cell><cell>SD</cell><cell>0.1065</cell><cell></cell><cell>0.1664</cell><cell>0.0602</cell><cell>0.0960</cell><cell>0.1066</cell><cell>0.2318</cell><cell>0.0624</cell><cell>0.1215</cell></row><row><cell></cell><cell></cell><cell>RMSE</cell><cell>0.2693</cell><cell></cell><cell>0.1663</cell><cell>0.2581</cell><cell>0.0960</cell><cell>0.5095</cell><cell>0.2318</cell><cell>0.5018</cell><cell>0.1215</cell></row><row><cell></cell><cell>σ 2</cell><cell>Bias</cell><cell>0.4745</cell><cell></cell><cell>-0.0274</cell><cell>0.5133</cell><cell>-0.0033</cell><cell>0.9620</cell><cell>-0.0307</cell><cell>0.9897</cell><cell>-0.0021</cell></row><row><cell></cell><cell></cell><cell>SD</cell><cell>0.1879</cell><cell></cell><cell>0.2284</cell><cell>0.1099</cell><cell>0.1253</cell><cell>0.2682</cell><cell>0.4075</cell><cell>0.1524</cell><cell>0.2182</cell></row><row><cell></cell><cell></cell><cell>RMSE</cell><cell>0.5103</cell><cell></cell><cell>0.2299</cell><cell>0.5249</cell><cell>0.1253</cell><cell>0.9986</cell><cell>0.4084</cell><cell>1.0013</cell><cell>0.2181</cell></row><row><cell></cell><cell></cell><cell>Run-time</cell><cell>0.0038</cell><cell></cell><cell>0.0041</cell><cell>0.0426</cell><cell>0.0428</cell><cell>0.0045</cell><cell>0.0050</cell><cell>0.0570</cell><cell>0.0583</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell cols="3">Coverage probabilities</cell><cell cols="2">Average lengths</cell><cell></cell></row><row><cell></cell><cell></cell><cell>ρ</cell><cell>Intercept</cell><cell>σ 2 ξ 0</cell><cell>ρ</cell><cell>β 1</cell><cell>β 2</cell><cell>ρ</cell><cell>β 1</cell><cell>β 2</cell></row><row><cell></cell><cell></cell><cell>0</cell><cell>π (02) = 0</cell><cell>0.3</cell><cell>0.940</cell><cell>0.949</cell><cell>0.955</cell><cell>0.2298</cell><cell>0.4747</cell><cell>0.3611</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell>0.8</cell><cell>0.940</cell><cell>0.947</cell><cell>0.949</cell><cell>0.2864</cell><cell>0.6240</cell><cell>0.4665</cell></row><row><cell></cell><cell></cell><cell></cell><cell>π (02) ̸ = 0</cell><cell>0.3</cell><cell>0.944</cell><cell>0.956</cell><cell>0.958</cell><cell>0.2290</cell><cell>0.4731</cell><cell>0.3604</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell>0.8</cell><cell>0.946</cell><cell>0.949</cell><cell>0.959</cell><cell>0.2857</cell><cell>0.6206</cell><cell>0.4672</cell></row><row><cell></cell><cell></cell><cell>0.4</cell><cell>π (02) = 0</cell><cell>0.3</cell><cell>0.950</cell><cell>0.955</cell><cell>0.949</cell><cell>0.1509</cell><cell>0.4786</cell><cell>0.3761</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell>0.8</cell><cell>0.956</cell><cell>0.959</cell><cell>0.945</cell><cell>0.1896</cell><cell>0.6347</cell><cell>0.4902</cell></row><row><cell></cell><cell></cell><cell></cell><cell>π (02) ̸ = 0</cell><cell>0.3</cell><cell>0.944</cell><cell>0.954</cell><cell>0.945</cell><cell>0.1513</cell><cell>0.4766</cell><cell>0.3770</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell>0.8</cell><cell>0.947</cell><cell>0.952</cell><cell>0.959</cell><cell>0.1895</cell><cell>0.6264</cell><cell>0.4860</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_3"><head>Table 7</head><label>7</label><figDesc>The averages of the estimated values and the 95% confidence intervals of ρ, β 0 , β 1 and β 2 calculated by the 3SLS and naive 2SLS methods from 1000 replications, and the corresponding 2SLS estimates calculated from Model (13) without measurement error.</figDesc><table><row><cell>Methods</cell><cell>ρ</cell><cell>β 0</cell><cell>β 1</cell><cell>β 2</cell></row><row><cell>3SLS</cell><cell>0.392 (0.035,0.753)</cell><cell>47.179 (27.531,66.739)</cell><cell cols="2">-1.084 (-1.741,-0.423) -0.267 (-0.444,-0.089)</cell></row><row><cell>naive 2SLS</cell><cell>0.394 (0.030,0.758)</cell><cell>46.770 (26.848,66.674)</cell><cell cols="2">-1.041 (-1.704,-0.376) -0.273 (-0.450,-0.096)</cell></row><row><cell>2SLS (without measurement error)</cell><cell>0.386 (0.025,0.746)</cell><cell>47.554 (27.909,67.200)</cell><cell cols="2">-1.091 (-1.750,-0.432) -0.267 (-0.444,-0.089)</cell></row></table></figure>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div><head>Acknowledgments</head><p>This research was supported by <rs type="funder">National Natural Science Foundation of China (NSFC)</rs> (<rs type="grantNumber">11771032</rs>), <rs type="funder">Scientific Research Foundation for Young Talents of Department of Education of Guizhou Province</rs> (<rs type="grantNumber">KY[2022]211</rs>), and <rs type="funder">Scientific Research Foundation of Guizhou University of Finance and Economics</rs> (<rs type="grantNumber">2021YJ027</rs>). The authors are grateful to the editors and the referees for their detailed suggestions which considerably improved the quality of the paper.</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_x9FpgDz">
+					<idno type="grant-number">11771032</idno>
+				</org>
+				<org type="funding" xml:id="_Qsqh63D">
+					<idno type="grant-number">KY[2022]211</idno>
+				</org>
+				<org type="funding" xml:id="_XBsNqRJ">
+					<idno type="grant-number">2021YJ027</idno>
+				</org>
+			</listOrg>
+
+			<div type="contribution">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>CRediT authorship contribution statement</head><p>Guowang Luo: Conceptualization, Methodology, Investigation, Formal analysis Writing -original draft. Mixia Wu: Supervision, Methodology, Writing -review &amp; editing. Zhen Pang: Writing -review &amp; editing.</p></div>
+			</div>
+
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Appendix A. The equivalent transformation of Model (2)</head><p>When the instrumental variables for X i s come from Berkson-type of instrumental variables, </p><formula xml:id="formula_97">X = 1 n π (01) +G (1) π (1) +ζ (1) , then V = 1 n π (01) + G (1) π (1) + ξ + ζ (1</formula></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8"><head>1 .</head><label>1</label><figDesc>) . Using instrumental variables and the equality (I -P G (01) )V = (I -P G (01) )(ξ + ζ (1) ),Model (2) can be written asAppendix B. Proofs of the main resultsLemmaLet {ε i } be a sequence of independently and identically distributed p-dimensional random column vectors with zero means and covariance matrix Σ ε , where Σ ε is nonsingular. Let {c i } be a sequence of fixed p-dimensional column vectors with c T c ̸ = 0 and lim Σ ε c i = A &gt; 0.</figDesc></figure>
+			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Estimation of partially specified spatial panel data models with fixed-effects</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">R</forename><surname>Ai</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><forename type="middle">Q</forename><surname>Zhang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometric Rev</title>
+		<imprint>
+			<biblScope unit="volume">36</biblScope>
+			<biblScope unit="page" from="6" to="22" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<monogr>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+		<title level="m">Spatial Econometrics: Methods and Models</title>
+		<meeting><address><addrLine>Boston</addrLine></address></meeting>
+		<imprint>
+			<publisher>Kluwer</publisher>
+			<date type="published" when="1988">1988</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Spatial dependence in linear regression models with an introduction to spatial econometrics</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">K</forename><surname>Bera</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Handbook of Applied Economic Statistics</title>
+		<editor>
+			<persName><forename type="first">A</forename><surname>Ullah</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">D</forename><forename type="middle">E A</forename><surname>Giles</surname></persName>
+		</editor>
+		<meeting><address><addrLine>New York, NY</addrLine></address></meeting>
+		<imprint>
+			<publisher>Marcel Dekker</publisher>
+			<date type="published" when="1998">1998</date>
+			<biblScope unit="page" from="237" to="289" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Are there two regressions?</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Berkson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Amer. Statist. Assoc</title>
+		<imprint>
+			<biblScope unit="volume">45</biblScope>
+			<biblScope unit="page" from="164" to="180" />
+			<date type="published" when="1950">1950</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<monogr>
+		<author>
+			<persName><forename type="first">R</forename><surname>Bivand</surname></persName>
+		</author>
+		<ptr target="http://CRAN.R-project.org/package=spdep" />
+		<title level="m">Spdep: Spatial dependence: Weighting schemes, statistics and models</title>
+		<imprint>
+			<date type="published" when="2017-08">2017. August 2017</date>
+			<biblScope unit="volume">19</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<monogr>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Buonaccorsi</surname></persName>
+		</author>
+		<title level="m">Measurement Error: Models, Methods and Applications</title>
+		<meeting><address><addrLine>New York</addrLine></address></meeting>
+		<imprint>
+			<publisher>CRC Press</publisher>
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Instrumental variable estimation in generalized linear measurement error models</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">S</forename><surname>Buzas</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">A</forename><surname>Stefanski</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Amer. Statist. Assoc</title>
+		<imprint>
+			<biblScope unit="volume">91</biblScope>
+			<biblScope unit="page" from="999" to="1006" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Nonlinear and nonparametric regression and instrumental variables</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J</forename><surname>Carroll</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Ruppert</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">M</forename><surname>Crainiceanu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">D</forename><surname>Tosteson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">R</forename><surname>Karagas</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Amer. Statist. Assoc</title>
+		<imprint>
+			<biblScope unit="volume">99</biblScope>
+			<biblScope unit="page" from="736" to="750" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<monogr>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J</forename><surname>Carroll</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Ruppert</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">A</forename><surname>Stefanski</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">M</forename><surname>Crainiceanu</surname></persName>
+		</author>
+		<title level="m">Measurement Error in Nonlinear Models: A Modern Perspective</title>
+		<meeting><address><addrLine>New York</addrLine></address></meeting>
+		<imprint>
+			<publisher>CRC Press</publisher>
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Instrumental variable estimation of the simple errors-in-variables model</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">L</forename><surname>Carter</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">A</forename><surname>Fuller</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Amer. Statist. Assoc</title>
+		<imprint>
+			<biblScope unit="volume">75</biblScope>
+			<biblScope unit="page" from="687" to="692" />
+			<date type="published" when="1980">1980</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<monogr>
+		<author>
+			<persName><forename type="first">A</forename><surname>Cliff</surname></persName>
+			<affiliation>
+				<orgName type="collaboration">Pion</orgName>
+			</affiliation>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">K</forename><surname>Ord</surname></persName>
+			<affiliation>
+				<orgName type="collaboration">Pion</orgName>
+			</affiliation>
+		</author>
+		<title level="m">Spatial Autocorrelation</title>
+		<meeting><address><addrLine>London</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="1973">1973</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">On parameter estimation for semi-linear errors-in-variables models</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">J</forename><surname>Cui</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">C</forename><surname>Li</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Multivariate Anal</title>
+		<imprint>
+			<biblScope unit="volume">64</biblScope>
+			<biblScope unit="page" from="1" to="24" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Higher moment estimators for linear regression models with errors in the variables</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">G</forename><surname>Dagenais</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">L</forename><surname>Dagenais</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">76</biblScope>
+			<biblScope unit="page" from="193" to="221" />
+			<date type="published" when="1997">1997</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Small area estimation with multiple covariates measured with errors: A nested error linear regression approach of combining multiple surveys</title>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">S</forename><surname>Datta</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Torabi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">N K</forename><surname>Rao</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Liu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Multivariate Anal</title>
+		<imprint>
+			<biblScope unit="volume">167</biblScope>
+			<biblScope unit="page" from="49" to="59" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<monogr>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">A</forename><surname>Fuller</surname></persName>
+		</author>
+		<title level="m">Measurement Error Models</title>
+		<meeting><address><addrLine>New York</addrLine></address></meeting>
+		<imprint>
+			<publisher>John Wiley &amp; Sons</publisher>
+			<date type="published" when="1987">1987</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Measurement error modelling with an approximate instrumental variable</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Gustafson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. R. Stat. Soc. Ser. B Stat. Methodol</title>
+		<imprint>
+			<biblScope unit="volume">69</biblScope>
+			<biblScope unit="page" from="797" to="815" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Parameter estimation of univariate spatial autoregressive models with measurement errors</title>
+		<author>
+			<persName><forename type="first">X</forename><forename type="middle">Q</forename><surname>He</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><forename type="middle">N</forename><surname>Hu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Sci. Sin. A</title>
+		<imprint>
+			<biblScope unit="volume">50</biblScope>
+			<biblScope unit="page" from="613" to="628" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">A generalized spatial two-stage least squares procedure for estimating a spatial autoregressive model with autoregressive disturbance</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Real Estate Finance Econ</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="page" from="99" to="121" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">A generalized moments estimator for the autoregressive parameter in a spatial model</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Internat. Econom. Rev</title>
+		<imprint>
+			<biblScope unit="volume">40</biblScope>
+			<biblScope unit="page" from="509" to="533" />
+			<date type="published" when="1999">1999</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Best spatial two-stage least squares estimators for a spatial autoregressive model with autoregressive disturbances</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometric Rev</title>
+		<imprint>
+			<biblScope unit="volume">22</biblScope>
+			<biblScope unit="page" from="307" to="335" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Asymptotic distributions of quasi-maximum likelihood estimators for spatial autoregressive models</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">72</biblScope>
+			<biblScope unit="page" from="1899" to="1925" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">GMM and 2SLS estimation of mixed regressive, spatial autoregressive models</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">137</biblScope>
+			<biblScope unit="page" from="489" to="514" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Varying coefficients model with measurement error</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Greene</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometrics</title>
+		<imprint>
+			<biblScope unit="volume">64</biblScope>
+			<biblScope unit="page" from="519" to="526" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Linear mode regression with covariate measurement error</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><forename type="middle">Z</forename><surname>Huang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Canad. J. Statist</title>
+		<imprint>
+			<biblScope unit="volume">47</biblScope>
+			<biblScope unit="page" from="262" to="280" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Asymptotic normality of parametric part in partially linear models with measurement error in the nonparametric part</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Liang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Statist. Plann. Inference</title>
+		<imprint>
+			<biblScope unit="volume">86</biblScope>
+			<biblScope unit="page" from="51" to="62" />
+			<date type="published" when="2000">2000</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Estimation in a semiparametric partially linear errors-in-variables model</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Liang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Härdle</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J</forename><surname>Carroll</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ann. Statist</title>
+		<imprint>
+			<biblScope unit="volume">27</biblScope>
+			<biblScope unit="page" from="1519" to="1535" />
+			<date type="published" when="1999">1999</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Flexible simulated moment estimation of nonlinear errors-in-variables models</title>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">K</forename><surname>Newey</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Rev. Econ. Stat</title>
+		<imprint>
+			<biblScope unit="volume">83</biblScope>
+			<biblScope unit="page" from="616" to="627" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">Estimation methods for models of spatial interaction</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">K</forename><surname>Ord</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Amer. Statist. Assoc</title>
+		<imprint>
+			<biblScope unit="volume">70</biblScope>
+			<biblScope unit="page" from="120" to="126" />
+			<date type="published" when="1975">1975</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Some aspects of measurement error in explanatory variables for continuous and binary regression models</title>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">K</forename><surname>Reeves</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">R</forename><surname>Cox</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">C</forename><surname>Darby</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Whitley</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Stat. Med</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="page" from="2157" to="2177" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">Instrumental variable estimation of nonlinear errors-in-variables models</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">M</forename><surname>Schennach</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">75</biblScope>
+			<biblScope unit="page" from="201" to="239" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Combining datasets to predict the effects of regulation of environmental lead exposure in housing stock</title>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">J</forename><surname>Strauss</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J</forename><surname>Carroll</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">M</forename><surname>Bortnick</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">R</forename><surname>Menkedick</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">D</forename><surname>Schulz</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometrics</title>
+		<imprint>
+			<biblScope unit="volume">57</biblScope>
+			<biblScope unit="page" from="203" to="210" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">Semiparametric GMM estimation of spatial autoregressive models</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">J</forename><surname>Su</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">167</biblScope>
+			<biblScope unit="page" from="543" to="560" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">Profile quasi-maximum likelihood estimation of partially linear spatial autoregressive models</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">J</forename><surname>Su</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">N</forename><surname>Jin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">157</biblScope>
+			<biblScope unit="page" from="18" to="33" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">Functional-coefficient spatial autoregressive models with nonparametric spatial weights</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Sun</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">195</biblScope>
+			<biblScope unit="page" from="134" to="153" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<analytic>
+		<title level="a" type="main">Estimation for spatial dynamic panel data with fixed effects: The case of spatial cointegration</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Jong</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">167</biblScope>
+			<biblScope unit="page" from="16" to="37" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<analytic>
+		<title level="a" type="main">Robust estimation in linear regression models for longitudinal data with covariate measurement errors and outliers</title>
+		<author>
+			<persName><forename type="first">Y</forename><forename type="middle">X</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">Y</forename><surname>Qin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><forename type="middle">Y</forename><surname>Zhu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">J</forename><surname>Zhang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Multivariate Anal</title>
+		<imprint>
+			<biblScope unit="volume">168</biblScope>
+			<biblScope unit="page" from="261" to="275" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

@@ -1,33 +1,54 @@
 # Scientific Data LaTeX working manuscript
 
-This directory contains a standalone LaTeX skeleton for a *Scientific Data*
-Data Descriptor. The journal does not mandate a visual template for initial
-review; its required section order is implemented in
-`manuscript_scientific_data.tex`.
+The main Data Descriptor is manuscript_scientific_data.tex. Its prior
+21 September version is preserved as manuscript_scientific_data.preupdate_2026-09-25.tex.
 
-Compile from PowerShell:
+Compile from this directory in PowerShell:
 
-```powershell
+~~~powershell
 .\build_manuscript.ps1
-```
+~~~
 
-The `build/` directory contains the PDF and the auxiliary files produced by
-Tectonic (`.aux`, `.log`, `.synctex.gz`, and `.out` when non-empty). Keep these
-files for the requested working bundle, but submit only the files required by
-the journal.
+The builder uses local latexmk/pdfLaTeX when available and keeps Tectonic
+as an optional fallback (-UseTectonic). The PDF and log are in build/.
+The manuscript embeds its bibliography. The 27 September restructuring does
+not yet include figures: the final descriptive figure and table must be
+generated from the frozen, redistributable release rather than from the full
+internal catalogue.
 
-The `.tex` is standalone and contains an embedded `thebibliography` block. This
-meets the journal's revised-manuscript requirement that the uploaded `.tex`
-compile without an external `.bib` or style file. During drafting, verified
-references can be maintained in the project's master `.bib`; before submission,
-the final bibliography must be embedded in this file.
+The data-derived figures can be regenerated from the project root:
 
-Amber boxes are deliberate scientific placeholders. They mark information that
-must come from the frozen bank snapshot, repository deposit, licence audit or
-confirmed author metadata. They should all be removed before submission.
+~~~powershell
+py -3.14 extensions_projet_2026-09/redaction_datapaper/figures/make_F1_empirical_diversity.py
+py -3.14 extensions_projet_2026-09/redaction_datapaper/figures/make_F3_composition.py
+py -3.14 extensions_projet_2026-09/redaction_datapaper/figures/make_F4_methods_domains.py
+~~~
 
-Official guidance checked on 21 September 2026:
+The figure scripts require Matplotlib; F4 also requires NumPy. The
+process diagram F2_pipeline_curation.png has its own adjacent script,
+make_F2_pipeline.py.
 
-- <https://www.nature.com/sdata/publish/submission-guidelines>
-- <https://www.nature.com/sdata/policies/data-policies>
-- <https://www.nature.com/sdata/policies/repositories>
+The existing `verify_manuscript_counts.py` checks the earlier dated draft and
+must be updated after the publishable snapshot is frozen. It should not be
+used to reinsert the 392 internal records as the size of the published bank.
+
+The manuscript now follows the Scientific Data Data Descriptor structure,
+using MedMNIST v2 as the primary editorial model and LAGOS-NE, CMPD and the
+Construction Motion Data Library as complementary references. Author and
+funding details, the frozen release counts, source-data citations,
+redistribution rights, public archive, persistent accession and final file
+manifest remain to be completed before submission.
+
+The working PDF also reproduces the principal visual cues of the published
+MedMNIST v2 article: blue page band, wide left margin, Data Descriptor label,
+blue title and section headings, dotted first-page rule and journal-style
+footer. This is an internal review facsimile; Nature applies its own house
+typesetting after acceptance and does not require authors to submit this
+visual template.
+
+The preliminary release snapshot is documented in
+`../SNAPSHOT_NOYAU_PUBLIABLE_2026-09-27.md`. It identifies 276 technically
+ready candidates from 129 declared sources, but zero strictly publishable
+records because licence verification and redistribution approval have not yet
+been recorded. These are workflow facts, not numbers to insert as the size of
+the published collection.

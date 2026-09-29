@@ -1,0 +1,1211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Estimation and inference for spatial models with heterogeneous coefficients: an application to U.S. house prices</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability  status="unknown">
+					<licence/>
+				</availability>
+				<date type="published" when="2019-02-23">February 23, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">Michele</forename><surname>Aquaro</surname></persName>
+							<email>m.aquaro@warwick.ac.uk</email>
+						</author>
+						<author>
+							<persName><forename type="first">Natalia</forename><surname>Bailey</surname></persName>
+							<email>natalia.bailey@monash.edu</email>
+						</author>
+						<author>
+							<persName><forename type="first">M</forename><surname>Hashem Pesaran</surname></persName>
+						</author>
+						<author>
+							<affiliation key="aff0">
+								<orgName type="department">Institute Poschingerstr. 5</orgName>
+								<orgName type="laboratory">Promotion of Economic Research -CESifo GmbH The international platform of Ludwigs-Maximilians University&apos;s Center for Economic Studies</orgName>
+								<orgName type="institution">Telephone</orgName>
+								<address>
+									<addrLine>+49 (0)89 Telefax +49 (0)89</addrLine>
+									<postCode>81679 2180-2740 2180-17845</postCode>
+									<settlement>Munich</settlement>
+									<country>Germany email</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<affiliation key="aff1">
+								<orgName type="department">Department of Econometrics &amp; Business Statistics</orgName>
+								<orgName type="laboratory">Joint Research Centre European Commission</orgName>
+								<orgName type="institution">Monash University</orgName>
+								<address>
+									<settlement>Clayton Victoria</settlement>
+									<country key="AU">Australia</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<affiliation key="aff2">
+								<orgName type="department">Department of Economics</orgName>
+								<orgName type="institution">University of Southern California</orgName>
+								<address>
+									<settlement>Los Angeles</settlement>
+									<region>CA</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<affiliation key="aff3">
+								<orgName type="department">Joint Research Centre</orgName>
+								<orgName type="institution">Monash University</orgName>
+								<address>
+									<country>European Commission</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<affiliation key="aff4">
+								<orgName type="department">Department of Economics</orgName>
+								<orgName type="institution">University of Southern California and Trinity College</orgName>
+								<address>
+									<settlement>Cambridge</settlement>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Estimation and inference for spatial models with heterogeneous coefficients: an application to U.S. house prices</title>
+					</analytic>
+					<monogr>
+						<idno type="ISSN">2364-1428</idno>
+						<imprint>
+							<date type="published" when="2019-02-23">February 23, 2019</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">D69C5941BCA697507CEC22395697D62F</idno>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-28T15:58+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>CESifo Working Papers spatial panel data models</term>
+					<term>heterogeneous spatial lag coefficients</term>
+					<term>identification</term>
+					<term>quasi maximum likelihood (QML) estimators</term>
+					<term>non-Gaussian errors</term>
+					<term>house price changes</term>
+					<term>Metropolitan Statistical Areas</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>This paper considers the problem of identification, estimation and inference in the case of spatial panel data models with heterogeneous spatial lag coefficients, with and without (weakly) exogenous regressors, and subject to heteroskedastic errors. A quasi maximum likelihood (QML) estimation procedure is developed and the conditions for identification of spatial coefficients are derived. Regularity conditions are established for the QML estimators of individual spatial coefficients, as well as their means (the mean group estimators), to be consistent and asymptotically normal. Small sample properties of the proposed estimators are investigated by Monte Carlo simulations for Gaussian and non-Gaussian errors, and with spatial weight matrices of differing degrees of sparsity. The simulation results are in line with the paper's key theoretical findings even for panels with moderate time dimensions, irrespective of the number of cross section units. An empirical application to U.S. house price changes during the 1975-2014 period shows a significant degree of heterogeneity in spill-over effects over the 338 Metropolitan Statistical Areas considered. JEL-Codes: C210, C230.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>This paper considers a heterogeneous version of the standard spatial autoregressive (SAR) panel data model whereby the spatial lag coefficients are allowed to differ over the cross section units. We refer to this generalized specification as the heterogeneous SAR (or HSAR) model. The model also features weakly exogenous regressors, possible fixed effects and heteroskedastic error variances, and provides a reasonably general framework for the analysis of heterogeneous interactions, where it is important to distinguish between the average intensity of spillover effects as characterized by standard spatial models, and the heterogeneity of such effects over different geographical units such as counties, regions or countries. Importantly, the framework studied in this paper allows for spatial dependence directly through contemporaneous dependence of individual units on their connections, and indirectly through possible cross-sectional dependence in the regressors. The econometric analysis of HSAR models presents new technical difficulties, both for identification and estimation of a large set of spatial lag coefficients that must be simultaneously estimated.</p><p>Our analysis builds on the existing literature on SAR models, pioneered by <ref type="bibr" target="#b47">Whittle (1954)</ref> and <ref type="bibr" target="#b12">Cliff and Ord (1973)</ref>, and further advanced in a number of important directions. The maximum likelihood approach of Cliff and Ord, which was developed for a pure spatial model, has been extended to cover panel data models with fixed effects and dynamics. Other estimation and testing techniques, such as the generalized method of moments (GMM), also have been proposed. Some of the key references to this literature include <ref type="bibr" target="#b45">Upton and Fingleton (1985)</ref>, <ref type="bibr" target="#b1">Anselin (1988)</ref>, <ref type="bibr" target="#b13">Cressie (1993)</ref>, <ref type="bibr" target="#b28">Kelejian and Robinson (1993)</ref>, <ref type="bibr" target="#b39">Ord and Getis (1995)</ref>, <ref type="bibr" target="#b3">Anselin and Bera (1998)</ref>, and more recently, <ref type="bibr" target="#b20">Haining (2003)</ref>, <ref type="bibr" target="#b29">Lee (2004)</ref>, <ref type="bibr" target="#b25">Kelejian and Prucha (1999)</ref>, <ref type="bibr" target="#b27">Kelejian and Prucha (2010)</ref>, <ref type="bibr" target="#b34">Lin and Lee (2010)</ref>, <ref type="bibr" target="#b30">Lee and Yu (2010)</ref>, <ref type="bibr" target="#b31">LeSage and Pace (2010)</ref>, <ref type="bibr" target="#b5">Arbia (2010)</ref>, <ref type="bibr" target="#b14">Cressie and Wikle (2011)</ref>, and <ref type="bibr" target="#b18">Elhorst (2014)</ref>. Extensions to dynamic panels are provided by <ref type="bibr" target="#b2">Anselin (2001)</ref>, <ref type="bibr" target="#b9">Baltagi et al. (2003)</ref>, <ref type="bibr" target="#b24">Kapoor et al. (2007)</ref>, <ref type="bibr" target="#b8">Baltagi et al. (2007)</ref>, <ref type="bibr" target="#b50">Yu et al. (2008)</ref> and <ref type="bibr" target="#b49">Yu et al. (2012)</ref>. Spatial techniques also have proved useful when analyzing network effects as can be seen in the pioneering work of <ref type="bibr" target="#b10">Case (1991)</ref> and <ref type="bibr" target="#b37">Manski (1993)</ref>.</p><p>Almost all these contributions (whether in the context of spatial or network models) assume that, apart from possibly fixed effects, spatial spill-over or network effects are homogeneous. However, even if all units in a network have the exact same number of connections, it can be the case that not all units are equally important or influential. Therefore, the assumption of a homogeneous spatial coefficient, though needed when analyzing pure spatial models or spatial panel data models with a short time dimension (T ), is likely to be restrictive, and its validity should at least be tested. Also when T is large, the HSAR model can be estimated for any N and it is not required that N → ∞, which is clearly needed when T is small. Examples of such data sets include large panels that cover counties, regions, or countries in the analysis of economic variables such as house prices, real wages, employment and income. For instance, in the empirical applications by <ref type="bibr" target="#b7">Baltagi and Levin (1986)</ref> on demand for tobacco consumption, and by <ref type="bibr" target="#b21">Holly et al. (2010)</ref> on house price diffusion across states in the U.S., it is interesting to investigate whether the maintained assumption that spillover effects from neighboring states are the same across all the 48 mainland states in fact holds, particularly considering the large size of the U.S. and the uneven distribution of economic activity across it.</p><p>Whilst estimation of HSAR panel data models can be carried out using MLE and GMM approaches, in this paper we focus on the former and discuss identification, estimation and inference using the quasi maximum likelihood (QML) method. We derive conditions under which the QML estimators of the individual parameters are locally identified, and establish consistency and asymptotic normality of the estimators under certain regularity conditions. Asymptotic covariance matrices of the QML estimators are derived under both Gaussian and non-Gaussian errors, and consistent estimators of these covariances are proposed. Alternative estimation methods based on our HSAR model include the Bayesian Markov Chain Monte Carlo approach of <ref type="bibr" target="#b33">LeSage and Chih (2018)</ref> and the generalized Yule-Walker estimation method of <ref type="bibr" target="#b17">Dou et al. (2016)</ref>.</p><p>We also propose an estimator of the cross section mean of the individual parameters (also known in the literature as the Mean Group, MG, estimator) assuming a random coefficient model. It is shown that MG estimators are consistent and asymptotically normal for N and T → ∞, jointly, so long as √ N /T → 0, and the spatial dependence is sufficiently weak. Such estimators are helpful in two respects. They provide an overall average estimator of the spatial effects that could be compared to corresponding estimates obtained using standard homogeneous SAR models. They can also be used to obtain average estimators across sub-spatial groupings such as states or regions, or sub-groups within a production or financial network, such as industry types. Following <ref type="bibr" target="#b43">Pesaran et al. (1996)</ref>, the deviations of the MG estimators from their homogenous counterparts can be used to develop simple Hausman type tests of the homogeneity of the underlying individual parameters.</p><p>The small sample performance of the QML estimator is investigated by Monte Carlo simulations for different values of N and T and alternative choices of the spatial weight matrices. The simulation results are in line with the paper's key theoretical findings, and show that the proposed estimators have good small sample properties for panels with moderate time dimensions and irrespective of the number of cross section units in the panel, although under non-Gaussian errors, tests based on QML estimators of the spatial parameters can be slightly distorted when the time dimension is relatively small. We also investigate the small sample performance of the MG estimator and find its performance to be satisfactory with biases that are universally negligible, and RMSEs that decline with T and quite rapidly with N . Regarding size and power, tests based on the MG estimator exhibit some downward size distortions when T is small, but such distortions disappear as T rises for all values of N . The small sample bias of the MG estimator can be reduced using half-Jackknife procedure as discussed in <ref type="bibr" target="#b11">Chudik and Pesaran (2019)</ref>.</p><p>As an empirical application, we fit HSAR models to U.S. quarterly house price changes over the period 1975Q1-2014Q4 observed at Metropolitan Statistical Areas (MSAs). Not surprisingly we find a considerable degree of heterogeneity across the MSA specific estimates. As to be expected, with a few exceptions, the estimates of spatial coefficients are positive and statistically significant, suggesting a high degree of spill-over effects of house price changes to neighboring MSAs. There were 11 MSA (out of 338 considered in our analysis) with statistically significant negative spatial effects, and included Cheyenne (Wyoming), Coeur d'Alene (Idaho) or Hot Springs (Arkansas). These MSAs tend to be relatively remote with outward migratory flows to neighboring regions.</p><p>We also consider MG estimators obtained for six U.S. regions based on the individual MSA level estimates. Spatial parameter estimates are positive and statistically significant for all regions. The average estimate of the spatial lag obtained for the U.S. (around 0.51) is lower than the estimate of around 0.65 reported by <ref type="bibr" target="#b48">Yang (2018)</ref> who considers a homogeneous SAR specification estimated on a similar data set. The differences between the two estimates could be due to the considerable degree of heterogeneity that we observe across the regions in the U.S., which is being neglected under the homogeneity assumption. We also find positive and statistically significant effects of population and income growth on house price changes, again with a high degree of heterogeneity across the regions.</p><p>The rest of the paper is organized as follows: Section 2 introduces the first order spatial autoregressive model with heterogeneous coefficients and some useful generalizations, and derives its log-likelihood function. Section 3 sets out the assumptions of the model, derives the identification conditions and proves consistency and asymptotic normality of the QML estimator when the time dimension is large. Section 4 outlines the Mean Group estimator derived from the heterogeneous spatial coefficients of the HSAR model. Section 5 presents the Monte Carlo design and reports small sample results (bias, root mean square errors, size and power) of the QML and MG estimators for different parameter values and sample size combinations. Section 6 reports the results of our empirical application to the U.S. house price changes across MSAs. Some concluding remarks are provided in Section 7. Mathematical proofs, data sources and additional Monte Carlo results are provided in an online supplement.</p><p>Notations: We denote the largest and the smallest eigenvalues of the N ×N matrix A = (a ij ) by λ max (A) and λ min (A) , respectively, its trace by tr (A) = N i=1 a ii , its spectral radius by ρ (A) = |λ max (A)|, its spectral norm by A = λ 1/2 max (A A), its maximum absolute column sum norm by A 1 = max 1≤j≤N N i=1 |a ij | , and its maximum absolute row sum norm by A ∞ = max 1≤i≤N N j=1 |a ij | . Diag (A) = Diag (a 11 , a 22 , . . . , a N N ) represents an N × N diagonal matrix formed by the diagonal elements of A, while diag (A) = (a 11 , a 22 , . . . , a N N ) denotes an N × 1 vector. We denote the ℓ p -norm of the random variable x by x p = E (|x| p ) 1/p for p ≥ 1, assuming that E (|x| p ) &lt; K.</p><p>stands for Hadamard product or element-wise matrix product operator, → p denotes convergence in probability, a.s.</p><p>→ almost sure convergence, → d convergence in distribution, and a ∼ asymptotic equivalence in distribution. Asymptotics for estimation of individual parameters are carried out for N finite and as T → ∞. K and c will be used to denote finite large and non-zero small positive numbers, respectively, that do not depend on N and T .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">A heterogeneous spatial autoregressive model (HSAR)</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1">Model specification</head><p>We consider the following SAR model with heterogeneous slopes:</p><formula xml:id="formula_0">y it = ψ i0   N j=1 w ij y jt   + β i0 x it + ε it , for i = 1, 2, . . . , N ; t = 1, 2, . . . , T,<label>(1)</label></formula><p>where y it is the dependent variable for unit i observed at time t, x it = (x i1,t , x i2,t , . . . , x ik,t ) is a k × 1 vector of exogenous regressors, with the associated k × 1 vector of slope parameters, β i0 = (β i1,0 , β i2,0 , . . . , β ik,0 ) . ε it is the unexplained component of y it , which we refer to as the error of the i th cross section unit, or the 'error' for short. Finally, y * it = N j=1 w ij y jt = w i y t is the average effect of other units on unit i at time t, where y t = (y 1t, y 2t , . . . , y N t ) and w i is the i th row of the N × N spatial weight matrix, W = (w ij ), with w ij , for i, j = 1, 2, . . . , N being the spatial weights. Without loss of generality we set w ii = 0, for all i, assume that w ij ≥ 0, and normalize the spatial weights so that N j=1 w ij = 1. 1 When the weights are not normalized, (1) continues to hold with ψ i0 re-defined as ψ i0 /v i , where N j=1 w ij = v i . Consequently, in the heterogeneous case the normalization of the weights is innocuous, and can be viewed as an identifying restriction, so that ψ i0 can be distinguished from v i , which is achieved by setting v i = 1. The same is not true in the homogeneous case where ψ i0 = ψ 0 for all i, and the use of non-normalized weights is equivalent to setting ψ i0 = ψ 0 /v i , which is not an innocuous restriction. The HSAR model (1) can also be viewed as a generalization of the random coefficient panel data model reviewed, for example, by <ref type="bibr" target="#b23">Hsiao and Pesaran (2008)</ref>. However, this is not a straightforward generalization due to the endogeneity of y * it = w i y t in (1). The assumption of non-negative weights (w ij ≥ 0) can be relaxed by replacing W with two weight matrices: one for positive weights, W + = (w + ij ), where w + ij = w ij if w ij &gt; 0 and zero otherwise, and one for negative weights, W -= (w - ij ), where w - ij = -w ij if w ij &lt; 0 and zero otherwise. Then (1) can be written more generally as</p><formula xml:id="formula_1">y it = ψ + i0   N j=1 w + ij y jt   + ψ - i0   N j=1 w - ij y jt   + β i0 x it + ε it ,<label>(2)</label></formula><p>where ψ + i0 and ψ - i0 measure the effects of positively and negatively connected units on y it , and allowed to vary across units. For an empirical application of such a setting see <ref type="bibr" target="#b6">Bailey et al. (2016)</ref>. 2 The HSAR model can also be generalized further by estimating the weights, w ij , so long as each unit has a finite number of known neighbors. In such a setting the HSAR model can be written as</p><formula xml:id="formula_2">y it = N j=1 ψ ij0 I (w ij ) y jt + β i0 x it + ε it ,<label>(3)</label></formula><p>where I (w ij ) = 1 if w ij = 0 and 0 otherwise, and sup i N j=1 |ψ ij0 | I (w ij ) &lt; K. This specification only exploits the qualitative information contained in I (w ij ) and represents another important generalization of the homogeneous spatial model. In what follows we focus on the basic HSAR specification given by (1) and note that estimation and inference for models (2) and (3) can be conducted along the lines set out in this paper.</p><p>Stacking the observations by the N individual units for each time period t, (1) can be written more compactly as</p><formula xml:id="formula_3">(I N -Ψ 0 W ) y •t = B 0 x •t + ε •t , t = 1, 2, . . . , T,<label>(4)</label></formula><p>where y •t = (y 1t , y 2t , . . . , y N t ) , I N is an N × N identity matrix, Ψ 0 = Diag (ψ 0 ) with ψ 0 =</p><p>1 Strictly speaking, the weights, wij, are N -dependent and should be denoted as wij,N . The same also applies to yit, βi0, and εit. But we abstract from including the subscript N when denoting wij, yit and εit, to keep the notations simple and manageable.</p><p>2 It is also possible to allow for spatial effects in the errors and the regressors. For example, εit can be replaced by εit = ϕi0 N j=1 wε,ijεjt + νit, and the regressors augmented with spatial effects such as x * iℓ,t = N j=1 w ℓ,ij x jℓ,t , for ℓ = 1, 2, . . . , k, where wε,ij and w ℓ,ij are the spatial weights. To simplify the exposition in this paper we abstract from spatial error and regressor processes and focus on the contemporaneous spatial effects in the dependent variable, yit.</p><p>(ψ 10 , ψ 20 , . . . , ψ N 0 ) , and B 0 is the N × kN block diagonal matrix</p><formula xml:id="formula_4">B 0 =          β 10 0 • • • 0 0 0 β 20 • • • 0 0 . . . . . . . . . . . . . . . 0 0 • • • β N -1,0 0 0 0 • • • 0 β N,0          ,<label>(5)</label></formula><p>and</p><formula xml:id="formula_5">x •t = (x 1t , x 2t , . . . , x N t ) is the kN × 1 vector of observations on the exogenous regressors. Finally, V ar (ε •t ) = Σ 0 = Diag σ 2 0 , with σ 2 0 = (σ 2 10 , σ 2 20 , . . . , σ 2 N 0 ) . We set S 0 ≡ S(ψ 0 ) = I N -Ψ 0 W</formula><p>, and assume that S 0 is invertible. <ref type="foot" target="#foot_0">3</ref> Then, the reduced form of (4) can be expressed as</p><formula xml:id="formula_6">y •t = S -1 (ψ 0 ) [B 0 x •t + ε •t ] , t = 1, 2, . . . , T. (6) Remark 1 If ψ 10 = ψ 20 = • • • = ψ N 0 = ψ 0 , β 10 = β 20 = • • • = β N 0 = β 0 and σ 2 10 = σ 2 20 = • • • = σ 2</formula><p>N 0 = σ 2 0 , then (1) collapses to the standard first order SAR model. Alternatively, if</p><formula xml:id="formula_7">β 10 = β 20 = • • • = β N 0 = 0 and σ 2 10 = σ 2 20 = • • • = σ 2 N 0 = σ 2 0</formula><p>, then (1) reverts to a first order HSAR model with no exogenous regressors and with homoskedastic errors.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2">The log-likelihood function</head><p>To estimate the unit-specific coefficients we collect all the parameters of the N units in the N (k + 2) × 1 vector θ = (ψ , β , σ 2 ) where ψ = (ψ 1 , ψ 2 , . . . , ψ N ) , β = (β 1 , β 2 , . . . , β N ) and σ 2 = (σ 2 1 , σ 2 2 , . . . , σ 2 N ) , and denote the associated vector of true values by θ 0 = (ψ 0 , β 0 , σ 2 0 ) . The log-likelihood function of (6) can be written as</p><formula xml:id="formula_8">ℓ T (θ) = ln L(θ) = - N T 2 ln(2π) - T 2 N i=1 ln σ 2 i + T 2 ln |S (ψ)S(ψ)| (<label>7</label></formula><formula xml:id="formula_9">) - 1 2 T t=1 [S(ψ)y •t -Bx •t ] Σ -1 [S(ψ)y •t -Bx •t ] ,</formula><p>where Σ = Diag (σ 2 ), Ψ = Diag (ψ), and S ≡ S(ψ) = I N -ΨW . The quasi maximum likelihood estimators (QMLE), θ, are the extreme value estimators obtained by maximization of (7). When the error terms, ε •t (θ 0 ) = S(ψ 0 )y •t -B 0 x •t , are normally distributed, then vector θ is the maximum likelihood estimator (MLE) of θ, while under non-Gaussian errors, θ is the QMLE of θ.</p><p>3 Asymptotic properties of QML estimators</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1">Assumptions</head><p>In order to investigate the conditions under which θ 0 is identified, and to establish consistency and the asymptotic normality of θ, we make the following assumptions, using the filtration F t = (x •t , x •t-1 , x •t-2 , . . .), where x •t = (x 1t , x 2t , . . . , x N t ) :</p><p>Assumption 1 The error terms {ε it , i = 1, 2, . . . , N ; t = 1, 2, . . . , T } are independently distributed over i and t; E(ε it |F t ) = 0, E(ε 2 it |F t ) = σ 2 i0 , for i = 1, 2, . . . , N , where inf i σ 2 i0 &gt; c &gt; 0, sup i σ 2 i0 &lt; K &lt; ∞, and E (|ε it | p |F t ) = E (|ε it | p ) = ip &lt; K, for all i and t, where ip is a time-invariant constant, 1 ≤ p ≤ 4 + , for some &gt; 0.<ref type="foot" target="#foot_1">foot_1</ref> </p><p>Assumption 2 (a) x •t are stationary processes with mean zero, and satisfy the moment condition sup i,ℓ,t E |x iℓ,t | 2+c &lt; K, for some c &gt; 0, i = 1, 2, . . . , N , ℓ = 1, 2, . . . , k, and</p><formula xml:id="formula_10">t = 1, 2, . . . , T . (b) E (x •t x •t ) = Σ xx = (Σ ij ) , where Σ ij = E(x it x jt )</formula><p>exists for all i and j, such that sup i,j Σ ij &lt; K, and Σ ii is a k × k non-singular matrix with inf i [λ min (Σ ii )] &gt; c &gt; 0, and k+2) . Θ is a closed and bounded (compact) set and includes the true value of θ, denoted by θ 0 , which is an interior point of Θ, and sup i β i 1 &lt; K.</p><formula xml:id="formula_11">sup i [λ max (Σ ii )] &lt; K; (c) T -1 T t=1 x •t x •t a.s. → Σ xx , as T → ∞. Assumption 3 The N (k + 2) × 1 parameter vector θ = (ψ , β , σ 2 ) belongs to Θ = Θ ψ × Θ β × Θ σ ⊂ R N × R N k × R N , a sub-set of the N (k + 2) dimensional Euclidean space, R N (</formula><p>Assumption 4 W = (w ij ) is a constant known weights matrix which is uniformly bounded in row and column sums in absolute value, i.e. W ∞ &lt; K &lt; ∞ and W 1 &lt; K &lt; ∞, and its diagonal elements are zero, that is w ii = 0, for i = 1, 2, . . . , N . In addition, the spatial autoregressive parameters reside in the range set by</p><formula xml:id="formula_12">sup i |ψ i | &lt; max {1/ W 1 , 1/ W ∞ } ,<label>(8)</label></formula><p>for all values of ψ i , i = 1, 2, . . . , N , in Θ ψ .</p><p>Remark 2 Assumption 1 implies that E(ε it ) = 0, E(ε 2 it ) = σ 2 i0 , for i = 1, 2, . . . , N, and does not allow for conditional heteroskedasticity. But it is possible to allow for time variations in E |ε it | 4+ |F t by relaxing the moment conditions on ε it and x iℓ,t .</p><p>Remark 3 Assumption 2 is standard and allows for the regressors to be cross-sectionally correlated, and hence x •t can also include observable common factors. This is sufficiently general and applies for all N . Further, it allows the regressors to be weakly exogenous, thus allowing the spatial model to include lagged values of the dependent variable. Finally, the theoretical model (1) can be modified to include an intercept (fixed effects) by setting one of the elements of x it to unity, at the expense of complicating the algebra. Such a setting is analyzed in the Monte Carlo simulation study of Section 5.</p><p>Remark 4 Assumption 4 is sufficiently general and allows the spatial weights to take negative values. But, as noted above, in empirical applications one might wish to distinguish between positive and negative connections as they might have differential effects on the outcomes. This assumption does not require the weights to be normalized either, so long as condition (8) is met.</p><p>Remark 5 Condition (8) is sufficient for global invertibility of matrix S(ψ) = I N -ΨW on Θ ψ . See Lemma 1 in the online appendix A. This result reduces to the condition obtained in Lemma 2 of <ref type="bibr" target="#b27">Kelejian and Prucha (2010)</ref> for the homogeneous case where ψ i = ψ for all i.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Remark 6</head><p>Let V (ψ) = S (ψ)S(ψ), where S(ψ) = I N -ΨW . Then under Assumption 4, for all values of ψ ∈ Θ ψ , and for all N we have</p><formula xml:id="formula_13">λ min [V (ψ)] &gt; c &gt; 0,<label>(9)</label></formula><p>and</p><formula xml:id="formula_14">λ max [V (ψ)] ≤ S(ψ) 1 S(ψ) ∞ (<label>10</label></formula><formula xml:id="formula_15">) ≤ 1 + sup i |ψ i | W 1 1 + sup i |ψ i | W ∞ &lt; K &lt; ∞.</formula><p>These results, together with Assumptions 1, 2(b) and 3, ensure that for all values of N and θ = (ψ , β , σ 2 ) ∈ Θ,</p><formula xml:id="formula_16">λ min [Σ y (θ)] &gt; c &gt; 0, and λ max [Σ y (θ)] &lt; K &lt; ∞,<label>(11)</label></formula><p>and</p><formula xml:id="formula_17">λ min Σ -1 y (θ) &gt; c &gt; 0, and λ max Σ -1 y (θ) &lt; K &lt; ∞,<label>(12)</label></formula><p>where</p><formula xml:id="formula_18">Σ y (θ) = S(ψ) -1 [BΣ xx B + Σ] S(ψ) -1 .</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2">Identification</head><p>Here we focus on the problem of identification of the individual parameters in N (k +2)×1 vector θ 0 for a given N , and as T → ∞. To highlight the main issues involved in the identification of spatial parameters under the heterogeneous setting, first we consider the HSAR model (4) without the exogenous regressors, namely</p><formula xml:id="formula_19">y it = ψ i0 N j=1 w ij y jt + ε it , i = 1, 2, . . . , N ; t = 1, 2, . . . , T,<label>(13)</label></formula><p>where ε it ∼ IIDN 0, σ 2 i0 for i = 1, 2, . . . , N . Under Assumption 4, (6) is then simplified to</p><formula xml:id="formula_20">y •t = S -1 (ψ 0 )ε •t , t = 1, 2, . . . , T.<label>(14)</label></formula><p>With a slight abuse of notation let θ = (ψ , σ 2 ) , and note that in this case the log-likelihood function is given by</p><formula xml:id="formula_21">ℓ T (θ) = - N T 2 ln(2π) - T 2 N i=1 ln σ 2 i + T 2 ln |S (ψ)S(ψ)| - 1 2 T t=1 y •t S (ψ)Σ -1 S(ψ)y •t . (15)</formula><p>It is also helpful to write the associated average log-likelihood function as</p><formula xml:id="formula_22">lT (θ) = - N 2 ln(2π) - 1 2 N i=1 ln σ 2 i + 1 2 ln |V (ψ) | - 1 2 1 T T t=1 y •t P (θ) y •t ,<label>(16)</label></formula><p>where a.s.</p><formula xml:id="formula_23">V (ψ) = S (ψ)S(ψ), P (θ) = S (ψ)Σ -1 S(ψ),</formula><p>→ 0, where</p><formula xml:id="formula_24">E 0 [Q T (θ 0 , θ)] = E 0 lT (θ 0 ) -lT (θ) = - 1 2 N i=1 ln σ 2 i0 /σ 2 i - N 2 (18) + 1 2 ln |V (ψ 0 ) | |V (ψ) | + 1 2 tr P (θ) P -1 (θ 0 ) .</formula><p>Alternatively, we can express (18) in terms of the eigenvalues of V (ψ) and V (ψ 0 ) which we denote by λ 2 i and λ 2 i0 , respectively. Recall from Remark 6 that 0 &lt; λ 2 i , λ 2 i0 &lt; K. Therefore, (18) reduces to</p><formula xml:id="formula_25">E 0 [Q T (θ 0 , θ)] = 1 2 N i=1 λ2 i / λ2 i0 -ln λ2 i / λ2 i0 -1 ,<label>(19)</label></formula><p>where</p><formula xml:id="formula_26">λ2 i = λ 2 i /σ 2 i , λ2 i0 = λ 2 i0 /σ 2 i0</formula><p>, and 0 &lt; σ 2 i , σ 2 i0 &lt; K, for i = 1, 2, . . . , N . The above results imply that lT (θ 0 ) -lT (θ) a.s.</p><formula xml:id="formula_27">→ E 0 lT (θ 0 ) -lT (θ) = E 0 [Q T (θ 0 , θ)] ≥ 0,<label>(20)</label></formula><p>and in view of ( <ref type="formula" target="#formula_25">19</ref>) we have lT (θ 0 ) -lT (θ) a.s.</p><formula xml:id="formula_28">→ 0 if N i=1 λ2 i / λ2 i0 -ln λ2 i / λ2 i0 -1 = 0. (<label>21</label></formula><formula xml:id="formula_29">)</formula><p>Hence, for a given N , it readily follows that lT (θ 0 ) -lT (θ) a.s.</p><p>→ 0, as T → ∞, if and only if λ 2</p><p>i /σ 2 i = λ 2 i0 /σ 2 i0 for all i. <ref type="foot" target="#foot_2">5</ref> Therefore, the ratio λ 2 i0 /σ 2 i0 is globally identified, although without further restrictions on P (θ) and S(ψ), it will not be possible to separately identify λ 2 i0 and σ 2 i0 . Consider now the problem of identification of ψ 0 , which is the parameter vector of interest, and note that</p><formula xml:id="formula_30">|V (ψ 0 ) | |V (ψ) | = |S(ψ 0 )| 2 |S(ψ)| 2 = S(ψ 0 )S -1 (ψ) 2 = S(ψ)S -1 (ψ 0 ) -2 , tr P (θ) P -1 (θ 0 ) = tr S (ψ)Σ -1 S(ψ)S -1 (ψ 0 )Σ 0 S -1 (ψ 0 ) = tr Σ -1/2 S(ψ)S -1 (ψ 0 )Σ 0 S -1 (ψ 0 )S (ψ)Σ -1/2 ,</formula><p>and rewrite (18) as</p><formula xml:id="formula_31">E 0 [Q T (θ 0 , θ)] = - N 2 - 1 2 N i=1 ln σ 2 i0 /σ 2 i -ln S(ψ)S -1 (ψ 0 ) + 1 2 tr Σ -1/2 S(ψ)S -1 (ψ 0 )Σ 0 S -1 (ψ 0 )S (ψ)Σ -1/2 .</formula><p>Further, we note that S(ψ)S -1 (ψ 0 ) = I N -DG 0 , where G 0 = W (I N -Ψ 0 W ) -1 , and D = Ψ -Ψ 0 , is a diagonal matrix with elements d i = ψ i -ψ i0 . Using these results, the above expression for E 0 [Q T (θ 0 , θ)] can be written equivalently as</p><formula xml:id="formula_32">E 0 [Q T (θ 0 , θ)] = - N 2 - 1 2 N i=1 ln σ 2 i0 /σ 2 i -ln |I N -DG 0 | (<label>22</label></formula><formula xml:id="formula_33">) + 1 2 tr Σ -1/2 (I N -DG 0 ) Σ 0 (I N -DG 0 ) Σ -1/2 = A N + B N ,</formula><p>where</p><formula xml:id="formula_34">A N = 1 2 N i=1 σ 2 i0 σ 2 i -ln σ 2 i0 /σ 2 i -1 -ln |I N -DG 0 | -tr Σ -1 Σ 0 DG 0 ,<label>(23)</label></formula><formula xml:id="formula_35">B N = 1 2 tr Σ -1/2 G 0 DΣ 0 DG 0 Σ -1/2 . (<label>24</label></formula><formula xml:id="formula_36">)</formula><p>We first note that B N ≥ 0, since we can write B N = (1/2) tr (A 0 A 0 ), with A 0 = Σ 1/2 0 DG 0 Σ -1/2 . Consider now A N , denote the i th eigenvalue of DG 0 by µ i , and note that since I N -DG 0 = S(ψ)S -1 (ψ 0 ), then the eigenvalues of S(ψ)S -1 (ψ 0 ) are also given by 1 -µ i , for i = 1, 2, . . . , N . Further, by Lemma 1 of the online appendix A, λ min [S(ψ)] &gt; 0 for all ψ i that satisfy condition (8). Hence, we must also have 1 -µ i &gt; 0, for all i. Using these results, A N can now be written as</p><formula xml:id="formula_37">A N = 1 2 N i=1 σ 2 i0 σ 2 i -ln σ 2 i0 /σ 2 i -1 - N i=1 ln(1 -µ i ) - N i=1 σ 2 i0 σ 2 i µ i . Let δ σi = σ 2 i0 /σ 2 i and δ ψi = (1 -µ i ) &gt; 0, for all i. Then, write E 0 [Q T (θ 0 , θ)] as E 0 [Q T (θ 0 , θ)] = A N + B N = 1 2 N i=1 [δ σi -ln (δ σi ) -1] - N i=1 ln δ ψi - N i=1 δ σi (1 -δ ψi ) + B N = 1 2 N i=1 [δ σi -ln (δ σi ) -1] + N i=1 δ σi (δ ψi -ln δ ψi -1) + N i=1 (δ σi -1) ln δ ψi + B N = A 1,N + A 2,N + (A 3,N + B N ) .</formula><p>Since δ σi &gt; 0, and δ ψi &gt; 0 for all i, then δ σi -ln (δ σi ) -1 ≥ 0, and δ ψi -ln δ ψi -1 ≥ 0 for all i, with equalities holding if and only if δ σi = 1 and δ ψi = 1 for all i. Hence, A 1,N ≥ 0, and A 2,N ≥ 0 for all values of N , and global identification of σ 2 i0 will be possible only if we are able to show that A 3,N + B N is non-negative. But it is easily seen that the non-negativity of A 3,N + B N can not be guaranteed without further restrictions. This follows since</p><formula xml:id="formula_38">A 3,N = N i=1 (δ σi -1) ln δ ψi ,</formula><p>and there are values of δ σi and δ ψi in Θ = Θ ψ × Θ σ for which A 3,N &lt; 0. Considering (A 3,N + B N ) somewhat weakens the requirement since B N ≥ 0, but still does not guarantee that (A 3,N + B N ) ≥ 0, for all values of δ σi &gt; 0 and δ ψi &gt; 0. Therefore, global identification of ψ 0 can not be guaranteed. To investigate the possibility of local identification we introduce the following definition:</p><formula xml:id="formula_39">Definition 1 Consider the set N c (σ 2 0 ) in the closed neighborhood of σ 2 0 defined by N c (σ 2 0 ) = σ 2 0 ∈ Θ σ , σ 2 i0 /σ 2 i -1 &lt; c i , for i = 1, 2, . . . , N ,</formula><p>for some c i &gt; 0, i = 1, 2, . . . , N , where Θ σ is a compact subset of R N .</p><p>We now show that θ 0 = (ψ 0 , σ 2 0 ) is identified on Θ c = Θ ψ × N c (σ 2 0 ). Consider values of δ σi within the local neighborhood of δ σi = 1 for all i. Recall that A 1,N + A 2,N ≥ 0, and the boundary values A 1,N = 0 or A 2,N = 0 can occur if and only if δ σi = 1 and δ ψi = 1 for all i, respectively. Therefore,</p><formula xml:id="formula_40">A N ≥ 0 if δ σi = 1, otherwise A 1,N &gt; 0. Similarly, A N ≥ 0 if δ ψi = 1, otherwise A 2,N &gt; 0. Therefore, there must exist c = (c 1 , c 2 , . . . , c N ) &gt; 0, such that A N = 0 on Θ c if and only if θ = θ 0 , which in turn establishes that lT (θ 0 ) -lT (θ) a.s.</formula><p>→ 0, as T → ∞, on the set Θ c if and only if θ = θ 0 .</p><p>Next, consider the HSAR model (4) with exogenous regressors. The average log-likelihood in this case is given by (see ( <ref type="formula" target="#formula_8">7</ref>))</p><formula xml:id="formula_41">lT (θ) = - N 2 ln(2π) - 1 2 N i=1 ln σ 2 i + 1 2 ln |V(ψ)| (<label>25</label></formula><formula xml:id="formula_42">) - 1 2 1 T T t=1 [S(ψ)y •t -Bx •t ] Σ -1 [S(ψ)y •t -Bx •t ] ,</formula><p>where θ is now defined by θ = (ψ , β , σ 2 ) and B has the same form as in (5). Following a similar line of reasoning as in the case without exogenous regressors (see Lemma 3 of the online appendix A), we have that Q T (θ 0 , θ) = lT (θ 0 ) -lT (θ), where lT (θ) is now given by (25), and</p><formula xml:id="formula_43">Q T (θ 0 , θ) -E 0 [Q T (θ 0 , θ)]</formula><p>a.s.</p><p>→ 0, (as T → ∞) where</p><formula xml:id="formula_44">E 0 [Q T (θ 0 , θ)] = A N + B N + C N .<label>(26)</label></formula><p>A N and B N are defined as before by ( <ref type="formula" target="#formula_34">23</ref>) and (24), and C N is given by</p><formula xml:id="formula_45">C N = 1 2 N i=1 (β i -β i0 ) Σ ii (β i -β i0 ) σ 2 i + tr Σ -1/2 (B -B 0 ) Σ xx Ξ 0 (<label>27</label></formula><formula xml:id="formula_46">) + 1 2 tr Σ xx Ξ 0 Ξ 0 = C 1,N + C 2,N + C 3,N ,</formula><p>where Ξ 0 = Σ -1/2 DG 0 B 0 , and as before D = Diag(ψ -ψ 0 ). Consider now C 3,N and note that since Σ xx = E (x •t x •t ) and Ξ 0 Ξ 0 are positive semi-definite matrices, then using result (9) on p. 44 of <ref type="bibr" target="#b35">Lütkepohl (1996)</ref>,</p><formula xml:id="formula_47">tr Σ xx Ξ 0 Ξ 0 ≥ N [det (Σ xx )] 1/N det Ξ 0 Ξ 0 1/N ≥ 0,</formula><p>and hence C 3,N ≥ 0. Also, as shown above, on the subset Θ c = Θ ψ ×Θ β ×N c (σ 2 0 ), A N +B N = 0 if and only if D = Diag(ψ -ψ 0 ) = 0, and hence it must also follow that C 2,N = 0 on Θ c . Thus, overall lT (θ 0 ) -lT (θ) a.s.</p><formula xml:id="formula_48">→ 0 on Θ c if and only if N i=1 (β i -β i0 ) Σ ii (β i -β i0 ) σ 2 i = 0. (<label>28</label></formula><formula xml:id="formula_49">)</formula><p>This equality holds for all N if and only if (β i -β i0 ) Σ ii (β i -β i0 ) = 0, for all i, and since under Assumption 2(b) Σ ii is a positive definite matrix this can occur if and only if β i = β i0 for all i. Before we state the identification result for the general model (4), we require the following modification of Assumption 3: Assumption 5 The N (k + 2) × 1 parameter vector θ = (ψ , β , σ 2 ) belongs to Θ c = Θ ψ × Θ β ×N c (σ 2 0 ), where Θ ψ and Θ β are compact subsets of R N and R N k , respectively, and N c (σ 2 0 ) is given in Definition 1, and Θ c is a sub-set of the N (k + 2) dimensional Euclidean space, R N (k+2) .</p><p>The main identification result of the paper is summarized in the following proposition: Proposition 1 Consider the heterogeneous spatial autoregressive (HSAR) model given by (4) with the associated log-likelihood function given by (7). Suppose that Assumptions 1, 2, 4 and 5 hold. Then, the N (k + 2) dimensional true parameter vector θ 0 = (ψ 0 , β 0 , σ 2 0 ) is almost surely locally identified on Θ c .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.3">Consistency and asymptotic normality</head><p>We are now in a position to consider consistency and asymptotic normality of the QML estimator of θ, given by θ = arg max θ lT (θ), where θ = ( ψ , β , σ2 ) . We establish the results for a given N , and as T → ∞. First, we focus on the proof of consistency. Under Assumptions 1, 2, 4 and 5, we have: (i) Θ c , being a subset of Θ, is compact, (ii</p><formula xml:id="formula_50">) θ 0 is an interior point of Θ c , (iii) Q T (θ 0 , θ) a.s. → E 0 [Q T (θ 0 , θ)]</formula><p>, with Q T (θ 0 , θ) = lT (θ 0 ) -lT (θ) and E 0 [Q T (θ 0 , θ)] = A N + B N + C N ,where A N , B N and C N are given by ( <ref type="formula" target="#formula_34">23</ref>), ( <ref type="formula" target="#formula_35">24</ref>) and ( <ref type="formula" target="#formula_45">27</ref>), respectively, and (iv) θ 0 is a unique maximum of E 0 [Q T (θ 0 , θ)] on Θ c . The last result follows from the identification analysis of Section 3.2. It is clear that all conditions of Theorem 9.3.1 of <ref type="bibr" target="#b16">Davidson (2000)</ref> are satisfied, therefore almost sure local consistency of θ is ensured, with θ a.s. → θ 0 on Θ c , as T → ∞. To establish asymptotic normality of θ, we apply the mean value theorem to lT (θ) such that</p><formula xml:id="formula_51">lT (θ) -lT (θ 0 ) = (θ -θ 0 ) sT (θ 0 ) - 1 2 (θ -θ 0 ) HT ( θ) (θ -θ 0 ) ,<label>(29)</label></formula><p>where sT (θ) = ∂ lT (θ)/∂θ, HT (θ) = -∂ 2 lT (θ)/∂θ∂θ , and θ lies between θ and θ 0 . By Lemma 5 of the online appendix A we have sT (θ 0 ) a.s.</p><p>→ 0, and by the results of Section 3.2 we also have lT (θ 0 ) -lT (θ) a.s.</p><formula xml:id="formula_52">→ E 0 lT (θ 0 ) -lT (θ) ≥ 0. Hence, in view of (29) it must also hold that (as T → ∞) (θ -θ 0 ) HT ( θ) (θ -θ 0 ) a.s. → E 0 [Q T (θ 0 , θ)] ,</formula><p>where E 0 [Q T (θ 0 , θ)] is given by ( <ref type="formula" target="#formula_44">26</ref>). But we have already established that on Θ c , the right hand side of the above expression can be equal to zero if and only if θ = θ 0 , and hence it must be that HT ( θ) a.s.</p><p>→ H(θ 0 ), where H(θ 0 ) must be a positive definite matrix given by</p><formula xml:id="formula_53">H(θ 0 ) = lim T →∞ E 0 -∂ 2 lT (θ)/∂θ∂θ .</formula><p>Next, for a given N we apply the mean value theorem to sT (θ) so that</p><formula xml:id="formula_54">0 = √ T sT θ = √ T sT (θ 0 ) -HT ( θ) √ T θ -θ 0 , or equivalently 0 = 1 √ T s T θ = 1 √ T s T (θ 0 ) -H T ( θ) √ T θ -θ 0 , where s T (θ) = ∂ℓ T (θ)/∂θ, H T (θ) = -1 T ∂ 2 ℓ T (θ)/∂θ∂θ</formula><p>, and θ lies between θ and θ 0 . Therefore,</p><formula xml:id="formula_55">√ T θ -θ 0 = H -1 T ( θ) √ T s T (θ 0 ) ,</formula><p>and since θ is consistent on Θ c , then</p><formula xml:id="formula_56">√ T θ -θ 0 a ∼ H -1 (θ 0 ) √ T s T (θ 0 ) , where H (θ 0 ) = lim T →∞ E 0 -1 T ∂ 2 ℓ T (θ)/∂θ∂θ , with E 0 - 1 T ∂ 2 ℓ T (θ)/∂θ∂θ =    H 11 H 12 H 13 H 12 H 22 H 23 H 13 H 23 H 33    N (k+2)×N (k+2)</formula><p>.</p><p>The expressions for H ij can be obtained using the partial derivative ∂ 2 ℓ T (θ 0 )/∂θ∂θ given in the online appendix B. Specifically we have</p><formula xml:id="formula_57">H (θ 0 ) =    (G 0 G 0 ) + Σ -1 0 Diag (G 0 Σ 0 G 0 ) + ∆ β 0 E β 0 Σ -1 0 Diag (G 0 ) E β 0 Z 0 0 Σ -1 0 Diag (G 0 ) 0 1 2 Σ -2 0    ,<label>(30)</label></formula><p>where ∆ β 0 , E β 0 , and Z 0 are diagonal matrices given by</p><formula xml:id="formula_58">∆ β 0 = Diag σ -2 i0 N r=1 N s=1 g 0,is g 0,ir β r0 Σ rs β s0 , i = 1, 2, . . . , N ,<label>(31)</label></formula><formula xml:id="formula_59">E β 0 = Diag σ -2 i0 N s=1 g 0,is β s0 Σ is , i = 1, 2, . . . , N ,<label>(32)</label></formula><p>and</p><formula xml:id="formula_60">Z 0 = Diag σ -2 i0 Σ ii , i = 1, 2, . . . , N .<label>(33)</label></formula><p>Again by Lemma 5 of the online appendix A, we have that</p><formula xml:id="formula_61">1 √ T s T (θ 0 ) → d N [0, J (θ 0 , γ)]</formula><p>where</p><formula xml:id="formula_62">J (θ 0 , γ) = lim T →∞       (G 0 G 0 ) + Σ -1 0 Diag (G 0 Σ 0 G 0 ) + ∆ β 0 + (γ -2) Diag (G 0 G 0 ) E β 0 γ 2 Σ -1 0 Diag (G 0 ) E β 0 Z 0 0 γ 2 Σ -1 0 Diag (G 0 ) 0 γ 4 Σ -2 0      <label>(34)</label></formula><p>and</p><formula xml:id="formula_63">γ = lim T →∞ T -1 T t=1 V ar(ζ 2 it ) = lim T →∞ T -1 T t=1 E ζ 4 it -1 ,<label>(35)</label></formula><p>with</p><formula xml:id="formula_64">ζ it = ε it /σ i0 , for i = 1, 2, . . . , N . Hence, √ T θ -θ 0 → d N (0, V θ ) ,<label>(36)</label></formula><p>where V θ has the usual sandwich formula</p><formula xml:id="formula_65">V θ = H -1 (θ 0 )J (θ 0 , γ) H -1 (θ 0 ). (<label>37</label></formula><formula xml:id="formula_66">)</formula><p>In the case where the errors, ε it , are Gaussian, γ = 2 and, as to be expected, H (θ 0 ) = J (θ 0 , 2). This is easily verified by referring back to ( <ref type="formula" target="#formula_57">30</ref>) which is equal to J (θ 0 , γ) defined by (34) for γ = 2, as required.</p><p>Remark 7 When no exogenous regressors are included in the HSAR specification (1), then the asymptotic variance, V θ = H -1 (θ 0 ) J (θ 0 , γ) H -1 (θ 0 ) , simplifies so that:</p><formula xml:id="formula_67">H (θ 0 ) = (G 0 G 0 ) + Σ -1 0 Diag (G 0 Σ 0 G 0 ) Σ -1 0 Diag (G 0 ) Σ -1 0 Diag (G 0 ) 1 2 Σ -2 0 2N ×2N ,<label>(38)</label></formula><p>and</p><formula xml:id="formula_68">J (θ 0 , γ) =    (G 0 G 0 ) + Σ -1 0 Diag (G 0 Σ 0 G 0 ) +(γ -2) Diag (G 0 G 0 ) γ 2 Σ -1 0 Diag (G 0 ) γ 2 Σ -1 0 Diag (G 0 ) γ 4 Σ -2 0    .<label>(39)</label></formula><p>Again, under Gaussian errors we have J (θ 0 , 2) = H (θ 0 ).</p><p>The main result of this section is summarized in the following proposition:</p><p>Proposition 2 Consider the heterogeneous spatial autoregressive (HSAR) model given by ( <ref type="formula" target="#formula_0">1</ref>). Suppose that Assumptions 1, 2, 4, 5, and conditions ( <ref type="formula" target="#formula_28">21</ref>) and ( <ref type="formula" target="#formula_48">28</ref>) hold. Denote the N (k + 2) dimensional (quasi-) maximum likelihood estimator of θ 0 by θ = arg max θ lT (θ), where lT (θ) is given by ( <ref type="formula" target="#formula_41">25</ref>). Then, θ is almost surely locally consistent for θ 0 on Θ c , and has the following asymptotic distribution</p><formula xml:id="formula_69">√ T θ -θ 0 → d N (0, V θ ) ,<label>(40)</label></formula><p>where</p><formula xml:id="formula_70">V θ = H -1 (θ 0 )J (θ 0 , γ) H -1 (θ 0 )</formula><p>, and H (θ 0 ) and J (θ 0 , γ) are defined by ( <ref type="formula" target="#formula_57">30</ref>) and ( <ref type="formula" target="#formula_62">34</ref>), respectively.</p><p>Proof. See the online appendix B.</p><p>Focusing on the inverse of the information matrix, we partition H (θ 0 ) as follows</p><formula xml:id="formula_71">H (θ 0 ) = H 11 H 12 H 12 H 22 ,<label>(41)</label></formula><p>where H 12 = (H 12 , H 13 ) is an N × (N k + N ) matrix, and since H 23 = H 32 = 0, then H 22 = Diag (H 22 , H 33 ), which is an (N k + N ) × (N k + N ) matrix. Then,</p><formula xml:id="formula_72">H -1 (θ 0 ) = H -1 11•2 -H -1 11•2 H 12 H -1 22 -H -1 22 H 21 H -1 11•2 H -1 22 + H -1 22 H 21 H -1 11•2 H 12 H -1 22 .</formula><p>Of interest is matrix H 11•2 given by</p><formula xml:id="formula_73">H 11•2 = H 11 -H 12 H -1 22 H 21 = H 11 -H 12 H -1 22 H 21 -H 13 H -1 33 H 31 (<label>42</label></formula><formula xml:id="formula_74">) = G 0 G 0 + Diag   -g 2 0,ii + N s=1,s =i σ 2 s0 /σ 2 i0 g 2 0,is , i = 1, 2, . . . , N   + Diag σ -2 i0 N r=1 N s=1 g 0,is g 0,ir β r0 Σ rs -Σ ri Σ -1 ii Σ is β s0 , i = 1, 2, . . . , N ,</formula><p>since its inverse, H -1 11•2 , represents the asymptotic covariance matrix of √ T ψ under normality of the error term. This last result can be summarized in the following corollary:</p><p>Corollary 1 Consider the heterogeneous spatial autoregressive (HSAR) model given by (1). Suppose that Assumptions 1, 2, 4, 5, and conditions ( <ref type="formula" target="#formula_28">21</ref>) and ( <ref type="formula" target="#formula_48">28</ref>) hold. Then, the N × N information matrix</p><formula xml:id="formula_75">H 11•2 = G 0 G 0 + Diag   -g 2 0,ii + N s=1,s =i σ 2 s0 /σ 2 i0 g 2 0,is , i = 1, 2, . . . , N   (<label>43</label></formula><formula xml:id="formula_76">) + Diag σ -2 i0 N r=1 N s=1 g 0,is g 0,ir β r0 Σ rs -Σ ri Σ -1 ii Σ is β s0 , i = 1, 2, . . . , N , is full rank, where G 0 = W (I N -Ψ 0 W ) -1 = (g 0,ij ), Ψ 0 = Diag(ψ 0 ), ψ 0 = (ψ 10 , ψ 20 , . . . , ψ N 0 ) ,</formula><p>and W is the spatial weight matrix, and ε it ∼ IIDN (0, σ 2 i0 ). Then the maximum likelihood estimator of ψ 0 , denoted by ψ and computed by maximizing (A.21), has the following asymptotic distribution,</p><formula xml:id="formula_77">√ T ψ -ψ 0 → d N (0, V ψ ) ,<label>(44)</label></formula><p>where</p><formula xml:id="formula_78">V ψ = [H 11•2 ] -1 .<label>(45)</label></formula><p>Remark 8 In the special case where the regressors are cross-sectionally uncorrelated, namely when Σ rs = 0, if r = s, the third term in (43) vanishes and we have</p><formula xml:id="formula_79">H 11•2 = G 0 G 0 + Diag   -g 2 0,ii + N s=1,s =i σ 2 s0 /σ 2 i0 g 2 0,is , i = 1, 2, . . . , N   ,<label>(46)</label></formula><p>which does not depend on β i s or the exogenous regressors.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Remark 9</head><p>In the case where</p><formula xml:id="formula_80">ε it are non-Gaussian but E(|ε it | 4+</formula><p>) &lt; K holds for some &gt; 0, the quasi maximum likelihood estimator, ψ, continues to be normally distributed but its asymptotic covariance matrix is given by the upper N × N partition of H -1 (θ 0 ) J (θ 0 , γ) H -1 (θ 0 ), where H (θ 0 ) and J (θ 0 , γ) are defined by ( <ref type="formula" target="#formula_57">30</ref>) and ( <ref type="formula" target="#formula_62">34</ref>), respectively. Recall that γ is defined by ( <ref type="formula" target="#formula_63">35</ref>), and under Gaussian errors it takes the value of γ = 2, so that we have J (θ 0 , 2) = H (θ 0 ).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.3.1">Consistent estimation of V θ</head><p>The asymptotic covariance matrix of θ can be consistently estimated using the expressions given by ( <ref type="formula" target="#formula_57">30</ref>) and ( <ref type="formula" target="#formula_62">34</ref>), yielding the standard formula</p><formula xml:id="formula_81">V θ = H -1 (θ 0 ) ,<label>(47)</label></formula><p>when the information matrix equality holds in the case of ε it ∼ IIDN (0, σ 2 i0 ) and γ = 2, and the sandwich formula</p><formula xml:id="formula_82">V θ = H -1 (θ 0 ) J (θ 0 , γ) H -1 (θ 0 ) ,<label>(48)</label></formula><p>otherwise. Consistent estimators of J (θ 0 , γ) and H (θ 0 ) can be obtained by replacing θ 0 with its QML estimator, θ, and estimating γ by</p><formula xml:id="formula_83">γ = (N T ) -1 T t=1 N i=1 εit σi 4 -1,</formula><p>where εit = y it -ψi N j=1 w ij y jt -β i x it , with σi , βi and ψi being the QML estimators of σ i0 , β i0 and ψ i0 , respectively.</p><p>Alternatively, one can use the sample counterparts of J (θ 0 , γ) and H (θ 0 ) and estimate the covariance matrix of the QML estimators consistently by</p><formula xml:id="formula_84">V θ = Ĥ-1 T θ ,<label>(49)</label></formula><p>and</p><formula xml:id="formula_85">V θ = Ĥ-1 T θ ĴT θ, γ Ĥ-1 T θ ,<label>(50)</label></formula><p>where</p><formula xml:id="formula_86">ĴT (θ) = 1 T T t=1 ∂ℓt(θ) ∂θ ∂ℓt(θ) ∂θ , ℓ t (θ) is defined by (A.20) and ĤT (θ) = -1 T ∂ 2 ℓ T (θ)</formula><p>∂θ∂θ . Consistency of Ĵ( θ, γ) for J (θ 0 , γ) follows from consistency of θ for θ 0 , of γ for γ and the independence of ∂ℓt(θ 0 ) ∂θ over t, as shown in Lemma 5 of the online appendix A. The first and second derivatives are provided in the online appendix C.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">Mean group estimators</head><p>So far we have focussed on estimation of the unit-specific parameters and have derived the asymptotic results for a given N and as T → ∞. But in practice it is often of interest to obtain average estimates across all the units or a sub-group of the units in the panel, assuming that the individual coefficients follow a random coefficient model. In the context of the HSAR model, (1), suppose that {ψ i0 , β i0 , i = 1, 2, . . . , N } are randomly distributed around the common means, ψ 0 and β 0 , such that</p><formula xml:id="formula_87">ψ i0 = ψ 0 + η iψ , and β i0 = β 0 + η iβ for i = 1, 2, . . . , N,<label>(51)</label></formula><p>where</p><formula xml:id="formula_88">η i = η iψ , η iβ ∼ IID (0, Ω η )</formula><p>, Ω η &gt; 0 is a positive definite matrix, and it is assumed that E η i 2+c &lt; K, for some c &gt; 0. The parameters of interest are ψ 0 and β 0 which are the population means of spatial lags and slope parameters of the underlying HSAR model. For consistent estimation of ψ 0 and β 0 we now need N and T sufficiently large. Large T is required to consistently estimate the unit-specific coefficients, and large N is required for estimation of the common means, ψ 0 and β 0 . It is also possible to apply this procedure to subsets of the units, so long as the number of units in each set is reasonably large. Consistent estimators of ψ 0 and β 0 are given by the mean group (MG) estimators,</p><formula xml:id="formula_89">ψMG = N -1 N i=1</formula><p>ψi , and</p><formula xml:id="formula_90">βMG = N -1 N i=1 βi ,<label>(52)</label></formula><p>where ψi and βi are the underlying unit-specific estimators. The MG estimator was originally developed by <ref type="bibr" target="#b42">Pesaran and Smith (1995)</ref> who show that in the standard case where ψi and βi are independently distributed, then ψMG and βMG will be consistent and asymptotically normal.</p><p>Recently, <ref type="bibr" target="#b11">Chudik and Pesaran (2019)</ref> extend this analysis and consider MG estimators based on possibly cross correlated estimators and show that the standard MG estimation continues to apply so long as the underlying unit-specific estimators are weakly cross correlated.</p><p>In the case of the present application the asymptotic validity of the MG estimator can be established by first noting that</p><formula xml:id="formula_91">√ N ψMG -ψ 0 = N -1/2 N i=1 ψi -ψ i0 + N -1/2 N i=1 (ψ i0 -ψ 0 ) ,</formula><p>where upon using ( <ref type="formula" target="#formula_87">51</ref>) can also be written as</p><formula xml:id="formula_92">√ N ψMG -ψ 0 = √ N T N -1 N i=1 T ψi -ψ i0 + N -1/2 N i=1 η iψ = q N T + ξ N T .<label>(53)</label></formula><p>Consider now q N T , the first term of the above expression, and recall that under the regularity conditions set out in the previous sections,</p><formula xml:id="formula_93">√ T ψi -ψ i0 a ∼ N (0, ω 2 ψ i ), where sup i ω 2 ψ i &lt; K, and E ψi -ψ i0 = O T -1 , for all i. Hence E (q N T ) = O √ N T .<label>(54)</label></formula><p>Furthermore we note that q N T can also be written as</p><formula xml:id="formula_94">q N T = N -1/2 N i=1 ψi -ψ i0 = T -1/2 N -1/2 τ N √ T ψ -ψ 0 ,</formula><p>where ψ = ( ψ1 , ψ2 , . . . , ψN ) , and τ N is an N × 1 vector of ones. Denote the N × N asymptotic covariance matrix of</p><formula xml:id="formula_95">ψ by V ψ = AsyV ar √ T ψ -ψ 0 , then lim N,T →∞ V ar (q N T ) = lim N,T →∞ V ar T -1/2 N -1/2 τ N √ T ψ -ψ 0 = lim N,T →∞ τ N V ψ τ N N T ≤ lim N,T →∞ λ max (V ψ ) T . (<label>55</label></formula><formula xml:id="formula_96">)</formula><p>Suppose now that √ N /T → 0, and λ max (V ψ ) &lt; K as N and T → ∞. Then using ( <ref type="formula" target="#formula_93">54</ref>) and ( <ref type="formula" target="#formula_95">55</ref> </p><formula xml:id="formula_97">√ N ψMG -ψ 0 a ∼ ξ N T = N -1/2 N i=1 η iψ .</formula><p>Finally, under the random coefficient model where {η iψ , for i = 1, 2, . . . , N } are assumed to be independently distributed with zero means and finite variances, ξ N T a ∼ N [0, V ar (η iψ )], and therefore under the additional conditions, √ N /T → 0 and λ max (V ψ ) &lt; K, we have (as N ,T → ∞, jointly):</p><formula xml:id="formula_98">√ N ψMG -ψ 0 a ∼ N 0, ω 2 ψ ,<label>(56)</label></formula><p>where ω 2 ψ = V ar (η iψ ). It is also easily seen that ω 2 ψ can be consistently estimated by</p><formula xml:id="formula_99">ω2 ψ = 1 N -1 N i=1 ψi -ψMG 2 . (<label>57</label></formula><formula xml:id="formula_100">) Similarly, √ N βMG -β 0 a ∼ N (0, Ω β ) , (<label>58</label></formula><formula xml:id="formula_101">) so long as λ max (V β ) &lt; K, where V β is the kN × kN asymptotic covariance matrix of √ T β = ( √ T β 1 , √ T β 2 , . . . , √ T β N ) .</formula><p>A consistent estimator of Ω β is given by</p><formula xml:id="formula_102">Ωβ = 1 N -1 N i=1 βi -βMG βi -βMG .<label>(59)</label></formula><p>It now remains to establish conditions under which λ max (V ψ ) &lt; K and λ max (V β ) &lt; K hold. We first note that V ψ and V β are sub-matrices of V θ defined by (37) which we reproduce here for convenience:</p><formula xml:id="formula_103">V θ = H -1 (θ 0 )J (θ 0 , γ) H -1 (θ 0 ),</formula><p>where H (θ 0 ) and J (θ 0 , γ) are given by ( <ref type="formula" target="#formula_57">30</ref>) and (34), respectively. Hence, it is sufficient to show that λ max (V θ ) is bounded in N . To this end we first note that</p><formula xml:id="formula_104">V θ ≤ H -1 (θ 0 ) 2 J (θ 0 , γ) ,<label>(60)</label></formula><p>where</p><formula xml:id="formula_105">A = λ 1/2 max (A A) is the spectral norm of A. However, since V θ , H -1 (θ 0 ) and J (θ 0 , γ) are symmetric matrices, then V θ = λ max (V θ ), H -1 (θ 0 ) 2 = λ 2 max H -1 (θ 0 ) , and J (θ 0 , γ) = λ max [J (θ 0 , γ)]</formula><p>, and (60) can also be written as</p><formula xml:id="formula_106">λ max (V θ ) ≤ λ 2 max H -1 (θ 0 ) λ max [J (θ 0 , γ)] . (<label>61</label></formula><formula xml:id="formula_107">) But λ max H -1 (θ 0 ) = 1/λ min [H (θ 0 )]</formula><p>, and under the identification conditions established in Section 3.2, we have λ min [H (θ 0 )] &gt; 0, which ensures that λ max H -1 (θ 0 ) &lt; K is bounded in N . Finally, we note that by Theorem 5.6.9 of <ref type="bibr" target="#b22">Horn and Johnson (1985)</ref>,</p><formula xml:id="formula_108">λ max [J (θ 0 , γ)] ≤ J (θ 0 , γ) ∞ ,<label>(62)</label></formula><p>and using ( <ref type="formula" target="#formula_62">34</ref>) it is easily seen that the column (row) norm of J (θ 0 , γ) is dominated by matrices (G 0 G 0 ) , ∆ β 0 and E β 0 , where the latter two matrices are diagonal. The other matrices in J (θ 0 , γ), namely Σ 0 and Z 0 , are also diagonal matrices whose elements do not vary with N .</p><p>Consider ∆ β 0 defined by ( <ref type="formula" target="#formula_58">31</ref>) and note that</p><formula xml:id="formula_109">sup i N s=1 g 2 0,is σ 2 s0 ≤ sup s σ 2 s0 sup i N s=1 |g 0,is | = sup s σ 2 s0 G 0 ∞ .</formula><p>Similarly,</p><formula xml:id="formula_110">sup i N r=1 N s=1 g 0,is g 0,ir β r0 Σ rs β s0 ≤ sup i N r=1 N s=1 |g 0,is | |g 0,ir | β r0 Σ rs β s0 ≤ sup r,s β r0 Σ rs β s0 sup i N r=1 N s=1 |g 0,is | |g 0,ir | = sup s β s0 sup r β r0 sup r,s Σ rs G 0 2 ∞ .</formula><p>However, under Assumptions 2(b) and 3 we have sup s β s0 &lt; K and sup r,s Σ rs &lt; K, and under Assumption 4 it follows that G 0 ∞ &lt; K (see Lemma 2 of the online appendix A). Hence, ∆ β 0 &lt; K. Similarly, it is also easily established that all elements of E β 0 are bounded in N . Finally, again under Assumption 4 and as shown in Lemma 2 of the online appendix A, G 0 G 0 ∞ &lt; K. Consequently, J (θ 0 , γ) ∞ &lt; K, and in view of ( <ref type="formula" target="#formula_108">62</ref>) it follows that λ max [J (θ 0 , γ)] &lt; K. Using this result in (61) and recalling that λ max H -1 (θ 0 ) &lt; K, then overall we have λ max (V θ ) &lt; K, as required. Note that this result does not need the exogenous regressors to be weakly cross-correlated; it is sufficient that sup r,s Σ rs &lt; K.</p><p>The main result of this section is summarized in the following proposition:</p><p>Proposition 3 Consider the heterogeneous spatial autoregressive (HSAR) model given by (1) where the coefficients {ψ i0 , β i0 , i = 1, 2, . . . , N } are distributed randomly around the common means ψ 0 and β 0 following (51). Suppose that Assumptions 1, 2, 4, 5, and conditions ( <ref type="formula" target="#formula_28">21</ref>) and ( <ref type="formula" target="#formula_48">28</ref>) hold. Then, as N, T → ∞, jointly such that √ N /T → 0, the mean group estimators, ψMG and βMG , defined by (52) have the following asymptotic distributions</p><formula xml:id="formula_111">√ N ψMG -ψ 0 a ∼ N 0, ω 2 ψ and √ N βMG -β 0 a ∼ N (0, Ω β ) ,</formula><p>with consistent estimators of ω 2 ψ and Ω β provided in ( <ref type="formula" target="#formula_99">57</ref>) and ( <ref type="formula" target="#formula_102">59</ref>), respectively.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5">Small sample properties of the QMLE</head><p>We investigate the small sample properties of the proposed QML estimator and the associated MG estimator using Monte Carlo simulations. We consider the following data generating process (DGP)</p><formula xml:id="formula_112">y it = a i + ψ i N j=1 w ij y jt + β i x it + ε it , i = 1, 2, . . . , N ; t = 1, 2, . . . , T.<label>(63)</label></formula><p>We include one exogenous regressor, x it , with coefficient β i as well as fixed effects, a i , in unitspecific regressions. Stacking these regressions we have</p><formula xml:id="formula_113">y •t = a + ΨW y •t + Bx •t + ε •t , t = 1, 2, . . . , T,<label>(64)</label></formula><p>where a = (a 1 , a 2 , . . . , a N ) , Ψ = Diag (ψ) and ψ = (ψ 1 , ψ 2 , . . . , ψ N ) , W = (w ij ), i, j = 1, 2, . . . , N, B = Diag (β), where β = (β 1 , β 2 , . . . , β N ) , x •t = (x 1t , x 2t , . . . , x N t ) , and ε •t = (ε 1t , ε 2t , . . . , ε N t ) . Note that since we explicitly account for fixed effects which we separate out from the remaining regressors included in x •t , the unknown parameters are summarized in vector θ, as follows: θ = a , ψ , β , σ 2 , σ 2 = (σ 2 1 , σ 2 2 , . . . , σ 2 N ) . In total there are 4N unknown parameters.</p><p>We allow for spatial dependence in the regressors, x it , and generate them as</p><formula xml:id="formula_114">x it = φ i w x,i x •t + v it ,<label>(65)</label></formula><p>or in matrix form</p><formula xml:id="formula_115">x •t = (I N -ΦW x ) -1 v •t ,</formula><p>where Φ = Diag(φ 1 , φ 2 , . . . , φ N ), and</p><formula xml:id="formula_116">v •t = (v 1t , v 2t , . . . , v N t ) , with v it ∼ IIDN (0, σ 2 v ).</formula><p>We set φ i = 0.5 (representing a moderate degree of spatial dependence), and set</p><formula xml:id="formula_117">σ 2 v = N tr (I N -ΦW x ) -1 (I N -ΦW x ) -1 ,<label>(66)</label></formula><p>which ensures that N -1 N i=1 V ar(x it ) = 1. We set W x = W = (w ij ), i, j = 1, 2, . . . , N , and use the 4-connection spatial matrix described below.</p><p>We consider both Gaussian and non-Gaussian errors. Specifically we consider the following two error generating processes ε it /σ i0 ∼ IIDN (0, 1), and ε it /σ i0 ∼ IID χ 2 (2) -2 /2, for i = 1, 2, . . . , N , and t = 1, 2, . . . , T , where χ 2 (2) is a chi-squared variate with 2 degrees of freedom. σ 2 i0 are generated as independent draws from χ 2 (2)/4 + 0.50, for i = 1, 2, . . . , N, and kept fixed across the replications.</p><p>For the weight matrix, W = (w ij ), first we use contiguity criteria to generate the nonnormalized weights, w o ij , then row normalize the resultant weight matrices to obtain w ij . More specifically, we consider W matrices with 2, 4 and 10 connections and generate w o ij , for i = 1, 2, . . . , N , as<ref type="foot" target="#foot_3">foot_3</ref> </p><p>• 2 connections: w o i,j = 1 if j = i -1, i + 1, and zero otherwise,</p><p>• 4 connections: w o i,j = 1 if j = i -2, i -1, i + 1, i + 2, and zero otherwise,</p><p>• 10 connections: w o i,j = 1 if j = i -5, i -4, . . . , i -1, i + 1, i + 2, . . . , i + 5, and zero otherwise.</p><p>Since by construction W ∞ = 1, then condition (8) is satisfied if sup i |ψ i | &lt; 1, and ensures that I N -ΨW is invertible. We generate the unit-specific coefficients of the HSAR model as a i0 ∼ IIDN (1, 1), β i0 ∼ IIDU (0, 1) , and ψ i0 ∼ IIDU (0, 0.8), for i = 1, 2, . . . , N .<ref type="foot" target="#foot_4">foot_4</ref> Given the DGP in (63), values of y it are now generated as</p><formula xml:id="formula_118">y •t = (I N -ΨW ) -1 (a + Bx •t + ε •t ) , t = 1, 2, . . . , T.</formula><p>Initially, to illustrate that our proposed estimator applies to both cases where N is small and large, we considered the two polar cases of N = 5 and N = 100, and set T = 25, 50, 100, 200. We then considered a more comprehensive set of N values, namely N = 25, 50, 75, 100. For each experiment we used R = 2, 000 replications. Across the replications, θ 0 , and the weight matrix, W , are kept fixed, whilst the errors and the regressors, ε it and x it (and hence y it ), are re-generated randomly in each replication. Note that, as N increases, supplementary units are added to the original vector θ 0 generated initially for N = 5. Due to the problem of simultaneity, the degree of time variations in y * it for each unit i depends on the choice of W and the number of cross section units, N . Naturally, this is reflected in the performance of the estimators and the power properties of the tests based on them.</p><p>We report bias and RMSE of the QML estimators for individual cross section units, as well as their corresponding empirical sizes. In addition, we report power functions for three units with true spatial autoregressive parameters, ψ i0 , selected to be low, medium and large in magnitude. The experiments are carried out for spatial weight matrices, W , with two, four and ten connections. The mean of simulated parameter estimates are computed as</p><formula xml:id="formula_119">ψi(R) = R -1 R r=1 ψi,r , and βi(R) = R -1 R r=1 βi,r ,</formula><p>where ψi,r and βi,r refer to the QML estimates of ψ i and β i in the r th replication. The QML estimators are computed using the log-likelihood function (7). We also report small sample results for the MG estimators of ψ 0 and β 0 , defined by (52), using the experiment described in Section 5.2 below.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.1">Results for individual estimates</head><p>Since the results based on the Gaussian and non-Gaussian errors are very close, in what follows we only report the results for the non-Gaussian case where the errors are generated as iid χ 2 (2) random variables, and use the sandwich formula (50) to compute standard errors. Also to save space, we focus on results based on the spatial weight matrix, W , with four connections. <ref type="foot" target="#foot_5">8</ref>Initially, to highlight the applicability of the proposed estimators to small as well as large dimensional HSAR panels, we provide detailed results for the experiments with N = 5 and N = 100.</p><p>Table <ref type="table">1</ref> reports the bias, RMSE, empirical size and power of the individual parameters, ψ i0 and β i0 , i = 1, 2, . . . , N , for the experiments with N = 5. The bias of estimating ψ i0 tends to be small but negative when T = 25, whilst estimates of β i0 show an upward bias when T is small (T = 25). But the biases of both estimators fall quite rapidly with T , for all i. A similar pattern can be seen in the RMSEs, again declining with T reasonably fast. Turning to size and power of the tests based on the QML estimates, there is some evidence of over-rejection when T is small (T = 25). But the size distortion gets eliminated as T is increased, with the tests having the correct size for values of T ≥ 50. This pattern is shared by both ψ i0 and β i0 . Similarly, power is low when T = 25 but improves markedly for all 5 units as T is increased. <ref type="foot" target="#foot_6">9</ref> Overall the small sample results are in line with our theoretical findings, and give satisfactory results for values of T ≥ 50; a property which is repeated for other experiments considered in this paper.</p><p>For N = 100 we report the results only for a selected number of units, namely units with the three smallest and largest population values for ψ i0 and a few in between, and the associated β i0 values. The small sample results for these experiments are summarized in Table <ref type="table">2</ref>, and are qualitatively similar to those reported in Table <ref type="table">1</ref> for N = 5, indicating that the theoretical framework of Section 3 can be applied equally to data sets with small and large numbers of cross section units.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.1.2">RMSE, size and power for all N and T combinations</head><p>We now turn to the rest of the results and consider all the combinations of N ∈ {25, 50, 75, 100} and T ∈ {25, 50, 100, 200}. To save space we use boxplots to summarize the results for RMSE and size, and use empirical rejection frequency plots for power. <ref type="foot" target="#foot_7">10</ref> All results are shown in the online appendix E. The RMSE boxplots for ψ i0 and β i0 are given in Figures <ref type="figure" target="#fig_9">A1</ref> and <ref type="figure" target="#fig_10">A2</ref>, respectively. <ref type="foot" target="#foot_8">11</ref> Overall, the RMSE values are small for both parameters and fall with T but are not affected by changes in the cross section dimension, N , which is in line with the theory developed in Section 3.</p><p>The boxplots for the size of the tests based on the QML estimates of ψ i0 and β i0 are given in Figures <ref type="figure">A3</ref> and <ref type="figure" target="#fig_14">A7</ref>, respectively. These results are based on the sandwich covariance matrix formula given by (50). As can be seen, in general the tests are correctly sized at 5 per cent for T relatively large, although for small values of T there are some size distortions. Once again the size estimates are not affected by N , and tend to 5 per cent as T increases, irrespective of the value of N .</p><p>To save space we only report the empirical power functions of the tests for three cross section units with low, medium and high parameter values. The power plots are computed for different values of ψ i and β i defined by ψ i = ψ i0 + δ, and β i = β i0 + δ, for i = 1, 2, . . . , N , where </p><formula xml:id="formula_120">ε i0 /σ i0 ∼ IID[χ 2 (2) -2]/2, with σ 2 i0 ∼ IIDU [χ 2 (2)/4+0</formula><p>.5] for i = 1, 2, . . . , N . The spatial weight matrix W = (w ij ) has four connections so that w ij = 1 if j is equal to: i -2, i -1, i + 1, i + 2, and zero otherwise, for i = 1, 2, . . . , N . Biases and RMSEs are computed as R -1 R r=1 ( ψi,r -ψ i0 ) and R -1 R r=1 ( ψi,r -ψ i0 ) 2 for i = 1, 2, . . . , N . Empirical size and empirical power are based on the sandwich formula given by (50). The nominal size is set to 5%. Size is computed under H i0 : ψ i = ψ i0 , using a two-sided alternative, for i = 1, 2, . . . , N . Power is computed under ψ i = ψ i0 + 0.2, for i = 1, 2, . . . , N . The number of replications is set to R = 2, 000. Estimates are sorted in ascending order according to the true values of the spatial autoregressive parameters. Biases, RMSEs, sizes and powers for β i , i = 1, 2, . . . , N , are computed similarly, with power computed under β i = β i0 + 0.2.</p><p>Table 2: Bias, RMSE, size and power for parameters of individual units in the HSAR(1) model with one exogenous regressor and non-Gaussian errors for N = 100 and T ∈ {25, 50, 100, 200}.</p><p>T 25 50 100 200 Parameter Bias RMSE Bias RMSE Bias RMSE Bias RMSE ψ i0 ψ 1,0 = 0.0244 -0.0005 0.3152 -0.0049 0.2138 0.0021 0.1415 -0.0001 0.1010 ψ 2,0 = 0.0255 -0.0330 0.5189 0.0034 0.3674 -0.0137 0.2641 -0.0033 0.1794 ψ 3,0 = 0.0397 0.0129 0.3509 -0.0017 0.2448 -0.0014 0.1681 0.0013 0.1183 . . . . . . . . . . . . . . . . . . . . . . . . . . . ψ 51,0 = 0.3927 -0.0027 0.2912 0.0038 0.2056 0.0009 0.1395 0.0005 0.0960 ψ 52,0 = 0.3987 0.0001 0.1994 -0.0031 0.1381 0.0029 0.0921 0.0005 0.0638 ψ 53,0 = 0.4004 -0.0112 0.3063 0.0075 0.2049 0.0033 0.1392 -0.0015 0.0991 . . . . . . . . . . . . . . . . . . . . . . . . . . . ψ 98,0 = 0.7695 -0.0031 0.1621 0.0018 0.1149 0.0055 0.0824 -0.0003 0.0586 ψ 99,0 = 0.7705 -0.0530 0.2903 -0.0126 0.1895 0.0002 0.1401 0.0003 0.1041 ψ 100,0 = 0.7904 -0.0125 0.1716 -0.0094 0.1275 0.0011 0.0897 0.0008 0.0613 β i0 β 1,0 = 0.1978 0.0089 0.2782 0.0017 0.1771 0.0007 0.1192 -0.0073 0.0824 β 2,0 = 0.7060 0.0252 0.3699 0.0016 0.2359 -0.0005 0.1608 0.0049 0.1144 β 3,0 = 0.4173 0.0107 0.2541 0.0034 0.1733 0.0000 0.1157 0.0028 0.0821 . . . . . . . . . . . . . . . . . . . . . . . . . . . β 51,0 = 0.9448 0.0060 0.1924 -0.0024 0.1294 0.0018 0.0896 0.0009 0.0634 β 52,0 = 0.1190 0.0046 0.1824 0.0026 0.1259 -0.0005 0.0853 0.0021 0.0578 β 53,0 = 0.7127 0.0026 0.2630 -0.0050 0.1654 0.0038 0.1201 0.0012 0.0831 . . . . . . . . . . . . . . . . . . . . . . . . . . . β 98,0 = 0.1067 0.0041 0.1688 -0.0031 0.1115 0.0010 0.0762 -0.0002 0.0550 β 99,0 = 0.4588 0.0207 0.2643 0.0039 0.1788 0.0033 0.1232 0.0027 0.0888 β 100,0 = 0.3674 0.0056 0.1691 0.0032 0.1179 0.0009 0.0830 0.0004 0.0560 T 25 50 100 200 25 50 100 200 Parameter Size Power ψ i0 ψ 1,0 = 0.0244 0.0890 0.0810 0.0520 0.0590 0.1820 0.2200 0.3290 0.5480 ψ 2,0 = 0.0255 0.0705 0.0595 0.0555 0.0490 0.0945 0.0895 0.1495 0.2140 ψ 3,0 = 0.0397 0.0905 0.0745 0.0585 0.0575 0.1555 0.1895 0.2805 0.4450 . . . . . . . . . . . . . . . . . . . . . . . . . . . ψ 51,0 = 0.3927 0.0950 0.0645 0.0590 0.0535 0.1785 0.2625 0.3590 0.5810 ψ 52,0 = 0.3987 0.0850 0.0620 0.0625 0.0505 0.3050 0.4390 0.6285 0.8660 ψ 53,0 = 0.4004 0.0885 0.0785 0.0570 0.0585 0.1995 0.2490 0.3745 0.5800 . . . . . . . . . . . . . . . . . . . . . . . . . . . ψ 98,0 = 0.7695 0.0635 0.0630 0.0660 0.0610 0.3340 0.4755 0.6935 0.9145 ψ 99,0 = 0.7705 0.0300 0.0285 0.0370 0.0495 0.1455 0.2045 0.3095 0.5205 ψ 100,0 = 0.7904 0.0545 0.0570 0.0625 0.0505 0.3120 0.4665 0.6455 0.8845 β i0 β 1,0 = 0.1978 0.1160 0.0700 0.0610 0.0505 0.2405 0.3040 0.4380 0.7115 β 2,0 = 0.7060 0.1025 0.0580 0.0505 0.0545 0.1725 0.2095 0.2710 0.4510 β 3,0 = 0.4173 0.0950 0.0780 0.0550 0.0595 0.2450 0.3160 0.4655 0.7080 . . . . . . . . . . . . . . . . . . . . . . . . . . . β 51,0 = 0.9448 0.0910 0.0685 0.0590 0.0570 0.3260 0.4665 0.6500 0.8880 β 52,0 = 0.1190 0.0970 0.0800 0.0505 0.0440 0.3500 0.4840 0.7030 0.9150 β 53,0 = 0.7127 0.1075 0.0660 0.0665 0.0515 0.2420 0.3150 0.4410 0.6810 . . . . . . . . . . . . . . . . . . . . . . . . . . . β 98,0 = 0.1067 0.0960 0.0660 0.0530 0.0545 0.3950 0.5500 0.7605 0.9475 β 99,0 = 0.4588 0.0725 0.0615 0.0545 0.0595 0.2015 0.2775 0.4225 0.6415 β 100,0 = 0.3674 0.0935 0.0660 0.0695 0.0540 0.3605 0.5025 0.7255 0.9370 Notes: See notes to Table 1.</p><p>δ = -0.800, -0.791, . . . , 0.791, 0.800. We only consider values of ψ i that satisfy the condition |ψ i | &lt; 1. <ref type="foot" target="#foot_9">12</ref>The power results for the spatial parameters, ψ i0 , are displayed in Figures <ref type="figure" target="#fig_13">A4-A6</ref>, that correspond to the low value (ψ i0 = 0.3374), the medium value (ψ i0 = 0.5059) and the high value (ψ i0 = 0.7676), respectively. As to be expected the power depends on the choice of ψ i0 and rises with T , but does not seem to be affected by N . Furthermore, perhaps not surprisingly, empirical power functions for ψ i0 become more and more asymmetrical as ψ i0 's move closer and closer to the boundary value of 1. The power functions for the three associated values of β i0 are shown in Figures <ref type="figure" target="#fig_15">A8-A10</ref> for the low value of β i0 (β i0 = 0.0344), the medium value (β i0 = 0.4898), and the high value (β i0 = 0.9649), respectively. Again the empirical power functions are similar across N and improve with T .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.2">Small sample properties of the MG estimators</head><p>We employ the same data generating process, defined by (63), and set a i0 = a 0 + 1i , with a 0 = 1 and 1i ∼ IIDN (0, 1), ψ i0 = ψ 0 + 2i , with ψ 0 = 0.4 and 2i ∼ IIDU (-0.4, 0.4) and β i0 = β 0 + 3i , with β 0 = 0.5 and 3i ∼ IIDU (-0.5, 0.5). Parameters a 0 , ψ 0 and β 0 are fixed while parameters a i0 , ψ i0 and β i0 vary across replications, for i = 1, 2, . . . , N , in accordance to the random coefficients model. The MG estimators and their standard errors are computed using ( <ref type="formula" target="#formula_90">52</ref>), ( <ref type="formula" target="#formula_99">57</ref>) and ( <ref type="formula" target="#formula_102">59</ref>), and the number of replications is set to R = 2, 000. The small sample properties of the mean group estimators of ψ 0 and β 0 are summarized in Table <ref type="table">B</ref> of the online appendix E. The top panel gives the results for Gaussian errors, and the bottom panel for non-Gaussian errors. As to be expected the bias and RMSE of the MG estimators decline steadily with both N and T , and it does not matter whether the errors are Gaussian or not. There are some small size distortions when N = T = 25, but the size rapidly converges to the nominal value of 5 percent as N and T are increased. For example for T = 25 the size is always within the simulation standard errors when N ≥ 50.</p><p>6 Heterogeneous spatial spill-over effects in U.S. housing market As an empirical application we estimate HSAR models for real house price changes in the United States at Metropolitan Statistical Areas (MSAs) over the period 1975Q1-2014Q4. Accurately modelling and forecasting the housing market cycle is of paramount importance for prospective owners, investors, and real estate market participants such as insurers and mortgage lenders <ref type="bibr" target="#b0">(Agnello et al., 2015)</ref>. Determinants of US house price variations are numerous and well-documented in the literature, two prominent fundamentals being real per capita disposable income and population -see for example <ref type="bibr" target="#b36">Malpezzi (1999)</ref> and <ref type="bibr" target="#b19">Gallin (2006)</ref> among others. An important aspect of the modelling strategy is to account for the existence of co-movements in house prices within and across MSAs. Recently, <ref type="bibr" target="#b6">Bailey et al. (2016)</ref> (hereafter BHP) highlight the importance of distinguishing between types of cross-sectional dependence in the analysis of US house price changes, which if ignored can lead to biased parameter estimates. See, for example, the studies by <ref type="bibr" target="#b44">Swoboda et al. (2015)</ref> and <ref type="bibr" target="#b38">Munro (2018)</ref>. BHP distinguish between spatial dependence that originates from economy-wide common shocks such as changes in interest rates, oil prices and technology, and the dependence across MSAs due to local spill-over effects arising from differences in house prices, incomes and demographics across MSAs. <ref type="foot" target="#foot_10">13</ref> Here, we use an extended version of the panel dataset employed by BHP and further augmented with population and per capita real income data by <ref type="bibr" target="#b48">Yang (2018)</ref> to estimate HSAR models, after filtering out the effects of common factors on house price changes. <ref type="foot" target="#foot_11">14</ref> We provide MSA specific estimates of spill-over effects, as well as population and income elasticities of house prices as compared to the homogeneous spatial parameter estimates obtained in <ref type="bibr" target="#b48">Yang (2018)</ref>. To compare our individual estimates with those of Yang, we also report MG estimates both at the national and regional levels. As we shall see, we find considerable heterogeneity across MSAs and regions.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.1">Data description and transformations</head><p>The U.S. Office of Management and Budget (OMB) delineates metropolitan statistical areas (MSAs) according to published standards that are applied to Census Bureau data. These are revised periodically. A total of 381 MSAs fall under the February 2013 definition. <ref type="foot" target="#foot_12">15</ref> We consider 377 of these from the contiguous United States. <ref type="foot" target="#foot_13">16</ref> Accordingly we compile quarterly nominal house prices (HP ) for 377 MSAs over the period 1975Q1-2014Q4. In addition, we obtained nominal income per capita (IN C) and population (P OP ) at the MSA level over the same period. Both real house prices and real per capita income for all MSAs are then computed by deflating their nominal values by State level Consumer Price Index data (CP I) which are matched to the corresponding MSAs. <ref type="foot" target="#foot_14">17</ref> Further details on data sources can be found in the online appendix D.</p><p>We denote the variables that are included in our model by: Π it for percent quarterly rate of change of real house prices of MSA i in quarter t (dependent variable), GP OP it for percent quarterly rate of change of population (regressor), and GIN C it for percent quarterly rate of change in real per capita income (regressor).</p><p>Specifically, Π it = 100 × ln HP it CP I it -ln HP it-1 CP I it-1 , GP OP it = 100 × [ln (P OP it ) -ln (P OP it-1 )] , and GIN C it = 100 × ln IN C it CP I it -ln IN C it-1 CP I it-1 , for i = 1, 2, . . . , N and t = 1, 2, . . . , T (1975Q1 -2014Q4), where N = 377 MSAs, and T = 160 quarters.</p><p>Implementation of our approach requires the panel of variable Π it to be weakly crosssectionally dependent by Assumption 4. Hence, we apply the CD test developed in <ref type="bibr" target="#b40">Pesaran (2004</ref><ref type="bibr" target="#b41">Pesaran ( , 2015) )</ref> to Π it in order to assess the strength of cross-sectional dependence (CSD) in real house price changes. The CD statistic turns out to be 1621.22 which is substantially higher than the 1.96 critical value at 5 per cent level. With the null hypothesis of weak CSD soundly rejected, we then estimated the exponent of cross-sectional dependence, α, due to <ref type="bibr" target="#b6">Bailey et al. (2016)</ref> which measures the degree of cross sectional dependence of house price changes. Values of α close to unity are indicative of strong cross-sectional dependence. We obtained α = 1.001(0.03), where the standard error of the estimate is given in brackets. It is clear that real house prices changes, Π it , are strongly correlated across MSAs, and before estimating local spill-over effects using the HSAR model, we must first purge the house price inflation series of the common sources of their dependence, as suggested in BHP.</p><p>Accordingly, we de-seasonalize and de-factor the three variables that we use to estimate the HSAR specifications, and use residuals from OLS regressions of Π it , GP OP it and GIN C it on: (i) an intercept, (ii) 3 quarterly dummies and (iii) national and regional cross-sectional averages of Π it , GP OP it and GIN C it respectively. <ref type="foot" target="#foot_15">18</ref> We denote these de-seasonalized and de-factored variables by π it , gpop it and ginc it , respectively. <ref type="foot" target="#foot_16">19</ref> The CD statistic for the filtered series π it now stands at -0.200, which is not statistically significant and π it satisfy the condition of weak cross-section dependence required when estimating HSAR models.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.2">Modelling de-factored house price changes</head><p>We now consider the following HSAR specification for π it :</p><formula xml:id="formula_121">π it = a i + ψ i N j=1 w ij π jt + β pop 1i gpop it + β pop 2i gpop i,t-1 + β inc 1i ginc it + β inc 2i ginc i,t-1 + ε it , (<label>67</label></formula><formula xml:id="formula_122">)</formula><p>which allows for fixed effects and full heterogeneity in both the spatial coefficients of real house price changes (ψ i ), and the slope coefficients for the two regressors and their lagged values (β pop 1i , β pop 2i , β inc 1i , β inc 2i ). Innovations are assumed to be distributed as ε it ∼ IID 0, σ 2 iε .<ref type="foot" target="#foot_17">foot_17</ref> (67) is in accordance with the theoretical model (1) analyzed in Sections 2 and 3. <ref type="foot" target="#foot_18">21</ref> With regard to the construction of the weights matrix W = (w ij ), we consider a distance based weighting scheme implemented in <ref type="bibr" target="#b48">Yang (2018)</ref>, which is common in the spatial econometrics literature. More precisely, the calculation of the geodesic distance between each pair of latitude/longitude coordinates for the MSAs included in our sample uses the Haversine formula. Then, we determine a specific radius threshold, d (miles), within which MSAs are considered to be neighbors. In this case, the relevant entries in the un-normalized weights matrix W 0 are set to unity. The MSAs that fall outside this radius are labelled non-neighbors and their corresponding entries in W 0 are set to zero. Finally, we row-normalize W 0 and obtain W which is used in (67).</p><p>We consider three versions of W constructed with the radius threshold values of d = 75, 100 and 125, miles. We name the adjacency matrices W 75 , W 100 and W 125 , respectively. For brevity of exposition, in what follows we focus on the version of (67) that uses W 75 which gives a reasonably sparse weight matrix with 0.88% non-zero elements. Other types of weighting schemes can also be entertained. For example, BHP consider two separate adjacency matrices determined by the statistically positive and negative pairwise correlations of de-factored real house price changes. Another scheme is proposed by <ref type="bibr" target="#b51">Zhou et al. (2017)</ref> who use a samplebased adjacency matrix to approximate the true network structure by focusing on an estimation framework that incorporates just the degree (number of connections) of each unit in the network. Since our primary focus is on the estimation of heterogeneous spatial coefficients, we do not consider such alternative weigh matrices, which can be easily pursued if needed.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.3">Estimation results</head><p>First we present the estimates of individual spatial effects by MSA. Note that when using adjacency matrix W 75 in (67) there are 39 out of the total 377 MSAs that are completely isolated (have no neighbors) and are thus excluded from the analysis. This leaves us with a reduced sample of N = 338 MSAs. For ease of exposition the individual spatial lag coefficient estimates for these 338 MSAs are displayed in Figure <ref type="figure" target="#fig_2">1</ref>. Each estimate, ψi , is matched to its corresponding MSA on the map of the U.S.. MSAs colored in blue depict positive spatial lag coefficients, with different shades of blue corresponding to differing ranges within which each ψi falls: lighter shades refer to ranges closer to zero while darker shades relate to spatial lag coefficient estimates closer to the boundary value of unity. Similarly, red areas are associated with negative spatial lag coefficient estimates, with the lighter shade of red indicating ψi falling in ranges closer to zero while darker red areas refer to more sizable spatial coefficient estimates in absolute terms. <ref type="foot" target="#foot_19">22</ref>It is evident from Figure <ref type="figure" target="#fig_2">1</ref> that spatial coefficients are estimated to be predominantly positive and in general relatively sizeable. Indeed, 255 MSAs have positive spatial lag coefficients of which 226 are statistically significant. This points to the existence of important spill-over effects in the U.S. housing market even when the influence of national (common) factors are filtered out. It is easy to show spill-over effects in house price changes across MSAs without de-factoring, but such evidence suffers from the conjunctions of national and local influences, and can be misleading. The spatial display of the estimates in Figure <ref type="figure" target="#fig_2">1</ref> shows how the strength of local spill-over effects changes as we move from the sparsely populated areas in the middle of the US (Plains, Rocky Mountains and South West), and towards the two coastal areas (South East, Mid East and Far West) which have a much higher population density. ψ ^i (-1,-0.75] (-0.75,-0.5] (-0.5,-0.25] (-0.25,0] (0,0.25] (0.25,0.5] (0.5,0.75] (0.75,1) Non-Conv No-Neigh Notes: Each ψi is mapped to a Metropolitan Statistial Area (MSA) in the U.S.. A total of 338 MSAs are included in model (67). MSAs coloured in blue correspond to positive spatial parameter estimates while MSAs coloured in red match to negative spatial parameter estimates. Darker shades of blue or red indicate more sizable ψi while lighter shades related to ψi closer to zero in absolute terms. Category 'Non-conv' includes MSAs whose ψi estimates hit the upper/lower bound in the optimisation procedure, while category 'No-Neigh' includes MSAs that have no neighbours when using W 75.</p><p>Similar differences can also be seen in the estimates of the elasticities of house price changes to population and real per capita income changes, as shown in Figures <ref type="figure" target="#fig_4">2(a</ref>) and 2(b). Focussing on contemporaneous effects, we observe that in 276 MSAs the population or income variables have a positive impact on house price changes, although the population effects tend to be more significant and sizeable. Of these, around two thirds tend to coincide with areas also reporting positive estimates for the spatial lag coefficients. Important examples of such MSAs include Seattle (Washington), San Francisco (California) or Boston (Massachusetts). <ref type="foot" target="#foot_20">23</ref> In contrast, the number of MSAs with negative estimates of the spatial lag coefficients is substantially lower, amounting to 39 of which only 11 are significantly different from zero. These are spread more evenly across the United States and correspond to economically less active areas in the U.S., such as Cheyenne (Wyoming), Coeur d'Alene (Idaho), Hot Springs (Arkansas), and Dothan (Alabama). It is also interesting that out of these 11 MSAs 7 have in fact experienced stagnant or declining population over our sample period, which could be the main reason behind the negative estimates of ψ i obtained for these MSAs. One can extend the analysis further by computing marginal direct as well as spill-in and spill-out indirect effects of each explanatory variable on changes in real house prices, as discussed in <ref type="bibr" target="#b32">LeSage and Chih (2016)</ref>. <ref type="foot" target="#foot_21">24</ref>The heterogeneity in spatial effects and the population and income elasticities across the U.S. can be seen even if we average the estimates across different regions in the U.S.. Table <ref type="table" target="#tab_0">3</ref> reports the mean group estimates of the parameters grouped by six regions. We started with the standard eight regional classification, but combined New England and the Mid East, and South West and Rocky Mountains to ensure a reasonable number of MSAs (N r in Table <ref type="table" target="#tab_0">3</ref>) per region. The MG estimates of the spatial lag coefficients are quite close for Great Lakes, South East and Far West (in the range 0.573 to 0.599), but differ markedly from the other three regions, namely New England &amp; Mid East, Plains, and South West &amp; Rocky Mountains, once again largely reflecting the different degrees of population density across the U.S.. We notice even larger differences in the MG estimates of population and real income variables across the regions, with much larger estimates for the effects of population changes on house prices as compared to income changes. For the U.S. as a whole, the MG estimate of the spatial effects amount to 0.509 (0.025) which points to the existence of non-negligible spatial dynamics in the U.S. even after conditioning on factors that generate strong spatial correlation between disaggregate house price fluctuations. This result is comparable though slightly lower than the homogeneous estimates of 0.643 (0.005) and 0.612 (0.003) obtained in Yang (2018) using the GMM and MLE approaches, respectively. Finally, the MG estimates of the contemporaneous effects of population and income variables for the U.S. as a whole are 0.446 (0.047) and 0.092 (0.009), respectively. The associated estimates for the lagged values of these variables are 0.155 (0.032) and 0.027 (0.007), all of which are statistically significant, and economically sizeable.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="7">Conclusion</head><p>Standard spatial econometric models assume a single parameter to characterize the intensity or strength of spatial dependence across all units. In the case of pure cross section models or panel data models with a short time dimension, this assumption is inevitable. However, in a data rich environment where both the time (T ) and cross section (N ) dimensions are large, this can be relaxed. This paper investigates a spatial autoregressive panel data model with fully heterogeneous spatial parameters (HSAR) where the spatial dependence can arise directly through contemporaneous dependence of individual units on their neighbors, and indirectly through possible cross-sectional dependence in the regressors.</p><p>The asymptotic properties of the quasi maximum likelihood estimator are analyzed assuming a sparse spatial structure with each individual unit having at least one connection. Conditions under which the QML estimator of spatial parameters are consistent and asymptotically normal are derived. It is also shown that under certain conditions on spatial coefficients and the spatial weights, the asymptotic properties of the individual estimates are not affected by the size of cross section dimension N . An estimator of the cross section mean of the individual parameters (MG estimators) is also analyzed which can be used for comparisons with outcomes from standard homogeneous SAR models. It is shown that MG estimators are consistent and asymptotically normal as N and T → ∞, jointly, so long as √ N /T → 0, and the spatial dependence is sufficiently weak. Monte Carlo simulation results provided are supportive of the theoretical findings. As an application of the HSAR model we investigate the potential heterogeneity in spatial spill-over effects in the U.S. housing market across the 338 MSAs included in our sample.</p><p>upon request. β ^1i pop &lt;-1.5 (-1.5,-1] (-1,-0.5] (-0.5,0] (0,0.5] (0.5,1] (1,1.5] &gt;1.5 Non-Conv No-Neigh (a) Population growth β ^1i inc &lt;-0.3 (-0.3,-0.2] (-0.2,-0.1] (-0.1,0] (0,0.1] (0.1,0.2] (0.2,0.3] &gt;0.3 Non-Conv No-Neigh (b) Real income growth Notes: Each βpop 1i and βinc 1i is mapped to a Metropolitan Statistial Area (MSA) in the U.S.. A total of 338 MSAs are included in model (67). MSAs coloured in blue correspond to positive slope parameter estimates while MSAs coloured in red match to negative slope parameter estimates. Darker shades of blue or red indicate more sizable βpop 1i and βinc 1i while lighter shades related to βpop 1i and βinc 1i closer to zero in absolute terms. Category 'Non-conv' includes MSAs whose ψi estimates hit the upper/lower bound in the optimisation procedure, while category 'No-Neigh' includes MSAs that have no neighbours when using W 75. Notes: * p &lt; 0.1, † p &lt; 0.05, ‡ p &lt; 0.01. Non-parametric robust standard errors in parentheses (see below). For r = 1, . . . , 6, ψMG,r = N -1 r i∈Ir ψi , and s.e.( ψMG,r ) = [N r (N r -1)] -1 i∈Ir ( ψi -ψMG,r ) 2 , where I r is the set of units belonging to region r, I r = {i : i is in region r}, and N r is the number of units per region, N r = #(I r ). New England (8 MSAs) and Mid East (31 MSAs) as well as South West (22 MSAs) and Rocky Mountains (15 MSAs) have been merged in order to obtain a sufficiently large number of MSAs in the two broader regions. For the U.S. as a whole: ψMG,US = N -1 N i=1 ψi , and s.e.( ψMG,US ) = [N (N -1)] -1 N i=1 ( ψi -ψMG,US ) 2 . The MGE of coefficient estimates of house price changes to population and real income changes ( βpop 1i , βpop 2i , βinc 1i and βinc 2i ) are computed similarly. The computations of all MG estimates exclude the MSAs whose spatial lag coefficients hit the upper/lower bound in the optimisation procedure.</p><p>The methods developed in this paper can be extended to consider cases where the spatial parameter corresponding to each neighbor of unit i is estimated distinctly, as well as to the case of hierarchical panel data models where spatial parameters are assumed to be the same within regions (groups) but allowed to differ across regions or groups.</p><p>Online Supplement for Estimation and Inference for Spatial Models with Heterogeneous Coefficients: An Application to U.S. House Prices and</p><formula xml:id="formula_123">G (ψ) 1 ≤ W 1 + W 2 1 Ψ 1 + W 3 1 Ψ 2 1 + . . . . But Ψ s 1 = [sup i |ψ i |] s</formula><p>, and under condition (8) we have sup</p><formula xml:id="formula_124">i |ψ i | W 1 &lt; 1. Hence, G (ψ) 1 ≤ W 1 1 1 -sup i |ψ i | W 1 . Similarly, G (ψ) ∞ ≤ W ∞ 1 1 -sup i |ψ i | W ∞ .</formula><p>The boundedness of column and row matrix norms of G (ψ) now follow since, under Assumption 4, W 1 and W ∞ are bounded, 1 -sup</p><formula xml:id="formula_125">i |ψ i | W 1 &gt; 0, and 1 -sup i |ψ i | W ∞ &gt; 0. Finally, (A.4) follows since G (ψ) G (ψ) 1 = max 1≤j≤N N i=1 |g ij g ji | ≤ max 1≤j≤N sup j |g ij | N i=1 |g ji | &lt; K,<label>and</label></formula><formula xml:id="formula_126">G (ψ) G (ψ) ∞ = max 1≤i≤N   N j=1 |g ij g ji |   ≤ max 1≤i≤N   sup i |g ij | N j=1 |g ji |   &lt; K, from (A.3).</formula><p>Lemma 3 Consider the average log-likelihood function of (4):</p><formula xml:id="formula_127">lT (θ) = T -1 ℓ T (θ) = - N T 2 ln(2π) - T 2 N i=1 ln σ 2 i + T 2 ln |V(ψ)| (A.5) - 1 2 T t=1 [S(ψ)y •t -Bx •t ] Σ -1 [S(ψ)y •t -Bx •t ] , where θ = (ψ , β , σ 2 ) , B is given in (5), lT (θ) = T -1 ℓ T (θ) and ℓ T (θ) is defined by (7). Also, V (ψ) = S (ψ)S(ψ). Denote the true parameter vector of θ by θ 0 = (ψ 0 , β 0 , σ 2 0 ) which lies in the interior of Θ = Θ ψ × Θ β × Θ σ ⊂ R N × R N k × R N . Then, under Assumptions 1 and 2 we have lT (θ 0 ) -lT (θ) a.s. → E 0 lT (θ 0 ) -lT (θ) , (A.6)</formula><p>where E 0 represents expectations taken under θ = θ 0 .</p><p>Proof. Let Q T (θ 0 , θ) = lT (θ 0 ) -lT (θ), and evaluating (A.5) at θ = θ 0 , note that</p><formula xml:id="formula_128">Q T (θ 0 , θ) = - 1 2 N i=1 ln σ 2 i0 /σ 2 i + 1 2 ln |V (ψ 0 ) | |V (ψ) | (A.7) - 1 2 1 T T t=1 [S(ψ 0 )y •t -B 0 x •t ] Σ -1 0 [S(ψ 0 )y •t -B 0 x •t ] + 1 2 1 T T t=1 [S(ψ)y •t -Bx •t ] Σ -1 [S(ψ)y •t -Bx •t ] ,</formula><p>where, by Remark 6, λ min [V (ψ)] &gt; 0 and</p><formula xml:id="formula_129">λ max [V (ψ)] &lt; K, so that |V (ψ) | = |S (ψ)S(ψ)| = |S(ψ)| 2 .</formula><p>Also, by first taking conditional expectations with respect to F t , and then taking expectations with respect to x •t , we have</p><formula xml:id="formula_130">T t=1 E 0 tr y •t S (ψ)Σ -1 S(ψ)y •t = T tr S (ψ)Σ -1 S(ψ)Σ y0 , T t=1 E 0 tr y •t S (ψ)Σ -1 Bx •t = T tr Σ -1 BΣ xx B 0 S -1 0 S (ψ) , T t=1 E 0 tr x •t B Σ -1 Bx •t = T tr Σ -1 BΣ xx B ,</formula><p>and hence</p><formula xml:id="formula_131">1 T T t=1 E 0 [S(ψ)y •t -Bx •t ] Σ -1 [S(ψ)y •t -Bx •t ] =      tr S (ψ)Σ -1 S(ψ)Σ y0 -2 tr Σ -1 BΣ xx B 0 S -1 0 S (ψ) + tr Σ -1/2 BΣ xx B Σ -1/2      .</formula><p>Using the above results in (A.7) we now obtain</p><formula xml:id="formula_132">E 0 [Q T (θ 0 , θ)] = E 0 lT (θ 0 ) -lT (θ) = - 1 2 N i=1 ln σ 2 i0 /σ 2 i - N 2 + 1 2 ln |V (ψ 0 ) | |V (ψ) | + 1 2 tr P(θ)P -1 (θ 0 ) + 1 2 tr Σ -1/2 S(ψ)S -1 0 B 0 -B Σ xx S(ψ)S -1 0 B 0 -B Σ -1/2 , where |V (ψ 0 ) | |V (ψ) | = |S(ψ 0 )| 2 |S(ψ)| 2 = S(ψ 0 )S -1 (ψ) 2 = S(ψ)S -1 (ψ 0 ) -2 , tr P (θ) P -1 (θ 0 ) = tr S (ψ)Σ -1 S(ψ)S -1 (ψ 0 )Σ 0 S -1 (ψ 0 ) = tr Σ -1/2 S(ψ)S -1 (ψ 0 )Σ 0 S -1 (ψ 0 )S (ψ)Σ -1/2 ,</formula><p>and P (θ) = S (ψ)Σ -1 S(ψ). To establish (A.6) we show that</p><formula xml:id="formula_133">Q T (θ 0 , θ) -E 0 [Q T (θ 0 , θ)] a.s. → 0. (A.8)</formula><p>To this end we note that under (4),</p><formula xml:id="formula_134">1 T T t=1 [S(ψ 0 )y •t -B 0 x •t ] Σ -1 0 [S(ψ 0 )y •t -B 0 x •t ] = 1 T T t=1 ζ •t ζ •t ,</formula><p>where</p><formula xml:id="formula_135">ζ •t = (ζ 1t , ζ 2t , . . . , ζ N t ) ∼ IID(0, I N ), ζ it = ε it /σ i0 , for i = 1, 2, . . . , N . Also, 1 2 1 T T t=1 [S(ψ)y •t -Bx •t ] Σ -1 [S(ψ)y •t -Bx •t ] = 1 2 1 T T t=1 ε •t S -1 (ψ 0 )P (θ) S -1 (ψ 0 )ε •t + 1 2 1 T T t=1 Σ -1/2 S(ψ)S -1 0 B 0 -B x •t Σ -1/2 S(ψ)S -1 0 B 0 -B x •t + 1 T T t=1 x •t S(ψ)S -1 0 B 0 -B Σ -1 S(ψ)S -1 0 ε •t .</formula><p>Using the above results in (A.7) and after some simplifications we have</p><formula xml:id="formula_136">Q T (θ 0 , θ) -E 0 [Q T (θ 0 , θ)] = - 1 2 1 T T t=1 z 1t,N (θ 0 ) + 1 2 1 T T t=1 z 2t,N (θ) (A.9) + 1 2 1 T T t=1 z 3t,N (θ 0 , θ) + 1 2 1 T T t=1 z 4t,N (θ) ,<label>where</label></formula><formula xml:id="formula_137">z 1t,N (θ 0 ) = ζ •t ζ •t -N = N i=1 ζ 2 it -1 , (A.10) z 2t,N (θ) = ε •t S -1 (ψ 0 )P (θ) S -1 (ψ 0 )ε •t -E 0 ε •t S -1 (ψ 0 )P (θ) S -1 (ψ 0 )ε •t (A.11) = ζ •t A (θ 0 , θ) ζ •t -tr [A (θ 0 , θ)] , in which A (θ 0 , θ) = Σ 1/2 0 S -1 (ψ 0 )P (θ) S -1 (ψ 0 )Σ 1/2 0 , z 3t,N (θ 0 , θ) = x •t B (θ 0 , θ) x •t -tr [B (θ 0 , θ) Σ xx ] , (A.12) in which B (θ 0 , θ) = S(ψ)S -1 0 B 0 -B Σ -1 S(ψ)S -1 0 B 0 -B ,<label>and</label></formula><formula xml:id="formula_138">z 4t,N (θ) = x •t S(ψ)S -1 0 B 0 -B Σ -1 S(ψ)S -1 0 ε •t . (A.13)</formula><p>We establish that each z jt,N , j = 1, 2, 3, 4 is a martingale difference process with finite second order moments. Starting with z 1t,N (θ 0 ), we have that under Assumption 1, sup it E |ζ it | 4+ &lt; K, for some &gt; 0.</p><p>Then the elements in (A.10) are L 2 bounded, in the sense that sup it E ζ 2 it -1 2 &lt; K, and 1 T T t=1 ζ 2 it -1 a.s. → 0, (A.14) for a given N and as T → ∞. Consider now (A.11), and note that z 2t,N (θ) is serially independent (over t), and has mean zero. Under our assumptions (see Assumption 1, Remarks 4 and 6)</p><formula xml:id="formula_139">A (θ 0 , θ) 1 &lt; K, and A (θ 0 , θ) ∞ &lt; K. (A.15)</formula><p>Further, note that z 2t,N is a de-meaned quadratic form in ζ it and Theorem 1 of <ref type="bibr" target="#b26">Kelejian and Prucha (2001)</ref> applies to z 2t,N . Denote the (i, j) element of A (θ 0 , θ), by a ij , and note that a ij = a ji . Then using (3.2) in <ref type="bibr" target="#b26">Kelejian and Prucha (2001)</ref>, we have (recall that</p><formula xml:id="formula_140">E ζ 2 it = 1) V ar [z 2t,N (θ)] = V ar ζ •t A (θ 0 , θ) ζ •t = 4 N i=1 i-1 j=1 a 2 ij + N i=1 a 2 ii E ζ 4 it -1 . But N i=1 i-1 j=1 a 2 ij ≤ N i=1 N j=1 a 2 ij = tr A (θ 0 , θ) A (θ 0 , θ) = [ A (θ 0 , θ) F ] 2 ,</formula><p>and using (A.15),</p><formula xml:id="formula_141">A (θ 0 , θ) F ≤ A (θ 0 , θ) 1 A (θ 0 , θ) ∞ &lt; K. Hence, N i=1 a 2 ii &lt; K and N i=1 i-1 j=1 a 2 ij &lt; K. Furthermore, N i=1 a 2 ii E ζ 4 it -1 &lt; sup it E ζ 4 it -1 N i=1 a 2 ii ,</formula><p>and under Assumption 1, sup it E ζ 4 it &lt; K, and hence V ar [z 2t,N (θ)] &lt; K. Further, since z 2t,N (θ) are independently distributed over t, then we have (see, for example, White ( <ref type="formula">1984</ref></p><formula xml:id="formula_142">)) 1 T T t=1 z 2t,N (θ) a.s. → 0. (A.16) Next, using (A.12), 1 T T t=1 z 3t,N (θ) = tr B (θ 0 , θ) T -1 T t=1 x •t x •t -tr [B (θ 0 , θ) Σ xx ] = tr B (θ 0 , θ) T -1 T t=1 x •t x •t -Σ xx ,<label>But</label></formula><p>by Assumption 2(b) and (c) we have that E (x •t x •t -Σ xx |F t ) = 0, and T -1 T t=1 x •t x •t a.s. → Σ xx , as T → ∞, which establishes that T -1 T t=1 z 3t,N (θ) a.s.</p><p>→ 0, as required. Finally, using (A.13),</p><formula xml:id="formula_143">1 T T t=1 z 4t,N (θ) = tr S(ψ)S -1 0 B 0 -B Σ -1 S(ψ)S -1 0 T -1 T t=1 ε •t x •t .</formula><p>But by Assumption 2(a), we have that <ref type="bibr" target="#b46">White (1984)</ref>). Finally, (A.8) and (A.6) follow similarly.</p><formula xml:id="formula_144">E (ε •t x •t |F t ) = 0 and E (|ε •t x •t | p | F t ) ≤ E (|ε •t | p |x •t | p | F t ) , for p = 2, which is bounded. Hence, T -1 T t=1 ε •t x •t a.s. → 0, as T → ∞ and 1 T T t=1 z 4t,N (θ) a.s. → 0. (see, for example,</formula><formula xml:id="formula_145">Lemma 4 Let η it = σ -1 i0 e i,N G 0 B 0 x •t ζ it + σ -1 i0 e i,N G 0 Σ 1/2 0 ζ •t ζ it -g 0,ii , (A.17)</formula><p>where</p><formula xml:id="formula_146">G 0 = W (I N -Ψ 0 W ) -1 = (g 0,ij</formula><p>) and e i,N is an N dimensional vector with its i th element unity and zeros elsewhere, and</p><formula xml:id="formula_147">ζ •t = (ζ 1t , ζ 2t , . . . , ζ N t ) = (ε 1t /σ 10 , ε 2t /σ 20 , . . . , ε N t /σ N 0 )</formula><p>. Then under Assumptions 1 and 2, η it is a martingale difference process with respect to the filtration,</p><formula xml:id="formula_148">F t = (x •t , x •t-1 , x •t-2 , . . .), namely E (η it |F t ) = 0,<label>and</label></formula><formula xml:id="formula_149">sup i,t E |η it | p &lt; K, for 1 ≤ p ≤ 2 + c, and some c &gt; 0. (A.18) Proof. We first recall that E (ζ t |F t ) = 0, and hence E (ζ t ) = 0. Also E (ζ •t ζ it ) = e i,N and V ar(ζ •t ) = I N . Now under Assumption 1 it follows that E (η it |F t ) = E σ -1 i0 e i,N G 0 B 0 x •t ζ it |F t + E σ -1 i0 e i,N G 0 Σ 1/2 0 ζ •t ζ it |F t -g 0,ii = 0 + g 0,ii -g 0,ii = 0,</formula><p>and establishes that η it is a martingale difference process with respect to F t , as required. To establish (A.18), since ζ it = ε it /σ i0 then by Minkowski's inequality for p ≥ 1 we have:</p><formula xml:id="formula_150">η it p ≤ σ -2 i0 ϕ i x •t ε it p + σ -1 i0 ϑ i ζ •t ζ it p + |g 0,ii | ,<label>(A.19)</label></formula><p>where</p><formula xml:id="formula_151">ϕ i = e i,N G 0 B 0 , ϑ i = e i,N G 0 Σ 1/2 0 = (g i1 σ 10 , g i2 σ 20 , . . . , g iN σ N 0 )</formula><p>, and |g 0,ii | &lt; K. Consider now the first term of (A.19), and note that since conditional on F t , ϕ i x •t is given, and noting that by Assumption 1</p><formula xml:id="formula_152">E (|ε it | p |F t ) = ip &lt; K, then ϕ i x •t ε it p p = E E ϕ i x •t ε it p | F t ≤ E ϕ i x •t p |E (|ε it | p | F t ) = E ϕ i x •t p ip ,</formula><p>and hence</p><formula xml:id="formula_153">ϕ i x •t ε it p ≤ 1/p ip ϕ i x •t p . Also ϕ i x •t p = N j=1 g ij,0 β j0 x jt p ≤ N j=1 |g ij,0 | β j0 x jt p ≤ sup j,t E β j0 x jt p N j=1 |g ij,0 | .</formula><p>The first term on the right hand side is bounded by Assumption 2(a), for p ≤ 2 + c, and sup i N j=1 |g ij,0 | is bounded by Lemma 2. Hence, sup i,t ϕ i x •t p &lt; K , and overall we have sup i,t ϕ i x •t ε it p &lt; K. Consider now the second term of <ref type="bibr">(A.19)</ref> and note that</p><formula xml:id="formula_154">ϑ i ζ •t ζ it p ≤ N j=1 g ij,0 σ j0 ζ jt ζ it p ≤ 1 σ i0 N j=1 |g ij,0 | |ε jt ε it | p = 1 σ i0 N j=1 |g ij,0 | [E |ε jt ε it | p ] 1/p .</formula><p>But sup i (1/σ i0 ) &lt; K by Assumption 1, and using Cauchy-Schwarz inequality we obtain<ref type="foot" target="#foot_22">foot_22</ref> </p><formula xml:id="formula_155">ϑ i ζ •t ζ it p ≤ K N j=1 |g ij,0 | E ε 2p jt 1/2p E ε 2p it 1/2p ≤ K sup i,t E ε 2p it 1/p N j=1 |g ij,0 | . Again sup i N j=1 |g ij,0 | &lt; K under</formula><p>Lemma 2 , and E ε 2p it &lt; K for 2p = 4 + under Assumption 1, and hence ϑ i ζ •t ζ it p &lt; K. Using this result together with sup i,t ϕ i x •t ε it p &lt; K (established above) in (A.19) now yields (A.18) by setting c = 2 . Lemma 5 Let</p><formula xml:id="formula_156">ℓ t (θ) = - N 2 ln(2π) - 1 2 N i=1 ln σ 2 i + 1 2 ln |V(ψ)| (A.20) - 1 2 [S(ψ)y •t -Bx •t ] Σ -1 [S(ψ)y •t -Bx •t ] ,</formula><p>where V(ψ) = S (ψ)S(ψ), and note that the log-likelihood function is given by</p><formula xml:id="formula_157">ℓ T (θ) = T t=1 ℓ t (θ) = - N T 2 ln(2π) - T 2 N i=1 ln σ 2 i + T 2 ln |V(ψ)| - 1 2 T t=1 [S(ψ)y •t -Bx •t ] Σ -1 [S(ψ)y •t -Bx •t ] ,</formula><p>(see also ( <ref type="formula" target="#formula_8">7</ref>)) which can be written equivalently as</p><formula xml:id="formula_158">ℓ T (θ) = - N T 2 ln(2π) - T 2 N i=1 ln σ 2 i + T 2 ln |V(ψ)| (A.21) - 1 2 N i=1 (y i• -ψ i y * i• -X i• β i ) (y i• -ψ i y * i• -X i• β i ) σ 2 i ,</formula><p>where</p><formula xml:id="formula_159">y i• = (y i1 , y i2 , . . . , y iT ) and y * i• = (y * i1 , y * i2 , . . . , y * iT ) are T × 1 vectors, and X i• = (x i1 , x i2 , . . . , x iT )</formula><p>is the T × k matrix of observations on regressors specific to the i th cross section unit. Suppose that Assumptions 1, 2, 4 and 5, and conditions ( <ref type="formula" target="#formula_28">21</ref>) and ( <ref type="formula" target="#formula_48">28</ref> and</p><formula xml:id="formula_160">T -1/2 s T (θ 0 ) → d N [0, J (θ 0 , γ)] ,<label>(A.23)</label></formula><p>where</p><formula xml:id="formula_161">J (θ 0 , γ) = (J 0,ij ) = lim T →∞ T t=1 E 0 1 T ∂ℓ t (θ) ∂θ ∂ℓ t (θ) ∂θ (A.24)</formula><p>and γ = lim</p><formula xml:id="formula_162">T →∞ T -1 T t=1 E ζ 4 it -1 = lim T →∞ T -1 T t=1 V ar(ζ 2 it ), with ζ it ∼ IID(0, 1), ζ it = ε it /σ i0 , for i = 1, 2, . . . , N . A consistent estimator of J (θ 0 , γ) is given by Ĵ( θ, γ) = 1 T        T t=1 ∂ℓ t θ ∂θ     T t=1 ∂ℓ t θ ∂θ        ,</formula><p>where θ = arg max θ lT (θ) and</p><formula xml:id="formula_163">γ = (N T ) -1 T t=1 N i=1 εit σi 4 -1, with εit = y it -ψi N j=1 w ij y jt -β i x it .</formula><p>σi , βi and ψi are the QML estimators of σ i0 , β i0 and ψ i0 , respectively.</p><p>Proof. For a given N , the N (k + 2)×1 score vector s T (θ</p><formula xml:id="formula_164">0 ) = ∂ℓ T (θ 0 ) ∂ψ , ∂ℓ T (θ 0 ) ∂β , ∂ℓ T (θ 0 ) ∂σ 2 , where    ∂ℓ T (θ 0 ) ∂ψ ∂ℓ T (θ 0 ) ∂β ∂ℓ T (θ 0 ) ∂σ 2    N (k+2)×1 =      -T Diag (G 0 ) + Diag y * i• ε i• σ 2 i0 , i = 1, 2, . . . , N τ N Diag X i• ε i• σ 2 i0 , i = 1, 2, . . . , N τ N k Diag -T 2σ 2 i0 + 1 2σ 4 i0 (ε i• ε i• ) , i = 1, 2, . . . , N τ N      , (A.25) y * i• = (y * i1 , y * i2 , . . . , y * iT ), ε i• = (ε i1 , ε i2 , . . . , ε iT ), ε i• = y i• -ψ i0 y * i• -X i• β i0</formula><p>, and τ κ is a κ × 1 vector of ones. Consider first the i th component of ∂ℓ T (θ 0 ) /∂ψ, and note that it can be written as ∂ℓ T (θ 0 )</p><formula xml:id="formula_165">∂ψ i = -T g 0,ii + 1 σ 2 i0 T t=1 y * it ε it . Also y * it = e i,N G 0 (B 0 x •t + ε •t ), where G 0 = W (I N -Ψ 0 W ) -</formula><p>1 and e i,N is an N dimensional vector with its i th element unity and zeros elsewhere. Then 1 T ∂ℓ T (θ 0 ) ∂ψ i = 1 T T t=1 η it , (A.26) where η it is already defined by (A.19) which we write as</p><formula xml:id="formula_166">η it = σ -1 i0 ϕ i x •t ζ it + σ -1 i0 σ -1 i0 ϑ i ζ •t ζ it -g 0,ii , (A.27)</formula><p>and as in proof of Lemma 4, </p><formula xml:id="formula_167">ϕ i = e i,N G 0 B 0 , ϑ i = e i,N G 0 Σ 1/2 0 = (g i1 σ 10 , g i2 σ 20 , . . . , g iN σ N 0 ), ζ •t = (ζ 1t , ζ 2t , . . . , ζ N t )</formula><formula xml:id="formula_168">V ar (η it ) = E [V ar (η it | F t )] = σ -2 i0 g 0,i B 0 Σ xx B 0 g 0,i + σ -2 i0 N j=1 σ 2 j0 g 2 0,ij + g 2 0,ii E ζ 4 it -2 = σ -2 i0 N r=1 N s=1 g 0,is g 0,ir β r0 Σ rs β s0 + σ -2 i0 N j=1 σ 2 j0 g 2 0,ij + g 2 0,ii E ζ 4 it -2 . (A.<label>29</label></formula><p>) Consider now the limiting distribution of 1 √ T ∂ℓ T (θ 0 ) ∂ψ i = 1 √ T T t=1 η it , and note that by Lemma 4, sup i,t E |η it | 2+c &lt; K for some c &gt; 0, and by Corollary 5.25 in White (1984) it follows that 1 √ T ∂ℓ T (θ 0 ) ∂ψ i → d N (0, ω ii ) , as T → ∞, (A.30) where (using (A.29))</p><formula xml:id="formula_169">ω ii = lim T →∞ T -1 T t=1 V ar (η it ) = g 2 0,ii lim T →∞ T -1 T t=1 E ζ 4 it -2 + σ -2 i0 g 0,i B 0 Σ xx B 0 g 0,i + σ -2 i0 N j=1 σ 2 j0 g 2 0,ij ,</formula><p>which exists and is finite under Assumptions 1 and 2(b).</p><p>Similarly, consider the i th component of ∂ℓ T (θ 0 ) ∂β . Then, write</p><formula xml:id="formula_170">1 T ∂ℓ T (θ 0 ) ∂β i = 1 σ 2 i0 1 T T t=1 x it ε it = 1 σ i0 1 T T t=1 x it ζ it . (A.31) But by Assumption 2(a), E (x it ζ it | F t ) = (1/σ i0 ) x it E (ε it |F t ) = 0, and V ar (x it ζ it | F t ) = x it x it E ζ 2 it | F t = x it x it . Hence E (x it ζ it ) = 0, and V ar (x it ζ it ) = Σ ii &lt; K.</formula><p>Therefore, noting that x it ζ it is a martingale difference process with finite second-order moments, it follows that</p><p>1 T ∂ℓ T (θ 0 ) ∂β a.s. → 0, as T → ∞. (A.32) Denote the ℓ th element of x it ζ it by z iℓ,t = x iℓ,t ζ it for ℓ = 1, 2, . . . , k, and note that the ℓ th element of 1 √ T ∂ℓ T (θ 0 ) ∂β i is given 1 σ i0 1 √ T T t=1 z iℓ,t , where z iℓ,t is a martingale difference process with respect to F t . Also, by Assumptions 1 and 2(a), sup i,ℓ,t</p><formula xml:id="formula_171">E |z iℓ,t | p = sup i,ℓ,t E |x iℓ,t ζ it | p = sup i,ℓ,t E [E (|x iℓ,t ζ it | p |F t )] ≤ sup i,ℓ,t E [|x iℓ,t | p E (|ζ it | p |F t )] = sup i,ℓ,t (E |x iℓ,t | p ) σ -p i0 ip &lt; K,</formula><p>for p = 2 + c, c &gt; 0. Hence, by Corollary 5.25 in <ref type="bibr" target="#b46">White (1984)</ref> it follows that for each i and ℓ and as T → ∞, 1 σ i0 1 √ T T t=1 z iℓ,t tends to a normal distribution and as whole we have</p><formula xml:id="formula_172">1 √ T ∂ℓ T (θ 0 ) ∂β i → d N (0, Ω i ) , (A.33)</formula><p>where</p><formula xml:id="formula_173">Ω i = 1 σ 2 i0 lim T →∞ T -1 T t=1 E x it x it . (A.34)</formula><p>Finally, consider the i th component of ∂ℓ T (θ 0 ) ∂σ 2 , and note that Similarly, since sup i E |ξ it | 2+c &lt; K for some c &gt; 0, then as before</p><formula xml:id="formula_174">1 T ∂ℓ T (θ 0 ) ∂σ 2 i = 1 2σ 2 i0 1 T T t=1 ε 2 it σ 2 i0 -1 = 1 2σ 2 i0 1 T T t=1 ζ 2 it -1 . Let ξ it = ζ 2 it -1,where ζ it = ε it /σ i0 . Then 1 T ∂ℓ T (θ 0 ) ∂σ 2 i = 1 2σ 2 i0 1 T T t=1 ξ it . (A.35) We have E (ξ it | F t ) = E ζ 2 it | F t -1 = 0, and E ξ 2 it | F t = E ζ 4 it | F t -1,</formula><formula xml:id="formula_175">T -1/2 ∂ℓ T (θ 0 ) ∂σ 2 i → d N (0, v ii ), (A.37)</formula><p>where </p><formula xml:id="formula_176">v ii = lim T →∞ T -1 T t=1 1 4σ 4 i0 V ar(ξ it ) = 1 4σ 4 i0 lim T →∞ T -1 T t=1 V ar(ζ 2 it )</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Appendix B Proof of Proposition 2</head><p>Proof of Proposition 2. First, we consider the information matrix H (θ 0 ) given by</p><formula xml:id="formula_177">H (θ 0 ) = lim T →∞ E 0 - 1 T ∂ 2 ℓ T (θ) ∂θ∂θ , (B.39)</formula><p>where</p><formula xml:id="formula_178">E 0 - 1 T ∂ 2 ℓ T (θ) ∂θ∂θ =    H 11 H 12 H 13 H 12 H 22 H 23 H 13 H 23 H 33    N (k+2)×N (k+2)</formula><p>.</p><p>We evaluate each partial derivative in (B.39):</p><formula xml:id="formula_179">H 11 = E 0 -1 T ∂ 2 ℓ T (θ) ∂ψ∂ψ</formula><p>is given by the N × N matrix</p><formula xml:id="formula_180">H 11 = G 0 G 0 + Diag 1 σ 2 i0 1 T T t=1 E 0 y * 2 it , i = 1, 2, . . . , N ,</formula><p>where G 0 = W (I N -Ψ 0 W ) -1 with its i th row denoted by g 0i , and</p><formula xml:id="formula_181">1 T T t=1 E 0 y * 2 it = w i (I N -Ψ 0 W ) -1 B 0 E x •t x •t B 0 + Σ 0 (I N -W Ψ 0 ) -1 w i = g 0i B 0 Σ xx B 0 + Σ 0 g 0i = N r=1 N s=1 g 0,is g 0,ir β r0 Σ rs β s0 + N s=1 g 2 0,is σ 2 s0 .</formula><p>Note that as shown in Lemmas 2 and 5,</p><formula xml:id="formula_182">G 0 ∞ &lt; K, G 0 G 0 ∞ &lt; K and N r=1 N s=1 g 0,is g 0,ir β r0 Σ rs β s0 ∞ &lt; K. H 12 = E 0 -1 T ∂ 2 ℓ T (θ) ∂ψ∂β</formula><p>is an N × kN matrix with its i th row given by a 1 × kN vector of zeros except for its i th block which is given by the 1</p><formula xml:id="formula_183">× k vector σ -2 i0 E 0 (T -1 y * i X i ), namely H 12 =       σ -2 10 E 0 (T -1 y * 1 X 1 ) 0 • • • 0 0 σ -2 20 E 0 (T -1 y * 2 X 2 ) • • • 0 . . . . . . . . . . . . 0 0 • • • σ -2 N 0 E 0 (T -1 y * N X N )      </formula><p>, where</p><formula xml:id="formula_184">E 0 (T -1 y * i X i ) = E 0 T -1 T t=1 y * it x it = E 0 T -1 T t=1 w i y •t x it = w i (I N -Ψ 0 W) -1 BE x •t x it = g 0i (Σ i1 β 10 , Σ i2 β 20 , . . . , Σ iN β N 0 ) = N s=1 g 0,is β s0 Σ is .</formula><p>Again by Assumptions 2(b), 3 and 5, sup s β s0 1 and Σ is exist and are finite. Also, max i</p><formula xml:id="formula_185">N s=1 |g 0,is | = G 0 ∞ which is bounded under our assumptions. H 13 = E 0 -1 T ∂ 2 ℓ T (θ) ∂ψ∂σ 2</formula><p>is an N × N diagonal matrix with its i th element given by σ -2 i0 w i (I N -Ψ 0 W) -1 e i,N = σ -2 i0 g 0,ii , where e i,N is an N dimensional vector with its i th element unity and zeros elsewhere.</p><formula xml:id="formula_186">H 22 = E 0 -1 T ∂ 2 ℓ T (θ) ∂β∂β</formula><p>is an N k × N k block diagonal matrix with its i th block given by σ -2 i0 Σ ii . H 23 = 0, and finally</p><formula xml:id="formula_187">H 33 = E 0 -1 T ∂ 2 ℓ T (θ) ∂(σ 2 )∂(σ 2 ) = Diag(1/2σ 4</formula><p>10 , 1/2σ 4 20 , . . . , 1/2σ 4 N 0 ). Collecting all terms, we obtain (B.39). Next, recalling from Lemma 4 that</p><formula xml:id="formula_188">η it = σ -1 i0 ϕ i x •t ζ it + σ -1 i0 ϑ i ζ •t ζ it -g 0,ii ,</formula><p>where ϕ i = e i,N G 0 B 0 and ϑ i = e i,N G 0 Σ 1/2 0 , and using (A.26) and (A.29) of Lemma 5, we have the following cross-products (for i = j)</p><formula xml:id="formula_189">E 0 1 √ T ∂ℓ T (θ) ∂ψ i 1 √ T ∂ℓ T (θ) ∂ψ j = 1 T T t=1 T t =1 E 0 η it η jt = 1 T T t=1 T t =1 E σ -1 i0 ϕ i x •t ζ it + σ -1 i0 ϑ i ζ •t ζ it -g 0,ii σ -1 j0 ϕ j x •t ζ jt + σ -1 j0 ϑ j ζ •t ζ jt -g 0,jj = 1 T T t=1 E σ -1 i0 ϕ i x •t ζ it + σ -1 i0 ϑ i ζ •t ζ it -g 0,ii σ -1 j0 ϕ j x •t ζ jt + σ -1 j0 ϑ j ζ •t ζ jt -g 0,jj = 1 T T t=1 σ -1 i0 σ -1 j0 ϕ i E (x •t x •t ζ it ζ jt ) ϕ j + σ -1 i0 σ -1 j0 ϑ i E ζ it ζ jt ζ •t ζ •t ϑ j -g 0,ii g 0,jj +σ -1 i0 σ -1 j0 ϕ i E 0 x •t ζ •t ϑ j ζ it ζ jt +σ -1 j0 σ -1 i0 ϕ j E 0 x •t ζ •t ϑ j ζ jt ζ it =        g 2 0,ii 1 T T t=1 E ζ 4 it -2 + σ -2 i0 g 0,i B 0 Σ xx B 0 g 0,i +σ -2 i0 N j=1 σ 2 j0 g 2 0,ij , for i = j g 0,ij g 0,ji , , for i = j .</formula><p>Further, using (A.31) and (A.34) of Lemma 5 we have</p><formula xml:id="formula_190">E 0 1 √ T ∂ℓ T (θ) ∂β i 1 √ T ∂ℓ T (θ) ∂β j = 1 σ i0 σ j0 1 T T t=1 T t =1 E x it ζ it ζ jt x jt = 1 σ 2 i0 T T t=1 E (x it x it ) , for i = j 0, for i = j</formula><p>, and using (A.35) and (A.38) of Lemma 5 we have</p><formula xml:id="formula_191">E 0 1 √ T ∂ℓ T (θ) ∂σ 2 i 1 √ T ∂ℓ T (θ) ∂σ 2 j = 1 4σ 2 i0 σ 2 j0 1 T T t=1 T t =1 E ξ it ξ jt = 1 4σ 2 i0 σ 2 j0 1 T T t=1 T t =1 E ζ 2 it -1 ζ 2 jt -1 = 1 4σ 2 i0 σ 2 j0 1 T T t=1 E ζ 2 it ζ 2 jt -ζ 2 it -ζ 2 jt + 1 = 1 4σ 4 i0 T T t=1 E ζ 4 it -1 , for i = j 0, for i = j .</formula><p>In addition,</p><formula xml:id="formula_192">E 0 1 √ T ∂ℓ T (θ) ∂β i 1 √ T ∂ℓ T (θ) ∂ψ j = 1 σ i0 T T t=1 T t =1 E 0 (x it ζ it ) η jt = 1 σ i0 T T t=1 T t =1 E 0 x it ζ it σ -1 j0 ϕ j x •t ζ jt + σ -1 j0 ϑ j ζ •t ζ jt -g 0,jj = 1 σ i0 T T t=1 σ -1 j0 E 0 x it ϕ j x •t ζ it ζ jt + σ -1 j0 E 0 x it ζ it ϑ j ζ •t ζ jt -g 0,jj E (x it ζ it ) = σ -2 i0 g 0i (Σ i1 β 10 , Σ i2 β 20 , . . . , Σ iN β N 0 ) , for i = j 0, for i = j .</formula><p>Moreover,</p><formula xml:id="formula_193">E 0 1 √ T ∂ℓ T (θ) ∂σ 2 i 1 √ T ∂ℓ T (θ) ∂ψ j = 1 2σ 2 i0 1 T T t=1 T t =1 E ξ it η jt = 1 2σ 2 i0 1 T T t=1 T t =1 E ζ 2 it -1 σ -1 j0 ϕ j x •t ζ jt + σ -1 j0 ϑ j ζ •t ζ jt -g 0,jj = 1 2σ 2 i0 1 T T t=1 E ζ 2 it σ -1 j0 ϕ j x •t ζ jt + σ -1 j0 ϑ j ζ •t ζ jt -g 0,jj =    g 0,ii[ 1 T T t=1 E(ζ 4 it )-1] 2σ 2 i0</formula><p>, for i = j 0, for i = j , and finally,</p><formula xml:id="formula_194">E 0 1 √ T ∂ℓ T (θ) ∂β i 1 √ T ∂ℓ T (θ) ∂σ 2 j = 1 2σ i0 σ 2 j0 1 T T t=1 T t =1 E (x it ζ it ) ξ jt = 1 2σ i0 σ 2 j0 1 T T t=1 T t =1 E (x it ζ it ) ζ 2 jt -1 = 0, for all i, j = 1, 2, . . . , N.</formula><p>Overall, let</p><formula xml:id="formula_195">γ = lim T →∞ T -1 T t=1 E ζ 4 it -1 = lim T →∞ T -1 T t=1 V ar(ζ 2 it ). (B.40)</formula><p>We can collect the various terms and construct matrix</p><formula xml:id="formula_196">J (θ 0 , γ) = (J 0,ij ) = lim T →∞ E 0   1 T T t=1 ∂ℓ t (θ) ∂θ T t=1 ∂ℓ t (θ) ∂θ   =    J 11 J 12 J 13 . J 22 J 23 . . J 33    N (k+2)×N (k+2) , (B.41)</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Second derivatives</head><p>We have</p><formula xml:id="formula_197">Ĥ (θ) = - 1 T ∂ 2 ℓ T (θ) ∂θ∂θ =    Ĥ11 Ĥ12 Ĥ13 . Ĥ22 Ĥ23 . . Ĥ33    , =     -1 T ∂ 2 ℓ T (θ) ∂ψ∂ψ -1 T ∂ 2 ℓ T (θ) ∂ψ∂β -1 T ∂ 2 ℓ T (θ) ∂ψ∂σ 2 . -1 T ∂ 2 ℓ T (θ) ∂β∂β -1 T ∂ 2 ℓ T (θ) ∂β∂σ 2 . . -1 T ∂ 2 ℓ T (θ) ∂(σ 2 )∂(σ 2 )     .</formula><p>With the (i, j) or i th element of associated matrix or vector given in {}, we have</p><formula xml:id="formula_198">Ĥ11 = - 1 T ∂ 2 ℓ T (θ) ∂ψ∂ψ = - 1 T ∂ 2 ℓ N T (θ) ∂ψ i ∂ψ j , - 1 T ∂ 2 ℓ T (θ) ∂ψ i ∂ψ j = tr (I -ΨW ) -1 E ii W (I -ΨW ) -1 E ii W + 1 σ 2 i y * i• y * i• T if i = j tr (I -ΨW ) -1 E jj W (I -ΨW ) -1 E ii W if i = j , - 1 T ∂ 2 ℓ T (θ) ∂ψ i ∂ψ j = g 2 ii + 1 σ 2 i y * i• y * i• T if i = j g ij g ji if i = j ,</formula><p>where E ij is the N × N matrix whose (i, j) element is 1 and zero elsewhere and G = (g ij ) = W (I N -ΨW ) -1 . Further,</p><formula xml:id="formula_199">Ĥ12 = - 1 T ∂ 2 ℓ T (θ) ∂ψ∂β = - 1 T ∂ 2 ℓ T (θ) ∂ψ i ∂β j = 1 σ 2 i y * i• X i• T , if i = j, and 0, if i = j , Ĥ13 = - 1 T ∂ 2 ℓ T (θ) ∂ψ∂σ 2 = - 1 T ∂ 2 ℓ T (θ) ∂ψ i ∂σ 2 j = 1 σ 4 i y * i• (y i• -ψ i y * i• -X i• β i ) T , if i = j, and 0, if i = j , Ĥ22 = - 1 T ∂ 2 ℓ T (θ) ∂β∂β = - 1 T ∂ 2 ℓ T (θ) ∂β i ∂β j = 1 σ 2 i X i• X i• T , if i = j, and 0, if i = j , Ĥ23 = - 1 T ∂ 2 ℓ T (θ) ∂β∂σ 2 = - 1 T ∂ 2 ℓ T (θ) ∂β i ∂σ 2 j = 1 σ 4 i X i• (y i• -ψ i y * i• -X i• β i ) T , if i = j, and 0, if i = j , Ĥ33 = - 1 T ∂ 2 ℓ T (θ) ∂ (σ 2 ) ∂ (σ 2 ) = - 1 T ∂ 2 ℓ T (θ) ∂σ 2 i ∂σ 2 j = - 1 2σ 4 i + 1 σ 6 i 1 T (y i• -ψ i y * i• -X i• β i ) (y i• -ψ i y * i• -X i• β i ), if i = j, and 0, if i = j .</formula><p>Finally, from the above results we obtain:</p><formula xml:id="formula_200">Ĵ (θ) = 1 T    T t=1 ∂ℓ t (θ) ∂θ T t=1 ∂ℓ t (θ) ∂θ    and Ĥ (θ) = - 1 T ∂ 2 ℓ T (θ) ∂θ∂θ ,</formula><p>from which the standard and sandwich covariance matrix estimators (49) and ( <ref type="formula" target="#formula_85">50</ref>), are given by</p><formula xml:id="formula_201">V θ = Ĥ-1 θ and V θ = Ĥ-1 θ Ĵ θ Ĥ-1 θ .</formula><p>Table <ref type="table">S1</ref>: Bias, RMSE, size and power for parameters of individual units in the HSAR(1) model with one exogenous regressor and non-Gaussian errors for N = 5 and T ∈ {25, 50, 100, 200}.</p><p>T 25 50 100 200 Parameter Bias RMSE Bias RMSE Bias RMSE Bias RMSE ψ i0 ψ 1,0 = 0.1261 -0.0063 0.1537 0.0001 0.1012 -0.0023 0.0707 0.0007 0.0490 ψ 2,0 = 0.3883 -0.0035 0.2078 -0.0049 0.1392 -0.0006 0.0955 -0.0002 0.0666 ψ 3,0 = 0.4375 -0.0096 0.1852 -0.0016 0.1155 0.0020 0.0807 0.0000 0.0578 ψ 4,0 = 0.5059 0.0022 0.1478 -0.0039 0.1018 -0.0020 0.0686 -0.0008 0.0481 ψ 5,0 = 0.7246 -0.0040 0.1747 -0.0016 0.1248 -0.0008 0.0880 0.0001 0.0597 β i0 β 1,0 = 0.9649 0.0097 0.1663 0.0047 0.1102 0.0020 0.0758 -0.0015 0.0540 β 2,0 = 0.9572 0.0065 0.1968 0.0048 0.1349 -0.0017 0.0938 -0.0018 0.0657 β 3,0 = 0.2785 0.0054 0.2088 -0.0012 0.1316 -0.0017 0.0918 0.0013 0.0666 β 4,0 = 0.9134 -0.0011 0.1643 0.0054 0.1098 0.0007 0.0749 0.0000 0.0515 β 5,0 = 0.8147 0.0039 0.2079 0.0069 0.1440 0.0056 0.0989 0.0003 0.0674 T 25 50 100 200 25 50 100 200 Parameter Size Power ψ i0 ψ 1,0 = 0.1261 0.1025 0.0665 0.0545 0.0505 0.4350 0.6010 0.8260 0.9725 ψ 2,0 = 0.3883 0.1000 0.0690 0.0575 0.0555 0.3015 0.4520 0.6205 0.8535 ψ 3,0 = 0.4375 0.0990 0.0630 0.0570 0.0520 0.3395 0.4910 0.7365 0.9400 ψ 4,0 = 0.5059 0.0795 0.0670 0.0615 0.0460 0.4265 0.6165 0.8475 0.9780 ψ 5,0 = 0.7246 0.0770 0.0720 0.0700 0.0560 0.3270 0.4680 0.6765 0.9125 β i0 β 1,0 = 0.9649 0.0920 0.0645 0.0535 0.0610 0.3985 0.5485 0.7610 0.9500 β 2,0 = 0.9572 0.0965 0.0725 0.0595 0.0545 0.3100 0.4265 0.6445 0.8690 β 3,0 = 0.2785 0.0965 0.0695 0.0500 0.0625 0.3370 0.4380 0.6435 0.8525 β 4,0 = 0.9134 0.0890 0.0685 0.0550 0.0470 0.4230 0.5305 0.7830 0.9545 β 5,0 = 0.8147 0.0940 0.0730 0.0590 0.0525 0.2885 0.3880 0.5590 0.8350 Notes: True parameter values are generated as ψ i0 ∼ IIDU (0, 0.8), α i0 ∼ IIDN (1, 1), and β i0 ∼ IIDU (0, 1) for i = 1, 2, . . . , N . Non-Gaussian errors are generated as ε i0 /σ i0 ∼ IID[χ 2 (2) -2]/2, with σ 2 i0 ∼ IIDU [χ 2</p><p>(2)/8 + 0.25] for i = 1, 2, . . . , N . The spatial weight matrix W = (w ij ) has four connections so that w ij = 1 if j is equal to: i-2, i-1, i+1, i+2, and zero otherwise, for i = 1, 2, . . . , N . Biases and RMSEs are computed as R -1 R r=1 ( ψi,r -ψ i0 ) and R -1 R r=1 ( ψi,r -ψ i0 ) 2 for i = 1, 2, . . . , N . Empirical size and empirical power are based on the sandwich formula given by (47). The nominal size is set to 5%. Size is computed under H i0 : ψ i = ψ i0 , using a two-sided alternative, for i = 1, 2, . . . , N . Power is computed under ψ i = ψ i0 + 0.2, for i = 1, 2, . . . , N . The number of replications is set to R = 2, 000. Estimates are sorted in ascending order according to the true values of the spatial autoregressive parameters. Biases, RMSEs, sizes and powers for β i , i = 1, 2, . . . , N , are computed similarly, with power computed under β i = β i0 + 0.2.</p><p>Table <ref type="table">S2</ref>: Bias, RMSE, size and power for parameters of individual units in the HSAR(1) model with one exogenous regressor and non-Gaussian errors for N = 100 and T ∈ {25, 50, 100, 200}.</p><p>T 25 50 100 200 Parameter Bias RMSE Bias RMSE Bias RMSE Bias RMSE ψ i0 ψ 1,0 = 0.0244 -0.0021 0.2572 -0.0036 0.1741 0.0009 0.1160 0.0000 0.0828 ψ 2,0 = 0.0255 -0.0356 0.4532 0.0022 0.3105 -0.0114 0.2191 -0.0022 0.1499 ψ 3,0 = 0.0397 0.0078 0.3029 -0.0032 0.2099 -0.0006 0.1438 0.0011 0.1025 . . . . . . . . . . . . . . . . . . . . . . . . . . . ψ 51,0 = 0.3927 -0.0022 0.2698 0.0020 0.1914 -0.0003 0.1305 0.0001 0.0896 ψ 52,0 = 0.3987 0.0002 0.1694 -0.0039 0.1166 0.0021 0.0777 0.0004 0.0545 ψ 53,0 = 0.4004 -0.0097 0.2691 0.0054 0.1770 0.0025 0.1205 -0.0017 0.0855 . . . . . . . . . . . . . . . . . . . . . . . . . . . ψ 98,0 = 0.7695 -0.0012 0.1433 0.0019 0.1013 0.0046 0.0724 -0.0001 0.0510 ψ 99,0 = 0.7705 -0.0397 0.2546 -0.0088 0.1692 0.0020 0.1248 0.0007 0.0920 ψ 100,0 = 0.7904 -0.0084 0.1514 -0.0070 0.1113 0.0008 0.0771 0.0006 0.0521 β i0 β 1,0 = 0.1978 0.0066 0.2012 0.0010 0.1280 0.0006 0.0868 -0.0052 0.0598 β 2,0 = 0.7060 0.0202 0.2711 0.0005 0.1720 -0.0001 0.1176 0.0033 0.0837 β 3,0 = 0.4173 0.0077 0.1852 0.0027 0.1254 -0.0002 0.0842 0.0019 0.0597 . . . . . . . . . . . . . . . . . . . . . . . . . . . β 51,0 = 0.9448 0.0043 0.1415 -0.0015 0.0962 0.0015 0.0665 0.0007 0.0471 β 52,0 = 0.1190 0.0030 0.1324 0.0023 0.0913 -0.0004 0.0619 0.0014 0.0421 β 53,0 = 0.7127 0.0019 0.1941 -0.0036 0.1226 0.0025 0.0893 0.0010 0.0615 . . . . . . . . . . . . . . . . . . . . . . . . . . . β 98,0 = 0.1067 0.0024 0.1221 -0.0024 0.0807 0.0005 0.0553 -0.0002 0.0399 β 99,0 = 0.4588 0.0147 0.1909 0.0026 0.1300 0.0017 0.0899 0.0017 0.0650 β 100,0 = 0.3674 0.0035 0.1239 0.0022 0.0865 0.0006 0.0607 0.0002 0.0408 T 25 50 100 200 25 50 100 200 Parameter Size Power ψ i0 ψ 1,0 = 0.0244 0.0915 0.0805 0.0560 0.0600 0.2255 0.3025 0.4560 0.7070 ψ 2,0 = 0.0255 0.0830 0.0645 0.0580 0.0525 0.1225 0.1170 0.1940 0.2890 ψ 3,0 = 0.0397 0.0905 0.0785 0.0605 0.0630 0.1815 0.2390 0.3450 0.5405 . . . . . . . . . . . . . . . . . . . . . . . . . . . ψ 51,0 = 0.3927 0.0995 0.0640 0.0595 0.0530 0.1975 0.2915 0.4020 0.6325 ψ 52,0 = 0.3987 0.0865 0.0660 0.0620 0.0525 0.3785 0.5380 0.7440 0.9395 ψ 53,0 = 0.4004 0.0960 0.0810 0.0520 0.0590 0.2400 0.3020 0.4540 0.6760 . . . . . . . . . . . . . . . . . . . . . . . . . . . ψ 98,0 = 0.7695 0.0710 0.0665 0.0675 0.0660 0.4015 0.5760 0.7930 0.9650 ψ 99,0 = 0.7705 0.0390 0.0320 0.0405 0.0535 0.1750 0.2380 0.3820 0.6095 ψ 100,0 = 0.7904 0.0690 0.0655 0.0575 0.0510 0.3845 0.5705 0.7605 0.9500 β i0 β 1,0 = 0.1978 0.1085 0.0710 0.0570 0.0485 0.3320 0.4715 0.6715 0.9195 β 2,0 = 0.7060 0.1055 0.0580 0.0495 0.0570 0.2315 0.3110 0.4530 0.6680 β 3,0 = 0.4173 0.0935 0.0805 0.0520 0.0590 0.3585 0.4815 0.6985 0.9120 . . . . . . . . . . . . . . . . . . . . . . . . . . . β 51,0 = 0.9448 0.0940 0.0705 0.0535 0.0545 0.4710 0.6580 0.8445 0.9745 β 52,0 = 0.1190 0.0950 0.0845 0.0525 0.0470 0.5250 0.6900 0.8940 0.9920 β 53,0 = 0.7127 0.1055 0.0690 0.0685 0.0545 0.3615 0.4800 0.6485 0.8910 . . . . . . . . . . . . . . . . . . . . . . . . . . . β 98,0 = 0.1067 0.0945 0.0685 0.0520 0.0570 0.5775 0.7650 0.9320 0.9960 β 99,0 = 0.4588 0.0745 0.0625 0.0505 0.0580 0.2845 0.4355 0.6460 0.8600 β 100,0 = 0.3674 0.1000 0.0710 0.0680 0.0540 0.5480 0.7205 0.9070 0.9935</p><p>Notes: See notes to Table <ref type="table">S1</ref>. 0.1 0.2 0.3 0.4 0.5 25 50 100 200 T N = 25 RMSE 0.1 0.2 0.3 0.4 0.5 25 50 100 200 T N = 50 RMSE 0.1 0.2 0.3 0.4 0.5 25 50 100 200 T N = 75 RMSE 0.1 0.2 0.3 0.4 0.5 25 50 100 200 T N = 100 RMSE Notes: True parameter values are generated as ψ i0 ∼ IIDU (0, 0.8), a i0 ∼ IIDN (1, 1) and β i0 ∼ IIDU (0, 1), for i = 1, 2, . . . , N . Non-Gaussian errors are generated as ε it /σ i0 ∼ IID[χ 2 (2) -2]/2, with σ 2 i0 ∼ IID[χ 2 (2)/4 + 0.5], for i = 1, 2, . . . , N . Exogenous regressors are spatially correlated across i and generated by (65), with φ i = 0.5. The spatial weight matrix W = (w ij ) has four connections so that w ij = 1 if j is equal to i -2, i -1, i + 1, i + 2, and zero otherwise, for i = 1, 2, . . . , N . RMSEs are computed as R -1 R r=1 ( ψi,r -ψ i0 ) 2 for i = 1, 2, • • • , N . The number of replications is set to R = 2, 000. 0.05 0.1 0.15 0.2 0.25 0.3 0.35 25 50 100 200 T N = 25 RMSE 0.05 0.1 0.15 0.2 0.25 0.3 0.35 25 50 100 200 T N = 50 RMSE 0.05 0.1 0.15 0.2 0.25 0.3 0.35 25 50 100 200 T N = 75 RMSE 0.05 0.1 0.15 0.2 0.25 0.3 0.35 25 50 100 200 T N = 100 RMSE Notes: RMSEs are computed as R -1 R r=1 ( βi,r -β i0 ) 2 for i = 1, 2, • • • , N . See the notes to Figure A1 for details of the data generating process. The number of replications is set to R = 2, 000. 25 50 100 200 0.02 0.04 0.06 0.08 0.1 Size 25 50 100 200 0.02 0.04 0.06 0.08 0.1 Size 25 50 100 200 0.04 0.06 0.08 0.1 Size 25 50 100 200 0.02 0.04 0.06 0.08 0.1 Size Notes: Nominal size is set to 5%. The sandwich formula is given by (50). See the notes to Figure A1 for details of the data generating process. Size is computed under H 0 : ψ i =ψ i0 , using a two-sided alternative where ψ i0 takes values in the range [0.0, 0.8] for i = 1, 2, . . . , N . The number of replications is set to R = 2, 000. 22 Figure A4: Empirical power functions for different N and T combinations, associated with testing the spatial parameter value ψ i0 = 0.3374 from HSAR(1) model with non-Gaussian errors, one exogenous regressor and spatial weight matrix W having 4 connections, using the sandwich formula for the variance -1 -0.5 0 0.5 1 0 0.2 0.4 0.6 0.8 1 N = 25 T = 25 T = 50 T = 100 T = 200 -1 -0.5 0 0.5 1 0 0.2 0.4 0.6 0.8 1 N = 50 T = 25 T = 50 T = 100 T = 200 -1 -0.5 0 0.5 1 0 0.2 0.4 0.6 0.8 1 N = 75 T = 25 T = 50 T = 100 T = 200 -1 -0.5 0 0.5 1 0 0.2 0.4 0.6 0.8 1 N = 100 T = 25 T = 50 T = 100 T = 200 Notes: The power functions are based on the sandwich formula given by (50). See the notes to Figure A1 for details of the data generating process. Power is computed under ψ i =ψ i0 + δ, where δ = -0.8, -0.791, . . . , 0.791, 0.8 or until the parameter space boundaries of -1 and 1 are reached. The number of replications is set to R = 2, 000. -1 -0.5 0 0.5 1 0 0.2 0.4 0.6 0.8 1 N = 25 T = 25 T = 50 T = 100 T = 200 -1 -0.5 0 0.5 1 0 0.2 0.4 0.6 0.8 1 N = 50 T = 25 T = 50 T = 100 T = 200 -1 -0.5 0 0.5 1 0 0.2 0.4 0.6 0.8 1 N = 75 T = 25 T = 50 T = 100 T = 200 -1 -0.5 0 0.5 1 0 0.2 0.4 0.6 0.8 1 N = 100 T = 25 T = 50 T = 100 T = 200 Notes: See the notes to Figure A4. -1 -0.5 0 0.5 1 0 0.2 0.4 0.6 0.8 1 N = 25 T = 25 T = 50 T = 100 T = 200 -1 -0.5 0 0.5 1 0 0.2 0.4 0.6 0.8 1 N = 50 T = 25 T = 50 T = 100 T = 200 -1 -0.5 0 0.5 1 0 0.2 0.4 0.6 0.8 1 N = 75 T = 25 T = 50 T = 100 T = 200 -1 -0.5 0 0.5 1 0 0.2 0.4 0.6 0.8 1 N = 100 T = 25 T = 50 T = 100 T = 200 Notes: See the notes to Figure A4. 25 50 100 200 0.04 0.06 0.08 0.1 Size 25 50 100 200 0.06 0.08 0.1 Size 25 50 100 200 0.06 0.08 0.1 Size 25 50 100 200 0.04 0.06 0.08 0.1 Size Notes: Nominal size is set to 5%. The sandwich formula is given by (50). See the notes to Figure A1 for details of the data generating process. Size is computed under H 0 : β i =β i0 , using a two-sided alternative where β i0 takes values in the range [0.0, 1.0] for i = 1, 2, . . . , N . The number of replications is set to R = 2, 000. -1 -0.5 0 0.5 1 0 0.2 0.4 0.6 0.8 1 N = 25 T = 25 T = 50 T = 100 T = 200 -1 -0.5 0 0.5 1 0 0.2 0.4 0.6 0.8 1 N = 50 T = 25 T = 50 T = 100 T = 200 -1 -0.5 0 0.5 1 0 0.2 0.4 0.6 0.8 1 N = 75 T = 25 T = 50 T = 100 T = 200 -1 -0.5 0 0.5 1 0 0.2 0.4 0.6 0.8 1 N = 100 T = 25 T = 50 T = 100 T = 200 Notes: The power functions are based on the sandwich formula given by (50). See the notes to Figure A1 for details of the data generating process. Power is computed under β i =β i0 + δ, where δ = -1.0, -0.991, . . . , 0.991, 1.0. The number of replications is set to R = 2, 000. -0.5 0 0.5 1 0 0.2 0.4 0.6 0.8 1 N = 25 T = 25 T = 50 T = 100 T = 200 -0.5 0 0.5 1 0 0.2 0.4 0.6 0.8 1 N = 50 T = 25 T = 50 T = 100 T = 200 -0.5 0 0.5 1 0 0.2 0.4 0.6 0.8 1 N = 75 T = 25 T = 50 T = 100 T = 200 -0.5 0 0.5 1 0 0.2 0.4 0.6 0.8 1 N = 100 T = 25 T = 50 T = 100 T = 200 </p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><figDesc>and S(ψ) = I N -ΨW . (17) Let Q T (θ 0 , θ) = lT (θ 0 ) -lT (θ), in which lT (θ 0 ) is lT (θ) evaluated at θ = θ 0 . Then, for a given N and as T → ∞, we have (see Lemma 3 of the online appendix A when setting B = O in (A.5)) Q T (θ 0 , θ) -E 0 [Q T (θ 0 , θ)]</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><figDesc>) it readily follows that lim N,T →∞ E (q N T ) = 0, and lim N,T →∞ V ar (q N T ) = 0, and hence as √ N /T → 0, q N T = o p (1), and in view of (53)</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Table 1 :</head><label>1</label><figDesc>Bias, RMSE, size and power for parameters of individual units in the HSAR(1) model with one exogenous regressor and non-Gaussian errors for N = 5 and T ∈ {25, 50, 100, 200}.parameter values are generated as ψ i0 ∼ IIDU (0, 0.8), α i0 ∼ IIDN (1, 1), and β i0 ∼ IIDU (0, 1) for i = 1, 2, . . . , N . Non-Gaussian errors are generated as</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Figure 1 :</head><label>1</label><figDesc>Figure 1: Spatial autoregressive parameter estimates ( ψi ) for Metropolitan Statistical Areas in the Unites States</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Figure 2 :</head><label>2</label><figDesc>Figure 2: Contemporaneous elasticities of house price changes to population growth ( βpop 1i ) and real income growth ( βinc 1i ) for Metropolitan Statistical Areas in the Unites States</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><figDesc>) hold. Denote the score function by s T (θ) = ∂ℓ T (θ)/∂θ = T t=1 ∂ℓ t (θ)/∂θ. Then T -1 s T (θ 0 )</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><figDesc>, and ζ it = ε it /σ i0 . Also recall that by Lemma 4, E (η it |F t ) = 0, and sup i,t E |η it | 2+c &lt; K, for some c &gt; 0. Therefore, using (A.26) by the strong law of large numbers for martingales we have (see, for example, White (E (η it |F t ) = 0, then using(A.27)    </figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><figDesc>so that, since under Assumption 1 ξ it 's are martingale difference processes and E(|ε it | 4+ |F t ) &lt; K, for some small positive , then sup i E |ξ it | 2 &lt; K and by the strong law of large numbers for martingale processes</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8"><figDesc>A.28), (A.32) and (A.36) establish (A.22), and results (A.30), (A.33) and (A.37) establish (A.23), as required, with J (θ 0 , γ) = lim T →∞ of Ĵ( θ, γ) for J (θ 0 , γ) follows from consistency of θ for θ 0 , and γ for γ, and independence of ∂ℓt(θ 0 ) ∂θ over t. Further, since θ a.s. → θ 0 on Θ c , as T → ∞, as shown in Section 3.3, we have εit = ε it + O p p γ, as T → ∞, for any N.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_9"><head>Figure A1 :</head><label>A1</label><figDesc>Figure A1: Boxplots of RMSEs for the individual autoregressive spatial parameter estimates from the HSAR(1) model with non-Gaussian errors, one exogenous regressor and spatial weight matrix W having 4 connections for different N and T combinations</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_10"><head>Figure A2 :</head><label>A2</label><figDesc>FigureA2: Boxplots of RMSEs for the individual slope parameter estimates from the HSAR(1) model with non-Gaussian errors, one exogenous regressor and spatial weight matrix W having 4 connections for different N and T combinations</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_11"><head>Figure A3 :Figure A4 :</head><label>A3A4</label><figDesc>FigureA3: Boxplots of empirical sizes of tests for individual spatial parameters from HSAR(1) model with non-Gaussian errors, one exogenous regressor and spatial weight matrix W having 4 connections for different N and T combinations, using the sandwich formula for the variance</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_12"><head>Figure A5 :</head><label>A5</label><figDesc>FigureA5: Empirical power functions for different N and T combinations, associated with testing the spatial parameter value ψ i0 = 0.5059 from HSAR(1) model with non-Gaussian errors, one exogenous regressor and spatial weight matrix W having 4 connections, using the sandwich formula for the variance</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_13"><head>Figure A6 :</head><label>A6</label><figDesc>FigureA6: Empirical power functions for different N and T combinations, associated with testing the spatial parameter value ψ i0 = 0.7676 from HSAR(1) model with non-Gaussian errors, one exogenous regressor and spatial weight matrix W having 4 connections, using the sandwich formula for the variance</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_14"><head>Figure A7 :</head><label>A7</label><figDesc>FigureA7: Boxplots of empirical sizes of tests for individual slope parameters from HSAR(1) model with non-Gaussian errors, one exogenous regressor and spatial weight matrix W having 4 connections for different N and T combinations, using the sandwich formula for the variance</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_15"><head>Figure A8 :</head><label>A8</label><figDesc>FigureA8: Empirical power functions for different N and T combinations, associated with testing the slope parameter value β i0 = 0.0344 from HSAR(1) model with non-Gaussian errors, one exogenous regressor and spatial weight matrix W having 4 connections, using the sandwich formula for the variance</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_16"><head>Figure A9 :</head><label>A9</label><figDesc>FigureA9: Empirical power functions for different N and T combinations, associated with testing the slope parameter value β i0 = 0.4898 from HSAR(1) model with non-Gaussian errors, one exogenous regressor and spatial weight matrix W having 4 connections, using the sandwich formula for the variance</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 3 :</head><label>3</label><figDesc>Mean group estimates (MGE) of spatial coefficients and elasticities of house price changes to population and real income growth by six major U.S. regions, and the U.S. as a whole</figDesc><table><row><cell cols="2">r 1 &amp;2 New England &amp; Mid East Name</cell><cell>N r 39</cell><cell>ψr 0.398  ‡</cell><cell>βpop 1r 0.959  ‡</cell><cell>βpop 2r 0.218</cell><cell cols="2">βinc 1r 0.165  ‡ -0.046  † βinc 2r</cell></row><row><cell></cell><cell></cell><cell></cell><cell cols="5">(0.074) (0.214) (0.138) (0.032) (0.024)</cell></row><row><cell>3</cell><cell>Great Lakes</cell><cell>45</cell><cell>0.599  ‡</cell><cell>0.367  ‡</cell><cell>0.156</cell><cell>0.071  ‡</cell><cell>0.001</cell></row><row><cell></cell><cell></cell><cell></cell><cell cols="5">(0.065) (0.151) (0.103) (0.021) (0.014)</cell></row><row><cell>4</cell><cell>Plains</cell><cell>26</cell><cell>0.444  ‡</cell><cell>0.431  ‡</cell><cell cols="2">0.191  *  0.064  *</cell><cell>0.011</cell></row><row><cell></cell><cell></cell><cell></cell><cell cols="5">(0.083) (0.128) (0.100) (0.035) (0.016)</cell></row><row><cell>5</cell><cell>South East</cell><cell cols="2">107 0.598  ‡</cell><cell>0.320  ‡</cell><cell>0.123  ‡</cell><cell>0.056  ‡</cell><cell>0.030  ‡</cell></row><row><cell></cell><cell></cell><cell></cell><cell cols="5">(0.039) (0.054) (0.043) (0.011) (0.012)</cell></row><row><cell cols="3">6 &amp;7 South West &amp; Rocky Mountains 37</cell><cell>0.238  ‡</cell><cell>0.355  ‡</cell><cell>0.197  †</cell><cell>0.136  ‡</cell><cell>0.086  ‡</cell></row><row><cell></cell><cell></cell><cell></cell><cell cols="5">(0.070) (0.075) (0.062) (0.029) (0.020)</cell></row><row><cell>8</cell><cell>Far West</cell><cell>40</cell><cell>0.573  ‡</cell><cell>0.468  ‡</cell><cell>0.119</cell><cell>0.116  ‡</cell><cell>0.074  ‡</cell></row><row><cell></cell><cell></cell><cell></cell><cell cols="5">(0.051) (0.095) (0.076) (0.025) (0.023)</cell></row><row><cell></cell><cell>U.S.</cell><cell cols="2">294 0.509  ‡</cell><cell>0.446  ‡</cell><cell>0.155  ‡</cell><cell>0.092  ‡</cell><cell>0.027  ‡</cell></row><row><cell></cell><cell></cell><cell></cell><cell cols="5">(0.025) (0.047) (0.032) (0.009) (0.007)</cell></row></table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="3" xml:id="foot_0"><p>Conditions under which S0 is invertible are discussed in Section 3.1.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="4" xml:id="foot_1"><p>Clearly, i2 = σ 2 i0 .</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="5" xml:id="foot_2"><p>Note that a -ln (a) -1 ≥ 0, for any a &gt; 0, with the equality holding if and only if a = 1.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="6" xml:id="foot_3"><p>By construction, the first and the last units have fewer neighbors as compared to the other units.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="7" xml:id="foot_4"><p>We also carried out experiments without exogenous regressors with βi0 = 0, for all i, corresponding to model (14) in Section 3.2. The results of these experiments are available upon request.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="8" xml:id="foot_5"><p>Results for Gaussian errors and other choices of spatial weight matrices are available upon request.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="9" xml:id="foot_6"><p>Clearly, improvements in power can be achieved by reducing the error variances, σ 2 i0 . Some supporting evidence is provided in TablesS1 and S2in the online appendix E.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="10" xml:id="foot_7"><p>The boxplots for bias of the estimators are similar to those of RMSE and are available upon request. The corresponding tables that show bias and RMSE results for the individuals estimates ( ψi(R) , and βi(R) , i = 1, 2, . . . , N ) are also available upon request.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="11" xml:id="foot_8"><p>In each boxplot, the central mark indicates the median, while the bottom and top edges of the box indicate the 25th and 75th percentiles, respectively. The whiskers extend to the most extreme data points not considered outliers. Finally, outliers are defined as values greater than q3 + 1.5 (q3 -q1) or smaller than q1 -1.5 (q3 -q1), where q1 and q3 are the 25th and 75th percentiles, respectively.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="12" xml:id="foot_9"><p>The empirical power functions are computed using the sandwich formula for the covariance matrix of the underlying estimators.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="13" xml:id="foot_10"><p>For a theoretical analysis of the interactions between regional house prices, migration flows and income shocks see<ref type="bibr" target="#b15">Cun and Pesaran (2018)</ref>.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="14" xml:id="foot_11"><p>The authors would like to thank Cynthia Yang for providing them with the updated dataset originally used in<ref type="bibr" target="#b48">Yang (2018)</ref>.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="15" xml:id="foot_12"><p>The February 2013 delineation states that 'metropolitan statistical areas have at least one urbanised area of 50,000 or more population, plus adjacent territory that has a high degree of social and economic integration with the core as measured by commuting ties'. For further details see: https://www.whitehouse.gov/sites/whitehouse.gov/files/omb/bulletins/2013/b13-01.pdf</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="16" xml:id="foot_13"><p>This excludes the non-contiguous states of Alaska (2 MSAs) and Hawaii (2MSAs) and all other off-shore insular areas.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="17" xml:id="foot_14"><p>The quarterly figures for nominal house prices (HP ) are arithmetic averages of monthly observations of HP . Further, per capita income (IN C), population (P OP ) and consumer price index (CP I) are annual data which are converted into quarterly observations by following the interpolation method provided in the GVAR Toolbox User Guide which can be found at: https://sites.google.com/site/gvarmodelling/gvar-toolbox.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="18" xml:id="foot_15"><p>We partition the MSAs into R = 8 regions, in line with the Bureau of Economic Analysis classification, each region r = 1, 2, . . . , R, containing a total of Nr MSAs. The eight regions are: New England (15 MSAs), Mid East (41 MSAs), South East (120 MSAs), Great Lakes (59 MSAs), Plains (33 MSAs), South West (39 MSAs), Rocky Mountains (22 MSAs) and Far West (48 MSAs).</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="19" xml:id="foot_16"><p>This transformation of the data follows<ref type="bibr" target="#b48">Yang (2018)</ref>. She also includes local cross-sectional averages of house price changes in her defactoring procedure. Given their limited explanatory power we abstract from incorporating local averages when defactoring the series.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="20" xml:id="foot_17"><p>In performing the data transformations of Section 6.1, we abstract from the sampling uncertainty related to using defactored series when estimating HSAR models. In principle, one could estimate the common and local effects simultaneously, instead of the two-stage procedure being followed. However, such an endeavour is beyond the scope of the present paper.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="21" xml:id="foot_18"><p>We have considered alternative models to (67): one assuming no time lags in the exogenous variables and another that allows for lagged dependent variables as well as lagged regressors. Overall, the results convey the same message as that from running regression (67). For brevity of exposition, these results are not included in the paper, but are available upon request.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="22" xml:id="foot_19"><p>The spatial lag coefficients of 44 MSAs hit the upper or lower bound of 0.994/-0.994 set in our optimization procedure. These are shown as a separate category in Figure1. Of these 40 ψi are positive and 4 are negative. Widening the bounds to (-0.995,0.995) reduces the number of MSAs that fall outside the bounds to 30.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="23" xml:id="foot_20"><p>The estimates of the lagged population and real per capita income variables in (67) are generally small and less statistically significant as compared to their contemporaneous effects. These estimates are available upon request.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="24" xml:id="foot_21"><p>All individual spatial and slope coefficient estimates with their standard errors from model (67) are available</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="25" xml:id="foot_22"><p>Note that since by Assumption 1 E (|εit| p |Ft) = ip &lt; K, then for a given i we also have E (|εit| p ) = ip, unconditionally.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="26" xml:id="foot_23"><p>Note that ln |S (ψ)S(ψ)| = 2 ln |IN -ΨW |.</p></note>
+		</body>
+		<back>
+
+			<div type="conflict">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The authors would like to acknowledge helpful comments from Alex Chudik, Bernard Fingleton, Harry Kelejian, Ron Smith and Cynthia Fan Yang. Financial support under ESRC Grant ES/I031626/1 is also gratefully acknowledged. All errors and omissions are our own. The scientific output expressed does not imply a policy position of the European Commission. Neither the European Commission nor any person acting on behalf of the Commission is responsible for the use which might be made of this paper. A preliminary version of this paper appeared under the title "Quasi-maximum likelihood estimation of spatial models with heterogeneous coefficient", CESifo Working Paper No.5428. This paper is a substantially revised version and supersedes <ref type="bibr" target="#b4">Aquaro et al. (2015)</ref>.</p></div>
+			</div>
+
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Introduction</head><p>This online supplement is composed of Appendices A-E. Appendix A includes statements and proofs of lemmas used in the derivations of Sections 3.2, 3.3 and 4 of the paper. Appendix B provides proof of Proposition 2 in Section 3.3 of the paper, while Appendix C gives the first and second derivatives of the log likelihood function of the HSAR model with exogenous regressors. Appendix D describes the data sources used in Section 6, and Appendix E displays additional Monte Carlo results based on the designs set out in Section 5 of the paper.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Appendix A Technical lemmas</head><p>Lemma 1 Consider the weight matrix W and suppose that Assumption 4 holds. Then matrix S(ψ) = I N -ΨW is non-singular with positive eigenvalues, namely λ min [S(ψ)] &gt; 0.</p><p>Proof. Let (ΨW ) be the spectral radius of matrix ΨW . Non-singularity of S(ψ</p><formula xml:id="formula_202">) = I N -ΨW is ensured if (ΨW ) &lt; 1. (A.1)</formula><p>However, since for any matrix norm A , (A) ≤ A , then using the maximum column sum matrix norm we have</p><formula xml:id="formula_203">(ΨW ) ≤ ΨW 1 ≤ Ψ 1 W 1 = sup i |ψ i | W 1 , (A.2)</formula><p>and from (A.1) we have sup</p><formula xml:id="formula_204">i |ψ i | W 1 &lt; 1.</formula><p>Similarly, using a maximum row sum matrix norm we have</p><formula xml:id="formula_205">sup i |ψ i | W ∞ &lt; 1,</formula><p>where we have used the result</p><formula xml:id="formula_206">Ψ 1 = Ψ ∞ = sup i |ψ i |. Therefore, matrix S(ψ) = I N -ΨW is invertible under condition (8) of Assumption 4. Also all eigenvalues of S(ψ) are necessarily positive, since λ min [S(ψ)] = 1 -λ max (ΨW ) ≥ 1 -|λ max (ΨW )| = 1 -(ΨW ) &gt; 0. Lemma 2 Let G (ψ) = W (I N -ΨW ) -1</formula><p>, and suppose that Assumption 4 holds. Then</p><formula xml:id="formula_207">G (ψ) 1 &lt; K and G (ψ) ∞ &lt; K, (A.3) and G (ψ) G (ψ) 1 &lt; K and G (ψ) G (ψ) ∞ &lt; K, (A.4)</formula><p>for all values of ψ= (ψ 1 , ψ 2 , . . . , ψ N ) that satisfy condition (8).</p><p>Proof. Under condition (8), we have</p><formula xml:id="formula_208">G (ψ) = W + W ΨW + W ΨW ΨW + . . . ,</formula><p>where ℓ t (θ) is defined in (A.20) and</p><formula xml:id="formula_209">J 11 = (G 0 G 0 ) + (γ -2) Diag (G 0 G 0 ) + Diag σ -2 i0 g 0i (B 0 Σ xx B 0 + Σ 0 ) g 0i , i = 1, 2, . . . , N , J 12 = Diag σ -2 i0 N s=1 g 0,is β s0 Σ is , i = 1, 2, . . . , N , J 13 = γ 2 Diag σ -2 i0 g 0,ii , i = 1, 2, . . . , N , J 22 = Diag σ -2 i0 Σ ii , i = 1, 2, . . . , N , J 23 = 0, J 33 = γ 4 Diag 1/σ 4 i0 , i = 1, 2, . . . , N .</formula><p>Having established that the score vector is asymptotically normally distributed, it is now easily seen that as</p><formula xml:id="formula_210">T → ∞, √ T θ -θ 0 → d N (0, V θ ) , (B.42) where V θ = H -1 (θ 0 ) J (θ 0 , γ) H -1 (θ 0 ).</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Appendix C Estimator of V θ</head><p>Derivatives of the log-likelihood function</p><p>The vector of maximum likelihood estimates, θT , in Section 2 is obtained by maximizing the log-likelihood function (A.21) which we reproduce here for convenience 26</p><formula xml:id="formula_211">ℓ T (θ) = - N T 2 ln(2π)- T 2 N i=1 ln σ 2 i +T ln |I N -ΨW | - 1 2 N i=1 (y i• -ψ i y * i• -X i• β i ) (y i• -ψ i y * i• -X i• β i ) σ 2 i , (C.43)</formula><p>where θ = (ψ , β , σ 2 ) .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>First derivatives</head><p>We have</p><formula xml:id="formula_212">∂ℓ T (θ) ∂ψ i = -T tr[(I N -ΨW ) -1 E ii W ] + y * i• (y i• -ψ i y * i• -X i• β i ) σ 2 i , for i = 1, 2, . . . , N, ∂ℓ T (θ) ∂β i = X i• (y i• -ψ i y * i• -X i• β i ) σ 2 i , for i = 1, 2, . . . , N, ∂ℓ T (θ) ∂σ 2 i = - T 2σ 2 i + 1 2σ 4 i (y i• -ψ i y * i• -X i• β i ) (y i• -ψ i y * i• -X i• β i ) , for i = 1, 2, . . . , N,</formula><p>where E ii is the N × N matrix whose (i, i) element is 1 and zero elsewhere.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Appendix D Data sources</head><p>Monthly data for U.S. house prices over the period January 1975 to December 2014 are obtained from the Freddie Mac House Price Index (FMHPI). These data are available at: <ref type="url" target="http://www.freddiemac.com/research/">http://www.freddiemac.com/research/</ref>. Annual data on nominal income per capita and population at MSA level are acquired from the Bureau of Economic Analysis website for the same period. These data are available at: <ref type="url" target="https://www.bea.gov/data/">https://www.bea.gov/data/</ref>.</p><p>Annual State level Consumer Price Index data are obtained from the Bureau of Labour Statistics: <ref type="url" target="https://www.bls.gov/cpi/">https://www.bls.gov/cpi/</ref>. These are matched to the corresponding MSAs. In some cases where area data are missing then the U.S. average CPI is used instead.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Appendix E Additional Monte Carlo results</head><p>The Monte Carlo results provided in the tables and plots below are based on the designs set out in Section 5 of the paper. Notes: See the notes to Figure <ref type="figure">A8</ref>.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_17"><head>Figure A10 :</head><label>A10</label><figDesc>Empirical power functions for different N and T combinations, associated with testing the slope parameter value β i0 = 0.9649 from HSAR(1) model with non-Gaussian errors, one exogenous regressor and spatial weight matrix W having 4 connections, using the sandwich formula</figDesc></figure>
+			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Booms, busts, and normal times in the housing market</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Agnello</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Castro</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">M</forename><surname>Sousa</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Business and Economic Statistics</title>
+		<imprint>
+			<biblScope unit="volume">33</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="25" to="45" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<monogr>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+		<title level="m">Spatial Econometrics: Methods and Models. Kluwer Academic: The Netherlands</title>
+		<imprint>
+			<date type="published" when="1988">1988</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Spatial econometrics</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">A Companion to Theoretical Econometrics</title>
+		<editor>
+			<persName><forename type="first">B</forename><forename type="middle">H</forename><surname>Baltagi</surname></persName>
+		</editor>
+		<meeting><address><addrLine>Blackwell</addrLine></address></meeting>
+		<imprint>
+			<publisher>Massachusetts</publisher>
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Spatial dependence in linear regression models with an introduction to spatial econometrics</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">K</forename><surname>Bera</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Handbook of Applied Economic Statistics</title>
+		<editor>
+			<persName><forename type="first">A</forename><surname>Ullah</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">D</forename><forename type="middle">E A</forename><surname>Giles</surname></persName>
+		</editor>
+		<meeting><address><addrLine>Marcel Dekker; New York</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Quasi maximum likelihood estimation of spatial models with heterogeneous coefficients</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Aquaro</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Bailey</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">H</forename><surname>Pesaran</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="s">USC-INET Research Paper</title>
+		<imprint>
+			<biblScope unit="page" from="15" to="17" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<monogr>
+		<author>
+			<persName><forename type="first">G</forename><surname>Arbia</surname></persName>
+		</author>
+		<title level="m">Spatial Econometrics: Statistical Foundations and Applications to Regional Convergence</title>
+		<meeting><address><addrLine>Heidelberg New York</addrLine></address></meeting>
+		<imprint>
+			<publisher>Berlin</publisher>
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Exponent of cross-sectional dependence: estimation and inference</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Bailey</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Kapetatios</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">H</forename><surname>Pesaran</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Applied Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">31</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="929" to="960" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Estimating dynamic demand for cigarettes using panel data: The effects of bootlegging, taxation and advertising reconsidered</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Baltagi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Levin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Review of Economics and Statistics</title>
+		<imprint>
+			<biblScope unit="volume">68</biblScope>
+			<biblScope unit="page" from="148" to="155" />
+			<date type="published" when="1986">1986</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Testing for serial correlation, spatial autocorrelation and random effects using panel data</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Baltagi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">H</forename><surname>Song</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">C</forename><surname>Jung</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Kon</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">140</biblScope>
+			<biblScope unit="page" from="5" to="51" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Testing panel data regression models with spatial error correlation</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Baltagi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">H</forename><surname>Song</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Kon</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">117</biblScope>
+			<biblScope unit="page" from="123" to="150" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Spatial patterns in household demand</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">C</forename><surname>Case</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">59</biblScope>
+			<biblScope unit="page" from="953" to="965" />
+			<date type="published" when="1991">1991</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Mean group estimator in presence of weakly crosscorrelated estimators</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Chudik</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">H</forename><surname>Pesaran</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Economics Letters</title>
+		<imprint>
+			<biblScope unit="volume">175</biblScope>
+			<biblScope unit="page" from="101" to="105" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<monogr>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">D</forename><surname>Cliff</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">K</forename><surname>Ord</surname></persName>
+		</author>
+		<title level="m">Spatial Autocorrelation</title>
+		<imprint>
+			<publisher>London</publisher>
+			<date type="published" when="1973">1973</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<monogr>
+		<title level="m" type="main">Statistics for Spatial Data</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Cressie</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1993">1993</date>
+			<publisher>John Wiley &amp; Sons</publisher>
+			<pubPlace>New York</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<monogr>
+		<title level="m" type="main">Statistics for Spatio-Temporal Data</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Cressie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">K</forename><surname>Wikle</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2011">2011</date>
+			<publisher>Wiley-Blackwell</publisher>
+			<pubPlace>New York</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<monogr>
+		<title level="m" type="main">Land use regulations, migration and rising house price dispersion in the</title>
+		<author>
+			<persName><forename type="first">W</forename><surname>Cun</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">H</forename><surname>Pesaran</surname></persName>
+		</author>
+		<ptr target="https://papers.ssrn.com/sol3/papers.cfm?abstractid=3162399" />
+		<imprint>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<monogr>
+		<author>
+			<persName><forename type="first">J</forename><surname>Davidson</surname></persName>
+		</author>
+		<title level="m">Econometric Theory</title>
+		<meeting><address><addrLine>Oxford, UK.</addrLine></address></meeting>
+		<imprint>
+			<publisher>Blackwell</publisher>
+			<date type="published" when="2000">2000</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Generalized Yule-Walker estimation for spatiotemporal models with unknown diagonal coefficients</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Dou</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">L</forename><surname>Parrella</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Yao</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">194</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="369" to="382" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<monogr>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Elhorst</surname></persName>
+		</author>
+		<title level="m">Spatial Econometrics: From Cross-Sectional Data to Spatial Panels</title>
+		<imprint>
+			<publisher>Berlin Heidelberg</publisher>
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">The long run relationship between housing prices and income: Evidence from local housing markets</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Gallin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Real Estate Economics</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="417" to="438" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<monogr>
+		<author>
+			<persName><forename type="first">R</forename><surname>Haining</surname></persName>
+		</author>
+		<title level="m">Spatial Data Analysis: Theory and Practice</title>
+		<imprint>
+			<publisher>Cambridge University Press</publisher>
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">A spatio-temporal model of house prices in the USA</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Holly</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">H</forename><surname>Pesaran</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Yamagata</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">158</biblScope>
+			<biblScope unit="page" from="160" to="173" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<monogr>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">A</forename><surname>Horn</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">R</forename><surname>Johnson</surname></persName>
+		</author>
+		<title level="m">Matrix analysis</title>
+		<imprint>
+			<publisher>Cambridge University Press</publisher>
+			<date type="published" when="1985">1985</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Random coefficient models</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Hsiao</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">H</forename><surname>Pesaran</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">The Econometrics of Panel Data</title>
+		<editor>
+			<persName><forename type="first">L</forename><surname>Matyas</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">P</forename><surname>Sevestre</surname></persName>
+		</editor>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+	<note>Third Edition</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Panel data models with spatially correlated error components</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Kapoor</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">140</biblScope>
+			<biblScope unit="page" from="97" to="130" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">A generalised moments estimator for the autoregressive parameter in a spatial model</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Economic Review</title>
+		<imprint>
+			<biblScope unit="volume">40</biblScope>
+			<biblScope unit="page" from="509" to="533" />
+			<date type="published" when="1999">1999</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">On the asymptotic distribution of the Moran I test statistic with applications</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">104</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="219" to="257" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">Specification and estimation of spatial autoregressive models with autoregressive and heteroskedastic disturbances</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">157</biblScope>
+			<biblScope unit="page" from="53" to="67" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">A suggested method of estimation for spatial interdependent models with autocorrelated errors, and an application to a county expenditure model</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Robinson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Papers in Regional Science</title>
+		<imprint>
+			<biblScope unit="volume">72</biblScope>
+			<biblScope unit="page" from="297" to="312" />
+			<date type="published" when="1993">1993</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">Asymptotic distributions of quasi-maximum likelihood estimators for spatial autoregressive models</title>
+		<author>
+			<persName><forename type="first">L.-F</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">72</biblScope>
+			<biblScope unit="page" from="1899" to="1925" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Estimation of spatial autoregressive panel data models with fixed effects</title>
+		<author>
+			<persName><forename type="first">L.-F</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">154</biblScope>
+			<biblScope unit="page" from="165" to="185" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<author>
+			<persName><forename type="first">J</forename><surname>Lesage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Pace</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Spatial econometrics</title>
+		<imprint>
+			<date type="published" when="2010">2010</date>
+			<biblScope unit="volume">50</biblScope>
+			<biblScope unit="page" from="1014" to="1015" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">Interpreting heterogeneous coefficient spatial autoregressive panel models</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Lesage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y.-Y</forename><surname>Chih</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Economics Letters</title>
+		<imprint>
+			<biblScope unit="volume">142</biblScope>
+			<biblScope unit="page" from="1" to="5" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">A bayesian spatial panel model with heterogeneous coefficients</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Lesage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y.-Y</forename><surname>Chih</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">72</biblScope>
+			<biblScope unit="page" from="58" to="73" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<analytic>
+		<title level="a" type="main">GMM estimation of spatial autoregressive models with unknown heteroskedasticity</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Lin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L.-F</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">157</biblScope>
+			<biblScope unit="page" from="34" to="52" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<monogr>
+		<author>
+			<persName><forename type="first">H</forename><surname>Lütkepohl</surname></persName>
+		</author>
+		<title level="m">Handbook of Matrices</title>
+		<imprint>
+			<publisher>John Wiley and Sons</publisher>
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<analytic>
+		<title level="a" type="main">A simple error correction model of house prices</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Malpezzi</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Housing Economics</title>
+		<imprint>
+			<biblScope unit="volume">8</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="27" to="62" />
+			<date type="published" when="1999">1999</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<analytic>
+		<title level="a" type="main">Identification of endogenous social effects: the reflection problem</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">F</forename><surname>Manski</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Review of Economic Studies</title>
+		<imprint>
+			<biblScope unit="volume">60</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="531" to="542" />
+			<date type="published" when="1993">1993</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<analytic>
+		<title level="a" type="main">Economic valuation of a rise in ambient radiation risks: hedonic pricing evidence from the accident in fukushima</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Munro</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Regional Science</title>
+		<imprint>
+			<biblScope unit="volume">58</biblScope>
+			<biblScope unit="page" from="635" to="658" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<analytic>
+		<title level="a" type="main">Local spatial autocorrelation statistics: Distributional issues and an application</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">K</forename><surname>Ord</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Getis</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">27</biblScope>
+			<biblScope unit="page" from="286" to="306" />
+			<date type="published" when="1995">1995</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b40">
+	<monogr>
+		<title level="m" type="main">General diagnostic tests for cross section dependence in panels. CESifo working paper series no. 1229</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">H</forename><surname>Pesaran</surname></persName>
+		</author>
+		<ptr target="http://ssrn.com/abstract=572504" />
+		<imprint>
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b41">
+	<analytic>
+		<title level="a" type="main">Testing weak cross-sectional dependence in large panels</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">H</forename><surname>Pesaran</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrics Reviews</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="issue">6-10</biblScope>
+			<biblScope unit="page" from="1089" to="1117" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b42">
+	<analytic>
+		<title level="a" type="main">Estimating long-run relationships from dynamic heterogeneous panels</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">H</forename><surname>Pesaran</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Smith</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">68</biblScope>
+			<biblScope unit="page" from="79" to="113" />
+			<date type="published" when="1995">1995</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b43">
+	<analytic>
+		<title level="a" type="main">Dynamic linear models for heterogenous panels</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">H</forename><surname>Pesaran</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">P</forename><surname>Smith</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">S</forename><surname>Im</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">The Econometrics of Panel Data</title>
+		<editor>
+			<persName><forename type="first">L</forename><surname>Mátyás</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">P</forename><forename type="middle">S</forename></persName>
+		</editor>
+		<meeting><address><addrLine>Dordrecht</addrLine></address></meeting>
+		<imprint>
+			<publisher>Kluwer Academic Publishers</publisher>
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+	<note>Ch.8, ISBN 0 7923 3787 5</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b44">
+	<analytic>
+		<title level="a" type="main">Hedonic analysis over time and space: the case of house price and traffic noise</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Swoboda</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Nega</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Timm</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Regional Science</title>
+		<imprint>
+			<biblScope unit="volume">55</biblScope>
+			<biblScope unit="page" from="644" to="670" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b45">
+	<monogr>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">J G</forename><surname>Upton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Fingleton</surname></persName>
+		</author>
+		<title level="m">Spatial Data Analysis by Example</title>
+		<imprint>
+			<publisher>Chichester</publisher>
+			<date type="published" when="1985">1985</date>
+			<biblScope unit="volume">1</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b46">
+	<monogr>
+		<title level="m" type="main">Asymptotic Theory for Econometricians</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>White</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1984">1984</date>
+			<publisher>Academic Press, Inc</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b47">
+	<analytic>
+		<title level="a" type="main">On stationary processes on the plane</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Whittle</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometrika</title>
+		<imprint>
+			<biblScope unit="volume">41</biblScope>
+			<biblScope unit="page" from="434" to="449" />
+			<date type="published" when="1954">1954</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b48">
+	<monogr>
+		<title level="m" type="main">Common factors and spatial dependence: An application to US house prices</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">F</forename><surname>Yang</surname></persName>
+		</author>
+		<ptr target="https://sites.google.com/site/cynthiafanyang/research" />
+		<imprint>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b49">
+	<analytic>
+		<title level="a" type="main">Estimation for spatial dynamic panel data with fixed effects: the case of spatial cointegration</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Jong</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">167</biblScope>
+			<biblScope unit="page" from="16" to="37" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b50">
+	<analytic>
+		<title level="a" type="main">Quasi-maximum likelihood estimators for spatial dynamic panel data with fixed effects when both n and T are large</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">M</forename><surname>Jong</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L.-F</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">146</biblScope>
+			<biblScope unit="page" from="118" to="134" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b51">
+	<analytic>
+		<title level="a" type="main">Estimating spatial autocorrelation with sampled network data</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Zhou</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Tu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Wang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Business and Economic Statistics</title>
+		<imprint>
+			<biblScope unit="volume">35</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="130" to="138" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

@@ -1,0 +1,967 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Benchmarking Regression Models Under Spatial Heterogeneity</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">Nina</forename><surname>Wiedemann</surname></persName>
+						</author>
+						<author>
+							<persName><forename type="first">Henry</forename><surname>Martin</surname></persName>
+						</author>
+						<author>
+							<persName><forename type="first">René</forename><surname>Westerholt</surname></persName>
+						</author>
+						<author>
+							<affiliation key="aff0">
+								<orgName type="department">Institute of Cartography and Geoinformation</orgName>
+								<orgName type="institution">ETH Zürich</orgName>
+								<address>
+									<country key="CH">Switzerland</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<affiliation key="aff1">
+								<orgName type="department">Institute of Cartography and Geoinformation</orgName>
+								<orgName type="institution">ETH Zürich</orgName>
+								<address>
+									<country key="CH">Switzerland</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<affiliation key="aff2">
+								<orgName type="department">Department of Spatial Planning</orgName>
+								<orgName type="institution">TU Dortmund University</orgName>
+								<address>
+									<country key="DE">Germany</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Benchmarking Regression Models Under Spatial Heterogeneity</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<idno type="MD5">5819B0229381BBFBBA20BA6FE0B99560</idno>
+					<idno type="DOI">10.4230/LIPIcs.GIScience.2023.11</idno>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-08-08T17:19+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>2012 ACM Subject Classification Computing methodologies → Concurrent algorithms phrases spatial machine learning</term>
+					<term>spatial non-stationarity</term>
+					<term>Geographically Weighted Regression</term>
+					<term>local models</term>
+					<term>geostatistics Digital Object Identifier 10.4230/LIPIcs.GIScience.2023.11 Supplementary Material Software (Source Code</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Machine learning methods have recently found much application on spatial data, for example in weather forecasting, traffic prediction, and soil analysis. At the same time, methods from spatial statistics were developed over the past decades to explicitly account for spatial structuring in analytical and inference tasks. In the light of this duality of having both types of methods available, we explore the following question: Under what circumstances are local, spatially-explicit models preferable over machine learning models that do not incorporate spatial structure explicitly in their specification? Local models are typically used to capture spatial non-stationarity. Thus, we study the effect of strength and type of spatial heterogeneity, which may originate from non-stationarity of a process itself or from heterogeneous noise, on the performance of different linear and non-linear, local and global machine learning and regression models. The results suggest that it is necessary to assess the performance of linear local models on an independent hold-out dataset, since models may overfit under certain conditions. We further show that local models are advantageous in settings with small sample size and high degrees of spatial heterogeneity. Our findings allow deriving model selection criteria, which are validated in benchmarking experiments on five well-known spatial datasets.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>The success of machine learning and artificial intelligence in recent years has sparked considerable interest in respective methods also in GIScience, and has led to a general proliferation of spatial data science <ref type="bibr" target="#b23">[24]</ref>. While spatial statistics used to carefully address the special nature of spatial data, spatial data science often involves the direct application of (global) machine learning models to spatial data without explicitly modeling spatial properties. Nevertheless, these models oftentimes provide successful inferences on test data. Yet, spatial data may be subject to complex confounders including spatial heterogeneity, which is the focus of this paper. Currently, there is no comprehensive review available that would show when global non-linear machine learning models can or should be used for interpolation or prediction tasks on spatially heterogeneous data without producing misleading or wrong results. While there exist analyses on the effectiveness of methods to deal with spatial autocorrelation <ref type="bibr" target="#b1">[2]</ref>, no such benchmarking has been done regarding spatial heterogeneity, either originating from non-stationarity of the actual process or from spatially heterogeneous exogenous noise. In this work, we benchmark the performance of global (machine learning) and local spatial regression models for the prediction of unseen test data that is subject to various kinds of heterogeneity. We simulate spatial heterogeneity with synthetic data in order to derive recommendations about the suitability of model types for specific heterogeneity-related scenarios. We finally validate our model selection criteria through experiments on several real-world datasets. The following two sub-sections briefly outline the state of the art as well as our contribution in more detail, before we present the experiments and our results.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.1">Related work</head><p>Statistical learning methods have been adapted to geospatial data since a long time. A major step towards accounting for spatial heterogeneity has been the proposal of local models, such as Geographically Weighted Regression (GWR) <ref type="bibr" target="#b2">[3,</ref><ref type="bibr" target="#b8">9]</ref>. Next to variants of GWR <ref type="bibr" target="#b16">[17]</ref>, the idea also inspired adaptations of machine learning models, with spatial versions of Random Forests (RFs) <ref type="bibr" target="#b10">[11,</ref><ref type="bibr" target="#b27">28]</ref> or even Geographically Weighted Artificial Neural Networks <ref type="bibr" target="#b12">[13,</ref><ref type="bibr" target="#b6">7]</ref>.</p><p>The proposed modifications of machine learning models such as Random Forests include 1) providing spatial coordinates as input <ref type="bibr" target="#b17">[18]</ref>, 2) deriving spatial features such as the distance from points of interest from the coordinates <ref type="bibr" target="#b13">[14]</ref> in order to improve spatial generalization <ref type="bibr" target="#b4">[5]</ref>, 3) including the observations at nearby samples as covariates <ref type="bibr" target="#b27">[28]</ref>, and 4) fitting RFs on local subsets of data <ref type="bibr" target="#b10">[11]</ref>. While these approaches have been shown advantageous in some situations, a recent study Zhou et al. <ref type="bibr" target="#b30">[31]</ref> compared GWR with geographical RFs on health data and actually found that GWR provided better predictions than the more complex RF models, though the generalizability of the results is limited due to the very specific application context. A common limitation of existing approaches is that the developed methods are usually evaluated on a single or few real dataset(s). The results may therefore be subject to unknown data properties. Synthetic data, in contrast, allows to benchmark methods in a controlled setting. While this solution is implemented, for example, by Beale et al. <ref type="bibr" target="#b1">[2]</ref> and Santibanez et al. <ref type="bibr" target="#b25">[26]</ref> for the purpose of assessing the effect of varying degrees of spatial autocorrelation, there is a lack of benchmarking with simulated spatial heterogeneity. Fotheringham et al. <ref type="bibr" target="#b9">[10]</ref> and Hagenauer et al. <ref type="bibr" target="#b12">[13]</ref> validate their methods on synthetic data that were designed to be non-stationary in space, and Finley et al. <ref type="bibr" target="#b7">[8]</ref> compare GWR and SVC on non-stationary synthetic data, but they do not systematically vary the non-stationarity. The latter is our point of departure for the following sections.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.2">Contribution</head><p>We evaluate the ability of different models to deal with varying degrees of spatial heterogeneity. Inspired by the work conducted by Comber et al. <ref type="bibr" target="#b3">[4]</ref> presenting a route map when to use GWR and two of its variants, we derive model selection criteria from our results on synthetic data. We extend previous findings in three ways: first, in addition to GWR and other linear methods, we also consider Random Forests as non-linear models and compare their performance on non-linear tasks; second, we consider predictive performance instead of analysis in order to account for overfitting behavior; third, and most importantly, we provide a detailed analysis of model adequacy with respect to spatial non-stationarity and signalto-noise ratio. To achieve this, we propose a synthetic data-generating process that allows to systematically vary the degree of spatial heterogeneity due to 1) the non-stationarity of the process, and 2) noise. We utilize this framework to compare seven models that are selected to reflect standard approaches that were, to varying degrees, developed to deal with spatial data. By analyzing the model performances in this controlled synthetic setting, we derive recommendations what model is appropriate dependent on the sample density, the spatial heterogeneity and the problem complexity. We validate our model selection criteria by benchmarking the models also on five real geospatial datasets.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">Methods</head><p>We simulate a spatial regression problem with synthetically generated data that are subject to spatial heterogeneity. Spatial heterogeneity in our analysis stems from two effects; on the one hand, the dependence of the dependent variable<ref type="foot" target="#foot_0">foot_0</ref> Y on the independent variables X may be non-stationary, i.e., the same input may lead to different outputs in different spatial regions.</p><p>In previous work <ref type="bibr" target="#b9">[10,</ref><ref type="bibr" target="#b12">13]</ref>, this was modeled by varying the coefficients β dependent on the coordinates (u, v); for example, Fotheringham et al. <ref type="bibr" target="#b9">[10]</ref> set</p><formula xml:id="formula_0">β 1 = 1 + (u+v) 12</formula><p>and Hagenauer et al. <ref type="bibr" target="#b12">[13]</ref> add coefficients with oscillating spatial distribution based on trigonometric functions. On the other hand, spatial heterogeneity may be caused by differences in the variance of the errors (and thus by noise). To understand the effect of the signal-to-noise ratio in spatial data subject to spatial heterogeneity of both types, we propose to vary the noise and the level of non-stationarity over space and to compare models on both linear and non-linear problems on test data.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1">Data-generating processes (DGPs)</head><p>One of our investigated DGPs represents a linear relationship of Y on k independent variables x j (j ∈ [1..k]). It is given as</p><formula xml:id="formula_1">y i = k j β j (u i , v i ) • x ij + ϵ(u i , v i ) ,<label>(1)</label></formula><p>where x ij is the j-th feature of the i-th sample, (u i , v i ) are the coordinates of the i-th sample, and β j (u i , v i ) is the location-dependent coefficient. ϵ(u i , v i ) is the noise that may also be heterogeneous across space. The definition of β and ϵ will be given in detail in Section 2.1.1 and Section 2.1.2 respectively. We also implement a non-linear DGP in order to analyze the model performances under the regime of a more complex phenomenon. The function is constructed such that there are interactions between variables and non-linear effects of single variables, and the terms are weighted with the non-stationary coefficients β:</p><formula xml:id="formula_2">ỹi = β 1 (u i , v i ) • x 2 i1 • sin (x i2 ) + β 2 (u i , v i ) • sin (x i2 ) • x i4 +β 3 (u i , v i ) • x i5 • log (x 2 i3 ) + β 4 (u i , v i ) • x 2 i4 • cos (x i2 ) +β 5 (u i , v i ) • x 2 i1 • x i4 • x i5 + ϵ(u i , v i ).<label>(2)</label></formula><p>In both scenarios, we construct n samples with pairs of geographic coordinates (u i , v i ) and k attribute values x ij . The coordinates are drawn from a uniform distribution U(-1, 1). In contrast to related work, we did not use coordinates on a regular grid in order to better mimic a realistic situation with irregular local clustering and dispersion patterns of observation sites. The independent variables X are assumed to be subject to spatial autocorrelation since we aim to simulate realistic spatial data. This is modeled by left-multiplying a vector of uniform random data X ′ by the so-called spatial autoregressive (SAR) generating operator<ref type="foot" target="#foot_1">foot_1</ref>  <ref type="bibr" target="#b15">[16]</ref>, that is, as X = (I -ρW ) -1 X ′ , where W is the weight matrix, computed as the inverse distances of the 20 nearest neighbors. After observing that the average spatial autocorrelation, measured using Moran's I, is around 0.3 in the considered real datasets, we calibrate the autoregressive parameter ρ such that the resulting values yield Moran's I values of around 0.3 accordingly (ρ = 0.75).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1.1">Non-stationary coefficients β</head><p>In contrast to previous work assuming a complete variation of the coefficients <ref type="bibr" target="#b9">[10,</ref><ref type="bibr" target="#b12">13]</ref>, we argue that with many types of real-world processes, it would be more reasonable for the coefficients to vary around a constant value c j . To simulate this, we frame spatial nonstationarity as an additive factor to the underlying coefficient c j , and quantify its strength with a factor λ. The coefficients used are thus composed of the constant coefficient c j and the spatial variation βj (u i , v i ):</p><formula xml:id="formula_3">β j (u i , v i ) = c j + λ • βj (u i , v i ).</formula><p>The spatial variation β, in turn, is modeled based on trigonometric functions and thus in a similar fashion as presented in <ref type="bibr" target="#b9">[10,</ref><ref type="bibr" target="#b12">13]</ref>:</p><formula xml:id="formula_4">βj (u i , v i ) = sin(u i • 2π + j) + cos(v i • 2π + j).</formula><p>Since the coordinates are drawn from U(-1, 1), this definition of β leads to two cycles of the sine and cosine functions in x and y direction. Furthermore, the spatial variation is shifted by j for the j-th coefficient to ensure that the spatial heterogeneities attached to the coefficients are not all the same. The final coefficients β j (u i , v i ) with weak (λ = 0.2) and strong (λ = 0.5) non-stationarity are shown in Figure <ref type="figure" target="#fig_1">1</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1.2">Spatial heterogeneity of the errors ϵ</head><p>Not only β-coefficients but also the error terms can vary across space. A heterogeneous spatial distribution of the noise ϵ increases the difficulty of distinguishing signal from noise. The spatial distribution may thereby either be similar to one of the coefficients (i.e., also trigonometric) or different. Let σ be the average noise strength similar to the non-stationarity effect size λ as defined in Section 2.1.1. Using this, we consider three scenarios for varying the error terms:  (a) Uniformly distributed noise. (b) Heterogeneous (trigonometric).</p><formula xml:id="formula_5">ϵ ∼ N (0, σ), (<label>3a</label></formula><formula xml:id="formula_6">)</formula><formula xml:id="formula_7">ϵ(u i , v i ) ∼ N (0, σ(u i , v i )) with σ(u i , v i ) = σ • (sin(u i • 2π) + cos(v i • 2π) + 1), (<label>3b</label></formula><formula xml:id="formula_8">)</formula><formula xml:id="formula_9">ϵ(u i , v i ) ∼ N (0, σ(u i , v i )) with σ(u i , v i ) = σ • (0.5 • (u i + v i ) + 1). (<label>3c</label></formula><formula xml:id="formula_10">)</formula><p>(c) Heterogeneous (linear).</p><p>Figure <ref type="figure">2</ref> Varying the spatial distribution of the variance of the errors ϵ. We simulate three scenarios: uniformly distributed noise ϵ, one that follows a similar distribution as the non-stationary process (i.e., trigonometric), and one that follows a different distribution (linear).</p><p>Equation 3a refers to a scenario with uniformly distributed noise. This scenario does not incorporate spatially varying errors. Equation 3b describes error terms that are heterogeneous in the sense that their variance oscillates trigonometrically around σ, depending on their spatial locations. The last scenario presented in equation 3c is also spatially varying but based on a diagonal linear trend over the map. Respective noise maps created under the scenarios outlined are illustrated in Figure <ref type="figure">2</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2">Regression models</head><p>We consider linear and non-linear, global and local models suitable for regression tasks. Figure <ref type="figure" target="#fig_2">3</ref> provides an overview of their properties. In the following, let X ∈ R n×m denote the m-dimensional feature matrix of n samples, and let Y ∈ R n be the dependent variable that is to be predicted from X.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2.1">Ordinary Least Squares and a global spatial model</head><p>We employ two linear global types of regression models. One of these is the Ordinary Least Squares (OLS) model, which assumes a linear dependency of Y on X. It is given as with ϵ being the error term and β ∈ R m denoting the coefficients. In OLS, the coefficients can be estimated using matrix inverse and multiplication: β = (X T X) -1 X T Y . The intercept can be included in this model through a column vector of ones added to the feature matrix, which yields X ∈ R n×m+1 and β ∈ R m+1 . Note that applying OLS on spatial data is not generally advisable since it assumes that the samples are independent. This is not the case with (geo)spatial data because these are often taken from shared contexts, originate from processes with endogenous spatial dispersal mechanisms, or may be driven by spatially structured covariates. We nevertheless include OLS in our comparison as it is widely used as a yardstick against which to assess the usefulness of spatially explicit methods.</p><formula xml:id="formula_11">Y = Xβ + ϵ</formula><p>The second global linear method tested is the Spatial Lag in X model (SLX). This model takes into account spatially lagged independent variables and is given as</p><formula xml:id="formula_12">Y = ρW X + Xβ + ϵ,</formula><p>where W is the spatial weights matrix that is computed as the inverse distance of the 20 nearest neighbors (see DGP), and ρ is the spatial coefficient. The estimation of β and ρ can be solved by adding the spatially-lagged X as additional covariates, and estimating two sets of coefficients for X and W X respectively.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2.2">Geographically Weighted Regression</head><p>Although Geographically Weighted Regression (GWR) was proposed for the analysis (not prediction) of spatial data, it is a suitable local model to account for non-stationarity in regression problems. GWR follows the standard linear regression framework but assumes that the coefficients β are dependent on locations (u i , v i ). The model specification is given as</p><formula xml:id="formula_13">y i = j β j (u i , v i )X ij + ϵ.</formula><p>In GWR, the local coefficients are estimated by building local models around each sample including only the spatial neighbors within a bandwidth. The latter can either be fixed (i.e., a pre-set distance) or adaptive (i.e., varying in space). The bandwidth is optimized by means of the golden-section search algorithm based on the Corrected Akaike Information Criterion (AICc) or with cross-validation (CV). Here, we tune a fixed bandwidth with the AICc criterion and use an exponential kernel. Our analysis aims to benchmark established local and global models on a synthetic (single-scale) task. We, therefore, use the original GWR specification but do not consider variants of the model such as multi-scale GWR <ref type="bibr" target="#b9">[10]</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2.3">Random Forest Regression models</head><p>Random Forests (RFs) are established machine learning models for regression tasks and have been shown to be very successful for a wide range of applications. We choose RFs as the main non-linear model in our experiments since it is arguably most prominent in spatial applications and does not require extensive parameter tuning. An RF is formed as an ensemble of decision trees that can learn arbitrary non-linear relations. The prediction of an RF is the average over the tree-wise outputs. We use the implementation provided through the scikit-learn <ref type="bibr" target="#b22">[23]</ref> package.</p><p>To give RFs the ability to learn spatially non-stationary processes, a simple approach is to include the geographic coordinates as covariates <ref type="bibr" target="#b17">[18]</ref>. We denote this RF-variant by RF (coordinates) in the following. In general, this approach is not recommended, since such a model is not applicable to other spatial regions <ref type="bibr" target="#b4">[5]</ref>. However, we only regard regression within the same region here.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2.4">Spatial Random Forests</head><p>Aside from simply extending non-linear models by adding geographic coordinates or spatial features as covariates, another option is to fit them locally, as a non-linear counterpart to GWR. Similar to <ref type="bibr" target="#b10">[11]</ref>, we implement this approach for RFs. To provide a local yet efficient approach, we exploit the bootstrapping nature of RFs and fit a fixed number of spatiallydisjoint decision trees. The decision trees are rooted in the cluster centers of K-Means clustering applied to the dataset. At test time, the prediction for a test sample is given by the weighted average of tree-wise predictions, where the weights are defined by the inverse distances of the test sample to the root of each tree respectively. While Georganos et al. <ref type="bibr" target="#b10">[11]</ref> proposed a weighting of the spatial-RF and the global-RF predictions, we set the weight to 1 for a fair comparison between global and local models. Our version of spatial RFs is made available as an open-source package <ref type="foot" target="#foot_2">4</ref> . We validated that our spatial RF achieves similar performance as the implementation by Georganos et al. <ref type="bibr" target="#b10">[11]</ref> and found that it is actually superior in 65.7% of all simulated scenarios and under ceteris paribus conditions.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2.5">Kriging</head><p>Another method that we employ is Kriging. This method is a well-known approach for interpolating geospatial data. A suitable variant for regression tasks is so-called Regression Kriging, which corresponds to universal Kriging with external drift. Regression Kriging essentially tackles (possibly non-linear) regression problems by fitting an arbitrary (global) regression model on the data and then applying Kriging on the residuals. Here, we use an RF as the base regressor in order to achieve maximum comparability to the global RF models, and employ the Kriging implementation offered in the pykrige package <ref type="bibr" target="#b19">[20]</ref>. All Random Forest-based models are fitted with 100 base estimators and a maximum tree depth of 30. Increasing the number of estimators to 150 did not yield any significant improvements. We did not tune other parameters for a fair comparison. For GWR and spatial RFs, the bandwidth is tuned on validation data.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3">Experimental setup</head><p>We construct synthetic data following the DGPs described above, and evaluate the seven regression models in each scenario. The data is thereby randomly split and each model is trained on 90% of the data and tested on the remaining 10%. To study the effect of the sample size, we generate four datasets with n = 100, n = 500, n = 1000, and n = 5000 samples respectively, and k = 5 attributes for each sample. Our DGPs allow to compare model performances subject to varying degrees of non-stationarity (λ) and of the variance of error terms (σ). In our experiments, we systematically vary the spatial non-stationarity by setting the factor λ to values between 0 and 0.5 (see Section 2.1.1). Furthermore, we vary the signal-to-noise ratio by setting σ to values between 0 and 0.5, where σ = 0.5 corresponds to a low signal-to-noise ratio (i.e., strong noise).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>3</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Results and discussion</head><p>In the following, we first compare the performances of the models on our synthetic dataset, then derive recommendations for model selection, and finally validate these recommendations in experiments on five real-world datasets.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1">Results obtained from synthetic data</head><p>The model performances in terms of test-data RMSE are visualized in Figure <ref type="figure" target="#fig_3">4</ref>, divided by data generating function (row), spatial non-stationarity (x-axis), and noise level (y-axis). Only the scenarios with 1000 samples and uniformly distributed noise ϵ are shown. As expected, the performance generally decreases with higher noise levels or higher degrees of spatial heterogeneity (see highest RMSE in the bottom right corner of each scenario depicted in Figure <ref type="figure" target="#fig_3">4</ref>). For the linear DGP, one can clearly see the superiority of GWR in dealing with locally varying spatial data, as it is indeed very robust to the adjusted spatial heterogeneity. The linear models (GWR, OLS, and SAR) are also clearly better at dealing with noise in linear regression tasks, whereas non-linear regressors such as Random Forests may struggle from overfitting. However, the latter picture changes when considering a non-linear function.</p><p>The non-linear models yet generally struggle more with spatial non-stationarity than their linear counterparts. Surprisingly, spatial RFs are consistently outperformed by other models for the linear case, probably due to overfitting local models on the limited number of samples.</p><p>The figure further indicates that a spatial RF is also not the best model when it comes to non-linear scenarios, though better than GWR. In this case, the problem may be underfitting, given the lower number of samples that are fed into each local model.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1.1">Effect of the spatial heterogeneity of the errors</head><p>As explained in Section 2.1.2 we additionally simulate different distributions of the variance of the errors ϵ (see Figure <ref type="figure">2</ref>). Figure <ref type="figure">5</ref> visualizes the RMSE for GWR and Regression Kriging by the noise level. The outcomes obtained for degrees of non-stationarity λ ∈ {0.</p><p>3, 0.4, 0.5} 0.0 0.2 0.4 Noise level 0.0 0.2 0.4 0.6 0.8 RMSE GWR linear DGP 0.0 0.2 0.4 Noise level Kriging linear DGP 0.0 0.2 0.4 Noise level GWR non-linear DGP 0.0 0.2 0.4 Noise level Kriging non-linear DGP uniformly distributed noise heterogeneous (trigonometric) heterogeneous (linear)</p><p>Figure <ref type="bibr" target="#b4">5</ref> The average RMSEs with their 95% confidence intervals for varying noise levels (500 samples, averaged over scenarios with high degrees of non-stationarity). The RMSE is highest if the noise varies in the same fashion as the coefficients (heterogeneous -trigonometric) for the linear DGP. For the non-linear DGP the noise pattern has no significant influence.</p><p>are thereby averaged for obtaining an easier-to-interpret picture, so the blue lines (uniformly distributed noise) in Figure <ref type="figure">5</ref> correspond to the right part of the squares in Figure <ref type="figure" target="#fig_3">4</ref>. In general, the type of distribution only has a minor effect compared to the average noise level, in particular for the non-linear GDP. However, at stronger noise levels, the scenario with trigonometrically varying noise is clearly the most difficult. Additionally, the variance of the RMSE increases in that case. Since the non-stationarity of the coefficients β is also modeled trigonmetrically, these findings indicate that the models particularly struggle to distinguish signal from noise if the variance of the errors is distributed similarly to the non-stationarity.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1.2">Comparing training and test errors</head><p>GWR and related local models are oftentimes only evaluated in terms of their fit to the input data, and not by means of inference on unseen data. Since GWR is based on linear models, the risk of overfitting is considered low, and evaluating the fit on test data is deemed unnecessary. Here, we make the case for evaluating models in terms of their predictive power, since even local linear models may overfit due to their higher number of parameters, and because local sample sizes are often small. To justify this argument empirically, we compare the RMSE on training and test data in our experiment. We find that Random Forest-based models (including Regression Kriging as we base it on RF) generally achieve very small training errors (RMSE &lt; 0.01), which is expected since the individual decision trees overfit on the training data and only the boosting approach leads to good test performance. In Figure <ref type="figure">6</ref> we therefore only compare the results for SLX and GWR to showcase the danger of overfitting even linear models when they are local. Here, we consider λ ∈ {0, 0.1, 0.2} as "weak non-stationarity" and λ ∈ {0.3, 0.4, 0.5} as "strong non-stationarity", σ ∈ {0, 0.1, 0.2} as "weak noise" and σ ∈ {0.3, 0.4, 0.5} as "strong noise". The results are averaged over these scenarios for n = 1000 samples. Figure <ref type="figure">6</ref> shows that SLX as a global linear model hardly overfits on the data, whereas for GWR, which has considerably more parameters than global linear models, the training and test errors indeed diverge in some scenarios. For example, when there is strong non-stationarity but weak noise, the test error of GWR is 31% higher than its training error. This demonstrates the necessity to validate models on test data when employing them in predictive instead of purely analytical scenarios.</p><p>Additionally, overfitting may even lead to misinterpretations of analytical results of GWR, such as the visualization of the estimated coefficients on a map. The effect of overfitting on the spatial interpretation is application-dependent, but we exemplify the problem in</p><p>SLX GWR 0.0 0.1 0.2 0.3 0.4 0.5 RMSE linear Weak non-stationarity ( ) and weak noise ( ) SLX GWR Strong non-stationarity ( ) and weak noise ( )</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>SLX GWR</head><p>Weak non-stationarity ( ) and strong noise ( )</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>SLX GWR</head><p>Strong non-stationarity ( ) and strong noise ( ) testing error training error</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Figure 6</head><p>Comparing training and test errors in different scenarios. Even linear models such as GWR show overfitting behaviour, i.e., a lower test than train score, if there is either noise or non-stationarity in the data.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Figure 7</head><p>Comparing the GWR-estimated coefficients to the real coefficient for different signal-tonoise ratio. With noisy data, the spatial interpretation can be distorted.</p><p>Figure <ref type="figure">7</ref>. The figure shows the true spatial variation of one coefficient β 1 in synthetic data (n = 1000) with moderate spatial heterogeneity (λ = 0.3), as well as the distribution of its estimate obtained with GWR. With decreasing signal-to-noise ratio, the spatial pattern of the estimated coefficient is perturbed. The pattern for σ = 0.5 indicates a single area with high β 1 on the left side of the region, in contrast to the true trigonometric pattern. This shows the potential for misinterpreting the results of a model with a bad fit to the data and calls for validation on test data before spatial analysis and interpretation. Of course, there is no unequivocal and generally agreed definition for when a model is overfitting, and overfitting may not be problematic as long as the test performance is sufficiently high. However, the interpretation of coefficients should be considered with caution in such case. For example, one could only analyze the coefficients of local models that were fit on a sufficient number of samples.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2">Proposed criteria for model selection</head><p>Our experiments on synthetic data allow to derive recommendations for choosing a model, dependent on the prediction task and on data availability. In general, the results in Figure <ref type="figure" target="#fig_3">4</ref> render linear models such as SLX most suitable for the linear DGP, with clear advantages of GWR in non-stationary scenarios. In contrast, Random Forest-based models are superior in the case of a non-linear DGP, while local RFs do not seem to provide many benefits. However, in real-world scenarios, the DGP is usually expected to be neither perfectly linear nor as complex as our non-linear scenario. It is therefore worthwhile to consider further factors such as the sample size. For this purpose, we analyze scenarios with strong non-stationarity (λ ∈ {0.3, 0.4, 0.5}) and weak noise (σ ∈ {0, 0.1, 0.2}) by sample size in Figure</p><p>8. Note that 100 500 1000 5000 Number of samples 0.0 0.2 0.4 0.6 RMSE linear DGP 100 500 1000 5000 Number of samples 0.0 0.2 0.4 0.6 RMSE non-linear DGP OLS SLX GWR RF RF (coordinates) spatial RF Kriging the samples are constructed by infill sampling in a fixed spatial region, implying that a higher n leads to a higher sample density. For n = 1000 samples, the results correspond to the average over the top-right quadrant of each square in Figure <ref type="figure" target="#fig_3">4</ref>.</p><p>As Figure <ref type="figure" target="#fig_4">8</ref> shows, RF models perform similarly well on linear data in scenarios with high sample density, whereas GWR is almost on-par for non-linear data when only 100 samples are provided. This observation leads us to derive the model selection tree presented in Figure <ref type="figure" target="#fig_5">9</ref>: If there is clearly a high sample density over space, RFs should be used, whereas linear models are advisable in scenarios with very low sample density, or if the phenomenon is expected to show linear relations. Since the value of a "high" or "low" sampling density is application-dependent, this criterion must be decided on the basis of an analysis of the local number of samples, e.g., by the number of samples within the set range in a semivariogram. In scenarios with high non-stationarity, Kriging or spatial features in the RF are beneficial. Global RFs should be tested in any case, in order to validate the necessity of local models. It must be noted, however, that our analysis does not consider big data scenarios, where RFs may still perform well but would need to be replaced by more memory-efficient methods such as stochastic gradient descent.</p><p>High sampling density Strong spatial non-stationarity GWR SAR / SLX RF (+Kriging) Linear relation Low sampling density Yes No RF (+Kriging) Given prediction problem </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.3">Results based on real-world data</head><p>We experiment with five benchmark datasets that have been used in previous work on spatial data analysis and prediction, e.g. <ref type="bibr" target="#b18">[19,</ref><ref type="bibr" target="#b21">22,</ref><ref type="bibr" target="#b13">14,</ref><ref type="bibr" target="#b0">1]</ref>. The following sub-section first introduces these datasets. Afterward, we discuss the results obtained.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.3.1">Datasets</head><p>There are five real-world, publicly available datasets that we employ for validation:</p><p>The California housing dataset <ref type="foot" target="#foot_3">5</ref> was generated from the 1990 California census. Our goal is to predict the median house price from the location and seven other variables, such as the size and number of rooms, age, income, and population size. The number of bedrooms is missing for 1% of the houses and we omitted those respective records.</p><p>The Atlantic mortality dataset <ref type="foot" target="#foot_4">6</ref> captures county-level mortality rates from 2010-2012, from which we have extracted only one year's worth of data for our purposes. Rates of smoking and poverty, as well as PM25, SO2, and NO2 levels provided as annual means are utilized as covariates.</p><p>We further use a dataset on deforestation rates <ref type="foot" target="#foot_5">7</ref> that was published by Santos et al. <ref type="bibr" target="#b26">[27]</ref>. The dataset provides annual deforestation rates from 2000 to 2010 for 2418 grid cells (single values averaged over 10 years). The deforestation rate is to be predicted from 35 further variables about sociodemographics, spatial features, and economic information.</p><p>The forestation rate is given as four quantiles, which is problematic for the framing as a regression problem. The results must therefore be taken with a grain of salt.</p><p>The Meuse river dataset <ref type="foot" target="#foot_6">8</ref> is another standard dataset for experimental spatial analysis <ref type="bibr" target="#b24">[25]</ref>. It is a rather small collection of soil measurements including copper, cadmium, and zinc. Usually, this dataset is used to predict zinc concentration from the other soil measurements as well as from further contextual information. For preprocessing, we omit the categorical "landuse" variable and two incomplete samples. Finally, a dataset on plant richness is included that was used for validating spatial random forests <ref type="foot" target="#foot_7">9</ref> . Plant species richness is given for 227 ecoregions in America, and there are 18 covariates with information on topography, land use, human population, and climate.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.3.2">Results obtained from real-world data</head><p>To validate the model selection tree presented in Figure <ref type="figure" target="#fig_5">9</ref> on real-world data, we first compute an indicator for the degree of non-stationarity. The LOSH statistic <ref type="bibr" target="#b20">[21]</ref> offers a way to estimate local heterogeneity in terms of a local, spatially-weighted variance estimator. When applying LOSH with a K-nearest-neighbor (KNN) weights matrix (here 20 neighbors), the global average of all LOSH values indicates the average heterogeneity with respect to the sample density. As shown in Table <ref type="table" target="#tab_0">1</ref>, we find LOSH values around 1.0 in the five real-world datasets, where the California housing and the Meuse datasets show lower local heterogeneity (øLOSH of 0.88 and 0.89) , and the plants data is subject to stronger local heterogeneity (øLOSH of 1.06). Table <ref type="table" target="#tab_0">1</ref> further gives the number of samples and the number of covariates k as an indicator of the problem complexity. We then quantified the model performances in terms of RMSE, mean absolute error (MAE), and the R-squared score; however, all metrics yield the same ranking of methods, and we therefore only report the RMSE in Table <ref type="table" target="#tab_0">1</ref>. For validating the results, we compare to previous results reported for these datasets, and our scores improve over the ones reported in the data-accompanying tutorials 6,9 , or achieve comparable results as related work <ref type="bibr" target="#b18">[19]</ref>. We confirm previous results that spatial models achieve good results on these spatial datasets. However, RF-based methods perform better on several datasets, in particular, when the sample density is sufficiently high (e.g., California housing) or when the process analyzed is more complex (e.g., predicting quantiles in the deforestation dataset from 36 variables; or predicting plant richness from 18 covariates). A surprising result is the superiority of GWR above other model specifications for the Atlantic dataset (mortality rates) despite the intermediate LOSH value and sample size. This may be due to a rather linear dependency of Y on X, and is in line with previous findings <ref type="bibr" target="#b30">[31]</ref>. Our results on real-world data, therefore, show the general applicability of our model selection criteria, but call for further efforts on quantifying spatial non-stationarity and problem complexity in spatial data.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">Conclusions</head><p>While many promising regression methods were developed specifically for spatial data, there is a lack of analysis about the properties of data that render such models superior. We contribute to a better understanding of these conditions with an analysis systematically exploring the effects of non-stationarity, the signal-to-noise ratio, noise heterogeneity, the nature of the DGP (linear/non-linear), and sample size. Based on the experiments, we recommend using (local) linear models such as GWR for addressing problems encompassing a small sample size or strong non-stationarity. Further, we recommend using non-linear models such as Random Forests for prediction tasks involving larger spatial datasets, whereby locations should be fed into the model through additional spatial input features. RFs can further be combined with Kriging to better account for non-stationarity. While the type of data may give some indication of the non-stationarity and complexity, further work is necessary to assess spatial stationarity a priori. Promising avenues may be, for example, exploring spatial stationarity measures as proposed for time series <ref type="bibr" target="#b5">[6]</ref>, through better understanding localized (and varying) heterogeneity <ref type="bibr" target="#b29">[30]</ref> or, alternatively, by controlling for complex forms of stationarity using Moran eigenvector filtering and its variants <ref type="bibr" target="#b28">[29,</ref><ref type="bibr" target="#b11">12]</ref>. We further argue that our results call for an increased significance of prediction for validating model performance. Even if a model is only used for analysis, the validity of the inferred coefficients should be evaluated via test data, since even linear local models are prone to overfitting in spatially structured noisy or non-stationary settings. At the same time, other factors that are not discussed in this work, such as model interpretability, may be important when it comes to model selection and may give preference to linear modeling even though non-linear models may be superior in terms of prediction. Future work could aim to combine the best of both worlds by improving the spatial interpretability of global models such as RFs.</p><p>Finally, our analysis is limited in scope regarding the considered properties and models. Follow-up work could put more focus on spatial autocorrelation and its interplay with nonstationarity, or explore other types of non-stationary non-linear relations. Another interesting path that some researchers have started venturing on is to integrate better modern machine learning models such as spatial neural networks with geospatial principles <ref type="bibr" target="#b12">[13,</ref><ref type="bibr" target="#b14">15]</ref>. We hope that our work inspires further efforts to properly benchmark new methods on both synthetic and real-world data, thereby improving our understanding of the use cases and advantages of spatially-explicit models.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>( a )</head><label>a</label><figDesc>Coefficients with strong spatial heterogeneity (λ = 0.5).(b) Coefficients with weak spatial heterogeneity (λ = 0.2).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Figure 1</head><label>1</label><figDesc>Figure 1Spatial non-stationarity is simulated as a trigonometric spatial variation of the coefficients β. The factor λ determines the overall strength of the non-stationarity.</figDesc><graphic coords="5,107.23,333.20,119.05,79.37" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Figure 3</head><label>3</label><figDesc>Figure<ref type="bibr" target="#b2">3</ref> Overview of the compared models' abilities to handle non-linearity, their consideration of spatial autocorrelation, and their respective suitability for non-stationarity.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Figure 4</head><label>4</label><figDesc>Figure 4Results on the synthetic dataset (1000 samples). Performance in general decreases with noise and with the degree of non-stationarity (lowest performance in the bottom right of each plot). On linear data, GWR can account for non-stationarity, in contrast to other models. A random forest is better suited for non-linear phenomena, but spatial (locally fitted) RFs do not provide any benefits in these scenarios.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Figure 8</head><label>8</label><figDesc>Figure 8 Comparing performance by the number of samples. The figure shows the average RMSE over all scenarios with strong non-stationarity (λ ∈ {0.3, 0.4, 0.5}) and weak noise (σ ∈ {0, 0.1, 0.2}).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>Figure 9</head><label>9</label><figDesc>Figure 9 Proposed criteria for model selection. The model choices were derived from experiments with synthetic data of varying non-stationarity, sample size, and DGP (linear vs non-linear).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1</head><label>1</label><figDesc>Model benchmarking on real-world data. We find that GWR performs better on the Atlantic dataset and the Meuse data, whereas non-linear models yield lower RMSE on datasets with higher sample density as expected (e.g. California housing).</figDesc><table><row><cell>Dataset</cell><cell>Samples</cell><cell>k</cell><cell>LOSH</cell><cell></cell><cell></cell><cell></cell><cell cols="2">RMSE</cell><cell></cell><cell></cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell>OLS</cell><cell cols="2">SLX GWR</cell><cell>RF</cell><cell>RF (coord.)</cell><cell cols="2">spatial RF Kriging</cell></row><row><cell>Atlantic</cell><cell>666</cell><cell>7</cell><cell>1.00</cell><cell>8.65</cell><cell>8.64</cell><cell>7.14</cell><cell>7.54</cell><cell>7.34</cell><cell>8.18</cell><cell>7.43</cell></row><row><cell>California housing</cell><cell>20433</cell><cell>8</cell><cell>0.88</cell><cell cols="4">72244 63532 56156 61234</cell><cell>48209</cell><cell>67493</cell><cell>55173</cell></row><row><cell>Deforestation</cell><cell cols="2">2418 36</cell><cell>1.00</cell><cell>0.83</cell><cell>0.82</cell><cell>0.80</cell><cell>0.66</cell><cell>0.67</cell><cell>0.71</cell><cell>0.66</cell></row><row><cell>Meuse</cell><cell cols="2">153 11</cell><cell>0.89</cell><cell>51.65</cell><cell cols="2">54.80 48.40</cell><cell>68.13</cell><cell>68.13</cell><cell>88.70</cell><cell>64.16</cell></row><row><cell>Plants</cell><cell cols="2">227 18</cell><cell>1.06</cell><cell>2349</cell><cell>2334</cell><cell>2226</cell><cell>2216</cell><cell>2288</cell><cell>2507</cell><cell>2120</cell></row></table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="2" xml:id="foot_0"><p>Throughout this paper, we use capital characters for vectors and matrices and non-capitalized characters for referring to scalar terms.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="3" xml:id="foot_1"><p>See also https://r-spatial.github.io/spatialreg/reference/invIrM.html</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="4" xml:id="foot_2"><p>https://github.com/mie-lab/spatial_rf_python G I S c i e n c e 2 0 2 3</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="5" xml:id="foot_3"><p>We use the public dataset available from Kaggle: https://www.kaggle.com/datasets/camnugent/ california-housing-prices?resource=download.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="6" xml:id="foot_4"><p>The data is available from https://zia207.github.io/geospatial-r-github.io/geographicallywighted-random-forest.html.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="7" xml:id="foot_5"><p>Data downloaded from https://github.com/FSantosCodes/GWRFC/tree/master/data</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="8" xml:id="foot_6"><p>The data is included in the R package sp: https://rsbivand.github.io/sp/reference/meuse.html</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="9" xml:id="foot_7"><p>The data is available from https://blasbenito.github.io/spatialRF/#data-requirements.</p></note>
+		</body>
+		<back>
+
+			<div type="availability">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p><ref type="url" target="https://github.com/mie-lab/spatial_rf_python">https://github.com/mie-lab/spatial_rf_  python</ref>; archived at <ref type="url" target="https://archive.softwareheritage.org/swh:1:dir:f7fc9b237a4e80f882b1785718ab884c2770ac66;origin=https://github.com/mie-lab/spatial_rf_python;visit=swh:1:snp:97a2cca4f403db7db906a92cee708ab83a458d7a;anchor=swh:1:rev:c32ea3c0d1a907f986807aec370f552f1d6b611b">swh:1:dir:f7fc9b237a4e80f882b1785718ab884c2770ac66</ref> </p></div>
+			</div>
+
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Explainable artificial intelligence (XAI) for exploring spatial variability of lung and bronchus cancer (LBC) mortality rates in the contiguous USA</title>
+		<author>
+			<persName><forename type="first">Zia U</forename><surname>Ahmed</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Kang</forename><surname>Sun</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Michael</forename><surname>Shelly</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Lina</forename><surname>Mu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Scientific Reports</title>
+		<imprint>
+			<biblScope unit="volume">11</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1" to="15" />
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Regression analysis of spatial data</title>
+		<author>
+			<persName><forename type="first">Colin M</forename><surname>Beale</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Jack</forename><forename type="middle">J</forename><surname>Lennon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Jon</forename><forename type="middle">M</forename><surname>Yearsley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Mark</forename><forename type="middle">J</forename><surname>Brewer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">David</forename><forename type="middle">A</forename><surname>Elston</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ecology letters</title>
+		<imprint>
+			<biblScope unit="volume">13</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="246" to="264" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">Chris</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Stewart</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Martin</forename><surname>Charlton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society: Series D (The Statistician)</title>
+		<imprint>
+			<biblScope unit="volume">47</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="431" to="443" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">A route map for successful applications of geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">Alexis</forename><surname>Comber</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Christopher</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Martin</forename><surname>Charlton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Guanpeng</forename><surname>Dong</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Richard</forename><surname>Harris</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Binbin</forename><surname>Lu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Yihe</forename><surname>Lü</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Daisuke</forename><surname>Murakami</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Tomoki</forename><surname>Nakaya</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Yunqiang</forename><surname>Wang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">55</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="155" to="178" />
+			<date type="published" when="2023">2023</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Geological mapping using remote sensing data: a comparison of five machine learning algorithms, their response to variations in the spatial distribution of training data and the use of explicit spatial information</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Matthew</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Anya</forename><forename type="middle">M</forename><surname>Cracknell</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Reading</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Computers &amp; Geosciences</title>
+		<imprint>
+			<biblScope unit="volume">63</biblScope>
+			<biblScope unit="page" from="22" to="33" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Measuring the degree of non-stationarity of a time series</title>
+		<author>
+			<persName><forename type="first">Sourav</forename><surname>Das</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Guy</forename><forename type="middle">P</forename><surname>Nason</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Stat</title>
+		<imprint>
+			<biblScope unit="volume">5</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="295" to="305" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Geographically neural network weighted regression for the accurate estimation of spatial non-stationarity</title>
+		<author>
+			<persName><forename type="first">Zhenhong</forename><surname>Du</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Zhongyi</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Sensen</forename><surname>Wu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Feng</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Renyi</forename><surname>Liu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Geographical Information Science</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="issue">7</biblScope>
+			<biblScope unit="page" from="1353" to="1377" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Comparing spatially-varying coefficients models for analysis of ecological data with non-stationary and anisotropic residual dependence</title>
+		<author>
+			<persName><forename type="first">Finley</forename><surname>Andrew</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Methods in Ecology and Evolution</title>
+		<imprint>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="143" to="154" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<monogr>
+		<title level="m" type="main">Geographically weighted regression: the analysis of spatially varying relationships</title>
+		<author>
+			<persName><forename type="first">Chris</forename><surname>Stewart Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Martin</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Charlton</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2003">2003</date>
+			<publisher>John Wiley &amp; Sons</publisher>
+			<pubPlace>Chichester, UK</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Multiscale geographically weighted regression (MGWR)</title>
+		<author>
+			<persName><forename type="first">Wenbai</forename><surname>Stewart Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Wei</forename><surname>Yang</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Kang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of the American Association of Geographers</title>
+		<imprint>
+			<biblScope unit="volume">107</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1247" to="1265" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Geographical Random Forests: a spatial extension of the Random Forest algorithm to address spatial heterogeneity in remote sensing and population modelling</title>
+		<author>
+			<persName><forename type="first">Stefanos</forename><surname>Georganos</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Tais</forename><surname>Grippa</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Niang</forename><surname>Assane</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Catherine</forename><surname>Gadiaga</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Moritz</forename><surname>Linard</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Sabine</forename><surname>Lennert</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Nicholus</forename><surname>Vanhuysse</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Eléonore</forename><surname>Mboga</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Stamatis</forename><surname>Wolff</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Kalogirou</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geocarto International</title>
+		<imprint>
+			<biblScope unit="volume">36</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="121" to="136" />
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Implementing Moran eigenvector spatial filtering for massively large georeferenced datasets</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Daniel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Yongwan</forename><surname>Griffith</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Chun</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Geographical Information Science</title>
+		<imprint>
+			<biblScope unit="volume">33</biblScope>
+			<biblScope unit="issue">9</biblScope>
+			<biblScope unit="page" from="1703" to="1717" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">A geographically weighted artificial neural network</title>
+		<author>
+			<persName><forename type="first">Julian</forename><surname>Hagenauer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Marco</forename><surname>Helbich</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Geographical Information Science</title>
+		<imprint>
+			<biblScope unit="volume">36</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="215" to="235" />
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Random Forest as a generic framework for predictive modeling of spatial and spatiotemporal variables</title>
+		<author>
+			<persName><forename type="first">Tomislav</forename><surname>Hengl</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Madlene</forename><surname>Nussbaum</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Marvin</forename><forename type="middle">N</forename><surname>Wright</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Gerard</forename><forename type="middle">Bm</forename><surname>Heuvelink</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Benedikt</forename><surname>Gräler</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">PeerJ</title>
+		<imprint>
+			<biblScope unit="volume">6</biblScope>
+			<biblScope unit="page">15</biblScope>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<monogr>
+		<title level="m" type="main">Improving neural networks for geospatial applications with geographic context embeddings</title>
+		<author>
+			<persName><forename type="first">Konstantin</forename><surname>Klemmer</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2022">2022</date>
+			<pubPlace>Coventry, UK</pubPlace>
+		</imprint>
+		<respStmt>
+			<orgName>University of Warwick</orgName>
+		</respStmt>
+	</monogr>
+	<note type="report_type">PhD thesis</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Spatial econometrics</title>
+		<author>
+			<persName><forename type="first">James</forename><surname>Lesage</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Handbook of research methods and applications in economic geography</title>
+		<editor>
+			<persName><forename type="first">Charlie</forename><surname>Karlsson</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">Martin</forename><surname>Andersson</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">Therese</forename><surname>Norman</surname></persName>
+		</editor>
+		<meeting><address><addrLine>Cheltenham, UK</addrLine></address></meeting>
+		<imprint>
+			<publisher>Edward Elgar Publishing</publisher>
+			<date type="published" when="2015">2015</date>
+			<biblScope unit="page" from="23" to="40" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">A family of geographically weighted regression models</title>
+		<author>
+			<persName><surname>James P Lesage</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Advances in spatial econometrics</title>
+		<editor>
+			<persName><forename type="first">Luc</forename><surname>Anselin</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">J</forename><forename type="middle">G M</forename><surname>Raymond</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">Sergio</forename><forename type="middle">J</forename><surname>Florax</surname></persName>
+		</editor>
+		<editor>
+			<persName><surname>Rey</surname></persName>
+		</editor>
+		<meeting><address><addrLine>Berlin/Heidelberg, Germany</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2004">2004</date>
+			<biblScope unit="page" from="241" to="264" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Application of machine learning methods to spatial interpolation of environmental variables</title>
+		<author>
+			<persName><forename type="first">Jin</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Andrew</forename><forename type="middle">D</forename><surname>Heap</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Anna</forename><surname>Potter</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">James</forename><forename type="middle">J</forename><surname>Daniell</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environmental Modelling &amp; Software</title>
+		<imprint>
+			<biblScope unit="volume">26</biblScope>
+			<biblScope unit="issue">12</biblScope>
+			<biblScope unit="page" from="1647" to="1659" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Incorporating spatial autocorrelation in machine learning models using spatial lag and eigenvector spatial filtering features</title>
+		<author>
+			<persName><forename type="first">Xiaojian</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Ourania</forename><surname>Kounadi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Raul</forename><surname>Zurita-Milla</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">ISPRS International Journal of Geo-Information</title>
+		<imprint>
+			<biblScope unit="volume">11</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page">242</biblScope>
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">PyKrige: development of a Kriging toolkit for Python</title>
+		<author>
+			<persName><forename type="first">Murphy</forename><surname>Benjamin</surname></persName>
+		</author>
+		<idno>pages H51K-0753</idno>
+	</analytic>
+	<monogr>
+		<title level="m">American Geophysical Union Fall Meeting Abstracts</title>
+		<meeting><address><addrLine>San Francisco, CA, USA</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="2014">2014</date>
+			<biblScope unit="volume">2014</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Local spatial heteroscedasticity (LOSH)</title>
+		<author>
+			<persName><forename type="first">Keith</forename><surname>Ord</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Arthur</forename><surname>Getis</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Annals of Regional Science</title>
+		<imprint>
+			<biblScope unit="volume">48</biblScope>
+			<biblScope unit="page" from="529" to="539" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Sparse spatial autoregressions</title>
+		<author>
+			<persName><forename type="first">Pace</forename><surname>Kelley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Ronald</forename><surname>Barry</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistics &amp; Probability Letters</title>
+		<imprint>
+			<biblScope unit="volume">33</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="291" to="297" />
+			<date type="published" when="1997">1997</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Scikit-learn: machine learning in Python</title>
+		<author>
+			<persName><forename type="first">F</forename><surname>Pedregosa</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Varoquaux</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Gramfort</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Michel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Thirion</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">O</forename><surname>Grisel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Blondel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Prettenhofer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Weiss</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Dubourg</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Vanderplas</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Passos</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Cournapeau</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Brucher</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Perrot</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Duchesnay</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Machine Learning Research</title>
+		<imprint>
+			<biblScope unit="volume">12</biblScope>
+			<biblScope unit="page" from="2825" to="2830" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<monogr>
+		<title level="m" type="main">It&apos;s the spatial data science, stupid! In Spatial Data Science Symposium</title>
+		<author>
+			<persName><forename type="first">Martin</forename><surname>Raubal</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+			<pubPlace>Santa Barbara, CA, US</pubPlace>
+		</imprint>
+	</monogr>
+	<note>Setting the Spatial Data Science Agenda Center for Spatial Studies at the University of California</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Soil pollution with heavy metals: in inquiry into spatial variation, cost of mapping and the risk evaluation of Copper, Cadmium, Lead and Zinc in the floodplains of the Meuse West of Stein</title>
+		<author>
+			<persName><surname>Mgj Rikken</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Van Rijn</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">The Netherlands: field study report</title>
+		<imprint>
+			<date type="published" when="1993">1993</date>
+		</imprint>
+		<respStmt>
+			<orgName>University of Utrecht</orgName>
+		</respStmt>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Performance analysis of some machine learning algorithms for regression under varying spatial autocorrelation</title>
+		<author>
+			<persName><forename type="first">Sebastian</forename><surname>Santibanez</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Tobia</forename><surname>Lakes</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Marius</forename><surname>Kloft</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 18th AGILE International Conference on Geographic Information Science</title>
+		<meeting>the 18th AGILE International Conference on Geographic Information Science<address><addrLine>Lisbon, Portugal</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="2015">2015</date>
+			<biblScope unit="page" from="9" to="12" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">A geographically weighted Random Forest approach for evaluate forest change drivers in the Northern Ecuadorian Amazon</title>
+		<author>
+			<persName><forename type="first">Fabián</forename><surname>Santos</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Valerie</forename><surname>Graw</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Santiago</forename><surname>Bonilla</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">PloS one</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="issue">12</biblScope>
+			<biblScope unit="page">226224</biblScope>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">Random Forest spatial interpolation</title>
+		<author>
+			<persName><forename type="first">Aleksandar</forename><surname>Sekulić</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Milan</forename><surname>Kilibarda</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">M</forename><surname>Gerard</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Mladen</forename><surname>Heuvelink</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Branislav</forename><surname>Nikolić</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Bajat</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Remote Sensing</title>
+		<imprint>
+			<biblScope unit="volume">12</biblScope>
+			<biblScope unit="issue">10</biblScope>
+			<biblScope unit="page">1687</biblScope>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Emphasising spatial structure in geosocial media data using spatial amplifier filtering</title>
+		<author>
+			<persName><forename type="first">René</forename><surname>Westerholt</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environment and Planning B: Urban Analytics and City Science</title>
+		<imprint>
+			<biblScope unit="volume">48</biblScope>
+			<biblScope unit="issue">9</biblScope>
+			<biblScope unit="page" from="2842" to="2861" />
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">A statistical test on the local effects of spatially structured variance</title>
+		<author>
+			<persName><forename type="first">René</forename><surname>Westerholt</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Bernd</forename><surname>Resch</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Franz-Benjamin</forename><surname>Mocnik</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Dirk</forename><surname>Hoffmeister</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Geographical Information Science</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="571" to="600" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Deriving neighborhoodlevel diet and physical activity measurements from anonymized mobile phone location data for enhancing obesity estimation</title>
+		<author>
+			<persName><forename type="first">Ryan Zhenqi</forename><surname>Zhou</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Yingjie</forename><surname>Hu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Jill</forename><forename type="middle">N</forename><surname>Tirabassi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Yue</forename><surname>Ma</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Zhen</forename><surname>Xu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Health Geographics</title>
+		<imprint>
+			<biblScope unit="volume">21</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1" to="18" />
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

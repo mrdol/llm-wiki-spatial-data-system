@@ -1,0 +1,785 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Spatial interdependence and instrumental variable models</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">Timm</forename><surname>Betz</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Political Science</orgName>
+								<orgName type="institution">Texas A&amp;M University</orgName>
+								<address>
+									<postCode>77843</postCode>
+									<settlement>College Station</settlement>
+									<region>TX</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Scott</forename><forename type="middle">J</forename><surname>Cook</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Political Science</orgName>
+								<orgName type="institution">Texas A&amp;M University</orgName>
+								<address>
+									<postCode>77843</postCode>
+									<settlement>College Station</settlement>
+									<region>TX</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author role="corresp">
+							<persName><forename type="first">Florian</forename><forename type="middle">M</forename><surname>Hollenbach</surname></persName>
+							<email>fhollenbach@tamu.edu</email>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Political Science</orgName>
+								<orgName type="institution">Texas A&amp;M University</orgName>
+								<address>
+									<postCode>77843</postCode>
+									<settlement>College Station</settlement>
+									<region>TX</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Spatial interdependence and instrumental variable models</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<idno type="MD5">C4D8E6D2800632A9567BE0B763BD04F1</idno>
+					<idno type="DOI">10.1017/psrm.2018.61</idno>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-29T10:21+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>Political Science Research and Methods 15</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Instrumental variable (IV) methods are widely used to address endogeneity concerns. Yet, a specific kind of endogeneityspatial interdependenceis regularly ignored. We show that ignoring spatial interdependence in the outcome results in asymptotically biased estimates even when instruments are randomly assigned. The extent of this bias increases when the instrument is also spatially clustered, as is the case for many widely used instruments: rainfall, natural disasters, economic shocks, and regionally-or globally-weighted averages. Because the biases due to spatial interdependence and predictor endogeneity can offset, addressing only one can increase the bias relative to ordinary least squares. We demonstrate the extent of these biases both analytically and via Monte Carlo simulation. Finally, we discuss a general estimation strategy -S-2SLSthat accounts for both outcome interdependence and predictor endogeneity, thereby recovering consistent estimates of predictor effects.</p><p>As political scientists increasingly focus on the identification of causal effects, instrumental variable (IV) models are becoming commonplace (e.g., Sovey and Green, 2011). IV models hinge on the validity of the instrument. While researchers are usually aware of conditional independence and relevance as general requirements for valid instruments, we identify a specific threat that is frequently ignored: spatial interdependence in the outcome variable. Our review of IV models in leading political science journals reveals that authors rarely discuss and never empirically address spatial interdependence as a threat to inference (see Figure <ref type="figure">1</ref>), even as theories of spatial interdependence and diffusion proliferate across political science (see, e.g.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>2008 ; Boix 2011; Ramsay 2011). Because these instruments are not randomly distributed across space, they risk increased bias even when they are otherwise plausibly exogenous.</p><p>Our results connect more general findings in the otherwise distinct literatures on spatial interdependence and IVs. Ignored spatial interdependence constitutes an omitted variables problem (e.g., Franzese and Hays 2007). While IV models are commonly thought to be immune to omitted variable bias, and indeed frequently used to overcome it (Wooldridge, 2002), this intuition does not always hold. Instead, as we show below, IV models can augment omitted variables bias from unmodelled spatial interdependence.</p><p>Because of its reciprocal relationship with the outcome, ignored spatial interdependence also ensures any instrument violates the exclusion restriction. As is well known, even mild violations of the exclusion restriction can produce substantial bias (Bartels, 1991; Bound, Jaeger and Baker,  1995). When these violations are caused by spatial interdependence, however, solutions are available to recover asymptotically unbiased estimates if one is willing to make assumptions about the nature of spatial relationships in the outcome variable. Recent work in the spatial econometrics literature has generalized spatial models to allow for endogenous predictors (e.g., Kelejian and Prucha 2004; Anselin and Lozano-Gracia 2008; Fingleton and Le Gallo 2008;  Drukker, Egger and Prucha 2013; Liu and Lee 2013). These same methodshereafter spatial-two stage least squares (S-2SLS)are useful when addressing endogenous predictors even when researchers are otherwise uninterested in spatial dependence theoretically. <ref type="bibr">2</ref> In short, with S-2SLS researchers instrument for both the endogenous predictor and the spatial-lag of the outcome, thereby obtaining consistent estimates of the desired causal effect.</p><p>In addition to accounting for possible outcome interdependence, this approach has two attractive features. First, it nests the standard spatial-autoregressive (SAR) model and the standard IV model, allowing researchers to explicitly test restrictions rather than proceed by assumption. <ref type="bibr">3</ref> Second, because it is an IVs approach, it should be straightforward to understand 2 To clarify, Franzese and Hays (2007) and others have previously used S-2SLS to indicate a spatial autoregressive (SAR) model estimated via 2SLS. Here, we use this term more broadly to include instances where at least one of the non-spatial predictors is also endogenous. and implement for those already pursuing IV strategies. Our simulations demonstrate that this approach consistently outperforms estimation strategies that neglect interdependenceeven under conditions unfavorable to spatial models.</p><p>We therefore advocate that researchers consider S-2SLS as a general, conservative strategy when confronting endogenous predictors and existing theories suggest the possibility of interdependence in the outcome variable. In the conclusion, we discuss some of the implications for the use of IV models in applied research.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>OLS and multifarious endogeneity</head><p>In order to better understand the problems that arise from neglecting spatial interdependence in IV estimation, it is useful to first clarify that unmodelled interdependence is itself an omitted variables problem. Consider a simple linear-additive model y = βx + e;</p><p>(1</p><formula xml:id="formula_0">)</formula><p>where y is an n-length vector of outcomes, x the predictor, and e the disturbance. The OLS estimator of β is the sample covariance of x and y over the sample variance of x,</p><formula xml:id="formula_1">βOLS = c covðx; yÞ c varðxÞ :<label>(2)</label></formula><p>Substituting the right-hand side of equation ( <ref type="formula">1</ref>) in for y yields the probability limit plim n!1 βOLS = β + covðx; eÞ varðxÞ |fflfflfflffl ffl{zfflfflfflffl ffl} endogeneity bias ;</p><p>(</p><p>showing that βOLS is asymptotically unbiased if cov(x, e) = 0, that is, if x is exogenous. <ref type="bibr">4</ref> This result should be familiar to readers. It is presented in any introductory econometrics textbook along with common sources of bias: confounding due to omitted variables, simultaneity, and measurement error in the variable of interest.</p><p>We are concerned with a special case of confounding: unmodelled interdependence between outcomes. Spatial, or cross-sectional, interdependence occurs when a unit's outcome affects the choices, actions, or decisions of other units (Kirby and Ward 1987; Ward and O'Loughlin 2002;  Beck, Gleditsch and Beardsley 2006; Franzese and Hays 2007; Plümper and Neumayer 2010). Theories of interdependence are "ubiquitous, and often quite central, throughout the substance of political science" (Franzese and Hays 2007, p. 141): the contagion of conflict and crises, the spread of domestic institutions and ideologies, economic integration and resulting policy coordination, and participation in international agreements all provide examples. Ignoring this spatial interdependence induces cross-sectional correlation in the residuals and, more problematically, covariance between the predictors and the disturbances. As a consequence, coefficient estimates are both inefficient and biased; in the following, we focus on the latter concern.</p><p>To distinguish confounding due to spatial interdependence from other sources of endogeneity of x, we decompose the error term in equation ( <ref type="formula">1</ref>) as e = ρWy + u;</p><p>(</p><formula xml:id="formula_3">)<label>4</label></formula><p>where ρ is the effect of outcomes y in surrounding units j on unit i, weighted by W, an n-by-n connectivity matrix which identifies the relationship between units i and j. As usual in spatial heart of the problem we discuss. Other models that contain a spatial lag of the outcome and additional features, such as autoregressive disturbances (the SAR-AR model), are extensions of the SAR model and could also be estimated. Drukker, Egger and Prucha (2013) discuss the estimation of a SAR-AR model with an endogenous predictor, which can be estimated using the same software routines we discuss below.</p><p>econometrics, we refer to Wy as the spatial lag, with W determining which other-unit outcomes y j are likely to influence the choices, actions, behaviors of unit i.</p><p>Then, we can rewrite equation (3) as plim n!1 βOLS Àβ = covðx; uÞ varðxÞ |fflfflfflfflfflfflffl{zfflfflfflfflfflfflffl} NonÀspatial endogeneity bias + ρ covðx; WyÞ varðxÞ : |fflfflfflfflfflfflfflfflfflfflffl{zfflfflfflfflfflfflfflfflfflfflffl} Spatial endogeneity bias (5) Equation ( <ref type="formula">5</ref>) separately identifies spatial and non-spatial endogeneity as two potential sources of bias in the OLS estimator. <ref type="bibr">5</ref> First, bias can result from more familiar, non-spatial sources of endogeneity of x, that is, correlation between x and u. This is represented by the first term in equation ( <ref type="formula">5</ref>), which drops out if cov(x, u) is zero. Second, bias can arise from spatial interdependence in y. As indicated by the second term on the right-hand side of equation ( <ref type="formula">5</ref>), this bias drops out if ρ = 0; that is, when there is no spatial interdependence. <ref type="bibr">6</ref> In what follows, we show that addressing the former while neglecting the latter fails to recover unbiased estimates of the effect. In many cases, it magnifies the bias relative to ordinary least squares.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Spatial bias in IV models</head><p>Following Sovey and Green (2011), we introduce IV estimation using familiar notation from structural equation models, assuming linear-additive relationships between the variables. Suppose a suitable instrument z is available, resulting in the following system of equations:</p><formula xml:id="formula_4">y = βx + e;<label>(6)</label></formula><formula xml:id="formula_5">x = γz + v:<label>(7)</label></formula><p>As before, suppose that the disturbance can be decomposed as e = ρWy + u and interdependence is ignored in the estimation. Then, non-spatial endogeneity arises if cov(u, v) ≠ 0 and therefore cov(x, u) ≠ 0. We assume in the following that the variable z satisfies the usual assumptions for a valid instrumentcov(z, x) ≠ 0 and cov(z, u) = 0such that z is correlated with the endogenous predictor x but uncorrelated with the disturbance u.</p><p>The IV estimator is obtained as two-stage least squares (2SLS), such that β2SLS = covðy; zÞ covðx; zÞ :</p><p>Inserting the expression for y yields plim n!1 β2SLS Àβ = ρ covðWy; zÞ covðx; zÞ + covðu; zÞ covðx; zÞ ; (9a) = ρ covðWy; zÞ covðx; zÞ |fflfflfflfflfflfflfflfflfflffl ffl{zfflfflfflfflfflfflfflfflfflffl ffl} Spatial endogeneity bias ; (9b) which shows that, by assumption, 2SLS does not suffer from the non-spatial endogeneity bias of OLS: because cov(u, z) = 0 and cov(x, z) ≠ 0, the second term on the right-hand side of equation (9a) 5 This derivation of the bias is only approximate, as W also increases in n. It is only when ρ is zero that this term drops out. cov(x, Wy) is non-zero, because Wy is a function of x. While the most obvious solution to address the bias from interdependence may be including Wy as a variable, this would not be sufficient, because Wy itself is endogenous in the outcome equation; see, e.g., Franzese and Hays (2007).</p><p>disappears. This result, of course, is well appreciated and motivates the use of 2SLS where x is suspected to be endogenous.</p><p>Less appreciated is that 2SLS is biased in the presence of (ignored and hence unmodelled) interdependence. In short, the instrument violates the exclusion restriction, because it is related to the outcome disturbances via the omitted interdependence term Wy. To see why, note that after substituting and rearranging terms, equation ( <ref type="formula" target="#formula_4">6</ref>) can be multiplied by W and written as</p><formula xml:id="formula_7">Wy = WðIÀρWÞ À1 ½βγz + βv + u:<label>(10)</label></formula><p>That is, we can re-express the spatial lag, Wy, in terms of the spatially weighted instrument z and stochastic terms u and v. Substituting this expression into the definition of the spatial bias in 2SLS and rearranging, we obtain plim n!1 β2SLS Àβ = β ρ covðWz; zÞ varðzÞ</p><formula xml:id="formula_8">+ β X 1 k = 2 ρ k covðW k z; zÞ varðzÞ :<label>(11)</label></formula><p>2SLS is biased unless the terms on the right-hand side are zero. For clarity in the following exposition, we have split the bias into two termsthe first representing the first-order bias and the second representing higher order terms. Both terms disappear if ρ = 0, such that no interdependence exists. If interdependence in the outcome does exist, such that ρ ≠ 0, however, 2SLS is biased. Notably, this bias persists even when z is randomly assigned and, therefore, independently distributed and otherwise exogenous. It is in this case that the two-term expression of the bias in equation (11) becomes useful. When z is independently distributed, the first term drops out, because independence in z implies that any specification of W yields cov(Wz, z) = 0. 7 That is, the value of z on unit i is uncorrelated with the value of z on any other unit (and their weighted-sum P j w ij z j ). However, this is not true of the second term in equation (11). While W is a hollow matrixall elements along the diagonal equal zerohigher order multiples of W are not hollow matrices as ties between units are not unidirectional. <ref type="bibr">8</ref> Because W k has non-zero diagonal elements, it follows that W k z is, for unit i, a function of z i , and therefore correlated with z, regardless of the distribution of z.</p><p>To gain more intuition for why this is the case, recall that W can be thought of as defining 'neighbors': non-zero entries indicate which units on the outcome variable are related to one another. Then, for each unit, the respective row of W defines a set of neighbors. Heuristically, powers of W then represent neighbors-of-neighbors. For example, the i th row of W 2 indicates i's neighbors' neighbors. This is important because, intuitively, a unit always is a neighbor of its own neighbors. Consequently, if W links unit i to j and unit j to unit i, then W 2 (and higher powers of W) links unit i back to itself. Therefore, even under independence of z, some W k z 6 ? z as long as W is non-triangular. Put simply, even if unit i is not related to any of the neighbors defined by W, unit i is always related to itself through these higher powers of W.</p><p>That is, for ρ ≠ 0, any instrument that is randomly assigned is (only) first-order unbiased, providing a lower bound on the spatial bias. While the bias is relatively mild, spatial 7 Recall that W is the connectivity matrix of the outcomebased on, e.g., contiguity, neighbors, or inverse distancedefining how y i is related to all y j≠i . In connectivity matrices like W the diagonal elements are always zero, that is, you cannot be a direct neighbor of yourself. 8 If spatial ties were unidirectional -W is upper-or lower-triangularthe higher order multiples would remain independent of z i . However, interdependence generally rules out unidirectional ties. The importance of reciprocal relationships between unitsi.e., interdependencefor our results can also be seen in the contrast to temporal dependence. With temporal dependence, the current value of the outcome is a function of past values of the outcome, but past outcomes are not a function of the current value. Hence, a randomly assigned instrument poses no problems under temporal dependence.</p><p>interdependence in the outcome variable renders IV models biased, even under conditions most favorable to IV models, such as experimental or quasi-experimental designs.</p><p>RESULT 1 With unmodelled spatial interdependence in the outcome, 2SLS is asymptotically biased.</p><p>However, the instruments often used in practice are not independently distributed, risking greater bias still. Specifically, the more the values z i are similar to neighboring values z j ≠ i (where neighboring values are defined by W, the matrix defining relationships among units for the outcome), the greater the bias will be: the first term in equation ( <ref type="formula" target="#formula_8">11</ref>) no longer drops out, and all of the terms in the expression increase in magnitude.</p><p>To understand this result, it helps to think of 2SLS broken down into two stages. The first stage is a regression of the endogenous predictor x on the instrument z, which yields fitted values x. The second stage is a regression of the outcome variable y on the fitted values x. We make two observations. First, if z follows a spatial distribution, the projected values x inherit some of that spatial pattern. Second, in a regression with an (erroneously) omitted spatial lag, the bias in coefficient estimates is reinforced for variables that have a spatial distribution similar to that of the outcome (see, e.g., Franzese and Hays 2007). It follows that the bias in 2SLS becomes most severe if the fitted values x have a spatial distribution similar to that of the outcomewhich, in turn, is the case if the instrument has a spatial distribution similar to the outcome.</p><p>It is not crucial that the instrument and the outcome follow identical spatial patterns, merely that the instrument and the outcome have some similarity in their spatial patterns. That is, the bias in 2SLS increases if the W that characterizes the relationships in y also partially characterizes the relationships in z. In practice, when considering the extent of the spatial bias in 2SLS, one can therefore remain largely agnostic about the nature of the spatial relationships on the instrumentin particular, it is not necessary to determine whether z and y are truly governed by identical Ws or even which specific W applies to the instrument (and our empirical approach, detailed in the next section, is consistent with this view). Our point is much simpler: if the outcome is spatially interdependent, then the bias in 2SLS will be more severe for instruments with spatial patterns similar to that of the outcome.</p><p>These concerns apply to a large set of common instruments. Researchers often draw on geographic, meteorologic, or economic variables, such as natural disasters (Ramsay 2011), rainfall data (Hansford and Gomez 2010), or commodity price shocks (Ahmed 2012), where spatial dependence among units is likelynatural disasters, rainfall, and price shocks do not stop at territorial borders. The same problem arises for instruments that are measured at a higher level of aggregation than the endogenous predictor. If, for instance, the instrument is based on regional political or institutional shocks, such as waves of democratization (Stasavage 2005) or membership in international institutions in neighboring countries (Büthe and Milner 2008), the instrument induces spatial correlation in the projection x by construction: the value of the instrument is identical or nearly identical for each of the lower-order observations within the cluster. Since many outcome variables of interest in political science also cluster regionallye.g., democratization, economic growth, or policyregional-level instruments are likely to reinforce the bias in 2SLS.</p><p>To illustrate, consider the use of meteorological variables as instruments for democratization (z) in models of economic development (y). Contiguous states (a widely used W) likely have both similar levels of development (y) and common weather patterns (z), where the former implies ρ &gt; 0 and the latter implies cov(Wz, z) &gt; 0. It is under these conditions that the bias will be most severe; as can be seen in equation ( <ref type="formula" target="#formula_9">12</ref>), the bias increases in the strength of the interdependence in the outcome (ρ) and the strength of the spatial dependence in the instrument (cov(Wz, z)).</p><p>RESULT 2 With unmodelled spatial interdependence in the outcome, the more similar are the spatial distributions of the instrument and the outcome, the greater is the bias in 2SLS.</p><p>We add three additional observations. First, these biases are usually inflationary, which can be seen from equation (11). The bias terms are multiplied by powers of ρ, which is positive in most applications (Franzese and Hays 2007). And, if z is governed by a similar pattern of spatial dependence as the outcome, the covariances between W k z and z are non-negative. Consequently, the right-hand side of equation ( <ref type="formula" target="#formula_8">11</ref>) should have the same sign as β and be proportional to β. Thus, in most applications the bias in 2SLS that arises from spatial interdependence exaggerates the true parameter valuewhere β is negative, 2SLS produces smaller coefficient estimates, and where β is positive, 2SLS produces larger coefficient estimates.</p><p>Second, the spatial bias induced from the instrument can exceed the spatial bias in ordinary least squares.</p><p>Consider the relative spatial bias of OLS (the left-hand side) and 2SLS (the righthand side): covðWy; xÞ varðxÞ ≶ covðWy; zÞ covðx; zÞ :</p><p>To focus on the comparison of the spatial bias between 2SLS and OLS, suppose that no nonspatial endogeneity exists. Re-expressing both terms, condition (12) becomes</p><formula xml:id="formula_10">X 1 k = 1 ρ k covðW k x; xÞ varðxÞ ≶ X 1 k = 1 ρ k covðW k z; zÞ varðzÞ :<label>(13)</label></formula><p>Simply put, differences in the spatial distribution of the instrument and the endogenous variable inform the relative degree of spatial bias. This is similar to Bartels's (1991) recognition that, because x can be considered its own instrument, when using an invalid instrument z the gains relative to OLS are a function of the relative difference in how z and x covary with the disturbance of y. Again thinking of the second stage in 2SLS as a regression of y on the projection x further clarifies the role of spatial dependence in the instrument: the bias of 2SLS relative to OLS increases as the spatial distribution of the instrumented predictor, x, becomes more similar to the spatial distribution of the outcome than the original predictor, x. Then, IV models augment the spatial bias, because x is more similar to the omitted spatial lag than x is. The reverse, of course, also holds: if the instrument is randomly assigned, then the similarity between the spatial pattern of the instrumented predictor, x, and the outcome decreases, and the bias of 2SLS relative to OLS declines. Nonetheless, even in that case, as we emphasize in Result 1, 2SLS remains biased. Finally, because spatial and non-spatial endogeneity biases may attenuate or reinforce each other, ignoring spatial interdependence in the outcome risks unpredictable and possibly greater overall bias than OLS. When the endogenous variable, x, is spatially less clustered than the instrument, z, the severity of the difference in the spatial biases may be sufficiently large to surmount the gains from addressing non-spatial endogeneity. And because the spatial and nonspatial bias may have different directions, resolving one of the biases may easily produce results further from the truth than resolving none. Perhaps most problematically, these offsetting effects mean that the OLS and 2SLS estimates will not even be sufficient to obtain bounds on the true parameter value.</p><p>Spatial models with additional endogenous predictors What, then, can researchers concerned with endogeneity in a key predictor and spatial interdependence in the outcome do? The solution is actually quite simple: estimate a modified IV model. While early work in spatial econometrics assumed exogenous predictors, methods for estimating models with additional endogenous predictors have become increasingly common (Kelejian and Prucha 2004; Anselin and Lozano-Gracia 2008; Fingleton and Le Gallo  2008; Drukker, Egger and Prucha 2013; Liu and Lee 2013). To date, however, these models have not received much attention in applied spatial work in political science, and even less so in contexts where researchers are not theoretically interested in spatial relationships. In short, to redress the concerns above, researchers need to account for the spatial interdependence of the outcome. Yet, including a spatial lagged-outcome produces a system of simultaneouslydetermined, non-separable equations. That is, Wy is itself is an endogenous predictor, no different than a simultaneously-determined x. Consequently, in spatial modeling, researchers exploit the same strategies generally used when confronting endogenous predictors (such as maximum likelihood, 2SLS, or GMM). As such, one can simply extend the familiar IV framework, applying it to account for outcome interdependence and predictor endogeneity. As this is simply a special case of multiple endogenous variables, a spatial-two stage least squares (S-2SLS) model can be estimated as in standard IV analysis: instrumenting for Wy and x simultaneously.</p><p>While other solutions are also availablee.g., purging the spatial dependence of the outcome equation via eigenvector filteringwe prefer S-2SLS for several reasons. <ref type="bibr">9</ref> First, the mechanics of estimating this model are already familiar to researchers using IV estimation for an endogenous variable x, because the estimator, 2SLS, is the same. Second, S-2SLS nests the non-spatial IV model a researcher would have otherwise estimated. Rather than restrict ρthe spatial effectto be zero by assumption, as in 2SLS, S-2SLS allows researchers to explicitly test this. As we demonstrate in simulations, this nesting helps ensure thateven if no spatial interdependence is present and ρ = 0the model recovers the same estimates as the original 2SLS, with only minimal efficiency loss due to the additional parameter. Finally, the S-2SLS model, as well as several extensions, can be estimated in both Stata (spivreg) and R (sphet).</p><p>The only practical hurdles to estimating a S-2SLS are in the specification stage: (i) what are appropriate instruments for the spatial lag and (ii) what is the appropriate connectivity matrix W for the outcome variable. The first, instrument selection, is comparatively simple. While instruments for the endogenous predictor usually require finding additional exogenous variables, instruments for the spatial lag can typically be found from transformations to the existing data. Specifically, spatial lags of the exogenous predictors serve as instruments for the spatial lag of the outcome. To see the basic intuition for this, just multiply W by both sides of the simple linearadditive modeli.e., y = βx + e ⇒ Wy = βWx + We. Just as x is related to y, Wx is related to Wy, the spatial lag. <ref type="bibr">10</ref> The second practical hurdle, the selection of W, is already familiar to researchers with exposure to spatial models. For those less familiar, we briefly sketch out the basics. To undertake spatial econometric modeling, researchers must pre-specify how units are related to one another (i.e., the network). Geographic proximity (e.g., contiguity) is commonly used, though researchers should specify connections that are most theoretically appropriate for their data. These relational measures for 'space' are then supplied to the model as the elements in Wan n-by-n connectivity matrix which identifies the relationship between units i and j. S-2SLS clearly performs best when W reflects the true network, yet gains are still likely even when researchers do not have full information on the ties between units. First, in the worst-case (and unlikely) scenario that a researcher completely mischaracterizes W, this would still do no worse in expectation than 2SLS -S-2SLS recovers a zero estimate of ρ due to misspecified W, while 2SLS does so by 9 Limited and full information estimators allowing for both spatial and non-spatial endogeneity have been established, with Kelejian and Prucha (2004) the first to derive formal large sample results; see also Drukker, Egger and Prucha (2013) for a GMM estimator. Franzese, Hays and Cook (2016) discuss the complications of modeling spatial interdependence in discretechoice models. assumption. Second, due the high correlation across different possible network structures, even a misspecified W has power against the truth (LeSage and Pace 2014). We revisit this concern in the simulated experiments in the next section. <ref type="bibr">11</ref> Once specified, estimation of the S-2SLS model proceeds without additional complications. Because S-2SLS is estimated via the 2SLS estimator, it inherits the asymptotic and small-sample properties of 2SLS (including consistency, finite sample bias, and the sensitivity to weak instruments). <ref type="bibr">12</ref> Similarly, standard variance estimatorsrobust to heteroskedasticity or nonindependence, for instanceare easily applicable. We demonstrate the gains that can be realized from S-2SLS in the following sections.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Simulation experiments</head><p>To assess the performance of OLS, 2SLS, and S-2SLS, we undertake a series of Monte Carlo experiments with varying levels of spatial and non-spatial endogeneity. In particular, the data for our simulations are generated as follows:</p><formula xml:id="formula_11">y = ðIÀρ y WÞ À1 ½xβ + λ 1 Q + u 1 ;<label>(14a)</label></formula><formula xml:id="formula_12">x = γz + λ 2 Q + u 2 ;<label>(14b)</label></formula><formula xml:id="formula_13">z = ðIÀρ z WÞ À1 v; where v $ Nð0; 1Þ; (<label>14c</label></formula><formula xml:id="formula_14">)</formula><p>where y is the outcome, x is the endogenous predictor, Q is a matrix of exogenous predictors, W is a row-standardized connectivity matrix, and z is the instrument. <ref type="bibr">13</ref> Consistent with our discussion above, we only consider the consequences of spatial interdependence in y and z, which are the key attributes for bias in 2SLS. <ref type="bibr">14</ref> The extent of spatial interdependence in the outcome and the instrument is given by parameters ρ y and ρ z , respectively, with larger values of ρ y and ρ z resulting in greater spatial interdependence in y and z. We do not vary the specification of the W that governs the spatial pattern of y and z, respectively. Non-spatial endogeneity is induced through draws of (u 1 , u 2 ) T = N(0, Σ), where Σ is the covariance matrix of a bivariate normal random variable. We decompose Σ such that we can specify the correlation (δ) between u 1 and u 2 directly. We vary δ to induce different degrees of non-spatial endogeneity. If δ = 0, x is exogenous and OLS (or standard spatial) models should be preferred. With non-zero δ and non-zero ρ y , the assumptions of neither OLS nor 2SLS hold.</p><p>This setup allows us to consider various scenarios that correspond to our results above. ρ y = ρ z = 0 produces the standard IV model with an i.i.d. instrument, such that 2SLS should 11 Note that the researcher need not specify the spatial distribution of the instrument. W specifies connections among units with respect to the outcome variable. As we highlighted in the previous section, the extent of the bias in 2SLS depends on the similarity in the spatial pattern between the instrument and the outcome. But it is not necessary to determine the specific spatial pattern of the instrument. For an approach addressing weak instruments in IV models, see Betz (2013). Drukker, Egger and Prucha (2013) and Liu  and Lee (2013) allow for both additional residual spatial error autocorrelation and/or heteroskedasticity. These extensions are GMM-plus-IV, implemented in Stata's spreg. While we do not discuss this at length here, the first step is the S-2SLS we present, which provides the initial, consistent estimates of the spatial interdependence in the outcome that can then be used in the second step estimation of the error autocorrelation, with successive iteration over both steps until convergence is obtained. 13 Locations for the units are generated by twice taking n draws from a standard uniform, with the combined results producing xy-coordinate points. Connections between the units are then generated using a k-Nearest Neighbor algorithm with k = 5, returning a binary n-by-n matrix with each element in a row coded as 1 for the five closest units or 0 for all others (including zeros along the diagonal). The matrix is then row-standardized. 14 As discussed above, the relative spatial pattern of x and z only matters for the performance of 2SLS relative to OLS. For the simulations, to illustrate Result 2, we only consider scenarios where 2SLS performs relatively poorly due to the spatial pattern in z.</p><p>perform well. ρ y ≠ 0 but ρ z = 0 implies interdependence in the outcome but an i.i.d. instrument. Following Result 1, we should still observe some bias in 2SLS in this scenario, whereas S-2SLS should perform better. As ρ z increases, the bias in 2SLS should increase, both in absolute terms (Result 2) and relative to OLS, because the instrument becomes more similarly distributed to the outcome relative to the predictor. Finally, varying δ, the extent of non-spatial endogeneity, allows us to evaluate scenarios under which OLSwhich produces spatial and non-spatial endogeneityshould perform worse than 2SLSwhich produces only spatial endogeneity.</p><p>The remaining parameters {β, γ, λ 1 , λ 2 } are the coefficients of the predictors of x and y, respectively. <ref type="bibr">15</ref> Our main focus is on the estimate of β, which we hold constant across experiments at 2. Table <ref type="table" target="#tab_0">1</ref> shows the different parameter values which we use to create simulated data sets. There are 108 different combinations of the parameters shown in Table <ref type="table" target="#tab_0">1</ref> (with the italic values indicating those used in the subsequent figures). For each combination we generate 1000 data sets, which results in a total of 108,000 simulation runs. On each dataset, we estimate β using OLS, 2SLS, and our preferred method, S-2SLS.</p><p>The results are presented in Figures <ref type="figure" target="#fig_4">2</ref> and <ref type="figure" target="#fig_6">3</ref>, which report the median absolute error and coverage probabilities for the estimators, respectively. <ref type="bibr">16</ref> The figures vary along three dimensions.   In the first stage, we specify the intercept as 2. The two exogenous predictors have coefficients 3 and -2.5. For the second stage, the intercept is -2 and the exogenous predictors are -3 and 2.5. For the plots presented in the manuscript, we set the coefficient on the instrument to γ = 1.5 and the number of observations to n = 200. Observations for the predictors are drawn from standard normal distributions.</p><p>First, δthe non-spatial endogeneityincreases across the three rows from -0.5 in the top row, to 0 in the middle row, to 0.5 in the bottom row. Second, each column shows results for a different value of ρ zthe spatial pattern of the instrumentranging from 0 in the column on the left over 0.3 in the middle to 0.6 on the right. Finally, within each individual plot, ρ ythe spatial interdependence in the outcomeincreases from left to right across the x-axis.</p><p>Several observations stand out from the plots. Turning to the median absolute error (MAE) in Figure <ref type="figure" target="#fig_4">2</ref> first, across all levels of non-spatial endogeneity (δ), the error of 2SLS grows as ρ y increases, dramatically so as ρ y and ρ z increase together. This is consistent with our theoretical results: under interdependence in the outcome, the 2SLS model always returns biased estimates (Result 1), with the severity of these biases increasing in the similarity of the spatial pattern in the instrument and the outcome (Result 2). Importantly, when both the instrument and outcome are characterized by spatial dependence, a situation that in our view is not uncommon in the literature, the bias in 2SLS increases quickly. Conversely, the MAE of S-2SLS is stable, as its performance does not suffer under high interdependence in y, z, or both. In fact, S-2SLS weakly dominates 2SLS, besting it when spatial interdependence is present and matching it otherwise. Thus, when non-spatial endogeneity is present and IV models may be warranted, S-2SLS performs better than or as good as 2SLS. Across all scenarios considered in the simulations, 2SLS performs better in terms of MAE only when ρ y = 0, and even then the maximum difference in median absolute error between 2SLS and S-2SLS is 0.03. While not surprising, this bolsters our claim that S-2SLS is a useful conservative specification, robust under non-spatial and spatial endogeneity, because it nests both cases.</p><p>The OLS estimator performs poorly when either non-spatial or spatial endogeneity is present. However, and as discussed above, the bias can be larger for 2SLS than for OLS, even in the case of strong non-spatial endogeneity where OLS should perform poorly. This occurs under higher levels of ρ z and ρ yas we move from the left to the right in each box, and as we move from the left column to the right columnwhere the spatial and, in turn, total bias of 2SLS is greater due to the spatial interdependence of the instrument.</p><p>The top and middle rows of Figure <ref type="figure" target="#fig_4">2</ref> present two particularly interesting scenarios. In the top row, with negative non-spatial endogeneity and positive spatial interdependence, the relative performance of OLS improves, both in absolute terms and relative to 2SLS, as the spatial interdependence increases. The two biases are countervailing, combining to produce a result closer to the truth. Under these conditions, 2SLS produces relatively worse results, as it addresses one type (and therefore direction) of bias, while neglecting the other. As a result, 2SLS produces more biased estimates even whilein fact, due toaddressing one of the sources of that bias.</p><p>In the middle row, we have no non-spatial endogeneity bias, and relying on 2SLS is unnecessary. Usually, using 2SLS instead of OLS is not much of a concern, aside from a slight efficiency loss. This changes with interdependence. If the instrument is spatially more similar to the outcome than the predictor (as in the second and third column), 2SLS produces more total bias than OLS. In this case, 2SLS not only was unnecessary, but results in worse estimates than OLS. (Of course, this result hinges on the simulation setup, which consistent with our discussion allowed for a spatial pattern in z but not in xif the reverse was the case, 2SLS would perform relatively better.)</p><p>These results are particularly problematic, as researchers relying on 2SLS over OLS estimates will be more confident about results that are further from the truth and dismissive of results that were closer to it. Frequently, a difference between 2SLS and OLS estimates is accepted as evidence of suspected non-spatial endogeneity (such as measurement error or reverse causality) that was successfully removed by 2SLS. While 2SLS removes non-spatial endogeneity, such arguments ignore that 2SLS may come with biases of its own, and that these biases need not be less pronounced than the biases in OLS. Where outcomes are interdependent, there is no guarantee that 2SLS produces better estimates than OLS. S-2SLS, by contrast, does not suffer from this issue and consistently outperforms both OLS and 2SLS.</p><p>Figure <ref type="figure" target="#fig_6">3</ref> shows the coverage probabilities for each estimator. The coverage statistic measures the share of estimates for which the true parameter falls within the 95% confidence interval of the estimate. If perfectly calibrated, we would expect this to be true for 95% of cases. The results are generally consistent with our expectations. First, the coverage of OLS is generally poor under either spatial or non-spatial endogeneity. However, for the reason just discussed, when the spatial and non-spatial bias are oppositely signed (top row), the coverage of OLS improves with higher spatial interdependence. Second, with interdependence in the outcome, the 2SLS estimator undercovers, with the severity of this increasing ρ z . Finally, S-2SLS has very good coverage throughout and is not affected by interdependence in z or y. In fact, the coverage of S-2SLS is consistently around 95%, ranging between 92% and 96%.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Robustness checks</head><p>In the Online Appendix, we discuss a series of additional experimental conditions. First, what if the researcher has incomplete information on the spatial network (i.e., the W matrix)? To evaluate this, we undertake additional experiments where we vary the level of misspecificationfrom no error to total errorof the spatial network used in estimation. As This demonstrates what we articulated earlier: because S-2SLS nests 2SLS, it only suffers minor efficiency losses when it is the incorrect model. Next, we explore the consequences of a weak instrument (i.e., γ = 0.75). As expected, IV methods perform worse, yet the overall order in performance between the different methods does not change. Finally, we evaluate how the performance of the estimators varies with changes to sample size. All the results presented above hold.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Application</head><p>To illustrate how failing to account for spatial interdependence when using IV models can induce bias in published research, we replicate Ramsay's (2011) "Revisiting the Resource Curse: Natural Disasters, the Price of Oil, and Democracy." 17 A long-standing literature in political science has considered the effects of natural resource revenues on political order. Ramsay (2011) identifies reverse causality as one of the main threats to inference: changes in resource revenues may cause political change, but politics may also affect resource revenues.</p><p>The main independent variable of interest is a country's annual oil income per capita (specifically the price of crude oil times annual production divided by the population). The dependent variable is a country's level of democracy, measured as a normalized score of Polity IV. A valid instrument would have sufficient power to explain oil revenues; and fulfill the exclusion restriction such that it only affects changes in democracy via the path through oil revenues. In light of these requirements, Ramsay (2011) introduces out-of-region natural disasters as the IV (where regions are defined as Europe, Middle East, North Africa, sub-Saharan Africa, Asia, or the Americas). The rationale is that natural disasters, by reducing oil production in the affected countries, change world oil prices, and therefore oil revenues of individual countries; at the same time, natural disasters should have no direct effect on oil production in remote countries.</p><p>We highlight three concerns with these IV models. First, levels and changes of democracy cluster in space (Gleditsch and Ward 2006). Second, natural disasters, the instrument of choice, likely correlate in space. As Ramsay (2011) notes, the effects of disasters are likely to spill over, affecting neighboring states. Finally, Ramsay (2011) aggregates the variable to the regional level, inducing a spatial pattern by construction. By designing the instrument as "out of region disaster damage estimates" (Ramsay 2011, 514), all countries within each of the five regions have the same value on the instrument, thus inducing spatial correlation in the instrument by design. As we discussed above, with a spatially interdependent outcome and instrument, we generally expect inflationary bias in the non-spatial IV estimator.</p><p>The results from our analysis are presented in Table <ref type="table" target="#tab_1">2</ref>. <ref type="bibr">18</ref> First, we estimate a linear model (via OLS), with our results (see Model 1) reproducing those found in Ramsay (2011). <ref type="bibr">19</ref> Next, we determine whether these findings hold once we account for spatial interdependence. Before undertaking spatial analysis, we need to select the connectivity matrix, W. <ref type="bibr">20</ref> Here, we use a rowstandardized geographic binary contiguity matrix, as these are widely used in the literature. <ref type="bibr">21</ref> Given W, we estimate a SAR model (Model 2), which returns a significant value for the spatial effect parameter (ρ = 0.173; p-value &lt;0.05). The coefficient for oil income per capita is still negative and statistically significant. <ref type="bibr">22</ref> This indicates that there does appear to be spatial interdependence in the model, so now we consider the consequence for the IV estimator. In Model 3 of Table <ref type="table" target="#tab_1">2</ref>, we replicate the 2SLS model in Ramsay (2011). <ref type="bibr">23</ref> Here the estimated coefficient of log oil income is -0.36 and statistically significant. That is, the 2SLS model presents an effect estimate that is almost eight times larger than the original OLS estimate. Finally, we estimate our preferred S-2SLS model, with the results given in Model 4 of Table <ref type="table" target="#tab_1">2</ref>. <ref type="bibr">24</ref> The instrumented coefficient of logged oil income is now estimated to be -0.088. That is, while the effect is still significant and in the expected direction, its magnitude is much smaller than in the 2SLS model that ignores spatial interdependence. 25 18 As in Ramsay (2011), the predictors include log oil income per capita, GDP per capita, GDP growth, a lagged polity variable, and year fixed effects 19 This is Model 4 in Ramsay (2011).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>20</head><p>A detailed discussion on W selection is beyond the scope of this paper, interested readers should consult Neumayer and  Plümper (2016). 21   We are unable to merge 4 observation to the shapefiles and therefore drop these from all models. 22 Due to the non-linear nature of the SAR model, the average direct effectthat is, the average effect of a one-unit change in x i on y iis not the coefficient estimate, but instead: Tr{(I -ρW) -1 β x }/n. For the variable of logged oil income per capita, this results in a value of -0.042, slightly smaller than the OLS effect estimate of -0.046.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>23</head><p>In Ramsay (2011), this is presented in column 4 of Table <ref type="table">3</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>24</head><p>W is the same as in Model 2. 25   Table D.1 in the Appendix displays the results comparing the 2SLS model and the S-2SLS model for the robustness checks presented in Table <ref type="table">5</ref> in Ramsay (2011). Again, the differences between 2SLS and S-2SLS are stark and reflect the same pattern as shown in Table <ref type="table" target="#tab_1">2</ref>.</p><p>Furthermore, we see substantial efficiency gains in the estimateas indicated by the standard errorsonce we account for spatial interdependence.</p><p>In sum, failing to account for spatial interdependence resulted in substantial inflationary bias in the estimates of interest. We do not overturn the central finding presented in Ramsay (2011)  that oil revenue is negatively associated with the polity score, but the magnitude of the effect is reduced considerably and the purported gains from IV estimation are significantly reduced.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Conclusion</head><p>IV models are now a frequently used tool in political science research. IV methods are especially common in observational research, where endogeneity often threatens causal inference. However, observational data are also where concerns of spatial interdependence are the most salient and where instruments are unlikely to be randomly assigned. Consequently, IV methods are most widely used where the biases due to unmodelled outcome interdependence discussed above are the most likely to occur. This problem may be especially pronounced in published research as researchers are disproportionately likely to publish IV results where gains over OLS are the most pronouncedas can and will occur if outcome interdependence is present and unaddressed. <ref type="bibr">26</ref> We discuss a simple strategy researchers should employ to avoid these biases: S-2SLS. This estimation strategy offers few complications for researchers already pursuing IV methods, inherits the properties of 2SLS familiar to those using IV models, and ensures results are robust to spatial interdependence. Our simulations evidence that S-2SLS performs well across a variety of situations and presents a conservative and robust alternative.</p><p>Our discussion adds to growing concerns over spatially dependent instruments (Cooperman  2017; Betz, Cook and Hollenbach 2018). While we have identified challenges to credible inference using observational data, we emphasize that we do not discourage analyses using these data. Instead, our purposes in this paper are twofold. First, we highlighted the unique problems posed by spatial interdependence for IV models. In our reading of the literature, these problems have largely been ignored by applied researchers. Second, we want to encourage researchers to </p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure 1 .</head><label>1</label><figDesc>Figure 1. The plot shows the number of articles published in the APSR, AJPS, JOP, IO, BJPS, and World Politics between 2000 and 2016 that use IV models (light gray bars), and the number of those articles at risk of spatial interdependence in the outcome (dark gray bars).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><figDesc>6</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>10A</head><figDesc>more complete derivation can be seen by noting that the reduced form of the spatial-lag model discussed in section 3, y = (I -ρW) -1 [xβ x + u], can be re-expressed using an infinite series and multiplied through by W to produceWy = Wxβ x + ρW 2 xβ x + ρ 2 W 3 xβ x + … + (I -ρW) -1 u,indicatinghow spatial lags of x (and their higher order powers) effectively instrument for Wy.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><figDesc>12</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Figure 2 .</head><label>2</label><figDesc>Figure 2. Median absolute error (MAE). Rows: δ, non-spatial endogeneity. Columns: ρ z , spatial interdependence in the instrument. Horizontal axis within each plot: ρ y , spatial interdependence in the outcome. Vertical axis within each plot: MAE.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><figDesc>15</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>Figure 3 .</head><label>3</label><figDesc>Figure 3. Coverage probabilities. Rows: δ, non-spatial endogeneity. Columns: ρ z , spatial interdependence in the instrument. Horizontal axis within each plot: ρ y , spatial interdependence in the outcome. Vertical axis within each plot: Coverage rate.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><figDesc>Figure A.1 and Figure A.2 in the Online Appendix show, S-2SLS weakly dominates 2SLS.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1 .</head><label>1</label><figDesc>Parameter Values for Simulations</figDesc><table><row><cell>n</cell><cell></cell><cell></cell><cell>50</cell><cell></cell><cell></cell><cell></cell><cell cols="2">200</cell></row><row><cell>ρ y</cell><cell></cell><cell></cell><cell>0</cell><cell></cell><cell></cell><cell></cell><cell cols="2">0.3</cell><cell>0.6</cell></row><row><cell>ρ z</cell><cell></cell><cell></cell><cell>0</cell><cell></cell><cell></cell><cell></cell><cell cols="2">0.3</cell><cell>0.6</cell></row><row><cell>γ</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell cols="2">0.75</cell><cell>1.5</cell></row><row><cell>δ</cell><cell></cell><cell></cell><cell>-0.5</cell><cell></cell><cell></cell><cell></cell><cell>0</cell><cell></cell><cell>0.5</cell></row><row><cell cols="4">Note: Values in italics used in Figures 2 and 3.</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell></cell><cell></cell><cell>ρ z =0</cell><cell></cell><cell cols="2">ρ z = 0.3</cell><cell></cell><cell cols="2">ρ z = 0.6</cell></row><row><cell></cell><cell>1.00</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell></cell><cell>0.75 0.50</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell>non-spatial endogeneity = -0.5</cell></row><row><cell></cell><cell>0.25</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>Median Absolute Error</cell><cell>0.00 0.00 0.25 0.50 0.75 1.00 1.00</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell>non-spatial endogeneity = 0</cell></row><row><cell></cell><cell>0.75 0.50</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell>non-spatial endogeneity = 0.5</cell></row><row><cell></cell><cell>0.25</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell></cell><cell>0.00</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell></cell><cell>0</cell><cell>0.3</cell><cell>0.6</cell><cell>0</cell><cell>0.3</cell><cell>0.6</cell><cell>0</cell><cell>0.3</cell><cell>0.6</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell>ρ y</cell><cell></cell><cell></cell><cell></cell></row><row><cell></cell><cell></cell><cell></cell><cell cols="2">Estimation Method</cell><cell>2sls</cell><cell>s-2sls</cell><cell>ols</cell><cell></cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 2 .</head><label>2</label><figDesc>Replication of OLS and IV Results Table1and 3 inRamsay (2011)   : W matrix for spatial models based on contiguous neighbors. Instrumental variable: out-of-region natural disasters. Table shows coefficient estimates, standard errors in parentheses. *p &lt; 0.1, **p &lt; 0.05, ***p &lt; 0.01.</figDesc><table><row><cell></cell><cell>(1)</cell><cell>(2)</cell><cell>(3)</cell><cell>(4)</cell></row><row><cell></cell><cell>OLS</cell><cell>SAR</cell><cell>2SLS</cell><cell>S-2SLS</cell></row><row><cell></cell><cell>Replication</cell><cell>Spatial</cell><cell>Replication</cell><cell>Spatial</cell></row><row><cell>Log oil income per capita</cell><cell>-0.0457***</cell><cell>-0.0420***</cell><cell>-0.358**</cell><cell>-0.0878***</cell></row><row><cell></cell><cell>(0.00575)</cell><cell>(0.00354)</cell><cell>(0.167)</cell><cell>(0.0114)</cell></row><row><cell>Log GDP per capita</cell><cell>0.0653***</cell><cell>0.0662***</cell><cell>0.356**</cell><cell>0.108***</cell></row><row><cell></cell><cell>(0.00877)</cell><cell>(0.00533)</cell><cell>(0.155)</cell><cell>(0.0115)</cell></row><row><cell>GDP growth</cell><cell>-0.00363***</cell><cell>-0.00391***</cell><cell>-0.0118**</cell><cell>-0.00499***</cell></row><row><cell></cell><cell>(0.00106)</cell><cell>(0.000921)</cell><cell>(0.00518)</cell><cell>(0.00102)</cell></row><row><cell>Polity at entry</cell><cell>0.666***</cell><cell>0.658***</cell><cell>-0.00517</cell><cell>0.564***</cell></row><row><cell></cell><cell>(0.0280)</cell><cell>(0.0165)</cell><cell>(0.373)</cell><cell>(0.0288)</cell></row><row><cell>Constant</cell><cell>-0.171***</cell><cell>-0.237***</cell><cell>-0.962**</cell><cell>-0.330***</cell></row><row><cell></cell><cell>(0.0518)</cell><cell>(0.0499)</cell><cell>(0.439)</cell><cell>(0.0591)</cell></row><row><cell>Spatial ρ y</cell><cell></cell><cell>0.173***</cell><cell></cell><cell>0.119***</cell></row><row><cell></cell><cell></cell><cell>(0.015)</cell><cell></cell><cell>(0.020)</cell></row><row><cell>Observations</cell><cell>1263</cell><cell>1263</cell><cell>1263</cell><cell>1263</cell></row><row><cell>Year dummies</cell><cell>Yes</cell><cell>Yes</cell><cell>Yes</cell><cell>Yes</cell></row></table><note><p>Note</p></note></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="16" xml:id="foot_0"><p>We prefer MAE as it limits the influence of potential outliers. In the Online Appendix, we also present model performance in RMSE terms.</p></note>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div><p>Acknowledgements. Thanks to <rs type="person">Vincent Arel-Bundock</rs>, <rs type="person">Patrick Brandt</rs>, <rs type="person">Rob Franzese</rs>, <rs type="person">Kosuke Imai</rs>, <rs type="person">Stephen Jessee</rs>, <rs type="person">Tom Pepinsky</rs>, <rs type="person">Piero Stanig</rs>, <rs type="person">Vera Troeger</rs>, <rs type="person">Guy Whitten</rs>, two reviewers, and participants at the Annual Conference of the European Political Science Association in 2016, the Annual Conference of the Society for Political Methodology in 2016, and the Texas Methods Meeting in 2017 for their helpful comments. All remaining errors are ours alone. Authors are listed in alphabetical order, equal authorship is implied. Portions of this research were conducted with high performance research computing resources provided by <rs type="institution">Texas A&amp;M University</rs> (<ref type="url" target="http://hprc.tamu.edu">http://hprc.tamu.edu</ref>).</p></div>
+			</div>			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>consider more carefully the potential drawbacks of IVs. Frequently, IV estimates are conjectured to be superior to results from ordinary least squares. This assumption is often wrong. The estimates obtained from IV models can quickly, and under fairly general circumstances, be worse than ordinary least squares, even with instruments that are plausibly exogenous. IVs can, under specific circumstances, identify causal effects. But these circumstances are more limited than is often realized, which should give researchers some pause in advocating the use of IV models. IVs may cause more problems than they solve. Supplementary materials. To view supplementary material for this article, please visit <ref type="url" target="https://doi.org/10.1017/">https://doi.org/10.1017/</ref> psrm.2018.61</p></div>			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">The Perils of Unearned Foreign Income: Aid, Remittances, and Government Corruption</title>
+		<author>
+			<persName><forename type="first">F</forename><forename type="middle">Z</forename><surname>Ahmed</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">American Political Science Review</title>
+		<imprint>
+			<biblScope unit="volume">106</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="146" to="165" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Errors in Variables and Spatial Effects in Hedonic House Price Models of Ambient Air Quality</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Lozano-Gracia</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Empirical Economics</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="5" to="34" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Dynamics and Stagnation in the Malthusian Epoch</title>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Ashraf</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">O</forename><surname>Galor</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">American Economic Review</title>
+		<imprint>
+			<biblScope unit="volume">101</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="2003" to="2041" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Instrumental and &quot;Quasi-Instrumental&quot; Variables</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">M</forename><surname>Bartels</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">American Journal of Political Science</title>
+		<imprint>
+			<biblScope unit="volume">35</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="777" to="800" />
+			<date type="published" when="1991">1991</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Space Is More than Geography: Using Spatial Econometrics in the Study of Political Economy</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Beck</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">S</forename><surname>Gleditsch</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Beardsley</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Studies Quarterly</title>
+		<imprint>
+			<biblScope unit="volume">50</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="27" to="44" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Robust Estimation with Nonrandom Measurement Error and Weak Instruments</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Betz</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Political Analysis</title>
+		<imprint>
+			<biblScope unit="volume">21</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="86" to="96" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">On the Use and Abuse of Spatial Instruments</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Betz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">J</forename><surname>Cook</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Hollenbach</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Political Analysis</title>
+		<imprint>
+			<biblScope unit="volume">26</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="474" to="479" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Democracy, Development, and the International System</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Boix</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">American Political Science Review</title>
+		<imprint>
+			<biblScope unit="volume">105</biblScope>
+			<biblScope unit="issue">04</biblScope>
+			<biblScope unit="page" from="809" to="828" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Problems with Instrumental Variables Estimation When the Correlation between the Instruments and the Endogeneous Explanatory Variable Is Weak</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Bound</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Jaeger</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">M</forename><surname>Baker</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">90</biblScope>
+			<biblScope unit="issue">430</biblScope>
+			<biblScope unit="page" from="443" to="450" />
+			<date type="published" when="1995">1995</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">The Politics of Foreign Direct Investment into Developing Countries: Increasing FDI through International Trade Agreements?</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Büthe</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">V</forename><surname>Milner</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">American Journal of Political Science</title>
+		<imprint>
+			<biblScope unit="volume">52</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="741" to="762" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Randomization Inference with Rainfall Data: Using Historical Weather Patterns for Variance Estimation</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">D</forename><surname>Cooperman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Political Analysis</title>
+		<imprint>
+			<biblScope unit="volume">25</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="277" to="288" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">On Two-Step Estimation of a Spatial Autoregressive Model with Autoregressive Disturbances and Endogenous Regressors</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">M</forename><surname>Drukker</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Egger</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometric Reviews</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="issue">5-6</biblScope>
+			<biblScope unit="page" from="686" to="733" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Estimating Spatial Models with Endogenous Variables, a Spatial Lag and Spatially Dependent Disturbances: Finite Sample Properties</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Fingleton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Le</forename><surname>Gallo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Papers in Regional Science</title>
+		<imprint>
+			<biblScope unit="volume">87</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="319" to="339" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J</forename><surname>Franzese</surname><genName>Jr</genName></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">C</forename><surname>Hays</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Models of Cross-Sectional Interdependence in Political Science Panel and Time-Series-Cross-Section Data</title>
+		<imprint>
+			<date type="published" when="2007">2007</date>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="page" from="140" to="164" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Spatial-and Spatiotemporal-Autoregressive Probit Models of Interdependent Binary Outcomes</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J</forename><surname>Franzese</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">C</forename><surname>Hays</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">J</forename><surname>Cook</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Political Science Research and Methods</title>
+		<imprint>
+			<biblScope unit="volume">4</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="151" to="173" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Diffusion and the International Context of Democratization</title>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">S</forename><surname>Gleditsch</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">D</forename><surname>Ward</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Organization</title>
+		<imprint>
+			<biblScope unit="volume">60</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="911" to="933" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Estimating the Electoral Effects of Voter Turnout</title>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">G</forename><surname>Hansford</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">T</forename><surname>Gomez</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">American Political Science Review</title>
+		<imprint>
+			<biblScope unit="volume">104</biblScope>
+			<biblScope unit="issue">02</biblScope>
+			<biblScope unit="page" from="268" to="288" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Estimation of Simultaneous Systems of Spatially Interrelated Cross Sectional Equations</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">118</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="27" to="50" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">The Spatial Analysis of Peace and War</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">M</forename><surname>Kirby</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">D</forename><surname>Ward</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Comparative Political Studies</title>
+		<imprint>
+			<biblScope unit="volume">20</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="293" to="313" />
+			<date type="published" when="1987">1987</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title/>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Lesage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Pace</forename><surname>Rk</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Biggest Myth in Spatial Econometrics. Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="217" to="249" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<author>
+			<persName><forename type="first">X</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L-F</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Two-Stage Least Squares Estimation of Spatial Autoregressive Models with Endogenous Regressors and Many Instruments</title>
+		<imprint>
+			<date type="published" when="2013">2013</date>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="page" from="734" to="753" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title/>
+		<author>
+			<persName><forename type="first">E</forename><surname>Neumayer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Plümper</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Political Science Research and Methods</title>
+		<imprint>
+			<biblScope unit="volume">4</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="175" to="193" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Model Specification in the Analysis of Spatial Dependence</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Plümper</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Neumayer</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">European Journal of Political Research</title>
+		<imprint>
+			<biblScope unit="volume">49</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="418" to="442" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Revisiting the Resource Curse: Natural Disasters, the Price of Oil, and Democracy</title>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">W</forename><surname>Ramsay</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Organization</title>
+		<imprint>
+			<biblScope unit="volume">65</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="507" to="529" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Introduction: The International Diffusion of Liberalism</title>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">A</forename><surname>Simmons</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Dobbin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Garrett</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Organization</title>
+		<imprint>
+			<biblScope unit="volume">60</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="781" to="810" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Opportunity, Willingness, and the Diffusion of War</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">M</forename><surname>Siverson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Starr</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">American Political Science Review</title>
+		<imprint>
+			<biblScope unit="volume">84</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="47" to="67" />
+			<date type="published" when="1990">1990</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Instrumental Variables Estimation in Political Science: A Readers&apos; Guide</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">J</forename><surname>Sovey</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">P</forename><surname>Green</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">American Journal of Political Science</title>
+		<imprint>
+			<biblScope unit="volume">55</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="188" to="200" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">Democratic Dominoes: Diffusion Approaches to the Spread of Democracy in the International System</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Starr</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Conflict Resolution</title>
+		<imprint>
+			<biblScope unit="volume">35</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="356" to="381" />
+			<date type="published" when="1991">1991</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Democracy and Education Spending in Africa</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Stasavage</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">American Journal of Political Science</title>
+		<imprint>
+			<biblScope unit="volume">49</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="343" to="358" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">D</forename><surname>Ward</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">O</forename><surname>'loughlin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Spatial Processes and Political Methodology: Introduction to the Special Issue</title>
+		<imprint>
+			<date type="published" when="2002">2002</date>
+			<biblScope unit="volume">10</biblScope>
+			<biblScope unit="page" from="211" to="216" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Location, Location, Location: An MCMC Approach to Modeling the Spatial Context of War and Peace</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">D</forename><surname>Ward</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">S</forename><surname>Gleditsch</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Political Analysis</title>
+		<imprint>
+			<biblScope unit="volume">10</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="244" to="260" />
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<monogr>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename><surname>Wooldridge</surname></persName>
+		</author>
+		<title level="m">Econometric Analysis of Cross Section and Panel Data</title>
+		<meeting><address><addrLine>Cambridge, MA</addrLine></address></meeting>
+		<imprint>
+			<publisher>MIT Press</publisher>
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

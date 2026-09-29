@@ -1,0 +1,1194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Estimation and Inference of Quantile Spatially Varying Coefficient Models Over Complicated Domains</title>
+				<funder>
+					<orgName type="full">NRF</orgName>
+				</funder>
+				<funder ref="#_uSwSBQf">
+					<orgName type="full">National Science Foundation</orgName>
+					<orgName type="abbreviated">NSF</orgName>
+				</funder>
+				<funder ref="#_xmXNTSQ #_MqZP4Fj">
+					<orgName type="full">Ministry of Education</orgName>
+				</funder>
+				<funder ref="#_CNdhtd2">
+					<orgName type="full">Postdocs (LAMP)</orgName>
+				</funder>
+				<funder ref="#_F2nVKpm">
+					<orgName type="full">National Institutes of Health</orgName>
+					<orgName type="abbreviated">NIH</orgName>
+				</funder>
+				<funder ref="#_Gyc2kvW #_VSJcVbh">
+					<orgName type="full">unknown</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">Myungjin</forename><surname>Kim</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department" key="dep1">Department of Statistics</orgName>
+								<orgName type="department" key="dep2">KNU G-LAMP Project Group</orgName>
+								<orgName type="institution" key="instit1">KNU Institute of Basic Sciences</orgName>
+								<orgName type="institution" key="instit2">Kyungpook National University</orgName>
+								<address>
+									<postCode>41566</postCode>
+									<settlement>Daegu</settlement>
+									<country key="KR">South Korea</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Lily</forename><surname>Wang</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="department">Department of Statistics</orgName>
+								<orgName type="institution">George Mason University</orgName>
+								<address>
+									<postCode>22030</postCode>
+									<settlement>Fairfax</settlement>
+									<region>VA</region>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Huixia</forename><forename type="middle">Judy</forename><surname>Wang</surname></persName>
+							<affiliation key="aff2">
+								<orgName type="department">Department of Statistics</orgName>
+								<orgName type="institution">The George Washington University</orgName>
+								<address>
+									<postCode>20052</postCode>
+									<settlement>Professor Washington</settlement>
+									<region>DC</region>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Estimation and Inference of Quantile Spatially Varying Coefficient Models Over Complicated Domains</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<idno type="MD5">2AE74E8895668CD204ED3CD51037D740</idno>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-29T10:20+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>Alternating direction method of multiplier</term>
+					<term>Bivariate penalized spline</term>
+					<term>Conformal prediction</term>
+					<term>Nonparametric quantile regression</term>
+					<term>Triangulation</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>This paper presents a flexible quantile spatially varying coefficient model (QSVCM) for the regression analysis of spatial data. The proposed model enables researchers to assess the dependence of conditional quantiles of the response variable on covariates while accounting for spatial nonstationarity. Our approach facilitates learning and interpreting heterogeneity in spatial data distributed over complex or irregular domains. We introduce a quantile regression method that utilizes bivariate penalized splines in triangulation to estimate unknown functional coefficients. We establish the L 2 convergence of the proposed estimators, demonstrating their optimal convergence rate under certain regularity conditions. An efficient optimization algorithm is developed using the alternating direction method of multipliers (ADMM). We develop wild residual bootstrap-based pointwise confidence intervals for the QSVCM quantile coefficients. Furthermore, we construct reliable conformal prediction intervals for the response variable using the proposed QSVCM. Simulation studies show the remarkable performance of the proposed methods. Lastly, we illustrate the practical applicability of our methods by analyzing the mortality dataset and the supplementary particulate matter (PM) dataset in the United States.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>Spatially varying coefficient models (SVCMs) offer a flexible extension of linear regression models to capture the non-stationarity of regression coefficients across space. Although there has been extensive research on SVCMs in estimation and hypothesis testing, most existing work has focused primarily on mean regression scenarios. In SVCMs, the relationship between the response and covariates is established through a regression, where the coefficients are allowed to vary across locations and are modeled as nonparametric functions of spatial coordinates. In the context of spatial mean regression, <ref type="bibr" target="#b8">Gelfand et al. (2003)</ref> developed a Bayesian procedure that models the spatially varying coefficient function as a realization of a spatial process, assuming a specific prior distribution for the coefficients. Bivariate smoothing tools have also been developed to fit SVCMs in spatial regression analysis. For instance, <ref type="bibr" target="#b7">Fotheringham et al. (2002)</ref> proposed a geographically weighted regression (GWR), which obtains the coefficient function locally at each location by minimizing weighted least squares using distance-decay weights. <ref type="bibr" target="#b27">Mu et al. (2018)</ref> and <ref type="bibr" target="#b42">Yu et al. (2024)</ref> developed computationally efficient global and distributed learning methods that use bivariate spline smoothing over triangulation (BST; <ref type="bibr" target="#b23">Lai and Wang, 2013)</ref> to effectively approximate coefficient functions and accommodate complex domains with irregular boundaries.</p><p>Mean regression models the mean response as a function of covariates, disregarding the complete distributional properties of the response. However, assuming that the effect of covariates is the same across all quantiles of the distribution lacks practical and theoretical justification. Mean regression models often provide an incomplete picture of the relationships between variables. This is especially problematic for regression analyses with heterogeneous variances, which are common in spatial data analysis. To address this limitation and gain a more comprehensive insight into the effect of covariates on the response variable, quantile regression <ref type="bibr" target="#b19">(Koenker, 2005)</ref> provides a valuable approach. This paper develops a theory and methodology for quantile SVCMs (QSVCMs) to account for the complexity of spatial data distributed over irregular and complex domains.</p><p>Various smoothing methods have been applied to quantile regression in the literature, including univariate local polynomials in <ref type="bibr" target="#b14">Honda (2004)</ref> and <ref type="bibr" target="#b3">Cai and Xu (2008)</ref>; smoothing splines in <ref type="bibr" target="#b11">He et al. (1998)</ref>; univariate B-splines in <ref type="bibr" target="#b12">He and Shi (1994)</ref> and <ref type="bibr" target="#b18">Kim (2007)</ref>; penalized univariate B-splines (Psplines) in <ref type="bibr" target="#b1">Bollaerts et al. (2006)</ref> and <ref type="bibr" target="#b0">Andriyana et al. (2014)</ref>. <ref type="bibr">He and Shi (1996)</ref> proposed a bivariate tensor product B-splines for a partly linear model. However, the limitation of tensor product B-splines is that they use a rectangular grid of control points, implicitly defining the function's domain as a rectangle, which may not fully capture significant features in the data that are not aligned with the major axes. Another approach proposed by <ref type="bibr" target="#b20">Koenker and Mizera (2004)</ref> involves penalized triograms, which employ piecewise linear bivariate splines with total variation regularization in quantile regression. However, due to the jump discontinuities of piecewise linear functions and the L 1 -nature of the total variation penalty, this approach may encounter challenges when estimating functions with many fluctuations or rapid changes.</p><p>As a natural extension of bivariate quantile regression, QSVCMs have been studied, but mainly under the Bayesian framework <ref type="bibr" target="#b32">(Reich et al., 2011;</ref><ref type="bibr" target="#b26">Lum et al., 2012;</ref><ref type="bibr" target="#b41">Yang and He, 2015)</ref>. Frequentist approaches include geographically weighted quantile regression (GWQR) <ref type="bibr" target="#b4">(Chen et al., 2012)</ref> and the semiparametric framework to approximate spatial conditional regression using a local linear method <ref type="bibr" target="#b25">(Lu et al., 2014)</ref>. Although many conventional smoothing tools are useful in the non-/semi-parametric literature, they often suffer from the problem of "leakage" when the domain of interest is complex <ref type="bibr" target="#b31">(Ramsay, 2002;</ref><ref type="bibr" target="#b40">Wood et al., 2008)</ref>, which refers to poor estimation over complex regions by inappropriate linking of parts of the domain separated by physical barriers.</p><p>To address this issue, we adopt the bivariate penalized splines over triangulation (BPST) method, which has been effectively applied in various contexts <ref type="bibr" target="#b23">(Lai and Wang, 2013;</ref><ref type="bibr" target="#b39">Wang et al., 2020;</ref><ref type="bibr" target="#b43">Yu et al., 2019;</ref><ref type="bibr" target="#b27">Mu et al., 2018;</ref><ref type="bibr">Kim and Wang, 2021;</ref><ref type="bibr">Kim et al., 2021)</ref>. Unlike traditional methods limited to simple tensorized domains, the proposed BPST method extends the analysis to complex spatial domains through triangulation. This approach adaptively fits spatial contours and features, thus preserving essential spatial relationships and avoiding boundary effects. Such capabilities lead to more accurate estimations, particularly in environments where geographical discontinuities significantly influence underlying processes. Moreover, the use of bivariate spline basis functions also provides flexibility to choose degrees and smoothness so that the proposed estimators can achieve the optimal convergence rate under certain regularity assumptions.</p><p>To achieve the desired approximation power of functions of interest, we employ a combination of the L 1 -type of the quantile loss function and the L 2 -type of roughness penalty. Quantile regression analysis for this class of SVCMs is technically challenging as commonly used algorithms for penalized mean and quantile regression are not applicable. We overcome this computational challenge by adopting the alternating direction method of multipliers (ADMM). In addition, a wild bootstrap procedure is proposed to construct pointwise confidence intervals (PCIs) for the spatially varying quantile coefficient functions. Furthermore, reliable conformal prediction intervals for the response variable are constructed using the proposed QSVCM.</p><p>The remainder of this paper is organized as follows. In Section 2, we introduce the quantile SVCMs and the BPST estimators and establish the asymptotic properties of the proposed estimators. Section 3 describes the computational algorithm. Section 4 discusses implementation details, such as the selection of triangulation, spline basis functions, and roughness penalty parameters. In addition, it presents the construction of PCIs for quantile coefficient functions and conformal prediction intervals for the response variable. In Section 5, we perform simulation studies to evaluate the finite sample performance of the proposed methods. Section 6 applies the methods to a case study on mortality data. Section 7 presents some discussion and conclusions. Detailed proofs, application of the method to the particulate matter (PM) data, and additional numerical results can be found in the Supplementary Material.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">Methodology</head><p>In this section, we introduce a QSVCM and provide a review of the bivariate spline approximation on triangulation. We then propose a penalized estimator for bivariate coefficient functions in the quantile SVCM based on the quantile objective function and the thin-plate spline penalty. Furthermore, we establish the convergence rate of the proposed penalized spline coefficient estimator.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1">Quantile SVCMs</head><p>Suppose that Y i , X i , S i i = 1 n is a random sample of size n from the joint distribution of Y , X, S , where X = X 0 , …, X p ⊤ is 1 + p -dimensional covariate vector with X 0 = 1 and Y is the response of interest for a location S = S 1 , S 2 ⊤ distributed on a bounded domain Ω ⊆ ℝ 2 of arbitrary shape. Suppose that Q τ Y | X, S = ∑ k = 0 p X k β k, τ S , where Q τ Y | X, S denotes the τ th conditional quantile of Y given X, S . Let τ ∈ 0,1 be a given quantile level of interest. We consider the following SVCM for the conditional quantile of Y i given X i , S i :</p><formula xml:id="formula_0">Q τ Y i | X i , S i = k = 0 p X ik β k, τ S i , i = 1, …, n,<label>(1)</label></formula><p>where β k, τ ⋅ 's are τ-dependent spatially varying coefficient functions.</p><p>The proposed QSVCM estimates quantile-specific spatially heterogeneous relationships between the response variable and the covariates on a spatial domain. It allows for a more comprehensive understanding of the data by capturing complex quantile-specific variations in the relationships, offering valuable insights into the spatial patterns and heterogeneity of the data distribution.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2">Bivariate Spline Approximation over Triangulation</head><p>To present the estimation method of β k, τ ⋅ 's, we start with a discussion about triangulation, a powerful technique employed to handle data distributed on the complex domain with irregular shapes and, in some cases, interior holes.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Consider three non-collinear vertices</head><formula xml:id="formula_1">v i = v 1i , v 2i ⊤ for i = 1,2, 3, numbered in counter-</formula><p>clockwise order. The convex hull of these vertices forms a triangle T = v 1 , v 2 , v 3 . Assume that there are N non-overlapping triangles, T 1 , T 2 , …, T N , that fully cover the domain of interest Ω and only intersect at common vertices or edges. Such a collection Δ = T 1 , …, T N of triangles is called a triangulation of Ω = ∪ i = 1 N T i . To characterize the size and shape of a triangle T ∈ Δ, we adopt the following notation. Let T represent the length of the longest edge of T , and ρ T denote the radius of the largest circle inscribed in T . The shape parameter of T is defined as the ratio T /ρ T . Furthermore, we denote the size of Δ as Δ = max T , T ∈ Δ .</p><p>Given a triangle T = v 1 , v 2 , v 3 , any point s ∈ ℝ 2 can be uniquely represented as</p><formula xml:id="formula_2">s = b 1 v 1 + b 2 v 2 + b 3 v 3 , where b 1 + b 2 + b 3 = 1.</formula><p>Here, b 1 , b 2 , and b 3 are the barycentric coordinates of s relative to the triangle T . While it is possible for all points in ℝ 2 to be represented in this form, where b 1 , b 2 , and b 3 may take negative values, we only consider the points that lie inside or on the edges of the triangle τ, where b 1 , b 2 , and b 3 are all nonnegative. Based on b 1 , b 2 , b 3 , the Bernstein basis polynomials of degree d relative to a fixed triangle T are defined as</p><formula xml:id="formula_3">B i 1 i 2 i 3 d s = d!/ i 1 !i 2 !i 3 ! b 1 i 1 b 2 i 2 b 3 i 3 , with i 1 + i 2 + i 3 = d, s ∈ T .</formula><p>For a given quantile level τ and k = 0, …, p, the bivariate coefficient function β k, τ ⋅ in the model (1) can be approximated by the basis expansion as and their corresponding spline coefficients for the kth bivariate function, respectively <ref type="bibr" target="#b27">(Mu et al., 2018)</ref>. Here, ℳ is an index set for bivariate Bernstein basis polynomials, with cardinality ℳ = d + 1 d + 2 N /2, and N is the number of triangles in Δ. Note that, for notational convenience, the superscript d in a set of Bernstein basis polynomials is suppressed.</p><p>To achieve the desired smoothness of piecewise polynomials across shared edges or vertices of adjacent triangles, we consider the bivariate spline space of degree d and smoothness r over Δ. To ensure the smoothness requirement (see the discussion in Supplementary Section S.1), we impose the constraint matrix H on the spline coefficients θ k, τ as follows:</p><p>Hθ k, τ = 0, k = 0, …, p, τ ∈ 0,1 .</p><p>(</p><p>For theoretical simplicity, we consider the same constraint matrix H for k = 0, …, p.</p><p>However, in practice, they can vary based on specific smoothness requirements of coefficient functions. For more details, see discussions in Supplementary Section S.1. Examples of such matrices can be found in the implementation details in <ref type="bibr" target="#b43">Yu et al. (2019)</ref>. The R package BPST <ref type="bibr">(Wang et al., 2019)</ref> provides tools to construct both the bivariate spline basis functions and the constraint matrices.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3">Bivariate Penalized Spline Quantile Regression</head><p>Penalized methods are known to be effective for handling sparse data regions and balancing the model fitting and roughness of the function of interest. In the context of penalized spline quantile regression, we describe the estimation of bivariate quantile varying coefficients β 0, τ ⋅ , …, β p, τ ⋅ . For univariate smoothing in the mean regression, the integral of the squared curvature of the function is usually considered a penalty to balance between the model fitting and roughness of a function. In the quantile regression literature, to tackle computational challenges with the squared curvature penalty, <ref type="bibr" target="#b21">Koenker et al. (1994)</ref> proposed using the total variation penalty based on the integral of the absolute value of the curvature and solved it as a linear program.</p><p>For bivariate smoothing, a commonly considered L 2 type penalty function for surface smoothing is the thin-plate spline penalty <ref type="bibr" target="#b9">(Green and Silverman, 1993)</ref>, also known as the energy functional, which is an extension of the classical integral of squared curvature of a univariate smooth function. The energy functional is defined as follows:</p><formula xml:id="formula_5">ℰ f = ∑ T ∈ Δ ∫ T ∑ i + j = 2 2 i ∇ s 1 i ∇ s 2 j f s 2 ds 1 ds 2 ,<label>(3)</label></formula><p>where ∇ s j q f s is the qth order derivative in the direction s j , j = 1,2, at any location s = s 1 , s 2 .</p><p>For a bivariate quantile regression, <ref type="bibr" target="#b20">Koenker and Mizera (2004)</ref> proposed a total variation regularization based on the roughness of a continuous but not smooth bivariate function.</p><p>When the objective is to isolate local extremes with sharp edges or spikes, such a penalty could be a desirable alternative. This penalty can also be justified based on computational tractability or scale equivalence paired with the quantile loss function <ref type="bibr" target="#b20">(Koenker and Mizera, 2004)</ref>. However, for approximating functions with higher-order smoothness, the estimator in <ref type="bibr" target="#b20">Koenker and Mizera (2004)</ref> cannot reach the full approximation power in terms of the convergence rate. To overcome this limitation, we consider bivariate penalized splines with ℰ ⋅ in (3) as a penalty. Our method offers greater flexibility in using piecewise polynomials of different degrees and smoothness over an arbitrary triangulation for spatial data analysis, yielding a faster convergence rate when estimating functions with higher-order smoothness.</p><p>For bivariate functions β k, τ ⋅ and roughness penalty parameters λ k, τ , where k = 0, …, p and τ ∈ 0,1 , we consider the following penalized quantile regression problem:</p><formula xml:id="formula_6">min β k, τ ⋅ , k = 0, …, p ∑ i = 1 n ρ τ Y i -∑ k = 0 p X ik β k, τ S i + ∑ k = 0 p λ k, τ ℰ β k, τ ⋅ ,<label>(4)</label></formula><p>where ρ τ u = u τ -I u &lt; 0 is the quantile loss function. The roughness penalty parameters λ k, τ 's provide additional control over smoothing, complementing the use of different degrees of smoothness parameters d and r, as well as the smoothness constraint matrix H.</p><p>Instead of directly solving the minimization problem in (4), which involves estimating the nonparametric bivariate function β k, τ ⋅ with infinitely many parameters, we employ the bivariate spline approximation over triangulation, as discussed in Section 2.2.</p><p>Specifically, for k = 0, …, p, we approximate β k, τ ⋅ using B ⋅ ⊤ θ k, τ , where B ⋅ represents the bivariate spline basis functions, and θ k, τ is the coefficient vector. For notational simplicity, we will use the same triangulation Δ, set of bivariate Bernstein basis functions B s , and constraint matrix H for all bivariate functions discussed in this paper. Let P be an ℳ × ℳ block diagonal matrix with its (m, m′)th element being</p><formula xml:id="formula_7">∑ i + j = 2 2 i Ω ∇ s 1 i ∇ s 2 j B m s ∇ s 1 i ∇ s 1 j B m′ s ds 1 ds 2 .</formula><p>Then, we can approximate the energy functional ℰ β k, τ ⋅ by θ k, τ ⊤ Pθ k, τ . Taking into account the constraint matrix on the spline coefficients in (2), we can reformulate the problem in (4) as follows:</p><formula xml:id="formula_8">∑ i = 1 n ρ τ Y i -∑ k = 0 p X ik B S i ⊤ θ k, τ + ∑ k = 0 p λ k, τ θ k, τ ⊤ Pθ k, τ subject to Hθ k, τ = 0.<label>(5)</label></formula><p>Note that it is not straightforward to solve the minimization problem (5) due to the constraints. We circumvent this problem by re-parametrizing the spline coefficients θ k, τ .</p><p>Through QR decomposition, the transpose of the constraint matrix H can be factorized into the following:</p><formula xml:id="formula_9">H ⊤ = QR = Q 1 Q 2 R 1 R 2</formula><p>, where Q is an orthogonal matrix and R is an upper triangle matrix, the submatrix Q 1 consists of the first r = rank H columns of Q, and R 2 represents a matrix of zeros. The reparametrization of the spline coefficients θ k, τ = Q 2 γ k, τ , for some vectors γ k, τ , automatically satisfies Hθ k, τ = 0.</p><formula xml:id="formula_10">Let L n γ τ ; τ = ∑ i = 1 n ρ τ Y i -∑ k = 0 p X ik B S i</formula><p>⊤ Q 2 γ k, τ and P λ γ τ = γ τ ⊤ D Λ, τ γ τ , where D Λ, τ = Λ τ ⊗ Q 2 ⊤ PQ 2 and Λ τ = diag λ 0, τ , …, λ p, τ with "⊗" as the Kronecker product. The constrained optimization problem ( <ref type="formula" target="#formula_8">5</ref>) is converted to an unconstrained penalized problem:</p><formula xml:id="formula_11">min γ τ L n γ τ ; τ + P λ γ τ ,<label>(6)</label></formula><p>where</p><formula xml:id="formula_12">γ τ = γ 0, τ ⊤ , …, γ p, τ ⊤ ⊤ . Suppose that γ ˆτ = γ ˆ0,τ ⊤ , …, γ ˆp,τ ⊤ ⊤</formula><p>is the solution to the minimization problem in (6) for the τ th quantile level. Then, it follows that the bivariate spline estimator of β k, τ s is β ˆk,τ s = B s ⊤ θ k, τ , where θ k, τ = Q 2 γ ˆk,τ for k = 0, …, p. For the sake of simpler notation, we suppress the subscript τ whenever no confusion is caused hereafter.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.4">Convergence of the Bivariate Spline Estimators</head><p>In this section, we present the convergence rate of the proposed penalized spline coefficient estimators. To establish the convergence results, we introduce the following assumptions, which are essential for the technical details, although they may not be the weakest conditions:</p><p>(A1) For any k = 0,1, …, p, the bivariate functions β k 's are in the Sobolev space W d + 1, ∞ Ω defined in (S.6) in the Supplementary Material, where d ≥ 1 is an integer.</p><p>(A2) The density function f s ⋅ of S i 's is bounded away from zero and infinity on Ω.</p><p>(A3) The distribution functions of Y i , F Y i ≡ F i , are absolutely continuous, with continuous densities f i ξ uniformly bounded away from 0 and ∞ at the points ξ i τ ,</p><p>where</p><formula xml:id="formula_13">ξ i τ = F Y i -1 τ | X i , S i , for i = 1,2, …, n.</formula><p>(A4) For any k = 0, …, p, there exists a positive constant C k such that X ik ≤ C k . The</p><formula xml:id="formula_14">eigenvalues ψ 0 s ≤ ψ 1 s ≤ ⋯ ≤ ψ p s of Σ s = E X i X i ⊤ | S i = s</formula><p>are bounded away from 0 and infinity uniformly for all s ∈ Ω, where X i = X i0 , …, X ip ⊤ ; that is, there are positive constants C 1 and C 2 such that C 1 ≤ ψ 0 s ≤ ψ 1 s ≤ ⋯ ≤ ψ p s ≤ C 2 for all s ∈ Ω.</p><p>(A5) Triangulation Δ is π-quasi-uniform, i.e., there exists a positive constant π such that Δ /ρ Δ ≤ π, where Δ = max T , T ∈ Δ and ρ Δ : = min T ∈ Δ ρ T .</p><p>(A6) The triangulation satisfies that Δ 0, Δ -1 / n 0, and Δ ≪ n -1/2 d + 1 for d ≥ 2; for any τ, the penalty parameter λ max = λ max = max λ 0, τ , …, λ p, τ = O n Δ 3 .</p><p>The above assumptions are mild conditions that can be satisfied in many practical situations. Assumption (A1) describes the requirement for the true coefficient functions, which are frequently used in the literature of nonparametric estimation. Assumptions (A1), ( <ref type="formula" target="#formula_4">A2</ref>) and (A4) are regularity conditions in the nonparametric regression literature; for example, they are similar to conditions used in <ref type="bibr" target="#b27">Mu et al. (2018)</ref>. Assumption (A3) is a commonly used condition in quantile regression; See Condition A1 in <ref type="bibr" target="#b19">Koenker (2005)</ref>. Assumption (A5) is widely used in the triangulation-based literature; see <ref type="bibr" target="#b23">Lai and Wang (2013)</ref> and <ref type="bibr" target="#b39">Wang et al. (2020)</ref>. This type of triangulation ensures an approximately uniform triangle size by partitioning the domain into triangles of roughly equal area, avoiding significant size discrepancies between triangles. Assumption (A6) gives the conditions for the roughness penalty parameters and the triangulation size in the proposed estimation method.</p><p>For any Lebesgue measurable function g s , s ∈ Ω, let (g( L 2 2 = ∫ Ω g 2 s ds. The following theorem provides the L 2 convergence rate of the bivariate spline estimators β ˆk,τ s ,</p><formula xml:id="formula_15">k = 0,1, …, p.</formula><p>Theorem 1.</p><p>Under Assumptions (A1)-(A6), the bivariate spline estimators β ˆk,τ s , k = 0, …, p, satisfy</p><formula xml:id="formula_16">∑ k = 0 p β ˆk,τ -β k, τ L 2 = O p Δ -1 n -1/2 + Δ d + 1</formula><p>, where Δ is the size of Δ.</p><p>REMARK 1.</p><p>The bounds O p Δ d + 1 and O p Δ -1 n -1/2 in Theorem 1 are attributed to the bias and variance terms, respectively. If the triangulation size Δ ≍ n -1/ 2 d + 2 , then Theorem 1 implies that the rate of convergence of ∑ k = 0 p β ˆk,τ -β k, τ L 2 has the bound O p n -d + 1 2 d + 2 , which aligns with the optimal convergence rate of the bivariate spline estimator in <ref type="bibr" target="#b27">Mu et al. (2018)</ref>. In the context of nonparametric quantile regression with B-spline smoothing, for the vth differentiable quantile function, the convergence rate corresponds to the optimal global convergence rate of B-spline estimators n -v/ 2v + 1 if the number of knots is on the order of n 1/ 2v + 1 . See <ref type="bibr" target="#b12">He and Shi (1994)</ref> for the convergence rate of B-spline-based estimators for a nonparametric quantile function, and see <ref type="bibr" target="#b18">Kim (2007)</ref> for the convergence rate of the estimators in a varying coefficient model. Moreover, when v = d + 1 /2, the convergence rate of the proposed estimator reaches the optimal rate in the context of univariate quantile regression.</p><p>This section outlines the computational algorithm, specifically the alternating direction method of multipliers (ADMM), as detailed in <ref type="bibr" target="#b2">Boyd et al. (2011)</ref>, used to estimate the proposed QSVCM.</p><p>We solve the minimization problem in (6) by adopting ADMM and decomposing it into two separate sub-convex problems: a non-smooth quantile loss function and an energy functional penalty. Specifically, we reformulate (6) as follows:</p><formula xml:id="formula_17">for i = 1, …, n, min ψ, γ ∑ i = 1 n ρ τ ψ i + γ ⊤ D Λ, τ γ, such that ψ i = Y i -∑ k = 0 p X ik B S i ⊤ Q 2 γ k ,<label>(7)</label></formula><p>where</p><formula xml:id="formula_18">ψ = ψ 1 , …, ψ n ⊤ , D Λ, τ = Λ τ ⊗ Q 2 ⊤</formula><p>PQ 2 and Λ τ = diag λ 0, τ , …, λ p, τ . For notational simplicity, similar to Section 2.3, we suppress the dependence on τ in the rest of the paper and the Supplementary Material. The subscript τ will be included when needed for clarity.</p><p>The ADMM is based on the simple idea of splitting a whole optimization problem into easily handled parts by fixing the uncertainty of the other variables. Specifically, we first find the solution for ψ in equation ( <ref type="formula" target="#formula_17">7</ref>) with γ fixed, and then update γ with ψ fixed. This process is alternately repeated through partial updates for the dual variables. Despite being an approximate optimization method, the solutions obtained through ADMM have been shown to converge to the exact solution; see <ref type="bibr" target="#b2">Boyd et al. (2011)</ref>. This makes the optimization problem easier to solve by breaking it into individual sub-problems with equality constraints.</p><p>In the following, let B S i = B m S i , m ∈ ℳ ⊤ for i = 1, …, n and denote</p><formula xml:id="formula_19">Z i = X i ⊗ Q 2 ⊤ B S i , Z = Z i ⊤ i = 1 n .<label>(8)</label></formula><p>The ADMM algorithm consists of a three-step iterative scheme of ψ -and γ -minimizations and dual updates as follows: with initial values ψ 0 , γ 0 and u 0 = Y/η 0 ,</p><formula xml:id="formula_20">ψ j + 1 = argmin ψ ρ τ ψ + η j /2 ψ + Zγ j -Y + u j 2 , γ j + 1 = argmin γ γ ⊤ D Λ γ + η j /2 ψ j + 1 + Zγ -Y + u j 2 , u j + 1 = u j + ψ j + 1 + Zγ j + 1 -Y,<label>(9)</label></formula><p>where</p><formula xml:id="formula_21">Y = Y 1 , …, Y n ⊤ , ρ τ ψ = ρ τ ψ 1 , …, ρ τ ψ n ⊤</formula><p>, and η j is a tuning (penalty) parameter for each iteration. The last equation in (9) updates the dual variable u based on the current primal variables ψ j + 1 and γ j + 1 and the observed data Y. This update allows the algorithm to track the progress of the optimization, as it helps to ensure that the primal variables are satisfying the equality constraint ψ + Zγ = Y as the algorithm progresses.</p><p>Since the γ-minimization in (9) involves two quadradic functions with respect to γ, it leads to the ridge regression type solution. The solutions to ψ and γ for each iteration in (9) have the following explicit forms:</p><formula xml:id="formula_22">ψ j + 1 = S Y -u j -Zγ j + 1 -2τ / 2η j 1, 1/2η j 1 , γ j + 1 = 2D Λ /η j + Z ⊤ Z -1 Z ⊤ Y -u j -ψ j + 1 ,<label>(10)</label></formula><p>where "1" is a vector of ones, S v, a = v -a + --v -a + and f + is the positive part of f.</p><p>With the solutions ψ j + 1 and γ j + 1 in (10), dual variable u j + 1 is automatically updated.</p><p>The prime and dual tolerances are defined as ϵ prime = nϵ abs + ϵ rel max ψ j , Zγ j , Y , ϵ dual = nϵ abs + ϵ rel u j ,</p><p>where the absolute and relative tolerances ϵ abs and ϵ rel are practically chosen as any small numbers, for example, 10 -4 and 10 -12 , respectively. Based on such tolerances, we consider the following stopping criterion for ADMM: ψ prime j ≤ ϵ prime , and ψ dual j ≤ ϵ dual , where</p><formula xml:id="formula_23">ψ prime j = Y -Zγ j -ψ j</formula><p>is the current primal residual and ψ dual j = η j Z γ j -γ j -1 is the dual residual. Note that the penalty parameter η j can vary during iterations and, following <ref type="bibr" target="#b2">Boyd et al. (2011)</ref>, is updated as:</p><formula xml:id="formula_24">η j + 1 = δ incr η j , if ψ prime j &gt; ζ* ψ dual j , η j + 1 = η j /δ incr , if ψ dual j &gt; ζ* ψ prime j</formula><p>, and η j + 1 = η j otherwise. Common choices of ζ* and δ incr are 10 and 2, respectively. Although varying the tuning parameters for each iteration can improve convergence by tuning the balance between the primal and dual residuals, the dependency of varying the tuning parameters on solutions for each iteration in (10) could lead to slow convergence of ADMM. In addition, the fixed η theory in <ref type="bibr" target="#b2">Boyd et al. (2011)</ref> works under mild conditions. In this paper, we consider the fixed η j = 1 for every iteration.</p><p>Finally, we detail the computational complexities of the proposed ADMM algorithm. The total number of spline coefficients or parameters to estimate in the proposed QSVCM is p * = p + 1 N d + 1 d + 2 /2. The ADMM algorithm comprises an iterative three-step scheme for updating ψ j + 1 , γ j + 1 , and u j + 1 , with the following complexities: (1) ψ j + 1 update: Applying the soft-thresholding operator to a vector of length n has complexity O n , provided that Zγ j is previously computed; (2) γ j + 1 update: The most demanding complexity is O np * 2 for computing Z ⊤ Z or O p * 3 for matrix inversion;</p><p>(3) u j + 1 update:</p><p>Matrix multiplication has complexity O np * , while vector addition and subtraction have complexity O n , leading to a total complexity of O np * for this update. Consequently, the overall computational burden of the algorithm is dominated by the highest complexity encountered, specifically O p * 3 + np * 2 .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">Methodological Implementation and Statistical Inference</head><p>This section details the practical aspects of applying the proposed methods in our statistical analysis. Specifically, it outlines strategies for selecting tuning parameters and triangulation and describes methods employed to construct pointwise confidence intervals (PCIs) for the coefficient functions and conformal prediction intervals for the response variables.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1">Selection of Tuning Parameters and Triangulation</head><p>The algorithm described in Section 3 involves the selection of roughness parameters</p><formula xml:id="formula_25">λ = λ 0 , …, λ p ⊤</formula><p>. There are several methods to choose these parameters, including the Schwarz-type information criterion (SIC), Akaike information criterion, cross-validation (CV), generalized cross-validation (GCV), and the generalized approximate cross-validation (GACV) proposed by <ref type="bibr" target="#b45">Yuan (2006)</ref>. To approximate the effective degree of freedom, we consider using p λ = tr Z 2D Λ /η + Z ⊤ Z -1 Z ⊤ , where Z is given in (8), D Λ = Λ ⊗ Q 2 ⊤ PQ 2 and Λ = diag λ 0 , …, λ p , and the associated smoothing matrix is based on a sub-optimal solution γ j + 1 in (10). We ignore the uncertainty of u j and ψ j + 1 at the end of the ADMM algorithm during this computation process.</p><formula xml:id="formula_26">Let Q ˆτ X i , S i = ∑ k = 0 p X ik B S i ⊤ Q 2 γ ˆk,τ . Then,</formula><p>GACV is defined as:</p><formula xml:id="formula_27">∑ i = 1 n ρ τ Y i -Q ˆτ X i , S i / n -p λ .<label>(11)</label></formula><p>Supplementary Section S.3.3 presents simulation results that compare the GACV and 5-fold CV for selecting λ. GACV and 5-fold CV generally yield comparable results, with the latter demonstrating better performance in certain instances. However, a key advantage of GACV is its computational efficiency. We recommend employing k-fold CV when sufficient computing resources are available, as it tends to provide a more accurate estimate of the model's generalization ability. Conversely, when computational efficiency is paramount, GACV is the recommended approach, as it offers a computationally efficient approximation to the k-fold CV.</p><p>In our numerical analyses, we start by selecting the initial tuning parameter λ k * by considering a 10-point grid for each λ k , where k = 0, …, p. The values of log 10 λ k are equally spaced between -6 and 1. Then, we refine the selection of λ k * considering another 10-point grid around it, with the values of log 10 λ k equally spaced between log 10 10 -2 λ k * and log 10 10 2 λ k * . The final roughness parameter vector that minimizes the k-fold CV of GACV is then chosen. To reduce computational burden, the same values of λ k and λ k * are jointly selected for each k in this study.</p><p>Triangulation selection is crucial for balancing between estimation accuracy and computational efficiency. The maxmin-angle criterion, as suggested by <ref type="bibr" target="#b22">Lai and Schumaker (2007)</ref>, can be used to maximize the minimum angle in the triangulation. In the theoretical framework, we consider Assumption (A5), which relates to π-quasi-uniform triangulation in terms of ensuring similar shapes and sizes of triangles in the triangulation. This characterization helps identify an optimal triangulation. In practice, we adopt the Delaunay triangulation algorithm to find a well-balanced triangulation mesh regarding the number, size, and shape of triangles occurring in the triangulation. Delaunay triangulations can be generated using various packages, such as the MATLAB program distmesh2d.m, delaunay.m or the MATHEMATICA function DelaunayTriangulation. For our implementation, we use the MATLAB program distmesh2d.m for Delaunay triangulation.</p><p>Our numerical studies suggest that a minimum number of triangles is necessary to adequately capture the signal from the function. However, once this minimum threshold is reached, further refinement of the triangulation typically has a negligible effect on fitting for large sample sizes. For practical applications with higher-degree BPST smoothing, we suggest setting the number of triangles as N n = min cn 2/ 2d + 4 , n/10 , where c is a tuning parameter. We find that c ∈ 3, 20 works well if the boundary is not overly complex, and c &gt; 20 is suitable for complex domains, such as the horseshoe domain in Simulation Example 2. Using the recommended values of N n , multiple Delaunay triangulation options spanning various fineness levels can be generated. In practice, one can also start with a coarse triangulation and gradually increase the triangulation fineness to see how the k-fold CV errors or GACV values in (11) change. The final triangulation can be selected as the one that yields satisfactory predictive performance while staying within the available computing resources. It is essential to strike a balance between accuracy and computational efficiency to ensure that the analysis can be conducted effectively and efficiently.</p><p>The choice of parameters d and r also plays a crucial role in interpreting the estimated functions. When the objective is to visualize the signal-to-noise ratio or suggest a simple parametric model with constant coefficients or a semiparametric model with both constant and varying coefficients, a slightly oversmoothed function may be more suitable. In this case, the user may subjectively choose the smoothness parameter and degree of the spline function. On the other hand, when the aim is to accurately estimate the coefficient functions and preserve local structures, using a higher-order spline can be beneficial. This approach allows the model to capture more complex patterns in the data, improving the accuracy of the estimate while preserving important local details. In particular, when the underlying function is believed to be smooth, a higher-order spline with r = 1 and a degree of d ≥ 3 is recommended. The bivariate spline estimator with d = 5 has been shown to achieve the full estimation power asymptotically according to <ref type="bibr" target="#b22">Lai and Schumaker (2007)</ref>. By balancing smoothness and flexibility, we ensure that the estimator remains smooth while capturing essential local features in the data.</p><p>In summary, the selection of the tuning parameters and triangulation is important for our proposed estimation method. In the implementation, our procedure begins by selecting an appropriate spectrum of triangulations ranging from coarse to fine, tailored to the unique spatial characteristics of the data. For each triangulation setting, we independently optimize the smoothness and penalty tuning parameters and calculate the k-fold CV or GACV for each possible configuration. The configuration that yields the lowest score is designated as the optimal setup.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2">Pointwise Confidence Intervals (PCIs)</head><p>PCIs provide useful information about unknown coefficient functions compared to a single estimated surface. However, obtaining asymptotic distributions for the BPST estimators and constructing PCIs for the coefficient functions is challenging, and existing work is rather limited. While <ref type="bibr" target="#b23">Lai and Wang (2013)</ref> has derived the asymptotic distributions for the unpenalized bivariate spline estimators and the asymptotic variance for piecewise constant spline estimators, obtaining the exact standard error for general BPST estimators remains a difficult task. To address this challenge, we propose employing a wild residual bootstrap method to construct PCIs for β k, τ ⋅ 's. Our approach draws inspiration from <ref type="bibr" target="#b6">Feng et al. (2011)</ref> on unpenalized quantile regression, and <ref type="bibr" target="#b38">Wang et al. (2018)</ref> and Lamarche and Parker (2023) on penalized quantile regression. These studies have validated the effectiveness of the wild bootstrap method in capturing the variability and distributional characteristics of estimators within parametric frameworks.</p><p>As noted in <ref type="bibr" target="#b10">Härdle and Bowman (1988)</ref>, a primary challenge in applying wild bootstrap methods to nonparametric regression stems from bias induced by smoothing. Like other smoothing methods, the BPST smoothing also inherently introduces bias when estimating bootstrap residuals. To address this issue, we implement two strategies to mitigate bias in the bootstrap residuals: (1) employing bias correction using the Bahadur representation as suggested by <ref type="bibr" target="#b6">Feng et al. (2011)</ref>, and (2) minimizing the bias magnitude through the use of a higher degree of Bernstein polynomials and finer triangulation to obtain a more accurate initial estimate of the coefficient functions. The second approach is inspired by the resampling subject bootstrap method for univariate spline approximations discussed in <ref type="bibr" target="#b15">Huang et al. (2002)</ref>. The idea is to ensure that the bias term becomes negligible compared to its variance. Our simulation studies further corroborate the robustness and reliability of wild bootstrap-based PCIs when applied to the QSVCM.</p><p>The procedure for deriving these PCIs using the wild bootstrap method is detailed as follows:</p><p>Step 1. Based on the data Y i , X i , S i i = 1 n , fit the QSVCM and obtain the initial estimators of the coefficient functions β ˆk,τ ⋅ ; d, Δ , k = 0, …, p, using pilot degree of Bernstein polynomials d and triangulation Δ. Calculate the bootstrap residuals In Step 2, a finite-sample correction factor is applied using the Bahadur representation of the estimator. The residual ϵ ˆi τ in the wild bootstrap procedure is replaced by</p><formula xml:id="formula_28">ϵ ˆi τ = Y i -X i ⊤ β τ S i ; d, Δ , i = 1, …, n. Step 2. Generate Y i * = X i ⊤ β τ S i + ξ i ϵ ˆi τ , i = 1, …, n,</formula><formula xml:id="formula_29">ϵ ˆi τ + f ˆ0 -1 Z i ⊤ Z ⊤ Z + λI -1 Z i ψ τ ϵ ˆi τ</formula><p>, where I is the identity matrix, f ⋅ is the probability density of the error variable ϵ i τ , ψ τ u = τ -I u &lt; 0 is the score function and f ˆ0 is estimated based on the residuals using a univariate adaptive kernel density estimation method. This correction, while motivated by the assumption of i.i.d. errors, has been shown to be useful in general error models, as discussed in <ref type="bibr" target="#b6">Feng et al. (2011)</ref>.</p><p>Supplementary Section S.3.4 assesses the sensitivity of the bootstrap PCIs to variations in smoothing parameters. The simulation results demonstrate that the proposed method achieves reliable coverage rates when: (1) polynomial degrees d and d* are sufficiently high, and (2) the triangulation is appropriately refined. Consistent with our earlier recommendations in Section 4.1, we propose implementing polynomial degrees d, d* ≥ 3 to optimize statistical performance.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.3">Conformalized Quantile Regression (CQR)</head><p>In this section, we focus on spatial prediction of the target variable using specific locations and their associated covariates. In addition, we assess the uncertainty of these predictions by constructing prediction intervals.</p><p>Conformal prediction is a robust method for creating prediction intervals that provide valid coverage for finite samples without assuming a specific distribution. However, it tends to be overly conservative. In contrast, for heteroscedastic data, quantile regression allows the construction of prediction intervals by estimating the conditional quantile function at the quantile levels α/2 and 1 -α/2. Nevertheless, the reliability of these intervals is only ensured for particular models under certain regularity and asymptotic conditions. To gain benefits from both methods, <ref type="bibr" target="#b34">Romano et al. (2019)</ref> proposed conformalized quantile regression (CQR), a novel approach fully adaptive to heteroscedasticity, combining conformal prediction with quantile regression, to construct prediction intervals for a response Y , with the theoretical guarantee of valid coverage. We combine conformal prediction with QSVCM and propose the following CQR algorithm for prediction.</p><p>Step 1. Randomly and non-overlappingly split a whole data index ℐ = 1,2, …, n into a training set ℐ 1 and a calibration set ℐ 2 .</p><p>Step 2. For 0 &lt; α &lt; 1, apply BPST to fit QSVCM and obtain the estimated α/2 and 1 -α/2 conditional quantile functions,</p><formula xml:id="formula_30">Q ˆα/2 Y i | X i , S i and Q ˆ1 -α/2 Y i | X i , S i , based on Y i , X i , S i , i ∈ ℐ 1 .</formula><p>Step 3. Compute the conformity scores</p><formula xml:id="formula_31">E i = max Q ˆα/2 Y i | X i , S i -Y i , Y i -Q ˆ1 -α/2 Y i | X i , S i for each i ∈ ℐ 2 and obtain the Q 1 -α * E*, ℐ 2 = 1 -α 1 + 1/ ℐ 2 -th empirical quantile of E* = E i : i ∈ ℐ 2 . Step 4. Given new data X new , S new , construct the prediction interval for Y new as Q ˆα/2 Y | X new , S new -Q 1 -α * E*, ℐ 2 , Q ˆ1 -α/2 Y | X new , S new + Q 1 -α * E*, ℐ 2 .</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5">Simulation</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.1">Simulation Example 1</head><p>We compare the proposed BPST estimator for QSVCM, referred to as QBPST, with two competitors: the tensor product splines (TPS) method in <ref type="bibr">He and Shi (1996)</ref> and the penalized triograms with total variation regularization (TVTRI) method in <ref type="bibr" target="#b20">Koenker and Mizera (2004)</ref>.</p><p>The TVTRI is tailored for nonparametric regression with a single bivariate function, and the TPS is constrained to lattice points distributed on rectangular domains. To ensure fair comparisons, we focus on a nonparametric regression with a single bivariate function on a square domain Ω = 0,1 × 0,1 . We generate N s = 100 × 100 equally spaced grid points and randomly select n = 1600 and n = 3600 points by selecting 40 and 60 points from each axis, respectively. We simulate the response variable from the following model: Y i = β S i + ϵ i , i = 1, …, n. Supplementary Figure <ref type="figure">S</ref>.1 (g) shows a typical example of the sampled locations S i 's. To investigate the performance for different settings, we consider two regression functions with the following forms: M1: β s = 20 1 -1 -2s 1 2 1 -1 -2s 2 2 , s ∈ Ω; M2: β s = -10sin 7π s 1 + 0.15 + 10sin 7πs 2 , s ∈ Ω .</p><p>Random errors ε i are generated from two distributions: a t distribution with two degrees of freedom, t 2 , and a mixture of normal (MN) distributions ∑ ℓ = 1 3 ω ℓ N μ ℓ , σ ℓ 2 , where ω ℓ are weights, and N μ ℓ , σ ℓ 2 are normal distributions with mean μ ℓ and variance σ ℓ 2 . The parameters are set as ω 1 , ω 2 , ω 3 = 0.1,0.8,0.1 , μ 1 , μ 2 , μ 3 = -5,0, 5 , and σ 1 2 , σ 2 2 , σ 3 2 = 4,1/2,4 .</p><p>The τ th quantile regression function is defined as β τ s = β s + F ϵ -1 τ , where F ε ⋅ denotes the distribution function of ε. We consider quantile levels τ = 0.50 and 0.75, with the true coefficient functions illustrated in Supplementary Figure <ref type="figure">S</ref>.4. For each simulation scenario, we conduct 100 Monte Carlo replications.</p><p>For the QBPST method, we employ the ADMM algorithm described in Section 3. The roughness penalty parameter λ is selected by minimizing the GACV, instead of k-fold CV, due to GACV's computational efficiency, which is crucial since estimations are replicated 100 times for each scenario. In scenario M1, we set the degree of polynomial to d = 3 and the smoothness parameter to r = 1, while in scenario M2, we increase them to d = 4 and r = 1 to account for the increased complexity of the underlying function. For each iteration of the Monte Carlo simulation, the best triangulation is selected to achieve a better approximation by choosing the triangulation with the lowest GACV value among the six triangulation candidates illustrated in Supplementary Figure <ref type="figure">S</ref>.1 (a)-(f). For the TPS method, we consider cubic B-splines with equally spaced interior knots, and the number of knots for each Monte Carlo iteration is determined by the SIC proposed by <ref type="bibr" target="#b29">Noh et al. (2012)</ref>. For the TVTRI method, the selection of the penalty parameter λ is based on the SIC proposed by <ref type="bibr" target="#b20">Koenker and Mizera (2004)</ref>. The TPS and TVTRI methods are implemented using the splines and quantreg packages with functions bs, rq, and rqss, respectively.</p><p>To evaluate the accuracy of the estimated coefficient function, we measure its error by the root mean integrated squared error (RMISE) defined as RMISE β ˆτ = Ω β ˆτ s -β τ s 2 ds 1/2 , τ ∈ 0,1 , which is estimated using Riemann sums based on 100×100 equally spaced grid points. The RMISE results for each method and scenario are summarized in Supplementary Table <ref type="table">S</ref>.1. In general, for all methods, the RMISE decreases as the sample size increases. For the function in scenario M1, all methods perform well as expected since the domain is regular and the function is simple in this example. This simulation setup favors the TPS method since the data are generated from a rectangular domain. For both noise distributions, the TPS method performs slightly better than the TVTRI and QBPST methods. However, for scenario M2, the QBPST method outperforms the other methods as it is an effective method for estimating complex functions such as the 7-cycle sine function through its flexible degrees and various smoothness. In particular, when the sample size is n = 1600, the TPS method performs much worse compared to the other two methods. The TPS method can result in very large RMISE in some iterations due to its unreliable estimation near data boundaries, where observations are sparse. The fixed functional form of TPS can lead to overcomplex representation, resulting in overfitting when dealing with data with many local variations, such as scenario M2.</p><p>Figure <ref type="figure" target="#fig_3">1</ref> illustrates the contour plots of the estimated functions of the three methods for scenario M2 with error distribution t 2 and sample size n = 1600. As depicted in Figure <ref type="figure" target="#fig_3">1 (b)</ref> and (e), traditional methods appear to have a significant bias in regions with limited samples, particularly near the upper and right boundary of the rectangle. On the other hand, the proposed method demonstrates consistent estimation even in areas with sparse samples. For scenario M1, all methods have comparable standard deviations, as shown in Supplementary Table <ref type="table">S</ref>.1. However, in scenario M2, the TPS method has a higher standard deviation than the QBPST and TVTRI methods.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.2">Simulation Example 2</head><p>In this simulation study, a modified horseshoe domain Ω is considered following the works of <ref type="bibr" target="#b31">Ramsay (2002)</ref> and <ref type="bibr" target="#b40">Wood et al. (2008)</ref>, as shown in Supplementary Figure <ref type="figure">S</ref>.2 (a). The domain is located within the rectangle [-1,3.5]×[-1,1], which is evenly divided into N s = 226 × 101 grid points. The coefficient functions are evaluated only at the grid points within Ω.</p><p>We randomly select n = 1000 and 2000 locations and generate data from the following model with homogeneous (M1) and heteroscedastic (M2) errors, respectively: for i = 1, …, n,</p><p>• M1: <ref type="bibr" target="#b40">Wood et al. (2008)</ref>,</p><formula xml:id="formula_32">Y i = β 0 S i + X i β 1 S i + ε i , • M2: Y i = β 0 S i + X i β 1 S i + ζ 0 S i + X i ζ 1 S i ε i , where β 0 s is the same function considered in</formula><formula xml:id="formula_33">β 1 s = 4sin 0.05π s 1 2 + s 2 2 , ζ 0 s = 1.2 and ζ 1 s = s 1 2 /12 + s 2 2 /12.</formula><p>The covariate X i 's are drawn randomly from a Uniform (-1,1) distribution. Errors are generated randomly from the same distributions as in Simulation Example 1. In addition, a simulation study is conducted that incorporates spatially correlated errors to assess their impact on the performance of our proposed methodology. Our findings suggest that spatial correlation can be effectively absorbed by the intercept function through our smoothing method, with minimal impact on other coefficient functions. Details of this study can be found in Supplementary Section S.3.5.</p><p>It is worth noting that β 0, τ S i = β 0 S i + F ϵ -1 τ , β 1, τ S i = β 1 S i for M1, and</p><formula xml:id="formula_34">β 0, τ S i = β 0 S i + ζ 0 S i F ε -1 τ , β 1, τ S i = β 1 S i + ζ 1 S i F ε -1 τ for M2, where F ε ⋅ denotes the distribution function of ε.</formula><p>In this study, we focus on two quantiles: τ ∈ 0.50,0.75 and repeat the simulation 100 times. The true varying coefficient functions for scenarios M1 and M2 are depicted in the first column of Supplementary Figure We compare the performance of the BPST estimator for the QSVCM (referred to as QBPST) with that of the mean SVCM (referred to as BPST). In addition, we compare it with the geographically weighted quantile regression (GWQR) introduced in <ref type="bibr" target="#b4">Chen et al. (2012)</ref> and the geographically weighted regression (GWR) introduced in <ref type="bibr" target="#b7">Fotheringham et al. (2002)</ref>. The latter two methods are based on local weighting schemes for quantile and mean SVCMs, respectively.</p><p>For BPST and QBPST, employing bivariate spline approximation, we set the smoothness parameter r = 1 and explored spline degrees d ranging from 2 to 5. Due to space constraints in the main text, we report only the results for d = 3. For outcomes associated with other degrees, see Supplementary Table <ref type="table">S</ref>.2. For the triangulation, we employ two triangulation options, Δ 1 (77 triangles, 65 vertices) and Δ 2 (183 triangles, 130 vertices), as depicted in Supplementary Figure <ref type="figure">S</ref>.2 (b) and (c). For BPST, the roughness penalty parameters λ 0 and λ 1 are chosen by minimizing the GCV method as described in <ref type="bibr" target="#b27">Mu et al. (2018)</ref>. For QBPST, λ 0 and λ 1 are selected by minimizing the k-fold CV and the GACV. We report only the QBPST results based on GACV, while complete results comparing GACV and 5-fold CV are provided in Supplementary Section S.3.3. For GWR and GWQR, a Gaussian kernel function is used for geographical weighting to specify spatial neighborhoods around a sample location. The leave-one-out CV bandwidth is considered for the GWR, while the 5-fold CV bandwidth is implemented for the GWQR due to the high computational burden. The implementation is carried out through the gwr function in the spgwr package for GWR and the rq function in the quantreg package for GWQR.</p><p>To evaluate the accuracy of the estimators, we report the RMISE of the estimated coefficient functions. Due to space constraints, we only present partial results corresponding to M2 and the error distribution t 2 in Table <ref type="table" target="#tab_0">1</ref>. The complete results can be found in Supplementary Table <ref type="table">S</ref>.3. The results indicate that the performance of all estimators improves as the sample size increases. The effect of triangulation on the results for the QBPST is unnoticeable since the RMISEs are almost constant for Δ 1 and Δ 2 in most scenarios. However, for the BPST, the finer triangulations dramatically reduce the RMISEs of coefficients for the t 2 error distribution. Both the BPST and QBPST outperform the GWR and GWQR for all scenarios. Furthermore, for both error distributions and all scenarios, the QBPST estimator with τ = 0.50 performs better than the BPST estimator due to the robustness of the QSVCM against extreme values and heteroscedastic errors.</p><p>The simulation results are presented in Supplementary Figure S.5 for Scenario M1 and in Figure <ref type="figure" target="#fig_4">2</ref> for Scenario M2. The analysis is based on a sample size of n = 2000 and triangulation Δ 2 . The figures show a typical set of estimated intercept and slope functions for the t 2 error distribution. It is clear that the estimated surfaces of both the BPST and the QBPST are pretty similar to the true surfaces for β 0, τ ⋅ . For β 1, τ ⋅ , the QBPST demonstrates great accuracy with only a slight bias on the right side of the horseshoe domain. In contrast, the BPST struggles to match the true function, particularly on the upper and lower arms of the right side of the horseshoe domain. This discrepancy is more pronounced in Scenario M2 due to the large variation in heteroscedastic error influenced by the function ζ 1 s in this area.</p><p>Our findings demonstrate that the BPST and QBPST estimators tend to have a lower bias as the sample size increases, although there may be some biases present in certain iterations, such as a boundary effect on the left ends of the arms for low values of β 1, τ ⋅ in both the quantile and mean regression methods. However, the GWR and GWQR estimates for β 0, τ ⋅ and β 1, τ ⋅ exhibit larger biases, particularly around the boundary gap between the lower and upper arms of the horseshoe domain, which is caused by the "leakage" problem. Although the estimated surfaces for the geographically weighted methods show some resemblance to their respective counterparts, the large biases raise concerns about the accuracy and reliability of these estimates.</p><p>Next, we evaluate the proposed conformal prediction intervals of the response variables Y i based on the CQR method outlined in Section 4.3. For comparison, we also consider the non-conformal prediction intervals derived from the quantiles of the GWQR method. Table <ref type="table" target="#tab_1">2</ref> reports the average 5-fold CV coverage probabilities and average lengths of the 95% prediction intervals across 100 replications from the QBPST-based CQR and the GWQR methods. For CQR, the dataset in each fold is randomly partitioned into training and calibration sets of equal size. In each replication, the grid points not selected as samples are treated as the test set. From Table <ref type="table" target="#tab_1">2</ref>, we observe that the QBPST-based CQR achieves a coverage probability very close to the nominal 95% level. Although the GWQR provides slightly narrower prediction intervals on average, its coverage rate is generally below the nominal level, indicating that its prediction intervals may be prone to undercoverage, potentially compromising their reliability.</p><p>Our final evaluation focuses on the finite-sample behavior of the PCIs introduced in Section 4.2. Table <ref type="table" target="#tab_2">3</ref> presents the average coverage rates of the 95% PCIs of β k, τ ⋅ , k = 0,1, over the domain Ω. Although the coverage of β 0,0.75 ⋅ is slightly below the nominal level of MN noise, the proposed bootstrap PCIs generally perform well, meeting the desired coverage. Supplementary Figures S.6 and S.7 depict the lower and upper bounds of the 95% PCIs for the bivariate functions in Scenarios M1 and M2, respectively. The true functions seem to lie within these bounds, providing confidence in the accuracy of the PCIs.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6">Application</head><p>In this section, we employ the proposed method to analyze age-adjusted mortality data for the United States. An additional application to the Particulate Matter (PM) data study is presented in the Supplementary Material due to space constraints.</p><p>The mortality dataset, as described in detail by <ref type="bibr">Wang and Wang (2019)</ref>, comprises demographic and socioeconomic information from a total of 3,104 counties in 48 states and the District of Columbia. Our main objective is to explore the structural heterogeneity of the mortality distribution across the United States and its relationship with related variables. We exclude Alaska and Hawaii due to their geographical remoteness from the other regions.</p><p>In this analysis, we evaluate the mortality distribution using four types of covariates based on the finding of <ref type="bibr">Wang and Wang (2019)</ref>: social affluence factors (Affluence), disadvantage factors (Disadvantage), violent crime rate per 1,000 population (Violent Crime), as well as the urban rate (Urban).</p><p>The response variable in the analysis is the average age-standardized mortality rate per 100 population in the period <ref type="bibr" target="#b11">1998</ref><ref type="bibr">-2002 (Mortality) (Mortality)</ref>. To ensure numerical stability, covariates, X i , are first transformed by taking the logarithm with a small positive offset δ and then standardized. We fit the proposed quantile spatially varying model as follows:</p><formula xml:id="formula_35">Q τ Mortality i | Affluence i , Disadvantage i , Violent Crime i , Urban i , S i = β 0, τ S i + β 1, τ S i Affluence i + β 2, τ S i Disadvantage i + β 3, τ S i Violent Crime i + β 4, τ S i Urban i<label>(12)</label></formula><p>for i = 1, …, 3104, where Q τ ⋅ | X, S is the conditional quantile function given all the covariates and spatial information and β k, τ s 's are unknown quantile bivariate functions, for k = 0, …, 4.</p><p>We use QBPST to fit the quantile regression model ( <ref type="formula" target="#formula_35">12</ref>). For the bivariate spline basis functions, we set the degree to d = 4 and the smoothness to r = 1. For comparison, we also fit the GWQR as an alternative method, utilizing the Gaussian kernel as the weighting function.</p><p>To ensure a fair evaluation of predictive performance, we optimize the triangulation roughness and penalty parameters for the QBPST and the bandwidth for the GWQR by minimizing the 5-fold CV quantile loss function. The selected triangulation configuration comprises 459 triangles and 283 vertices, as Supplementary Figure <ref type="figure">S</ref>.3 illustrates.</p><p>Figure <ref type="figure" target="#fig_5">3</ref> displays the estimated maps of the coefficient functions for median regression (τ = 0.5), along with their corresponding lower and upper bounds of 95% PCIs. The Supplementary Material contains additional findings, including estimated maps and 95% PCIs for the coefficient functions at the 0.25 and 0.75 quantile levels. The spatial variation of the coefficient functions is evident from these maps. In particular, the Southeast region of the United States shows higher mortality rates for the intercept, as observed in both the QBPST and GWQR methods. These higher mortality rates can be attributed to the prevalence of specific diseases. For instance, the National Heart Lung and Blood Institute has designated several states, including Alabama, Georgia, South Carolina, and Tennessee, as the "Stroke Belt" because of their higher stroke mortality rates compared to other regions <ref type="bibr" target="#b33">(Rich et al., 2007)</ref>. In addition, some previous research has found that the states of the Southeast, including Alabama, Georgia, South Carolina, and Tennessee, are associated with higher mortality rates due to congestive heart failure and prevalence of hypertension than other states; see <ref type="bibr" target="#b30">Obisesan et al. (2000)</ref>.</p><p>The analysis reveals a positive effect of "Affluence" on the conditional median of mortality in certain regions, such as the border between California and Arizona, northeast Montana, and parts of Wisconsin and Minnesota, according to the QBPST and GWQR methods. However, the latter method estimates a more significant effect in Arizona and Montana.</p><p>The results of the analysis also indicate that in most regions, "Disadvantage" is positively correlated with the conditional median of mortality. This correlation is positively strong in North Dakota, South Dakota, and eastern Montana, while negative in the west of Texas.</p><p>Furthermore, the analysis shows that the conditional median of mortality increases with "Violent Crime" in most areas. This phenomenon has legitimacy in several aspects; for example, engaging in violent acts and being victimized are associated with higher mortality rates <ref type="bibr" target="#b35">(Stenbacka et al., 2012)</ref>, and violent crime could potentially serve as a significant social factor influencing cardiovascular health <ref type="bibr" target="#b5">(Eberly et al., 2022)</ref>. Florida and Wyoming, in particular, commonly exhibit a higher impact of "Violent Crime" on the conditional median of mortality compared to other regions, while the GWQR method shows higher effects than the QBPST method on the border between Arizona and California, Maine, Florida, and Washington. Furthermore, the QBPST results indicate that the impact of "Urban" on the conditional median of mortality is substantial in Arizona and New Mexico. Especially some states in New England, such as New York and Pennsylvania, show a significantly negative impact of "Urban" on the median mortality. In particular, in the boundaries between Arizona and California, the impacts of "Urban" and "Violent Crime" on the conditional median of mortality are significantly different for the QBPST and GWQR methods. More specifically, in this region, estimates based on the GWQR method exhibit abrupt and drastic changes, whereas those from the QBPST method demonstrate smoother and more gradual changes. These gradual changes observed with QBPST, supported by enhanced in-sample accuracy and 5-fold CV metrics (see Supplementary Table <ref type="table">S</ref>.9), better reflect the gradual impact expected from urbanization and crime rates on mortality rates. Supplementary Table <ref type="table">S</ref>.9 presents the in-sample and 5-fold CV accuracy measures for the QBPST and GWQR methods. The standard errors for the in-sample prediction error range from 0.0135% to 0.0352%, while those for 5-fold CV prediction errors range from 0.0172% to 0.0422%. The results show that the proposed QBPST outperforms the GWQR in terms of prediction accuracy across different measures and quantile levels. One possible reason behind this phenomenon could be the impact of boundary effects in estimating the GWQR.</p><p>In Figure <ref type="figure" target="#fig_5">3</ref>, the estimated coefficient functions of the GWQR are less effectively smoothed at certain boundaries, for example, Affluence, Disadvantage, and Violent Crime in Maine, and the boundaries between Arizona and California for Affluence, Violent Crime and Urban, Florida for Violent Crime and Urban.</p><p>Supplementary Table <ref type="table">S</ref>.10 reports the average 5-fold CV coverage probabilities and lengths of the 95% prediction intervals constructed using the QBPST-based CQR and the GWQR methods. For CQR, in each fold, the dataset is equally partitioned into training and calibration sets. Consistent with the simulation studies, we observe that the QBPST-based CQR achieves coverage probabilities near the nominal level. In contrast, while GWQR often produces slightly narrower prediction intervals, its coverage rates generally fall below the nominal level.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="7">Conclusions and Discussion</head><p>This paper proposes a new method for estimating and making inferences on QSVCMs. The BPST smoothing technique was employed to approximate the unknown coefficient functions. Under certain regularity conditions, our estimator showed an optimal convergence rate in terms of L 2 convergence. Our approach shows superior finite sample properties compared to alternative methods and effectively addresses the issue of leakage over complex domains. In addition, we develop PCIs for our estimators using a wild residual-based bootstrap approach. Moreover, utilizing the QSVCM-based CQR approach, we successfully construct conformal prediction intervals for the response variable that attain coverage rates nearly identical to the nominal level. Overall, our method offers a novel and robust approach to estimate and make inferences about QSVCMs.</p><p>Despite these advancements, our model assumes the independence of errors across locations once the regression function, accounting for spatial variations, is extracted. While this assumption streamlines the modeling process, it might not fully capture the complexities of real-world data, where residual spatial correlations could persist and affect both the accuracy and validity of the model. To address this, we can consider integrating a spatial autoregressive varying coefficient model, as in <ref type="bibr">Mu et al. (2020)</ref> and <ref type="bibr" target="#b44">Yu et al. (2022)</ref>. However, this integration poses significant challenges, requiring complex methodological extensions and careful theoretical and computational development. Therefore, we plan to tackle this enhancement in future work.</p><p>Future work will address the theoretical foundation for applying the wild bootstrap method to construct PCIs for QSVCM coefficient functions. Research by <ref type="bibr" target="#b6">Feng et al. (2011</ref><ref type="bibr">), Wang et al. (2018)</ref>, and Lamarche and Parker (2023) has validated the effectiveness of this method in capturing estimator variability and distributional characteristics, particularly in settings with adaptive L 1 penalties. However, these theoretical results are primarily for parametric or linear regression settings and do not directly extend to our nonparametric framework. A primary challenge in applying wild bootstrap methods to nonparametric regression emerges from the bias inherent in the BPST smoothing, particularly the difficulty in deriving an asymptotic bias expression-a challenge not encountered in kernel smoothing methods <ref type="bibr" target="#b10">(Härdle and Bowman, 1988)</ref>. This problem remains unresolved even in pure approximation theory when smoothing a single bivariate function based on noise-free data. While our extensive simulations have consistently demonstrated the robust and reliable performance of our approach in practical applications, developing robust theoretical foundations for the wild bootstrap method in nonparametric quantile regression remains a critical need and requires extensive and focused research, which may merit a separate publication.</p><p>Another exciting avenue for future research involves extending our proposed QSVCMs to a spatiotemporal setting, where both spatial and temporal variations of coefficients are considered. This can be achieved by incorporating time-varying covariates and/or temporal trends into the model. The main challenge in this extension will be to deal with the high dimensionality of the spatiotemporal data and to ensure the computational feasibility of the model. It will also be interesting to study the performance of the proposed quantile estimator in the spatiotemporal context and to explore the potential of the bivariate spline approximation in this setting. Further investigations into the theoretical properties of the estimators and the development of appropriate inference methods for the spatiotemporal case will also be important for establishing the credibility of the proposed approach in this context.   The second and third columns show the estimated coefficient maps using the QBPST and GWQR methods, respectively.   </p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><figDesc>τ = θ k, τ, m , m ∈ ℳ ⊤ are the vectors of the evaluated bivariate basis functions at a location s</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>*.</head><figDesc>where ξ i 's are generated from a distribution with a cumulative distribution function G ⋅ satisfying the following conditions: (1) for some constant c 1 &gt; 0 and c 2 &gt; 0, sup r ∈ G: r ≤ 0 = -c 1 and inf r ∈ G: r ≥ 0 = c 2 , where G is the support of the distribution G; (2)0 ∞ r -1 dG r = --∞ 0 r -1 dG r = 1/2 and E G r &lt; ∞, where the expectation is taken under G;(3) the τ th quantile of the distribution G is zero. A simple example is the two-point distribution with probability 1 -τ and τ at ξ i = 2 1 -τ and -2τ for τ ∈ 0,1 ; see<ref type="bibr" target="#b6">Feng et al. (2011)</ref> and<ref type="bibr" target="#b38">Wang et al. (2018)</ref> for details of the assumptions. Step 3. Apply BPST to refit the QSVCM based on the sample Y i *, Δ* , for k = 0, …, p, using degree of Bernstein polynomials d* and triangulation Δ*. Step 4. Repeat Steps 2 and 3 B times and obtain a set of bootstrap estimatesFor any s ∈ Ω and 0 &lt; α &lt; 1, an asymptotic 100 1 -α % PCI for β k, τ s can be calculated by β ˆk,τ s; d, Δ -n -1α/2 th and 1 -α/2 th sample quantiles of n 1/2 β ˆk,τ * b s; d*, Δ* -β ˆk,τ s; d, Δ , b = 1, …, B.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><figDesc>S.5 and Figure2, respectively.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Figure 1 :</head><label>1</label><figDesc>Figure 1: Contour plots of the estimated quantile regression functions for model M2, n = 1600 and error distributions of t 2 in Example 1.</figDesc><graphic coords="25,120.20,62.00,431.60,262.08" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Figure 2 :</head><label>2</label><figDesc>Figure 2: Example 2 (M2): True and the estimated surface of coefficient function from the QBPST and GWQR at τ = 0.50 [(a), (d)] and 0.75 [(c), (f)], and BPST and GWR at mean [(b), (e)] for the case with t 2 error distribution and n = 2000.</figDesc><graphic coords="26,169.32,62.00,333.36,431.69" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>Figure 3 :</head><label>3</label><figDesc>Figure 3: Estimated surfaces and 95% PCIs for coefficient functions in the median SVCMs in mortality study. The first and last columns represent the lower bound (LB) and upper bound (UB) of the 95% PCIs for the coefficient function using the QBPST, respectively. The second and third columns show the estimated coefficient maps using the QBPST and GWQR methods, respectively.</figDesc><graphic coords="27,126.84,62.00,418.32,431.75" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1 :</head><label>1</label><figDesc>Comparison of RMISE for different estimators of the coefficient function for M2 and t 2 error distribution in Example 2. The values in parentheses indicate the standard deviations of the corresponding RMISE. Supplementary Table S.3 contains full information for all cases.</figDesc><table><row><cell>n</cell><cell>Method</cell><cell>τ</cell><cell>Δ 1</cell><cell>β 0, τ ⋅</cell><cell>Δ 2</cell><cell>Δ 1</cell><cell>β 1, τ ⋅</cell><cell>Δ 2</cell></row><row><cell></cell><cell>BPST</cell><cell>-</cell><cell cols="6">1.00 (1.81) 0.94 (1.23) 1.50 (2.93) 1.35 (1.41)</cell></row><row><cell></cell><cell></cell><cell cols="7">0.50 0.56 (0.09) 0.56 (0.10) 0.75 (0.16) 0.76 (0.16)</cell></row><row><cell></cell><cell>QBPST</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell></cell><cell></cell><cell cols="7">0.75 0.71 (0.71) 0.63 (0.11) 1.03 (1.41) 0.89 (0.18)</cell></row><row><cell>1,000</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell></cell><cell>GWR</cell><cell>-</cell><cell cols="2">1.41 (0.17)</cell><cell></cell><cell cols="2">1.74 (0.41)</cell><cell></cell></row><row><cell></cell><cell></cell><cell cols="3">0.50 1.37 (0.13)</cell><cell></cell><cell cols="2">1.40 (0.23)</cell><cell></cell></row><row><cell></cell><cell>GWQR</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell></cell><cell></cell><cell cols="3">0.75 1.75 (0.17)</cell><cell></cell><cell cols="2">1.56 (0.34)</cell><cell></cell></row><row><cell></cell><cell>BPST</cell><cell>-</cell><cell cols="6">0.73 (0.60) 0.76 (0.85) 1.17 (1.83) 1.15 (1.62)</cell></row><row><cell></cell><cell></cell><cell cols="7">0.50 0.44 (0.06) 0.44 (0.06) 0.57 (0.10) 0.57 (0.10)</cell></row><row><cell></cell><cell>QBPST</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell></cell><cell></cell><cell cols="7">0.75 0.50 (0.06) 0.49 (0.06) 0.68 (0.12) 0.68 (0.12)</cell></row><row><cell>2,000</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell></cell><cell>GWR</cell><cell>-</cell><cell cols="2">1.12 (0.16)</cell><cell></cell><cell cols="2">1.40 (0.31)</cell><cell></cell></row><row><cell></cell><cell></cell><cell cols="3">0.50 1.06 (0.11)</cell><cell></cell><cell cols="2">1.11 (0.16)</cell><cell></cell></row><row><cell></cell><cell>GWQR</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell></cell><cell></cell><cell cols="3">0.75 1.36 (0.11)</cell><cell></cell><cell cols="2">1.29 (0.23)</cell><cell></cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 2 :</head><label>2</label><figDesc>Average coverage probabilities and lengths of 95% prediction intervals from 5-fold CV for a new response variable using QBPST-based CQR and GWQR methods in Example 2, Scenario M2. Values in parentheses represent the average lengths of the prediction intervals.</figDesc><table><row><cell>n</cell><cell>Method</cell><cell>Δ 1</cell><cell>MN</cell><cell>Δ 2</cell><cell>Δ 1</cell><cell>t 2</cell><cell>Δ 2</cell></row><row><cell></cell><cell>QBPST</cell><cell cols="6">0.9504 (16.29) 0.9505 (16.29) 0.9503 (12.41) 0.9504 (12.41)</cell></row><row><cell>1,000</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell></cell><cell>GWQR</cell><cell cols="2">0.9381 (15.03)</cell><cell></cell><cell cols="2">0.9389 (11.17)</cell><cell></cell></row><row><cell></cell><cell>QBPST</cell><cell cols="6">0.9500 (15.69) 0.9500 (15.69) 0.9506 (11.50) 0.9505 (11.50)</cell></row><row><cell>2,000</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell></cell><cell>GWQR</cell><cell cols="2">0.9420 (15.17)</cell><cell></cell><cell cols="2">0.9443 (10.97)</cell><cell></cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2"><head>Table 3 :</head><label>3</label><figDesc>Average coverage percentages of 95% wild residual-based bootstrap pointwise confidence intervals for β 0, τ ⋅ and β 1, τ ⋅ over 100 replications (using triangulation Δ 2 and degree d = 3).</figDesc><table><row><cell>Noise</cell><cell>τ .</cell><cell>n</cell><cell>β 0, τ s</cell><cell>M1</cell><cell>β 1, τ s</cell><cell>β 0, τ s</cell><cell>M2</cell><cell>β 1, τ s</cell></row><row><cell></cell><cell></cell><cell cols="2">1,000 94.30</cell><cell></cell><cell>95.75</cell><cell>94.21</cell><cell></cell><cell>95.88</cell></row><row><cell></cell><cell>0.50</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell></cell><cell></cell><cell cols="2">2,000 95.00</cell><cell></cell><cell>97.27</cell><cell>94.54</cell><cell></cell><cell>96.98</cell></row><row><cell>MN</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell></cell><cell></cell><cell cols="2">1,000 90.75</cell><cell></cell><cell>94.66</cell><cell>90.45</cell><cell></cell><cell>94.62</cell></row><row><cell></cell><cell>0.75</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell></cell><cell></cell><cell cols="2">2,000 91.72</cell><cell></cell><cell>96.98</cell><cell>91.47</cell><cell></cell><cell>96.49</cell></row><row><cell></cell><cell></cell><cell cols="2">1,000 94.13</cell><cell></cell><cell>95.81</cell><cell>94.08</cell><cell></cell><cell>95.50</cell></row><row><cell></cell><cell>0.50</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell></cell><cell></cell><cell cols="2">2,000 95.67</cell><cell></cell><cell>98.11</cell><cell>95.38</cell><cell></cell><cell>97.85</cell></row><row><cell>t(2)</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell></cell><cell></cell><cell cols="2">1,000 92.87</cell><cell></cell><cell>95.24</cell><cell>93.36</cell><cell></cell><cell>95.48</cell></row><row><cell></cell><cell>0.75</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell></cell><cell></cell><cell cols="2">2,000 93.90</cell><cell></cell><cell>96.70</cell><cell>94.10</cell><cell></cell><cell>96.77</cell></row></table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" xml:id="foot_0"><p>J Am Stat Assoc. Author manuscript; available in PMC 2026 May 22.</p></note>
+		</body>
+		<back>
+
+			<div type="funding">
+<div><p>Funding This research was supported by the <rs type="programName">Basic Science Research Program and Global -Learning &amp; Academic research institution for Master</rs>'s, PhD students, and <rs type="funder">Postdocs (LAMP)</rs> through the <rs type="funder">NRF</rs> funded by the <rs type="funder">Ministry of Education</rs> (<rs type="grantNumber">RS-2023-00248103</rs>, <rs type="grantNumber">RS-2023-00301914</rs>) (<rs type="person">Myungjin Kim</rs>), the <rs type="funder">NIH</rs> award <rs type="grantNumber">1R01AG085616</rs> (<rs type="person">Li Wang</rs>) and the <rs type="funder">NSF</rs> awards <rs type="grantNumber">CCF-1934884</rs> (<rs type="affiliation">Myungjin Kim</rs>), <rs type="grantNumber">DMS-2203207 &amp; DMS-2426173</rs> (<rs type="person">Li Wang</rs>) and <rs type="grantNumber">DMS-2426174</rs> (<rs type="person">Huixia Judy Wang</rs>).</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_CNdhtd2">
+					<orgName type="program" subtype="full">Basic Science Research Program and Global -Learning &amp; Academic research institution for Master</orgName>
+				</org>
+				<org type="funding" xml:id="_xmXNTSQ">
+					<idno type="grant-number">RS-2023-00248103</idno>
+				</org>
+				<org type="funding" xml:id="_MqZP4Fj">
+					<idno type="grant-number">RS-2023-00301914</idno>
+				</org>
+				<org type="funding" xml:id="_F2nVKpm">
+					<idno type="grant-number">1R01AG085616</idno>
+				</org>
+				<org type="funding" xml:id="_uSwSBQf">
+					<idno type="grant-number">CCF-1934884</idno>
+				</org>
+				<org type="funding" xml:id="_Gyc2kvW">
+					<idno type="grant-number">DMS-2203207 &amp; DMS-2426173</idno>
+				</org>
+				<org type="funding" xml:id="_VSJcVbh">
+					<idno type="grant-number">DMS-2426174</idno>
+				</org>
+			</listOrg>
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Supplementary Material</head><p>Refer to Web version on PubMed Central for supplementary material.</p></div>			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">P-splines quantile regression estimation in varying coefficient models</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Andriyana</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><surname>Gijbels</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Verhasselt</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Test</title>
+		<imprint>
+			<biblScope unit="volume">23</biblScope>
+			<biblScope unit="page" from="153" to="194" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Quantile regression with monotonicity restrictions using P-splines and the L1-norm</title>
+		<author>
+			<persName><forename type="first">K</forename><surname>Bollaerts</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">H</forename><surname>Eilers</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Aerts</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistical Modelling</title>
+		<imprint>
+			<biblScope unit="volume">6</biblScope>
+			<biblScope unit="page" from="189" to="207" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Distributed optimization and statistical learning via the alternating direction method of multipliers</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Boyd</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Parikh</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Chu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Peleato</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Eckstein</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Foundations and Trends ® in Machine Learning</title>
+		<imprint>
+			<biblScope unit="volume">3</biblScope>
+			<biblScope unit="page" from="1" to="122" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Nonparametric quantile estimations for dynamic smooth coefficient models</title>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Cai</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Xu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">103</biblScope>
+			<biblScope unit="page" from="1595" to="1608" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Geographically weighted quantile regression (GWQR): An application to US mortality data</title>
+		<author>
+			<persName><forename type="first">Vy-J</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W-S</forename><surname>Deng</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T-C</forename><surname>Yang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">A</forename><surname>Matthews</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">44</biblScope>
+			<biblScope unit="page" from="134" to="150" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+	<note>PubMed: 25342860</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Association between community-level violent crime and cardiovascular mortality in Chicago: A longitudinal analysis</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">A</forename><surname>Eberly</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Julien</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">C</forename><surname>South</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Venkataraman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Nathan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">C</forename><surname>Anyawu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Dayoub</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">W</forename><surname>Groeneveld</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Sam</forename><surname>Khatana</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Heart Association</title>
+		<imprint>
+			<biblScope unit="volume">11</biblScope>
+			<date type="published" when="2022">2022. 025168</date>
+		</imprint>
+	</monogr>
+	<note>PubMed: 35861831</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Wild bootstrap for quantile regression</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Feng</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>He</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Hu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometrika</title>
+		<imprint>
+			<biblScope unit="volume">98</biblScope>
+			<biblScope unit="page" from="995" to="999" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+	<note>PubMed: 23049133</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<monogr>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">M</forename><surname>Charlton</surname></persName>
+		</author>
+		<title level="m">Geographically Weighted Regression: The Analysis of Spatially Varying Relationships</title>
+		<meeting><address><addrLine>Hoboken, NJ</addrLine></address></meeting>
+		<imprint>
+			<publisher>Wiley</publisher>
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Spatial modeling with spatially varying coefficient processes</title>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">A</forename><surname>Gelfand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">J</forename><surname>Kim</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">F</forename><surname>Sirmans</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Banerjee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">98</biblScope>
+			<biblScope unit="page" from="387" to="396" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+	<note>PubMed: 39421645</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<monogr>
+		<title level="m" type="main">Nonparametric Regression and Generalized Linear Models: A Roughness Penalty Approach</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">J</forename><surname>Green</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">W</forename><surname>Silverman</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1993">1993</date>
+			<publisher>Chapman &amp; Hall/CRC</publisher>
+			<pubPlace>New York, NY</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Bootstrapping in nonparametric regression: Local adaptive smoothing and confidence bands</title>
+		<author>
+			<persName><forename type="first">W</forename><surname>Härdle</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">W</forename><surname>Bowman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">83</biblScope>
+			<biblScope unit="page" from="102" to="110" />
+			<date type="published" when="1988">1988</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Bivariate quantile smoothing splines</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>He</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Ng</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Portnoy</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society, Series B</title>
+		<imprint>
+			<biblScope unit="volume">60</biblScope>
+			<biblScope unit="page" from="537" to="550" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Convergence rate of B-spline estimators of nonparametric conditional quantile functions</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>He</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Shi</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journaltitle of Nonparametric Statistics</title>
+		<imprint>
+			<biblScope unit="volume">3</biblScope>
+			<biblScope unit="page" from="299" to="308" />
+			<date type="published" when="1994">1994</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Bivariate tensor-product B-splines in a partly linear model</title>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Multivariate Analysis</title>
+		<imprint>
+			<biblScope unit="volume">58</biblScope>
+			<biblScope unit="page" from="162" to="181" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Quantile regression in varying coefficient models</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Honda</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Statistical Planning and Inference</title>
+		<imprint>
+			<biblScope unit="volume">121</biblScope>
+			<biblScope unit="page" from="113" to="125" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Varying-coefficient models and basis function approximations for the analysis of repeated measurements</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">Z</forename><surname>Huang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">O</forename><surname>Wu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Zhou</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometrika</title>
+		<imprint>
+			<biblScope unit="volume">89</biblScope>
+			<biblScope unit="page" from="111" to="128" />
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Generalized spatially varying coefficient models</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Kim</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Wang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Computational and Graphical Statistics</title>
+		<imprint>
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="page" from="1" to="10" />
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Spatially varying coefficient models with sign preservation of the coefficient functions</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Kim</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Zhou</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Agricultural, Biological and Environmental Statistics</title>
+		<imprint>
+			<biblScope unit="volume">26</biblScope>
+			<biblScope unit="page" from="367" to="386" />
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Quantile regression with varying coefficients</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">O</forename><surname>Kim</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Annals of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">35</biblScope>
+			<biblScope unit="page" from="92" to="108" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<monogr>
+		<title level="m" type="main">Quantile Regression</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Koenker</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2005">2005</date>
+			<publisher>Cambridge University Press</publisher>
+			<pubPlace>Cambridge</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Penalized triograms: Total variation regularization for bivariate smoothing</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Koenker</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><surname>Mizera</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society, Series B</title>
+		<imprint>
+			<biblScope unit="volume">66</biblScope>
+			<biblScope unit="page" from="145" to="163" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Quantile smoothing splines</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Koenker</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Ng</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Portnoy</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometrika</title>
+		<imprint>
+			<biblScope unit="volume">81</biblScope>
+			<biblScope unit="page" from="673" to="680" />
+			<date type="published" when="1994">1994</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<monogr>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">J</forename><surname>Lai</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">L</forename><surname>Schumaker</surname></persName>
+		</author>
+		<title level="m">Spline Functions on Triangulations</title>
+		<meeting><address><addrLine>Cambridge</addrLine></address></meeting>
+		<imprint>
+			<publisher>Cambridge University Press</publisher>
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<monogr>
+		<title level="m" type="main">Bivariate penalized splines for regression</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">J</forename><surname>Lai</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Wang</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2013">2013</date>
+			<biblScope unit="volume">23</biblScope>
+			<biblScope unit="page" from="1399" to="1417" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Wild bootstrap inference for penalized quantile regression for longitudinal data</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Lamarche</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Parker</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">235</biblScope>
+			<biblScope unit="page" from="1799" to="1826" />
+			<date type="published" when="2023">2023</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Estimating spatial quantile regression with functional coefficients: A robust semiparametric framework</title>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Lu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Tang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Cheng</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Bernoulli</title>
+		<imprint>
+			<biblScope unit="volume">20</biblScope>
+			<biblScope unit="page" from="164" to="189" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Spatial quantile multiple regression using the asymmetric laplace process</title>
+		<author>
+			<persName><forename type="first">K</forename><surname>Lum</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Bayesian Analysis</title>
+		<imprint>
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="page" from="235" to="258" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">Estimation and inference in spatially varying coefficient models</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Mu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Wang</forename><forename type="middle">L</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environmetrics</title>
+		<imprint>
+			<biblScope unit="volume">29</biblScope>
+			<biblScope unit="page">2485</biblScope>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Spatial autoregressive partially linear varying coefficient models</title>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Nonparametric Statistics</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="page" from="428" to="451" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">Variable selection of varying coefficient models in quantile regression</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Noh</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Chung</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><surname>Van Keilegom</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Electronic Journal of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">6</biblScope>
+			<biblScope unit="page" from="1220" to="1238" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Geographic variation in stroke risk in the United States: region, urbanization, and hypertension in the Third National Health and Nutrition Examination Survey</title>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">O</forename><surname>Obisesan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">M</forename><surname>Vargas</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">F</forename><surname>Gillum</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Stroke</title>
+		<imprint>
+			<biblScope unit="volume">31</biblScope>
+			<biblScope unit="page" from="19" to="25" />
+			<date type="published" when="2000">2000</date>
+		</imprint>
+	</monogr>
+	<note>PubMed: 10625710</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">Spline smoothing over difficult regions</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Ramsay</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society Series B: Statistical Methodology</title>
+		<imprint>
+			<biblScope unit="volume">64</biblScope>
+			<biblScope unit="page" from="307" to="319" />
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">Bayesian spatial quantile regression</title>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">J</forename><surname>Reich</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Fuentes</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Dunson</forename><surname>Db</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">106</biblScope>
+			<biblScope unit="page" from="6" to="20" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+	<note>PubMed: 23459794</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">Geographic patterns in overall and specific cardiovascular disease incidence in apparently healthy men in the United States</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">Q</forename><surname>Rich</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename><surname>Gaziano</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Kurth</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Stroke</title>
+		<imprint>
+			<biblScope unit="volume">38</biblScope>
+			<biblScope unit="page" from="2221" to="2227" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+	<note>PubMed: 17600228</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<analytic>
+		<title level="a" type="main">Conformalized quantile regression</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Romano</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Patterson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Candes</forename><forename type="middle">E</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Advances in Neural Information Processing Systems</title>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+			<biblScope unit="page">32</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<analytic>
+		<title level="a" type="main">Mortality and causes of death among violent offenders and victims-a Swedish population based longitudinal study</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Stenbacka</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Moberg</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Romelsjö</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Jokinen</forename><forename type="middle">J</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">BMC public health</title>
+		<imprint>
+			<biblScope unit="volume">12</biblScope>
+			<biblScope unit="page" from="1" to="10" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+	<note>PubMed: 22214479</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<monogr>
+		<title level="m" type="main">On selection of semiparametric spatial regression models</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Wang</forename><forename type="middle">J</forename></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+	<note>Stat, 8, e221</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<analytic>
+		<title level="a" type="main">BPST: Bivariate Spline over Triangulation</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">J</forename><surname>Lai</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Kim</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Mu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Yu</forename><forename type="middle">S</forename></persName>
+		</author>
+		<ptr target="https://github.com/FIRST-Data-Lab/BPST" />
+	</analytic>
+	<monogr>
+		<title level="m">R package version 1.0</title>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<analytic>
+		<title level="a" type="main">Wild residual bootstrap inference for penalized quantile regression with heteroscedastic errors</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><surname>Van Keilegom</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Maidman</forename><forename type="middle">A</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometrika</title>
+		<imprint>
+			<biblScope unit="volume">105</biblScope>
+			<biblScope unit="page" from="859" to="872" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<analytic>
+		<title level="a" type="main">Efficient estimation of partially linear models for data on complicated domains by bivariate penalized splines over triangulations</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M-J</forename><surname>Lai</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Gao</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistica Sinica</title>
+		<imprint>
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="page" from="347" to="369" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b40">
+	<analytic>
+		<title level="a" type="main">Soap film smoothing</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">N</forename><surname>Wood</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">V</forename><surname>Bravington</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">L</forename><surname>Hedley</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society Series B: Statistical Methodology</title>
+		<imprint>
+			<biblScope unit="volume">70</biblScope>
+			<biblScope unit="page" from="931" to="955" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b41">
+	<analytic>
+		<title level="a" type="main">Quantile regression for spatially correlated data: An empirical likelihood approach</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Yang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>He</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistica Sinica</title>
+		<imprint>
+			<biblScope unit="page" from="261" to="274" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b42">
+	<analytic>
+		<title level="a" type="main">Distributed heterogeneity learning for generalized partially linear models with spatially varying coefficients1</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Yu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Wang</forename><forename type="middle">L</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="page" from="1" to="28" />
+			<date type="published" when="2024">2024</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b43">
+	<analytic>
+		<title level="a" type="main">Estimation and inference for generalized geoadditive models</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Yu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Yang</forename><forename type="middle">L</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b44">
+	<analytic>
+		<title level="a" type="main">Spatiotemporal autoregressive partially linear varying coefficient models</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Yu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Gao</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistica Sinica</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="page" from="1" to="28" />
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b45">
+	<analytic>
+		<title level="a" type="main">GACV for Quantile Smoothing Splines</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Yuan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Computational Statistics &amp; Data Analysis</title>
+		<imprint>
+			<biblScope unit="volume">50</biblScope>
+			<biblScope unit="page" from="813" to="829" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

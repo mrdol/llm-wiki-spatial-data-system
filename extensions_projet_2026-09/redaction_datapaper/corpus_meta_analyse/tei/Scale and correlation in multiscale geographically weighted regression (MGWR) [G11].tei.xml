@@ -1,0 +1,898 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Scale and correlation in multiscale geographically weighted regression (MGWR)</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability  status="unknown">
+					<licence/>
+				</availability>
+				<date type="published" when="2025-06-06">6 June 2025</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author role="corresp">
+							<persName><forename type="first">Wei</forename><surname>Kang</surname></persName>
+							<email>wei.kang@ucr.edu</email>
+							<idno type="ORCID">0000-0002-1073-7781</idno>
+							<affiliation key="aff0">
+								<orgName type="department" key="dep1">Center for Geospatial Sciences</orgName>
+								<orgName type="department" key="dep2">School of Public Policy</orgName>
+								<orgName type="institution">University of California Riverside</orgName>
+								<address>
+									<addrLine>900 University Ave</addrLine>
+									<postCode>92507</postCode>
+									<settlement>Riverside</settlement>
+									<region>CA</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Taylor</forename><forename type="middle">M</forename><surname>Oshan</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="department">Department of Geographical Sciences</orgName>
+								<orgName type="institution">University of Maryland</orgName>
+								<address>
+									<addrLine>2181 LeFrak Hall</addrLine>
+									<postCode>20740</postCode>
+									<settlement>College Park College Park</settlement>
+									<region>MD</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Scale and correlation in multiscale geographically weighted regression (MGWR)</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2025-06-06">6 June 2025</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">B7C5106DA1B0CC02EA26192F5A51A0C7</idno>
+					<idno type="DOI">10.1007/s10109-025-00468-1</idno>
+					<note type="submission">Received: 10 May 2024 / Accepted: 5 May 2025 /</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-17T13:17+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>Spatial scale</term>
+					<term>Spatial autocorrelation</term>
+					<term>Multicollinearity</term>
+					<term>MGWR</term>
+					<term>Spatial heterogeneity JEL Classification C18</term>
+					<term>C31</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Multiscale geographically weighted regression (MGWR) extends geographically weighted regression (GWR) by allowing process heterogeneity to be modeled at different spatial scales. While MGWR improves parameter estimates compared to GWR, the relationship between spatial scale and correlations within and among covariates-specifically spatial autocorrelation and collinearity-has not been systematically explored. This study investigates these relationships through controlled simulation experiments. Results indicate that spatial autocorrelation and collinearity affect specific model components rather than the entire model. Their impacts are cumulative but remain minimal unless they become very strong. MGWR effectively mitigates local multicollinearity issues by applying varying bandwidths across parameter surfaces. However, high levels of spatial autocorrelation and collinearity can lead to bandwidth underestimation for global processes, potentially producing false local effects. Additionally, strong collinearity may cause bandwidths to be overestimated for some processes, which helps mitigate collinearity but may obscure local effects. These findings suggest that while MGWR offers greater robustness against multicollinearity compared to GWR, bandwidth estimates should be interpreted with caution, as they can be influenced by strong spatial autocorrelation and collinearity. These results have important implications for empirical applications of MGWR.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>Spatially heterogeneous processes may vary from location to location in their magnitude and nature. Several strategies have been proposed to capture this spatial nonstationarity using local models because traditional global models are likely to produce misleading results when processes are not stationary. Previous efforts placed these strategies into two categories <ref type="bibr">(Wolf et al. 2018)</ref>. The first category includes those that typically capture heterogeneity using predefined scales and a relatively small number of discrete areal units or groups at different scales, such as spatial regimes models and hierarchical multilevel models <ref type="bibr" target="#b1">(Banerjee et al. 2014;</ref><ref type="bibr" target="#b0">Anselin 1988)</ref>. In contrast, the second category includes geographically weighted regression (GWR), eigenvector spatial filter regression, and Bayesian spatially varying coefficients models, which typically capture continuous spatial heterogeneity across a larger number of locations and allow for scales to be selected as part of model fitting <ref type="bibr" target="#b5">(Fotheringham et al. 1998;</ref><ref type="bibr" target="#b11">Gelfand et al. 2003;</ref><ref type="bibr" target="#b13">Griffith et al. 2019)</ref>. However, it should be noted that this dichotomy is becoming blurred with recent innovations to endogenously select spatially grouped clusters that can express heterogeneity and efforts to combine or blend models from each category <ref type="bibr" target="#b0">(Anselin and Amaral 2023;</ref><ref type="bibr" target="#b23">Sugasawa and Murakami 2021;</ref><ref type="bibr" target="#b14">Hu et al. 2022)</ref>. This signals a growing acceptance of the notion that spatially heterogeneous processes may come in many different forms and that data-driven techniques can help capture the often multiscale and complex spatial structure that characterizes these processes.</p><p>Of the now numerous local modeling methods, GWR and its multiscale extension, multiscale GWR (MGWR), have emerged as one of the most widely used approaches, perhaps due to its relative conceptual and technical simplicity, as well as a suite of accompanying diagnostic tools and accessible software <ref type="bibr" target="#b8">(Fotheringham et al. 2017;</ref><ref type="bibr">Yu et al. 2020a;</ref><ref type="bibr" target="#b7">Fotheringham et al. 2003)</ref>. Using a spatial kernel function, observations are weighted based on their relative proximity to a set of calibration locations to create local samples and estimate an ensemble of local models. The simplicity of this mechanism has also led to critiques. For example, D. <ref type="bibr" target="#b26">Wheeler and Tiefelsdorf (2005)</ref> suggest that GWR is highly susceptible to multicollinearity issues. In response, additional experiments by <ref type="bibr" target="#b21">Páez et al. (2011)</ref> and <ref type="bibr" target="#b4">Fotheringham and Oshan (2016)</ref> demonstrated that collinearity is less of an issue in GWR when sample sizes are relatively larger. In retrospect, these results are not surprising, and it is clear that small samples (i.e., less than several hundred) are inappropriate for a GWR analysis. Compared to the overall sample, any geographically weighted local sample will necessarily have less variation and smaller effective sample size, a trend that will be exacerbated by the use of increasingly smaller bandwidth values (narrow adaptive kernel). It is easy to quickly run into 'micronumerosity' <ref type="bibr" target="#b13">(Goldberger 1964;</ref><ref type="bibr" target="#b13">1991)</ref>. Increasing the overall sample size can increase the initial variation in the data before weighting and may also increase the relative bandwidth size. <ref type="foot" target="#foot_0">1</ref> This generally produces less correlated local samples and reduces the likelihood of selecting very small bandwidths, making each local regression more robust to any potential issues; however, it may not be possible to increase the sample size without extending the study area and reframing the underlying process being modeled, such as when samples are attached to administrative units or grid cells.</p><p>Nevertheless, this does not mean that multicollinearity may never be problematic in GWR, and it is certainly possible to find higher or lower levels in the local samples compared to the total sample of observations. Many of the same tools exploited in traditional global regression modeling have been proposed to diagnose and deal with excessive collinearity. Diagnostics such as the condition number, variation inflation factors, correlation coefficients, and variance decomposition proportions have all been extended to examine local collinearity in GWR <ref type="bibr" target="#b26">(Wheeler and Tiefelsdorf 2005;</ref><ref type="bibr" target="#b28">Wheeler 2010</ref>). These should be used as part of standard practice, keeping in mind that decisions based on them, such as removing variables, are themselves based on rules-of-thumb rather hard-and-fast cutoffs and each application still requires judgment calls based on acceptable levels of uncertainty, sample size, number of covariates, and prior knowledge of the processes being modeled. Another approach that has been proposed is to extend penalized regression techniques, such as ridge, LASSO, or elastic net to the case of GWR <ref type="bibr" target="#b25">(Wheeler 2009</ref><ref type="bibr" target="#b27">(Wheeler , 2006;;</ref><ref type="bibr" target="#b15">Li and Lam 2018)</ref>. However, these techniques are more complex and computationally intensive when combined with GWR and may have their own challenges for interpreting parameter estimates. In contrast, <ref type="bibr" target="#b4">Fotheringham et al. (2016)</ref> suggest using a GWR-specific correction for multiple dependent hypothesis tests and masking cases where the null cannot be rejected to avoid mistakenly interpreting them as part of any potential spatial patterns in the surfaces of parameter estimates. They demonstrate that overall, the risk from collinearity is an elevated number of false positive tests rather than false negative tests.</p><p>Another lesson in hindsight is the importance of considering multiple scales. In GWR, each explanatory variable is typically weighted using a kernel function parameterized by the same bandwidth parameter (i.e., the spread of the kernel function). When the bandwidth parameter is selected using a bias-variance trade-off, it can be interpreted as the scale of the modeled process <ref type="bibr" target="#b9">(Fotheringham et al. 2022)</ref>. Furthermore, the single bandwidth in GWR is selected to optimize this trade-off across all covariates and will tend toward smaller bandwidths when one or more local processes are detected to minimize bias <ref type="bibr">(Yu et al. 2020b</ref>). The result is that more smoothing is applied than is necessary for some covariates in the model and this may contribute to the level of collinearity found in local samples. MGWR can alleviate this by allowing a separate bandwidth to be selected for each covariate. Without the need to use one 'compromise' bandwidth, each bandwidth is less restricted in characterizing the spatial scale at which its corresponding process is operating, which means that some bandwidths may be global <ref type="bibr">(i.e., little-to-no</ref> Although increasing the sample size should not affect the bandwidth, it does result in a larger sample size for each local regression.</p><p>Footnote 1 (continued) smoothing), some are regional, and others remain small. In this context, <ref type="bibr" target="#b20">Oshan et al. (2020)</ref> report a decrease in the local condition number for MGWR compared to GWR in an empirical application. These results, along with others, are giving way to conventional wisdom regarding the judicious application of GWR, which includes using a global model and then MGWR as a starting point rather than GWR and using local collinearity diagnostics <ref type="bibr" target="#b2">(Fotheringham 2023;</ref><ref type="bibr" target="#b18">Oshan 2023;</ref><ref type="bibr">Fotheringham et al. 2023)</ref>. Nevertheless, it is still not clear how scale, as measured by bandwidth, impacts collinearity and vice versa. While it is understood that multiple scales can reduce local collinearity, it is important to also understand if collinearity can affect bandwidth selection since the latter is a key model output with practical implications for the measurement of process scale.</p><p>Additionally, in contrast to classic regression models that ignore the spatial clustering of processes, spatial models such as MGWR anticipate and leverage such structure. In practice, most spatial variables demonstrate some level of positive spatial autocorrelation with similar values clustering in space. This creates the opportunity for local models to obtain local samples that are pockets of very similar values with little variation even though the overall sample might display substantial variations. If two variables are both spatially autocorrelated and globally collinear (i.e., overall pattern), their local samples are more likely to be very similar, leading to exacerbated collinearity in those local samples. Though the role of spatially correlated covariates has been previously investigated in GWR in the context of local parameter estimates <ref type="bibr" target="#b17">(Murakami et al. 2017;</ref><ref type="bibr" target="#b12">Geniaux and Martinetti 2018)</ref>, it is not understood how this type of correlation may or may not interact with multicollinearity and scale in MGWR.</p><p>This paper therefore studies the relationships between (M)GWR model accuracy, spatial scale, and two types of correlation-collinearity between covariates and spatial autocorrelation in covariates-which has yet to be investigated systematically. The results suggest that both types of correlations have a negligible effect on MGWR performance until they become very strong, and their impacts are cumulative. Overall, MGWR is better at alleviating any potential local multicollinearity issues than GWR due to the varying scales estimated for different parameter surfaces. Two additional insights were obtained regarding scale. First, very high levels of spatial autocorrelation and collinearity may potentially contribute toward the underestimation of scale for certain processes, typically those with the lowest level of spatial heterogeneity (including the intercept), potentially falsely identifying local effects. Second, high levels of collinearity may contribute to the misidentification of anticipated scales. In some cases, when the true process is spatially varying, collinearity may lead the bandwidth to be overestimated, which can help mitigate issues associated with high collinearity but may also lead to difficulty identifying local effects. In other cases, when the true process is constant, collinearity may lead the bandwidth to be underestimated but is not problematic for accurately estimating coefficients unless collinearity becomes high.</p><p>The remaining sections of the paper are organized as follows. Section 2 introduces the GWR and MGWR models. Section 3 describes the design of the two sets of simulation experiments for a systematic investigation of the interplay between collinearity, spatial autocorrelation in covariates, and spatial scales in MGWR and GWR. Results from the simulation experiments are given in Sect. 4, and finally, implications of the results and conclusions are discussed in Sect. 5.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">Local spatial modeling: GWR and MGWR</head><p>GWR and MGWR are extensions of the classic multiple linear regression model where the expectation of the outcome or response variable is a linear combination of covariates. These two local spatial models explicitly address process spatial heterogeneity and allow the parameters to be spatially varying by exploiting the spatial dependence structure across observations. They can be formalized as where a total of m explanatory variables are used in the regression model, y i is the response variable, and i is the random noise at location i , x ij is the value of the j th explanatory variable at location i and β ij is the associated coefficient (i.e., j th coef- ficient at location i ) free to vary geographically. For GWR, the spatial heterogeneity of the regression coefficients is achieved by calibrating a weighted ordinary least square (OLS) model for each location using spatial weights determined by a spatial kernel and with a bandwidth optimized using cross-validation or the minimization of a model fit statistic (e.g., AICc) during the model calibration process. One of the most widely used kernels, the adaptive bisquare kernel, which is also used here, is defined as This kernel operationalizes the bandwidth ( b ) as the number of nearest neighbors used for calibration for each location. G i is the distance from the location i to its b th nearest neighbors and the spatial weight between locations i and h is negatively associated with the distance between these two locations. In GWR, the same bandwidth ( b ) is used for constructing the spatial weights for all the covariates, therefore assuming that all the modeled relationships operate at the same spatial scale.</p><p>MGWR relaxes the assumption of a single scale for all the modeled processes and allows each coefficient β j to have a separate bandwidth (i.e., b 0 , b 1 , b 2 , … , b m ). The bandwidths are estimated in the model calibration process and are interpreted as the spatial scale at which the conditional relationship (or spatial process) operates. The smaller the bandwidth, the more localized the spatial process and vice versa. MGWR model estimation is operationalized using a generalized additive model (GAM) and a backfitting algorithm to calibrate each relationship iteratively <ref type="bibr" target="#b8">(Fotheringham et al. 2017)</ref>. Inference about each surface of local parameter estimates can then be adjusted for multiple dependent hypothesis tests based on the associated (1) <ref type="bibr">Yu et al. 2020a</ref>) in order to more flexibly discern patterns from noise in the surfaces of local parameter estimates. It is also possible to conduct Monte Carlo tests on the significance of the spatial variability of each surface <ref type="bibr" target="#b6">(Fotheringham et al. 2002)</ref> and construct 95% confidence intervals on the bandwidth estimates <ref type="bibr" target="#b16">(Li et al. 2020</ref>).</p><formula xml:id="formula_0">y i = m ∑ j=0 β ij x ij + ε i (2) w ih ⎧ ⎪ ⎨ ⎪ ⎩ � 1 - � d ih G i � 2 � 2 , ifd ih &lt; G i 0, Otherwise bandwidth (</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">Experimental design</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1">Data generating process</head><p>The data generating process (DGP) utilized followed an MGWR-like regression specification that incorporates two covariates ( X 1 and X 2 ), one intercept parameter ( β 0 ), and two slope parameters ( 1 and 2 ). The three parameters are configured to potentially include varying levels of spatial heterogeneity. The DGP is formally defined as where the error term follows a normal distribution centered at 0 ∼ N 0, 2 I . The two covariates are spatially configured to exhibit varying levels of spatial autocorrelation and varying degrees of collinearity with one another. After describing two sets of known parameter surfaces, methods for generating collinear and spatially autocorrelated covariates are outlined.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2">True parameter surfaces</head><p>Two sets of parameter surfaces were employed, which differ in sample size and degree of spatial heterogeneity. The first is identical to the true surfaces used in the initial MGWR simulation experiments in <ref type="bibr" target="#b8">Fotheringham et al. (2017)</ref> with the first two surfaces swapped to make sure second and third parameter surfaces exhibit a greater difference in the level of spatial heterogeneity (top row of Fig. <ref type="figure" target="#fig_0">1</ref>). This adjustment allows the intercept to be more thoroughly investigated, which is important due to the unique role it plays in a MGWR model. These surfaces are configured in a (25, 25) regular lattice and range in values from 1 to 5. Though the second surface is constant across space and represents a global process, the other two surfaces vary across space at different scales, with 0 demonstrating a lower level of spatial heterogeneity (the rate of change over space is lower) and 2 demonstrating a higher level of spatial heterogeneity (the rate of change over space is higher). Additionally, the original scenario was considered in which the intercept surface is constant following <ref type="bibr" target="#b8">Fotheringham et al. (2017)</ref> (Fig. <ref type="figure" target="#fig_0">S1</ref>), which serves as a point of comparison for the first simulation experiment.</p><p>The second set of parameter surfaces follows the design of Fotheringham and <ref type="bibr" target="#b4">Oshan (2016)</ref> which was used to previously study multicollinearity and GWR. As shown in the bottom row of Fig. <ref type="figure" target="#fig_0">1</ref>, these surfaces have a larger sample size and are based on a (50, 50) regular lattice. Though the intercept surface (3)</p><formula xml:id="formula_1">y i = i0 + i1 x i1 + i2 x i2 + i</formula><p>possesses the lowest level of perceived spatial pattern heterogeneity, it actually has a much wider overall range of values, producing the highest relative level of spatial heterogeneity among the three surfaces.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.3">Spatially autocorrelated covariates</head><p>To simulate realistic covariates that follow Tobler's first law of geography, "Everything is related to everything else, but near things are more related than distant things" <ref type="bibr" target="#b24">(Tobler 1970)</ref>, a first-order spatial autoregression specification was used and is defined as which can be rewritten in reduced form as where ∈ (-1, 1) is the spatial autoregressive parameter representing the strength of spatial dependence, is a white noise vector ∼ N 0, σ 2 1 I assumed to follow a normal distribution, I is a (n, n) identity matrix with 1's on the diagonal and 0's elsewhere, and W is the (n, n) row-stochastic spatial weight matrix expressing inter- actions across spatial units. Queen contiguity was used for W such that any polygons that share a common edge or vertex are considered neighbors. </p><formula xml:id="formula_2">(4) X = WX + (5) X = (I -W) -1</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.4">Two types of correlation: spatial autocorrelation and collinearity</head><p>The two covariates used in the DGP are constructed to potentially have both spatial autocorrelation and collinearity. After simulating the first explanatory variable ( X 1 ) using the spatial autoregressive model in Eq. ( <ref type="formula">5</ref>), the same formula is also used to generate an intermediate variable Z . Then, the second explanatory variable ( X 2 ) is simulated using Z so that both explanatory variables will be approximately corre- lated with a set level denoted by a given Pearson's r value, as well as spatially auto- correlated at the same level ( ρ ). The complete process is formulated as</p><p>The two error terms 1 and 2 are independent and each follows a standard normal distribution ( N(0,1) ). Values of for spatial dependence and r for bivariate correla- tion were both allowed to take on values of {0, 0.5, 0.8, 0.85, 0.9, 0.95}. 2 It should be noted that the spatial autoregressive coefficient used in the DGP is not equivalent to Moran's I statistic though they are positively associated. 3 The restriction of a consistent spatial autocorrelation level for the two covariates can be relaxed in the scenario where there is a lack of global collinearity between the two covariates, resulting in different values of for X 1 and X 2 . This design helps disentangle the sole impact of spatial autocorrelation.</p><p>The generated covariates ( X 1 and X 2 ) were standardized before being used within the DGP in Eq. ( <ref type="formula">3</ref>) to make sure the optimal bandwidths estimated from MGWR reflect only the spatial scale at which each process is operating. For each combination of parameters, 100 simulations were generated using a normally distributed random error with a mean of 0 and a standard deviation ( ) of 1.5 for the smaller sample and 0.5 for the larger sample scenarios. This gives rise to two different average levels of signal-to-noise ratio (SNR) resembling a pseudo-R 2 (defined as 1 minus the ratio of noise variance ( 2 ) to signal variance ( Var(X ) ), which are 0.87 and 0.221, respectively. An MGWR model and a GWR model were calibrated for each simulated realization. For the smaller sample size case, an additional simulation experiment was carried out with a larger standard deviation of the error term (i.e., 2.5) to incorporate a higher level of random noise and thus a smaller level of SNR ( <ref type="formula">6</ref>)</p><formula xml:id="formula_3">X 1 = (I -W) -1 1 Z = (I -W) -1 2 X 2 = rX 1 + √ 1 -r 2 Z</formula><p>2 Smaller values, such as 0.1, 0.2, 0.3, and 0.4, were tested for both the spatial autoregressive parameter and the bivariate correlation. Since these small values had a negligible effect on the performance of GWR and MGWR, only results for larger values were reported. Additionally, an extreme value of 0.99 was included in the initial experiments. However, these cases resulted in highly pathological scenarios unsuitable for any realistic application and indeed lead to numerous local optima, making convergence of the MGWR calibration algorithm unlikely. As a result, this value was excluded from the paper. 3 While the spatial autoregressive term ρ in the DGP and Moran's I on the generated spatial patterns is positively associated (Pearson's correlation coefficient = 0.93), the latter is smaller (Moran's I is about 67% of ρ). As shown in Fig. <ref type="figure">S2</ref>, 0.8 is correspondent to a 0.5 estimate of Moran's I for the scenario of (25,25) regular lattice and queen contiguity weights.</p><p>(i.e., 0.636). Model calibration and inference were carried out using the open-source Python package-PySAL/mgwr version 2.2.1 <ref type="bibr" target="#b19">(Oshan et al. 2019)</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.5">Evaluation criteria</head><p>One of the primary objectives of this study is to understand the link between the estimation of spatial process scale and the two types of correlations (spatial autocorrelation and bivariate collinearity). Therefore, an examination of the optimal bandwidths estimated from MGWR (i.e., b 0 , b 1 , and b 2 ) and GWR (i.e., b ) will first be conducted and compared with the levels of spatial heterogeneity observed in the true parameter surfaces. The ability of GWR and MGWR to recover the true parameter surfaces is measured with two relative metrics. The first metric relies on the root-mean-squared error (RMSE), which compare the estimates with the known parameters for each realization. For each parameter ( β j ) and realization ( s ), RMSE sj is calculated as follows:</p><p>where n is the number of observations and βsij is the estimate of parameter j for the ith observation in the s th realization. The relative metric rRMSE is defined in Eq. ( <ref type="formula">8</ref>) as the ratio of the average RMSE for the scenario under investigation (e.g., = 0.9, r = 0.8) to the average RMSE obtained for the reference scenario (i.e., = 0, r = 0) for MGWR and GWR, respectively. This metric yields a value of 1 for the reference scenario and is expected to increase as either correlation grows. Assessing how well GWR and MGWR can produce lower magnitudes of this metric provides insight into their ability to address increasing correlation.</p><p>The other relative metric, the mean absolute percentage error (MAPE), measures the accuracy of a model's parameter estimations in percentage terms and is defined in Eq. ( <ref type="formula">9</ref>): This metric ranges from 0 to 100, and a smaller value indicates a more accurate prediction/recovery of the parameter surface and vice versa.</p><p>A local multicollinearity diagnostic, namely, the local condition number, is used to detect potential local multicollinearity issues in GWR and MGWR (D. C. <ref type="bibr" target="#b27">Wheeler 2006)</ref> <ref type="foot" target="#foot_1">foot_1</ref> . This diagnostic relies on the singular-value decomposition (SVD) of the design matrix X for each location i . For each location i , the SVD is defined as follows where U and V are orthogonal (n, m + 1) and (m + 1, m + 1) matrices, D is a (m + 1, m + 1) matrix with a diagonal of decreasing singular values, W 1 2 (i) is the square root of the diagonal spatial weight matrix for location i obtained from the adaptive bisquare kernel function in Eq. ( <ref type="formula">2</ref>). The local condition index (LCI) for the j th explanatory variable at location i is defined as where d (i)j is the j th singular value in D and d max(i) is the largest singular value. The largest LCI for this location is defined as the local condition number ( LCN i ). The larger the LCN, the stronger the local collinearity among the covariates and the intercept. A critical value of 30 is often used to determine major issues, while 10 is a more conservative threshold to suggest little-to-no collinearity issues. Thresholds of 10, 20, and 30 are considered here.</p><formula xml:id="formula_4">(7) RMSE sj = √ √ √ √ 1 n n ∑ i=1 𝛽 ij -βsij 2 (8) rRMSE = 1 3 1 100 ∑ 2 j=0 ∑ 100 s=1 RMSE sj 1 3 1 100 ∑ 2 j=0 ∑ 100 s=1 RMSE sj ( = 0, r = 0) (9) MAPE sj = 100 1 n n ∑ i=1 | | | | | | 𝛽 ij -βsij 𝛽 ij | | | | | |</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">Results</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1">Simulation experiment one</head><p>In the first simulation experiment, which has a smaller sample size (n = 625), the true surface associated with the first covariate is spatially homogeneous, and the intercept and the other true parameter surface have a similar numerical scale but different levels of spatial heterogeneity. When the covariates are neither spatially autocorrelated nor collinear, the estimated optimal bandwidths for all three parameter surfaces correctly reflect the different levels of spatial heterogeneity in the true parameter surfaces, with the bandwidth estimated for the second parameter surface tending toward the maximum global value and the other two being much more local. The absolute magnitudes of the spatial scales, as measured by the optimal number of nearest neighbors used for local model calibration, increased with stronger noise (Table <ref type="table" target="#tab_0">1</ref>). On the other hand, both types of association tend to have little-to-no impact on the performance of MGWR or GWR until either becomes very strong (Figs. <ref type="figure">2</ref> and <ref type="figure">3</ref>), at which point some additional patterns emerge. Fig. 3 Optimal bandwidths for GWR ( b ) and MGWR ( b 0 , b 1 , b 2 ) when two covariates are spatially autocorrelated but are not linearly associated (n = 625, σ = 1.5)  </p><formula xml:id="formula_5">(10) W 1 2 (i) X = UDV T (11) LCI ij = d max(i) d (i)j</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1.1">Impact of collinearity</head><p>To isolate the potential impact of collinearity on (M)GWR, the DGP was controlled so that the covariates were not spatially autocorrelated. Collinearity has essentially no impact on the estimation of the parameter surface that is uncorrelated (i.e., intercept) and its spatial scale (Fig. <ref type="figure">2</ref> and <ref type="figure" target="#fig_2">4</ref>). In contrast, for the two collinear covariates, while the bandwidth estimates for the associated parameters are affected to a Fig. 6 An example of parameter estimates for scenarios where both covariates are exempt from spatial autocorrelation ( n = 625, = 1.5 ) (statistically insignificant estimates filtered)</p><p>minimal degree (Fig. <ref type="figure" target="#fig_2">4</ref>), the parameters for these two covariates have increasing estimation error as collinearity increases and the impact is stronger for GWR than MGWR (Fig. <ref type="figure">2</ref> and <ref type="figure">5</ref>). However, this does not lead to a poorer recovery of the true parameter surfaces except in the most extreme scenarios (i.e., r = 0.95 ) and even then, the distortion is moderate for MGWR (Fig. <ref type="figure">6</ref>) <ref type="foot" target="#foot_2">5</ref> . Avoiding such high levels of collinearity is a nearly universal guideline for any regression exercise, and these results reinforce previous results that that collinearity alone is not inherently problematic <ref type="bibr" target="#b4">(Fotheringham and Oshan 2016)</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1.2">Impact of spatial autocorrelation</head><p>In contrast, when there is no collinearity between the two covariates, spatial autocorrelation in covariates has spillover effects on the estimation accuracy of the intercept and the associated bandwidth. There are increased levels of estimation error for all three parameters as the spatial autocorrelation increases (Fig. <ref type="figure">7</ref>). Although the bandwidth estimates for the intercept slightly increase as the spatial autocorrelation grows, the bandwidth estimates for the other two parameters seem to be robust to the increasing spatial autocorrelation (Fig. <ref type="figure">3</ref>). Despite the increased estimation error, MGWR still produces slope parameter surfaces that preserve their distinct spatial patterns under high levels of spatial autocorrelation (Fig. <ref type="figure">S3</ref>). The scenario where one covariate was controlled to be spatially random, while the second covariate was controlled to be spatially autocorrelated was also explored, which produced similar results in regard to the intercept and autocorrelated covariate, while the parameter estimates and associated bandwidth for the random covariate remained essentially unaffected. Similar patterns were observed for the experiments where the true intercept is spatially constant; the bandwidth estimation is robust to the level of spatial autocorrelation (Fig. <ref type="figure" target="#fig_2">S4</ref>).</p><p>Table 2 Average percentage of locations that have a local condition number &gt; 10 using GWR (n = 625) Collinearity ( r) 0.00 0.50 0.80 0.85 0.90 0.95 Spatial autoregressive parameter ( ) 0.00 0.0 0.0 0.0 0.0 0.0 0.98 0.50 0.0 0.0 0.0 0.0 0.01 2.6 0.80 0.0 0.0 0.06 0.36 1.97 17.73 0.85 0.0 0.0 0.23 1.06 4.49 25.05 0.90 0.0 0.01 1.29 3.01 9.28 32.19 0.95 0.43 1.02 8.41 14.11 24.72 51.33</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1.3">Spatial autocorrelation and collinearity</head><p>The combined effects of both types of correlation have never previously been examined for (M)GWR, and there appears to be a cumulative impact on the results compared to each individual factor. As both types of correlation get stronger, it takes many more iterations for MGWR to converge. Tables <ref type="table">2</ref> and <ref type="table">3</ref> describe the average percentage of local condition numbers (LCNs) greater than 10 across simulations</p><p>Table 3 Average percentage of locations that have a local condition number &gt; 10 using MGWR (n = 625) Collinearity ( r) 0.00 0.50 0.80 0.85 0.90 0.95 Spatial autoregressive parameter ( ) 0.00 0.0 0.0 0.0 0.0 0.0 0.06 0.50 0.0 0.0 0.0 0.0 0.0 0.08 0.80 0.0 0.0 0.01 0.01 0.06 0.57 0.85 0.0 0.0 0.0 0.02 0.16 1.77 0.90 0.0 0.0 0.04 0.2 0.63 2.82 0.95 0.01 0.01 0.63 0.61 1.8 4.69 Fig. 8 MAPEs for GWR and MGWR for increasing collinearity when both covariates are spatially autocorrelated ( = 0.9 , n = 625, σ = 1.5)</p><p>for GWR and MGWR, respectively. In general, as either collinearity is increased (across columns) or autocorrelation is increased (across rows), the occurrence of local collinearity increases and is most pronounced when both types of correlation are high. However, the overall presence of local collinearity is always lesser for MGWR than for GWR for all scenarios and this is likely due to different bandwidths for different covariates leading to lower levels in some locations (Fig. <ref type="figure">7</ref>).</p><p>As shown in Fig. <ref type="figure">8</ref> and <ref type="figure">9</ref>, when either (a) the spatial autocorrelation level in both covariates is high ( = 0.9 ) and collinearity is increased or (b) the collinearity is high ( r = 0.9 ) and the spatial autocorrelation level in both covariates is increased, there are higher levels of estimation error for the parameters compared to Figs. 2 and 3 when there are only increased levels of one or the other. As both types of correlation get very strong (e.g., r &gt; 0.9 and 𝜌 &gt; 0.9 ), the two covariates exhibit very similar spatial patterns, both globally and locally. This similarity could complicate parameter estimation, leading to instances where spatial patterns of parameter surfaces with higher spatial heterogeneity are absorbed by those with lower heterogeneity (Fig. <ref type="figure" target="#fig_0">10</ref>). This effect is further indicated by the significantly smaller bandwidth estimated for the constant surface of 1 (Fig. <ref type="figure">S5</ref>). Therefore, for this smaller sample experimental design, there seems to be a link between joint levels of high collinearity and autocorrelation, increased local collinearity, and increased estimation error.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1.4">Robustness check</head><p>Several additional simulation experiments were conducted as a robustness check on the patterns observed with two explanatory variables. In the first additional experiment, a third explanatory variable ( X 3 ) was introduced, generated inde- pendent of the other two correlated and spatially autocorrelated variables ( X 1 and X 2 ). The associated parameter surface ( 3 ) exhibits a similar level of spatial het- erogeneity to the intercept, and all the four "true" parameter surfaces are uncorrelated (Fig. <ref type="figure" target="#fig_0">11</ref>). The experiment aimed to investigate whether the biases observed in the coefficient estimates of the two spatially correlated and/or collinear covariates affect the estimation of an independent variable. The results indicate that spatial autocorrelation ( ) in the other two explanatory variables ( 1 and 2 ) and Fig. <ref type="figure">9</ref> MAPEs for GWR and MGWR for increasing spatial autocorrelation with fixed collinearity (r = 0.9, n = 625, σ = 1.5) Fig. <ref type="figure" target="#fig_0">10</ref> An example of MGWR parameter estimates for scenarios where both covariates are highly spatially autocorrelated ( n = 625, = 1.5, = 0.9 ) (statistically insignificant estimates filtered) Fig. <ref type="figure" target="#fig_0">11</ref> True parameter surfaces for the first additional simulation experiment their bivariate correlation ( r ) do not impact the bandwidth selection or parameter estimation for the third explanatory variable ( 3 ).</p><p>The second additional experiment follows the simulation experiment one in terms of the DGP for the covariates. However, unlike the original design, where the 'true' parameter surfaces associated with the two covariates were independent, this experiment introduces a high level of correlation between 1 and 2 . Specifically, these two parameter surfaces were using the DPG in Eq. ( <ref type="formula">6</ref>), where 1 and 2 are both spatially autocorrelated to a similar extent ( 1 = 2 = 0.95 ), and they are positively associated ( r 12 = 0.8 ) (Fig. <ref type="figure" target="#fig_5">12</ref>). The estimated Pear- son's correlation coefficients among the "true" s are Corr 0 , 1 = -0.34 , Corr 0 , 2 = -0.28 , and Corr 1 , 2 = 0.7 . The DGP of the explanatory vari- ables ( X 1 and X 2 ) follows the structure of the original experiments, meaning that X 1 and X 2 could be both spatially autocorrelated and linearly associated, with , r ∈ {0,0.5,0.8,0.85,0.9,0.95}. The overall conclusion regarding the impact of the two types of correlation remains valid. Specifically, spatial autocorrelation in covariates increases estimation errors for both the associated parameters and the intercept, whereas collinearity increases estimation errors only for the associated parameters. When collinearity and spatial autocorrelation in covariates are absent, both GWR and MGWR successfully preserve the 'true' correlation among parameter surfaces. However, as these correlations become stronger, MGWR is better positioned to generate more accurate local estimates and maintain the correlation between parameter surfaces (Fig. <ref type="figure">S6</ref>).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2">Simulation experiment two</head><p>For the second experiment, the sample size is larger (n = 2500) and none of the true surfaces is constant. The intercept exhibits distinct spatial patterns (gradually changes from the smallest value in the upper-left corner to the largest value in the lower-right corner) and possesses a larger numerical scale than the other two true parameter surfaces. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2.1">Impact of collinearity</head><p>Similar to the trend from the smaller sample experiment, when the two covariates are randomly spatially distributed, increasing collinearity increases estimation error for coefficients of the two covariates without much effect on the intercept and the increase is much less pronounced for MGWR than for GWR; however, there are some distinct differences regarding the estimated bandwidths (Fig. <ref type="figure" target="#fig_6">13</ref> and <ref type="figure" target="#fig_2">14</ref>). Notably, the bandwidth estimates for coefficients of the two collinear covariates that exhibit a lower level of spatial heterogeneity are inflated as the collinearity increases and especially as it becomes very strong (e.g., r &gt; 0.9), which is also observed in the additional smaller sample experiment where the intercept is spatially homogeneous (Fig. <ref type="figure">S7</ref>). It suggests that MGWR may attempt to compensate for the shrunken effective sample size due to correlation by increasing the number of samples for each local estimation through the use of a larger bandwidth. This could also be explained in terms of a trade-off between either information and misinformation or bias and variance during bandwidth selection <ref type="bibr" target="#b9">(Fotheringham et al. 2022)</ref>. High collinearity suggests that more local samples may contain less information, while more global samples may contain less misinformation. This decreases the bias reduction and increases the variance inflation associated with smaller bandwidths (i.e., reduces the benefits and increases penalty) while potentially also introducing less bias but reducing some variance (i.e., reduces the penalty and increases Fig. 14 MAPEs for GWR and MGWR when both covariates are exempt from spatial autocorrelation (n = 2500)</p><p>benefits) when incorporating samples from further away. The outcome is that with increasing collinearity (i.e., reduction in overall information), it becomes more important to reduce variance than decrease bias and this is achieved by selecting a larger bandwidth and increasing the sample size. As a result, MGWR can recover some of the patterns in the true surfaces even for the most pathological case (e.g., r = 0.95) (Fig. <ref type="figure" target="#fig_7">15 6</ref> ), although the estimates for 1 have little-to-no overall variation compared to the true surface and are essentially an average. The trade-off is that in return MGWR is much less prone than GWR to potential local collinearity issues  (Tables <ref type="table">3</ref><ref type="table" target="#tab_1">4</ref>). In fact, for MGWR, collinearity has a negligible impact on potential local collinearity issues except in the most extreme case (e.g., r = 0.95).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2.2">Impact of spatial autocorrelation</head><p>The general impact due solely to spatial autocorrelation in both covariates is similar for both MGWR and GWR in that it still increases estimation error for all three surfaces, but there is no longer an issue with misestimation of the intercept bandwidth, even for the most extreme scenario ( = 0.95 ) (see Fig. <ref type="figure">S8</ref>, <ref type="figure">S9</ref>, and <ref type="figure" target="#fig_0">S10</ref>). Instead, there is some over-or under-estimation of the bandwidth for 1 and 2 similar to the impact of collinearity but much more moderate. For both GWR and MGWR, there are virtually no potential local collinearity issues (due solely to spatial autocorrelation or global collinearity) except for GWR for the most extreme scenario.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2.3">Spatial autocorrelation and collinearity</head><p>The joint impact of spatial autocorrelation and global collinearity on GWR and MGWR in terms of potential local collinearity issues are similar to what have been observed for the smaller sample scenario (Tables <ref type="table" target="#tab_1">4</ref> and <ref type="table">5</ref>). It is negligible for MGWR even in the extreme scenario where both correlation is very strong ( = 0.95 and r = 0.95).</p><p>An examination of the scenario where both very strong spatial autocorrelation (ρ = 0.95) and collinearity (r = 0.9) exist shows that this leads to a situation where the two covariate surfaces have similar spatial patterns (Fig. <ref type="figure" target="#fig_8">16a</ref>). Figure <ref type="figure" target="#fig_8">16b</ref> visualizes the spatial patterns of LCNs for both GWR and MGWR with locations that have an LCN larger than 30 highlighted with black boundaries, those with LCNs between 20 and 30 highlighted with blue boundaries, and those with LCNs between 10 and 20 highlighted with yellow boundaries. GWR produces many locations with high LCNs, especially where hot or cold spots coincide in the surfaces, due to the single bandwidth that is used for local estimation. This results in predominantly statistically insignificant parameter estimates and those that are not largely inflated compared to the true values. In contrast, MGWR does not produce any large LCNs (Fig. <ref type="figure" target="#fig_8">16b</ref>), still recovers spatial patterns of true parameter surfaces, and produces</p><p>Table 5 Average percentage of locations that have a local condition number &gt; 10 using MGWR (n = 2500) Collinearity (r) 0.00 0.50 0.80 0.85 0.90 0.95 Spatial autoregressive parameter ( ) 0.00 0.0 0.0 0.0 0.0 0.0 0.0 0.50 0.0 0.0 0.0 0.0 0.0 0.0 0.80 0.0 0.0 0.0 0.0 0.0 0.02 0.85 0.0 0.0 0.0 0.0 0.0 0.16 0.90 0.0 0.0 0.0 0.0 0.0 0.44 0.95 0.01 0.0 0.01 0.03 0.22 2.4 three unique optimal bandwidths (50, 2499, and 294 with 95% confidence intervals [50, 50], [2141, 2499], and [264, 316], respectively). However, similar to Fig. <ref type="figure" target="#fig_7">15</ref>, the surface for 1 in Fig. <ref type="figure" target="#fig_8">16d</ref> has little-to-no overall variation compared to the true surface (i.e., an average effect) and is statistically insignificant according to a Monte Carlo test (p-value = 1.0). This further highlights the trade-off between overestimating the bandwidth and avoiding potential local collinearity issues. The outcome is that the true local effect is not identified, but in exchange, the overall model remains robust.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5">Discussions and conclusions</head><p>Two experimental designs were adopted to systematically explore the relationship between process scale (as measured by estimated optimal bandwidth values) and the levels of two types of correlation among explanatory variables (i.e., covariates) in (M)GWR, namely bivariate correlation (i.e., collinearity at a global level) and spatial autocorrelation. Previous work investigated the role of either collinearity or spatial autocorrelation but not their joint impact, and this was only carried out using the single-scale framework of GWR. By investigating these two characteristics of model input within the multiscale MGWR framework, it becomes possible to understand their effect on the estimated bandwidths and how this may potentially relate to the measured scale for each independent factor. The experiments covered a range of scenarios, including different sample sizes, noise levels, patterns of local processes (i.e., parameter surfaces), and levels of correlations. As a result, this work contributes additional evidence toward previous findings and generates several novel insights.</p><p>In concordance with previous findings, collinearity alone does not generally present any major issues until very high values. Taking reasonable precautions to only include variables that are not highly collinear should remain standard practice, and it is also important to use local extensions of diagnostics, such as LCNs, to identify any collinearity that could occur in local samples. Similarly, spatial autocorrelation alone does not seem to be an issue until very high levels. However, collinearity and spatial autocorrelation appear to have a joint effect that is stronger than either alone toward (a) generating local collinearity (as measured by the LCN) and (b) causing estimation error. In addition, removing one or more covariates because they are highly collinear may result in fewer explanatory factors, but because there is redundant information, the overall loss of explained variation should not be heavily affected. In contrast, highly spatially autocorrelated covariates are often strong predictors within a model and removing them eliminates a unique contribution to the model (unless there is also strong collinearity present). As a result, focusing more on global and local collinearity is still likely a sufficient management strategy, though it is useful to be aware that the general effect of collinearity can more quickly become accentuated if there are many variables with high spatial autocorrelation.</p><p>Furthermore, novel evidence was produced to support that MGWR provides significant improvements over GWR in terms of avoiding potential issues that might arise from collinearity and/or spatial autocorrelation. In fact, compared to GWR, MGWR typically produces less estimation error (overall and pattern recovery) and little-to-no potential local collinearity issues due to either collinearity, autocorrelation, or both until extreme levels, which would be easily defended against using typical diagnostics. These results are encouraging, providing additional evidence of the robustness of MGWR to potential collinearity issues <ref type="bibr" target="#b20">(Oshan et al. 2020)</ref>, highlighting the benefits of allowing the measurement of scale to vary for each relationship, and generally supporting the use of MGWR over GWR.</p><p>Moving to the multiscale paradigm provided the additional opportunity to investigate the role of collinearity and autocorrelation in measuring process scale. By examining the optimally estimated bandwidth values across each simulation design, three important trends emerged. First, the positive correlation between the noise level and the optimal MGWR bandwidths, along with the preserved order of bandwidth magnitudes, suggests that MGWR bandwidths should likely be interpreted in a relative rather than absolute manner. Second, in the design with a smaller sample, where the true parameter surface was global (i.e., stationary) with no spatial variation, the simultaneous presence of high spatial autocorrelation and collinearity in covariates caused the bandwidth for parameters with the lowest level of spatial heterogeneity (including the intercept) to be underestimated. This led to the detection of locally varying effects even when none existed, resulting in a form of false positive. However, the patterning of these local effects was not very pronounced. This finding serves as a cautionary note, particularly when interpreting the estimated local intercept as the measurement of intrinsic contextual effects <ref type="bibr" target="#b22">(Fotheringham et al. 2021;</ref><ref type="bibr">Fotheringham and Li 2023)</ref>. In such scenarios, identifying and managing covariate spatial autocorrelation and multicollinearity becomes even more critical. A third trend was that when collinearity becomes extreme (if it is allowed to do so), MGWR's ability to use different bandwidths enables it to adapt by selecting a larger bandwidth to increase the sample size, thereby mitigating the negative effects of smoothing. This implies a trade-off between missing the local effect for one covariate and keeping the model robust for other covariates-essentially a false negative, but the outcome is a near-stationary (i.e., global) estimate that approximates an average of the true local parameters. The result is that MGWR enhances overall model, while also suggesting that very large bandwidths may indicate either a global process or the presence of multicollinearity if caution is not exercised. Future work should further explore the extent to which pockets of local collinearity may trigger this effect and its implications for multiscale modeling.</p><p>The experiments here were simplified in the sense that there were only two explanatory variables. A key finding from the supplementary experiments, which introduced an additional independent covariate, is that spatial autocorrelation and collinearity primarily affect only the associated parameter and bandwidth estimation (and the intercept in the case of spatial autocorrelation), assuming all relevant variables are included. This confirms the isolating effect of these correlations on specific model components. However, in reality, covariates are more likely than not to exhibit both spatial autocorrelation and associations with each other. As the number of covariates increases, the effects of collinearity and spatial autocorrelation are expected to compound more quickly, particularly at the local level, where detection may require additional effort. Although using MGWR may help mitigate some of these issues, caution is warranted regarding false positives on the local intercept and false negatives on local slopes. The latter is not inherently problematic for the rest of the model and is just an extension of the typical problem with multicollinearity-a variable that is collinear might be removed to avoid obfuscating other relationships in a regular regression, whereas in a local regression, a variable might not need to be removed but cannot have a local effect without obfuscating other relationships. As a result, a local effect might be missed, but the remaining relationships may remain robust.</p><p>Including this current work, the notion of multicollinearity in GWR has been studied now for approximately two decades <ref type="bibr" target="#b26">(Wheeler and Tiefelsdorf 2005;</ref><ref type="bibr" target="#b27">Wheeler 2006;</ref><ref type="bibr" target="#b4">Fotheringham and Oshan 2016)</ref>. As more data availability expands and methodologies continue to evolve, revisiting the matter offers an opportunity to develop a more nuanced understanding. Specifically, with the advancement of GWR to MGWR <ref type="bibr" target="#b8">(Fotheringham et al. 2017;</ref><ref type="bibr">Yu et al. 2020a)</ref>, the assumption of a constant bandwidth is relaxed to provide insights into the spatial scale at which each process operates. Larger bandwidths indicate global processes and less smoothing of the data to create local samples, while smaller bandwidths indicate local processes and more smoothing of the data. It is within this context that this work was motivated to reprise the topic and consequently contribute to a more comprehensive understanding of MGWR, highlighting considerations for effectively using the method for empirical applications.</p><p>As with any simulation studies, this research has limitations. First, the simulations only consider two collinear covariates, limiting the ability to assess more complex correlations involving multiple covariates. Second, when collinearity is present, both covariates are assumed to exhibit the same level of spatial autocorrelation. Allowing them to have different spatial autocorrelation levels could provide additional and meaningful insights. Third, only regular spatial configuration is examined, while empirical studies are often faced with irregular spatial configurations. Fourth, local spatial autocorrelation could exist even in the absence of significant global spatial autocorrelation in the explanatory variables, an aspect that remains unaddressed. Future research will aim to overcome these limitations.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Fig. 1</head><label>1</label><figDesc>Fig. 1 Two different sets of true parameter surfaces for the simulation experiment-based varying patterns and sample sizes</figDesc><graphic coords="7,53.67,58.11,332.04,204.12" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Fig. 2 Fig. 3</head><label>23</label><figDesc>Fig. 2 MAPEs for GWR and MGWR when both covariates are exempt from spatial autocorrelation ( n = 625, σ = 1.5)</figDesc><graphic coords="11,53.67,58.11,332.04,116.04" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Fig. 4</head><label>4</label><figDesc>Fig. 4 Optimal bandwidths for GWR ( b ) and MGWR ( b 0 , b 1 , b 2 ) when both covariates are exempt from spatial autocorrelation ( n = 625, = 1.5)</figDesc><graphic coords="11,53.61,496.16,332.16,82.32" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Fig. 5 Fig. 6</head><label>56</label><figDesc>Fig. 5 rRMSEs for GWR and MGWR ( n = 625, = 1.5)</figDesc><graphic coords="12,54.57,58.11,330.24,143.52" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Fig. 7 Fig. 8</head><label>78</label><figDesc>Fig. 7 MAPEs for GWR and MGWR when two covariates are spatially autocorrelated but are not linearly associated (n = 625, σ = 1.5)</figDesc><graphic coords="14,53.67,301.04,332.04,116.64" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>Fig. 12</head><label>12</label><figDesc>Fig. 12 True parameter surfaces for the second additional simulation experiment</figDesc><graphic coords="17,54.57,477.28,330.24,110.76" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>Fig. 13</head><label>13</label><figDesc>Fig. 13 Optimal bandwidths for GWR ( b ) and MGWR ( b 0 , b 1 , b 2 ) when both covariates are exempt from spatial autocorrelation (n = 2500)</figDesc><graphic coords="18,53.61,58.11,332.16,82.32" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><head>Fig. 15</head><label>15</label><figDesc>Fig.15  An example of parameter estimates for scenarios where both covariates are exempt from spatial autocorrelation (n = 2500) (statistically insignificant estimates filtered)</figDesc><graphic coords="19,51.57,55.96,158.30,164.42" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8"><head>Fig. 16</head><label>16</label><figDesc>Fig.16Results for MGWR and GWR for realization 18 under the scenario ρ = 0.95 and r = 0.9 (n = 2500)</figDesc><graphic coords="21,55.41,426.82,328.34,94.46" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_9"><head>Fig</head><figDesc>Fig. 16 (continued)</figDesc><graphic coords="22,67.77,58.27,303.86,81.14" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1</head><label>1</label><figDesc>Median</figDesc><table><row><cell>Constant</cell><cell>SNR</cell><cell>σ</cell><cell cols="3">MGWR bandwidth</cell><cell>GWR</cell></row><row><cell>parameter</cell><cell></cell><cell></cell><cell cols="2">estimates</cell><cell></cell><cell>bandwidth</cell></row><row><cell>surface</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell>estimate</cell></row><row><cell></cell><cell></cell><cell></cell><cell>b 0</cell><cell>b 1</cell><cell>b 2</cell><cell>b</cell></row><row><cell>0</cell><cell>0.874</cell><cell>1.5</cell><cell>623</cell><cell>148</cell><cell>50</cell><cell>90</cell></row><row><cell>0</cell><cell>0.655</cell><cell>2.5</cell><cell>624</cell><cell>227</cell><cell>71</cell><cell>139</cell></row><row><cell>1</cell><cell>0.87</cell><cell>1.5</cell><cell>147</cell><cell>623</cell><cell>50</cell><cell>90</cell></row><row><cell>1</cell><cell>0.636</cell><cell>2.5</cell><cell>197</cell><cell>623</cell><cell>73</cell><cell>130</cell></row></table><note><p>optimal bandwidth estimates from MGWR and GWR for different SNR levels ( n = 625, ρ = 0, r = 0)</p></note></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 4</head><label>4</label><figDesc>Average percentage of locations that have a local condition number &gt; 10 using GWR (n = 2500)</figDesc><table><row><cell></cell><cell cols="2">Collinearity (r)</cell><cell></cell><cell></cell></row><row><cell></cell><cell cols="5">0.00 0.50 0.80 0.85 0.90 0.95</cell></row><row><cell>Spatial autore-</cell><cell cols="2">0.00 0.0 0.0 0.0</cell><cell>0.0</cell><cell>0.0</cell><cell>1.12</cell></row><row><cell>gressive param-</cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>eter ( ρ)</cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell></cell><cell>0.50 0.0 0.0</cell><cell>0.0</cell><cell>0.0</cell><cell cols="2">0.05 4.27</cell></row><row><cell></cell><cell>0.80 0.0 0.0</cell><cell cols="4">0.15 0.63 3.09 21.15</cell></row><row><cell></cell><cell cols="3">0.85 0.0 0.01 0.75 2.2</cell><cell cols="2">7.22 30.24</cell></row><row><cell></cell><cell cols="5">0.90 0.04 0.16 3.55 7.21 16.08 42.41</cell></row><row><cell></cell><cell cols="5">0.95 1.81 3.45 15.02 21.94 33.85 58.98</cell></row></table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="1" xml:id="foot_0"><p>This discussion is especially relevant in the context of the adaptive kernel, the most commonly employed kernel in the GWR family. The adaptive kernel is characterized by the number of nearest neighbors utilized for local calibration around each focal observation. Similar principles apply to the fixed kernel scenario, where the bandwidth is determined by the distance to each focal observation.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="4" xml:id="foot_1"><p>The local variance inflation factor (VIF) is another multicollinearity diagnostics available for GWR but not MGWR and cannot be used for assessing local collinearity with the intercept term.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="5" xml:id="foot_2"><p>For all results, statistically insignificant estimates at the 5% significance level are not displayed and multiple testing is adjusted for using methods from<ref type="bibr" target="#b30">Yu, Fotheringham, Li, Oshan, Kang, et al. (2020)</ref>.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="6" xml:id="foot_3"><p>The missing areas in Fig.14are statistically insignificant parameter estimates that have been filtered and correspond to small true values with low signals.</p></note>
+		</body>
+		<back>
+
+			<div type="conflict">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Conflict of interest</head><p>This research was supported in part by National Science Foundation Grant TI-2345820 and CMMI-2151970.</p></div>
+			</div>
+
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Supplementary Information</head><p>The online version contains supplementary material available at <ref type="url" target="https://doi.org/10.1007/s10109-025-00468-1">https:// doi.  org/ 10. 1007/ s10109-025-00468-1</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Declarations</head><p>Open Access This article is licensed under a Creative Commons Attribution 4.0 International License, which permits use, sharing, adaptation, distribution and reproduction in any medium or format, as long as you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons licence, and indicate if changes were made. The images or other third party material in this article are included in the article's Creative Commons licence, unless indicated otherwise in a credit line to the material. If material is not included in the article's Creative Commons licence and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to obtain permission directly from the copyright holder. To view a copy of this licence, visit <ref type="url" target="http://creativecommons.org/licenses/by/4.0/">http://creativecommons.org/  licenses/by/4.0/</ref>.</p><p>Publisher's Note Springer Nature remains neutral with regard to jurisdictional claims in published maps and institutional affiliations.</p></div>			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Endogenous spatial regimes</title>
+		<author>
+			<persName><forename type="first">L ;</forename><surname>Anselin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Dordrecht</forename><surname>Kluwer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Amaral</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/s10109-023-00411-2</idno>
+		<idno>10109-023-00411-2</idno>
+		<ptr target="https://doi.org/10.1007/s" />
+	</analytic>
+	<monogr>
+		<title level="m">Spatial econometrics: methods and models</title>
+		<imprint>
+			<date type="published" when="1988">1988. 2023</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<monogr>
+		<title level="m" type="main">Hierarchical modeling and analysis for spatial data, 2nd edn</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Banerjee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">P</forename><surname>Carlin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2014">2014</date>
+			<publisher>CRC Press</publisher>
+			<pubPlace>Boca Raton</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">A comment on &apos;a route map for successful applications of geographicallyweighted regression&apos;: the alternative expressway to defensible regression-based local modeling</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geogr Anal</title>
+		<imprint>
+			<biblScope unit="volume">55</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="191" to="197" />
+			<date type="published" when="2023">2023</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Measuring the unmeasurable: models of geographical context</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Li</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ann Am Assoc Geogr</title>
+		<imprint>
+			<biblScope unit="volume">113</biblScope>
+			<biblScope unit="issue">10</biblScope>
+			<biblScope unit="page" from="2269" to="2286" />
+			<date type="published" when="2023">2023</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Geographically weighted regression and multicollinearity: dispelling the myth</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">M</forename><surname>Oshan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Geogr Syst</title>
+		<imprint>
+			<biblScope unit="volume">18</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="303" to="329" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Geographically weighted regression: a natural evolution of the expansion method for spatial data analysis</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">E</forename><surname>Charlton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environ Plan A</title>
+		<imprint>
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="issue">11</biblScope>
+			<biblScope unit="page" from="1905" to="1927" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<monogr>
+		<title level="m" type="main">Geographically weighted regression: the analysis of spatially varying relationships</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2002">2002</date>
+			<publisher>John Wiley &amp; Sons</publisher>
+			<pubPlace>Hoboken</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<monogr>
+		<title level="m" type="main">Geographically weighted regression: the analysis of spatially varying relationships</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2003">2003</date>
+			<publisher>John Wiley &amp; Sons</publisher>
+			<pubPlace>Hoboken</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Multiscale geographically weighted regression (MGWR)</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Yang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Kang</surname></persName>
+		</author>
+		<idno type="DOI">10.1080/24694452.2017.1352480</idno>
+		<idno>1080/ 24694 452. 2017. 13524 80</idno>
+		<ptr target="https://doi.org/10" />
+	</analytic>
+	<monogr>
+		<title level="j">Annals Am Assoc Geogr</title>
+		<imprint>
+			<biblScope unit="volume">107</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1247" to="1265" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">On the notion of &apos;bandwidth&apos; in geographically weighted regression models of spatially varying processes</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Hanchen</forename><surname>Yu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">J</forename><surname>Wolf</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">M</forename><surname>Oshan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Li</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Int J Geogr Inf Sci IJGIS</title>
+		<imprint>
+			<biblScope unit="volume">36</biblScope>
+			<biblScope unit="issue">8</biblScope>
+			<biblScope unit="page" from="1485" to="1502" />
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<monogr>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Tmm</forename><surname>Oshan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Li</surname></persName>
+		</author>
+		<title level="m">multiscale geographically weighted regression: theory and practice</title>
+		<meeting><address><addrLine>Boca Raton</addrLine></address></meeting>
+		<imprint>
+			<publisher>CRC Press</publisher>
+			<date type="published" when="2023">2023</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Spatial modeling with spatially varying coefficient processes</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Hyon-Jung</forename><surname>Kim</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">F</forename><surname>Sirmans</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">B</forename></persName>
+		</author>
+		<idno type="DOI">10.1198/016214503000170</idno>
+		<idno>1198/ 01621 45030 00170</idno>
+		<ptr target="https://doi.org/10" />
+	</analytic>
+	<monogr>
+		<title level="j">J Am Stat Assoc</title>
+		<imprint>
+			<biblScope unit="volume">98</biblScope>
+			<biblScope unit="issue">462</biblScope>
+			<biblScope unit="page" from="387" to="396" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">A new method for dealing simultaneously with spatial autocorrelation and spatial heterogeneity in regression models</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Geniaux</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Martinetti</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Reg Sci Urban Econ</title>
+		<imprint>
+			<biblScope unit="volume">72</biblScope>
+			<biblScope unit="page" from="74" to="85" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<monogr>
+		<title level="m" type="main">Spatial regression analysis using eigenvector spatial filtering</title>
+		<author>
+			<persName><forename type="first">As ; Ma</forename><surname>Goldberger</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Griffith</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Chun</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Li</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1964">1964. 1991. 2019</date>
+			<publisher>Academic Press</publisher>
+			<pubPlace>New York Goldberger AS; Cambridge; Cambridge</pubPlace>
+		</imprint>
+	</monogr>
+	<note>Econometric theory A course in econometrics</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Uncovering spatial heterogeneity in real estate prices via combined hierarchical linear model and geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Hu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Binbin</forename><surname>Lu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Ge</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Dong</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environ Plann b Urban Anal City Sci</title>
+		<imprint>
+			<biblScope unit="volume">49</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1715" to="1740" />
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Geographically weighted elastic net: a variable-selection and modeling method under the spatially nonstationary condition</title>
+		<author>
+			<persName><forename type="first">K</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Nsn</forename><surname>Lam</surname></persName>
+		</author>
+		<idno type="DOI">10.1080/24694452.2018.1425129</idno>
+		<ptr target="https://doi.org/10.1080/24694" />
+	</analytic>
+	<monogr>
+		<title level="j">Annals Am Assoc Geogr</title>
+		<imprint>
+			<biblScope unit="volume">108</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page">29</biblScope>
+			<date type="published" when="2018">2018. 2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Measuring bandwidth uncertainty in multiscale geographically weighted regression using akaike weights</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">Z</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">M</forename><surname>Oshan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">J</forename><surname>Wolf</surname></persName>
+		</author>
+		<idno type="DOI">10.1080/24694452.2019.1704680</idno>
+		<ptr target="https://doi.org/10.1080/24694" />
+	</analytic>
+	<monogr>
+		<title level="j">Annals Am Assoc Geogr</title>
+		<imprint>
+			<biblScope unit="volume">110</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page">80</biblScope>
+			<date type="published" when="2019">2020. 2019. 17046</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">A Moran coefficient-based mixed effects approach to investigate spatially varying relationships</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Murakami</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Yoshida</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Seya</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Griffith</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Yamagata</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Spat Stat</title>
+		<imprint>
+			<biblScope unit="volume">19</biblScope>
+			<biblScope unit="page" from="68" to="89" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Navigating the methodological landscape in spatial analysis: a comment on &quot;a route map for successful applications of geographically-weighted regression</title>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">M</forename><surname>Oshan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geogr Anal</title>
+		<imprint>
+			<biblScope unit="volume">55</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="179" to="183" />
+			<date type="published" when="2023">2023</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Mgwr: a python implementation of multiscale geographically weighted regression for investigating process spatial heterogeneity and scale</title>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">M</forename><surname>Oshan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Kang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">J</forename><surname>Wolf</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Stewart</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">ISPRS Int J Geo Inf</title>
+		<imprint>
+			<biblScope unit="volume">8</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page">269</biblScope>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Targeting the spatial context of obesity determinants via multiscale geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">M</forename><surname>Oshan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Smith</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Stewart</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Int J Health Geogr</title>
+		<imprint>
+			<biblScope unit="volume">19</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page">11</biblScope>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">A simulation-based study of geographically weighted regression as a method for investigating spatially varying relationships</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Páez</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Farber</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Wheeler</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environ Plan A</title>
+		<imprint>
+			<biblScope unit="volume">43</biblScope>
+			<biblScope unit="issue">12</biblScope>
+			<biblScope unit="page" from="2992" to="3010" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Scale, context, and heterogeneity: a spatial analytical perspective on the 2016 US presidential election</title>
+		<author>
+			<persName><forename type="first">Stewart</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Wolf</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">J</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals Am Assoc Geogr</title>
+		<imprint>
+			<biblScope unit="volume">111</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1" to="20" />
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Spatially clustered regression</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Sugasawa</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Murakami</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Spat Stat</title>
+		<imprint>
+			<biblScope unit="volume">44</biblScope>
+			<biblScope unit="page">100525</biblScope>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">A computer movie simulating urban growth in the Detroit region</title>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">R</forename><surname>Tobler</surname></persName>
+		</author>
+		<idno type="DOI">10.2307/143141</idno>
+		<ptr target="https://doi.org/10.2307/143141" />
+	</analytic>
+	<monogr>
+		<title level="j">Econ Geogr</title>
+		<imprint>
+			<biblScope unit="volume">46</biblScope>
+			<biblScope unit="page">234</biblScope>
+			<date type="published" when="1970">1970</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Simultaneous coefficient penalization and model selection in geographically weighted regression: the geographically weighted Lasso</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">C</forename><surname>Wheeler</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environ Plan A</title>
+		<imprint>
+			<biblScope unit="volume">41</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="722" to="742" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Multicollinearity and correlation among local regression coefficients in geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Wheeler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Tiefelsdorf</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Geogr Syst</title>
+		<imprint>
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="161" to="187" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<monogr>
+		<title level="m" type="main">Diagnostic tools and remedial methods for collinearity in linear regression models with spatially varying coefficients</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">C</forename><surname>Wheeler</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Visualizing and diagnosing coefficients from geographically weighted regression models</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">C</forename><surname>Wheeler</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Geospatial analysis and modelling of urban structure and dynamics</title>
+		<imprint>
+			<date type="published" when="2010">2010</date>
+			<biblScope unit="page" from="415" to="436" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">Stewart Fotheringham A (2018) Single and multiscale models of process spatial heterogeneity</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">J</forename><surname>Wolf</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">M</forename><surname>Oshan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geogr Anal</title>
+		<imprint>
+			<biblScope unit="volume">50</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="223" to="246" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Inference in multiscale geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Yu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Stewart</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Oshan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Kang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Wolf</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">J</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geogr Anal</title>
+		<imprint>
+			<biblScope unit="volume">52</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="87" to="106" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">On the measurement of bias in geographically weighted regression models</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Yu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Stewart</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Oshan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Wolf</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">J</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Spat Stat</title>
+		<imprint>
+			<biblScope unit="volume">38</biblScope>
+			<biblScope unit="page">100453</biblScope>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>
